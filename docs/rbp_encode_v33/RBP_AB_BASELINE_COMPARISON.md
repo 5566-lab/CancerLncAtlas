@@ -143,3 +143,60 @@ costs nothing extra because the materialiser already supports the switch.
 The frozen prepared bundles total about **170 GB** (G0 51.3, G1 58.4, G2 60.1). Producing
 the mode B equivalent is the same order. Check `df` immediately before launching; `/dell_2`
 had 252 GB free and `/public0` 503 GB.
+
+---
+
+## 8. The node universe is identical, so the prepared payload can be swapped rather than rebuilt
+
+A prepared payload stores **node indices**, not node ids:
+
+```python
+"candidate_batch": {
+    "l": torch.tensor([maps["lncRNA"][str(x)] for x in sub.lncrna_id], ...),
+    "p": torch.tensor([maps["pathway"][str(x)] for x in sub.pathway_id], ...),
+    "c": torch.tensor([maps["cancer"][str(x)]  for x in sub.cancer_id],  ...),
+},
+"base_logit": torch.tensor(logits[...]),   # the LASSO baseline
+```
+
+If the typed generation changed the node universe, reusing those indices would
+**silently misalign every batch with the graph** — no error, just wrong rows.
+
+Measured against the frozen authority records:
+
+| node type | frozen | typed |
+|---|---|---|
+| cancer | 33 | 33 |
+| gene | 21,981 | 21,981 |
+| lncRNA | 8,541 | 8,541 |
+| pathway | 2,135 | 2,135 |
+| pathway_family | 85 | 85 |
+| protein | 20,008 | 20,008 |
+
+`node_sha256` is `a02f49648ff3d263c56c490eaf4abc06056c11a8d95520b2112dbd04ca21a491`
+for **all five folds**, and the typed fold-0 counts match it exactly.
+
+**Conclusion:** `node_maps` agree, so the frozen `train_batches` and
+`validation_batches` — including their LASSO `base_logit` tensors — can be reused
+**verbatim** with the typed graph bundle.
+
+This matters for two reasons:
+
+1. **No LASSO re-fit is required.** Re-running the preparation entrypoint would
+   refit `_fast_l1` per fold; the reuse requirement says not to. Swapping the
+   bundle reuses the existing baseline exactly.
+2. **The typed prepared payload becomes a surgical substitution**, not a
+   re-preparation: load the frozen fold payload, replace `bundle`,
+   `formal_graph_authority` and `formal_graph_variant`, and write it to the new
+   work root. Everything else — batches, logits, label contract, patient-fold
+   binding — is carried over unchanged.
+
+The frozen receipt asserts `same_relation_schema_all_variants: True`. The typed
+generation correctly declares that gate as **False**, because it genuinely does
+not share the relation schema. The node universe being identical while the
+relation schema differs is the precise shape of this change: same graph, same
+rows, differently typed binding edges.
+
+The ~170 GB footprint noted in section 7 still applies, since the bundles are
+what occupy the space — the saving is in avoiding a LASSO re-fit and a full
+re-preparation, not in payload size.
