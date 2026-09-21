@@ -1495,31 +1495,113 @@ def load_core_feature_bundle(
     return CoreFeatureBundle(lineage, feature_maps, feature_dims)
 
 
+#: Continuous evidence features written as explicit numbers rather than hashed
+#: into categorical buckets.  Hashing a continuous value would put two nearly
+#: identical measurements in unrelated buckets and two distant ones in the same
+#: bucket -- the opposite of what a numeric channel is for.
+EVENT_NUMERIC_FIELDS: tuple[str, ...] = (
+    "n_reproducible_peaks",
+    "max_log2fc",
+    "mean_log2fc",
+    "max_neglog10p",
+)
+
+#: Fixed, label-free normalisation for each numeric field.
+#:
+#: Every scale below is an external convention chosen before seeing any label --
+#: a declared peak-count ceiling, a conventional log2 fold-change span, and a
+#: significance ceiling far beyond any real measurement.  Nothing here is fitted
+#: on the training labels or on the pathway outcome, so a numeric feature cannot
+#: act as a disguised label, and the same value always normalises identically
+#: across folds.
+EVENT_NUMERIC_SCALES: dict[str, tuple[float, float, float]] = {
+    # name: (divisor, clip_low, clip_high)
+    "n_reproducible_peaks": (1.0e6, 0.0, 1.0),
+    "max_log2fc": (5.0, -1.0, 1.0),
+    "mean_log2fc": (5.0, -1.0, 1.0),
+    "max_neglog10p": (50.0, 0.0, 1.0),
+}
+
+
+def normalise_numeric_feature(name: str, value: object) -> float:
+    """Normalise one declared numeric feature.  Missing values become 0.0.
+
+    Zero is the neutral point for every scale here: no peaks, no fold change, no
+    significance.  A missing measurement therefore contributes nothing rather
+    than an invented value.
+    """
+
+    if name not in EVENT_NUMERIC_SCALES:
+        raise EvidenceTrainingContractError(f"Undeclared numeric feature: {name}")
+    number = pd.to_numeric(pd.Series([value]), errors="coerce").iloc[0]
+    if pd.isna(number) or not np.isfinite(float(number)):
+        return 0.0
+    divisor, low, high = EVENT_NUMERIC_SCALES[name]
+    if name == "n_reproducible_peaks":
+        scaled = math.log1p(max(float(number), 0.0)) / math.log1p(divisor)
+    else:
+        scaled = float(number) / divisor
+    return float(min(max(scaled, low), high))
+
+
+def event_feature_dimension(base_dim: int, *, numeric_fields: Iterable[str] = ()) -> int:
+    """Total width needed for a run that enables ``numeric_fields``.
+
+    The numeric block is appended, so the categorical modulus is unchanged and a
+    numeric-enabled run cannot perturb the hashed features.
+    """
+
+    return int(base_dim) + len(tuple(numeric_fields))
+
+
 def _event_feature_matrix(
     frame: pd.DataFrame,
     feature_dim: int,
     *,
     preserve_assay_type: bool = False,
+    numeric_fields: Sequence[str] = (),
 ) -> np.ndarray:
-    if feature_dim < 32:
-        raise EvidenceTrainingContractError("event_feature_dim must be at least 32")
+    numeric_fields = tuple(numeric_fields)
+    undeclared = sorted(set(numeric_fields) - set(EVENT_NUMERIC_FIELDS))
+    if undeclared:
+        raise EvidenceTrainingContractError(
+            f"Numeric feature is not declared in EVENT_NUMERIC_FIELDS: {undeclared}"
+        )
+    numeric_slots = len(numeric_fields)
+    # The fixed eight trailing slots keep their historical positions, and the
+    # numeric block is appended after them.  With no numeric fields this is
+    # exactly ``feature_dim - 8``, so legacy matrices are bit-identical.
+    hashed_buckets = feature_dim - 8 - numeric_slots
+    if hashed_buckets < 24:
+        raise EvidenceTrainingContractError(
+            "event_feature_dim is too small for the declared numeric features"
+        )
     fields = event_feature_fields(preserve_assay_type=preserve_assay_type)
     matrix = np.zeros((len(frame), feature_dim), dtype=np.float32)
     for row_index, row in enumerate(frame.to_dict("records")):
         for field in fields:
             token = f"{field}={_clean(row.get(field), UNKNOWN).lower()}"
             digest = hashlib.sha256(token.encode("utf-8")).digest()
-            bucket = int.from_bytes(digest[:4], "little") % (feature_dim - 8)
+            bucket = int.from_bytes(digest[:4], "little") % hashed_buckets
             sign = 1.0 if digest[4] & 1 else -1.0
             matrix[row_index, bucket] += sign
-        matrix[row_index, feature_dim - 8] = float(bool(row.get("is_experimental", False)))
-        matrix[row_index, feature_dim - 7] = float(bool(row.get("is_computational", False)))
-        matrix[row_index, feature_dim - 6] = float(bool(row.get("is_physical", False)))
-        matrix[row_index, feature_dim - 5] = float(bool(_tokens(row.get("pmid"))))
-        matrix[row_index, feature_dim - 4] = min(len(_tokens(row.get("pmid"))), 5) / 5.0
-        matrix[row_index, feature_dim - 3] = float(row.get("route_type") == "DIRECT_EXACT_ASSERTION")
-        matrix[row_index, feature_dim - 2] = float(row.get("route_type") == "PARTNER_EXACT_MEMBER")
-        matrix[row_index, feature_dim - 1] = 1.0
+        for offset, name in enumerate(numeric_fields):
+            matrix[row_index, feature_dim - numeric_slots + offset] = (
+                normalise_numeric_feature(name, row.get(name))
+            )
+        # The eight fixed slots sit immediately BEFORE the numeric block, so the
+        # numeric block is genuinely appended and cannot overlap them.  With no
+        # numeric fields ``tail`` is ``feature_dim`` and every index below is the
+        # historical one.
+        tail = feature_dim - numeric_slots
+        matrix[row_index, tail - 8] = float(bool(row.get("is_experimental", False)))
+        matrix[row_index, tail - 7] = float(bool(row.get("is_computational", False)))
+        matrix[row_index, tail - 6] = float(bool(row.get("is_physical", False)))
+        matrix[row_index, tail - 5] = float(bool(_tokens(row.get("pmid"))))
+        matrix[row_index, tail - 4] = min(len(_tokens(row.get("pmid"))), 5) / 5.0
+        matrix[row_index, tail - 3] = float(row.get("route_type") == "DIRECT_EXACT_ASSERTION")
+        matrix[row_index, tail - 2] = float(row.get("route_type") == "PARTNER_EXACT_MEMBER")
+        matrix[row_index, tail - 1] = 1.0
     return matrix
 
 
