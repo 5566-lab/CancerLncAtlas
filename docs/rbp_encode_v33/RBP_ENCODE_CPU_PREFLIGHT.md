@@ -12,8 +12,8 @@
 
 | # | gate | status | evidence |
 |---|---|---|---|
-| 1 | relevant pytest PASS | **PASS** | 298 passed / 1 skipped; per-phase logs in `reports/` |
-| 2 | full suite, no new failures | **PASS** | 6 failed / 298 passed; all six pre-existing and each reproduced on the pristine capsule |
+| 1 | relevant pytest PASS | **PASS** | 300 passed / 1 skipped; per-phase logs in `reports/` |
+| 2 | full suite, no new failures | **PASS** | 4 failed / 300 passed; the four are a pre-existing DuckDB 1.5.0 internal-bug class, each reproduced on the pristine capsule |
 | 3 | ENCODE manifest SHA | **BLOCKED** | nothing downloaded — assembly mismatch (see §6) |
 | 4 | genome assembly gate | **PASS** | project is GRCh38, verified at coordinate level |
 | 5 | RBP → UniProt mapping audit | **PASS** | §2 |
@@ -205,6 +205,7 @@ materialised. Modes C and D are blocked with gate 3.
 | `xxhash` absent (only a cp313 wheel existed; interpreter is cp310) | `torch_geometric` import failure | fetched the cp310 manylinux wheel and extracted it |
 | broken `sympy` (namespace-only, no `__init__.py`) | every `torch.optim.*` construction failed | installed a complete sympy 1.14.0 (Phase 1) |
 | `pip install --target` silently loses packages on this sshfs mount | pytest unusable | extract wheels with `zipfile` directly |
+| `artifacts/v32_patient_fold_authority_20260829_r1/` absent, failing 2 graph-authority tests | two tests could not run at all | the authentic frozen authority was located at `inputs/v32_g012_local_cnv_formal_prepared_20260903_r1/`; **both files were verified against the frozen constants** (`e05c2008…e253` for the sample/patient map, `1ef32bda…17e0` for the receipt) before being provisioned where the tests expect them. This is the real authority, not a synthetic fixture. Baseline improved 6 failed → 4 failed. |
 
 `torch_geometric 2.8.0`, `HGTConv`, `HeteroConv`, `HeteroData` and the project's own
 `cc_hhgt.gnn` all import cleanly.

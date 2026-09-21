@@ -45,11 +45,25 @@ GLOBAL_BINDING_ROLE = "static_global_lnc_protein_binding"
 #: absent from G0, exactly like the global binding role.
 CONTEXT_ECLIP_ROLE = "static_context_lnc_rbp_eclip"
 
-TYPED_BINDING_ROLES = frozenset({GLOBAL_BINDING_ROLE, CONTEXT_ECLIP_ROLE})
+#: One dedicated role per typed relation.  ``safe_graph.ROLE_CONTRACTS`` is
+#: structurally one-role-to-one-relation, so a single role cannot carry eight
+#: relation types; the safety boundary rejects exactly that, and it is right to.
+def typed_global_role(graph_assay_class: str) -> str:
+    """Return the global binding role for one graph assay class."""
 
+    return f"{GLOBAL_BINDING_ROLE}_{graph_assay_class}"
+
+
+TYPED_GLOBAL_ROLES = frozenset(
+    typed_global_role(cls) for cls in GRAPH_ASSAY_CLASSES
+)
+TYPED_BINDING_ROLES = frozenset({GLOBAL_BINDING_ROLE, CONTEXT_ECLIP_ROLE}) | TYPED_GLOBAL_ROLES
+
+#: Every binding role belongs to G1 and G2 and is absent from G0, so the
+#: scientific meaning of the three arms is unchanged.
 G1_ROLES = frozenset(
     {GLOBAL_BINDING_ROLE, CONTEXT_ECLIP_ROLE, "static_protein_gene_encoding"}
-)
+) | TYPED_GLOBAL_ROLES
 G2_ONLY_ROLES = frozenset({"static_symmetric_ppi"})
 COEXPRESSION_ROLES = frozenset(
     {"fold_train_coexpression_positive", "fold_train_coexpression_negative"}
@@ -65,19 +79,27 @@ FORMAL_RELATION_SCHEMA = (
     ("protein", "encoded_by", "gene", "static_protein_gene_encoding", False),
     ("protein", "physical_interaction", "protein", "static_symmetric_ppi", True),
     # Typed binding relations.  One relation per graph assay class so that an
-    # eCLIP edge is never indistinguishable from a predicted one.  All of them
-    # keep the historical ``static_global_lnc_protein_binding`` role except
-    # context-specific eCLIP, which uses the context role.  Registering these
-    # here is mandatory: ``build_formal_graph_authority`` rejects any emitted
-    # tuple that is not in this schema.
-    ("lncRNA", "binds_protein_eclip", "protein", GLOBAL_BINDING_ROLE, False),
-    ("lncRNA", "binds_protein_other_clip", "protein", GLOBAL_BINDING_ROLE, False),
-    ("lncRNA", "binds_protein_rip", "protein", GLOBAL_BINDING_ROLE, False),
-    ("lncRNA", "binds_protein_rna_capture", "protein", GLOBAL_BINDING_ROLE, False),
-    ("lncRNA", "binds_protein_other_physical", "protein", GLOBAL_BINDING_ROLE, False),
-    ("lncRNA", "binds_protein_experimental_unspecified", "protein", GLOBAL_BINDING_ROLE, False),
-    ("lncRNA", "binds_protein_predicted", "protein", GLOBAL_BINDING_ROLE, False),
-    ("lncRNA", "binds_protein_unknown", "protein", GLOBAL_BINDING_ROLE, False),
+    # eCLIP edge is never indistinguishable from a predicted one, and one
+    # dedicated role per relation to satisfy the one-role-one-relation contract
+    # in ``safe_graph``.  Registering these here is mandatory:
+    # ``build_formal_graph_authority`` rejects any emitted tuple that is not in
+    # this schema.
+    ("lncRNA", "binds_protein_eclip", "protein",
+     typed_global_role("eclip"), False),
+    ("lncRNA", "binds_protein_other_clip", "protein",
+     typed_global_role("other_clip"), False),
+    ("lncRNA", "binds_protein_rip", "protein",
+     typed_global_role("rip"), False),
+    ("lncRNA", "binds_protein_rna_capture", "protein",
+     typed_global_role("rna_capture"), False),
+    ("lncRNA", "binds_protein_other_physical", "protein",
+     typed_global_role("other_physical"), False),
+    ("lncRNA", "binds_protein_experimental_unspecified", "protein",
+     typed_global_role("experimental_unspecified"), False),
+    ("lncRNA", "binds_protein_predicted", "protein",
+     typed_global_role("predicted"), False),
+    ("lncRNA", "binds_protein_unknown", "protein",
+     typed_global_role("unknown"), False),
     ("lncRNA", "binds_protein_eclip", "protein", CONTEXT_ECLIP_ROLE, False),
 )
 
@@ -469,7 +491,7 @@ def materialize_typed_lnc_protein_binding(
             rows = rows.iloc[0:0]
         if allowed_lnc is not None:
             rows = rows.loc[rows.lncrna_id.astype(str).isin(allowed_lnc)]
-        _emit(rows, GLOBAL_BINDING_ROLE, contextual=False)
+        _emit(rows, typed_global_role(assay_class), contextual=False)
 
         if include_context_eclip and assay_class == "eclip":
             ctx_rows = subset.loc[context_mask.reindex(subset.index, fill_value=False)]

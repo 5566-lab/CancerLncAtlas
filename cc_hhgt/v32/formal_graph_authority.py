@@ -16,7 +16,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 import pandas as pd
 
@@ -43,6 +43,18 @@ from .safe_graph import EDGE_KEYS
 
 GRAPH_INPUT_RECEIPT_FORMAT = "CANCERLNCATLAS_V32_FRESH_G012_INPUT_AUTHORITY_V1"
 GRAPH_INPUT_RECEIPT_STATUS = "PASS_FRESH_HASH_BOUND_G012_AUTHORITIES"
+
+#: Relation-schema generations.  ``GENERIC_GLOBAL`` is the historical single
+#: ``binds_protein`` relation.  ``TYPED_ASSAY_CLASS_V1`` replaces it with one
+#: relation per graph assay class, which is a genuine schema change: the frozen
+#: receipt asserts ``same_node_and_relation_schema_all_variants``, so a typed run
+#: cannot honestly reuse it and must be declared under its own generation.
+RELATION_SCHEMA_GENERIC_GLOBAL = "GENERIC_GLOBAL"
+RELATION_SCHEMA_TYPED_ASSAY_CLASS_V1 = "TYPED_ASSAY_CLASS_V1"
+RELATION_SCHEMA_GENERATIONS = (
+    RELATION_SCHEMA_GENERIC_GLOBAL,
+    RELATION_SCHEMA_TYPED_ASSAY_CLASS_V1,
+)
 GRAPH_PAYLOAD_BINDING_FORMAT = "CANCERLNCATLAS_V32_FRESH_G012_PAYLOAD_BINDING_V1"
 GRAPH_PAYLOAD_BINDING_STATUS = "PASS_FRESH_FOLD_LOCAL_G012_GRAPH"
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -202,8 +214,22 @@ def load_formal_graph_input_authority(
     static_inputs: Mapping[str, tuple[str | Path, str]],
     fold_expression_pattern: str,
     fold_coexpression_pattern: str,
+    relation_schema_generation: str = RELATION_SCHEMA_GENERIC_GLOBAL,
 ) -> FormalGraphInputAuthority:
-    """Validate the immutable receipt and every non-fold graph input."""
+    """Validate the immutable receipt and every non-fold graph input.
+
+    ``relation_schema_generation`` must be declared explicitly when a run changes
+    the relation schema.  For the historical ``GENERIC_GLOBAL`` generation the
+    frozen gate ``same_node_and_relation_schema_all_variants`` must be True; for a
+    typed generation that gate is *expected* to be False and the receipt must
+    instead carry a matching ``relation_schema_generation`` declaration, so the
+    change is stated rather than smuggled past the gate.
+    """
+
+    if relation_schema_generation not in RELATION_SCHEMA_GENERATIONS:
+        raise FormalGraphAuthorityError(
+            f"Unknown relation schema generation: {relation_schema_generation!r}"
+        )
 
     receipt_file = _resolved_file_or_tree(receipt_path, "graph authority receipt")
     if not receipt_file.is_file():
@@ -225,9 +251,26 @@ def load_formal_graph_input_authority(
         or gates.get("outer_train_expression_only") is not True
         or gates.get("outer_train_coexpression_only") is not True
         or gates.get("static_evidence_outcome_free") is not True
-        or gates.get("same_node_and_relation_schema_all_variants") is not True
     ):
         raise FormalGraphAuthorityError("Graph authority receipt contract failed")
+
+    declared_generation = str(
+        receipt.get("relation_schema_generation", RELATION_SCHEMA_GENERIC_GLOBAL)
+    )
+    if declared_generation != relation_schema_generation:
+        raise FormalGraphAuthorityError(
+            "Graph receipt relation-schema generation differs from the requested one: "
+            f"{declared_generation!r} != {relation_schema_generation!r}"
+        )
+    if relation_schema_generation == RELATION_SCHEMA_GENERIC_GLOBAL:
+        if gates.get("same_node_and_relation_schema_all_variants") is not True:
+            raise FormalGraphAuthorityError(
+                "Generic generation requires the frozen identical-schema gate"
+            )
+    elif gates.get("same_node_and_relation_schema_all_variants") is True:
+        raise FormalGraphAuthorityError(
+            "A typed generation must not claim identical schema across variants"
+        )
     patient = receipt.get("patient_fold_authority", {})
     if (
         patient.get("manifest_sha256") != FROZEN_V32_SAMPLE_PATIENT_MAP_SHA256
@@ -368,8 +411,18 @@ def build_bound_formal_graph(
     outer_fold: int,
     split_manifest: pd.DataFrame,
     candidate_pairs: pd.DataFrame,
+    binding_materializer: Callable[..., pd.DataFrame] | None = None,
+    binding_generation: str = "GENERIC_GLOBAL",
 ) -> BoundFormalGraph:
-    """Materialize one fold's G2 master authority and G0/G1 masks."""
+    """Materialize one fold's G2 master authority and G0/G1 masks.
+
+    ``binding_materializer`` defaults to the historical flat
+    ``materialize_global_lnc_protein_binding`` so every existing formal artifact is
+    reproduced bit-for-bit.  Passing the typed materialiser produces a **new
+    relation-schema generation**; because the frozen receipt asserts
+    ``same_node_and_relation_schema_all_variants``, a typed run must be published
+    under its own receipt rather than mutating the existing one.
+    """
 
     if not 0 <= int(outer_fold) < 5:
         raise FormalGraphAuthorityError("Outer fold must be in [0, 4]")
@@ -440,8 +493,14 @@ def build_bound_formal_graph(
         materialize_signed_coexpression(coexpression, outer_fold=int(outer_fold)),
         materialize_signed_membership(membership, candidate_pathways=pathways),
         materialize_pathway_hierarchy(hierarchy),
-        materialize_global_lnc_protein_binding(
-            binding, candidate_lncrnas=candidate_pairs.lncrna_id.astype(str).unique()
+        (
+            materialize_global_lnc_protein_binding(
+                binding, candidate_lncrnas=candidate_pairs.lncrna_id.astype(str).unique()
+            )
+            if binding_materializer is None
+            else binding_materializer(
+                binding, candidate_lncrnas=candidate_pairs.lncrna_id.astype(str).unique()
+            )
         ),
         materialize_protein_gene_encoding(protein_gene),
         materialize_symmetric_ppi(ppi),
@@ -472,6 +531,12 @@ def build_bound_formal_graph(
             "path": str(inputs.receipt_path),
             "sha256": inputs.receipt_sha256,
         },
+        "binding_generation": str(binding_generation),
+        "binding_materializer": (
+            "materialize_global_lnc_protein_binding"
+            if binding_materializer is None
+            else getattr(binding_materializer, "__name__", repr(binding_materializer))
+        ),
         "patient_fold_authority": {
             "manifest_sha256": FROZEN_V32_SAMPLE_PATIENT_MAP_SHA256,
             "receipt_sha256": FROZEN_V32_RECEIPT_SHA256,

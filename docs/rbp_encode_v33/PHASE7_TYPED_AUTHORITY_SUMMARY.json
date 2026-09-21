@@ -1,0 +1,34 @@
+{
+  "relation_schema_generation": "TYPED_ASSAY_CLASS_V1",
+  "receipt_path": "${PRIVATE_WORK_ROOT}/CancerLncAtlas/rbp_encode_v33_20260921_r1/outputs/phase7_typed_authority/GRAPH_INPUT_AUTHORITY_RECEIPT_TYPED.json",
+  "receipt_sha256": "bdd82248ff27a6274b7cce01ab6ee212bc3c77ee476dce6b6dac6934cb34cbf2",
+  "folds": {
+    "0": {
+      "edges": 7136794,
+      "variant_edge_counts": {
+        "G0": 6863061,
+        "G1": 6981942,
+        "G2": 7136794
+      },
+      "binding_relations": {
+        "binds_protein_eclip": 31402,
+        "binds_protein_experimental_unspecified": 30191,
+        "binds_protein_other_clip": 36998,
+        "binds_protein_other_physical": 16,
+        "binds_protein_rip": 176,
+        "binds_protein_rna_capture": 75,
+        "binds_protein_unknown": 15
+      },
+      "node_counts": {
+        "cancer": 33,
+        "gene": 21981,
+        "lncRNA": 8541,
+        "pathway": 2135,
+        "pathway_family": 85,
+        "protein": 20008
+      },
+      "binding_generation": "TYPED_ASSAY_CLASS_V1",
+      "binding_materializer": "materialize_typed_lnc_protein_binding"
+    }
+  }
+}

@@ -22,6 +22,7 @@ from cc_hhgt.v32.formal_graph import (
     GLOBAL_BINDING_ROLE,
     _variant_mask,
     materialize_typed_lnc_protein_binding,
+    typed_global_role,
 )
 
 
@@ -58,7 +59,12 @@ def test_typed_relations_are_emitted_per_assay_class() -> None:
     assert set(edges.relation_type) == {
         "binds_protein_eclip", "binds_protein_rip", "binds_protein_other_clip"
     }
-    assert set(edges.edge_role) == {GLOBAL_BINDING_ROLE}
+    # one dedicated role per relation: safe_graph.ROLE_CONTRACTS is 1:1
+    assert set(edges.edge_role) == {
+        typed_global_role("eclip"),
+        typed_global_role("rip"),
+        typed_global_role("other_clip"),
+    }
     assert edges.is_context_specific.eq(False).all()
 
 
@@ -125,7 +131,7 @@ def test_context_eclip_keeps_its_cancer_and_its_own_role() -> None:
     assert contextual.iloc[0].edge_role == CONTEXT_ECLIP_ROLE
     global_rows = edges.loc[~edges.is_context_specific]
     assert len(global_rows) == 1
-    assert global_rows.iloc[0].edge_role == GLOBAL_BINDING_ROLE
+    assert global_rows.iloc[0].edge_role == typed_global_role("eclip")
     assert pd.isna(global_rows.iloc[0].cancer_id)
 
 
@@ -184,7 +190,7 @@ def test_hepg2_like_context_and_k562_like_absence_behave_differently() -> None:
     unmapped = _binding([{"cancer_id": pd.NA, "is_context_specific": False}])
     edges = materialize_typed_lnc_protein_binding(unmapped)
     assert pd.isna(edges.iloc[0].cancer_id)
-    assert edges.iloc[0].edge_role == GLOBAL_BINDING_ROLE
+    assert edges.iloc[0].edge_role == typed_global_role("eclip")
 
 
 def test_candidate_restriction_applies_to_both_paths() -> None:
@@ -287,4 +293,4 @@ def test_global_edge_survives_when_no_context_edge_competes() -> None:
     frame = _binding([{"cancer_id": pd.NA, "is_context_specific": False}])
     edges = materialize_typed_lnc_protein_binding(frame)
     assert len(edges) == 1
-    assert edges.iloc[0].edge_role == GLOBAL_BINDING_ROLE
+    assert edges.iloc[0].edge_role == typed_global_role("eclip")

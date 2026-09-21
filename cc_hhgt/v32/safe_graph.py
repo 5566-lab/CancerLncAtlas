@@ -42,6 +42,37 @@ ROLE_CONTRACTS: dict[str, tuple[str, str, str, str]] = {
     "static_symmetric_ppi": (
         "protein", "physical_interaction", "protein", "static"
     ),
+    # Typed binding roles.  One role per relation: this mapping is structurally
+    # one-role-one-relation, so a single role cannot carry several relation types.
+    "static_global_lnc_protein_binding_eclip": (
+        "lncRNA", "binds_protein_eclip", "protein", "static"
+    ),
+    "static_global_lnc_protein_binding_other_clip": (
+        "lncRNA", "binds_protein_other_clip", "protein", "static"
+    ),
+    "static_global_lnc_protein_binding_rip": (
+        "lncRNA", "binds_protein_rip", "protein", "static"
+    ),
+    "static_global_lnc_protein_binding_rna_capture": (
+        "lncRNA", "binds_protein_rna_capture", "protein", "static"
+    ),
+    "static_global_lnc_protein_binding_other_physical": (
+        "lncRNA", "binds_protein_other_physical", "protein", "static"
+    ),
+    "static_global_lnc_protein_binding_experimental_unspecified": (
+        "lncRNA", "binds_protein_experimental_unspecified", "protein", "static"
+    ),
+    "static_global_lnc_protein_binding_predicted": (
+        "lncRNA", "binds_protein_predicted", "protein", "static"
+    ),
+    "static_global_lnc_protein_binding_unknown": (
+        "lncRNA", "binds_protein_unknown", "protein", "static"
+    ),
+    # Context-specific eCLIP.  Permitted to carry a cancer context, and required
+    # to, so it can only ever enter its own context.
+    "static_context_lnc_rbp_eclip": (
+        "lncRNA", "binds_protein_eclip", "protein", "static"
+    ),
 }
 ALLOWED_ROLES = frozenset(ROLE_CONTRACTS)
 RELATION_POLARITY = {
@@ -52,6 +83,14 @@ RELATION_POLARITY = {
     "expressed_in": 1.0,
     "member_of_family": 1.0,
     "binds_protein": 1.0,
+    "binds_protein_eclip": 1.0,
+    "binds_protein_other_clip": 1.0,
+    "binds_protein_rip": 1.0,
+    "binds_protein_rna_capture": 1.0,
+    "binds_protein_other_physical": 1.0,
+    "binds_protein_experimental_unspecified": 1.0,
+    "binds_protein_predicted": 1.0,
+    "binds_protein_unknown": 1.0,
     "encoded_by": 1.0,
     "physical_interaction": 1.0,
 }
@@ -83,6 +122,11 @@ def _require_boolean(frame: pd.DataFrame, column: str, *, allow_null: bool = Fal
         raise RuntimeError(f"Safe graph {column} cannot be null")
     return values.astype("boolean")
 
+
+#: Static edge roles allowed to carry a cancer context in the primary graph.
+#: Every other static role must remain global.  Adding an entry widens the
+#: primary graph's context surface and therefore requires review.
+CONTEXT_BEARING_STATIC_ROLES = frozenset({"static_context_lnc_rbp_eclip"})
 
 def _validate_ppi_reciprocity(frame: pd.DataFrame) -> None:
     ppi = frame.loc[frame.relation_type.eq("physical_interaction")]
@@ -200,7 +244,17 @@ def build_safe_graph(edges: pd.DataFrame, *, outer_fold: int) -> SafeGraph:
     rejected |= global_binding & (
         context_specific | frame.cancer_id.notna()
     )
-    other_roles = ~(coexpression | expressed | global_binding)
+    # Static roles explicitly permitted to carry a cancer context.  This is the
+    # ONLY widening of the primary graph's context surface, and it is deliberately
+    # an allow-list: a new entry is a reviewed change, not an accident.  The
+    # condition is the exact inverse of the global-binding rule -- such an edge
+    # MUST carry a cancer and MUST be marked context-specific, so it can only ever
+    # enter its own context and can never be globalised.
+    context_static = role.isin(CONTEXT_BEARING_STATIC_ROLES)
+    rejected |= context_static & (
+        frame.cancer_id.isna() | ~context_specific
+    )
+    other_roles = ~(coexpression | expressed | global_binding | context_static)
     rejected |= other_roles & frame.cancer_id.notna()
     rejected |= other_roles & context_specific
 
