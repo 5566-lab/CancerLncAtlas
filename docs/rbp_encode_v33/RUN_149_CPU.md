@@ -161,6 +161,82 @@ Key expected values:
 
 ---
 
+## 4b. Materialise the typed-relation graph authority
+
+The typed generation needs its own receipt because it genuinely does not share the
+relation schema of the frozen one.
+
+```bash
+python3 /tmp/phase7_typed_authority.py 0 1 2 3 4
+```
+
+Writes only under `$RBP_ROOT/outputs/phase7_typed_authority/`:
+
+| file | content |
+|---|---|
+| `static/lnc_protein_binding.parquet` | the typed binding table (918,266 rows) |
+| `static/<other>.parquet` | the five unchanged static artifacts, hashes matching the frozen receipt |
+| `GRAPH_INPUT_AUTHORITY_RECEIPT_TYPED.json` | the typed-generation receipt |
+| `fold_<n>/AUTHORITY_SUMMARY.json` | per-fold edge and variant counts |
+
+**Cost: roughly 25 minutes per fold**, so a full five-fold run is about **two hours**
+(8.25M coexpression rows merged against 3.3M candidate keys over NFS). Launch it
+detached rather than over an interactive SSH session.
+
+Expected fold-0 result:
+
+| metric | value |
+|---|---|
+| generation | `TYPED_ASSAY_CLASS_V1` |
+| edges | 7,136,794 |
+| G0 / G1 / G2 | 6,863,061 / 6,981,942 / 7,136,794 |
+| G1 − G0 | 118,881 = binding 98,873 + protein→gene 20,008 |
+| G2 − G1 | 154,852 (PPI) |
+| `binds_protein_predicted` | **absent** (conservative default) |
+
+If `binds_protein_predicted` appears, `include_predicted` was enabled somewhere and
+~622k prediction edges are entering message passing.
+
+### Disk cost of the prepared bundles — measure before launching
+
+The frozen prepared bundles show what a full re-preparation costs:
+
+| arm | size |
+|---|---|
+| G0 | 51.3 GB |
+| G1 | 58.4 GB |
+| G2 | 60.1 GB |
+| **total** | **~170 GB** |
+
+Each arm holds five `PATIENT_FOLD_<n>.pt` payloads of roughly 11–13 GB. Free space on
+149 at the time of writing:
+
+| mount | available |
+|---|---|
+| `/dell_2` (the work root) | 252 GB |
+| `/public0` | 503 GB |
+| `/public8` | 187 GB |
+
+A typed re-preparation therefore fits on `/dell_2` with about 80 GB to spare, and
+comfortably on `/public0`. **Check `df` immediately before launching** — the volume is
+shared and other work moves the free-space figure. Running out mid-write leaves partial
+fold payloads that must be deleted before retrying.
+
+The script above writes only the *authority* (small). Producing the runtime bundles is a
+separate, much larger step; budget the ~170 GB before starting it, not after.
+
+### Why one role per relation
+
+`safe_graph.ROLE_CONTRACTS` is structurally one-role-to-one-relation. A single role
+carrying several relation types is refused by the safety boundary — correctly, and
+the refusal is a `RuntimeError`, not a silent acceptance. Adding a typed relation
+therefore requires **three** declarations: a `ROLE_CONTRACTS` entry, a
+`RELATION_POLARITY` entry, and membership of `G1_ROLES`. A context-carrying role
+additionally needs an entry in `CONTEXT_BEARING_STATIC_ROLES`, and the condition
+there is the exact inverse of the global-binding rule.
+
+---
+
 ## 5. Regenerate the ablation configs
 
 ```bash
