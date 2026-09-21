@@ -1,0 +1,105 @@
+{
+  "project_assembly": "GRCh38",
+  "generated": "2026-09-21T10:34:22.329044+00:00",
+  "requested_accessions": [
+    "ENCSR456FVU",
+    "ENCSR369TWP",
+    "ENCSR795JHH",
+    "ENCSR413YAF",
+    "ENCSR870OLK",
+    "ENCSR876DCD"
+  ],
+  "audit": {
+    "ENCSR456FVU": {
+      "resource_type": "eCLIP reproducible peaks",
+      "experiment_assembly": [
+        "hg19"
+      ],
+      "sampled_files": 40,
+      "file_assemblies_observed": [
+        "hg19"
+      ],
+      "released_peak_files_sampled": 9,
+      "target": "",
+      "biosample": "",
+      "status": "released",
+      "description": "A Large-Scale Binding and Functional Map of Human RNA Binding Proteins: eCLIP data, including fastq, bam, peak files and reproducible peak files."
+    },
+    "ENCSR369TWP": {
+      "resource_type": "RBP knockdown RNA-seq (HepG2)",
+      "experiment_assembly": [
+        "hg19"
+      ],
+      "sampled_files": 40,
+      "file_assemblies_observed": [
+        "hg19"
+      ],
+      "released_peak_files_sampled": 0,
+      "target": "",
+      "biosample": "",
+      "status": "released",
+      "description": "A Large-Scale Binding and Functional Map of Human RNA Binding Proteins: shRNA knockdown or CRISPR followed by RNA-Seq data in HepG2 cells, including fastq, bam and gene quantification files."
+    },
+    "ENCSR795JHH": {
+      "resource_type": "RBP knockdown RNA-seq (K562)",
+      "experiment_assembly": [
+        "hg19"
+      ],
+      "sampled_files": 40,
+      "file_assemblies_observed": [
+        "hg19"
+      ],
+      "released_peak_files_sampled": 0,
+      "target": "",
+      "biosample": "",
+      "status": "released",
+      "description": "A Large-Scale Binding and Functional Map of Human RNA Binding Proteins: shRNA knockdown or CRISPR followed by RNA-Seq data in K562 cells, including fastq, bam and gene quantification files."
+    },
+    "ENCSR413YAF": {
+      "resource_type": "processed DESeq/rMATS/MISO/Cuffdiff",
+      "experiment_assembly": [
+        "hg19"
+      ],
+      "sampled_files": 40,
+      "file_assemblies_observed": [
+        "hg19"
+      ],
+      "released_peak_files_sampled": 0,
+      "target": "",
+      "biosample": "",
+      "status": "released",
+      "description": "A Large-Scale Binding and Functional Map of Human RNA Binding Proteins: shRNA knockdown or CRISPR followed by RNA-Seq data, including rMATS, MISO, DESeq and CUFFDIFF output files."
+    },
+    "ENCSR870OLK": {
+      "resource_type": "batch-corrected expression/splicing",
+      "experiment_assembly": [
+        "hg19"
+      ],
+      "sampled_files": 40,
+      "file_assemblies_observed": [
+        "hg19"
+      ],
+      "released_peak_files_sampled": 0,
+      "target": "",
+      "biosample": "",
+      "status": "released",
+      "description": "A Large-Scale Binding and Functional Map of Human RNA Binding Proteins: shRNA knockdown or CRISPR followed by RNA-Seq data, including batch corrected rMATS and DESeq2 output files."
+    },
+    "ENCSR876DCD": {
+      "resource_type": "RBNS sequence preference",
+      "experiment_assembly": [
+        "hg19"
+      ],
+      "sampled_files": 40,
+      "file_assemblies_observed": [],
+      "released_peak_files_sampled": 0,
+      "target": "",
+      "biosample": "",
+      "status": "released",
+      "description": "A Large-Scale Binding and Functional Map of Human RNA Binding Proteins: RBNS data, including fastq, enrichment (4mers, 5mers, 6mers and 7mers) and bed files."
+    }
+  },
+  "manifest_rows": 6,
+  "downloaded": 0,
+  "not_downloaded": 6
+}

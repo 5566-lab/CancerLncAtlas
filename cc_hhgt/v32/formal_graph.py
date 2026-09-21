@@ -27,12 +27,28 @@ from ..relation_sampling import (
     schedule_runtime_edges,
 )
 from .safe_graph import EDGE_KEYS, SafeGraph, build_safe_graph
+from .rbp_assay import GRAPH_ASSAY_CLASSES, graph_assay_relation_type
 
 
 FORMAL_GRAPH_FORMAT = "CANCERLNCATLAS_V32_FRESH_G012_GRAPH_V1"
 VARIANTS = ("G0", "G1", "G2")
+
+#: Edge role for context-free lncRNA-protein binding.  Retained verbatim so the
+#: existing G012 authority and its frozen invariants are untouched.
+GLOBAL_BINDING_ROLE = "static_global_lnc_protein_binding"
+
+#: Edge role for *context-specific* eCLIP binding.  The historical materialiser
+#: filters bindings with ``cancer_id.isna() & ~is_context_specific``, so a
+#: HepG2->LIHC eCLIP edge could not enter the graph at all.  This role admits it
+#: while keeping ``cancer_id`` and ``is_context_specific=True``; the edge is
+#: never globalised.  It is a binding role, so it belongs to G1 and G2 and is
+#: absent from G0, exactly like the global binding role.
+CONTEXT_ECLIP_ROLE = "static_context_lnc_rbp_eclip"
+
+TYPED_BINDING_ROLES = frozenset({GLOBAL_BINDING_ROLE, CONTEXT_ECLIP_ROLE})
+
 G1_ROLES = frozenset(
-    {"static_global_lnc_protein_binding", "static_protein_gene_encoding"}
+    {GLOBAL_BINDING_ROLE, CONTEXT_ECLIP_ROLE, "static_protein_gene_encoding"}
 )
 G2_ONLY_ROLES = frozenset({"static_symmetric_ppi"})
 COEXPRESSION_ROLES = frozenset(
@@ -45,9 +61,24 @@ FORMAL_RELATION_SCHEMA = (
     ("gene", "member_of_positive", "pathway", "static_signed_pathway_membership_positive", False),
     ("gene", "member_of_negative", "pathway", "static_signed_pathway_membership_negative", False),
     ("pathway", "member_of_family", "pathway_family", "static_pathway_hierarchy", False),
-    ("lncRNA", "binds_protein", "protein", "static_global_lnc_protein_binding", False),
+    ("lncRNA", "binds_protein", "protein", GLOBAL_BINDING_ROLE, False),
     ("protein", "encoded_by", "gene", "static_protein_gene_encoding", False),
     ("protein", "physical_interaction", "protein", "static_symmetric_ppi", True),
+    # Typed binding relations.  One relation per graph assay class so that an
+    # eCLIP edge is never indistinguishable from a predicted one.  All of them
+    # keep the historical ``static_global_lnc_protein_binding`` role except
+    # context-specific eCLIP, which uses the context role.  Registering these
+    # here is mandatory: ``build_formal_graph_authority`` rejects any emitted
+    # tuple that is not in this schema.
+    ("lncRNA", "binds_protein_eclip", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_other_clip", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_rip", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_rna_capture", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_other_physical", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_experimental_unspecified", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_predicted", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_unknown", "protein", GLOBAL_BINDING_ROLE, False),
+    ("lncRNA", "binds_protein_eclip", "protein", CONTEXT_ECLIP_ROLE, False),
 )
 
 
@@ -348,6 +379,140 @@ def materialize_global_lnc_protein_binding(
         )
     )
 
+
+def materialize_typed_lnc_protein_binding(
+    binding: pd.DataFrame,
+    *,
+    include_predicted: bool = False,
+    include_context_eclip: bool = True,
+    candidate_lncrnas: Iterable[str] | None = None,
+) -> pd.DataFrame:
+    """Emit typed lncRNA-protein binding edges.
+
+    Additive: :func:`materialize_global_lnc_protein_binding` is left untouched so
+    the frozen G012 authority and its published invariants keep working.
+
+    Differences from the historical builder:
+
+    * one relation type per ``graph_assay_class`` instead of one flat
+      ``binds_protein``, so eCLIP and RIP are separable in message passing;
+    * context-specific eCLIP rows are admitted under
+      :data:`CONTEXT_ECLIP_ROLE` with ``cancer_id`` preserved -- never globalised;
+    * ``include_predicted`` defaults to **False**.  Real data shows 84.2 % of the
+      typed lncRNA-RBP relations are sequence-based predictions
+      (``MATCH algorithm``, ``catRAPID``); admitting them by default would present
+      ~773k predictions as measurements.  The switch exists so an ablation can
+      measure their contribution deliberately.
+    """
+
+    required = {
+        "lncrna_id", "protein_id", "weight", "cancer_id",
+        "is_context_specific", "graph_assay_class",
+    }
+    if missing := sorted(required - set(binding)):
+        raise ValueError(f"typed lncRNA-protein table lacks columns: {missing}")
+    binding = binding.copy().reset_index(drop=True)
+
+    context = binding.is_context_specific
+    if not pd.api.types.is_bool_dtype(context.dropna().dtype) or context.isna().any():
+        raise RuntimeError("lncRNA-protein context flag must be a non-null boolean")
+
+    classes = binding.graph_assay_class.astype(str).str.strip()
+    unknown = sorted(set(classes.unique()) - set(GRAPH_ASSAY_CLASSES))
+    if unknown:
+        raise RuntimeError(f"graph_assay_class outside the closed vocabulary: {unknown}")
+
+    if "relation_type" in binding.columns:
+        declared = binding.relation_type.astype(str)
+        expected = [graph_assay_relation_type(c) for c in classes]
+        bad = sorted({(d, e) for d, e in zip(declared, expected) if d != e})
+        if bad:
+            raise RuntimeError(
+                f"declared relation_type disagrees with graph_assay_class: {bad[:5]}"
+            )
+    binding["_assay_class"] = classes
+
+    allowed_lnc = None if candidate_lncrnas is None else set(map(str, candidate_lncrnas))
+    frames: list[pd.DataFrame] = []
+    context_frames: list[pd.DataFrame] = []
+
+    def _emit(rows: pd.DataFrame, role: str, contextual: bool) -> None:
+        if rows.empty:
+            return
+        edges = _typed_edges(
+            rows.lncrna_id,
+            rows.protein_id,
+            source_type="lncRNA",
+            relation_type=graph_assay_relation_type(rows.iloc[0]._assay_class),
+            target_type="protein",
+            edge_role=role,
+            source_split="static",
+            weight=rows.weight,
+            relation_polarity=1.0,
+            source_database=rows.get("source_database", "static_global_binding"),
+        )
+        edges["is_context_specific"] = bool(contextual)
+        if contextual:
+            edges["cancer_id"] = rows.cancer_id.astype("string").to_numpy()
+        else:
+            edges["cancer_id"] = pd.Series(pd.NA, index=edges.index, dtype="string")
+        (context_frames if contextual else frames).append(edges)
+
+    global_mask = binding.cancer_id.isna() & ~context
+    context_mask = context & binding.cancer_id.notna()
+
+    for assay_class in sorted(binding._assay_class.unique()):
+        subset = binding.loc[binding._assay_class.eq(assay_class)]
+
+        rows = subset.loc[global_mask.reindex(subset.index, fill_value=False)]
+        if assay_class == "predicted" and not include_predicted:
+            rows = rows.iloc[0:0]
+        if allowed_lnc is not None:
+            rows = rows.loc[rows.lncrna_id.astype(str).isin(allowed_lnc)]
+        _emit(rows, GLOBAL_BINDING_ROLE, contextual=False)
+
+        if include_context_eclip and assay_class == "eclip":
+            ctx_rows = subset.loc[context_mask.reindex(subset.index, fill_value=False)]
+            if allowed_lnc is not None:
+                ctx_rows = ctx_rows.loc[ctx_rows.lncrna_id.astype(str).isin(allowed_lnc)]
+            _emit(ctx_rows, CONTEXT_ECLIP_ROLE, contextual=True)
+
+    if not frames and not context_frames:
+        return pd.DataFrame(
+            columns=[
+                "source_type", "source_id", "relation_type", "target_type",
+                "target_id", "edge_role", "source_split", "outcome_derived",
+                "observed", "weight", "relation_polarity", "cancer_id",
+                "is_context_specific", "source_database", "edge_id",
+                "relation_provenance", "symmetric_same_relation",
+            ]
+        )
+
+    # ``EDGE_KEYS`` is (source_type, source_id, relation_type, target_type,
+    # target_id) -- it carries neither ``edge_role`` nor ``cancer_id``, so the
+    # graph can hold only ONE edge per (source, relation, target) triple.
+    # A pair supported both by a context-free record and by a context-specific
+    # eCLIP record therefore collides.  Keeping the global edge would broadcast
+    # context-specific evidence to every cancer, which this task forbids, so the
+    # context-specific edge wins and the global duplicate is dropped explicitly
+    # rather than by sort accident.
+    if frames and context_frames:
+        contextual = pd.concat(context_frames, ignore_index=True, sort=False)
+        global_edges = pd.concat(frames, ignore_index=True, sort=False)
+        taken = set(
+            contextual[list(EDGE_KEYS)].itertuples(index=False, name=None)
+        )
+        keep = [
+            tuple(row) not in taken
+            for row in global_edges[list(EDGE_KEYS)].itertuples(index=False, name=None)
+        ]
+        global_edges = global_edges.loc[pd.Series(keep, index=global_edges.index)]
+        combined = pd.concat([contextual, global_edges], ignore_index=True, sort=False)
+    elif context_frames:
+        combined = pd.concat(context_frames, ignore_index=True, sort=False)
+    else:
+        combined = pd.concat(frames, ignore_index=True, sort=False)
+    return _max_magnitude(combined).reset_index(drop=True)
 
 def materialize_protein_gene_encoding(protein_gene: pd.DataFrame) -> pd.DataFrame:
     required = {"protein_id", "gene_id", "weight"}

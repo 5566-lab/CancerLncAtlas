@@ -1,0 +1,128 @@
+{
+  "rbp_uniprot_mapping": {
+    "input_relation_rows": {
+      "legacy": 813653,
+      "typed": 977061
+    },
+    "unmappable_partner_rows": {
+      "legacy": 8940,
+      "typed": 8940
+    },
+    "mapped_fraction": {
+      "legacy": 0.989013,
+      "typed": 0.99085
+    },
+    "all_emitted_proteins_are_uniprot": true,
+    "distinct_proteins": 15048,
+    "distinct_lncrnas": 4678
+  },
+  "assay_subtype_missingness": {
+    "rows": 918266,
+    "assay_subtype_counts": {
+      "computational_prediction": 773283,
+      "eclip": 46629,
+      "expression_or_abundance": 38432,
+      "par_clip": 25446,
+      "clip_unspecified": 18846,
+      "hits_clip": 6173,
+      "iclip": 5619,
+      "chart": 3062,
+      "other_experimental": 254,
+      "rip": 209,
+      "rna_pulldown": 105,
+      "clip_unspecified|hits_clip": 82,
+      "clip_unspecified|par_clip": 53,
+      "reporter_assay": 15,
+      "unspecified": 15,
+      "clip_unspecified|iclip": 12,
+      "iclip|par_clip": 9,
+      "emsa": 7,
+      "chirp": 5,
+      "hits_clip|par_clip": 4,
+      "co_ip": 2,
+      "chart|rna_pulldown": 1,
+      "expression_or_abundance|other_experimental": 1,
+      "hits_clip|iclip": 1,
+      "rap": 1
+    },
+    "graph_assay_class_counts": {
+      "predicted": 773283,
+      "other_clip": 56245,
+      "eclip": 46629,
+      "experimental_unspecified": 38688,
+      "rna_capture": 3174,
+      "rip": 209,
+      "other_physical": 23,
+      "unknown": 15
+    },
+    "uninformative_rows": 38703,
+    "uninformative_fraction": 0.042148,
+    "vocabulary_coverage": 17
+  },
+  "graph_counts": {
+    "physical_only": {
+      "edges": 117951,
+      "relation_type_counts": {
+        "binds_protein_other_clip": 44042,
+        "binds_protein_experimental_unspecified": 38680,
+        "binds_protein_eclip": 34921,
+        "binds_protein_rip": 189,
+        "binds_protein_rna_capture": 86,
+        "binds_protein_other_physical": 18,
+        "binds_protein_unknown": 15
+      },
+      "edge_role_counts": {
+        "static_global_lnc_protein_binding": 102425,
+        "static_context_lnc_rbp_eclip": 15526
+      },
+      "context_specific_edges": 15526,
+      "global_edges": 102425,
+      "context_edges_without_a_cancer": 0,
+      "distinct_context_cancers": [
+        "BRCA",
+        "CESC",
+        "LIHC",
+        "LUAD",
+        "PRAD"
+      ]
+    },
+    "with_predicted": {
+      "edges": 891234,
+      "relation_type_counts": {
+        "binds_protein_predicted": 773283,
+        "binds_protein_other_clip": 44042,
+        "binds_protein_experimental_unspecified": 38680,
+        "binds_protein_eclip": 34921,
+        "binds_protein_rip": 189,
+        "binds_protein_rna_capture": 86,
+        "binds_protein_other_physical": 18,
+        "binds_protein_unknown": 15
+      },
+      "edge_role_counts": {
+        "static_global_lnc_protein_binding": 875708,
+        "static_context_lnc_rbp_eclip": 15526
+      },
+      "context_specific_edges": 15526,
+      "global_edges": 875708,
+      "context_edges_without_a_cancer": 0,
+      "distinct_context_cancers": [
+        "BRCA",
+        "CESC",
+        "LIHC",
+        "LUAD",
+        "PRAD"
+      ]
+    }
+  },
+  "context_leakage_gate": {
+    "context_edges_without_a_cancer": 0,
+    "pass": true
+  },
+  "context_policy": {
+    "context_specific_input_rows": 82825,
+    "mapped_context_rows": 31807,
+    "excluded_unmapped_or_ambiguous_rows": 51018,
+    "excluded_fraction": 0.615973,
+    "context_specific_lost_to_global": 0
+  }
+}

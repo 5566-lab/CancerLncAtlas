@@ -292,7 +292,8 @@ def _normalized_raw_schema(pa: Any) -> Any:
         "source_kind", "source_input", "source_row_sha256", "source_sha256",
         "raw_event_id", "source_record_id", "cancer_id", "lncrna_id",
         "partner_id", "pathway_id", "pathway_family_id", "source_database",
-        "source_dataset", "pmid", "experiment_type", "relation_type",
+        "source_dataset", "pmid", "experiment_type", "experiment_raw",
+        "experiment_family", "assay_subtype", "graph_assay_class", "relation_type",
         "direction_raw", "tissue", "cell_line", "species", "evidence_tier",
         "lncrna_mapping_state", "partner_mapping_state", "input_mapping_status",
     )
@@ -519,6 +520,7 @@ def _materialize_exact_tables(
     physical_all = (
         "SELECT 'PHYS:' || substr(" + physical_signature + ",1,24) AS physical_fact_id, "
         "cancer_id, lncrna_id, partner_id, relation_type, experiment_type, "
+        "experiment_raw, experiment_family, assay_subtype, graph_assay_class, "
         "source_database, source_dataset, source_record_id, pmid, source_row_sha256, "
         "false AS is_prediction FROM raw_events "
         "WHERE is_physical AND lncrna_id<>'' AND partner_id<>''"
@@ -551,6 +553,7 @@ def _materialize_exact_tables(
         "static_member_id, CASE WHEN is_physical AND partner_id<>'' THEN "
         "'PHYS:' || substr(" + physical_for_event + ",1,24) ELSE '' END AS physical_fact_id, "
         "source_database, source_dataset, source_record_id, pmid, experiment_type, "
+        "experiment_raw, experiment_family, assay_subtype, graph_assay_class, "
         "relation_type, direction_raw, direction_target, confidence_target, tissue, "
         "cell_line, species, is_experimental, is_computational, is_physical, "
         "false AS is_model_prediction, source_kind, source_input, source_row_index, "
@@ -562,7 +565,8 @@ def _materialize_exact_tables(
     event_public_columns = (
         "event_id, cancer_id, lncrna_id, pathway_id, partner_id, member_type, "
         "route_type, static_member_id, physical_fact_id, source_database, "
-        "source_dataset, source_record_id, pmid, experiment_type, relation_type, "
+        "source_dataset, source_record_id, pmid, experiment_type, experiment_raw, "
+        "experiment_family, assay_subtype, graph_assay_class, relation_type, "
         "direction_raw, direction_target, confidence_target, tissue, cell_line, "
         "species, is_experimental, is_computational, is_physical, "
         "is_model_prediction, source_occurrence_count"

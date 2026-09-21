@@ -26,6 +26,8 @@ from typing import Any, Iterable, Mapping, Sequence
 import numpy as np
 import pandas as pd
 
+from .rbp_assay import classify_assay
+
 
 ANALYSIS_VERSION = "CancerLncAtlas_V3.2_FULL_MULTITASK"
 CORE_EXPORT_FORMAT = "CC_HHGT_V3_2_FROZEN_CORE_EMBEDDINGS_V1"
@@ -71,7 +73,7 @@ FORBIDDEN_RAW_COLUMNS = {
     "pathwayfamilyspf",
 }
 
-EVENT_FEATURE_FIELDS = (
+LEGACY_EVENT_FEATURE_FIELDS = (
     "route_type",
     "source_database",
     "source_dataset",
@@ -82,6 +84,39 @@ EVENT_FEATURE_FIELDS = (
     "species",
     "member_type",
 )
+
+#: Assay-aware field set.  ``experiment_type`` is deliberately replaced by the
+#: normalised ``experiment_family`` plus the fine-grained ``assay_subtype`` so
+#: that eCLIP, RIP, ChIRP and the remaining physical assays stop sharing one
+#: hashed token.  ``experiment_raw`` is intentionally *not* a feature: it is
+#: free text and would create unbounded, spelling-dependent buckets.  It is
+#: retained for lineage only (see ``experiment_raw`` in the event frame).
+EVENT_FEATURE_FIELDS = (
+    "route_type",
+    "source_database",
+    "source_dataset",
+    "experiment_family",
+    "assay_subtype",
+    "relation_type",
+    "tissue",
+    "cell_line",
+    "species",
+    "member_type",
+)
+
+
+def event_feature_fields(*, preserve_assay_type: bool) -> tuple[str, ...]:
+    """Return the event feature field list for the requested ablation mode.
+
+    ``preserve_assay_type=False`` reproduces the historical field list exactly,
+    which is required for ablation mode A (``legacy_generic_binding``) to be
+    provably equivalent to the pre-change model.  Because
+    ``_event_feature_matrix`` hashes ``f"{field}={value}"``, renaming a field
+    changes its bucket even when the value is unchanged, so the two lists must
+    remain genuinely distinct rather than being merged.
+    """
+
+    return EVENT_FEATURE_FIELDS if preserve_assay_type else LEGACY_EVENT_FEATURE_FIELDS
 
 
 class EvidenceTrainingContractError(RuntimeError):
@@ -403,6 +438,13 @@ def _source_columns(frame: pd.DataFrame) -> dict[str, str | None]:
             ["source_dataset", "dataset_id", "dataset", "source_resource", "source_version"],
         ),
         "pmid": _column(frame, ["pmid", "pubmed_id", "independent_pmid"]),
+        "experiment_raw": _column(
+            frame,
+            ["experiment_raw", "experiment", "experiment_method", "methods", "assay_detail"],
+        ),
+        "experiment_family": _column(frame, ["experiment_family"]),
+        "assay_subtype": _column(frame, ["assay_subtype"]),
+        "graph_assay_class": _column(frame, ["graph_assay_class"]),
         "experiment_type": _column(
             frame,
             ["experiment_type", "experiment_family", "assay_type", "experimental_system"],
@@ -479,6 +521,17 @@ def _normalize_source_rows(
                     ensure_ascii=False,
                 ).encode("utf-8")
             ).hexdigest()
+        # Assay taxonomy.  ``experiment_raw`` is authoritative when present;
+        # otherwise the coarse value already resolved by the legacy path is
+        # used so that pre-existing frames still classify sensibly.  Explicit
+        # computational flags win over any textual match, so a prediction can
+        # never be relabelled as an experimental observation.
+        experiment_raw_value = _clean(_row_value(row, columns["experiment_raw"]))
+        assay = classify_assay(
+            experiment_raw_value or _clean(_row_value(row, columns["experiment_type"])),
+            is_predicted=_row_value(row, columns["computational"]),
+            is_experimental=_row_value(row, columns["experimental"]),
+        )
         yield (
             {
                 "source_kind": source_kind,
@@ -498,6 +551,10 @@ def _normalize_source_rows(
                 "pmid": ";".join(pmids),
                 "pmid_tokens": pmids,
                 "experiment_type": _clean(_row_value(row, columns["experiment_type"]), UNKNOWN),
+                "experiment_raw": experiment_raw_value,
+                "experiment_family": assay.experiment_family,
+                "assay_subtype": assay.assay_subtype,
+                "graph_assay_class": assay.graph_assay_class,
                 "relation_type": _clean(_row_value(row, columns["relation_type"]), UNKNOWN),
                 "direction_raw": _clean(_row_value(row, columns["direction"]), UNKNOWN),
                 "direction_target": _direction_target(
@@ -591,6 +648,10 @@ def build_exact_event_bags(
                     "partner_id": raw["partner_id"],
                     "relation_type": raw["relation_type"],
                     "experiment_type": raw["experiment_type"],
+                    "experiment_raw": raw["experiment_raw"],
+                    "experiment_family": raw["experiment_family"],
+                    "assay_subtype": raw["assay_subtype"],
+                    "graph_assay_class": raw["graph_assay_class"],
                     "source_database": raw["source_database"],
                     "source_dataset": raw["source_dataset"],
                     "source_record_id": raw["source_record_id"],
@@ -685,6 +746,10 @@ def build_exact_event_bags(
                     "source_record_id": raw["source_record_id"],
                     "pmid": raw["pmid"],
                     "experiment_type": raw["experiment_type"],
+                    "experiment_raw": raw["experiment_raw"],
+                    "experiment_family": raw["experiment_family"],
+                    "assay_subtype": raw["assay_subtype"],
+                    "graph_assay_class": raw["graph_assay_class"],
                     "relation_type": raw["relation_type"],
                     "direction_raw": raw["direction_raw"],
                     "direction_target": int(raw["direction_target"]),
@@ -724,7 +789,8 @@ def build_exact_event_bags(
     event_columns = [
         "event_id", *EXACT_KEYS, "partner_id", "member_type", "route_type",
         "static_member_id", "physical_fact_id", "source_database", "source_dataset",
-        "source_record_id", "pmid", "experiment_type", "relation_type",
+        "source_record_id", "pmid", "experiment_type", "experiment_raw",
+        "experiment_family", "assay_subtype", "graph_assay_class", "relation_type",
         "direction_raw", "direction_target", "confidence_target", "tissue", "cell_line",
         "species", "is_experimental", "is_computational", "is_physical",
         "is_model_prediction",
@@ -756,7 +822,8 @@ def build_exact_event_bags(
         )
     physical_columns = [
         "physical_fact_id", "cancer_id", "lncrna_id", "partner_id", "relation_type",
-        "experiment_type", "source_database", "source_dataset", "source_record_id",
+        "experiment_type", "experiment_raw", "experiment_family", "assay_subtype",
+        "graph_assay_class", "source_database", "source_dataset", "source_record_id",
         "pmid", "source_row_sha256", "is_prediction",
     ]
     physical = pd.DataFrame(physical_rows, columns=physical_columns)
@@ -1428,12 +1495,18 @@ def load_core_feature_bundle(
     return CoreFeatureBundle(lineage, feature_maps, feature_dims)
 
 
-def _event_feature_matrix(frame: pd.DataFrame, feature_dim: int) -> np.ndarray:
+def _event_feature_matrix(
+    frame: pd.DataFrame,
+    feature_dim: int,
+    *,
+    preserve_assay_type: bool = False,
+) -> np.ndarray:
     if feature_dim < 32:
         raise EvidenceTrainingContractError("event_feature_dim must be at least 32")
+    fields = event_feature_fields(preserve_assay_type=preserve_assay_type)
     matrix = np.zeros((len(frame), feature_dim), dtype=np.float32)
     for row_index, row in enumerate(frame.to_dict("records")):
-        for field in EVENT_FEATURE_FIELDS:
+        for field in fields:
             token = f"{field}={_clean(row.get(field), UNKNOWN).lower()}"
             digest = hashlib.sha256(token.encode("utf-8")).digest()
             bucket = int.from_bytes(digest[:4], "little") % (feature_dim - 8)
@@ -1456,6 +1529,7 @@ def build_bag_examples(
     *,
     event_feature_dim: int = 128,
     max_events: int = 64,
+    preserve_assay_type: bool = False,
 ) -> tuple[list[BagExample], pd.DataFrame]:
     """Create private-head examples; core values are copied as immutable arrays."""
 
@@ -1496,7 +1570,9 @@ def build_bag_examples(
         else:
             counts = directions.value_counts()
             direction_target = int(counts.index[0]) if len(counts) == 1 or counts.iloc[0] > counts.iloc[1] else -1
-        features = _event_feature_matrix(group, event_feature_dim)
+        features = _event_feature_matrix(
+            group, event_feature_dim, preserve_assay_type=preserve_assay_type
+        )
         immutable_core = np.asarray(core_vector, dtype=np.float32).copy()
         immutable_core.setflags(write=False)
         examples.append(
@@ -3284,6 +3360,7 @@ def run_evidence_training(
     hidden_dim: int = 96,
     dropout: float = 0.20,
     mc_samples: int = 16,
+    preserve_assay_type: bool = False,
     device: str | None = None,
 ) -> dict[str, Any]:
     """Run the complete five-fold fresh V3.2 private evidence workflow."""
@@ -3407,6 +3484,7 @@ def run_evidence_training(
             core,
             event_feature_dim=event_feature_dim,
             max_events=max_events,
+            preserve_assay_type=preserve_assay_type,
         )
         if not missing_core.empty:
             missing_core["patient_fold"] = patient_fold

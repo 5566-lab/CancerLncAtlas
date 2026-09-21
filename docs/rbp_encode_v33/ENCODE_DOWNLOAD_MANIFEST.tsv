@@ -1,0 +1,7 @@
+resource_type	publication_set_accession	experiment_accession	file_accession	RBP	cell_line	assembly	file_format	output_type	source_url	download_date	sha256	bytes	status	decision_reason
+eCLIP reproducible peaks		ENCSR456FVU				hg19			https://www.encodeproject.org/experiments/ENCSR456FVU/				NOT_DOWNLOADED	ASSEMBLY_MISMATCH: project annotation is GRCh38; resource provides ['hg19']; silent liftOver is forbidden
+RBP knockdown RNA-seq (HepG2)		ENCSR369TWP				hg19			https://www.encodeproject.org/experiments/ENCSR369TWP/				NOT_DOWNLOADED	ASSEMBLY_MISMATCH: project annotation is GRCh38; resource provides ['hg19']; silent liftOver is forbidden
+RBP knockdown RNA-seq (K562)		ENCSR795JHH				hg19			https://www.encodeproject.org/experiments/ENCSR795JHH/				NOT_DOWNLOADED	ASSEMBLY_MISMATCH: project annotation is GRCh38; resource provides ['hg19']; silent liftOver is forbidden
+processed DESeq/rMATS/MISO/Cuffdiff		ENCSR413YAF				hg19			https://www.encodeproject.org/experiments/ENCSR413YAF/				NOT_DOWNLOADED	ASSEMBLY_MISMATCH: project annotation is GRCh38; resource provides ['hg19']; silent liftOver is forbidden
+batch-corrected expression/splicing		ENCSR870OLK				hg19			https://www.encodeproject.org/experiments/ENCSR870OLK/				NOT_DOWNLOADED	ASSEMBLY_MISMATCH: project annotation is GRCh38; resource provides ['hg19']; silent liftOver is forbidden
+RBNS sequence preference		ENCSR876DCD				hg19			https://www.encodeproject.org/experiments/ENCSR876DCD/				NOT_DOWNLOADED	ASSEMBLY_MISMATCH: project annotation is GRCh38; resource provides ['hg19']; silent liftOver is forbidden

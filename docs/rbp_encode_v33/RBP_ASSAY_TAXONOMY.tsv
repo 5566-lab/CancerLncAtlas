@@ -1,0 +1,25 @@
+rule_order	matched_rule	assay_subtype	graph_assay_class	experiment_family	regex	relation_type	taxonomy_version
+0	eclip	eclip	eclip	physical_binding	(?<![a-z0-9])e[-\s_]?clip(?![a-z0-9])	binds_protein_eclip	RBP_ASSAY_TAXONOMY_V1
+1	par_clip	par_clip	other_clip	physical_binding	(?<![a-z0-9])par[-\s_]?clip(?![a-z0-9])	binds_protein_other_clip	RBP_ASSAY_TAXONOMY_V1
+2	iclip	iclip	other_clip	physical_binding	(?<![a-z0-9])i[-\s_]?clip(?![a-z0-9])	binds_protein_other_clip	RBP_ASSAY_TAXONOMY_V1
+3	hits_clip	hits_clip	other_clip	physical_binding	(?<![a-z0-9])hits[-\s_]?clip(?![a-z0-9])	binds_protein_other_clip	RBP_ASSAY_TAXONOMY_V1
+4	clip_unspecified	clip_unspecified	other_clip	physical_binding	(?<![a-z0-9])clip(?![a-z0-9])	binds_protein_other_clip	RBP_ASSAY_TAXONOMY_V1
+5	chirp	chirp	rna_capture	physical_binding	(?<![a-z0-9])chirp(?![a-z0-9])	binds_protein_rna_capture	RBP_ASSAY_TAXONOMY_V1
+6	chart	chart	rna_capture	physical_binding	(?<![a-z0-9])chart(?![a-z0-9])	binds_protein_rna_capture	RBP_ASSAY_TAXONOMY_V1
+7	rap	rap	rna_capture	physical_binding	(?<![a-z0-9])rap(?:[-\s_]?(?:ms|rna|seq))?(?![a-z0-9])	binds_protein_rna_capture	RBP_ASSAY_TAXONOMY_V1
+8	rna_pulldown	rna_pulldown	rna_capture	physical_binding	rna[-\s_]?pull[-\s_]?down|pull[-\s_]?down	binds_protein_rna_capture	RBP_ASSAY_TAXONOMY_V1
+9	rip	rip	rip	physical_binding	(?<![a-z0-9])rip(?:[-\s_]?seq)?(?![a-z0-9])	binds_protein_rip	RBP_ASSAY_TAXONOMY_V1
+10	emsa	emsa	other_physical	physical_binding	(?<![a-z0-9])emsa(?![a-z0-9])	binds_protein_other_physical	RBP_ASSAY_TAXONOMY_V1
+11	co_ip	co_ip	other_physical	physical_binding	co[-\s_]?ip(?![a-z0-9])|co[-\s_]?immunoprecipitat	binds_protein_other_physical	RBP_ASSAY_TAXONOMY_V1
+12	immunoprecipitation	other_experimental	other_physical	physical_binding	immunoprecipitat|(?<![a-z0-9])ip(?![a-z0-9])	binds_protein_other_physical	RBP_ASSAY_TAXONOMY_V1
+13	computational_prediction	computational_prediction	predicted	computational_prediction	predict|computational|in[-\s_]?silico|inferred|algorithm	binds_protein_predicted	RBP_ASSAY_TAXONOMY_V1
+14	functional_perturbation	functional_perturbation	experimental_unspecified	functional_perturbation	knock|sirna|shrna|rnai|crispr|cas9|overexpress|transfect|deplet|silenc	binds_protein_experimental_unspecified	RBP_ASSAY_TAXONOMY_V1
+15	reporter_assay	reporter_assay	experimental_unspecified	reporter_assay	luciferase|reporter	binds_protein_experimental_unspecified	RBP_ASSAY_TAXONOMY_V1
+16	expression_or_abundance	expression_or_abundance	experimental_unspecified	expression_or_abundance	qpcr|rt[-\s_]?pcr|rna[-\s_]?seq|microarray|western|northern|\bchip[-\s_]?seq\b	binds_protein_experimental_unspecified	RBP_ASSAY_TAXONOMY_V1
+17	family_physical_binding	other_experimental	other_physical	physical_binding	physical[-\s_]?binding|physical[-\s_]?interaction	binds_protein_other_physical	RBP_ASSAY_TAXONOMY_V1
+18	family_functional_perturbation	functional_perturbation	experimental_unspecified	functional_perturbation	functional[-\s_]?perturbation	binds_protein_experimental_unspecified	RBP_ASSAY_TAXONOMY_V1
+19	family_reporter_assay	reporter_assay	experimental_unspecified	reporter_assay	reporter[-\s_]?assay	binds_protein_experimental_unspecified	RBP_ASSAY_TAXONOMY_V1
+20	family_expression_or_abundance	expression_or_abundance	experimental_unspecified	expression_or_abundance	expression[-\s_]?or[-\s_]?abundance	binds_protein_experimental_unspecified	RBP_ASSAY_TAXONOMY_V1
+21	family_computational_prediction	computational_prediction	predicted	computational_prediction	computational[-\s_]?prediction	binds_protein_predicted	RBP_ASSAY_TAXONOMY_V1
+22	empty	unspecified	unknown	unspecified		binds_protein_unknown	RBP_ASSAY_TAXONOMY_V1
+23	fallback_other_experimental	other_experimental	experimental_unspecified	other_experimental		binds_protein_experimental_unspecified	RBP_ASSAY_TAXONOMY_V1
