@@ -1,0 +1,11 @@
+extends: model_v3_0_clinical.yaml
+
+project_root: D:/model/CancerLncAtlas
+results_dir: results/model/cc_hhgt_v3_0_clinical
+cache_dir: results/model/cc_hhgt_v3_0_clinical/cache
+standardized_dir: results/model/cc_hhgt_v3_0_clinical/standardized
+
+clinical:
+  v29_result_root: results/model/cc_hhgt_v2_9_state_graph
+  epochs: 120
+  patience: 15

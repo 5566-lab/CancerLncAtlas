@@ -1,0 +1,143 @@
+extends: model_v3_1_formal_33c.yaml
+analysis_version: CancerLncAtlas_CC-HHGT_v3.1_exact_pathway_33c_cap1000_resume5_2026-08
+
+formal_contract:
+  protocol: V3_1_EXACT_PATHWAY_33C_FORMAL_PROTOCOL.md
+  expected_folds: 33
+  expected_models: 3
+  expected_seeds: 3
+  expected_tasks: 297
+  required_formal_cancers: [HNSC, LGG]
+  primary_task: exact_pathway
+  auxiliary_tasks: [state]
+  convergence_policy: fail_if_any_task_reaches_hard_epoch_cap
+  configured_epoch_cap: 1000
+
+formal_execution:
+  required_physical_gpus: 2
+  slots_per_device: 2
+  task_visible_gpu_count: 1
+  isolation: CUDA_VISIBLE_DEVICES
+  minimum_gpu_memory_gib: 31
+  auxiliary_contexts: [pathway_family]
+
+cancer_scope:
+  reference_only: []
+  exclude_reference_from_context_edges: false
+
+analysis_cancers:
+  reference_only: []
+  exclude_from_training: []
+
+candidate_universe:
+  exact_pathway_source: measured_bulk_association_universe
+  pancancer_lnc_filter:
+    enabled: true
+    within_cancer_min_sample_detection_rate: 0.10
+    minimum_detected_cancers: 3
+    detection_semantics: logcpm_gt_0
+    expected_eligible_lncrna_ids_full_gdc: 4712
+    decision_id: PANCANCER_LNCRNA_010_3C_LOCK_20260824
+    decision_status: locked
+    evidence_cannot_bypass_filter: true
+
+# Carry the V3.1 graph repair into the 33-cancer exact-pathway production run.
+# The canonical graph is not destructively truncated; bounded runtime chunks
+# control GPU residency and cycle through all retained edges.
+graph_contract:
+  primary: CONTRACT-T
+  diagnostic: CONTRACT-S
+  shared_builder: cc_hhgt.graph_contract.build_fold_graph
+  episodic_pseudoheldout: true
+  pseudoheldout_candidate_loss_only: true
+  reference_only: []
+  outcome_derived_heldout_policy: drop
+  contract_s_target_context: [expressed_in]
+  contract_t_target_context: all_unlabeled_context
+
+runtime_graph_sampling:
+  enabled: true
+  destructive_offline_cap: null
+  edge_chunk_size: 250000
+  source_coverage_min: 0.95
+  weighted_signal_retention_min: 0.90
+  coverage_cycle: all_runtime_chunks
+  checkpoint_patience_cycles: 3
+  coexpression_strategy: per_source_sign_stratified_weight_ordered_runtime_cycle
+  tune_on: training_and_validation_only
+  test_cancer_selects_hyperparameters: false
+
+training:
+  epochs: 1000
+  max_edges_per_relation: null
+  resume_checkpoint_every_epochs: 5
+  candidate_microbatch_size: 2048
+  max_evaluation_pairs_per_cancer: 250000
+  evaluation_sampling_policy: label_independent_deterministic
+  evaluation_seed: 20260726
+  feature_columns:
+    - bulk_support
+    - sc_ssgsea_support
+    - replication_support
+    - direction_consistency
+    - bulk_available
+    - sc_available
+    - bulk_detection_rate
+    - sc_detection_rate
+
+state_training:
+  # Locked by the closed V3.1 fixed-graph ablation.  Do not inherit the
+  # historical V2.9 value (0.35): episodic pseudo-held-out training requires
+  # the state auxiliary head to use the registered 0.50 weight.
+  auxiliary_loss_weight: 0.50
+  # Do not let pair-level evidence define the learned pathway score. The graph
+  # and cancer context must carry the prediction; evidence is annotated later.
+  mask_pair_evidence_for_all_pathway_models: true
+  strict_pair_evidence_mask_probability: 1.0
+
+task_contract:
+  pathway:
+    enabled: true
+    role: primary_website_discovery_task
+    target_level: exact_pathway
+    target_unit: cancer_x_lncrna_x_exact_pathway
+    target_column: pathway_id
+    target_node_type: pathway
+    hierarchy_context_column: pathway_family_id
+    require_complete_oof: true
+  pathway_family:
+    enabled: false
+    enabled_as_hierarchy_context: true
+    role: auxiliary_hierarchy_only
+    may_replace_primary_target: false
+  state:
+    enabled: true
+    role: auxiliary_independent_head
+
+exact_pathway_evidence:
+  label_truth_layer: patient_statistical_association_only
+  bulk_discovery_max_fdr: 0.10
+  bulk_discovery_min_abs_effect: 0.15
+  bulk_strong_max_fdr: 0.05
+  bulk_strong_min_abs_effect: 0.20
+  sc_discovery_max_fdr: 0.10
+  sc_discovery_min_abs_effect: 0.30
+  weak_positive_policy: qualified_bulk_or_single_cell_exact_pathway_association
+  strong_positive_policy: stringent_bulk_or_direction_concordant_bulk_single_cell
+  annotation_sources_may_define_label: false
+  family_level_evidence_may_define_label: false
+  family_level_evidence_role: auxiliary_context_only
+  interaction_drug_perturbation_role: annotation_and_auxiliary_graph_only
+
+# Pair-level literature, interaction and drug evidence are deliberately absent
+# from the primary prediction feature vector. They remain available in the
+# evidence tables and graph for provenance, explanation and explicit ablation.
+
+website_release:
+  intended_model: V3.1_33C_EXACT_PATHWAY
+  primary_output_unit: cancer_x_exact_pathway_x_lncrna
+  require_exact_pathway_scores: true
+  permit_family_probability_broadcast: false
+  require_all_33_cancers_scored: true
+  reference_only_cancers: []
+  require_pancancer_lncrna_filter_audit: true

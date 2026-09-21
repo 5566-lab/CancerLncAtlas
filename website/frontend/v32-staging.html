@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CancerLncAtlas V3.2 unified non-production staging workbench">
+  <title>CancerLncAtlas V3.2 Staging</title>
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260805e">
+  <link rel="stylesheet" href="/assets/v32-staging.css?v=20260826b">
+</head>
+<body>
+  <main class="v32-shell">
+    <header class="v32-header">
+      <div>
+        <p class="eyebrow">CancerLncAtlas V3.2 · non-production</p>
+        <h1>统一功能头 Staging 工作台</h1>
+        <p class="lede">主模型、Gene Set、Subtype、State、Clinical、基因组、单细胞、Evidence、实验、物理互作与下载产物分层展示；缺失值始终保留为 null + reason。</p>
+      </div>
+      <a class="button" href="/v3.2-staging/docs" target="_blank" rel="noreferrer">OpenAPI</a>
+    </header>
+
+    <section class="v32-notice" aria-label="release warning">
+      这是隔离的 V3.2 staging 候选，不是生产网站，也不代表 release-ready。Drug 只有在五折训练、SUCCESS、绑定与独立审计全部通过后才会启用；辅助功能头不会暗改 exact-pathway 主排序。
+    </section>
+
+    <section class="stats-grid" id="health-metrics" aria-live="polite">
+      <div class="stat-card"><strong>加载中</strong><span>API health</span></div>
+    </section>
+
+    <section class="panel v32-sc-context-panel" aria-labelledby="sc-context-title">
+      <div class="section-head">
+        <div><p class="eyebrow">Single-cell scope</p><h2 id="sc-context-title">单细胞数据覆盖范围</h2></div>
+      </div>
+       <p>Formal-23 单细胞发布是按 donor 聚合的独立证据层；23 个癌种可查询，另外 10 个癌种保留 typed-unavailable。它不替代原始覆盖审计，也不会改变主模型评分。</p>
+      <div class="stats-grid" id="sc-context-coverage" aria-live="polite">
+        <div class="stat-card"><strong>—</strong><span>33-cancer authority</span></div>
+        <div class="stat-card"><strong>—</strong><span>Formal datasets</span></div>
+        <div class="stat-card"><strong>—</strong><span>Donor-level activity</span></div>
+        <div class="stat-card"><strong>—</strong><span>Pseudotime + figures</span></div>
+      </div>
+      <p class="v32-gap" id="sc-context-note">正在读取独立审计后的 formal context capability…</p>
+    </section>
+
+    <section class="panel v32-query-panel">
+      <div class="section-head">
+        <div><p class="eyebrow">Queryable layers</p><h2>分层查询</h2></div>
+      </div>
+      <div class="v32-input-grid">
+        <label>Cancer ID<input class="control" id="v32-cancer" value="BRCA" autocomplete="off"></label>
+        <label>lncRNA ID<input class="control" id="v32-lncrna" placeholder="LNC:ENSG…" autocomplete="off"></label>
+        <label>Exact pathway ID<input class="control" id="v32-pathway" placeholder="MSIGDB:…" autocomplete="off"></label>
+        <label>Gene Set ID<input class="control" id="v32-gene-set" placeholder="V32GS::…" autocomplete="off"></label>
+        <label>Drug ID<input class="control" id="v32-drug" placeholder="Drug identifier" autocomplete="off"></label>
+        <label>Clinical endpoint<select class="control" id="v32-endpoint"><option>OS</option><option>DSS</option><option>PFI</option><option>PFS</option><option>DFI</option><option>DFS</option></select></label>
+        <label>State ID<select class="control" id="v32-state"><option>stemness_rna::RNAss</option><option>stemness_dna::DNAss</option><option>EXTEND::published_score</option><option>stemness_rna::EREG.EXPss</option><option>stemness_dna::DMPss</option><option>stemness_dna::ENHss</option><option>stemness_dna::EREG-METHss</option></select></label>
+        <label>Relationship ID<input class="control" id="v32-relationship" placeholder="relationship_id" autocomplete="off"></label>
+        <label>Single-cell cell type<input class="control" id="v32-cell-type" placeholder="Myeloid" autocomplete="off"></label>
+        <label>Single-cell compartment<select class="control" id="v32-compartment"><option value="">All compartments</option><option>IMMUNE</option><option>STROMAL</option><option>MALIGNANT</option><option>MALIGNANT_CANDIDATE</option><option>OTHER_UNRESOLVED</option><option>UNAVAILABLE</option></select></label>
+        <label>Single-cell availability<select class="control" id="v32-sc-availability"><option>ALL</option><option>AVAILABLE</option><option>UNAVAILABLE</option></select></label>
+      </div>
+      <label class="v32-members">Mixed lncRNA / protein list<textarea class="control" id="v32-members" rows="3" placeholder="LNC:ENSG…&#10;TP53&#10;EGFR"></textarea></label>
+
+      <div class="v32-button-section"><strong>Core 与派生功能</strong><div class="v32-query-groups">
+        <button class="button" data-query="exact">Exact pathway</button>
+        <button class="button" data-query="gene-set">Gene Set</button>
+        <button class="button" data-query="subtype">Ranked subtype</button>
+        <button class="button" data-query="mixed">Mixed → exact pathway</button>
+        <button class="button" data-query="network">Unified network</button>
+      </div></div>
+
+      <div class="v32-button-section"><strong>历史功能保留层</strong><div class="v32-query-groups">
+        <button class="button" data-query="state">State</button>
+        <button class="button" data-query="state-gene-set">State Gene Set</button>
+        <button class="button" data-query="clinical">Clinical</button>
+        <button class="button" data-query="clinical-priority">Clinical priority</button>
+        <button class="button" data-query="mutation">Mutation</button>
+        <button class="button" data-query="mutation-subgroup">Mutation subgroup</button>
+        <button class="button" data-query="cnv">CNV</button>
+        <button class="button" data-query="cnv-coverage">CNV coverage</button>
+        <button class="button" data-query="drug">Drug actionability</button>
+        <button class="button" data-query="drug-mechanism">Drug mechanism</button>
+      </div></div>
+
+      <div class="v32-button-section"><strong>表达、单细胞与验证</strong><div class="v32-query-groups">
+        <button class="button" data-query="sc">Single-cell exact</button>
+        <button class="button" data-query="sc-expression">Single-cell expression</button>
+        <button class="button" data-query="sc-audit">33-cancer sc coverage/gaps</button>
+        <button class="button" data-query="sc-gaps">Single-cell typed gaps</button>
+        <button class="button" data-query="sc-context-capability">Formal context status</button>
+        <button class="button" data-query="sc-context-lncrna">lncRNA × cell type</button>
+        <button class="button" data-query="sc-context-pathway">Context pathway activity</button>
+        <button class="button" data-query="sc-context-predictions">Cell-type predictions</button>
+        <button class="button" data-query="ucell">Formal-23 donor activity</button>
+        <button class="button" data-query="sc-activity">Single-cell activity</button>
+        <button class="button" data-query="pseudotime">Pseudotime trajectory</button>
+        <button class="button" data-query="sc-figures">Single-cell figures</button>
+        <button class="button" data-query="expression">Bulk expression</button>
+        <button class="button" data-query="survival">Kaplan–Meier</button>
+        <button class="button" data-query="coexpression">Coexpression</button>
+        <button class="button" data-query="validation">External validation</button>
+        <button class="button" data-query="activity">Continuous activity</button>
+      </div></div>
+
+      <div class="v32-button-section"><strong>Evidence 与实验</strong><div class="v32-query-groups">
+        <button class="button" data-query="physical">Physical interaction</button>
+        <button class="button" data-query="interaction-evidence">Interaction evidence</button>
+        <button class="button" data-query="evidence">Evidence confidence</button>
+        <button class="button" data-query="evidence-direction">Evidence direction</button>
+        <button class="button" data-query="experiment">Experiment bridge</button>
+      </div></div>
+
+      <div id="query-status" class="v32-query-status" aria-live="polite"></div>
+      <div id="query-result" class="v32-result"><p>选择一个功能层开始查询。</p></div>
+    </section>
+
+    <section class="panel v32-download-panel">
+      <div class="section-head">
+        <div><p class="eyebrow">Versioned artifacts</p><h2>V3.2 下载目录</h2></div>
+        <button class="button" id="download-refresh" type="button">刷新目录</button>
+      </div>
+      <p>目录共 54 个历史契约下载 ID。READY 文件在请求时重新计算 SHA；pending、partial 和 typed-gap 会明确显示，不生成占位文件。</p>
+      <div class="v32-download-controls">
+        <label>Download ID<select class="control" id="download-id"><option value="">加载中…</option></select></label>
+        <button class="button" id="download-inspect" type="button">查看</button>
+        <button class="button" id="download-start" type="button">下载单文件</button>
+      </div>
+      <div id="download-result" class="v32-result" aria-live="polite"></div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div><p class="eyebrow">Historical parity contract</p><h2>25 项历史能力状态</h2></div>
+        <div class="v32-filter"><label for="capability-filter">筛选</label><select class="control" id="capability-filter"><option value="ALL">全部</option><option value="QUERYABLE_STAGING">可查询</option><option value="PARTIAL_STAGING">部分接入</option><option value="PENDING_FORMAL_BINDING">待正式绑定</option></select></div>
+      </div>
+      <div class="feature-grid v32-capability-grid" id="capability-grid"></div>
+    </section>
+  </main>
+  <script src="/assets/v32-staging.js?v=20260827b" defer></script>
+</body>
+</html>

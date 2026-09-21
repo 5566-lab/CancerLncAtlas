@@ -1,0 +1,91 @@
+contract_version: "3.2.0"
+analysis_version: CancerLncAtlas_V3.2_RS_CC-HHGT_1seed_FORMAL_RELEASE
+
+execution_control:
+  execution_mode: TRAINING
+  training_authorized: true
+  paid_enabled: true
+  # The user explicitly removed the monetary/time ceiling on 2026-08-25.
+  # Large finite sentinels preserve fail-closed numeric guard compatibility.
+  max_paid_hours: 8760
+  max_cost_cny: 1000000000
+
+task_contract:
+  endpoint: cancer_lncrna_exact_pathway_association_relevance
+  target_level: exact_pathway
+  target_column: pathway_id
+  target_keys: [cancer_id, lncrna_id, pathway_id]
+  pathway_family_role: auxiliary_hierarchy_only
+  family_may_replace_target: false
+  patient_activity_is_separate_endpoint: true
+
+candidate_universe:
+  annotation_lncRNAs: 16889
+  shared_lncRNAs: 4712
+  within_cancer_min_detection_rate: 0.10
+  minimum_detected_cancers: 3
+  detection_rule: edgeR_TMM_logCPM_gt_0
+  local_only_retained: true
+  candidate_sampling_budget_per_cancer: 100000
+  candidate_sampling_covers_all_cancer_eligible_lncRNAs: true
+
+crossfit:
+  cancers: 33
+  patient_folds: 5
+  seed: 20260726
+  validation_offset: 1
+
+association:
+  weak_max_fdr: 0.10
+  weak_min_abs_effect: 0.15
+  strong_max_fdr: 0.05
+  strong_min_abs_effect: 0.20
+  weak_positive_weight: 0.35
+  unlabeled_weight: 0.12
+
+primary_model:
+  kind: cc_hhgt_bounded_l1_residual
+  formula: z_final=z_l1+lambda_cp*tanh(delta_cc_hhgt)
+  hidden_channels: 96
+  pair_hidden_channels: 96
+  num_heads: 2
+  num_layers: 2
+  dropout: 0.20
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  direction_loss_weight: 0.25
+  residual_shrinkage: 0.0001
+  pair_evidence_in_primary: false
+  evidence_confidence_is_separate: true
+  subtype_feedback: false
+
+runtime_profile:
+  owner: multi_endpoint_formal_release
+  mixed_precision: false
+  candidate_microbatch_size: 8192
+  gradient_accumulation: 4
+  oom_fallback_microbatch_size: 4096
+  oom_fallback_gradient_accumulation: 8
+  max_coverage_cycles: 100
+  patience_coverage_cycles: 8
+  validation_min_delta: 0.0001
+  require_early_stopping_before_cap: true
+
+training_io:
+  prepared_fold_pattern: artifacts/formal_release_prepared_1seed/PATIENT_FOLD_{fold}.pt
+  output_root: artifacts/formal_release_training_1seed
+
+subtypes:
+  top_k: 200
+  rbo_p: 0.98
+  rank_weight: 0.50
+  composition_weight: 0.50
+  pathway_k_candidates: [1, 2, 3, 4]
+  global_k_candidates: [2, 3, 4, 5, 6]
+  silhouette_min: 0.25
+  bootstrap_ari_min: 0.75
+  bootstrap_iterations: 200
+  min_cancers: 6
+  min_members: 10
+  min_cluster_size: 3
+  subtype_feedback: false

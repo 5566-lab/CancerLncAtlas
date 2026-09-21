@@ -1,0 +1,23 @@
+extends: model_v3_1_exact_pathway_33c.yaml
+analysis_version: CancerLncAtlas_CC-HHGT_v3.1_exact_pathway_33c_cap2000_resume5_2026-08
+
+formal_contract:
+  protocol: V3_1_EXACT_PATHWAY_33C_CAP2000_FORMAL_PROTOCOL.md
+  configured_epoch_cap: 2000
+  convergence_policy: fail_if_any_task_reaches_hard_epoch_cap
+  supersedes_run_id: V3STATE-exact_pathway_33c_site_cap1000_resume-20260823T075437Z-c37890fd3321
+  require_full_297_retrain: true
+  permit_prior_task_import: false
+  permit_prior_checkpoint_reuse: false
+
+convergence_cap_selection:
+  selection_status: frozen_before_cap2000_formal_run
+  validation_interval_epochs: 35
+  observed_diagnostic_late_reset_epoch: 910
+  earliest_third_regular_stale_validation_epoch: 1015
+  selected_safety_cap: 2000
+  selection_uses_heldout_metric: false
+
+training:
+  epochs: 2000
+

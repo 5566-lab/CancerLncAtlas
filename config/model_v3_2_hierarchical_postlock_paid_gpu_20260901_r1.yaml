@@ -1,0 +1,88 @@
+contract_version: "3.2.0-hierarchical-postlock-paid-gpu-20260901-r1"
+analysis_version: CancerLncAtlas_V3.2_HIERARCHICAL_POSTLOCK___GRAPH_VARIANT___PAID_GPU
+
+execution_control:
+  execution_mode: TRAINING
+  training_authorized: true
+  paid_enabled: true
+  max_paid_hours: 96
+  max_cost_cny: 210
+  candidate_only: true
+  overwrite_formal_v32: false
+
+task_contract:
+  endpoint: cancer_lncrna_exact_pathway_association_relevance
+  target_level: exact_pathway
+  target_keys: [cancer_id, lncrna_id, pathway_id]
+  graph_variant: __GRAPH_VARIANT__
+  modalities: [mutation, cnv, atac]
+  patient_level_modality_oof_required: true
+  typed_unavailable_required: true
+
+candidate_universe:
+  annotation_lncRNAs: 16889
+  shared_lncRNAs: 4712
+  candidate_sampling_budget_per_cancer: 100000
+  candidate_sampling_covers_all_cancer_eligible_lncRNAs: true
+
+crossfit:
+  cancers: 33
+  patient_folds: 5
+  outer_pair_blocked_folds: 5
+  seed: 20260726
+  validation_offset: 1
+  shared_with_external_router: true
+
+primary_model:
+  kind: cc_hhgt_bounded_l1_residual
+  formula: z_final=z_l1+lambda_cp*tanh(delta_cc_hhgt)
+  hidden_channels: 96
+  pair_hidden_channels: 96
+  num_heads: 2
+  num_layers: 2
+  dropout: 0.20
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  direction_loss_weight: 0.25
+  residual_shrinkage: 0.0001
+  pair_evidence_in_primary: false
+  evidence_integration:
+    mode: hierarchical_end_to_end
+    modalities: [mutation, cnv, atac]
+    integration_stage: POST_HGT_PRE_RESIDUAL_GATED_MESSAGE
+    gate_conditioning: [global_modality, cancer_embedding, modality_signal, availability]
+
+runtime_profile:
+  owner: paid_gpu
+  mixed_precision: bf16
+  candidate_microbatch_size: 8192
+  gradient_accumulation: 4
+  oom_fallback_microbatch_size: 4096
+  oom_fallback_gradient_accumulation: 8
+  max_coverage_cycles: 10
+  patience_coverage_cycles: 3
+  validation_min_delta: 0.0001
+
+training_io:
+  prepared_fold_pattern: ./data/CancerLncAtlas/results/v32_hierarchical_postlock_paid_gpu_20260901_r1/prepared_candidate/PATIENT_FOLD_{fold}.pt
+  output_root: ./data/CancerLncAtlas/results/v32_hierarchical_postlock_paid_gpu_20260901_r1/training
+
+external_router_comparator:
+  modalities: [mutation, cnv, atac]
+  seed: 20260726
+  outer_pair_blocked_folds: 5
+  validation_logloss_delta: 0.0001
+  modality_ablation_logloss_delta: 0.0
+  brier_tolerance: 0.0
+  frozen_gate_support_folds: 3
+  no_heldout_reverse_selection: true
+
+fair_comparison:
+  require_same_candidate_universe_hash: true
+  require_same_patient_modality_oof_hash: true
+  require_same_outer_pair_fold_hash: true
+  require_same_seed: true
+  require_same_training_budget: true
+  report_overall_and_per_cancer: true
+  report_regressions_from_primary: true
+  promotion_requires_untouched_external_validation: true

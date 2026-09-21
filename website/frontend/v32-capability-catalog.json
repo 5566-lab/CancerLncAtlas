@@ -1,0 +1,789 @@
+{
+  "capabilities": [
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "exact_pathway",
+      "description": "V3.2 cancer x lncRNA x exact-pathway association model and predictions.",
+      "download_ids": [
+        "exact_pathway_predictions",
+        "v32_model_card",
+        "dataset_catalog"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The exact-pathway browse/report/statistics routes are not mounted; only the mixed exact-pathway query route was verified.",
+      "required_api_contract": [
+        "GET /api/site/stats",
+        "GET /api/site/search",
+        "GET /api/site/lncrna/{lncrna}",
+        "GET /api/site/genesets",
+        "GET /api/site/datasets",
+        "GET /api/site/cancers",
+        "GET /api/site/cancer/{cancer}"
+      ],
+      "staging_endpoints": [
+        "POST /v3.2-staging/enrichment/mixed-exact-pathway"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "portal_catalog",
+        "cancer_overview",
+        "dataset_catalog",
+        "lncrna_exact_pathway",
+        "exact_pathway_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "gene_set",
+      "description": "Exact Gene Set catalog, membership, enrichment and pathway views.",
+      "download_ids": [
+        "gene_set_catalog",
+        "gene_set_members",
+        "gene_set_enrichment",
+        "gene_set_gmt",
+        "gene_set_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/genesets"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "gene_set_catalog",
+        "gene_set_detail",
+        "gene_set_enrichment"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "ranked_subtype",
+      "description": "Ranked cancer subtypes with stability evidence and no feedback into the primary model.",
+      "download_ids": [
+        "ranked_subtypes",
+        "subtype_stability"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/subtypes"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "ranked_subtype_overview",
+        "ranked_subtype_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "network",
+      "description": "LncRNA, exact-pathway, gene/protein and evidence network.",
+      "download_ids": [
+        "network_nodes",
+        "network_edges"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/network/{lncrna}"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "network_explorer"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "state_rnass",
+      "description": "state_rnass",
+      "download_ids": [
+        "lncrna_state_associations",
+        "state_gene_set_gmt",
+        "state_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The shared state query route is mounted and verified; the state-gene-sets route is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/states/{state_id}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/state"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "state",
+      "ui_surface_ids": [
+        "state_program_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "state_dnass",
+      "description": "state_dnass",
+      "download_ids": [
+        "lncrna_state_associations",
+        "state_gene_set_gmt",
+        "state_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The shared state query route is mounted and verified; the state-gene-sets route is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/states/{state_id}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/state"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "state",
+      "ui_surface_ids": [
+        "state_program_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "state_extend",
+      "description": "state_extend",
+      "download_ids": [
+        "lncrna_state_associations",
+        "state_gene_set_gmt",
+        "state_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The shared state query route is mounted and verified; the state-gene-sets route is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/states/{state_id}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/state"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "state",
+      "ui_surface_ids": [
+        "state_program_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "state_ereg_expss",
+      "description": "state_ereg_expss",
+      "download_ids": [
+        "lncrna_state_associations",
+        "state_gene_set_gmt",
+        "state_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The shared state query route is mounted and verified; the state-gene-sets route is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/states/{state_id}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/state"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "state",
+      "ui_surface_ids": [
+        "state_program_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "state_dmpss",
+      "description": "state_dmpss",
+      "download_ids": [
+        "lncrna_state_associations",
+        "state_gene_set_gmt",
+        "state_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The shared state query route is mounted and verified; the state-gene-sets route is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/states/{state_id}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/state"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "state",
+      "ui_surface_ids": [
+        "state_program_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "state_enhss",
+      "description": "state_enhss",
+      "download_ids": [
+        "lncrna_state_associations",
+        "state_gene_set_gmt",
+        "state_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The shared state query route is mounted and verified; the state-gene-sets route is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/states/{state_id}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/state"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "state",
+      "ui_surface_ids": [
+        "state_program_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "state_ereg_methss",
+      "description": "state_ereg_methss",
+      "download_ids": [
+        "lncrna_state_associations",
+        "state_gene_set_gmt",
+        "state_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The shared state query route is mounted and verified; the state-gene-sets route is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/states/{state_id}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/state"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "state",
+      "ui_surface_ids": [
+        "state_program_detail"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "clinical",
+      "description": "Independently trained patient-risk and lncRNA/pathway/state clinical layer.",
+      "download_ids": [
+        "clinical_associations",
+        "patient_risk_oof",
+        "translational_priority",
+        "clinical_report"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The clinical query route is mounted; translational-priority is not mounted in this isolated candidate.",
+      "required_api_contract": [
+        "GET /api/site/clinical/endpoints",
+        "GET /api/site/clinical/lncrna/{lncrna}",
+        "GET /api/site/clinical/priority"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/clinical"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "clinical",
+      "ui_surface_ids": [
+        "clinical_endpoint",
+        "survival",
+        "translational_priority"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "expression_landscape",
+      "description": "Bulk tumor lncRNA expression, detection and model-eligibility coverage retained from V2.8.",
+      "download_ids": [
+        "bulk_lncrna_expression_summary",
+        "lncrna_model_coverage"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/lncrna/{lncrna}/expression",
+        "GET /api/site/lncrna/{lncrna}/coverage"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "expression",
+      "ui_surface_ids": [
+        "lncrna_expression_landscape",
+        "lncrna_model_coverage"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "survival_kaplan_meier",
+      "description": "Patient-level Kaplan-Meier curves and statistics for all historical clinical endpoints.",
+      "download_ids": [
+        "kaplan_meier_curves",
+        "kaplan_meier_statistics"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/lncrna/{lncrna}/survival"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "clinical",
+      "ui_surface_ids": [
+        "kaplan_meier_explorer"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "bulk_coexpression",
+      "description": "Cancer-specific tumor lncRNA-gene coexpression and cluster summaries; not physical binding.",
+      "download_ids": [
+        "tumor_lncrna_gene_coexpression",
+        "coexpression_clusters"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/lncrna/{lncrna}/coexpression"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "coexpression",
+      "ui_surface_ids": [
+        "bulk_coexpression_explorer"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "external_validation",
+      "description": "Independent known-positive rank recovery with PMID-overlap exclusion and cohort detail.",
+      "download_ids": [
+        "external_validation_metrics",
+        "external_validation_details",
+        "external_validation_overlap_audit"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/validation/external",
+        "GET /api/site/lncrna/{lncrna}/external-validation"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "external_validation_overview",
+        "lncrna_external_validation"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "continuous_pathway_activity",
+      "description": "Continuous patient/cell pathway-activity regression retained as an independent diagnostic layer, never substituted for exact-pathway association.",
+      "download_ids": [
+        "continuous_pathway_activity_oof",
+        "continuous_pathway_activity_metrics",
+        "continuous_pathway_activity_attributions"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/activity/continuous/{cancer}"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "pathway_activity",
+      "ui_surface_ids": [
+        "continuous_pathway_activity"
+      ]
+    },
+    {
+      "accepted_release_scope": {
+        "declared_cancer_universe_count": 33,
+        "evidence_basis": {
+          "dataset_manifest_sha256": "ed1c12658715ddd88708c7d83fd9903687dfa4d3ec53189ef77b2fd324ae7a88",
+          "fastq_download_attempted": false,
+          "interpretation": "Fresh public-source rescue established six additional eligible cancers. Ten cancers remain typed unavailable for the explicit source/donor/feature reasons above; unavailable values remain null and do not change the primary score.",
+          "new_download_attempted": true,
+          "rescued_contract_success": "artifacts/v32_single_cell_r11_rescued_contract_20260903_r1_server_manifest/SUCCESS.json",
+          "rescued_contract_success_sha256": "92826b85e1dd981e57ef3a68586798981692796d70199dd0a602b69b0fc5fb68",
+          "run_status_sha256": "3c01080cabe27c0031c9f508f6c96d67ae6c388e48d96c59e03aa16c8db45a59",
+          "server_preflight_sha256": "5148be72e4861b15c411fe1a20307bd2bb1842abbc266e7ed7a739309a7cf200"
+        },
+        "formal_eligible_cancer_count": 23,
+        "formal_eligible_cancers": [
+          "ACC",
+          "BRCA",
+          "CESC",
+          "CHOL",
+          "COAD",
+          "DLBC",
+          "ESCA",
+          "GBM",
+          "HNSC",
+          "KIRC",
+          "LAML",
+          "LGG",
+          "LUSC",
+          "MESO",
+          "OV",
+          "PCPG",
+          "READ",
+          "SARC",
+          "SKCM",
+          "TGCT",
+          "THYM",
+          "UCEC",
+          "UVM"
+        ],
+        "format": "CANCERLNCATLAS_V32_SINGLE_CELL_RELEASE_SCOPE_V1",
+        "full_33_single_cell_completion_is_release_gate": false,
+        "full_33_single_cell_coverage_claimed": false,
+        "policy_id": "V32_SC_FORMAL23_TYPED10_20260903_R2",
+        "release_semantics": {
+          "eligible_outputs_required_for_single_cell_module_available": 23,
+          "repeat_full33_rescue_as_standalone_release_blocker": false,
+          "single_cell_is_an_optional_independent_head": true,
+          "typed_unavailable_rows_must_not_reduce_primary_score": true,
+          "typed_unavailable_rows_must_remain_null": true
+        },
+        "status": "ACCEPTED_PARTIAL_FORMAL_SCOPE",
+        "typed_unavailable": {
+          "BLCA": "SOURCE_ACCESSION_AND_SAMPLE_TO_INDIVIDUAL_AUTHORITY_NOT_IDENTIFIED",
+          "KICH": "INSUFFICIENT_INDEPENDENT_DONORS_3_LT_5_NO_RESCUE_SOURCE_IDENTIFIED",
+          "KIRP": "INSUFFICIENT_INDEPENDENT_DONORS_3_LT_5_NO_RESCUE_SOURCE_IDENTIFIED",
+          "LIHC": "SOURCE_ACCESSION_AND_SAMPLE_TO_INDIVIDUAL_AUTHORITY_NOT_IDENTIFIED",
+          "LUAD": "SOURCE_ACCESSION_AND_SAMPLE_TO_INDIVIDUAL_AUTHORITY_NOT_IDENTIFIED",
+          "PAAD": "SOURCE_ACCESSION_AND_SAMPLE_TO_INDIVIDUAL_AUTHORITY_NOT_IDENTIFIED",
+          "PRAD": "SOURCE_ACCESSION_AND_SAMPLE_TO_INDIVIDUAL_AUTHORITY_NOT_IDENTIFIED",
+          "STAD": "SOURCE_ACCESSION_AND_SAMPLE_TO_INDIVIDUAL_AUTHORITY_NOT_IDENTIFIED",
+          "THCA": "SOURCE_ACCESSION_AND_SAMPLE_TO_INDIVIDUAL_AUTHORITY_NOT_IDENTIFIED",
+          "UCS": "GSE299623_RELEASE_CONTAINS_18082_FEATURES_BUT_ONLY_38_FORMAL_LNCRNAS"
+        },
+        "typed_unavailable_cancer_count": 10
+      },
+      "all_four_parity_gates_pass": false,
+      "capability_id": "single_cell",
+      "coverage_scope": [
+        {
+          "available": 33,
+          "label": "Raw H5 audited",
+          "total": 33
+        },
+        {
+          "available": 23,
+          "label": "Formal eligible inputs",
+          "total": 33
+        },
+        {
+          "available": 10,
+          "label": "Typed unavailable by accepted policy",
+          "total": 33
+        },
+        {
+          "available": 23,
+          "label": "Current fresh derived assets / eligible scope",
+          "total": 23
+        },
+        {
+          "available": 0,
+          "label": "Fresh pseudotime + figures / eligible scope",
+          "total": 23
+        }
+      ],
+      "description": "Donor-blocked lncRNA/cell-type/exact-pathway associations, activity and figures.",
+      "download_ids": [
+        "single_cell_associations",
+        "single_cell_activity",
+        "single_cell_ucell",
+        "single_cell_pseudotime"
+      ],
+      "formal_context_delivery": {
+        "binding_sha256": "b43cc5ac723f18c3c63e41831b8619b4ae634584e51c1961708a651ccd311099",
+        "changes_exact_primary": false,
+        "formal_eligible_cancer_count": 23,
+        "full_33_single_cell_coverage_claimed": false,
+        "independent_audit_sha256": "be746678952e3598f639f9b6258ec7ceccf9d4c5a2b68a04035451d89472142b",
+        "module_ready_for_binding": true,
+        "production_deployed": false,
+        "ready_downloads": [
+          {
+            "download_id": "single_cell_associations",
+            "part_count": 23,
+            "sha256_tree": "c084200a2829f99d532b36984a0fea5ec17612ebaf741ad65fd0579e86969135",
+            "status": "READY_PARTS"
+          },
+          {
+            "download_id": "single_cell_activity",
+            "part_count": 23,
+            "sha256_tree": "c084200a2829f99d532b36984a0fea5ec17612ebaf741ad65fd0579e86969135",
+            "status": "READY_PARTS"
+          },
+          {
+            "download_id": "single_cell_ucell",
+            "part_count": 23,
+            "sha256_tree": "c084200a2829f99d532b36984a0fea5ec17612ebaf741ad65fd0579e86969135",
+            "status": "READY_PARTS"
+          }
+        ],
+        "scientific_status": "PASS_23_PLUS_10_TYPED_UNAVAILABLE",
+        "single_cell_fusion_weight": 0.0,
+        "status": "QUERYABLE_AUDITED_FORMAL23",
+        "success_path": "./data/CancerLncAtlas/results/single_cell_r11_formal23_20260903_r1/SUCCESS.json",
+        "success_sha256": "daa8d05e61a57b87a3ddf2da3542cf78c97c345483c4311002635eed9656ee1e",
+        "total_association_evidence_rows": 15563738,
+        "total_cells": 1428374,
+        "typed_gap_downloads": [
+          {
+            "download_id": "single_cell_pseudotime",
+            "reason": "FORMAL23_PSEUDOTIME_NOT_GENERATED",
+            "status": "GAP_TYPED_UNAVAILABLE"
+          },
+          {
+            "download_id": "single_cell_figures",
+            "reason": "NO_HASH_BOUND_FRESH_V32_SINGLE_CELL_FIGURE_FILES",
+            "status": "GAP_TYPED_UNAVAILABLE"
+          }
+        ],
+        "typed_unavailable_cancer_count": 10
+      },
+      "interpretation_note": "The accepted V3.2 formal single-cell overlay is bound for 23 eligible cancers; 10 cancers remain explicitly typed-unavailable. Full 33-cancer single-cell coverage is not claimed and is not a release gate. Associations, activity and UCell downloads are hash-pinned; pseudotime and figures remain typed-unavailable. The overlay has zero fusion weight and does not change the primary score.",
+      "known_gap": "Formal single-cell overlay is mounted for 23 eligible cancers plus 10 explicit typed-unavailable cancers. Pseudotime/figures are typed-unavailable; legacy HNSC-only routes are not advertised.",
+      "required_api_contract": [
+        "GET /api/site/single-cell/{lncrna}",
+        "GET /api/site/sc-activity/{cancer}",
+        "GET /api/site/sc-trajectory/{cancer}",
+        "GET /api/site/sc-figures/{cancer}",
+        "GET /api/site/sc-figure/{cancer}/{figure}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/single-cell/context/capability",
+        "GET /v3.2-staging/single-cell/context/lncrna-celltype",
+        "GET /v3.2-staging/single-cell/context/pathway-activity",
+        "GET /v3.2-staging/single-cell/context/celltype-predictions",
+        "GET /v3.2-staging/single-cell/exact-pathway-associations",
+        "GET /v3.2-staging/single-cell/lncrna-expression-summary",
+        "GET /v3.2-staging/single-cell/audit/capability",
+        "GET /v3.2-staging/single-cell/audit/coverage",
+        "GET /v3.2-staging/single-cell/audit/gaps",
+        "GET /v3.2-staging/single-cell/ucell/capability",
+        "GET /v3.2-staging/single-cell/ucell/{cancer_id}/cell-scores",
+        "GET /v3.2-staging/single-cell/ucell/{cancer_id}/donor-celltype-scores",
+        "GET /v3.2-staging/single-cell/ucell/{cancer_id}/pathway-availability",
+        "GET /v3.2-staging/single-cell/ucell/{cancer_id}/download-manifest",
+        "GET /v3.2-staging/single-cell/ucell/{cancer_id}/download/{relative_path:path}",
+        "GET /v3.2-staging/single-cell/activity/{cancer_id}",
+        "GET /v3.2-staging/single-cell/trajectory/{cancer_id}",
+        "GET /v3.2-staging/single-cell/figures/{cancer_id}"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "single_cell_distribution",
+        "malignant_summary",
+        "single_cell_activity",
+        "single_cell_ucell",
+        "single_cell_pseudotime",
+        "single_cell_figures"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "mutation",
+      "description": "SNV/indel mutation context and subgroup association retained even without rank improvement.",
+      "download_ids": [
+        "mutation_context",
+        "mutation_subgroup_predictions"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The genomic mutation context and POST prediction routes are mounted; subgroup route is not mounted and mutation remains diagnostic-only with no primary-ranking change.",
+      "required_api_contract": [
+        "GET /api/site/mutation/{cancer}",
+        "POST /api/site/predict/mutation-context"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/genomic?modality=mutation",
+        "POST /v3.2-staging/predict/mutation-context"
+      ],
+      "staging_status": "PARTIAL_STAGING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "mutation_portal",
+        "mutation_subgroup"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "cnv",
+      "description": "Patient-aligned locus and pathway CNV; absent coverage remains unavailable, never wild type.",
+      "directional_cnv_delivery": {
+        "binding_path": "./data/CancerLncAtlas/results/v32_directional_cnv_website_20260903_r1/DIRECTIONAL_CNV_WEBSITE_BINDING.json",
+        "binding_sha256": "5ad994d82363440b7cfe86b5bb87f8e7926de4d81ab04a011425ef4415ef3e42",
+        "changes_primary_ranking": false,
+        "coverage_rows": 33,
+        "coverage_sha256": "df62a071cfc15e5604c61608532136d9b2489da18b5c155f34bc954750f18149",
+        "independent_audit_binding_path": "${PRIVATE_WORK_ROOT}/CancerLncAtlas_v32_staging_20260904_r3/audit/directional_cnv_independent_20260904_r1/INDEPENDENT_AUDIT_BINDING.json",
+        "independent_audit_binding_sha256": "daae66923c7c6f899a4cf2c7a2d789d38a55076e37332d7cffaecc02e692676e",
+        "prediction_rows": 3300000,
+        "prediction_sha256": "3165ac7ed200785f7df7c8c90e7f9b0c7e8300b879c51167ef7cc5bd6421185a",
+        "release_ready": false,
+        "source_generation": "CURRENT_V3.2_DIRECTIONAL_CNV_ONLY",
+        "status": "PASS_HASH_PINNED_INDEPENDENT_AUDIT",
+        "superseded_combined_cnv_exposed": false
+      },
+      "download_ids": [
+        "cnv_context",
+        "cnv_associations",
+        "cnv_coverage"
+      ],
+      "interpretation_note": "The directional CNV overlay keeps amplification and deletion signed, preserves local-locus callability and pathway-CNV context, and uses typed-unavailable rather than zero for missing values. It is an independent overlay and does not change the primary score.",
+      "known_gap": "Signed directional CNV overlay is mounted and independently audited; it is an independent overlay and does not change the primary score.",
+      "required_api_contract": [
+        "GET /api/site/cnv/{cancer}"
+      ],
+      "staging_endpoints": [
+        "GET /v3.2-staging/genomic?modality=cnv",
+        "GET /v3.2-staging/cnv/coverage"
+      ],
+      "staging_status": "QUERYABLE_STAGING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "cnv_portal",
+        "cnv_coverage"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "drug",
+      "description": "GDSC, PRISM and curated drug-response expert with direction and replication provenance.",
+      "download_ids": [
+        "drug_response_predictions",
+        "drug_evidence",
+        "drug_mechanisms"
+      ],
+      "interpretation_note": "R6 five-fold response associations and structural mechanism hypotheses are fresh, hash-pinned and queryable. They are diagnostic actionability evidence: no TCGA patient response, efficacy, causal mechanism or primary-ranking claim is made.",
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/drug/{lncrna}",
+        "GET /api/site/drug/{lncrna}/mechanisms",
+        "GET /api/site/cancer/{cancer}"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "drug",
+      "ui_surface_ids": [
+        "drug_response",
+        "drug_replication",
+        "drug_mechanism"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "physical_interaction",
+      "description": "Experimental and predicted lncRNA-gene/protein physical interaction layer.",
+      "download_ids": [
+        "physical_interactions",
+        "interaction_provenance",
+        "interaction_pathway_enrichment"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/lncrna/{lncrna}/relationships",
+        "GET /api/site/lncrna/{lncrna}/interaction-pathways",
+        "GET /api/site/relationship/{relationship_id}/evidence",
+        "GET /api/site/network/{lncrna}"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "interaction",
+      "ui_surface_ids": [
+        "physical_interaction_relationships",
+        "interaction_pathway_enrichment",
+        "physical_interaction_network"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "experiment_perturbation",
+      "description": "Assay-, direction-, publication- and perturbation-aware experimental evidence.",
+      "download_ids": [
+        "experiment_events",
+        "perturbation_associations"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/lncrna/{lncrna}/relationships",
+        "GET /api/site/relationship/{relationship_id}/evidence"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "experiment_evidence",
+        "perturbation_evidence"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "evidence_transformer",
+      "description": "Newly trained exact-pathway Evidence Transformer; confidence is separate from discovery ranking.",
+      "download_ids": [
+        "evidence_probabilities",
+        "evidence_provenance"
+      ],
+      "interpretation_note": null,
+      "known_gap": "The scientific module may have an authority record, but no route was mounted and returned HTTP 200 in the isolated server-149 staging smoke. It remains fail-closed until a separately hash-bound route binding and smoke receipt exists.",
+      "required_api_contract": [
+        "GET /api/site/lncrna/{lncrna}/relationships"
+      ],
+      "staging_endpoints": [],
+      "staging_status": "PENDING_FORMAL_BINDING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "evidence_confidence",
+        "evidence_provenance"
+      ]
+    },
+    {
+      "all_four_parity_gates_pass": false,
+      "capability_id": "mixed_lncrna_protein_pathway_query",
+      "description": "Unified lncRNA/gene/UniProt mapping, exact-pathway learned scoring and transparent ORA baseline.",
+      "download_ids": [
+        "mixed_query_results",
+        "mixed_query_mapping_report",
+        "custom_gene_set_results",
+        "protein_set_results"
+      ],
+      "interpretation_note": null,
+      "known_gap": null,
+      "required_api_contract": [
+        "POST /api/site/query/mixed-lncrna-protein-pathway",
+        "POST /api/site/query/custom-gene-set-lncrna",
+        "POST /api/site/query/protein-set-lncrna"
+      ],
+      "staging_endpoints": [
+        "POST /v3.2-staging/enrichment/mixed-exact-pathway"
+      ],
+      "staging_status": "QUERYABLE_STAGING",
+      "target_level": "exact_pathway",
+      "ui_surface_ids": [
+        "mixed_identifier_query",
+        "custom_gene_set_query",
+        "protein_set_query",
+        "mixed_query_mapping_report",
+        "mixed_query_pathway_results"
+      ]
+    }
+  ],
+  "capability_count": 25,
+  "capability_scope": {
+    "path": "${PRIVATE_WORK_ROOT}/CancerLncAtlas_v32_staging_20260904_r3/receipts/CAPABILITY_SCOPE_20260904_r1.json",
+    "probe_status": "PASS",
+    "sha256": "b4d5ca3871d926d056942914ceef5dca49bdd04ae003eb5da8d66349942c5415"
+  },
+  "environment": "staging",
+  "model_version": "V3.2",
+  "production_deployed": false,
+  "release_ready": false,
+  "schema_version": "CANCERLNCATLAS_V32_STAGING_WEB_CATALOG_V1",
+  "status_scope": "staging queryability only; never implies artifact/API/UI/download parity"
+}

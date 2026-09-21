@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: CancerLncAtlas CC-HHGT v3.2
+message: "If you use this software, please cite the repository and the exact commit used."
+type: software
+license: Apache-2.0
+repository-code: https://github.com/5566-lab/CancerLncAtlas
+version: 3.2.0
+authors:
+  - family-names: CancerLncAtlas maintainers
+    given-names: Project

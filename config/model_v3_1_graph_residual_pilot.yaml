@@ -1,0 +1,28 @@
+extends: model_v3_1_fixed_graph_pilot.yaml
+analysis_version: CancerLncAtlas_CC-HHGT_v3.1_graph_residual_3cancer_pilot_2026-08
+
+# R1 is the stable Core Graph residual. Target-cancer RNA/coexpression is
+# intentionally deferred to the independent RNA residual in Phase B3.
+graph_contract:
+  primary: CONTRACT-S
+
+residual_learning:
+  enabled: true
+  structure: z_final=z_base+delta_graph
+  zero_initialize_membership: true
+  candidate_sampling_seed: 20260726
+  shrinkage_grid: [0.001, 0.01, 0.1]
+  shrinkage_lambda: 0.01
+  lambda_selection_scope: validation
+  test_metric_selects_lambda: false
+  exact_fallback_tolerance: 1.0e-7
+
+module_admission:
+  minimum_validation_delta_auprc: 0.01
+  maximum_validation_brier_worsening: 0.01
+  maximum_validation_ece_worsening: 0.01
+  test_metric_controls_admission: false
+
+pilot_contract:
+  forbid_full_cancer_training: true
+  allow_historical_output_reuse: false

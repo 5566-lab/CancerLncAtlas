@@ -1,0 +1,121 @@
+/*
+ * Minimal shared shell for the isolated V3.2 staging bundle.
+ *
+ * The former deployment referenced /assets/styles.css from a different
+ * checkout.  Keeping this small, dependency-free base stylesheet in the
+ * current bundle makes the staging page self-contained and leaves all V3.2
+ * component rules in v32-staging.css.
+ */
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #163234;
+  background: #f4f7f5;
+}
+
+* { box-sizing: border-box; }
+
+html { min-width: 320px; background: #f4f7f5; }
+
+body { margin: 0; min-height: 100vh; background: #f4f7f5; }
+
+a { color: #156657; }
+
+button, input, select, textarea { font: inherit; }
+
+button { cursor: pointer; }
+
+button:disabled { cursor: wait; opacity: .65; }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: .5rem .85rem;
+  border: 1px solid #237765;
+  border-radius: 8px;
+  background: #237765;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.button:hover { background: #195b4e; border-color: #195b4e; }
+
+.control {
+  width: 100%;
+  min-height: 2.35rem;
+  padding: .5rem .65rem;
+  border: 1px solid #bdceca;
+  border-radius: 8px;
+  background: #fff;
+  color: #163234;
+}
+
+textarea.control { min-height: 5rem; resize: vertical; }
+
+.panel {
+  padding: 20px;
+  border: 1px solid #d7e0dd;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(22, 50, 52, .05);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.stat-card {
+  display: grid;
+  gap: 3px;
+  min-height: 76px;
+  padding: 13px 14px;
+  border: 1px solid #d7e5e1;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.stat-card strong { font-size: 1.12rem; color: #1c6658; }
+.stat-card span { color: #587073; font-size: .78rem; }
+
+.eyebrow {
+  margin: 0;
+  color: #4c7774;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.lede { max-width: 74ch; color: #4a6264; }
+
+.section-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+
+.skeleton-table, .skeleton-page { display: grid; gap: 10px; }
+.skel-bar { height: 12px; border-radius: 999px; background: #e3ece9; }
+.skel-bar.w80 { width: 80%; }
+.skel-bar.w60 { width: 60%; }
+
+.error-block {
+  padding: 12px 14px;
+  border: 1px solid #e4b4bd;
+  border-radius: 9px;
+  background: #fff2f4;
+  color: #713441;
+}
+
+.na { color: #7c8e8f; font-style: italic; }
+
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { left: 8px; top: 8px; z-index: 10; }
+
+@media (max-width: 700px) {
+  .panel { padding: 15px; }
+  .section-head { display: block; }
+}

@@ -1,0 +1,11 @@
+extends: model_v3_0_state_formal.yaml
+analysis_version: CancerLncAtlas_CC-HHGT_v3.0_state_formal_500_2026-08
+
+training:
+  epochs: 500
+  patience: 25
+
+formal_contract:
+  convergence_policy: fail_if_any_task_reaches_hard_epoch_cap
+  configured_epoch_cap: 500
+

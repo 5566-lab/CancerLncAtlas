@@ -1,0 +1,100 @@
+contract_version: "3.2.0-group-shared-oracle-paid-gpu-20260901-r2"
+analysis_version: CancerLncAtlas_V3.2_G012_G2_GROUP_SHARED_ORACLE_R2
+
+# This is a comparison-only dispatch contract.  The generic guard calls the
+# field below `training_authorized`, but no formal trainer is authorized: the
+# launcher and static receipt bind exactly one comparison callable.
+execution_control:
+  execution_mode: TRAINING
+  training_authorized: true
+  paid_enabled: true
+  max_paid_hours: 3.0
+  max_cost_cny: 8.0
+  candidate_only: true
+  comparison_only: true
+  formal_training_authorized: false
+  overwrite_formal_v32: false
+
+oracle_contract:
+  namespace: v32_group_shared_oracle_paid_gpu_20260901_r2
+  run_id: v32-g012-g2-group-shared-oracle-paid-gpu-20260901-r2
+  task_id: v32-g012-g2-group-shared-oracle-paid-gpu-20260901-r2|PATIENT_FOLD_0|CC-HHGT|20260726
+  trainer: cc_hhgt.v32.group_shared_encoder_oracle:run_authorized_oracle_comparison
+  graph_variant: G2
+  patient_fold: 0
+  seed: 20260726
+  artifact_class: TIMING_AND_ORACLE_COMPARISON_ONLY
+  terminal_pass_status: PASS_REAL_DATA_ORACLE_COMPARISON_ONLY_NOT_AUTHORIZED_FOR_FORMAL_TRAINING
+  scientific_nonzero_exit_code: 42
+  receipt_channel: STDOUT_JSON_LINES_ONLY
+  external_verifier_path: runtime/oracle_gates/v32_group_shared_oracle_paid_gpu_20260901_r2/validate_v32_group_shared_oracle_static_auth_ready_r2.py
+  external_verifier_sha256: 5395798726e64ccb405cf3acdc560d6c95606ab91c940bbbdd5ee991d7f6512c
+  external_deployment_manifest_path: runtime/oracle_gates/v32_group_shared_oracle_paid_gpu_20260901_r2/EXTERNAL_DEPLOYMENT_MANIFEST.json
+  external_deployment_manifest_sha256: bda800013f71808f3b83bba226d2ed3b527ac3db2790aee5681f8ce77d295665
+  runner_path: cc_hhgt/v32/group_shared_encoder_oracle.py
+  runner_sha256: 2aa813081be331c3d6f58f950ba36698f27d71d33cb3b0a73d1a4c0f9325b771
+  preregistration_path: docs/v32_group_shared_encoder_estimator_preregistration_20260901.md
+  preregistration_sha256: c2d5085f18674431f8e02e5d95c7c3506b6e8d99b18131fa32f5c8def12fdec9
+  decision_path: docs/v32_group_shared_encoder_oracle_decision_20260901_r2.json
+  decision_sha256: a5e60343489dfcad918557a9c268b10dfa258fcb4af40ba24d448570a2d79534
+  equal_step_g0_g1_g2_pilot_still_required: true
+  formal_artifacts_allowed: false
+  checkpoint_allowed: false
+  prediction_allowed: false
+  winner_selection_allowed: false
+
+task_contract:
+  endpoint: cancer_lncrna_exact_pathway_association_relevance
+  target_level: exact_pathway
+  target_keys: [cancer_id, lncrna_id, pathway_id]
+  graph_variant: G2
+  patient_level_modality_oof_required: true
+  typed_unavailable_required: true
+
+candidate_universe:
+  annotation_lncRNAs: 16889
+  shared_lncRNAs: 4712
+  candidate_sampling_budget_per_cancer: 100000
+  candidate_sampling_covers_all_cancer_eligible_lncRNAs: true
+
+crossfit:
+  cancers: 33
+  patient_folds: 5
+  outer_pair_blocked_folds: 5
+  seed: 20260726
+  validation_offset: 1
+
+primary_model:
+  kind: cc_hhgt_bounded_l1_residual
+  formula: z_final=z_l1+lambda_cp*tanh(delta_cc_hhgt)
+  hidden_channels: 96
+  pair_hidden_channels: 96
+  num_heads: 2
+  num_layers: 2
+  dropout: 0.20
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  direction_loss_weight: 0.25
+  residual_shrinkage: 0.0001
+  pair_evidence_in_primary: false
+  evidence_integration:
+    mode: external_router
+    modalities: []
+
+runtime_profile:
+  owner: paid_gpu
+  mixed_precision: bf16
+  candidate_microbatch_size: 8192
+  gradient_accumulation: 4
+  oom_fallback_microbatch_size: 4096
+  oom_fallback_gradient_accumulation: 8
+  candidate_chunk_schedule_mode: balanced_group_latin_shared_encoder_v1
+  supervisor_static_auth_line_seconds: 180
+  supervisor_initial_heartbeat_minutes: 15
+  supervisor_assignment_stall_minutes: 5
+  supervisor_pre_submit_status_grace_seconds: 720
+  supervisor_post_submit_status_grace_seconds: 180
+
+training_io:
+  prepared_fold_pattern: ./data/CancerLncAtlas/inputs/v32_g012_patient_first_20260830_r1/formal_prepared_20260830_r3_affine_pyg280_localtorch/G2/PATIENT_FOLD_{fold}.pt
+  artifact_sink: STDOUT_JSON_LINES_ONLY

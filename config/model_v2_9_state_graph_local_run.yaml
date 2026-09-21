@@ -1,0 +1,10 @@
+extends: model_v2_9_state_graph.yaml
+project_root: D:/model/CC_HHGT_v3_0_clinical
+input_root: input_snapshot
+analysis_version: CancerLncAtlas_CC-HHGT_v2.9_state_graph_local_2026-08
+results_dir: results/model/cc_hhgt_v2_9_state_graph
+cache_dir: results/model/cc_hhgt_v2_9_state_graph/cache
+standardized_dir: results/model/cc_hhgt_v2_9_state_graph/standardized
+training:
+  device: cuda
+  num_workers: 0

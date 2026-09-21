@@ -1,0 +1,16 @@
+dataset_id	cancer_id	formal_eligible	source_tier	quality_status
+LEGACY_SC_BLCA	BLCA	false	staging	PASS
+LEGACY_SC_BRCA	BRCA	false	staging	PASS
+SC_GSE148842_GBM	GBM	false	staging	PASS
+SC_GSE148071_LUSC	LUSC	false	staging	PASS
+LEGACY_SC_PAAD	PAAD	false	staging	PASS
+SC_FIGSHARE29447750_PCPG	PCPG	false	staging	PASS
+SC_GSE302903_READ	READ	false	staging	PASS
+SC_GSE277083_SARC	SARC	false	staging	PASS
+SC_GSE115978_SKCM	SKCM	false	staging	PASS
+LEGACY_SC_STAD	STAD	false	staging	PASS
+LEGACY_SC_THCA	THCA	false	staging	PASS
+SC_GSE228033_THYM	THYM	false	staging	PASS
+SC_GSE260683_UCEC	UCEC	false	staging	PASS
+SC_GSE299623_UCS	UCS	false	staging	PASS
+SC_GSE160883_UVM	UVM	false	staging	PASS

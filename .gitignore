@@ -1,0 +1,43 @@
+﻿# Generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*
+!.env.example
+
+# Data and model outputs
+inputs/
+data/raw/
+data/processed/
+artifacts/
+results/
+outputs/
+checkpoints/
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.rds
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.tar.gz
+*.zip
+*.log
+
+# Local/cloud credentials and paths
+*.pem
+*.key
+id_rsa*
+credential.*
+config.local.*
+*_local.yaml
+*_local.yml
+
+# Frontend build output
+website/frontend/node_modules/
+website/frontend/dist/
+website/frontend/build/

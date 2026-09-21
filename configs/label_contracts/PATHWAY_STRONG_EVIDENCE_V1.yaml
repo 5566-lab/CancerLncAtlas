@@ -1,0 +1,75 @@
+contract_id: PATHWAY_STRONG_EVIDENCE_V1
+contract_version: 1.0.0
+status: frozen
+task_id: strong_evidence_retrieval_benchmark
+unit:
+  - cancer_id
+  - lncrna_id
+  - pathway_family_id
+
+target:
+  column: strong_evidence_label
+  positive_label_classes:
+    - strong_positive
+  nonpositive_label_classes:
+    - weak_positive
+    - unlabeled
+  nonpositive_semantics: weak-positive and unlabeled are not true biological negatives
+  default_binary_training_target: false
+  intended_uses:
+    - Recall@K
+    - Precision@K
+    - MRR
+    - positive_rank
+    - top-K_enrichment
+    - source-held-out_evaluation
+    - perturbation_benchmark
+
+retained_fields:
+  label_class:
+    allowed_values:
+      - strong_positive
+      - weak_positive
+      - unlabeled
+  association_proxy_label:
+    formula: 1 if label_class in {strong_positive, weak_positive}, else 0
+  strong_evidence_label:
+    formula: 1 if label_class == strong_positive, else 0
+
+label_generation:
+  evidence_score:
+    strong_positive_min_score: 0.62
+    strong_positive_min_sources: 2
+    weak_positive_min_score: 0.35
+  bulk_evidence_prefilter:
+    fdr_column: fdr_global
+    maximum_fdr_effective: 0.10
+    effect_column: rho_adjusted
+    minimum_absolute_effect_effective: 0.15
+    note: Thresholds are inherited unchanged from the frozen evidence pipeline.
+
+candidate:
+  size_per_cancer: 100000
+  sampling: identity-only deterministic
+  seed: 20260726
+  identity_columns:
+    - cancer_id
+    - lncrna_id
+    - pathway_family_id
+    - candidate_id
+
+split:
+  seed: 20260726
+  stratified: true
+  train_fraction: 0.70
+  validation_fraction: 0.15
+  test_fraction: 0.15
+  note: This split definition documents reproducibility only; strong evidence is not the default per-cancer binary CCSR target.
+
+compatibility:
+  forbidden_implicit_target_columns:
+    - label
+    - target
+    - y
+  historical_raw_label_semantics: strong_evidence_label
+  alias_use_requires_explicit_conversion_and_manifest: true

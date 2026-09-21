@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CancerLncAtlas v0.3 — 泛癌 lncRNA–通路关联与多层级证据数据库">
+  <meta name="theme-color" content="#123c40">
+  <title>CancerLncAtlas v0.3</title>
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/styles.css?v=20260805e">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要内容</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="/" data-link aria-label="CancerLncAtlas 首页">
+        <img src="/assets/mark.svg" alt="" width="42" height="42">
+        <span><strong>CancerLnc</strong><em>Atlas</em></span>
+      </a>
+      <p class="brand-caption">lncRNA · pathway · cancer · state · clinical</p>
+      <nav class="main-nav" aria-label="主要导航">
+        <div class="nav-group">
+          <button class="nav-group-label" type="button" aria-expanded="true"><span>Explore / 探索</span></button>
+          <div class="nav-children">
+            <a href="/cancer" data-link data-route="cancer">Cancer / 癌种</a>
+            <a href="/lncrna" data-link data-route="lncrna">lncRNA</a>
+            <a href="/gene-set" data-link data-route="gene-set">Pathway / 通路</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-group-label" type="button" aria-expanded="true"><span>Analyze / 分析</span></button>
+          <div class="nav-children">
+            <a href="/smart/mixed" data-link data-route="smart">混合基因集分析</a>
+            <a href="/smart/custom" data-link data-route="smart">自定义蛋白基因集 → lncRNA</a>
+            <a href="/smart/protein" data-link data-route="smart">蛋白 Set → 互作 lncRNA</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-group-label" type="button" aria-expanded="true"><span>Evidence / 证据</span></button>
+          <div class="nav-children">
+            <a href="/single-cell" data-link data-route="sc">单细胞证据</a>
+            <a href="/datasets" data-link data-route="datasets">数据集</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <button class="nav-group-label" type="button" aria-expanded="true"><span>Resources / 资源</span></button>
+          <div class="nav-children">
+            <a href="/downloads" data-link data-route="downloads">下载</a>
+            <a href="/docs" target="_blank">API</a>
+            <a href="/documentation" data-link data-route="docs">使用文档</a>
+            <a href="/releases" data-link data-route="releases">版本记录</a>
+          </div>
+        </div>
+        <a href="/" data-link data-route="home">首页 / 全局搜索</a>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="status-dot"></span><span>CancerLncAtlas v0.3</span>
+        <small>Model: CC-HHGT · Data: 2026.08</small>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <button class="menu-button" id="menu-button" aria-label="打开导航">☰</button>
+        <div class="global-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="global-search" autocomplete="off" placeholder="搜索 lncRNA、基因、癌种或通路…" aria-label="全局搜索">
+          <kbd>/</kbd>
+          <div id="search-results" class="search-results" hidden></div>
+        </div>
+      </header>
+      <main id="main" tabindex="-1">
+        <div id="page" class="page"><div class="skeleton-page"><div class="skel-bar w80"></div><div class="skel-bar w60"></div></div></div>
+      </main>
+      <footer>
+        <span>CancerLncAtlas v0.3 · Data: 2026.08 · Model: CC-HHGT</span>
+        <span>For research use only</span>
+      </footer>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/assets/i18n.js?v=1" defer></script>
+  <script src="/assets/app.js?v=20260805e" defer></script>
+</body>
+</html>

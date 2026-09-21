@@ -1,0 +1,41 @@
+extends: model_v2_1_cpu_corrected.yaml
+
+# The launch scripts always change to the extracted bundle root first.
+project_root: .
+analysis_version: cc_hhgt_v2.3.0-gpu-4070tis-multiseed-external-validation
+results_dir: results/model/cc_hhgt_v2_1_gpu
+cache_dir: results/model/cc_hhgt_v2_1_gpu/cache
+standardized_dir: results/model/cc_hhgt_v2_1_gpu/standardized
+
+training:
+  device: cuda
+  hidden_channels: 64
+  pair_hidden_channels: 64
+  num_heads: 2
+  num_layers: 2
+  max_edges_per_relation: 100000
+  max_training_pairs_per_fold: 100000
+  epochs: 100
+  patience: 15
+  batch_size: 8192
+  mixed_precision: true
+  export_node_embeddings: true
+  num_workers: 0
+
+scoring:
+  batch_size: 32768
+
+gpu:
+  minimum_total_vram_gb: 14
+  edge_cap_fallbacks: [100000, 75000, 50000]
+  enable_tf32: true
+
+# Three total seeds: the primary production seed plus two independent,
+# non-overwriting repeats. Each seed retains the same LOCO cancer split while
+# changing initialization, relation sampling and training-pair sampling.
+multiseed:
+  enabled: true
+  primary_seed: 20260726
+  replicate_seeds: [20261726, 20262726]
+  confidence_level: 0.95
+  metric_columns: [auroc, auprc, brier, ece, log_loss]

@@ -1,0 +1,95 @@
+contract_version: "3.2.0-full-model-v1"
+analysis_version: CancerLncAtlas_V3.2_FULL_MULTITASK
+
+lineage_policy:
+  all_results_newly_trained_v32: true
+  old_checkpoints_allowed: false
+  old_predictions_as_features_allowed: false
+  old_probabilities_as_outputs_allowed: false
+  old_rankings_as_outputs_allowed: false
+  historical_raw_data_allowed_after_hash_audit: true
+  historical_task_definitions_allowed_as_reference: true
+
+shared_core:
+  module_id: exact_pathway
+  target_level: cancer_x_lncrna_x_exact_pathway
+  checkpoint_lineage: V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE
+  initialization_policy: TRAIN_FROM_RANDOM_INITIALIZATION
+  pair_evidence_in_primary: false
+  auxiliary_gradients_into_core: false
+
+crossfit:
+  folds: 5
+  seed: 20260726
+  validation_offset: 1
+  require_fold_local_preprocessing: true
+
+modules:
+  exact_pathway:
+    enabled: true
+    target_keys: [cancer_id, lncrna_id, pathway_id]
+    initialization_policy: TRAIN_FROM_RANDOM_INITIALIZATION
+  state:
+    enabled: true
+    targets: [RNAss, DNAss, EXTEND, EREG.EXPss, DMPss, ENHss, EREG-METHss, CYT, ESTIMATE, ImmuneScore, StromalScore, TumorPurity]
+    target_keys: [cancer_id, lncrna_id, state_id]
+    initialization_policy: FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH
+  clinical:
+    enabled: true
+    endpoints: [OS, DSS, PFI, PFS, DFI, DFS]
+    subject_types: [lncRNA, exact_pathway, state]
+    target_keys: [cancer_id, subject_type, subject_id, clinical_endpoint]
+    initialization_policy: FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH
+  single_cell:
+    enabled: true
+    target_keys: [dataset_id, cell_type, lncrna_id, pathway_id]
+    split_unit: dataset_or_donor
+    initialization_policy: FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH
+  mutation_cnv:
+    enabled: true
+    target_keys: [cancer_id, lncrna_id, pathway_id]
+    modalities: [SNV_INDEL, MSI, TMB, HRD, aneuploidy, LOH, focal_CNV, CNV_burden]
+    missingness: UNAVAILABLE_NEVER_ASSUMED_WILDTYPE
+    initialization_policy: FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH
+  drug:
+    enabled: true
+    target_keys: [cancer_id, lncrna_id, drug_id]
+    split_unit: cell_line_or_dataset
+    initialization_policy: FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH
+  interaction:
+    enabled: true
+    target_keys: [lncrna_id, protein_id]
+    split_unit: publication_and_pair
+    initialization_policy: FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH
+  evidence:
+    enabled: true
+    target_keys: [cancer_id, lncrna_id, pathway_id]
+    model: v32_exact_pathway_evidence_transformer
+    split_unit: publication_dataset_and_pair
+    changes_primary_ranking: false
+    initialization_policy: FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH
+
+release_gate:
+  require_all_modules: true
+  require_training_success: true
+  require_five_folds: true
+  require_checkpoint_and_input_hashes: true
+  require_core_hash_unchanged_for_auxiliary_heads: true
+  require_no_historical_result_columns: true
+  require_nonempty_public_predictions: true
+  website_replacement_before_gate_pass: false
+
+routed_candidates:
+  formal_v32_primary_unchanged: true
+  external_cancer_modality_router:
+    enabled: true
+    status: CANDIDATE_ONLY
+    modalities: [mutation, cnv, atac]
+    outer_pair_blocked_folds: 5
+    heldout_reverse_selection_forbidden: true
+  hierarchical_end_to_end_gate:
+    enabled: true
+    status: CANDIDATE_ONLY_REQUIRES_FULL_RETRAIN
+    config: config/model_v3_2_hierarchical_routed_candidate.yaml
+    integration_stage: POST_HGT_PRE_RESIDUAL_GATED_MESSAGE
+  fair_comparison_required: true

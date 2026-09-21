@@ -1,0 +1,19 @@
+{
+  "format": "CANCERLNCATLAS_V32_G012_REBIND_AUTHORIZATION_CANDIDATE_V1",
+  "status": "BLOCKED_TEMPLATE_NOT_AUTHORIZATION",
+  "host_expected": "149",
+  "instance_id": "uhost-1utsjo3ep1jz",
+  "prepared_root": "./data/CancerLncAtlas/inputs/v32_g012_local_cnv_formal_prepared_20260903_r1",
+  "rebind_root": "${PRIVATE_WORK_ROOT}/CancerLncAtlas_v32_staging_20260904_r3/g012_rebind_20260904_r5",
+  "required_rebind_success_status": "PASS_INPUT_REBIND_MANIFEST_AND_PREFLIGHT_ONLY",
+  "required_fold_artifact_count": 15,
+  "code_tree_sha256": null,
+  "training_config_sha256": null,
+  "launcher_sha256": null,
+  "training_approval_emitted": false,
+  "paid_compute_requested": false,
+  "gpu_started": false,
+  "launch_permitted": false,
+  "provider_state_checked": false,
+  "next_action": "Run the fail-closed generator only after r5 SUCCESS.json exists; then run a separate no-GPU static validator."
+}

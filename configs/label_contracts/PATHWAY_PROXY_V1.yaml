@@ -1,0 +1,92 @@
+contract_id: PATHWAY_PROXY_V1
+contract_version: 1.0.0
+status: frozen
+task_id: pathway_association_reproducibility
+unit:
+  - cancer_id
+  - lncrna_id
+  - pathway_family_id
+
+target:
+  column: association_proxy_label
+  positive_label_classes:
+    - strong_positive
+    - weak_positive
+  negative_label_classes:
+    - unlabeled
+  zero_semantics: proxy-negative / unlabeled; not a true biological negative
+  default_binary_training_target: true
+
+retained_fields:
+  label_class:
+    allowed_values:
+      - strong_positive
+      - weak_positive
+      - unlabeled
+  association_proxy_label:
+    formula: 1 if label_class in {strong_positive, weak_positive}, else 0
+  strong_evidence_label:
+    formula: 1 if label_class == strong_positive, else 0
+
+label_generation:
+  evidence_score:
+    strong_positive_min_score: 0.62
+    strong_positive_min_sources: 2
+    weak_positive_min_score: 0.35
+  bulk_evidence_prefilter:
+    fdr_column: fdr_global
+    maximum_fdr_effective: 0.10
+    effect_column: rho_adjusted
+    minimum_absolute_effect_effective: 0.15
+    note: Current code uses max(configured bulk_max_fdr 0.05, 0.10) and min(configured minimum absolute effect 0.20, 0.15); thresholds are recorded, not changed.
+  evidence_weights:
+    bulk: 0.22
+    sc_ssgsea: 0.19
+    ucell: 0.06
+    replication: 0.10
+    interaction: 0.14
+    perturbation: 0.08
+    drug: 0.09
+    cellline: 0.06
+    clinical: 0.02
+    state: 0.04
+
+candidate:
+  size_per_cancer: 100000
+  sampling: identity-only deterministic
+  seed: 20260726
+  identity_columns:
+    - cancer_id
+    - lncrna_id
+    - pathway_family_id
+    - candidate_id
+  source_universe_policy: FROZEN_CANONICAL_SAMPLE_UNIVERSE
+  expression_filter:
+    bulk_detection_definition: logcpm > 0
+    bulk_min_detection_rate: 0.10
+    sc_min_detection_rate: 0.03
+    include_all_observed_pairs: true
+
+split:
+  name: PATHWAY_PROXY_V1_SPLIT
+  seed: 20260726
+  sampling_precondition: candidate selection is label-independent
+  stratification_target: association_proxy_label
+  algorithm: sha256(seed|candidate_id), ordered within target class
+  train_fraction: 0.70
+  validation_fraction: 0.15
+  test_fraction: 0.15
+  names:
+    train: train
+    validation: validation
+    test: test
+
+compatibility:
+  forbidden_implicit_target_columns:
+    - label
+    - target
+    - y
+  historical_proxy_alias: proxy_label
+  historical_raw_label_semantics: strong_evidence_label
+  alias_use_requires_explicit_conversion_and_manifest: true
+

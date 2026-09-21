@@ -1,0 +1,49 @@
+{
+  "manifest_format": "CC_HHGT_V3_2_LOGICAL_INPUT_MANIFEST_V1",
+  "status": "SCHEMA_REGISTERED_NOT_MATERIALIZED",
+  "execution_mode": "CODE_ONLY",
+  "remote_contacted": false,
+  "source_endpoint": "server149",
+  "source_root_hint": "${DATA_ROOT}/GDCdata",
+  "credentials_embedded": false,
+  "inputs": [
+    {
+      "logical_id": "gdc_star_lncrna_expression",
+      "required_columns": ["cancer_id", "sample_id", "lncrna_id", "logcpm"],
+      "role": "fold_local_patient_association_and_detection"
+    },
+    {
+      "logical_id": "canonical_tumour_samples",
+      "required_columns": ["cancer_id", "sample_id"],
+      "role": "patient_fold_manifest"
+    },
+    {
+      "logical_id": "protein_coding_expression",
+      "required_columns": ["cancer_id", "sample_id", "gene_id", "expression"],
+      "role": "exact_pathway_activity"
+    },
+    {
+      "logical_id": "exact_pathway_membership",
+      "required_columns": ["pathway_id", "gene_id", "membership_weight"],
+      "role": "protein_coding_pathway_activity_only"
+    },
+    {
+      "logical_id": "pathway_hierarchy",
+      "required_columns": ["pathway_id", "pathway_family_id"],
+      "role": "auxiliary_hierarchy_only"
+    },
+    {
+      "logical_id": "safe_static_graph_edges",
+      "required_columns": ["source_type", "source_id", "relation_type", "target_type", "target_id", "edge_role", "source_split", "outcome_derived"],
+      "role": "evidence_blind_graph_context"
+    }
+  ],
+  "forbidden_primary_inputs": [
+    "literature_pair_evidence",
+    "drug_pair_evidence",
+    "perturbation_pair_evidence",
+    "interaction_pair_evidence",
+    "validation_patient_outcomes",
+    "test_patient_outcomes"
+  ]
+}

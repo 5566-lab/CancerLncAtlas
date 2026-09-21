@@ -1,0 +1,85 @@
+contract_version: "3.2.0-group-shared-oracle-paid-gpu-20260901-r3"
+analysis_version: CancerLncAtlas_V3.2_G012_G2_GROUP_SHARED_ORACLE_R3
+
+execution_control:
+  execution_mode: TRAINING
+  paid_enabled: true
+  max_paid_hours: 3.0
+  max_cost_cny: 8.0
+  candidate_only: true
+  comparison_only: true
+  formal_training_authorized: false
+  overwrite_formal_v32: false
+
+oracle_contract:
+  namespace: v32_group_shared_oracle_paid_gpu_20260901_r3
+  run_id: v32-g012-g2-group-shared-oracle-paid-gpu-20260901-r3
+  task_id: v32-g012-g2-group-shared-oracle-paid-gpu-20260901-r3|PATIENT_FOLD_0|CC-HHGT|20260726
+  graph_variant: G2
+  patient_fold: 0
+  seed: 20260726
+  artifact_class: TIMING_AND_ORACLE_COMPARISON_ONLY
+  integrity_scope: INPUT_CODE_RESULT_ARCHIVES_ONLY
+  per_file_hashing_performed: false
+  per_fold_hashing_performed: false
+  terminal_pass_status: PASS_REAL_DATA_ORACLE_COMPARISON_ONLY_NOT_AUTHORIZED_FOR_FORMAL_TRAINING
+  scientific_nonzero_exit_code: 42
+  formal_artifacts_allowed: false
+  checkpoint_allowed: false
+  prediction_allowed: false
+  winner_selection_allowed: false
+
+task_contract:
+  endpoint: cancer_lncrna_exact_pathway_association_relevance
+  target_level: exact_pathway
+  target_keys: [cancer_id, lncrna_id, pathway_id]
+  graph_variant: G2
+  patient_level_modality_oof_required: true
+  typed_unavailable_required: true
+
+candidate_universe:
+  annotation_lncRNAs: 16889
+  shared_lncRNAs: 4712
+  candidate_sampling_budget_per_cancer: 100000
+  candidate_sampling_covers_all_cancer_eligible_lncRNAs: true
+
+crossfit:
+  cancers: 33
+  patient_folds: 5
+  outer_pair_blocked_folds: 5
+  seed: 20260726
+  validation_offset: 1
+
+primary_model:
+  kind: cc_hhgt_bounded_l1_residual
+  formula: z_final=z_l1+lambda_cp*tanh(delta_cc_hhgt)
+  hidden_channels: 96
+  pair_hidden_channels: 96
+  num_heads: 2
+  num_layers: 2
+  dropout: 0.20
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  direction_loss_weight: 0.25
+  residual_shrinkage: 0.0001
+  pair_evidence_in_primary: false
+  evidence_integration:
+    mode: external_router
+    modalities: []
+
+runtime_profile:
+  owner: paid_gpu
+  mixed_precision: bf16
+  candidate_microbatch_size: 8192
+  gradient_accumulation: 4
+  oom_fallback_microbatch_size: 4096
+  oom_fallback_gradient_accumulation: 8
+  candidate_chunk_schedule_mode: balanced_group_latin_shared_encoder_v1
+  supervisor_gpu_telemetry_seconds: 180
+  supervisor_initial_progress_minutes: 15
+  supervisor_progress_stall_minutes: 5
+
+training_io:
+  prepared_fold_pattern: UNUSED_R3_AGGREGATE_RUNNER_OVERRIDE
+  artifact_sink: AGGREGATE_RESULT_ARCHIVE_ONLY
+

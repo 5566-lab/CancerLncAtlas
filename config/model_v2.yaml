@@ -1,0 +1,234 @@
+project_root: ./data/CancerLncAtlas
+analysis_version: cc_hhgt_v2.0.0
+random_seed: 20260726
+results_dir: results/model/cc_hhgt_v2
+cache_dir: results/model/cc_hhgt_v2/cache
+standardized_dir: results/model/cc_hhgt_v2/standardized
+
+inputs:
+  bulk_lnc_expression: parquet/bulk_lncRNA_expression
+  bulk_gene_expression: parquet/bulk_gene_expression
+  bulk_pathway_activity: parquet/bulk_pathway_activity
+  bulk_lnc_pathway: parquet/bulk_lncRNA_pathway_association
+  bulk_covariates: processed/tcga_association_covariates.parquet
+  tumor_state:
+    - TCGA_sample_scores/03_final_tables/TCGA_sample_score_matrix.tsv.gz
+    - TCGA_sample_scores/processed/bulk_sample_state_annotation.parquet
+  sc_lnc_pathway_formal: parquet/sc_lncRNA_pathway_association_ssgsea
+  sc_lnc_pathway_staging_glob: results/sc_trajectory_staging/*/sc_lncRNA_pathway_association.parquet
+  sc_pseudotime_pathway_formal: parquet/sc_pseudotime_pathway_association
+  sc_pseudotime_pathway_staging_glob: results/sc_trajectory_staging/*/pseudotime_pathway_association.tsv.gz
+  ucell_aggregate_glob: results/sc_trajectory_staging/*/selected_pathway_ucell_aggregate.tsv.gz
+  sc_lnc_celltype_glob: results/sc/*/sc_lncRNA_celltype_summary.tsv.gz
+  sc_readiness: results/qc/sc_trajectory_ssgsea_audit.tsv
+  dim_lncRNA: processed/dimensions/dim_lncRNA.parquet
+  dim_gene: processed/dimensions/dim_gene.parquet
+  dim_pathway: processed/dimensions/dim_pathway.parquet
+  dim_cancer: processed/dimensions/dim_cancer.parquet
+  dim_drug: processed/dimensions/dim_drug.parquet
+  pathway_gene_member: processed/pathway_gene_member.parquet
+  source_record:
+    - processed/source_record.parquet
+    - parquet/source_record.parquet
+  interaction_relation: parquet/interaction_relation.parquet
+  evidence_event: processed/evidence_event.parquet
+  evidence_event_source:
+    - processed/evidence_event_source.parquet
+    - parquet/evidence_event_source.parquet
+  interaction_pathway_support: processed/interaction_pathway_support.parquet
+  lnc_drug_curated: processed/lncRNA_drug_curated_evidence.parquet
+  prism_lnc_drug: parquet/lncRNA_drug_response_association
+  gdsc_lnc_drug: parquet/lncRNA_drug_response_association_gdsc
+  drug_replication: parquet/lncRNA_drug_response_replication
+  bulk_sc_replication: processed/bulk_sc_replication.parquet
+  drug_target_relation: processed/drug_target_relation.parquet
+  mechanism_path: processed/lncRNA_protein_drug_mechanism_path.parquet
+  uniprot_mapping: input/uniprot_human_idmapping.tsv
+  string_aliases: input/string9606_aliases.tsv
+  string_physical: input/string12_9606_physical_score700.tsv
+  drugcentral_targets: input/drugcentral_human_drug_target.tsv
+  reactome_hierarchy: input/reactome_hierarchy.tsv
+  cell_model_passports_model: input/cell_model_passports_model.tsv
+  cell_model_passports_lnc_expression: raw/cell_model_passports/rnaseq_merged_rsem_tpm_20241217.csv
+  depmap_protein_expression:
+    - raw/depmap_prism_gdsc/OmicsExpressionProteinCodingGenesTPMLogp1.csv
+    - raw/DepMap_24Q2/OmicsExpressionProteinCodingGenesTPMLogp1.csv
+  depmap_model_metadata:
+    - raw/depmap_prism_gdsc/Model.csv
+    - raw/DepMap_24Q2/Model.csv
+  legacy_unique_metadata: null
+
+column_aliases:
+  expression_value: [logcpm, value, expression, tpm]
+  pathway_value: [activity_score, value, score]
+  bulk_effect: [rho_adjusted, rho_raw, beta_linear, effect]
+  bulk_fdr: [fdr_global, fdr_pathway, fdr, q_value]
+  sc_effect: [rho, effect, standardized_effect]
+  sc_fdr: [fdr, q_value]
+
+analysis_cancers:
+  reference_only: []
+  exclude_from_training: []
+
+coexpression:
+  enabled: true
+  min_samples: 40
+  min_detection_rate: 0.10
+  min_variance: 0.01
+  min_abs_rho: 0.20
+  max_fdr: 0.05
+  max_lncRNAs_per_cancer: 12000
+  max_genes_per_cancer: 25000
+  max_edges_per_lncRNA_direction: 75
+  lnc_block_size: 128
+  covariates:
+    - purity
+    - age_years
+    - sex
+    - stage
+    - molecular_subtype
+    - clinical_subtype
+    - technical_batch
+    - leukocyte_fraction
+    - cell_fraction_Macrophages.M0
+    - cell_fraction_Macrophages.M1
+    - cell_fraction_Macrophages.M2
+
+cellline_context:
+  enabled: true
+  min_models: 8
+  max_lncRNAs: 5000
+  min_abs_rho: 0.20
+  max_fdr: 0.10
+  block_size: 128
+  compute_per_lineage: true
+
+pathway_state:
+  min_samples: 30
+  min_abs_effect: 0.15
+  max_fdr: 0.05
+  max_states: 200
+
+pathway_similarity:
+  top_k_per_view: 40
+  min_view_similarity: 0.10
+  min_fused_similarity: 0.22
+  weights:
+    gene_jaccard: 0.27
+    ontology: 0.08
+    bulk_activity: 0.20
+    state_profile: 0.15
+    drug_overlap: 0.10
+    sc_pseudotime: 0.10
+    ucell_profile: 0.10
+
+pathway_family:
+  target_min_families: 150
+  target_max_families: 250
+  resolution_grid: [0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0]
+  min_family_size: 1
+
+ucell:
+  min_patients: 3
+  min_bins_per_patient: 3
+  min_abs_effect: 0.10
+  max_fdr: 0.10
+
+pair_evidence:
+  bulk_max_fdr: 0.05
+  sc_max_fdr: 0.10
+  interaction_max_fdr: 0.10
+  drug_max_fdr: 0.10
+  min_abs_bulk_effect: 0.20
+  min_abs_sc_effect: 0.30
+  weights:
+    bulk: 0.22
+    sc_ssgsea: 0.19
+    ucell: 0.06
+    replication: 0.10
+    interaction: 0.14
+    perturbation: 0.08
+    drug: 0.09
+    cellline: 0.06
+    clinical: 0.02
+    state: 0.04
+  strong_positive_min_score: 0.62
+  weak_positive_min_score: 0.35
+  strong_positive_min_sources: 2
+
+candidate_universe:
+  bulk_min_detection_rate: 0.10
+  sc_min_detection_rate: 0.03
+  max_lncRNAs_per_cancer: 10000
+  include_all_observed_pairs: true
+  output_partitioned: true
+
+splits:
+  mode: leave_one_cancer_out
+  validation_strategy: rotating_next_cancer
+  primary_cancers_only: true
+
+training:
+  primary_model: cc_hhgt
+  feature_columns:
+    - bulk_support
+    - sc_ssgsea_support
+    - ucell_support
+    - replication_support
+    - interaction_support
+    - perturbation_support
+    - drug_support
+    - cellline_support
+    - clinical_support
+    - state_support
+    - direction_consistency
+    - independent_pmid_score
+    - independent_dataset_score
+    - bulk_available
+    - sc_available
+    - ucell_available
+    - interaction_available
+    - drug_available
+    - cellline_available
+    - bulk_detection_rate
+    - sc_detection_rate
+  max_training_pairs_per_fold: 250000
+  unlabeled_to_positive_ratio: 4.0
+  weak_positive_weight: 0.35
+  reference_cancer_weight: 0.25
+  hidden_channels: 128
+  pair_hidden_channels: 128
+  num_heads: 4
+  num_layers: 2
+  dropout: 0.20
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  epochs: 250
+  patience: 25
+  pu_prior: 0.10
+  unlabeled_weight: 0.12
+  direction_loss_weight: 0.25
+  batch_size: 16384
+  device: auto
+  max_edges_per_relation: 2000000
+  mixed_precision: true
+  num_workers: 2
+
+calibration:
+  method: temperature
+  bins: 10
+
+scoring:
+  model_preference: [cc_hhgt, hgt, rgcn, hist_gradient_boosting, logistic]
+  batch_size: 100000
+
+materialization:
+  observed_core_evidence_min: 0.70
+  model_supported_probability_min: 0.80
+  predicted_candidate_probability_min: 0.90
+  predicted_candidate_max_observed_evidence: 0.35
+  max_uncertainty: 0.25
+  min_members: 10
+  max_members: 200
+  default_gmt_include: [observed_core, model_supported]
+  extended_gmt_include: [observed_core, model_supported, predicted_candidate]

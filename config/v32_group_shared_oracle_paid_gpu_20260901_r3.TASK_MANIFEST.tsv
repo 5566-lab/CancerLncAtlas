@@ -1,0 +1,2 @@
+task_id	run_id	task_type	model	patient_fold	seed	owner	hardware_class	status	blocked_reason	paid_task
+v32-g012-g2-group-shared-oracle-paid-gpu-20260901-r3|PATIENT_FOLD_0|CC-HHGT|20260726	v32-g012-g2-group-shared-oracle-paid-gpu-20260901-r3	CC_HHGT_PATIENT_FOLD	CC-HHGT	0	20260726	paid_gpu	PAID_PREEMPTIBLE_GPU	PENDING		true

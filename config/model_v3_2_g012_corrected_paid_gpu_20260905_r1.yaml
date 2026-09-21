@@ -1,0 +1,73 @@
+contract_version: "3.2.0-g012-corrected-local-cnv-paid-gpu-20260905-r1"
+analysis_version: CancerLncAtlas_V3.2_G012___GRAPH_VARIANT___CORRECTED_LOCAL_CNV
+
+# This configuration is executable only when the separately materialized,
+# hash-bound STATIC_AUTH_READY bundle and TRAINING_APPROVAL are present.  The
+# config itself is not a training result and does not create SUCCESS.json.
+execution_control:
+  execution_mode: TRAINING
+  training_authorized: true
+  paid_enabled: true
+  max_paid_hours: 96
+  max_cost_cny: 210
+  candidate_only: false
+  overwrite_formal_v32: false
+
+task_contract:
+  endpoint: cancer_lncrna_exact_pathway_association_relevance
+  target_level: exact_pathway
+  target_keys: [cancer_id, lncrna_id, pathway_id]
+  graph_variant: __GRAPH_VARIANT__
+  patient_level_modality_oof_required: true
+  typed_unavailable_required: true
+  corrected_local_cnv_required: true
+
+candidate_universe:
+  annotation_lncRNAs: 16889
+  shared_lncRNAs: 4712
+  candidate_sampling_budget_per_cancer: 100000
+  candidate_sampling_covers_all_cancer_eligible_lncRNAs: true
+
+crossfit:
+  cancers: 33
+  patient_folds: 5
+  outer_pair_blocked_folds: 5
+  seed: 20260726
+  validation_offset: 1
+
+primary_model:
+  kind: cc_hhgt_bounded_l1_residual
+  formula: z_final=z_l1+lambda_cp*tanh(delta_cc_hhgt)
+  hidden_channels: 96
+  pair_hidden_channels: 96
+  num_heads: 2
+  num_layers: 2
+  dropout: 0.20
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  direction_loss_weight: 0.25
+  residual_shrinkage: 0.0001
+  pair_evidence_in_primary: false
+  evidence_integration:
+    mode: external_router
+    modalities: []
+
+runtime_profile:
+  owner: paid_gpu
+  mixed_precision: bf16
+  candidate_microbatch_size: 8192
+  gradient_accumulation: 4
+  oom_fallback_microbatch_size: 4096
+  oom_fallback_gradient_accumulation: 8
+  max_coverage_cycles: 29
+  patience_coverage_cycles: 3
+  validation_min_delta: 0.0001
+  candidate_chunk_schedule_mode: balanced_group_latin_shared_encoder_v1
+  allow_partial_candidate_chunk_rotation: true
+
+training_io:
+  # This is the only permitted fold source.  The placeholder is replaced by
+  # the CPU authorizer for G0/G1/G2; the historical pre-local-CNV path is not
+  # accepted by the validator or launcher.
+  prepared_fold_pattern: ./data/CancerLncAtlas/inputs/v32_g012_local_cnv_formal_prepared_20260903_r1/__GRAPH_VARIANT__/PATIENT_FOLD_{fold}.pt
+  output_root: ./data/CancerLncAtlas/results/v32_g012_corrected_paid_gpu_training_20260905_r1/__GRAPH_VARIANT__/training

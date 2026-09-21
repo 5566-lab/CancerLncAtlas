@@ -1,0 +1,19 @@
+extends: model_v2_cpu.yaml
+
+analysis_version: cc_hhgt_v2.1.0-cpu-corrected
+results_dir: results/model/cc_hhgt_v2_1_cpu_corrected
+cache_dir: results/model/cc_hhgt_v2_1_cpu_corrected/cache
+
+explanation:
+  allowed_relations:
+    - coexpressed_with
+    - curated_relation
+    - curated_drug_relation
+    - targets
+    - member_of
+    - physical_interaction
+  max_context_edges_per_source_relation: 50
+  max_other_edges_per_source_relation: 100
+  max_hops: 4
+  top_k_paths: 5
+  max_expansions_per_candidate: 1000

@@ -1,0 +1,120 @@
+extends: model_v2_9_state_graph.yaml
+analysis_version: CancerLncAtlas_CC-HHGT_v3.0_state_formal_2026-08
+project_root: D:/model/CC_HHGT_v3_0_clinical
+input_root: input_snapshot
+
+formal_contract:
+  protocol: V3_1_33C_FORMAL_TRAINING_PROTOCOL.md
+  expected_folds: 33
+  expected_models: 3
+  expected_seeds: 3
+  expected_tasks: 297
+  required_formal_cancers: [HNSC, LGG]
+  required_cli:
+    - run_id
+    - input_manifest
+    - formal_gate
+    - output_root
+  verify_assets_at_task_start: true
+  verify_assets_at_task_end: true
+  allow_trusted_asset_bypass: false
+  atomic_outputs: true
+  success_written_last: true
+
+cancer_scope:
+  reference_only: []
+  exclude_reference_from_context_edges: false
+
+# Keep the legacy graph/fold builders on the same explicitly locked scope.
+analysis_cancers:
+  reference_only: []
+  exclude_from_training: []
+
+sample_contract:
+  canonical_source: adapter/cancer_specific_patient_fold_manifest.tsv
+  one_manifest_sample_per_patient: true
+  allowed_tumor_sample_type_codes: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  normal_sample_type_codes: [10, 11, 12, 13, 14]
+  require_zero_normal: true
+  state_outcome_imputation: forbidden
+  join_level: exact_sample_id
+  target_states:
+    - stemness_rna::RNAss
+    - stemness_dna::DNAss
+  minimum_observed_per_cancer_state: 30
+
+state_statistics:
+  complete_case_per_state: true
+  covariate_fit_scope: training_complete_cases_only
+  fdr_family: all_eligible_detectable_lncrna_per_cancer_state
+  required_lineage_fields:
+    - run_id
+    - sample_universe_sha256
+    - code_merkle_sha256
+    - config_merkle_sha256
+    - input_merkle_sha256
+    - schema_sha256
+    - eligibility
+    - unavailable_reason
+    - evaluation_policy
+    - n_observed
+    - n_missing
+    - design_rank
+    - residual_df
+
+state_graph:
+  required_states:
+    - stemness_rna::RNAss
+    - stemness_dna::DNAss
+  include_regex: '(?i)^(stemness_rna::RNAss|stemness_dna::DNAss)$'
+  min_samples: 30
+
+loco:
+  role: secondary_transductive
+  target_cancer_allowed_edges: [expressed_in]
+  target_cancer_forbidden_sources: [state_outcome, effect, pvalue, fdr, membership_label, direction_label]
+  cancer_encoder: deterministic_shared_features
+  forbid_untrained_cancer_id_embedding: true
+
+training:
+  device: cuda
+  num_workers: 0
+  deterministic: true
+  mixed_precision: false
+  candidate_microbatch_size: 8192
+  gradient_accumulation_steps: all_candidate_microbatches_per_epoch
+  checkpoint_min_delta: 0.0001
+  record_optimizer_steps: true
+  separate_pathway_state_checkpoints: true
+  state_checkpoint_metric: state_equal_macro_auroc_plus_auprc_lift
+
+state_heads:
+  independent: true
+  targets:
+    stemness_rna::RNAss:
+      calibration: independent
+    stemness_dna::DNAss:
+      calibration: independent
+  unlabeled_direction_loss_weight: 0.0
+
+evaluation:
+  primary: within_cancer_heldout_patient_association_replication
+  secondary: loco_transductive
+  probability_column: proxy_positive_probability
+  pooled_auroc_role: appendix_only
+  bootstrap_cluster: cancer_x_patient_fold
+  acceptance:
+    median_macro_auroc_min: 0.60
+    ci95_lower_min_exclusive: 0.50
+    eligible_fold_coverage_min: 0.80
+    graph_lasso_advantage_delta_min: 0.02
+    graph_lasso_advantage_ci95_lower_min_exclusive: 0.0
+
+clinical_v30:
+  landmark: diagnostic_baseline
+  forbidden_postbaseline_features:
+    - treatment_response
+    - drug
+    - radiotherapy
+    - surgery_type
+  endpoints_kept_separate: [PFI, DFI, PFS, DFS]

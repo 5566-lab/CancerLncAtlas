@@ -1,0 +1,64 @@
+extends: model_v3_0_state_formal_500.yaml
+analysis_version: CancerLncAtlas_CC-HHGT_v3.1_fixed_graph_3cancer_pilot_2026-08
+
+pilot_contract:
+  cancers: [BRCA, COAD, KIRP]
+  validation_cancers:
+    BRCA: CESC
+    COAD: DLBC
+    KIRP: LAML
+  models: [cc_hhgt]
+  seeds: [20260726, 20261726, 20262726]
+  forbid_full_cancer_training: true
+  allow_historical_output_reuse: false
+
+graph_contract:
+  primary: CONTRACT-T
+  diagnostic: CONTRACT-S
+  shared_builder: cc_hhgt.graph_contract.build_fold_graph
+  episodic_pseudoheldout: true
+  pseudoheldout_candidate_loss_only: true
+  reference_only: []
+  outcome_derived_heldout_policy: drop
+  contract_s_target_context: [expressed_in]
+  contract_t_target_context: all_unlabeled_context
+
+runtime_graph_sampling:
+  enabled: true
+  destructive_offline_cap: null
+  edge_chunk_size: 250000
+  source_coverage_min: 0.95
+  weighted_signal_retention_min: 0.90
+  coverage_cycle: all_runtime_chunks
+  checkpoint_patience_cycles: 3
+  coexpression_strategy: per_source_sign_stratified_weight_ordered_runtime_cycle
+  tune_on: training_and_validation_only
+  test_cancer_selects_hyperparameters: false
+
+training:
+  # A2 removes the legacy single relation cap. Runtime chunks limit peak GPU
+  # residency without deleting canonical edges.
+  max_edges_per_relation: null
+  candidate_microbatch_size: 2048
+
+state_training:
+  auxiliary_loss_weight: 0.50
+
+metric_contract:
+  required_prediction_scales: [raw_logit, raw_probability, calibrated_probability]
+  required_metric_scopes: [train, validation, OOF, LOCO_test, PF_test]
+  required_hashes:
+    - prediction_file_sha256
+    - candidate_universe_sha256
+    - calibration_model_sha256
+  report_raw_and_calibrated_separately: true
+
+evidence_transformer_contract:
+  fold_local_vocabulary: true
+  unseen_token: <UNK>
+  clean_tissue_and_cell_line: true
+  remove_constant_fields: true
+  merge_redundant_fields: true
+  disable_direct_head_without_training_data: true
+  true_oof_metrics: true
+  explicit_count_features: true

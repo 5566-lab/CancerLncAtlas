@@ -1,0 +1,114 @@
+extends: model_v2_9_state_graph.yaml
+
+analysis_version: CancerLncAtlas_CC-HHGT_v3.0_clinical_2026-08
+results_dir: results/model/cc_hhgt_v3_0_clinical
+cache_dir: results/model/cc_hhgt_v3_0_clinical/cache
+standardized_dir: results/model/cc_hhgt_v3_0_clinical/standardized
+
+inputs:
+  # One or more endpoint files are supported. The first existing source is not
+  # silently preferred: all existing sources are concatenated and deduplicated.
+  clinical_survival:
+    - processed/tcga_clinical_endpoints.parquet
+    - processed/tcga_survival_endpoints.parquet
+    - input/TCGA-CDR-SupplementalTableS1.xlsx
+    - processed/tcga_association_covariates.parquet
+  patient_fold_manifest:
+    - processed/adapter/cancer_specific_patient_fold_manifest.tsv
+    - input_snapshot/adapter/cancer_specific_patient_fold_manifest.tsv
+
+clinical:
+  v29_result_root: results/model/cc_hhgt_v2_9_state_graph
+  required_endpoints: [OS]
+  optional_endpoints: [DSS, PFI, PFS, DFI, DFS]
+  min_patients: 40
+  min_events: 12
+  min_test_events: 2
+  n_time_bins: 12
+  max_lncRNAs_per_cancer: 384
+  max_pathways_per_cancer: 80
+  max_pair_candidates_per_cancer: 160
+  max_state_candidates_per_cancer: 96
+  max_patient_model_molecular_features: 256
+  min_patient_model_feature_coverage: 0.50
+  max_clinical_lncRNAs_per_cancer: 96
+  max_clinical_pair_candidates_per_cancer: 64
+  max_clinical_state_candidates_per_cancer: 48
+  candidate_probability_column: fused_confidence_probability
+  candidate_min_probability: 0.50
+  pair_clinical_model_enabled: true
+  state_clinical_model_enabled: true
+  patient_survival_model_enabled: true
+  epochs: 120
+  patience: 15
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  hidden_dim: 192
+  dropout: 0.20
+  seeds: [20260726, 20261726, 20262726]
+  cox_ties: breslow
+  cox_maxiter: 100
+  replication_min_abs_beta: 0.10
+  replication_max_test_p: 0.20
+  replication_min_test_cindex: 0.52
+  final_fdr_scope: cancer_endpoint_subject_type
+  clinical_covariate_aliases:
+    age_years: [age_years, age_at_initial_pathologic_diagnosis, age_at_diagnosis, age]
+    sex: [sex, gender]
+    stage: [stage, pathologic_stage, ajcc_pathologic_tumor_stage, clinical_stage]
+    molecular_subtype: [molecular_subtype, subtype_molecular, molecular_class]
+    clinical_subtype: [clinical_subtype, subtype, histological_type]
+    technical_batch: [technical_batch, batch, plate]
+    purity: [purity, tumor_purity, ESTIMATE::TumorPurity]
+    leukocyte_fraction: [leukocyte_fraction, leukocyte]
+    radiation_therapy: [radiation_therapy, radiation_treatment, radiotherapy]
+    pharmaceutical_therapy: [pharmaceutical_therapy, drug_therapy, systemic_therapy]
+    surgery_type: [surgery_type, surgery, surgical_procedure]
+    treatment_response: [treatment_response, primary_therapy_outcome_success, response]
+
+  clinical_covariates:
+    numeric:
+      - age_years
+      - purity
+      - leukocyte_fraction
+      - absolute_purity
+      - absolute_ploidy
+      - paper_purity
+    categorical:
+      - sex
+      - stage
+      - molecular_subtype
+      - clinical_subtype
+      - technical_batch
+      - radiation_therapy
+      - pharmaceutical_therapy
+      - surgery_type
+      - treatment_response
+  endpoint_aliases:
+    OS:
+      time: [OS.time, OS_time, os_time, overall_survival_days, days_to_death, days_to_last_follow_up, days_to_last_followup]
+      event: [OS, OS_event, os_event, overall_survival_event, vital_status, death_event]
+    DSS:
+      time: [DSS.time, DSS_time, dss_time, disease_specific_survival_days]
+      event: [DSS, DSS_event, dss_event, disease_specific_survival_event]
+    PFI:
+      time: [PFI.time, PFI_time, pfi_time, progression_free_interval_days]
+      event: [PFI, PFI_event, pfi_event, progression_free_interval_event]
+    PFS:
+      time: [PFS.time, PFS_time, pfs_time, progression_free_survival_days]
+      event: [PFS, PFS_event, pfs_event, progression_free_survival_event]
+    DFI:
+      time: [DFI.time, DFI_time, dfi_time, disease_free_interval_days]
+      event: [DFI, DFI_event, dfi_event, disease_free_interval_event]
+    DFS:
+      time: [DFS.time, DFS_time, dfs_time, disease_free_survival_days]
+      event: [DFS, DFS_event, dfs_event, disease_free_survival_event]
+
+clinical_integration:
+  preserve_discovery_probability: true
+  functional_probability_column: fused_confidence_probability
+  clinical_score_column: clinical_relevance_score
+  translational_score_method: geometric_mean
+  minimum_endpoint_coverage: 1
+  do_not_use_survival_in_discovery: true

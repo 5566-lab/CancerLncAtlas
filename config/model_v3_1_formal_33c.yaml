@@ -1,0 +1,52 @@
+extends: model_v3_0_state_formal_500.yaml
+analysis_version: CancerLncAtlas_CC-HHGT_v3.1_formal_33c_pathway_2026-08
+
+# V3.1 production scope: every registered TCGA cancer is a formal LOCO test
+# cancer. HNSC and LGG are not reference-only cohorts.
+formal_contract:
+  protocol: V3_1_33C_FORMAL_TRAINING_PROTOCOL.md
+  expected_folds: 33
+  expected_models: 3
+  expected_seeds: 3
+  expected_tasks: 297
+  required_formal_cancers: [HNSC, LGG]
+  primary_task: pathway
+  auxiliary_tasks: [state]
+
+cancer_scope:
+  reference_only: []
+  exclude_reference_from_context_edges: false
+
+analysis_cancers:
+  reference_only: []
+  exclude_from_training: []
+
+# Freeze a biologically meaningful pan-cancer lncRNA universe before building
+# the lncRNA x pathway-family candidates. A lncRNA must be detected in >=10%
+# of canonical tumor samples in at least three of the 33 formal cancers.
+candidate_universe:
+  pancancer_lnc_filter:
+    enabled: true
+    within_cancer_min_sample_detection_rate: 0.10
+    minimum_detected_cancers: 3
+    detection_semantics: logcpm_gt_0
+    expected_eligible_lncrna_ids_full_gdc: 4712
+    decision_id: PANCANCER_LNCRNA_010_3C_LOCK_20260824
+    decision_status: locked
+    evidence_cannot_bypass_filter: true
+
+task_contract:
+  pathway:
+    enabled: true
+    role: primary_website_discovery_task
+    target_unit: cancer_x_lncrna_x_pathway_family
+    require_complete_oof: true
+  state:
+    enabled: true
+    role: auxiliary_independent_head
+
+website_release:
+  intended_model: V3.1_33C
+  require_all_33_cancers_scored: true
+  reference_only_cancers: []
+  require_pancancer_lncrna_filter_audit: true

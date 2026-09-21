@@ -1,0 +1,550 @@
+schema_version: CANCERLNCATLAS_V32_HISTORICAL_CAPABILITY_PARITY_V1
+release_model_version: V3.2
+release_target_level: exact_pathway
+
+lineage_policy:
+  fail_closed: true
+  require_new_training: true
+  require_from_scratch_or_new_v32_head: true
+  allowed_initializations:
+    - random
+    - v32_core_frozen_new_head
+  reusable_input_roles:
+    - raw_source_data
+    - provenance_audited_standardized_source
+    - identifier_crosswalk
+    - pathway_membership
+    - task_definition
+    - split_definition
+  forbidden_derived_input_roles:
+    - checkpoint
+    - prediction
+    - probability
+    - ranking
+    - embedding
+    - processed_training_example
+    - fitted_fold_feature
+    - web_table
+    - cache
+  forbidden_legacy_versions:
+    - V2.4
+    - V2.5
+    - V2.6
+    - V2.7
+    - V2.8
+    - V2.9
+    - V3.0
+    - V3.1
+  unavailable_encoding: null_with_reason
+  forbidden_unavailable_sentinels: [0.0, 0.5]
+  family_to_exact_broadcast: forbidden
+  require_exact_pathway_source_for_exact_outputs: true
+
+performance_policy:
+  allowed_outcomes: [INCREMENT, NO_INCREMENT, NOT_EVALUATED, NOT_APPLICABLE]
+  no_increment_status: DIAGNOSTIC_ONLY
+  capability_removal_allowed: false
+
+required_state_programs:
+  - state_id: "stemness_rna::RNAss"
+    capability_id: state_rnass
+    mainline_required: true
+  - state_id: "stemness_dna::DNAss"
+    capability_id: state_dnass
+    mainline_required: true
+  - state_id: "EXTEND::published_score"
+    capability_id: state_extend
+    mainline_required: true
+  - state_id: "stemness_rna::EREG.EXPss"
+    capability_id: state_ereg_expss
+    mainline_required: true
+  - state_id: "stemness_dna::DMPss"
+    capability_id: state_dmpss
+    mainline_required: false
+  - state_id: "stemness_dna::ENHss"
+    capability_id: state_enhss
+    mainline_required: false
+  - state_id: "stemness_dna::EREG-METHss"
+    capability_id: state_ereg_methss
+    mainline_required: false
+
+required_clinical_endpoints: [OS, DSS, PFI, PFS, DFI, DFS]
+
+capabilities:
+  exact_pathway:
+    required: true
+    description: V3.2 cancer x lncRNA x exact-pathway association model and predictions.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_exact_pathway_model, v32_exact_pathway_predictions, v32_exact_pathway_report_manifest]
+      api:
+        required: true
+        ids:
+          - "GET /api/site/stats"
+          - "GET /api/site/search"
+          - "GET /api/site/lncrna/{lncrna}"
+          - "GET /api/site/genesets"
+          - "GET /api/site/datasets"
+          - "GET /api/site/cancers"
+          - "GET /api/site/cancer/{cancer}"
+      ui:
+        required: true
+        ids: [portal_catalog, cancer_overview, dataset_catalog, lncrna_exact_pathway, exact_pathway_detail]
+      download:
+        required: true
+        ids: [exact_pathway_predictions, v32_model_card, dataset_catalog]
+
+  gene_set:
+    required: true
+    description: Exact Gene Set catalog, membership, enrichment and pathway views.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_gene_set_catalog, v32_gene_set_member_matrix, v32_gene_set_enrichment, v32_gene_set_gmt, v32_gene_set_report_manifest]
+      api:
+        required: true
+        ids: ["GET /api/site/genesets"]
+      ui:
+        required: true
+        ids: [gene_set_catalog, gene_set_detail, gene_set_enrichment]
+      download:
+        required: true
+        ids: [gene_set_catalog, gene_set_members, gene_set_enrichment, gene_set_gmt, gene_set_report]
+
+  ranked_subtype:
+    required: true
+    description: Ranked cancer subtypes with stability evidence and no feedback into the primary model.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_ranked_subtypes, v32_subtype_stability]
+      api:
+        required: true
+        ids: ["GET /api/site/subtypes"]
+      ui:
+        required: true
+        ids: [ranked_subtype_overview, ranked_subtype_detail]
+      download:
+        required: true
+        ids: [ranked_subtypes, subtype_stability]
+
+  network:
+    required: true
+    description: LncRNA, exact-pathway, gene/protein and evidence network.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_network_nodes, v32_network_edges]
+      api:
+        required: true
+        ids: ["GET /api/site/network/{lncrna}"]
+      ui:
+        required: true
+        ids: [network_explorer]
+      download:
+        required: true
+        ids: [network_nodes, network_edges]
+
+  state_rnass:
+    required: true
+    state_id: "stemness_rna::RNAss"
+    mainline_required: true
+    target_level: state
+    new_training: &state_training
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates: &state_gates
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_state_oof, v32_lncrna_state_release, v32_state_gene_set_gmt, v32_state_report_manifest]
+      api:
+        required: true
+        ids: ["GET /api/site/states/{state_id}"]
+      ui:
+        required: true
+        ids: [state_program_detail]
+      download:
+        required: true
+        ids: [lncrna_state_associations, state_gene_set_gmt, state_report]
+
+  state_dnass:
+    required: true
+    state_id: "stemness_dna::DNAss"
+    mainline_required: true
+    target_level: state
+    new_training: *state_training
+    gates: *state_gates
+
+  state_extend:
+    required: true
+    state_id: "EXTEND::published_score"
+    mainline_required: true
+    target_level: state
+    new_training: *state_training
+    gates: *state_gates
+
+  state_ereg_expss:
+    required: true
+    state_id: "stemness_rna::EREG.EXPss"
+    mainline_required: true
+    target_level: state
+    new_training: *state_training
+    gates: *state_gates
+
+  state_dmpss:
+    required: true
+    state_id: "stemness_dna::DMPss"
+    mainline_required: false
+    target_level: state
+    new_training: *state_training
+    gates: *state_gates
+
+  state_enhss:
+    required: true
+    state_id: "stemness_dna::ENHss"
+    mainline_required: false
+    target_level: state
+    new_training: *state_training
+    gates: *state_gates
+
+  state_ereg_methss:
+    required: true
+    state_id: "stemness_dna::EREG-METHss"
+    mainline_required: false
+    target_level: state
+    new_training: *state_training
+    gates: *state_gates
+
+  clinical:
+    required: true
+    description: Independently trained patient-risk and lncRNA/pathway/state clinical layer.
+    target_level: clinical
+    endpoints: [OS, DSS, PFI, PFS, DFI, DFS]
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_clinical_endpoint_summary, v32_survival_associations, v32_patient_risk_oof, v32_translational_priority, v32_clinical_report_manifest]
+      api:
+        required: true
+        ids: ["GET /api/site/clinical/endpoints", "GET /api/site/clinical/lncrna/{lncrna}", "GET /api/site/clinical/priority"]
+      ui:
+        required: true
+        ids: [clinical_endpoint, survival, translational_priority]
+      download:
+        required: true
+        ids: [clinical_associations, patient_risk_oof, translational_priority, clinical_report]
+
+  expression_landscape:
+    required: true
+    description: Bulk tumor lncRNA expression, detection and model-eligibility coverage retained from V2.8.
+    target_level: expression
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_bulk_lncrna_expression_summary, v32_lncrna_model_coverage]
+      api:
+        required: true
+        ids: ["GET /api/site/lncrna/{lncrna}/expression", "GET /api/site/lncrna/{lncrna}/coverage"]
+      ui:
+        required: true
+        ids: [lncrna_expression_landscape, lncrna_model_coverage]
+      download:
+        required: true
+        ids: [bulk_lncrna_expression_summary, lncrna_model_coverage]
+
+  survival_kaplan_meier:
+    required: true
+    description: Patient-level Kaplan-Meier curves and statistics for all historical clinical endpoints.
+    target_level: clinical
+    endpoints: [OS, DSS, PFI, PFS, DFI, DFS]
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_kaplan_meier_curves, v32_kaplan_meier_statistics]
+      api:
+        required: true
+        ids: ["GET /api/site/lncrna/{lncrna}/survival"]
+      ui:
+        required: true
+        ids: [kaplan_meier_explorer]
+      download:
+        required: true
+        ids: [kaplan_meier_curves, kaplan_meier_statistics]
+
+  bulk_coexpression:
+    required: true
+    description: Cancer-specific tumor lncRNA-gene coexpression and cluster summaries; not physical binding.
+    target_level: coexpression
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_tumor_lncrna_gene_coexpression, v32_coexpression_clusters]
+      api:
+        required: true
+        ids: ["GET /api/site/lncrna/{lncrna}/coexpression"]
+      ui:
+        required: true
+        ids: [bulk_coexpression_explorer]
+      download:
+        required: true
+        ids: [tumor_lncrna_gene_coexpression, coexpression_clusters]
+
+  external_validation:
+    required: true
+    description: Independent known-positive rank recovery with PMID-overlap exclusion and cohort detail.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_external_validation_metrics, v32_external_validation_details, v32_external_validation_overlap_audit]
+      api:
+        required: true
+        ids: ["GET /api/site/validation/external", "GET /api/site/lncrna/{lncrna}/external-validation"]
+      ui:
+        required: true
+        ids: [external_validation_overview, lncrna_external_validation]
+      download:
+        required: true
+        ids: [external_validation_metrics, external_validation_details, external_validation_overlap_audit]
+
+  continuous_pathway_activity:
+    required: true
+    description: Continuous patient/cell pathway-activity regression retained as an independent diagnostic layer, never substituted for exact-pathway association.
+    target_level: pathway_activity
+    independent_from_exact_primary: true
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_continuous_pathway_activity_oof, v32_continuous_pathway_activity_metrics, v32_continuous_pathway_activity_attributions]
+      api:
+        required: true
+        ids: ["GET /api/site/activity/continuous/{cancer}"]
+      ui:
+        required: true
+        ids: [continuous_pathway_activity]
+      download:
+        required: true
+        ids: [continuous_pathway_activity_oof, continuous_pathway_activity_metrics, continuous_pathway_activity_attributions]
+
+  single_cell:
+    required: true
+    description: Donor-blocked lncRNA/cell-type/exact-pathway associations, activity and figures.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_sc_lncrna_celltype, v32_sc_lncrna_exact_pathway, v32_sc_activity, v32_sc_ucell, v32_sc_pseudotime, v32_sc_figure_manifest]
+      api:
+        required: true
+        ids: ["GET /api/site/single-cell/{lncrna}", "GET /api/site/sc-activity/{cancer}", "GET /api/site/sc-trajectory/{cancer}", "GET /api/site/sc-figures/{cancer}", "GET /api/site/sc-figure/{cancer}/{figure}"]
+      ui:
+        required: true
+        ids: [single_cell_distribution, malignant_summary, single_cell_activity, single_cell_ucell, single_cell_pseudotime, single_cell_figures]
+      download:
+        required: true
+        ids: [single_cell_associations, single_cell_activity, single_cell_ucell, single_cell_pseudotime]
+
+  mutation:
+    required: true
+    description: SNV/indel mutation context and subgroup association retained even without rank improvement.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_mutation_context, v32_mutation_subgroup_predictions, v32_mutation_lncrna_exact_pathway]
+      api:
+        required: true
+        ids: ["GET /api/site/mutation/{cancer}", "POST /api/site/predict/mutation-context"]
+      ui:
+        required: true
+        ids: [mutation_portal, mutation_subgroup]
+      download:
+        required: true
+        ids: [mutation_context, mutation_subgroup_predictions]
+
+  cnv:
+    required: true
+    description: Patient-aligned locus and pathway CNV; absent coverage remains unavailable, never wild type.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_cnv_context, v32_cnv_lncrna_exact_pathway, v32_cnv_coverage]
+      api:
+        required: true
+        ids: ["GET /api/site/cnv/{cancer}"]
+      ui:
+        required: true
+        ids: [cnv_portal, cnv_coverage]
+      download:
+        required: true
+        ids: [cnv_context, cnv_associations, cnv_coverage]
+
+  drug:
+    required: true
+    description: GDSC, PRISM and curated drug-response expert with direction and replication provenance.
+    target_level: drug
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_drug_response_predictions, v32_drug_replication, v32_drug_evidence_provenance, v32_lncrna_protein_drug_mechanism]
+      api:
+        required: true
+        ids: ["GET /api/site/drug/{lncrna}", "GET /api/site/drug/{lncrna}/mechanisms", "GET /api/site/cancer/{cancer}"]
+      ui:
+        required: true
+        ids: [drug_response, drug_replication, drug_mechanism]
+      download:
+        required: true
+        ids: [drug_response_predictions, drug_evidence, drug_mechanisms]
+
+  physical_interaction:
+    required: true
+    description: Experimental and predicted lncRNA-gene/protein physical interaction layer.
+    target_level: interaction
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_physical_interactions, v32_interaction_confidence, v32_interaction_provenance, v32_interaction_pathway_enrichment]
+      api:
+        required: true
+        ids: ["GET /api/site/lncrna/{lncrna}/relationships", "GET /api/site/lncrna/{lncrna}/interaction-pathways", "GET /api/site/relationship/{relationship_id}/evidence", "GET /api/site/network/{lncrna}"]
+      ui:
+        required: true
+        ids: [physical_interaction_relationships, interaction_pathway_enrichment, physical_interaction_network]
+      download:
+        required: true
+        ids: [physical_interactions, interaction_provenance, interaction_pathway_enrichment]
+
+  experiment_perturbation:
+    required: true
+    description: Assay-, direction-, publication- and perturbation-aware experimental evidence.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_experiment_events, v32_perturbation_exact_pathway, v32_experiment_provenance]
+      api:
+        required: true
+        ids: ["GET /api/site/lncrna/{lncrna}/relationships", "GET /api/site/relationship/{relationship_id}/evidence"]
+      ui:
+        required: true
+        ids: [experiment_evidence, perturbation_evidence]
+      download:
+        required: true
+        ids: [experiment_events, perturbation_associations]
+
+  evidence_transformer:
+    required: true
+    description: Newly trained exact-pathway Evidence Transformer; confidence is separate from discovery ranking.
+    target_level: exact_pathway
+    confidence_separate_from_primary: true
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_evidence_transformer_model, v32_neural_evidence_probability, v32_fused_confidence_probability, v32_evidence_direction_probability]
+      api:
+        required: true
+        ids: ["GET /api/site/lncrna/{lncrna}/relationships"]
+      ui:
+        required: true
+        ids: [evidence_confidence, evidence_provenance]
+      download:
+        required: true
+        ids: [evidence_probabilities, evidence_provenance]
+
+  mixed_lncrna_protein_pathway_query:
+    required: true
+    description: Unified lncRNA/gene/UniProt mapping, exact-pathway learned scoring and transparent ORA baseline.
+    target_level: exact_pathway
+    new_training:
+      required: true
+      allowed_initializations: [random, v32_core_frozen_new_head]
+    gates:
+      artifact:
+        required: true
+        require_nonempty: true
+        ids: [v32_mixed_set_encoder, v32_custom_gene_set_encoder, v32_protein_set_encoder, v32_identifier_crosswalk, v32_exact_pathway_ora_reference]
+      api:
+        required: true
+        ids: ["POST /api/site/query/mixed-lncrna-protein-pathway", "POST /api/site/query/custom-gene-set-lncrna", "POST /api/site/query/protein-set-lncrna"]
+      ui:
+        required: true
+        ids: [mixed_identifier_query, custom_gene_set_query, protein_set_query, mixed_query_mapping_report, mixed_query_pathway_results]
+      download:
+        required: true
+        ids: [mixed_query_results, mixed_query_mapping_report, custom_gene_set_results, protein_set_results]
