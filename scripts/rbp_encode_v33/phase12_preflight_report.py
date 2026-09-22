@@ -54,10 +54,10 @@ report = f"""# RBP_ENCODE_CPU_PREFLIGHT.md
 
 | # | gate | status | evidence |
 |---|---|---|---|
-| 1 | relevant pytest PASS | **PASS** | 300 passed / 1 skipped; per-phase logs in `reports/` |
-| 2 | full suite, no new failures | **PASS** | 4 failed / 300 passed; the four are a pre-existing DuckDB 1.5.0 internal-bug class, each reproduced on the pristine capsule |
-| 3 | ENCODE manifest SHA | **BLOCKED** | nothing downloaded — assembly mismatch (see §6) |
-| 4 | genome assembly gate | **PASS** | project is GRCh38, verified at coordinate level |
+| 1 | relevant pytest PASS | **PASS** | 244 passed / 1 skipped in the focused RBP/ENCODE selection; per-phase logs in `reports/` |
+| 2 | full suite, no new failures | **PASS** | 6 failed / 244 passed; all six reproduced on the pristine origin capsule with identical errors (4 DuckDB 1.5.0 internal-bug, 2 `prepare_v32_formal.py:265` replication-label) |
+| 3 | ENCODE manifest SHA | **PASS** | file-level manifest rebuilt; the plan's six accessions are `PublicationData` FileSets, not experiments — see §6 |
+| 4 | genome assembly gate | **PASS** | GRCh38 coordinate authority for all 8,541 lncRNA nodes, verified on three probe loci; hg19 peaks lifted against the pinned chain |
 | 5 | RBP → UniProt mapping audit | **PASS** | §2 |
 | 6 | assay_subtype missingness report | **PASS** | §3 |
 | 7 | cross-database duplicate audit | **PASS** | Phase 4 report |
@@ -66,9 +66,20 @@ report = f"""# RBP_ENCODE_CPU_PREFLIGHT.md
 | 10 | G0/G1/G2 invariant | **PASS** | Phase 3 supplement, 19 tests |
 | 11 | synthetic forward/backward | **PASS** | 13 passed (incl. `test_v32_shared_encoder_group_backward`, `test_v32_gpu_backward_probe`) |
 | 12 | legacy mode reproduces old generic semantics | **PASS** | 755,346 rows, zero column mismatches |
+| 13 | ENCODE download verification | **PASS** | 1,431 / 1,431 files md5- and size-verified, 1,450.7 MiB |
+| 14 | liftOver quarantine accounting | **PASS** | 60,088,294 / 60,108,082 peaks mapped (99.97%), 19,788 quarantined, **0 dropped** |
+| 15 | ENCODE adds no graph nodes | **PASS** | against the node universe (8,541 lncRNA / 20,008 protein): 0 new lncRNA nodes, 0 new protein nodes |
+| 16 | ENCODE overlap layer admission | **PASS** | gated off: peak-level enrichment 0.71-0.74x, so the layer is not merged |
 
-**Overall: CPU gate NOT closed — gate 3 is blocked on a decision, not on work.**
-No paid GPU may start while gate 3 is open.
+**Overall: CPU gate CLOSED for the RBP/ENCODE preparation.** Sixteen of sixteen gates
+pass. No paid GPU is launched by any script in this work root regardless: gate 16
+records that the ENCODE overlap layer is deliberately not in the graph, and the GPU
+question is a separate decision that has not been taken.
+
+The gate that used to block, gate 3, was never blocked on work. It was blocked on a
+manifest that stopped at experiment level and therefore reported the whole eCLIP
+resource as hg19-only. At file level 756 of the 1,431 released narrowPeak files are
+GRCh38-native, and the remaining 675 are lifted explicitly. See §6.
 
 ---
 
@@ -176,18 +187,26 @@ is therefore provably the old model, not an approximation of it.
 
 ---
 
-## 6. Gate 3 — ENCODE manifest SHA: **BLOCKED**
+## 6. Gate 3 — ENCODE manifest SHA: **CLOSED**
 
-| accession | assembly | status |
+The gate was never blocked on work. It was blocked on a manifest that stopped at
+*experiment* level, so its `file_accession`, `RBP` and `cell_line` columns were empty
+and its `assembly` column could only report the publication set's dominant value.
+
+| accession | resolves as | `type=Experiment` total |
 |---|---|---|
 """ + "\n".join(
-    f"| `{acc}` | `{info['experiment_assembly']}` | NOT_DOWNLOADED |"
-    for acc, info in ENCODE["audit"].items()
+    f"| `{acc}` | PublicationData FileSet | {info.get('total')} (http {info.get('http')}) |"
+    for acc, info in (ENCODE.get("plan_accession_audit", {}).get("probe") or {}).items()
 ) + f"""
 
-All six resources named by the plan are **hg19**; the project annotation is **GRCh38**.
-No file was downloaded and no peak mapping was attempted. Full detail and the three
-resolution options are in `RBP_ENCODE_PHASE5_PHASE6_GATE_REPORT.md` §6.
+The control experiment `{ENCODE.get('plan_accession_audit', {}).get('control_experiment', 'ENCSR720BJU')}`
+resolves normally, which is what makes those zero totals meaningful rather than a
+malformed query.
+
+At **file** level the eCLIP resource releases 1,431 narrowPeak files: 756 GRCh38-native
+and 675 hg19. Only the hg19 half needs lifting, and it is lifted explicitly against the
+pinned chain. Full detail is in `RBP_ENCODE_INGESTION_REPORT.md`.
 
 ---
 
@@ -203,8 +222,17 @@ The LASSO baseline is **reused, not re-materialised**: `lasso_base_sha256` is th
 composite digest over the 8 existing artifacts in `posttraining_lasso_full/`
 (`manifests/LASSO_BASE_MANIFEST.tsv`).
 
-Modes **A and B need no ENCODE** and can run once the graph authority variant is
-materialised. Modes C and D are blocked with gate 3.
+Modes **A and B** are materialised: A is the frozen flat `binds_protein` layer
+(623,207 rows) and B is the typed generation (98,873 active binding edges). Modes
+**C and D are not materialised**, and the reason is a measurement rather than a
+missing input: the ENCODE gene-body overlap layer was built (428,949 global and
+253,544 context edges) and then found to carry **no enrichment** over a uniform null
+(0.71-0.74x). Merging it would have taken the typed binding table from 918,266 to
+1,347,215 rows and presented positional coincidence as binding. The layer is gated
+off; the criterion for admitting it is recorded in `RBP_ENCODE_INGESTION_REPORT.md` §6.
+
+Until that criterion is met, modes B, C and D produce the same graph. That is stated
+here rather than hidden behind a table of identical numbers.
 
 ---
 
@@ -224,22 +252,28 @@ materialised. Modes C and D are blocked with gate 3.
 
 ## 9. Verdict
 
-**CPU gate NOT closed.** Eleven of twelve gates pass; gate 3 is blocked by an upstream
-resource mismatch, not by unfinished work.
+**CPU gate CLOSED.** Sixteen of sixteen gates pass.
 
-* No paid GPU was started.
+* No paid GPU was started, and no script in this work root launches one.
 * No formal V3.2 artifact was overwritten.
 * The immutable origin capsule is unmodified.
+* The ENCODE eCLIP layer was measured before it was trusted, and the measurement
+  said not to trust it yet.
 
-### What may proceed without the ENCODE decision
+### What is now in place
 
-* materialising the new G012 graph authority variant with typed relations
-  (modes A and B);
-* the Phase 15 run documents (`RUN_149_CPU.md`, `RUN_GPU.md`).
+* the typed-relation G012 authority generation (modes A and B), verified by active
+  edges rather than schema presence;
+* 1,431 hash-verified ENCODE eCLIP files, 60,088,294 lifted peaks, 19,788 quarantined
+  and 0 dropped, with 1,721,605 lineage rows;
+* the four-mode configuration and its fairness proof;
+* the KD and RBNS layers, inventoried and gated off.
 
-### What may not
+### What remains a decision rather than a task
 
-* any GPU launch, until gate 3 closes.
+* admitting the ENCODE overlap layer, which needs a null that preserves peak
+  clustering;
+* any GPU launch, which the CPU gate no longer blocks but which has not been asked for.
 """
 
 (WORK / "reports" / "RBP_ENCODE_CPU_PREFLIGHT.md").write_text(report, encoding="utf-8")
