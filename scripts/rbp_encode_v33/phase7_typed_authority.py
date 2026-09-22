@@ -2,12 +2,25 @@
 
 Writes only under the new work root.  The frozen receipt and every formal
 artifact are read-only inputs.
+
+Two environment overrides let a second generation be built without touching the
+first one:
+
+``RBP_BINDING_PARQUET``
+    which typed binding table to materialise (default: the pre-ENCODE typed
+    binding).
+``RBP_AUTHORITY_OUT``
+    where to write the authority (default: the pre-ENCODE authority directory).
+    An existing non-empty output directory is refused unless
+    ``RBP_ALLOW_OVERWRITE=1``, so the earlier generation cannot be replaced by
+    accident.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -31,10 +44,25 @@ from cc_hhgt.v32.patient_folds import assign_outer_split  # noqa: E402
 FROZEN = Path("${PRIVATE_WORK_ROOT}/CancerLncAtlas/inputs/v32_g012_local_cnv_corrected_graph_20260903_r1")
 PREPARED = Path("${PRIVATE_WORK_ROOT}/CancerLncAtlas/inputs/v32_g012_local_cnv_formal_prepared_20260903_r1")
 STATIC_SRC = Path("${PRIVATE_WORK_ROOT}/CancerLncAtlas/inputs/v32_g012_patient_first_20260830_r1/static")
-TYPED_BINDING = WORK / "outputs" / "phase3_typed_binding" / "lnc_protein_binding_typed.parquet"
+TYPED_BINDING = Path(os.environ.get(
+    "RBP_BINDING_PARQUET",
+    str(WORK / "outputs" / "phase3_typed_binding" / "lnc_protein_binding_typed.parquet"),
+))
 
-OUT = WORK / "outputs" / "phase7_typed_authority"
+OUT = Path(os.environ.get(
+    "RBP_AUTHORITY_OUT", str(WORK / "outputs" / "phase7_typed_authority"),
+))
 STATIC_OUT = OUT / "static"
+
+# Refuse to clobber an existing generation unless it was asked for explicitly.
+if OUT.exists() and any(OUT.iterdir()) and os.environ.get("RBP_ALLOW_OVERWRITE") != "1":
+    raise SystemExit(
+        f"FAIL-CLOSED: {OUT} already contains a generation. Set RBP_AUTHORITY_OUT to a "
+        "new directory, or RBP_ALLOW_OVERWRITE=1 to replace this one deliberately."
+    )
+if not TYPED_BINDING.exists():
+    raise SystemExit(f"FAIL-CLOSED: binding table {TYPED_BINDING} does not exist")
+
 OUT.mkdir(parents=True, exist_ok=True)
 STATIC_OUT.mkdir(parents=True, exist_ok=True)
 
@@ -178,6 +206,9 @@ for fold in SMOKE_FOLDS:
             "relation_schema_generation": RELATION_SCHEMA_TYPED_ASSAY_CLASS_V1,
             "receipt_path": str(receipt_path),
             "receipt_sha256": receipt_sha,
+            "binding_table": str(TYPED_BINDING),
+            "binding_table_sha256": sha256(TYPED_BINDING),
+            "binding_table_rows": int(len(typed)),
             "folds": results,
         },
         indent=2,

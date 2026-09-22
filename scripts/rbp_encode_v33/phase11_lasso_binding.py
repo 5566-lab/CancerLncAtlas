@@ -13,7 +13,7 @@ from pathlib import Path
 
 WORK = Path("${PRIVATE_WORK_ROOT}/CancerLncAtlas/rbp_encode_v33_20260921_r1")
 BASE = Path(
-    "${PRIVATE_WORK_ROOT}/CancerLncAtlas/results/v3_state_formal_runs/"
+    "${PRIVATE_ARCHIVE_ROOT}/CancerLncAtlas/results/v3_state_formal_runs/"
     "V3STATE-formal500-20260810T101223Z-a8803782dcf0_server_handoff/run/posttraining_lasso_full"
 )
 OUT = WORK / "manifests"

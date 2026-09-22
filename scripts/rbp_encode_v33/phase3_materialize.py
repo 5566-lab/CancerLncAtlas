@@ -19,7 +19,7 @@ from cc_hhgt.v32.rbp_typed_binding import (  # noqa: E402
 )
 
 STD = Path(
-    "${PRIVATE_WORK_ROOT}/CancerLncAtlas/results/v3_state_formal_runs/"
+    "${PRIVATE_ARCHIVE_ROOT}/CancerLncAtlas/results/v3_state_formal_runs/"
     "V3STATE-formal500-20260810T101223Z-a8803782dcf0_server_handoff/run/assets/standardized"
 )
 OUT = WORK / "outputs" / "phase3_typed_binding"

@@ -1,5 +1,11 @@
 # RBP_TYPED_AUTHORITY_BLOCKER.md
 
+> **SUPERSEDED.** The build described as blocked here completed later the same day.
+> See `RBP_TYPED_AUTHORITY_RESOLVED.md` for the resolution (per-class roles: one role
+> per relation), `RBP_ENCODE_INGESTION_REPORT.md` for the ENCODE half, and
+> `RBP_ENCODE_CPU_PREFLIGHT.md` for the current gate state. This file is kept for the
+> record of what was actually blocking and why.
+
 **Task**: CancerLncAtlas V3.2 — RBP evidence repair + ENCODE RBP integration
 **Phase**: 7 (typed relations into the primary graph)
 **Date**: 2026-09-21
