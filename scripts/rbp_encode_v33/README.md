@@ -38,7 +38,31 @@ Scripts that read the frozen standardized assets (`phase3_materialize.py`,
 | 8 | `phase12_preflight_compute.py`, `phase12_preflight_report.py` | compute and render the CPU hard-gate report |
 | 9 | `phase15_docs_*.py` | regenerate the deliverable documents from live state |
 
-### B. ENCODE eCLIP ingestion (Path B)
+### B0. The reproducible-peak and exon correction (current)
+
+Supersedes section B. Run in this order.
+
+| # | script | purpose |
+|---|---|---|
+| A | `step_a_reproducible.py` | fetch `preferred_default`; show that it is **not** the reproducible flag |
+| A2 | `step_a2_structure.py` | each experiment ships 3 peak calls per assembly; identify the combined call |
+| A3 | `step_a3_peakclass.py` | count real peaks per class: combined is 1.5 % of either single replicate |
+| B | `step_b_exons.py` | strand-aware exon authority from the GENCODE releases already named by the assets |
+| C+D | `step_cd_overlap.py` | lift the hg19 reproducible peaks, overlap at exon level, dedup by experiment |
+| D2 | `step_d2_merge.py` | ruling B on the context gate + the ENCODE v2 edges, one merged table |
+| E | `step_e_materialize.sh` | **the single materialisation** of the v2 generation, folds 0-4 |
+| F | `step_f_shuffles.py` | the two shuffle controls for C vs C-shuffle |
+
+Measurements that back the corrections:
+
+| script | question |
+|---|---|
+| `ruling_b_impact.py` | what ruling B changes, with the frozen 623,207 reproduced first |
+| `cell_line_accounting.py` | which cell lines from which databases never reach the graph |
+| `measure_context.py`, `measure_context2.py` | what "global" means in this project, and what the gate drops |
+| `measure_predicted.py` | what admitting `binds_protein_predicted` would do, under the candidate filter |
+
+### B. ENCODE eCLIP ingestion (first attempt, superseded)
 
 Run in this order. Each step writes a receipt the next one checks.
 
