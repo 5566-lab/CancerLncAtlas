@@ -65,6 +65,10 @@ class BindingTyping:
     #: When True the label ``predicted`` is kept out of the physical-binding
     #: relation entirely; it is still emitted as its own typed relation.
     emit_predicted_relation: bool = True
+    #: Physical lncRNA--protein binding is a global molecular relation.  Assay
+    #: tissue/cell-line annotations remain provenance and must not turn the edge
+    #: into a cancer-specific relation.
+    globalize_binding_context: bool = False
 
     def partner_types(self) -> tuple[str, ...]:
         return _PROTEIN_LIKE_WITH_RBP if self.include_rbp_partner_type else _PROTEIN_LIKE
@@ -125,7 +129,22 @@ def build_typed_lnc_protein_binding(
     ].copy()
     rel["_row_id"] = np.arange(len(rel), dtype=np.int64)
 
-    rel, context_audit = apply_strict_cancer_context(rel, dim_cancer)
+    if typing.globalize_binding_context:
+        context_audit = {
+            "context_policy": "global_physical_binding",
+            "input_rows": int(len(rel)),
+            "context_mapping_performed": False,
+            "context_free_rows": None,
+            "context_specific_input_rows": None,
+            "mapped_context_rows": 0,
+            "excluded_unmapped_or_ambiguous_context_rows": 0,
+            "context_specific_lost_to_global": 0,
+            "globalized_binding_rows": int(len(rel)),
+        }
+        rel["cancer_id"] = pd.Series(pd.NA, index=rel.index, dtype="string")
+        rel["context_mapping_status"] = "global_physical_binding"
+    else:
+        rel, context_audit = apply_strict_cancer_context(rel, dim_cancer)
 
     mapping = protein_gene[
         ["gene_id", "protein_id", "mapping_multiplicity", "mapping_weight"]

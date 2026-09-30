@@ -407,6 +407,7 @@ def materialize_typed_lnc_protein_binding(
     *,
     include_predicted: bool = False,
     include_context_eclip: bool = True,
+    require_global_binding: bool = False,
     candidate_lncrnas: Iterable[str] | None = None,
 ) -> pd.DataFrame:
     """Emit typed lncRNA-protein binding edges.
@@ -418,8 +419,8 @@ def materialize_typed_lnc_protein_binding(
 
     * one relation type per ``graph_assay_class`` instead of one flat
       ``binds_protein``, so eCLIP and RIP are separable in message passing;
-    * context-specific eCLIP rows are admitted under
-      :data:`CONTEXT_ECLIP_ROLE` with ``cancer_id`` preserved -- never globalised;
+    * context-specific eCLIP rows remain supported for historical generations;
+      the final C generation opts into strict global physical binding;
     * ``include_predicted`` defaults to **False**.  Real data shows 84.2 % of the
       typed lncRNA-RBP relations are sequence-based predictions
       (``MATCH algorithm``, ``catRAPID``); admitting them by default would present
@@ -438,6 +439,10 @@ def materialize_typed_lnc_protein_binding(
     context = binding.is_context_specific
     if not pd.api.types.is_bool_dtype(context.dropna().dtype) or context.isna().any():
         raise RuntimeError("lncRNA-protein context flag must be a non-null boolean")
+    if require_global_binding and (context.any() or binding.cancer_id.notna().any()):
+        raise RuntimeError(
+            "typed physical binding must be global; cancer-specific rows are forbidden"
+        )
 
     classes = binding.graph_assay_class.astype(str).str.strip()
     unknown = sorted(set(classes.unique()) - set(GRAPH_ASSAY_CLASSES))

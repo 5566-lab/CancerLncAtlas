@@ -135,7 +135,7 @@ def _authorized_prepared_record(
     *,
     fold: int,
     prepared_path: str | Path,
-) -> tuple[Path, str]:
+) -> tuple[Path, str, int | None]:
     """Resolve the one authorized fold row without opening the large artifact."""
 
     manifest_path = Path(input_manifest_path).resolve()
@@ -165,7 +165,10 @@ def _authorized_prepared_record(
         raise RuntimeError(f"Authorized fold {fold} SHA256 is missing or malformed")
     if not prepared.is_file():
         raise RuntimeError(f"Prepared fold artifact is missing: {prepared}")
-    return prepared, expected
+    expected_bytes = row.get("bytes")
+    if expected_bytes is not None and (type(expected_bytes) is not int or expected_bytes <= 0):
+        raise RuntimeError(f"Authorized fold {fold} byte size is invalid")
+    return prepared, expected, expected_bytes
 
 
 def _stable_file_identity(stat_result: os.stat_result) -> tuple[int, ...]:
@@ -188,14 +191,14 @@ def load_prepared_artifact_from_authorized_handle(
     fold: int,
     prepared_path: str | Path,
 ) -> tuple[Any, str]:
-    """Hash and deserialize the authorized PT through one stable file handle.
+    """Validate and deserialize the authorized PT through one stable handle.
 
     Opening once prevents a rename/replacement between the authorization hash
     check and ``torch.load``.  Repeated ``fstat`` checks also fail closed when
     the opened inode is modified in place while it is being consumed.
     """
 
-    prepared, expected = _authorized_prepared_record(
+    prepared, expected, expected_bytes = _authorized_prepared_record(
         input_manifest_path,
         fold=fold,
         prepared_path=prepared_path,
@@ -203,19 +206,27 @@ def load_prepared_artifact_from_authorized_handle(
     digest = hashlib.sha256()
     with prepared.open("rb") as handle:
         before = _stable_file_identity(os.fstat(handle.fileno()))
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-        after_hash = _stable_file_identity(os.fstat(handle.fileno()))
-        if after_hash != before:
-            raise RuntimeError(
-                f"Prepared fold artifact changed while hashing fold {fold}"
-            )
-        observed = digest.hexdigest()
-        if observed != expected:
-            raise RuntimeError(
-                f"Prepared fold SHA256 differs from authorization for fold {fold}: "
-                f"expected={expected}, observed={observed}"
-            )
+        reuse = os.environ.get("CANCERLNCATLAS_REUSE_VERIFIED_INPUTS_NO_REHASH") == "1"
+        if reuse:
+            if expected_bytes is None or before[3] != expected_bytes:
+                raise RuntimeError(
+                    f"Prepared fold byte size differs from authorization for fold {fold}"
+                )
+            observed = expected
+        else:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+            after_hash = _stable_file_identity(os.fstat(handle.fileno()))
+            if after_hash != before:
+                raise RuntimeError(
+                    f"Prepared fold artifact changed while hashing fold {fold}"
+                )
+            observed = digest.hexdigest()
+            if observed != expected:
+                raise RuntimeError(
+                    f"Prepared fold SHA256 differs from authorization for fold {fold}: "
+                    f"expected={expected}, observed={observed}"
+                )
         handle.seek(0)
         use_mmap = os.environ.get("V32_PREPARED_ARTIFACT_MMAP", "0") == "1"
         if use_mmap:
@@ -252,7 +263,7 @@ def validate_prepared_artifact_against_input_manifest(
 ) -> str:
     """Compatibility hash-only gate; formal loading uses the handle-bound API."""
 
-    prepared, expected = _authorized_prepared_record(
+    prepared, expected, _expected_bytes = _authorized_prepared_record(
         input_manifest_path,
         fold=fold,
         prepared_path=prepared_path,
@@ -325,7 +336,10 @@ def validate_formal_graph_variant_binding(
     return expected
 
 
-def _validate_prepared(payload: Mapping[str, Any], *, fold: int, artifact_hashes: Mapping[str, str]) -> None:
+def _validate_prepared(
+    payload: Mapping[str, Any], *, fold: int,
+    artifact_hashes: Mapping[str, str], authorized_graph_overlay: bool = False,
+) -> None:
     if payload.get("prepared_format") != PREPARED_FORMAT:
         raise RuntimeError("Prepared fold format mismatch")
     if int(payload.get("patient_fold", -1)) != int(fold):
@@ -359,14 +373,21 @@ def _validate_prepared(payload: Mapping[str, Any], *, fold: int, artifact_hashes
             payload.get("formal_graph_authority"),
             outer_fold=fold,
             variant=str(payload.get("formal_graph_variant", "")),
-            bundle=payload.get("bundle"),
+            # The C sidecar loader has already hashed the whole sidecar and
+            # verified its graph table against this binding. Avoid hashing
+            # seven million edges a second time during paid GPU startup.
+            bundle=None if authorized_graph_overlay else payload.get("bundle"),
         )
     except Exception as exc:
         raise RuntimeError(
             "Prepared fold lacks a fresh fold-local G0/G1/G2 graph authority binding"
         ) from exc
     registered = payload.get("artifact_hashes")
-    if registered is not None:
+    if authorized_graph_overlay:
+        overlay = payload.get("graph_overlay_authority")
+        if not isinstance(overlay, Mapping) or overlay.get("verified") is not True:
+            raise RuntimeError("C graph overlay has no verified source binding")
+    elif registered is not None:
         drift = {
             key: {"prepared": registered.get(key), "authorized": artifact_hashes.get(key)}
             for key in artifact_hashes
@@ -2501,7 +2522,31 @@ def run_authorized_task(context: Any) -> int:
     )
     if not isinstance(payload, Mapping):
         raise RuntimeError("Prepared fold artifact must contain a mapping")
-    _validate_prepared(payload, fold=fold, artifact_hashes=ctx["artifact_hashes"])
+    rbp_mode = str(config.get("task_contract", {}).get("rbp_evidence_mode", ""))
+    overlay_active = rbp_mode in {"C_TYPED_ENCODE_V2", "C_GLOBAL_PHYSICAL_BINDING"}
+    if rbp_mode and not overlay_active:
+        raise RuntimeError(f"Unsupported RBP evidence training mode: {rbp_mode}")
+    if overlay_active:
+        from .c_graph_overlay import load_c_graph_overlay
+
+        pattern = config.get("training_io", {}).get("c_graph_overlay_pattern")
+        if not isinstance(pattern, str) or pattern.count("{fold}") != 1:
+            raise RuntimeError("C training requires one explicit graph overlay fold pattern")
+        overlay_path = Path(pattern.format(fold=fold))
+        if not overlay_path.is_absolute():
+            overlay_path = root / overlay_path
+        payload, _overlay_sha256 = load_c_graph_overlay(
+            torch,
+            input_manifest_path=ctx["input_manifest_path"],
+            overlay_path=overlay_path,
+            fold=fold,
+            parent_sha256=prepared_artifact_sha256,
+            old_payload=payload,
+        )
+    _validate_prepared(
+        payload, fold=fold, artifact_hashes=ctx["artifact_hashes"],
+        **({"authorized_graph_overlay": True} if overlay_active else {}),
+    )
     graph_variant = validate_formal_graph_variant_binding(
         run_id=str(ctx["run_id"]),
         config=config,

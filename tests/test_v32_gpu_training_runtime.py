@@ -6,6 +6,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -78,7 +79,7 @@ def test_real_paid_manifest_empty_blocked_reason_survives_bash_read(
     )
     normalized = tmp_path / "TASK_MANIFEST.usv"
     command = [
-        shutil.which("python") or "python",
+        sys.executable,
         str(ROOT / "scripts/normalize_v32_task_manifest.py"),
         "--manifest",
         str(manifest),
@@ -137,7 +138,7 @@ def test_manifest_preflight_rejects_nonempty_blocked_reason(tmp_path: Path) -> N
     manifest.write_text(text.replace("\t\ttrue\n", "\tSHOULD_BLOCK\ttrue\n", 1), encoding="utf-8")
     completed = subprocess.run(
         [
-            shutil.which("python") or "python",
+            sys.executable,
             str(ROOT / "scripts/normalize_v32_task_manifest.py"),
             "--manifest",
             str(manifest),
@@ -376,6 +377,28 @@ def test_prepared_pt_is_hashed_and_loaded_through_the_same_handle(
     assert recording.source.closed
     assert observed_digest == digest
     assert observed_payload["patient_fold"] == 1
+    assert torch.equal(observed_payload["tensor"], expected_payload["tensor"])
+
+
+def test_user_directed_no_rehash_loads_by_authorized_bytes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("CANCERLNCATLAS_REUSE_VERIFIED_INPUTS_NO_REHASH", "1")
+    monkeypatch.delenv("V32_PREPARED_ARTIFACT_MMAP", raising=False)
+    prepared = tmp_path / "PATIENT_FOLD_1.pt"
+    expected_payload = {"patient_fold": 1, "tensor": torch.arange(4)}
+    torch.save(expected_payload, prepared)
+    carried_digest = "a" * 64
+    manifest = tmp_path / "INPUT_MANIFEST.json"
+    manifest.write_text(json.dumps({"fold_inputs": [{
+        "fold": 1, "path": str(prepared.resolve()),
+        "bytes": prepared.stat().st_size, "sha256": carried_digest,
+    }]}), encoding="utf-8")
+    observed_payload, observed_digest = load_prepared_artifact_from_authorized_handle(
+        torch, manifest, fold=1, prepared_path=prepared,
+    )
+    assert observed_digest == carried_digest
     assert torch.equal(observed_payload["tensor"], expected_payload["tensor"])
 
 
