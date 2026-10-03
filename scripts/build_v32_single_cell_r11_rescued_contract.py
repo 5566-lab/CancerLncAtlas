@@ -7,11 +7,16 @@ import hashlib
 import json
 import os
 import shutil
+import socket
+import sys
 from pathlib import Path
 from typing import Any
 
 import h5py
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from cc_hhgt.v32.single_cell_manifest_reconciliation import sync_verified_manifest
 
 
 NEW_SOURCES = {
@@ -76,6 +81,8 @@ def hardlink_or_copy(source: Path, target: Path) -> None:
 
 
 def main() -> None:
+    if socket.gethostname() != "149":
+        raise RuntimeError("Execution requires target_host=149")
     parser = argparse.ArgumentParser()
     parser.add_argument("--old-r7-root", required=True, type=Path)
     parser.add_argument("--results-root", required=True, type=Path)
@@ -87,6 +94,10 @@ def main() -> None:
     if output.exists() and any(output.iterdir()):
         raise RuntimeError(f"immutable r11 contract output exists: {output}")
     output.mkdir(parents=True, exist_ok=True)
+    atomic_json(output / "LAUNCH_PREFLIGHT.json", {
+        "target_host": "149", "actual_host": socket.gethostname(),
+        "operation": "BUILD_RESCUED_SINGLE_CELL_CONTRACT_CPU_ONLY",
+    })
 
     old_run = json.loads((args.old_r7_root / "RUN_STATUS.json").read_text(encoding="utf-8"))
     old_formal = set(map(str, old_run["formal_eligible_cancers"]))
@@ -119,7 +130,10 @@ def main() -> None:
             raise RuntimeError(f"rescue metadata schema missing for {cancer}")
         if set(metadata.cancer_id.astype(str).str.upper()) != {cancer}:
             raise RuntimeError(f"rescue metadata cancer drift: {cancer}")
-        if metadata.cell_id.astype(str).duplicated().any() or metadata.patient_id.astype(str).str.strip().eq("").any():
+        if (metadata[list(required)].isna().any().any()
+                or metadata.cell_id.astype(str).duplicated().any()
+                or any(metadata[col].astype(str).str.strip().eq("").any()
+                       for col in required)):
             raise RuntimeError(f"rescue metadata identity drift: {cancer}")
         dataset_ids = sorted(set(metadata.dataset_id.astype(str)))
         if not dataset_ids or any(not value.strip() for value in dataset_ids):
@@ -197,6 +211,16 @@ def main() -> None:
         for column in ("h5_path", "metadata_path", "dataset_id", "measurement_scale", "blocking_reason"):
             if column in record:
                 manifest.loc[mask, column] = record[column]
+    manifest, manifest_changes = sync_verified_manifest(manifest, {
+        cancer: {**record,
+                 "lncrnas": record["fresh_direct_id_lncrna_feature_count"],
+                 "donor_metadata_available": True}
+        for cancer, record in new_receipts.items()
+    })
+    atomic_json(output / "MANIFEST_RECONCILIATION.json", {
+        "target_host": "149", "changes": manifest_changes,
+        "verified_rescue_cancers": sorted(new_receipts),
+    })
     manifest_path = output / "dataset_manifest_33c.parquet"
     manifest.to_parquet(manifest_path, index=False, compression="zstd")
 
@@ -233,6 +257,7 @@ def main() -> None:
             shape = [int(value) for value in handle["matrix/shape"][:]]
         formal_cancers.append({"cancer_id": cancer, "matrix_header": {"features": shape[0], "cells": shape[1]}})
     preflight = {
+        "target_host": "149",
         "format": "CC_HHGT_V3_2_SINGLE_CELL_R11_RESCUED_SERVER_PREFLIGHT_V1",
         "status": "PASS",
         "r7_root": str(output),

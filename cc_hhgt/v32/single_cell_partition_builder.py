@@ -26,7 +26,6 @@ from .single_cell_input_builder import (
     ANALYSIS_VERSION,
     EXACT_PATHWAY_COUNT,
     EXPECTED_CANCERS,
-    KNOWN_FEATURE_UNIVERSE_LIMITATIONS,
     SingleCellInputBuildError,
     build_lnc_celltype_summary,
     compute_fresh_associations,
@@ -293,15 +292,10 @@ def _manifest_row(
     formal_eligible: bool,
     quality_flags: list[str],
 ) -> pd.DataFrame:
-    limited = (
-        cancer in KNOWN_FEATURE_UNIVERSE_LIMITATIONS
-        or int(lnc_feature_count) < LOW_FEATURE_UNIVERSE_THRESHOLD
-    )
+    limited = int(lnc_feature_count) < LOW_FEATURE_UNIVERSE_THRESHOLD
     flags = list(dict.fromkeys(quality_flags))
     if int(lnc_feature_count) < LOW_FEATURE_UNIVERSE_THRESHOLD:
         flags.append("LOW_LNCRNA_FEATURE_UNIVERSE")
-    if cancer in KNOWN_FEATURE_UNIVERSE_LIMITATIONS:
-        flags.append("KNOWN_SOURCE_FEATURE_UNIVERSE_LIMITATION")
     return pd.DataFrame(
         {
             "dataset_id": [dataset_id],
@@ -815,12 +809,12 @@ def build_single_cell_partition(
             "source_tier": _SOURCE_TIER_TO_TRAINER[source_tier],
             "expression_source_tier": source_tier,
             "quality_flags": (
-                "KNOWN_SOURCE_FEATURE_UNIVERSE_LIMITATION"
-                if cancer in KNOWN_FEATURE_UNIVERSE_LIMITATIONS
+                "LOW_LNCRNA_FEATURE_UNIVERSE"
+                if fresh_lnc_feature_count < LOW_FEATURE_UNIVERSE_THRESHOLD
                 else "NONE"
             ),
             "feature_universe_status": (
-                "LIMITED" if cancer in KNOWN_FEATURE_UNIVERSE_LIMITATIONS else "PASS"
+                "LIMITED" if fresh_lnc_feature_count < LOW_FEATURE_UNIVERSE_THRESHOLD else "PASS"
             ),
         }
     )
@@ -837,12 +831,12 @@ def build_single_cell_partition(
         source_tier=_SOURCE_TIER_TO_TRAINER[source_tier],
         expression_source_tier=source_tier,
         quality_flags=(
-            "KNOWN_SOURCE_FEATURE_UNIVERSE_LIMITATION"
-            if cancer in KNOWN_FEATURE_UNIVERSE_LIMITATIONS
+            "LOW_LNCRNA_FEATURE_UNIVERSE"
+            if fresh_lnc_feature_count < LOW_FEATURE_UNIVERSE_THRESHOLD
             else "NONE"
         ),
         feature_universe_status=(
-            "LIMITED" if cancer in KNOWN_FEATURE_UNIVERSE_LIMITATIONS else "PASS"
+            "LIMITED" if fresh_lnc_feature_count < LOW_FEATURE_UNIVERSE_THRESHOLD else "PASS"
         ),
     )
     association_reason: str | None = None
@@ -860,10 +854,7 @@ def build_single_cell_partition(
         association = _empty_association()
         association_reason = "NO_CONTEXT_WITH_MINIMUM_DONOR_REPLICATION"
     donor_count = int(group_records.donor_id.nunique())
-    feature_limited = (
-        cancer in KNOWN_FEATURE_UNIVERSE_LIMITATIONS
-        or int(audited_lnc_feature_count) < LOW_FEATURE_UNIVERSE_THRESHOLD
-    )
+    feature_limited = int(fresh_lnc_feature_count) < LOW_FEATURE_UNIVERSE_THRESHOLD
     formal_eligible = bool(
         not feature_limited
         and donor_count >= int(min_association_observations)

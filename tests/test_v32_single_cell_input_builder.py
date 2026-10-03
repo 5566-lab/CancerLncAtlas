@@ -170,7 +170,7 @@ def test_manifest_has_exact_33_source_tiers_and_quality_limitations() -> None:
     assert limited.feature_universe_status.eq("LIMITED").all()
     assert not limited.formal_eligible.any()
     assert limited.quality_flags.str.contains(
-        "KNOWN_SOURCE_FEATURE_UNIVERSE_LIMITATION"
+        "LOW_LNCRNA_FEATURE_UNIVERSE"
     ).all()
     assert limited.quality_flags.str.contains("LOW_LNCRNA_FEATURE_UNIVERSE").all()
     assert manifest.loc[manifest.expression_source_tier.eq("raw_counts"), "source_tier"].eq(

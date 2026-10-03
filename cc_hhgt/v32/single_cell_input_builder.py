@@ -48,6 +48,7 @@ EXPECTED_CANCERS = frozenset(
 EXPRESSION_SOURCE_TIERS = frozenset(
     {"raw_counts", "source_normalized", "legacy_counts"}
 )
+# Historical source annotation only; current eligibility uses measured coverage.
 KNOWN_FEATURE_UNIVERSE_LIMITATIONS = frozenset({"CESC", "UCS", "UVM"})
 
 _SOURCE_TIER_ALIASES = {
@@ -384,8 +385,6 @@ def validate_dataset_manifest(
         low = int(row.lncrna_feature_universe_count) < int(low_feature_universe_threshold)
         if low:
             local.append("LOW_LNCRNA_FEATURE_UNIVERSE")
-        if str(row.cancer_id) in KNOWN_FEATURE_UNIVERSE_LIMITATIONS:
-            local.append("KNOWN_SOURCE_FEATURE_UNIVERSE_LIMITATION")
         flags.append(";".join(local) if local else "NONE")
         statuses.append("LIMITED" if local else "PASS")
     result["feature_universe_status"] = statuses
@@ -1130,10 +1129,12 @@ def build_v32_single_cell_inputs(
                 "association_rows": int(len(association)),
             },
             "quality": {
-                "known_feature_universe_limitations": sorted(KNOWN_FEATURE_UNIVERSE_LIMITATIONS),
+                "known_feature_universe_limitations": sorted(
+                    manifest.loc[manifest.feature_universe_status.eq("LIMITED"), "cancer_id"]
+                ),
                 "known_limitations_recorded": all(
-                    manifest.loc[manifest.cancer_id.isin(KNOWN_FEATURE_UNIVERSE_LIMITATIONS), "quality_flags"]
-                    .str.contains("KNOWN_SOURCE_FEATURE_UNIVERSE_LIMITATION")
+                    manifest.loc[manifest.feature_universe_status.eq("LIMITED"), "quality_flags"]
+                    .str.contains("LOW_LNCRNA_FEATURE_UNIVERSE")
                 ),
             },
             "lineage": {
