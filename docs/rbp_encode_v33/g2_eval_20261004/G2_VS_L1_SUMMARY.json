@@ -1,0 +1,171 @@
+{
+  "abs_raw_residual_mean": {
+    "max": 3.015353943294995,
+    "mean": 2.98574066129571,
+    "min": 2.942357702301732,
+    "n": 3,
+    "sd": 0.038396820222386434
+  },
+  "aggregation_equivalence_max_abs_diff": {
+    "max": 0.0,
+    "mean": 0.0,
+    "min": 0.0,
+    "n": 3,
+    "sd": 0.0
+  },
+  "caveats": [
+    "Validation tier only; no sealed-test access, so this is a development conclusion, not an independent confirmation.",
+    "Only the G2 arm was trained, so a gain cannot be attributed specifically to ENCODE eCLIP, to assay typing, or to the graph in general: that needs matched controls (G0/G1, shuffled eCLIP) which were deliberately not run.",
+    "delta_logloss mixes ranking and calibration; the pre-specified headline is delta_auprc.",
+    "gate/residual statistics describe the graph's contribution, not its benefit."
+  ],
+  "complete_five_fold": false,
+  "delta_auprc": {
+    "max": 0.16744872910933878,
+    "mean": 0.1626291946732266,
+    "min": 0.15542911045500202,
+    "n": 3,
+    "sd": 0.006353587262150149
+  },
+  "delta_auroc": {
+    "max": 0.07874046533762025,
+    "mean": 0.07807665332637188,
+    "min": 0.07696369574466999,
+    "n": 3,
+    "sd": 0.0009698073799480392
+  },
+  "delta_logloss": {
+    "max": -0.36207406962170063,
+    "mean": -0.3655449112571206,
+    "min": -0.36746821835620047,
+    "n": 3,
+    "sd": 0.0030117034213797854
+  },
+  "evaluation_tier": "VALIDATION_ONLY_NO_TEST_ACCESS",
+  "folds_expected": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "folds_favouring_g2": 3,
+  "folds_favouring_l1": 0,
+  "folds_present": [
+    0,
+    1,
+    2
+  ],
+  "gate_mean": {
+    "max": 0.7159424483221586,
+    "mean": 0.7103346349238855,
+    "min": 0.7049132427589705,
+    "n": 3,
+    "sd": 0.005516965515203977
+  },
+  "headline": "delta_auprc = G2 - frozen L1 on identical rows",
+  "identity_max_abs_error": {
+    "max": 2.963355321128347e-07,
+    "mean": 2.944408121763331e-07,
+    "min": 2.906843361571987e-07,
+    "n": 3,
+    "sd": 3.2532454127631507e-09
+  },
+  "per_fold": [
+    {
+      "abs_raw_residual_mean": 2.999510338290403,
+      "agg_equivalence_max_abs_diff": 0.0,
+      "checkpoint_cycle": 103,
+      "delta_auprc": 0.15542911045500202,
+      "delta_auroc": 0.07852579889682543,
+      "delta_logloss": -0.36207406962170063,
+      "elapsed_seconds": 4163.831377506256,
+      "fold": 0,
+      "g2_auprc": 0.45613819543017114,
+      "g2_auroc": 0.8516710050700378,
+      "g2_ece_10bin": 0.39917121509814696,
+      "g2_logloss": 0.7540006816531521,
+      "g2_precision_at_100": 0.59,
+      "g2_precision_at_1000": 0.587,
+      "g2_precision_at_10000": 0.5571,
+      "gate_mean": 0.7049132427589705,
+      "identity_max_abs_error": 2.906843361571987e-07,
+      "l1_auprc": 0.3007090849751691,
+      "l1_auroc": 0.7731452061732124,
+      "l1_ece_10bin": 0.5307907486255705,
+      "l1_logloss": 1.1160747512748528,
+      "l1_precision_at_100": 0.44,
+      "l1_precision_at_1000": 0.366,
+      "l1_precision_at_10000": 0.3302,
+      "rows": 3300000,
+      "share_graph_unavailable": 0.0,
+      "spearman_l1_vs_g2": 0.9240664779693406
+    },
+    {
+      "abs_raw_residual_mean": 3.015353943294995,
+      "agg_equivalence_max_abs_diff": 0.0,
+      "checkpoint_cycle": 41,
+      "delta_auprc": 0.16744872910933878,
+      "delta_auroc": 0.07874046533762025,
+      "delta_logloss": -0.36746821835620047,
+      "elapsed_seconds": 4467.7739996910095,
+      "fold": 1,
+      "g2_auprc": 0.47373366437985975,
+      "g2_auroc": 0.8496386900868911,
+      "g2_ece_10bin": 0.3980888753455801,
+      "g2_logloss": 0.750791015550539,
+      "g2_precision_at_100": 0.75,
+      "g2_precision_at_1000": 0.648,
+      "g2_precision_at_10000": 0.6206,
+      "gate_mean": 0.7159424483221586,
+      "identity_max_abs_error": 2.963355321128347e-07,
+      "l1_auprc": 0.306284935270521,
+      "l1_auroc": 0.7708982247492708,
+      "l1_ece_10bin": 0.5314657627838644,
+      "l1_logloss": 1.1182592339067394,
+      "l1_precision_at_100": 0.53,
+      "l1_precision_at_1000": 0.413,
+      "l1_precision_at_10000": 0.346,
+      "rows": 3300000,
+      "share_graph_unavailable": 0.0,
+      "spearman_l1_vs_g2": 0.9280093143550459
+    },
+    {
+      "abs_raw_residual_mean": 2.942357702301732,
+      "agg_equivalence_max_abs_diff": 0.0,
+      "checkpoint_cycle": 81,
+      "delta_auprc": 0.165009744455339,
+      "delta_auroc": 0.07696369574466999,
+      "delta_logloss": -0.3670924457934608,
+      "elapsed_seconds": 4053.260061264038,
+      "fold": 2,
+      "g2_auprc": 0.47566147485650984,
+      "g2_auroc": 0.8573190094016239,
+      "g2_ece_10bin": 0.40370146103248317,
+      "g2_logloss": 0.7560459761613927,
+      "g2_precision_at_100": 0.74,
+      "g2_precision_at_1000": 0.636,
+      "g2_precision_at_10000": 0.6308,
+      "gate_mean": 0.7101482136905273,
+      "identity_max_abs_error": 2.9630256825896595e-07,
+      "l1_auprc": 0.31065173040117083,
+      "l1_auroc": 0.7803553136569539,
+      "l1_ece_10bin": 0.5358222222325967,
+      "l1_logloss": 1.1231384219548535,
+      "l1_precision_at_100": 0.54,
+      "l1_precision_at_1000": 0.405,
+      "l1_precision_at_10000": 0.3499,
+      "rows": 3300000,
+      "share_graph_unavailable": 0.0,
+      "spearman_l1_vs_g2": 0.9216485170746322
+    }
+  ],
+  "spearman_l1_vs_g2": {
+    "max": 0.9280093143550459,
+    "mean": 0.924574769799673,
+    "min": 0.9216485170746322,
+    "n": 3,
+    "sd": 0.0032107173574165964
+  },
+  "status": "G2_VS_FROZEN_L1_VALIDATION_SUMMARY"
+}
