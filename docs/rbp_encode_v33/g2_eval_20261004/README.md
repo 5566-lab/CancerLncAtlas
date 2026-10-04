@@ -14,6 +14,29 @@ the graph residual `gate * tanh(raw_graph_residual)` added to the frozen L1 logi
 (`base_logit`), which comes from the prepared payload rather than from a recomputed baseline.
 Validation tier only — no sealed-test access.
 
+## A structure in the evaluation set that bounds how the pooled number reads
+
+Twelve to fifteen percent of each fold's 3,300,000 rows sit in cancers that carry **no positive
+label at all**, so they can only ever contribute false positives to precision:
+
+| fold | cancers with zero positives | their rows | share |
+|---|---|---|---|
+| 0 | ACC, CHOL, DLBC, UCS | 400,000 | 12.1% |
+| 1 | ACC, CHOL, DLBC, KICH, UCS | 500,000 | 15.2% |
+| 2 | CHOL, DLBC, MESO, UCS | 400,000 | 12.1% |
+
+CHOL, DLBC and UCS are zero-positive in **all three** folds. Among the remaining rows the
+positive rate is 16.15% on fold 0.
+
+Both arms are scored on exactly the same rows, so ΔAUPRC remains a fair comparison. But the
+**absolute** AUPRC is deflated by rows that can never yield a true positive, and the per-cancer
+entries for those cancers are uninformative rather than bad. Any report quoting the pooled
+figure should say which cancers it is diluted by.
+
+The largest per-cancer gains on fold 0 are BRCA (+0.2768), LGG (+0.2738) and KIRC (+0.2600),
+so the pooled improvement is not carried by a single cancer.
+
+
 ## Files
 
 | file | content |
