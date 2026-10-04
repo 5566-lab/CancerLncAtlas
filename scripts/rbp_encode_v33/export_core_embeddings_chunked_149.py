@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Export V3.2 core node embeddings for the auxiliary private heads (GPU required).
 
 Why this is a new script rather than a flag on `scripts/export_v32_core_embeddings.py`:
@@ -120,12 +120,14 @@ def main() -> int:
     if device != "cuda":
         stamp(f"WARNING: running core export on device={device!r} (validation run only)")
 
-    if max_chunks:
-        # A partial-chunk run is a code-path smoke, never a formal export: keep its
-        # artifacts away from the real manifest root.
-        OUT_ROOT = ROOT / "core_embeddings_smoke"
-    OUT_ROOT.mkdir(parents=True, exist_ok=True)
-    manifest_path = OUT_ROOT / "CORE_EMBEDDING_MANIFEST.json"
+    # NOTE: this must be a LOCAL name.  Assigning to the module-level OUT_ROOT inside main()
+    # makes Python treat OUT_ROOT as function-local for the whole body, so on a real run
+    # (max_chunks == 0) the assignment below never executes and the following line raised
+    # UnboundLocalError.  The chunk-limited smoke paths happened to take the assignment branch
+    # and so never exposed it.
+    out_root = ROOT / "core_embeddings_smoke" if max_chunks else OUT_ROOT
+    out_root.mkdir(parents=True, exist_ok=True)
+    manifest_path = out_root / "CORE_EMBEDDING_MANIFEST.json"
     if manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         if manifest.get("export_format") != CORE_EXPORT_FORMAT:
@@ -223,7 +225,7 @@ def main() -> int:
                     union_audit[node_type] = usability(frame)
                 del union_graph, union_encoded
 
-        fold_root = OUT_ROOT / f"patient_fold={fold}"
+        fold_root = out_root / f"patient_fold={fold}"
         fold_root.mkdir(parents=True, exist_ok=True)
         exported, audits, spreads = {}, {}, {}
         for node_type in sorted(per_chunk):
@@ -239,7 +241,7 @@ def main() -> int:
             path = fold_root / f"{node_type}.parquet"
             frame.to_parquet(path, index=False, compression="zstd")
             exported[node_type] = {
-                "path": str(path.relative_to(OUT_ROOT)),
+                "path": str(path.relative_to(out_root)),
                 "sha256": sha256_file(path),
                 "rows": int(len(frame)),
                 "features": int(len(frame.columns) - 2),
