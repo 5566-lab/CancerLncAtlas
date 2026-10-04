@@ -1,0 +1,91 @@
+{
+  "cancer_id_nonnull": 6511339,
+  "columns": [
+    "source_type",
+    "source_id",
+    "relation_type",
+    "target_type",
+    "target_id",
+    "edge_role",
+    "source_split",
+    "outcome_derived",
+    "observed",
+    "weight",
+    "relation_polarity",
+    "raw_effect",
+    "requires_fold_localization",
+    "edge_outer_fold",
+    "cancer_id",
+    "is_context_specific",
+    "source_database",
+    "outer_fold",
+    "source_canonical_id",
+    "target_canonical_id",
+    "source_node_id",
+    "target_node_id",
+    "edge_id",
+    "relation_provenance",
+    "symmetric_same_relation"
+  ],
+  "edge_role_counts": {
+    "fold_train_coexpression_negative": 3403498,
+    "fold_train_coexpression_positive": 3031107,
+    "static_global_lnc_protein_binding_eclip": 41150,
+    "static_global_lnc_protein_binding_experimental_unspecified": 66056,
+    "static_global_lnc_protein_binding_other_clip": 41663,
+    "static_global_lnc_protein_binding_other_physical": 21,
+    "static_global_lnc_protein_binding_rip": 191,
+    "static_global_lnc_protein_binding_rna_capture": 3150,
+    "static_global_lnc_protein_binding_unknown": 15,
+    "static_pathway_hierarchy": 2114,
+    "static_protein_gene_encoding": 20008,
+    "static_signed_pathway_membership_negative": 125194,
+    "static_signed_pathway_membership_positive": 224414,
+    "static_symmetric_ppi": 154852,
+    "transductive_expression_eligibility": 76734
+  },
+  "edges": 7190167,
+  "elapsed_seconds": 141.9,
+  "fold": 0,
+  "is_context_specific_counts": {
+    "False": 678828,
+    "True": 6511339
+  },
+  "lncrna_and_pathway_edges": 0,
+  "node_map_sizes": {
+    "cancer": 33,
+    "gene": 21981,
+    "lncRNA": 8541,
+    "pathway": 2135,
+    "pathway_family": 85,
+    "protein": 20008
+  },
+  "observed_counts": {
+    "True": 7190167
+  },
+  "outcome_derived_counts": {
+    "False": 7190167
+  },
+  "relation_source_target_counts": {
+    "binds_protein_eclip | lncRNA | protein": 41150,
+    "binds_protein_experimental_unspecified | lncRNA | protein": 66056,
+    "binds_protein_other_clip | lncRNA | protein": 41663,
+    "binds_protein_other_physical | lncRNA | protein": 21,
+    "binds_protein_rip | lncRNA | protein": 191,
+    "binds_protein_rna_capture | lncRNA | protein": 3150,
+    "binds_protein_unknown | lncRNA | protein": 15,
+    "coexpressed_negative | lncRNA | gene": 3403498,
+    "coexpressed_positive | lncRNA | gene": 3031107,
+    "encoded_by | protein | gene": 20008,
+    "expressed_in | lncRNA | cancer": 76734,
+    "member_of_family | pathway | pathway_family": 2114,
+    "member_of_negative | gene | pathway": 125194,
+    "member_of_positive | gene | pathway": 224414,
+    "physical_interaction | protein | protein": 154852
+  },
+  "requires_fold_localization_counts": {
+    "False": 7190167
+  },
+  "status": "PASS_NO_LNCRNA_PATHWAY_EDGE",
+  "target_host": "149"
+}
