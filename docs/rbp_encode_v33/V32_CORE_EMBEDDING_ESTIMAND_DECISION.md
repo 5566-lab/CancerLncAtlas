@@ -88,3 +88,47 @@ the changed feature set.
 
 Partial (chunk-limited) runs write to `core_embeddings_smoke/` and never to the formal
 `core_embeddings/CORE_EMBEDDING_MANIFEST.json`.
+
+## 5. The chunk partition is fold-specific, so `w_c` is fold-specific
+
+Added 2026-10-04, when all five folds had finished training and been exported.
+
+`_runtime_chunk_contract` derives the chunk set from the fold's own `bundle.runtime_schedule`
+(`training.py:1644-1696`): chunk ids come from `runtime_chunk_positions(schedule)`, and
+`w_c` is that chunk's share of the fold's rotating-variable edges. The per-fold graph is not
+identical — every fold receives the same 152,246 added physical-binding edges on top of a
+*different* prepared payload — so the rotating-edge partition differs and the chunk count
+differs with it.
+
+| fold | graph edges (eval receipt) | added binding edges | runtime chunks | training cycles | checkpoint cycle used for export |
+|---|---|---|---|---|---|
+| 0 | 7,190,167 | 152,246 | 26 | 104 (early stop) | 103 |
+| 1 | 7,216,351 | 152,246 | 26 | 41 (early stop) | 41 |
+| 2 | 7,254,737 | 152,246 | 26 | 87 (early stop) | 81 |
+| **3** | **7,278,448** | **152,246** | **27** | **111 (early stop)** | **105** |
+| 4 | 7,229,437 | 152,246 | 26 | 93 (early stop) | 88 |
+
+Fold 3's `SUCCESS.json` records `runtime_num_chunks = 27` and the fold-3 export records
+`runtime_chunks = runtime_chunks_total = 27`, so the training-time and export-time contracts
+agree for every fold. The estimand is therefore a weighted mean over **26 terms for folds
+0/1/2/4 and 27 terms for fold 3** — which is what `core_embedding(node) = Σ_c w_c ·
+encoder(chunk_c)` says, read literally, with `w_c` taken from that fold's own contract.
+
+No fold was resampled, padded, or forced onto a common chunk count to make the table uniform.
+Any downstream consumer that concatenates folds should carry the chunk count as a per-fold
+attribute rather than assume a fixed one.
+
+`max_abs_chunk_deviation_from_weighted_mean` for the five exported folds (gene / lncRNA /
+pathway / protein):
+
+| fold | gene | lncRNA | pathway | protein |
+|---|---|---|---|---|
+| 0 | 6.522 | 14.55 | 2.193 | 5.431 |
+| 1 | 4.751 | 13.72 | 2.879 | 4.768 |
+| 2 | 5.876 | 6.303 | 2.663 | 3.066 |
+| 3 | 4.946 | 10.47 | 6.321 | 4.752 |
+| 4 | 4.359 | 11.48 | 3.994 | 2.675 |
+
+`pathway_family` is ≤ 7.5e-07 in every fold, i.e. its nodes sit in the resident backbone and
+receive the same neighbourhood in every chunk — recorded because it is the one node type for
+which the chunk choice does not matter.

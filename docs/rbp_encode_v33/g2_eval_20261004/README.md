@@ -1,5 +1,11 @@
 # G2 vs frozen L1 — validation-tier evaluation (2026-10-04)
 
+> **Superseded.** This is a 3-of-5-fold snapshot taken while fold 3 was still training. The
+> complete five-fold result is in [`../g2_eval_20261004_fivefold/`](../g2_eval_20261004_fivefold/README.md)
+> (`complete_five_fold: true`, mean ΔAUPRC +0.156395, G2 ahead 5/5). Everything below is kept
+> as the historical record of the earlier snapshot — in particular the zero-positive-cancer
+> structure and the leakage inspection, which still apply.
+
 Produced on host `149` by `cc_hhgt`-adjacent tooling at
 `$R/eval/v32-g2-l1-eval-20261003-r2/`, aggregated by `summarise_g2_eval_149.py`.
 

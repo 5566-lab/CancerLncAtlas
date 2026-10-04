@@ -1,0 +1,345 @@
+{
+  "checkpoint": {
+    "cycle": 105,
+    "path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/fold_3/v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_3__CC-HHGT__20260726/best_model_state.pt",
+    "validation_loss": 0.2783104576549853
+  },
+  "code_tree_sha256": "bad3135ba858bf36fedd4a102eb509ddb110872844d5bf1def90a93274c0ba58",
+  "decoder_forwards": 10881,
+  "delta_auprc": 0.14815123703630534,
+  "delta_auroc": 0.07813997748003931,
+  "delta_logloss": -0.3622342620068295,
+  "elapsed_seconds": 5238.816609859467,
+  "evaluation_tier": "VALIDATION_ONLY_NO_TEST_ACCESS",
+  "fold": 3,
+  "graph_variant": "G2",
+  "incremental_aggregation_equivalence_max_abs_diff": 0.0,
+  "incremental_aggregation_equivalence_probe_batches": 2,
+  "metrics_g2": {
+    "auprc": 0.4381996019678944,
+    "auroc": 0.8432078314834157,
+    "ece_10bin": 0.402012784571224,
+    "logloss": 0.764035034360395,
+    "positives": 464535,
+    "precision_at_100": 0.66,
+    "precision_at_1000": 0.578,
+    "precision_at_10000": 0.5588,
+    "prevalence": 0.14076818181818182,
+    "rows": 3300000
+  },
+  "metrics_l1_frozen_baseline": {
+    "auprc": 0.2900483649315891,
+    "auroc": 0.7650678540033764,
+    "ece_10bin": 0.5326957281942829,
+    "logloss": 1.1262692963672245,
+    "positives": 464535,
+    "precision_at_100": 0.48,
+    "precision_at_1000": 0.372,
+    "precision_at_10000": 0.3276,
+    "prevalence": 0.14076818181818182,
+    "rows": 3300000
+  },
+  "overlay": {
+    "binding_edges": 152246,
+    "bytes": 3340067573,
+    "graph_edges": 7278448,
+    "path": "/dsk2/user/dengsc/v32_eval_payloads/overlays/G2_GLOBAL_FOLD_3.pt"
+  },
+  "per_cancer": [
+    {
+      "auprc_g2": 0.0,
+      "auprc_l1": 0.0,
+      "cancer_id": "ACC",
+      "positives": 0,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7122437279748302
+    },
+    {
+      "auprc_g2": 0.5202940502471023,
+      "auprc_l1": 0.3200051544126668,
+      "cancer_id": "BLCA",
+      "positives": 21684,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8246874617208778
+    },
+    {
+      "auprc_g2": 0.7645177978978616,
+      "auprc_l1": 0.502862078166997,
+      "cancer_id": "BRCA",
+      "positives": 35536,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8290392236267882
+    },
+    {
+      "auprc_g2": 0.2327217902915001,
+      "auprc_l1": 0.10977494227633582,
+      "cancer_id": "CESC",
+      "positives": 6843,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8267028323870333
+    },
+    {
+      "auprc_g2": 0.0,
+      "auprc_l1": 0.0,
+      "cancer_id": "CHOL",
+      "positives": 0,
+      "rows": 100000,
+      "spearman_l1_g2": 0.6233405757692447
+    },
+    {
+      "auprc_g2": 0.4595934364348386,
+      "auprc_l1": 0.25002748239535616,
+      "cancer_id": "COAD",
+      "positives": 15782,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8408751097166824
+    },
+    {
+      "auprc_g2": 0.0,
+      "auprc_l1": 0.0,
+      "cancer_id": "DLBC",
+      "positives": 0,
+      "rows": 100000,
+      "spearman_l1_g2": 0.663617383341087
+    },
+    {
+      "auprc_g2": 0.13105144664491317,
+      "auprc_l1": 0.06357231890914228,
+      "cancer_id": "ESCA",
+      "positives": 5279,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7171817601751783
+    },
+    {
+      "auprc_g2": 0.47090045468734343,
+      "auprc_l1": 0.30011636848741535,
+      "cancer_id": "GBM",
+      "positives": 21574,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7134562325781276
+    },
+    {
+      "auprc_g2": 0.6314528314514503,
+      "auprc_l1": 0.3830905652287212,
+      "cancer_id": "HNSC",
+      "positives": 25780,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8253029248474462
+    },
+    {
+      "auprc_g2": 7.22179530506935e-05,
+      "auprc_l1": 0.00011801863918253712,
+      "cancer_id": "KICH",
+      "positives": 2,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7070129493903384
+    },
+    {
+      "auprc_g2": 0.6604755037935414,
+      "auprc_l1": 0.39877828588055225,
+      "cancer_id": "KIRC",
+      "positives": 28016,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8072227144598514
+    },
+    {
+      "auprc_g2": 0.4816889772416964,
+      "auprc_l1": 0.28713942169304235,
+      "cancer_id": "KIRP",
+      "positives": 18232,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7984942323279554
+    },
+    {
+      "auprc_g2": 0.05661346791464496,
+      "auprc_l1": 0.027948593295379347,
+      "cancer_id": "LAML",
+      "positives": 2101,
+      "rows": 100000,
+      "spearman_l1_g2": 0.753928034257178
+    },
+    {
+      "auprc_g2": 0.7126644214533072,
+      "auprc_l1": 0.44363665325621804,
+      "cancer_id": "LGG",
+      "positives": 34381,
+      "rows": 100000,
+      "spearman_l1_g2": 0.759440713667178
+    },
+    {
+      "auprc_g2": 0.42471128494552035,
+      "auprc_l1": 0.24591213737727372,
+      "cancer_id": "LIHC",
+      "positives": 15598,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7958132048058858
+    },
+    {
+      "auprc_g2": 0.5274166102678985,
+      "auprc_l1": 0.3256781170744158,
+      "cancer_id": "LUAD",
+      "positives": 22199,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8351940389640202
+    },
+    {
+      "auprc_g2": 0.4591098568867097,
+      "auprc_l1": 0.2304384008140728,
+      "cancer_id": "LUSC",
+      "positives": 15602,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8394490836090975
+    },
+    {
+      "auprc_g2": 0.0005145580851004785,
+      "auprc_l1": 0.0003337821072149882,
+      "cancer_id": "MESO",
+      "positives": 24,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7216538470851405
+    },
+    {
+      "auprc_g2": 0.4216600806233215,
+      "auprc_l1": 0.21876844542791707,
+      "cancer_id": "OV",
+      "positives": 12611,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8591732537316857
+    },
+    {
+      "auprc_g2": 0.24429344431283065,
+      "auprc_l1": 0.13969773280034042,
+      "cancer_id": "PAAD",
+      "positives": 8075,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7557679258782207
+    },
+    {
+      "auprc_g2": 0.12375179129927474,
+      "auprc_l1": 0.07165449688720275,
+      "cancer_id": "PCPG",
+      "positives": 4411,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7782845445067804
+    },
+    {
+      "auprc_g2": 0.6945305011545746,
+      "auprc_l1": 0.4693149267441209,
+      "cancer_id": "PRAD",
+      "positives": 30023,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8119265724081703
+    },
+    {
+      "auprc_g2": 0.15799674481562512,
+      "auprc_l1": 0.0784840071094045,
+      "cancer_id": "READ",
+      "positives": 3557,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7738891977092883
+    },
+    {
+      "auprc_g2": 0.23253527688851452,
+      "auprc_l1": 0.12425671244206962,
+      "cancer_id": "SARC",
+      "positives": 9034,
+      "rows": 100000,
+      "spearman_l1_g2": 0.767062851839321
+    },
+    {
+      "auprc_g2": 0.45220478606149156,
+      "auprc_l1": 0.2547903153797507,
+      "cancer_id": "SKCM",
+      "positives": 17645,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8570417606752826
+    },
+    {
+      "auprc_g2": 0.4886583854992739,
+      "auprc_l1": 0.2684226589496855,
+      "cancer_id": "STAD",
+      "positives": 19692,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8017611935123731
+    },
+    {
+      "auprc_g2": 0.3496994088328911,
+      "auprc_l1": 0.2259987979140956,
+      "cancer_id": "TGCT",
+      "positives": 17422,
+      "rows": 100000,
+      "spearman_l1_g2": 0.6666213020698921
+    },
+    {
+      "auprc_g2": 0.7806624750867486,
+      "auprc_l1": 0.553426105114,
+      "cancer_id": "THCA",
+      "positives": 39495,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7911694917241522
+    },
+    {
+      "auprc_g2": 0.33179757884365507,
+      "auprc_l1": 0.2333778330422944,
+      "cancer_id": "THYM",
+      "positives": 16068,
+      "rows": 100000,
+      "spearman_l1_g2": 0.7075233626956055
+    },
+    {
+      "auprc_g2": 0.4744650785243418,
+      "auprc_l1": 0.2607202375445832,
+      "cancer_id": "UCEC",
+      "positives": 17472,
+      "rows": 100000,
+      "spearman_l1_g2": 0.8539029477686272
+    },
+    {
+      "auprc_g2": 0.0,
+      "auprc_l1": 0.0,
+      "cancer_id": "UCS",
+      "positives": 0,
+      "rows": 100000,
+      "spearman_l1_g2": 0.6522448417873252
+    },
+    {
+      "auprc_g2": 0.008506404024394712,
+      "auprc_l1": 0.005402427420038441,
+      "cancer_id": "UVM",
+      "positives": 397,
+      "rows": 100000,
+      "spearman_l1_g2": 0.6764669322471993
+    }
+  ],
+  "prepared_source": {
+    "path": "/dsk2/user/dengsc/v32_eval_payloads/G2/PATIENT_FOLD_3.pt",
+    "sha256_declared": "5d22d86fe87f64403b7d7b3607deb9f1e01c4ab3e63f45cbdf0a6d3b076c74b1"
+  },
+  "residual_and_gate": {
+    "abs_raw_residual_mean": 2.9634421883032838,
+    "abs_raw_residual_quantiles": {
+      "0.5": 2.97673975858718,
+      "0.9": 3.0355001869501184,
+      "0.95": 3.0607923560422248,
+      "0.99": 3.124732113817924
+    },
+    "gate_mean": 0.7067784606560622,
+    "gate_quantiles": {
+      "0.01": 1.167255900226191e-12,
+      "0.5": 0.9994118213653564,
+      "0.99": 1.0
+    },
+    "identity_max_abs_error_all_rows": 2.888363512809633e-07,
+    "identity_max_abs_error_graph_available_rows": 2.888363512809633e-07,
+    "identity_note": "checked per chunk; the weighted means below are descriptive and are NOT claimed to satisfy mean(gate)*tanh(mean(raw))",
+    "share_abs_prob_change_lt_1e-6": 0.09599181818181818,
+    "share_graph_unavailable": 0.0
+  },
+  "rows": 3300000,
+  "run_id": "v32-g012-g2-c-global-binding-20260928-r1",
+  "runtime_chunks": 27,
+  "spearman_l1_vs_g2_all_rows": 0.920228438497527,
+  "status": "PASS_G2_VALIDATION_EVALUATION_FOLD",
+  "target_host": "149",
+  "validation_batches": 403
+}

@@ -1,0 +1,24 @@
+{
+  "destination": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/fold_4",
+  "destination_host": "149",
+  "file_count": 4,
+  "files": {
+    "v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_4__CC-HHGT__20260726/SUCCESS.json": 121779,
+    "v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_4__CC-HHGT__20260726/best_model_state.pt": 5517290,
+    "v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_4__CC-HHGT__20260726/last_training_state.pt": 15707488,
+    "v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_4__CC-HHGT__20260726/training_log.jsonl": 273006
+  },
+  "fold": 4,
+  "integrity_policy": "USER_DIRECTED_PATH_AND_BYTE_SIZE_ONLY",
+  "source_host": "10-60-1-208",
+  "status": "PASS_RESULT_RETURN_SIZE_VERIFIED_NO_REHASH",
+  "success": {
+    "best_validation_loss": 0.27403199377938575,
+    "completed_cycles": 94,
+    "optimizer_steps": 9494,
+    "stop_reason": "EARLY_STOPPING",
+    "task_dir": "v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_4__CC-HHGT__20260726",
+    "task_id": "v32-g012-g2-c-global-binding-20260928-r1|PATIENT_FOLD_4|CC-HHGT|20260726"
+  },
+  "total_bytes": 21619563
+}

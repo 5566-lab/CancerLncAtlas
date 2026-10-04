@@ -1,0 +1,1002 @@
+{
+  "all_embeddings_from_newly_trained_v32_core": true,
+  "analysis_version": "CancerLncAtlas_V3.2_C_GLOBAL_BINDING_G2",
+  "embedding_estimand": "REGISTERED_CHUNK_WEIGHTED_MEAN_OF_ENCODER_OUTPUTS",
+  "embedding_estimand_note": "sum_c w_c * encoder(chunk_c), w_c from _runtime_chunk_contract; the encoder-space analogue of the registered logit aggregation. Not claimed to equal encoder(union_graph).",
+  "export_format": "CC_HHGT_V3_2_FROZEN_CORE_EMBEDDINGS_V1",
+  "folds": {
+    "0": {
+      "artifact_hashes": {
+        "code_sha256": "bad3135ba858bf36fedd4a102eb509ddb110872844d5bf1def90a93274c0ba58",
+        "config_sha256": "a1184d485256cf5b4ca2a48f00b4beac3972a084da2ec87aa7aa9566b2257f55",
+        "input_manifest_sha256": "cfbd9956bb3612420d8830fca90a16e6e401f0d18dc2f7ab853a802d758e30e8",
+        "task_manifest_sha256": "da5c60e5060da85077308032fbd8587ef2a6a1793b99efbd2ef499e2e1c8efb3"
+      },
+      "checkpoint_cycle": 103,
+      "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V4_GROUP_SCHEDULE",
+      "checkpoint_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_0/results/v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_0__CC-HHGT__20260726/best_model_state.pt",
+      "checkpoint_sha256": "8a36a8fada6d77f25d6ca645486db1bc254dc4160f0f06a82ee188e6f0408030",
+      "chunk_weights": {
+        "0": 0.038461568348018255,
+        "1": 0.038461568348018255,
+        "10": 0.038461568348018255,
+        "11": 0.038461568348018255,
+        "12": 0.038461568348018255,
+        "13": 0.038461568348018255,
+        "14": 0.038461568348018255,
+        "15": 0.038461568348018255,
+        "16": 0.038461568348018255,
+        "17": 0.038461568348018255,
+        "18": 0.038461568348018255,
+        "19": 0.038461568348018255,
+        "2": 0.038461568348018255,
+        "20": 0.038461568348018255,
+        "21": 0.03846141293832333,
+        "22": 0.03846141293832333,
+        "23": 0.03846141293832333,
+        "24": 0.03846141293832333,
+        "25": 0.03846141293832333,
+        "3": 0.038461568348018255,
+        "4": 0.038461568348018255,
+        "5": 0.038461568348018255,
+        "6": 0.038461568348018255,
+        "7": 0.038461568348018255,
+        "8": 0.038461568348018255,
+        "9": 0.038461568348018255
+      },
+      "core_parameter_sha256": "13e4d0e5f60a5e425fc2e61b22e048a61cdd69d07539f28e4cf689651384f640",
+      "embedding_estimand": "REGISTERED_CHUNK_WEIGHTED_MEAN_OF_ENCODER_OUTPUTS",
+      "embedding_usability": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 17
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20960,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 8220,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 94
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18992,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      },
+      "exports": {
+        "cancer": {
+          "features": 96,
+          "path": "patient_fold=0/cancer.parquet",
+          "rows": 33,
+          "sha256": "a32e29fca36840e3a5f8f50690cbb8fd5dbbd0f32319c0ae356a1f1dc229b870"
+        },
+        "gene": {
+          "features": 96,
+          "path": "patient_fold=0/gene.parquet",
+          "rows": 21981,
+          "sha256": "f88c2cad1b40726f76355801b2e4a3c890f7680761a5f5ed3a0c68c8ac17c649"
+        },
+        "lncRNA": {
+          "features": 96,
+          "path": "patient_fold=0/lncRNA.parquet",
+          "rows": 8541,
+          "sha256": "e33b4561f808d2578b27f5c55450343d44e135a785fa6ce47baf941a5bc0f262"
+        },
+        "pathway": {
+          "features": 96,
+          "path": "patient_fold=0/pathway.parquet",
+          "rows": 2135,
+          "sha256": "07b3dd851e543a32d5eb1a0f8f916422fdf090932ee9662502c043851534d3bf"
+        },
+        "pathway_family": {
+          "features": 96,
+          "path": "patient_fold=0/pathway_family.parquet",
+          "rows": 85,
+          "sha256": "0ab9e14260f7f1201d48f88f468a0f403a2559f3d93a22adab584a318033c2ce"
+        },
+        "protein": {
+          "features": 96,
+          "path": "patient_fold=0/protein.parquet",
+          "rows": 20008,
+          "sha256": "7936a36565c13afc08eb52715c945014b71187ce519a7efc078a60642e22de7d"
+        }
+      },
+      "max_abs_chunk_deviation_from_weighted_mean": {
+        "cancer": 0.3211775606307332,
+        "gene": 6.522034436870262,
+        "lncRNA": 14.552196861838214,
+        "pathway": 2.193444934358055,
+        "pathway_family": 6.602359094998178e-07,
+        "protein": 5.430943253548082
+      },
+      "old_checkpoint_loaded": false,
+      "overlay_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_0/inputs/G2/G2_GLOBAL_FOLD_0.pt",
+      "partial_chunk_smoke": false,
+      "patient_fold": 0,
+      "prepared_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_0/inputs/G2/A_G2_PATIENT_FOLD_0.pt",
+      "prepared_sha256": "c60180606397c0b7c96835307376a1fc0a047405b9348c49d8e335529271a596",
+      "runtime_chunks": 26,
+      "runtime_chunks_total": 26,
+      "trained_from_scratch": true,
+      "union_graph_encode_diagnostic": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 16
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20880,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 7104,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 94
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18911,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      }
+    },
+    "1": {
+      "artifact_hashes": {
+        "code_sha256": "bad3135ba858bf36fedd4a102eb509ddb110872844d5bf1def90a93274c0ba58",
+        "config_sha256": "d8bb7a67f0d8c7a67a9945d8a2f689624f2a4d9cccab19046d68f4d5ee0dc1e8",
+        "input_manifest_sha256": "cbad2faf3bfed16dc0af64161a5036d2fa5bd7ffa7c70a445013b6f61fbe4f7e",
+        "task_manifest_sha256": "d937cd579fbdc5cbad50b39e40dbdba1ffec2a15f1be4a7c345a2aef65220382"
+      },
+      "checkpoint_cycle": 41,
+      "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V4_GROUP_SCHEDULE",
+      "checkpoint_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_1/results/v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_1__CC-HHGT__20260726/best_model_state.pt",
+      "checkpoint_sha256": "c36f440b74fab0bdaab60bd359d0be5a16347007e81a6565969824e5db1b9b0c",
+      "chunk_weights": {
+        "0": 0.03846155632075277,
+        "1": 0.03846155632075277,
+        "10": 0.03846155632075277,
+        "11": 0.03846155632075277,
+        "12": 0.03846155632075277,
+        "13": 0.03846155632075277,
+        "14": 0.03846155632075277,
+        "15": 0.03846155632075277,
+        "16": 0.03846155632075277,
+        "17": 0.03846155632075277,
+        "18": 0.03846155632075277,
+        "19": 0.03846155632075277,
+        "2": 0.03846155632075277,
+        "20": 0.03846155632075277,
+        "21": 0.03846155632075277,
+        "22": 0.03846155632075277,
+        "23": 0.03846140154089539,
+        "24": 0.03846140154089539,
+        "25": 0.03846140154089539,
+        "3": 0.03846155632075277,
+        "4": 0.03846155632075277,
+        "5": 0.03846155632075277,
+        "6": 0.03846155632075277,
+        "7": 0.03846155632075277,
+        "8": 0.03846155632075277,
+        "9": 0.03846155632075277
+      },
+      "core_parameter_sha256": "310ef14ebb80caf26015ac321ef2b5b14562195f29033b9123b3e7f682ab12dc",
+      "embedding_estimand": "REGISTERED_CHUNK_WEIGHTED_MEAN_OF_ENCODER_OUTPUTS",
+      "embedding_usability": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 24
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20960,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 8282,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 94
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18993,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      },
+      "exports": {
+        "cancer": {
+          "features": 96,
+          "path": "patient_fold=1/cancer.parquet",
+          "rows": 33,
+          "sha256": "f2b99502cf13213695a755233c401ebf2ccb80baf7b5e64ec02402353bc71ff0"
+        },
+        "gene": {
+          "features": 96,
+          "path": "patient_fold=1/gene.parquet",
+          "rows": 21981,
+          "sha256": "5acad75549ac44c2b5823734ec69e0ab8e9ac597165a1c01e3a2b41cdc8f7873"
+        },
+        "lncRNA": {
+          "features": 96,
+          "path": "patient_fold=1/lncRNA.parquet",
+          "rows": 8541,
+          "sha256": "7376a2bc171f6f5842057c3a791d6b20a243e52104f8a7e193b7692de1dad491"
+        },
+        "pathway": {
+          "features": 96,
+          "path": "patient_fold=1/pathway.parquet",
+          "rows": 2135,
+          "sha256": "bec56fab651890671eba90e9ec1e985042a4b5f38b2ff40bcabab2593f11e393"
+        },
+        "pathway_family": {
+          "features": 96,
+          "path": "patient_fold=1/pathway_family.parquet",
+          "rows": 85,
+          "sha256": "71fab57a5e8d2dd5d3ea5e7017e04a7d0886e8e9913f9873b2932789a79ebdac"
+        },
+        "protein": {
+          "features": 96,
+          "path": "patient_fold=1/protein.parquet",
+          "rows": 20008,
+          "sha256": "774cffa7382cd5490955f6f86a423e34af0fe45e763600a885059178af70e6fb"
+        }
+      },
+      "max_abs_chunk_deviation_from_weighted_mean": {
+        "cancer": 0.2361464451628858,
+        "gene": 4.7511262376698165,
+        "lncRNA": 13.71608019333198,
+        "pathway": 2.8790465480763574,
+        "pathway_family": 2.136597963886544e-06,
+        "protein": 4.767734584236977
+      },
+      "old_checkpoint_loaded": false,
+      "overlay_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_1/inputs/G2/G2_GLOBAL_FOLD_1.pt",
+      "partial_chunk_smoke": false,
+      "patient_fold": 1,
+      "prepared_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_1/inputs/G2/A_G2_PATIENT_FOLD_1.pt",
+      "prepared_sha256": "e808c7c9fab87c3fe633741902ab1d55f11f0189d391e366187978c4053553b2",
+      "runtime_chunks": 26,
+      "runtime_chunks_total": 26,
+      "trained_from_scratch": true,
+      "union_graph_encode_diagnostic": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 23
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20877,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 7250,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 94
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18899,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      }
+    },
+    "2": {
+      "artifact_hashes": {
+        "code_sha256": "bad3135ba858bf36fedd4a102eb509ddb110872844d5bf1def90a93274c0ba58",
+        "config_sha256": "9073c0c4ce49e8e2b28c55109d53858f7e5856f3a6f822c21365dd6bf9a02773",
+        "input_manifest_sha256": "09c5431b8eb3637f5d0605952d161087921d9a5f7b7152338044e495fc452eaa",
+        "task_manifest_sha256": "5b2badf233938442f882108fe8b9df35df564f81313ee2c407432bbd228f1b88"
+      },
+      "checkpoint_cycle": 81,
+      "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V4_GROUP_SCHEDULE",
+      "checkpoint_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_2/results/v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_2__CC-HHGT__20260726/best_model_state.pt",
+      "checkpoint_sha256": "01c7e7dfd195a454fa670afdb77ba163f9f9e231dbdf6f5240e8fa4e6c6776c7",
+      "chunk_weights": {
+        "0": 0.03846165090184524,
+        "1": 0.03846165090184524,
+        "10": 0.03846149703616228,
+        "11": 0.03846149703616228,
+        "12": 0.03846149703616228,
+        "13": 0.03846149703616228,
+        "14": 0.03846149703616228,
+        "15": 0.03846149703616228,
+        "16": 0.03846149703616228,
+        "17": 0.03846149703616228,
+        "18": 0.03846149703616228,
+        "19": 0.03846149703616228,
+        "2": 0.03846165090184524,
+        "20": 0.03846149703616228,
+        "21": 0.03846149703616228,
+        "22": 0.03846149703616228,
+        "23": 0.03846149703616228,
+        "24": 0.03846149703616228,
+        "25": 0.03846149703616228,
+        "3": 0.03846165090184524,
+        "4": 0.03846165090184524,
+        "5": 0.03846165090184524,
+        "6": 0.03846165090184524,
+        "7": 0.03846149703616228,
+        "8": 0.03846149703616228,
+        "9": 0.03846149703616228
+      },
+      "core_parameter_sha256": "697165644b2f52e6fdca100c6130c8f45687b7e56daefc59d9f9ccb3a23cc34a",
+      "embedding_estimand": "REGISTERED_CHUNK_WEIGHTED_MEAN_OF_ENCODER_OUTPUTS",
+      "embedding_usability": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 23
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20960,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 7906,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18991,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      },
+      "exports": {
+        "cancer": {
+          "features": 96,
+          "path": "patient_fold=2/cancer.parquet",
+          "rows": 33,
+          "sha256": "6708df016f16656b9f6fd0492b011362aa0c7429de6fcc164be37062d1b2a003"
+        },
+        "gene": {
+          "features": 96,
+          "path": "patient_fold=2/gene.parquet",
+          "rows": 21981,
+          "sha256": "65a9954e10a40467b12bb6bca576997cd2b3aff0374777b77d31abafe7aac03e"
+        },
+        "lncRNA": {
+          "features": 96,
+          "path": "patient_fold=2/lncRNA.parquet",
+          "rows": 8541,
+          "sha256": "7be2258127ebf8d8a1bb3ec0d5015f4f7e26a5d99f3136dab51ebb0fd01ed749"
+        },
+        "pathway": {
+          "features": 96,
+          "path": "patient_fold=2/pathway.parquet",
+          "rows": 2135,
+          "sha256": "8d969eb580696b4b6212452363c2e66b39ed30394462ef8831b43d66d25f13d8"
+        },
+        "pathway_family": {
+          "features": 96,
+          "path": "patient_fold=2/pathway_family.parquet",
+          "rows": 85,
+          "sha256": "782f27529f87f59deef5a75a6063ccce086c7db6174dac06e7358488a6bbc4e0"
+        },
+        "protein": {
+          "features": 96,
+          "path": "patient_fold=2/protein.parquet",
+          "rows": 20008,
+          "sha256": "a1efffd3d62f2ad7f69c6e20dc6d30477878aa8423b9c327b68dda4b0896399a"
+        }
+      },
+      "max_abs_chunk_deviation_from_weighted_mean": {
+        "cancer": 0.5431602979075744,
+        "gene": 5.876375591171994,
+        "lncRNA": 6.303261587573174,
+        "pathway": 2.6625637000960793,
+        "pathway_family": 7.519355160745533e-07,
+        "protein": 3.0656374167323936
+      },
+      "old_checkpoint_loaded": false,
+      "overlay_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_2/inputs/G2/G2_GLOBAL_FOLD_2.pt",
+      "partial_chunk_smoke": false,
+      "patient_fold": 2,
+      "prepared_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_2/inputs/G2/A_G2_PATIENT_FOLD_2.pt",
+      "prepared_sha256": "6203ecc012472e906969fb45eda6d8910bd493dd19b0503d132564df7a07da34",
+      "runtime_chunks": 26,
+      "runtime_chunks_total": 26,
+      "trained_from_scratch": true,
+      "union_graph_encode_diagnostic": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 22
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20878,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 5624,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18907,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      }
+    },
+    "3": {
+      "artifact_hashes": {
+        "code_sha256": "bad3135ba858bf36fedd4a102eb509ddb110872844d5bf1def90a93274c0ba58",
+        "config_sha256": "c44e5678f332033a6edc3096b09b649b820e45ddd7a54887fbe1fda0fada0576",
+        "input_manifest_sha256": "bfebd0048936d787723a39fd67ea789ba28d224866ba9fdac2e61946d978bf0e",
+        "task_manifest_sha256": "18c3a4cd5a160b32e8cb0af5ac6a28734d01fb09895682d1d981c082bad62f2f"
+      },
+      "checkpoint_cycle": 105,
+      "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V4_GROUP_SCHEDULE",
+      "checkpoint_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_3/results/v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_3__CC-HHGT__20260726/best_model_state.pt",
+      "checkpoint_sha256": "742260a374e8b6e69738f359e9d799c9466e8d73ebde85e1f8abd37997728fa0",
+      "chunk_weights": {
+        "0": 0.037037133563272456,
+        "1": 0.037037133563272456,
+        "10": 0.037036980256898555,
+        "11": 0.037036980256898555,
+        "12": 0.037036980256898555,
+        "13": 0.037036980256898555,
+        "14": 0.037036980256898555,
+        "15": 0.037036980256898555,
+        "16": 0.037036980256898555,
+        "17": 0.037036980256898555,
+        "18": 0.037036980256898555,
+        "19": 0.037036980256898555,
+        "2": 0.037037133563272456,
+        "20": 0.037036980256898555,
+        "21": 0.037036980256898555,
+        "22": 0.037036980256898555,
+        "23": 0.037036980256898555,
+        "24": 0.037036980256898555,
+        "25": 0.037036980256898555,
+        "26": 0.037036980256898555,
+        "3": 0.037037133563272456,
+        "4": 0.037037133563272456,
+        "5": 0.037037133563272456,
+        "6": 0.037037133563272456,
+        "7": 0.037037133563272456,
+        "8": 0.037037133563272456,
+        "9": 0.037037133563272456
+      },
+      "core_parameter_sha256": "5f8bdb8a9b9fccaf6991b102d405ae6d76275ac898302cae4839111afc4b4660",
+      "embedding_estimand": "REGISTERED_CHUNK_WEIGHTED_MEAN_OF_ENCODER_OUTPUTS",
+      "embedding_usability": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 20
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20960,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 8206,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18992,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      },
+      "exports": {
+        "cancer": {
+          "features": 96,
+          "path": "patient_fold=3/cancer.parquet",
+          "rows": 33,
+          "sha256": "62881e553b2febee6dbe7d787679344ad453ad6e2ae8e7da13d222c8b4f302a5"
+        },
+        "gene": {
+          "features": 96,
+          "path": "patient_fold=3/gene.parquet",
+          "rows": 21981,
+          "sha256": "7d362af4e6a9489c688228f0e665631513208b83cd5d5cbaa35e22a304b218d6"
+        },
+        "lncRNA": {
+          "features": 96,
+          "path": "patient_fold=3/lncRNA.parquet",
+          "rows": 8541,
+          "sha256": "d83f723b83d87ebf627b90b41493d48689d054be79d9e9b754a6b14b9e98dab8"
+        },
+        "pathway": {
+          "features": 96,
+          "path": "patient_fold=3/pathway.parquet",
+          "rows": 2135,
+          "sha256": "98cb152e387e55239737f4cbec1142bd17611b4323626e62108c1606042a1fef"
+        },
+        "pathway_family": {
+          "features": 96,
+          "path": "patient_fold=3/pathway_family.parquet",
+          "rows": 85,
+          "sha256": "17e8d4afedb7e74b4e512e448ad0fbc081bb6ddffa4bef9f729fc2fa622c06e4"
+        },
+        "protein": {
+          "features": 96,
+          "path": "patient_fold=3/protein.parquet",
+          "rows": 20008,
+          "sha256": "ca7efc751cb0ed428a9fa7254bcd49c57e1286c4d42a5bfe54b9459de3edc9b6"
+        }
+      },
+      "max_abs_chunk_deviation_from_weighted_mean": {
+        "cancer": 0.5599413084062834,
+        "gene": 4.9455733617864155,
+        "lncRNA": 10.467403163167786,
+        "pathway": 6.32050379219902,
+        "pathway_family": 1.4614180148253553e-06,
+        "protein": 4.751914026392816
+      },
+      "old_checkpoint_loaded": false,
+      "overlay_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_3/inputs/G2/G2_GLOBAL_FOLD_3.pt",
+      "partial_chunk_smoke": false,
+      "patient_fold": 3,
+      "prepared_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_3/inputs/G2/A_G2_PATIENT_FOLD_3.pt",
+      "prepared_sha256": "5d22d86fe87f64403b7d7b3607deb9f1e01c4ab3e63f45cbdf0a6d3b076c74b1",
+      "runtime_chunks": 27,
+      "runtime_chunks_total": 27,
+      "trained_from_scratch": true,
+      "union_graph_encode_diagnostic": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 20
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20881,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 7066,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18910,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      }
+    },
+    "4": {
+      "artifact_hashes": {
+        "code_sha256": "bad3135ba858bf36fedd4a102eb509ddb110872844d5bf1def90a93274c0ba58",
+        "config_sha256": "82162fd22865ce5083185280fd242eca8ad3fc4146f7dec0f9cf6e84e53aef43",
+        "input_manifest_sha256": "b0fc240158e9e97fc6f8d02dbf05f9203cfee58bad69951da27231b2021585a3",
+        "task_manifest_sha256": "efef5b32346c3374284d114530c952efea440987a1c19804a5adc9aa33b6b176"
+      },
+      "checkpoint_cycle": 88,
+      "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V4_GROUP_SCHEDULE",
+      "checkpoint_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_4/results/v32-g012-g2-c-global-binding-20260928-r1__PATIENT_FOLD_4__CC-HHGT__20260726/best_model_state.pt",
+      "checkpoint_sha256": "c4a97da8dc659a8896341c8b55994dab375d7996b7803450d65a0a3d478a4019",
+      "chunk_weights": {
+        "0": 0.038461663223339965,
+        "1": 0.038461663223339965,
+        "10": 0.03846150875634763,
+        "11": 0.03846150875634763,
+        "12": 0.03846150875634763,
+        "13": 0.03846150875634763,
+        "14": 0.03846150875634763,
+        "15": 0.03846150875634763,
+        "16": 0.03846150875634763,
+        "17": 0.03846150875634763,
+        "18": 0.03846150875634763,
+        "19": 0.03846150875634763,
+        "2": 0.038461663223339965,
+        "20": 0.03846150875634763,
+        "21": 0.03846150875634763,
+        "22": 0.03846150875634763,
+        "23": 0.03846150875634763,
+        "24": 0.03846150875634763,
+        "25": 0.03846150875634763,
+        "3": 0.038461663223339965,
+        "4": 0.038461663223339965,
+        "5": 0.03846150875634763,
+        "6": 0.03846150875634763,
+        "7": 0.03846150875634763,
+        "8": 0.03846150875634763,
+        "9": 0.03846150875634763
+      },
+      "core_parameter_sha256": "024c9ee0a3ed77e9f0c15efa29f9f35d94f9e4f60e07cb376a7a6e5322b41901",
+      "embedding_estimand": "REGISTERED_CHUNK_WEIGHTED_MEAN_OF_ENCODER_OUTPUTS",
+      "embedding_usability": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 33,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 18
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20960,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 8263,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 91
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18987,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      },
+      "exports": {
+        "cancer": {
+          "features": 96,
+          "path": "patient_fold=4/cancer.parquet",
+          "rows": 33,
+          "sha256": "32319c24ea1185c198a05b6ddaf15d74b28997bfe7df525abc0a42b88edc2646"
+        },
+        "gene": {
+          "features": 96,
+          "path": "patient_fold=4/gene.parquet",
+          "rows": 21981,
+          "sha256": "eca6dfe52ae7f1a4c44df99ad56024403d430315caef136dd632b216229d8ba1"
+        },
+        "lncRNA": {
+          "features": 96,
+          "path": "patient_fold=4/lncRNA.parquet",
+          "rows": 8541,
+          "sha256": "b2d3b15fa0287bfbbfefea8ee9dcf9cd29b92e4bb93f6ff6c3441cbbefce2930"
+        },
+        "pathway": {
+          "features": 96,
+          "path": "patient_fold=4/pathway.parquet",
+          "rows": 2135,
+          "sha256": "8952991d6859e64c0d0fd226692cab11f405dda2226920999c36c1173ae8c40f"
+        },
+        "pathway_family": {
+          "features": 96,
+          "path": "patient_fold=4/pathway_family.parquet",
+          "rows": 85,
+          "sha256": "cab0bd56bc57f0503d177cc27c64558476244e57a2002aae3a55c60b35711694"
+        },
+        "protein": {
+          "features": 96,
+          "path": "patient_fold=4/protein.parquet",
+          "rows": 20008,
+          "sha256": "5eb31a7302f361f7e20e50b2c4294d291fee5984b20bec703e211de7b6686a6b"
+        }
+      },
+      "max_abs_chunk_deviation_from_weighted_mean": {
+        "cancer": 0.37070981093356525,
+        "gene": 4.359040617702227,
+        "lncRNA": 11.47879760731679,
+        "pathway": 3.9937988557491235,
+        "pathway_family": 4.5391229464009086e-07,
+        "protein": 2.6754012160756315
+      },
+      "old_checkpoint_loaded": false,
+      "overlay_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_4/inputs/G2/G2_GLOBAL_FOLD_4.pt",
+      "partial_chunk_smoke": false,
+      "patient_fold": 4,
+      "prepared_path": "/root/CancerLncAtlas_C_GLOBAL_G2_20260928/fold_4/inputs/G2/A_G2_PATIENT_FOLD_4.pt",
+      "prepared_sha256": "71803651b5ae28a7e64fdf47627bdfaa317ef246a80ebc077317da320b37e08f",
+      "runtime_chunks": 26,
+      "runtime_chunks_total": 26,
+      "trained_from_scratch": true,
+      "union_graph_encode_diagnostic": {
+        "cancer": {
+          "features": 96,
+          "rows": 33,
+          "status": "USABLE",
+          "unique_embedding_vectors": 32,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 14
+        },
+        "gene": {
+          "features": 96,
+          "rows": 21981,
+          "status": "USABLE",
+          "unique_embedding_vectors": 20876,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "lncRNA": {
+          "features": 96,
+          "rows": 8541,
+          "status": "USABLE",
+          "unique_embedding_vectors": 7108,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway": {
+          "features": 96,
+          "rows": 2135,
+          "status": "USABLE",
+          "unique_embedding_vectors": 2135,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        },
+        "pathway_family": {
+          "features": 96,
+          "rows": 85,
+          "status": "USABLE",
+          "unique_embedding_vectors": 85,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 91
+        },
+        "protein": {
+          "features": 96,
+          "rows": 20008,
+          "status": "USABLE",
+          "unique_embedding_vectors": 18891,
+          "usable_for_node_discrimination": true,
+          "varying_feature_count": 96
+        }
+      }
+    }
+  },
+  "graph_variant": "G2",
+  "historical_checkpoint_loaded": false,
+  "historical_prediction_loaded": false,
+  "module_id": "exact_pathway",
+  "rbp_evidence_mode": "C_GLOBAL_PHYSICAL_BINDING",
+  "runner_sha256": "2d5e5b9f60f7fb20bc8daf9515420d93842b3805b9e759743d22745645af6d74",
+  "training_generation": "V3.2"
+}
