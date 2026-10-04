@@ -1,0 +1,363 @@
+{
+  "added_training_cancers": [
+    "BLCA",
+    "LUAD",
+    "PAAD",
+    "PRAD",
+    "STAD"
+  ],
+  "binding_sha256": "f2addf6a77ddf482bf39103b6351a04807700d7415a7c06142719365a580dc4e",
+  "bound_cancers": [
+    "ACC",
+    "BLCA",
+    "BRCA",
+    "CESC",
+    "CHOL",
+    "COAD",
+    "DLBC",
+    "ESCA",
+    "GBM",
+    "HNSC",
+    "KIRC",
+    "LAML",
+    "LGG",
+    "LUAD",
+    "LUSC",
+    "MESO",
+    "OV",
+    "PAAD",
+    "PCPG",
+    "PRAD",
+    "READ",
+    "SARC",
+    "SKCM",
+    "STAD",
+    "TGCT",
+    "THYM",
+    "UCEC",
+    "UVM"
+  ],
+  "coverage": [
+    {
+      "association_rows": 1733282,
+      "cancer_id": "ACC",
+      "celltype_rows": 815048,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 15291
+    },
+    {
+      "association_rows": 96851,
+      "cancer_id": "BLCA",
+      "celltype_rows": 43515,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 1682
+    },
+    {
+      "association_rows": 218054,
+      "cancer_id": "BRCA",
+      "celltype_rows": 168258,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 3839
+    },
+    {
+      "association_rows": 219886,
+      "cancer_id": "CESC",
+      "celltype_rows": 123920,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 3953
+    },
+    {
+      "association_rows": 507026,
+      "cancer_id": "CHOL",
+      "celltype_rows": 242763,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 6959
+    },
+    {
+      "association_rows": 130529,
+      "cancer_id": "COAD",
+      "celltype_rows": 75426,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 2863
+    },
+    {
+      "association_rows": 0,
+      "cancer_id": "DLBC",
+      "celltype_rows": 23568,
+      "qualified": true,
+      "reason": "NO_ASSOCIATION_ROWS_AFTER_DONOR_REPLICATION_FILTER",
+      "training_rows": 0
+    },
+    {
+      "association_rows": 98901,
+      "cancer_id": "ESCA",
+      "celltype_rows": 410972,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 1547
+    },
+    {
+      "association_rows": 431296,
+      "cancer_id": "GBM",
+      "celltype_rows": 927724,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 3695
+    },
+    {
+      "association_rows": 335681,
+      "cancer_id": "HNSC",
+      "celltype_rows": 65585,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 3347
+    },
+    {
+      "cancer_id": "KICH",
+      "qualified": false,
+      "reason": "INSUFFICIENT_INDEPENDENT_DONORS_3_LT_5_NO_RESCUE_SOURCE_IDENTIFIED",
+      "training_rows": 0
+    },
+    {
+      "association_rows": 388161,
+      "cancer_id": "KIRC",
+      "celltype_rows": 332164,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 5567
+    },
+    {
+      "cancer_id": "KIRP",
+      "qualified": false,
+      "reason": "INSUFFICIENT_INDEPENDENT_DONORS_3_LT_5_NO_RESCUE_SOURCE_IDENTIFIED",
+      "training_rows": 0
+    },
+    {
+      "association_rows": 145305,
+      "cancer_id": "LAML",
+      "celltype_rows": 94560,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 1110
+    },
+    {
+      "association_rows": 322641,
+      "cancer_id": "LGG",
+      "celltype_rows": 64576,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 2670
+    },
+    {
+      "cancer_id": "LIHC",
+      "qualified": false,
+      "reason": "SOURCE_IS_INTRAHEPATIC_CHOLANGIOCARCINOMA_NOT_LIHC",
+      "training_rows": 0
+    },
+    {
+      "association_rows": 85859,
+      "cancer_id": "LUAD",
+      "celltype_rows": 95733,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 1421
+    },
+    {
+      "association_rows": 326781,
+      "cancer_id": "LUSC",
+      "celltype_rows": 184712,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 4826
+    },
+    {
+      "association_rows": 205342,
+      "cancer_id": "MESO",
+      "celltype_rows": 310040,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 3895
+    },
+    {
+      "association_rows": 222876,
+      "cancer_id": "OV",
+      "celltype_rows": 55119,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 3382
+    },
+    {
+      "association_rows": 116291,
+      "cancer_id": "PAAD",
+      "celltype_rows": 278496,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 2200
+    },
+    {
+      "association_rows": 573179,
+      "cancer_id": "PCPG",
+      "celltype_rows": 195993,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 8710
+    },
+    {
+      "association_rows": 143266,
+      "cancer_id": "PRAD",
+      "celltype_rows": 113139,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 2412
+    },
+    {
+      "association_rows": 542078,
+      "cancer_id": "READ",
+      "celltype_rows": 667440,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 9777
+    },
+    {
+      "association_rows": 544293,
+      "cancer_id": "SARC",
+      "celltype_rows": 356546,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 6544
+    },
+    {
+      "association_rows": 184280,
+      "cancer_id": "SKCM",
+      "celltype_rows": 103927,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 1774
+    },
+    {
+      "association_rows": 223895,
+      "cancer_id": "STAD",
+      "celltype_rows": 52218,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 4101
+    },
+    {
+      "association_rows": 988025,
+      "cancer_id": "TGCT",
+      "celltype_rows": 498080,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 11602
+    },
+    {
+      "cancer_id": "THCA",
+      "qualified": false,
+      "reason": "PTC_ONLY_3_DONORS_ATC_SCOPE_NOT_AUTHORIZED",
+      "training_rows": 0
+    },
+    {
+      "association_rows": 243439,
+      "cancer_id": "THYM",
+      "celltype_rows": 372048,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 3473
+    },
+    {
+      "association_rows": 6944140,
+      "cancer_id": "UCEC",
+      "celltype_rows": 806104,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 52204
+    },
+    {
+      "cancer_id": "UCS",
+      "qualified": false,
+      "reason": "GSE299623_RELEASE_CONTAINS_18082_FEATURES_BUT_ONLY_38_FORMAL_LNCRNAS",
+      "training_rows": 0
+    },
+    {
+      "association_rows": 438271,
+      "cancer_id": "UVM",
+      "celltype_rows": 520344,
+      "qualified": true,
+      "reason": null,
+      "training_rows": 9220
+    }
+  ],
+  "cross_source_cell_and_namespaced_patient_overlap": 0,
+  "fold_reassignment_policy": "EXISTING_SORTED_BLOCK_ROUND_ROBIN_RECOMPUTED_FOR_NEW_COHORT_NO_OLD_HEAD_RESUME",
+  "fold_splits_pairwise_disjoint": true,
+  "manifest_sha256": "42e7f0b311e0f83c87c5009e8b3e4494fd3dd030c6a64e0ee2e19acf5c5a5574",
+  "partition_isolation": "DATASET_LEVEL_AGGREGATED_ASSOCIATIONS_NOT_DONOR_LEVEL",
+  "qualified_cancers": [
+    "ACC",
+    "BLCA",
+    "BRCA",
+    "CESC",
+    "CHOL",
+    "COAD",
+    "DLBC",
+    "ESCA",
+    "GBM",
+    "HNSC",
+    "KIRC",
+    "LAML",
+    "LGG",
+    "LUAD",
+    "LUSC",
+    "MESO",
+    "OV",
+    "PAAD",
+    "PCPG",
+    "PRAD",
+    "READ",
+    "SARC",
+    "SKCM",
+    "STAD",
+    "TGCT",
+    "THYM",
+    "UCEC",
+    "UVM"
+  ],
+  "status": "PASS",
+  "target_host": "149",
+  "training_cancers": [
+    "ACC",
+    "BLCA",
+    "BRCA",
+    "CESC",
+    "CHOL",
+    "COAD",
+    "ESCA",
+    "GBM",
+    "HNSC",
+    "KIRC",
+    "LAML",
+    "LGG",
+    "LUAD",
+    "LUSC",
+    "MESO",
+    "OV",
+    "PAAD",
+    "PCPG",
+    "PRAD",
+    "READ",
+    "SARC",
+    "SKCM",
+    "STAD",
+    "TGCT",
+    "THYM",
+    "UCEC",
+    "UVM"
+  ],
+  "training_started": false
+}

@@ -1,0 +1,267 @@
+{
+  "all_five_fold_private_heads_trained": true,
+  "all_private_heads_random_initialization": true,
+  "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+  "checkpoint_file_count": 5,
+  "checkpoint_format": "CC_HHGT_V3_2_SINGLE_CELL_PRIVATE_HEAD_V1",
+  "constant_lncrna_core_masked": false,
+  "core_detached_and_frozen": true,
+  "core_embedding_usability": [
+    {
+      "lncrna": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8220,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "lncrna_fallback": null,
+      "pathway": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "single_cell_fold": 0
+    },
+    {
+      "lncrna": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8282,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "lncrna_fallback": null,
+      "pathway": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "single_cell_fold": 1
+    },
+    {
+      "lncrna": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 7906,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "lncrna_fallback": null,
+      "pathway": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "single_cell_fold": 2
+    },
+    {
+      "lncrna": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8206,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "lncrna_fallback": null,
+      "pathway": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "single_cell_fold": 3
+    },
+    {
+      "lncrna": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8263,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "lncrna_fallback": null,
+      "pathway": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "single_cell_fold": 4
+    }
+  ],
+  "core_materialization_policy": "STREAM_SELECTED_ROWS_AND_TEST_BATCHES_ONLY",
+  "folds": 5,
+  "module_id": "single_cell",
+  "records": [
+    {
+      "core_checkpoint_sha256": "8a36a8fada6d77f25d6ca645486db1bc254dc4160f0f06a82ee188e6f0408030",
+      "core_lncrna_embedding_usability": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8220,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "core_parameter_sha256": "13e4d0e5f60a5e425fc2e61b22e048a61cdd69d07539f28e4cf689651384f640",
+      "core_pathway_embedding_usability": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "fresh_random_initialization": true,
+      "initial_parameter_sha256": "7c5ea2c07413550bf80b34841b6985ac48f72d426c5781136a942451f2310923",
+      "path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/checkpoints/single_cell_fold_0.pt",
+      "reason": null,
+      "sha256": "fb333a555f2cd1b4e69ac4c23c34ad096347d2a97867c96f4ee4619a9febe64c",
+      "single_cell_fold": 0,
+      "source_checkpoint_sha256": null,
+      "status": "SUCCESS",
+      "train_rows": 121801,
+      "validation_rows": 28768
+    },
+    {
+      "core_checkpoint_sha256": "c36f440b74fab0bdaab60bd359d0be5a16347007e81a6565969824e5db1b9b0c",
+      "core_lncrna_embedding_usability": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8282,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "core_parameter_sha256": "310ef14ebb80caf26015ac321ef2b5b14562195f29033b9123b3e7f682ab12dc",
+      "core_pathway_embedding_usability": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "fresh_random_initialization": true,
+      "initial_parameter_sha256": "cceb433e560ff851609fa7be1df527fb4b7cf644448a2839bc520e48dab0775a",
+      "path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/checkpoints/single_cell_fold_1.pt",
+      "reason": null,
+      "sha256": "4d51f2d0e0da4ca547d0548bd92365013ed51bae184296dfbfdf78202f418598",
+      "single_cell_fold": 1,
+      "source_checkpoint_sha256": null,
+      "status": "SUCCESS",
+      "train_rows": 118075,
+      "validation_rows": 31221
+    },
+    {
+      "core_checkpoint_sha256": "01c7e7dfd195a454fa670afdb77ba163f9f9e231dbdf6f5240e8fa4e6c6776c7",
+      "core_lncrna_embedding_usability": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 7906,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "core_parameter_sha256": "697165644b2f52e6fdca100c6130c8f45687b7e56daefc59d9f9ccb3a23cc34a",
+      "core_pathway_embedding_usability": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "fresh_random_initialization": true,
+      "initial_parameter_sha256": "57a6b5efa189ce8c006d9cd022a4c2b597f9be779c0b730d7e1c9cba9b9ab3fc",
+      "path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/checkpoints/single_cell_fold_2.pt",
+      "reason": null,
+      "sha256": "3223a8def6a3d74e182abf379c7392d60c65d9830d0aff7268de8141a688c043",
+      "single_cell_fold": 2,
+      "source_checkpoint_sha256": null,
+      "status": "SUCCESS",
+      "train_rows": 76100,
+      "validation_rows": 70743
+    },
+    {
+      "core_checkpoint_sha256": "742260a374e8b6e69738f359e9d799c9466e8d73ebde85e1f8abd37997728fa0",
+      "core_lncrna_embedding_usability": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8206,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "core_parameter_sha256": "5f8bdb8a9b9fccaf6991b102d405ae6d76275ac898302cae4839111afc4b4660",
+      "core_pathway_embedding_usability": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "fresh_random_initialization": true,
+      "initial_parameter_sha256": "8f65632ea7c402b1dd9411397ca260a65ead4571a91210c012621ae3ca8c4fb5",
+      "path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/checkpoints/single_cell_fold_3.pt",
+      "reason": null,
+      "sha256": "68a85c9db167cecaa2872d0a368dff3263e5ef57dc6b90770f1407385b1f0805",
+      "single_cell_fold": 3,
+      "source_checkpoint_sha256": null,
+      "status": "SUCCESS",
+      "train_rows": 87484,
+      "validation_rows": 19837
+    },
+    {
+      "core_checkpoint_sha256": "c4a97da8dc659a8896341c8b55994dab375d7996b7803450d65a0a3d478a4019",
+      "core_lncrna_embedding_usability": {
+        "features": 96,
+        "rows": 8541,
+        "status": "USABLE",
+        "unique_embedding_vectors": 8263,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "core_parameter_sha256": "024c9ee0a3ed77e9f0c15efa29f9f35d94f9e4f60e07cb376a7a6e5322b41901",
+      "core_pathway_embedding_usability": {
+        "features": 96,
+        "rows": 2135,
+        "status": "USABLE",
+        "unique_embedding_vectors": 2135,
+        "usable_for_node_discrimination": true,
+        "varying_feature_count": 96
+      },
+      "fresh_random_initialization": true,
+      "initial_parameter_sha256": "47b5c15b55ca49d72b5bfbf932f3aad13af355436a9dccc608c4c008dee6a7ce",
+      "path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/checkpoints/single_cell_fold_4.pt",
+      "reason": null,
+      "sha256": "7f396e1d06f6bbfb03d4a998dd289c51af1b5de4c516eee84f324618fc88546f",
+      "single_cell_fold": 4,
+      "source_checkpoint_sha256": null,
+      "status": "SUCCESS",
+      "train_rows": 130732,
+      "validation_rows": 27495
+    }
+  ],
+  "trained_private_head_count": 5
+}

@@ -1,0 +1,7 @@
+{
+  "fail_closed": true,
+  "module_id": "single_cell",
+  "status": "PASS",
+  "training_status": "SUCCESS",
+  "validator": "cc_hhgt.v32.full_model_contract.validate_module_lineage"
+}

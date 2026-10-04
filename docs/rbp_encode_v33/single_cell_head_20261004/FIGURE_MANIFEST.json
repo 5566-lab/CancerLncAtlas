@@ -1,0 +1,271 @@
+{
+  "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+  "entries": [
+    {
+      "cancer_id": "ACC",
+      "dataset_id": "SC_Zenodo_10534062_ACC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "BLCA",
+      "dataset_id": "SC_GSE210347_VERIFIED_BLCA",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "BRCA",
+      "dataset_id": "SC_E_MTAB_8107_BRCA",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "CESC",
+      "dataset_id": "SC_GSE297041_CESC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "CHOL",
+      "dataset_id": "SC_GSE125449_CHOL",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "COAD",
+      "dataset_id": "SC_E_MTAB_8107_COAD",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "DLBC",
+      "dataset_id": "SC_GSE182434_DLBC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "ESCA",
+      "dataset_id": "SC_GSE173950_ESCA",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "GBM",
+      "dataset_id": "SC_GSE148842_GBM",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "HNSC",
+      "dataset_id": "SC_GSE103322_HNSC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "KICH",
+      "dataset_id": "SC_MULTI3_KICH",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "KIRC",
+      "dataset_id": "SC_GSE159115_KIRC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "KIRP",
+      "dataset_id": "SC_MULTI3_KIRP",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "LAML",
+      "dataset_id": "SC_GSE116256_LAML",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "LGG",
+      "dataset_id": "SC_GSE70630_GSE89567_LGG",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "LIHC",
+      "dataset_id": "UNAVAILABLE_LIHC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "LUAD",
+      "dataset_id": "SC_GSE210347_VERIFIED_LUAD",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "LUSC",
+      "dataset_id": "SC_GSE148071_LUSC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "MESO",
+      "dataset_id": "SC_GSE253973_MESO",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "OV",
+      "dataset_id": "SC_E_MTAB_8107_OV",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "PAAD",
+      "dataset_id": "SC_GSE210347_VERIFIED_PAAD",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "PCPG",
+      "dataset_id": "SC_FIGSHARE29447750_PCPG",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "PRAD",
+      "dataset_id": "SC_GSE210347_VERIFIED_PRAD",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "READ",
+      "dataset_id": "SC_GSE302903_READ",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "SARC",
+      "dataset_id": "SC_GSE277083_SARC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "SKCM",
+      "dataset_id": "SC_GSE115978_SKCM",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "STAD",
+      "dataset_id": "SC_GSE210347_VERIFIED_STAD",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "TGCT",
+      "dataset_id": "SC_MERGED_TGCT_V32_RESCUE_20260903",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "THCA",
+      "dataset_id": "UNAVAILABLE_THCA",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "THYM",
+      "dataset_id": "SC_GSE228033_THYM",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "UCEC",
+      "dataset_id": "SC_GSE260683_UCEC",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "UCS",
+      "dataset_id": "SC_GSE299623_UCS",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    },
+    {
+      "cancer_id": "UVM",
+      "dataset_id": "SC_GSE139829_UVM",
+      "path": null,
+      "reason": "NO_REGISTERED_SINGLE_CELL_FIGURE",
+      "sha256": null,
+      "status": "NULL_WITH_REASON"
+    }
+  ],
+  "figure_files_are_outputs_not_training_features": true,
+  "format": "CC_HHGT_V3_2_SINGLE_CELL_FIGURE_MANIFEST_V1"
+}

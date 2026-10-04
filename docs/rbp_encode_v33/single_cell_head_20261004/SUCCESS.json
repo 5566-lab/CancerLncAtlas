@@ -1,0 +1,21 @@
+{
+  "all_probabilities_null": false,
+  "all_unavailable_rows_have_reason": true,
+  "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+  "available_rows": 178064,
+  "contract_validation_path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/FULL_MODEL_CONTRACT_VALIDATION.json",
+  "contract_validation_status": "PASS",
+  "exact_pathway_only": true,
+  "formal_datasets": 28,
+  "lineage_path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/LINEAGE.json",
+  "lineage_sha256": "8cc3ffcc695106caa47001da463ec2b157240d2e76424af1153c1f8057857470",
+  "module_id": "single_cell",
+  "null_rows": 600000,
+  "prediction_path": "/dell_2/DSC/CancerLncAtlas/rbp_encode_v33_20260921_r1/runtime/c_graph_global_binding_20260928_r1/results/single_cell_head_v32-single-cell-head-source-verified-20261004-r1/single_cell_typed_predictions.parquet",
+  "prediction_sha256": "bd35241336192f075375dd05ee291e55dc03e8d479bc55aac6c8641ae4121db9",
+  "release_ready": true,
+  "staging_never_promoted": true,
+  "status": "SUCCESS",
+  "trained_folds": 5,
+  "training_run_id": "v32-single-cell-head-source-verified-20261004-r1"
+}
