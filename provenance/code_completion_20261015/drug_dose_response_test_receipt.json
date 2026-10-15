@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T21:27:35.818302+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/drug_dose_response.py": "21e6aeac724aa64c5696fc3dd3b11bbb80f80b001908be58272be96d2c870e07",
+    "cc_hhgt/v32/drug_response_analysis.py": "abe6535930cbcabfede60dfad42c11b3564e5bc2c7e44d32057d38e65ef22a81",
+    "scripts/analyze_v32_native_drug_response.py": "55eef4fe06b98c3362a0fa2d7250bb0e7fde6ede0aaf05ebe987c78e0191c041",
+    "tests/test_v32_drug_dose_response.py": "930a10701c29c15dcfac9d31e1685187a0d0044d98dc460cfa93599f97ae512f"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_drug_dose_response.py",
+    "tests/test_v32_drug_response_analysis.py",
+    "tests/test_v32_drug_identity.py",
+    "tests/test_v32_drug_training.py::test_vectorized_statistics_match_reference_without_fold_leakage",
+    "tests/test_v32_drug_training.py::test_complete_overlap_uses_unique_model_consensus",
+    "--junitxml=provenance/code_completion_20261015/drug_dose_response_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T21:28:05.197805+00:00"
+}

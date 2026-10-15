@@ -1,0 +1,23 @@
+{
+  "method": "NATIVE_MEASURED_POINT_DOSE_AND_MATCHED_MODEL_RESPONSE_CHANGE_ANALYSIS",
+  "source_hash_receipts": [
+    "drug_dose_response"
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/drug_dose_response.py",
+    "cc_hhgt/v32/drug_response_analysis.py",
+    "scripts/analyze_v32_native_drug_response.py",
+    "tests/test_v32_drug_dose_response.py"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Bind native observed point measurements to actual staging and the existing signed response CLI.",
+    "Preserve concentration/exposure/endpoint/unit contexts and explicitly declared response orientation.",
+    "Compute within-dataset/canonical-model adjacent-dose changes before expression association.",
+    "Retain targetless compounds, fixed model folds, missing pairings and observed zero/constant responses.",
+    "Separate private measurement dispositions from public aggregate outputs and bind input/output hashes."
+  ],
+  "remaining": "C08 remains open for actual selected/public Drug context and query/download consumers."
+}

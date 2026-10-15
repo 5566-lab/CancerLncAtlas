@@ -269,8 +269,8 @@ targetless input. These effects explain an association-strength head; they do
 not turn its abs(rho) training label into a sensitivity-direction model. Pathway
 effects are not sums of target effects. The optional pharmacology extension
 described below now supplies action, activity, structure and protocol covariates
-to the current head. Dose-conditioned response analysis remains unfinished C08
-work; protocol mixture covariates do not provide that estimand.
+to the current head. Measured dose-conditioned analysis is described below;
+protocol mixture covariates alone do not provide that estimand.
 
 The synthetic end-to-end test constructs five tiny serialized heads solely to
 test loading and inference. Its emulated training receipt is test-only and does
@@ -1347,8 +1347,8 @@ domain scaling is fitted on training inputs only.
 Protocol-distribution covariates do not convert the existing cross-cell-line
 association-strength label into a dose-specific efficacy or patient-treatment
 label. Public predictions carry pharmacology_features_consumed and explicitly
-set dose_specific_response_claimed=false. Dose-conditioned signed response
-analysis remains unfinished. The legacy abs(rho)-based strength estimand is not
+set dose_specific_response_claimed=false. The separate measured dose-conditioned
+analysis is described below. The legacy abs(rho)-based strength estimand is not
 renamed as sensitivity/resistance merely because pharmacology features exist.
 
 PHARMACOLOGY_FEATURE_RECEIPT.json, native head checkpoints and run lineage bind
@@ -1390,8 +1390,8 @@ native pharmacology description is documented by its authors at
 https://pmc.ncbi.nlm.nih.gov/articles/PMC10692006/ .
 
 C08 remains in progress. Native pharmacology extraction and identity integration
-are described in the next section. Remaining work includes dose-conditioned
-signed response analysis and actual selected-analysis/public Drug consumption.
+are described in the next section. Measured dose-conditioned analysis follows;
+actual selected-analysis/public Drug consumption remains unfinished.
 No real compound/cohort processing,
 optimization, paid compute or deployment was performed for this change.
 
@@ -1457,5 +1457,91 @@ scale/relation conversion, unavailable metadata, conflicting structures/identiti
 targetless protocols, observed vehicle, unsupported endpoints, raw-source tampering,
 and the native target mapping disposition. The existing dense/streaming pre-fit
 checks and five-head frozen attribution checks also run; no optimizer starts.
-C08 is still open for dose-conditioned signed-response analysis and current
-selected/public Drug consumption. No real biological data were processed.
+C08 is still open for current selected/public Drug consumption. Measured dose
+analysis is implemented below. No real biological data were processed.
+
+Measured point-dose response and matched-model dose contrasts
+-------------------------------------------------------------
+
+The existing ``python -m scripts.analyze_v32_native_drug_response`` command now
+accepts ``--dose-manifest POINTS.json`` in addition to its existing exact,
+response, expression, mapping, subtypes and targets arguments. It still emits
+the original assay-summary analysis, and additionally consumes actual native
+point measurements through cc_hhgt/v32/drug_dose_response.py. Execution requires
+host 149; the command never constructs an optimizer or trains a model.
+
+POINTS.json has format NATIVE_DRUG_POINT_RESPONSE_V1, staging_manifest as a
+{path,sha256} record, and a nonempty measurements list. Each measurement entry
+contains a source record, measurement_level=OBSERVED_POINT_RESPONSE,
+condition_kind=POINT_CONCENTRATION, columns and constants. The same native
+protocol identity adapter maps dataset_id, cell_line_id, source_drug_id and
+assay_id to the actual staging authority. The supplied analysis arguments must
+hash-match that producer's exact candidates, raw response, expression, model
+map, targets and subtype annotations. Unmatched native identities remain in
+the private disposition table, rather than being silently mapped by names.
+
+Explicit native fields additionally provide dose_value, dose_unit,
+exposure_hours, response_value, higher_is_sensitive, response_metric and
+response_unit. response_value must be an actual measurement column, not a
+constant. Supported response_metric values are POINT_VIABILITY, POINT_GROWTH,
+POINT_LOG_FOLD_CHANGE and POINT_INHIBITION. The response unit and orientation
+are declared, never inferred. Different endpoint/unit combinations are not
+pooled. AUC, IC50 and other fitted-summary fields cannot be relabelled as point
+measurements; a concentration range is not a series of observed doses.
+
+Concentrations are converted to exact decimal molar keys: 0.1 uM and 100 nM
+refer to one condition. Exposure retains its exact decimal key as well as the
+numeric display value. Observed dose zero and exposure zero remain measured.
+Missing dose, exposure or response produces an explicit disposition; a known
+unit with no dose value remains missing. Invalid units/negative values and
+conflicting records for one assay identity fail. Replicated copies of the same
+native assay do not change its weight. Technical assays are averaged once per
+dataset/canonical model/condition before either point or contrast analysis.
+
+Point associations preserve concentration, exposure, endpoint and unit. They
+use the existing signed rank-association engine, explicit cancer/subtype
+contexts, full exact-lncRNA universe, minimum matched-model support and five
+fixed model-fold summaries. Targetless assayed drugs remain eligible. Candidate
+rows with missing expression or no finite response remain null with reasons.
+The source model map is unchanged across doses, so folds do not change when
+one concentration has fewer observations.
+
+Adjacent-dose contrasts pair the same canonical model within the same dataset,
+cancer, drug, endpoint, unit and exposure. The response is higher-dose minus
+lower-dose sensitivity-oriented measurement, after technical-assay averaging.
+Doses observed only in different datasets or disjoint models cannot create a
+paired response. Intervals are the adjacent declared doses for that cancer/drug
+context, selected without looking at the response or association. They include
+vehicle-to-dose comparisons and retain an unavailable candidate when no models
+are paired. Signed expression/change associations and subtype directions are
+computed from those actual paired measurements, not differences between two
+unmatched cohort correlations.
+
+Descriptive mean/median/SD, measured unique-model count, contributing datasets
+and within-dataset variation are emitted alongside association availability.
+Each model contributes once to descriptive summaries after averaging its
+dataset measurements. These measurement-support fields are separate from the
+number of models with matched expression used by the association. An observed
+constant/zero paired change stays observed (including a mean of zero), while its
+undefined rank correlation remains null. No fitted dose-response curve, causal
+effect, clinical efficacy, p-value or independent performance validation is
+claimed. Cell-fold statistics remain descriptive replication summaries, not
+out-of-fold model predictions. The original strength head is unchanged.
+
+Outputs include dose_associations/, dose_contrasts/ and
+DOSE_CONTEXT_COVERAGE.parquet. Public aggregate rows contain no individual cell
+IDs or response values. PRIVATE_DOSE_IDENTITY_DISPOSITION.parquet and
+PRIVATE_DOSE_MEASUREMENT_DISPOSITION.parquet retain native audit identities and
+are explicitly ineligible for public downloads. The existing AUDIT.json binds
+all output hashes, native measurement/staging origins, code and settings, with
+dose_response_analysis describing the actual measured-data analysis performed.
+Sources are rechecked before SUCCESS.json is written.
+
+Synthetic verification covers opposite subtype directions at fixed dose,
+equivalent dose units, exposure/endpoint isolation, targetless compounds,
+technical duplicates, observed zero, missing measurements, pairing failures
+across datasets or models, and the actual native-staging-to-existing-CLI path.
+The single-dataset correlation expectation preserves the existing Fisher
+transform's documented-in-code clipping at 0.999999. The real native sources
+and trained models were not executed. C08 remains open for current selected
+Drug context and public query/download consumption.

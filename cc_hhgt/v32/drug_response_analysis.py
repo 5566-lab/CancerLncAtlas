@@ -61,11 +61,14 @@ def annotated_contexts(mapping: pd.DataFrame, subtypes: pd.DataFrame):
     return contexts
 
 
-def iter_response_scan(exact, response, expression, mapping, subtypes, targets, *, config=None):
+def iter_response_scan(exact, response, expression, mapping, subtypes, targets, *, config=None, candidate_drugs=None):
     """Yield (context receipt, bounded candidate result frame) without fitting."""
     settings = config or DrugResponseScanConfig()
     exact = base.normalise_exact_candidates(exact)
-    response = base.normalise_raw_response(response)
+    if candidate_drugs is not None and response.empty:
+        response = pd.DataFrame(columns=["dataset_id", "cell_line_id", "drug_id", "sensitivity_value", "raw_replicates"])
+    else:
+        response = base.normalise_raw_response(response)
     expression = base.normalise_raw_expression(expression)
     mapping = base.assign_cell_line_folds(base.normalise_cell_line_map(mapping), settings.seed)
     target_ids = set(targets.drug_id.astype(str))
@@ -75,6 +78,16 @@ def iter_response_scan(exact, response, expression, mapping, subtypes, targets, 
     linked = response.merge(mapping[["dataset_id", "cell_line_id", "cancer_id"]],
                             on=["dataset_id", "cell_line_id"], how="inner", validate="many_to_one")
     drugs_by_cancer = linked.groupby("cancer_id").drug_id.unique().to_dict()
+    if candidate_drugs is not None:
+        if not {"cancer_id", "drug_id"}.issubset(candidate_drugs):
+            raise ValueError("Explicit response candidates require cancer and drug identities")
+        candidates = candidate_drugs[["cancer_id", "drug_id"]].drop_duplicates().copy()
+        if candidates.isna().any().any() or candidates.astype(str).apply(lambda s:s.str.strip().eq("")).any().any():
+            raise ValueError("Explicit response candidate identities cannot be missing")
+        observed = set(linked[["cancer_id", "drug_id"]].itertuples(index=False,name=None))
+        if not observed.issubset(set(candidates.itertuples(index=False,name=None))):
+            raise ValueError("Explicit response universe excludes measured cancer/drug identities")
+        drugs_by_cancer = candidates.groupby("cancer_id").drug_id.unique().to_dict()
     contexts = annotated_contexts(mapping, subtypes)
     mapped_cancers = set(mapping.cancer_id)
     contexts += [(str(c), "ALL", "ALL", set(), "NO_MAPPED_MODEL") for c in sorted(set(exact.cancer_id)-mapped_cancers)]
