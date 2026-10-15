@@ -117,12 +117,15 @@
     {
       "id": "C16",
       "task": "统一编排、数据字典、命令和逐项代码验收，保留未运行状态",
-      "status": "pending"
+      "status": "in_progress",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "A unified current publication CLI now invokes actual rule evidence, selected score/GeneSet, all seven native context, external-evaluation and web publishers. It resolves earlier-stage binding references, preserves pinned reuse and explicit absence, records per-stage failures and generates actual public Arrow schemas/table semantics. All-stage synthetic BUILD, REUSE, missing-stage and failure workflows reach the real API/browser without optimization.",
+      "remaining": "Derive full raw model-use and cross-module patient provenance from actual dependencies; integrate upstream preparation/training command records without executing training; complete scientific field definitions/units and final per-requirement code acceptance. The present workflow begins with completed native results and does not attest source completeness."
     }
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 539,
+    "unique_fixture_tests_passed": 543,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -132,6 +135,6 @@
       "C13",
       "C16"
     ],
-    "latest_change_tests_passed": 55
+    "latest_change_tests_passed": 11
   }
 }

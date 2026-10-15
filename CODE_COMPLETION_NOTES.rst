@@ -1832,3 +1832,66 @@ distal-methylation coverage. Versioned screenshots and receipts are preserved
 under ``provenance/code_completion_20261015/current_omics_web_*``; older browser
 evidence is retained. No model optimizer, real cohort analysis or deployment
 is performed by these checks.
+
+Unified current publication workflow (2026-10-16)
+------------------------------------------------
+
+``python -m scripts.run_v32_current_analysis_workflow --manifest INPUT.json
+--output NEW_DIRECTORY`` calls the existing publishers on host 149 in this
+order: rule evidence, selected scores/GeneSets, State, Clinical, Drug, signed
+single-cell, patient subgroups, genomic, distal, external metrics, and web
+registration. It consumes completed native producers. It does not launch
+upstream trainers, rent compute, change a production pointer or start a site.
+Context publishers retain their existing native statistical/frozen replay
+behavior. Real executions of those analyses remain outside this code-only work.
+
+CURRENT_ANALYSIS_WORKFLOW_INPUT_V1 contains exactly format, release_id, selected
+and components. Selected and each component can declare either:
+
+* ``{"status":"BUILD","input_manifest":{"path":"...","sha256":"..."}}``
+  to invoke that module's real publisher from its existing input format; or
+* ``{"status":"REUSE","binding":{"path":"...","sha256":"..."}}``
+  to consume an existing pinned release without rebuilding it.
+
+The components map must include all nine current web component keys. Each may
+instead declare NOT_PRODUCED, SOURCE_UNAVAILABLE or NOT_APPLICABLE with a reason
+and no hidden input. Selected cannot be absent. There is no TRAIN status or
+arbitrary command/function field.
+
+A build input may use ``{"workflow_ref":"selected_analysis"}`` in place of
+its selected-analysis artifact, or ``{"workflow_ref":"selected_score"}`` for
+the selected score binding in an external-evaluation model specification.
+``{"workflow_ref":"evidence"}`` can supply the selected analysis's rule
+evidence binding. Only completed earlier stages are available. Unknown, missing
+or forward references fail. Other named component bindings are available after
+their stage completes. Ordinary path/SHA256 records are checked and resolved
+relative to the original input template. Generated resolved inputs are written
+separately and bound in the workflow receipt; original templates are unchanged.
+
+The selected BUILD stage executes the existing score selection, GeneSet,
+coverage, subtype and GMT implementation. Downstream contexts all receive its
+actual new binding through references. REUSE preserves the supplied analysis
+identity. If a selected score already contains evidence annotations, the web
+publisher still requires that exact evidence release; rebuilding different
+evidence cannot silently substitute for it.
+
+Each completed stage is written to STAGE_STATUS.json as BUILT, REUSED or its
+explicit absence status. A failure records its stage and exception, preserves
+earlier results and does not create the workflow SUCCESS receipt. Output reuse
+is rejected. To retry, provide a new output directory; valid completed stages
+can be supplied as REUSE records. The final website validates all same-version
+relationships using its actual native readers before the workflow can pass.
+Input hashes and publisher implementation hashes are checked again at the end.
+
+CURRENT_WORKFLOW_BINDING.json records the actual stage bindings and web binding.
+PUBLIC_TABLE_CATALOG.json derives every published table's row count, Arrow field
+types/nullability, table interpretation and per-part hashes from the actual
+artifacts. It has no private filesystem paths. This is a public schema catalog;
+it does not yet supply a complete scientific definition and unit for every
+field. SUCCESS pins the workflow binding and stage-status receipt.
+
+The workflow explicitly retains model_use_inventory_completeness_verified=false
+and independent_external_validation_attested=false. Its stage/input inventory
+is not a complete raw biological-source inventory. C16 remains in progress:
+complete source-use/patient reconciliation, field definitions, upstream command
+integration and final per-requirement acceptance still need implementation.

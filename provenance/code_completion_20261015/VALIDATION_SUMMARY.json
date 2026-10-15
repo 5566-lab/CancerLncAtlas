@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 539,
+  "unique_test_cases_passed": 543,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -146,7 +146,7 @@
     "website/frontend/assets/current-analysis.js": "83da0e7be0cb429803587d3b56eb80f1b88c98ed86dd1903079749356cb0eea0",
     "website/frontend/assets/current-analysis.css": "585546ef543374e5c85551ffc898aefeccbec401932bcf3d4611cbbb83b1bf00",
     "website/frontend/assets/mark.svg": "50829b47affe907dd1569d06051925f65c69130570229f1e85ffaa2957d74bc5",
-    "tests/test_v32_current_analysis_web.py": "7d72f5f21b345cf8115fa2867832aae62b9acec5a44823681c89f4068050551e",
+    "tests/test_v32_current_analysis_web.py": "bba74c0276c43070b569600ea5090b40ab1e8045782bd21f235c558809750076",
     "tests/test_v32_main_app_feature_flag.py": "8f7447a9faaa9dbb4f6773fee20b44da570deff122606e7815c2b1e57b508541",
     "requirements/requirements-current-web.txt": "d1bee0579df4a72c08776cd157044cb299c8516d5fafb0e172f10fb667b7afd1",
     "cc_hhgt/v32/context_table_replay.py": "f93f03478bd84238ba81012bca6af719988b26770c0ec5b54f4f9a4dfc7f4f49",
@@ -158,7 +158,9 @@
     "tests/test_v32_current_patient_context.py": "045876ee80237766c68b151dc5d18991d6f009b1da9c32ec1ab572d4851dc665",
     "cc_hhgt/v32/current_omics_context.py": "7f2713693a161ba4b896abe9e78dbebc98680df5b74e776398832ba07499e39b",
     "scripts/materialize_v32_current_omics_context.py": "0520e483ff9a6e275b609beafa1f96f830ca7b0e7ce045e141395264416e8b1e",
-    "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041"
+    "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
+    "cc_hhgt/v32/current_analysis_workflow.py": "1b0e630aa34cfdbba46eca2c3e675cc914ff3c8253e3c3a96bc0799224834daf",
+    "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -223,7 +225,11 @@
     "Current genomic publication binds the native five-fold heads and core checkpoints to the selected analysis, replays actual fold aggregation and preserves distinct Mutation/CNV-event/CNV-association/ATAC estimands, availability and coverage. Native neural forwards and raw-omics feature construction are not replayed.",
     "Current distal publication replays the actual nested two-stage statistical CLI from its recorded prepared inputs/configuration, including private outer/inner patient components, and recomputes public summaries. It does not rebuild raw assay features or claim biological validation, joint GeneSet effects or causality.",
     "C15 current web V3 requires all nine component statuses and serves every registered public table/download under the same selected identity. The newest actual Chromium workflow includes genomic producer filters, unavailable CNV context and distal assay coverage. Private patient components and checkpoints are not public downloads.",
-    "The latest two suites pass 6 omics-context checks and 49 web/native-auxiliary/distal/epigenetic regression checks on host149. The cumulative case ledger is historical versioned evidence, not a single full current-version rerun."
+    "The prior two omics suites pass 6 context checks and 49 web/native-auxiliary/distal/epigenetic regression checks on host149. The cumulative case ledger is historical versioned evidence, not a single full current-version rerun.",
+    "The current publication workflow executes existing evidence, selected-score/GeneSet, seven native context, external-evaluation and web publishers in dependency order. Its complete synthetic BUILD path and pinned REUSE paths pass actual main-site HTTP/browser checks without optimizers.",
+    "Workflow receipts retain each completed, absent or failed stage and reject output reuse. The public schema catalog derives Arrow types/nullability, table semantics and part hashes from actual artifacts; it is not a complete scientific field/unit dictionary.",
+    "Workflow inputs are completed native producer results. Upstream raw preparation/training command orchestration, complete model-use/patient source closure, scientific field definitions and final requirement acceptance remain under C01/C13/C16. No independent-external-validation or complete model-use-inventory attestation is made.",
+    "The latest workflow/main-site suite passes 11 tests on host149. Its predecessor also passed 11 tests while reusing selected analysis; the latest suite now builds selected scores/GeneSets with evidence and binds every downstream context to that new analysis. Historical cumulative counts remain versioned evidence, not a single full current-version rerun."
   ],
   "test_suites": [
     {
@@ -365,6 +371,16 @@
       "path": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml",
       "passed": 49,
       "sha256": "75d17c3f056264449a3a2b8eb6a2f5555d4d28b5cbb59533996da02742dbd731"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_analysis_workflow_r1_tests.xml",
+      "passed": 11,
+      "sha256": "2818a85f9f19ad1bdcb52cb5735eebeb5dd73a4f12c7caa32914f6c80cd59fc3"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml",
+      "passed": 11,
+      "sha256": "c2def1c3b5f646266188bc02405a82a3e022752da6490a3c10d0bf7cec1a033b"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -463,37 +479,57 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
+      "suite": "provenance/code_completion_20261015/current_analysis_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -3073,10 +3109,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "current_omics_context_r1",
-      "current_omics_web_r1"
+      "current_analysis_workflow_r2"
     ],
-    "passed": 55,
+    "passed": 11,
     "target_host": "149",
     "training_started": false
   },

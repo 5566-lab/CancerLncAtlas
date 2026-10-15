@@ -41,7 +41,7 @@ def no_training(monkeypatch):
     for name in ("Adam","AdamW","SGD"): monkeypatch.setattr(torch.optim,name,forbidden)
 
 
-def evidence_fixture(root,selected):
+def evidence_fixture(root,selected,*,input_only=False):
     from test_v32_current_rule_evidence import native_fixture
     from scripts.materialize_v32_current_rule_evidence import main
     root.mkdir(); events,lineage,members=native_fixture(); events["lncrna_id"]="Z"
@@ -53,11 +53,12 @@ def evidence_fixture(root,selected):
     manifest={"format":"CURRENT_RULE_EVIDENCE_INPUT_V1","candidates":artifacts["candidates"],"exact_membership":artifacts["members"],
         "sources":[{"source_id":"native","kind":"native_exact_events","events":artifacts["events"],"lineage":artifacts["lineage"]}]}
     path=write(root/"INPUT.json",manifest)
+    if input_only:return path
     assert main(["--manifest",str(path),"--output",str(root/"release")])==0
     return root/"release/RULE_EVIDENCE_BINDING.json"
 
 
-def external_fixture(root,selected):
+def external_fixture(root,selected,*,input_only=False):
     from cc_hhgt.v32.external_validation_current import materialize_current_external
     root.mkdir(); sb=json.loads(selected.read_text()); score_path=Path(sb["selected_score_binding"]["path"])
     score=json.loads(score_path.read_text())
@@ -75,35 +76,38 @@ def external_fixture(root,selected):
         "model_use_sources":[{"kind":"canonical_usage","source_id":"used","phase":"TRAINING","model_ids":["selected"],"table":files["used"]}],
         "external_sources":[{"kind":"exact_assay","source_id":"external","table":files["observed"],"measured_negative_definition":"Measured null effect"}],
         "evaluation":{"primary_model":"selected","cutoffs":[1],"lncrna_aggregation":"MAX","bootstrap_replicates":0,"seed":0}}
-    result=materialize_current_external(write(root/"INPUT.json",manifest),root/"release")
+    path=write(root/"INPUT.json",manifest)
+    if input_only:return path
+    result=materialize_current_external(path,root/"release")
     return Path(result["binding_path"])
 
 
 @pytest.fixture(scope="module")
 def web_release(tmp_path_factory,current_sources):
-    from cc_hhgt.v32.current_state_context import materialize_current_state_context
-    from cc_hhgt.v32.current_clinical_context import materialize_current_clinical_context
-    from cc_hhgt.v32.current_drug_context import materialize_current_drug_context
-    from cc_hhgt.v32.current_single_cell_context import materialize_current_single_cell_context
-    from cc_hhgt.v32.current_patient_context import materialize_current_patient_context
-    from cc_hhgt.v32.current_omics_context import materialize_current_omics_context
-    from scripts.materialize_v32_current_analysis_web import main
-    root=tmp_path_factory.mktemp("current_web")
+    from cc_hhgt.v32.current_analysis_workflow import INPUT_FORMAT as WORKFLOW_INPUT
+    from scripts.run_v32_current_analysis_workflow import main
+    source_root=tmp_path_factory.mktemp("current_web");root=source_root/"workflow"
     with pytest.MonkeyPatch.context() as monkeypatch:
         for name in ("Adam","AdamW","SGD"): monkeypatch.setattr(torch.optim,name,forbidden)
-        bindings={}
-        for key,fixture,materialize in [("state",state_fixture,materialize_current_state_context),
-            ("clinical",clinical_fixture,materialize_current_clinical_context),("drug",drug_fixture,materialize_current_drug_context),
-            ("single_cell",single_cell_fixture,materialize_current_single_cell_context),("patient",patient_fixture,materialize_current_patient_context),
-            ("genomic",genomic_fixture,materialize_current_omics_context),("distal",distal_fixture,materialize_current_omics_context)]:
-            result=materialize(fixture(root/(key+"_inputs"),current_sources),root/key)
-            bindings[key]=record(Path(result["binding_path"]))
-        bindings["evidence"]=record(evidence_fixture(root/"evidence",current_sources[1]))
-        bindings["external"]=record(external_fixture(root/"external",current_sources[1]))
-        manifest={"format":INPUT_FORMAT,"release_id":"synthetic-current-web","selected_analysis":record(current_sources[1]),
-            "components":{k:{"status":"AVAILABLE","binding":v} for k,v in bindings.items()}}
-        path=write(root/"WEB_INPUT.json",manifest)
-        assert main(["--manifest",str(path),"--output",str(root/"web")])==0
+        components={}
+        for key,fixture in [("state",state_fixture),("clinical",clinical_fixture),("drug",drug_fixture),
+            ("single_cell",single_cell_fixture),("patient",patient_fixture),("genomic",genomic_fixture),("distal",distal_fixture)]:
+            template=fixture(source_root/(key+"_inputs"),current_sources);data=read_json(template)
+            data["selected_analysis"]={"workflow_ref":"selected_analysis"};write(template,data)
+            components[key]={"status":"BUILD","input_manifest":record(template)}
+        template=evidence_fixture(source_root/"evidence",current_sources[1],input_only=True)
+        components["evidence"]={"status":"BUILD","input_manifest":record(template)}
+        template=external_fixture(source_root/"external",current_sources[1],input_only=True);data=read_json(template)
+        data["models"][0]["producer_binding"]={"workflow_ref":"selected_score"};write(template,data)
+        components["external"]={"status":"BUILD","input_manifest":record(template)}
+        selected_input=read_json(Path(read_json(current_sources[1])["input_manifest"]["path"]))
+        selected_input["rule_evidence_binding"]={"workflow_ref":"evidence"}
+        selected_template=write(source_root/"SELECTED_TEMPLATE.json",selected_input)
+        manifest={"format":WORKFLOW_INPUT,"release_id":"synthetic-current-web",
+            "selected":{"status":"BUILD","input_manifest":record(selected_template)},"components":components}
+        source=write(source_root/"WORKFLOW_INPUT.json",manifest)
+        assert main(["--manifest",str(source),"--output",str(root)])==0
+    path=root/"resolved_inputs/web.json"
     binding=root/"web/CURRENT_WEB_BINDING.json"
     store=CurrentAnalysisWebStore(binding,expected_sha=sha256(binding))
     app=FastAPI(); app.include_router(current_analysis_router(store))
@@ -138,6 +142,79 @@ def test_real_current_components_are_served_and_every_public_part_downloads(web_
 
 
 def read_json(path): return json.loads(path.read_text())
+
+
+def test_workflow_builds_native_contexts_and_records_actual_public_schemas(web_release):
+    from cc_hhgt.v32.current_analysis_workflow import ORDER
+    root,_,_,store,_=web_release
+    workflow=read_json(root/"CURRENT_WORKFLOW_BINDING.json");success=read_json(root/"SUCCESS.json")
+    assert success["binding_sha256"]==sha256(root/"CURRENT_WORKFLOW_BINDING.json")
+    assert success["stage_status_sha256"]==sha256(root/"STAGE_STATUS.json")
+    assert tuple(s["stage"] for s in workflow["stages"])==ORDER
+    assert all(s["status"]=="BUILT" for s in workflow["stages"])
+    assert not workflow["model_use_inventory_completeness_verified"] and not workflow["training_started"]
+    catalog=read_json(root/"PUBLIC_TABLE_CATALOG.json")
+    assert catalog["web_binding_sha256"]==store.sha and "path\"" not in json.dumps(catalog)
+    assert {t["table_id"] for t in catalog["tables"]}==set(store.binding["tables"])
+    for table in catalog["tables"]:
+        native=store.binding["tables"][table["table_id"]]
+        assert [f["name"] for f in table["fields"]]==native["columns"]
+        assert table["rows"]==native["rows"] and table["table_semantics"]
+        assert all(f["arrow_type"] and type(f["nullable"]) is bool for f in table["fields"])
+
+
+def test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit(current_sources,tmp_path):
+    from cc_hhgt.v32.current_analysis_workflow import INPUT_FORMAT as WF,run_current_analysis_workflow
+    selected=read_json(current_sources[1])
+    manifest={"format":WF,"release_id":"selected-workflow-synthetic",
+        "selected":{"status":"BUILD","input_manifest":selected["input_manifest"]},
+        "components":{k:{"status":"NOT_PRODUCED","reason":"Synthetic no-native-result case"} for k in COMPONENTS}}
+    path=write(tmp_path/"INPUT.json",manifest)
+    result=run_current_analysis_workflow(path,tmp_path/"workflow")
+    binding=read_json(Path(result["binding_path"]))
+    assert next(r for r in binding["stages"] if r["stage"]=="selected")["status"]=="BUILT"
+    store=CurrentAnalysisWebStore(result["web_binding"]["path"],expected_sha=result["web_binding"]["sha256"])
+    assert all(store.binding["component_status"][k]["status"]=="NOT_PRODUCED" for k in COMPONENTS)
+    assert {t["component"] for t in store.binding["tables"].values()}=={"selected","scores"}
+    assert len(store.query("selected.geneset_members",version=store.sha)["rows"])==1
+
+
+def test_workflow_preserves_failed_stage_and_rejects_forward_references(web_release,tmp_path):
+    from cc_hhgt.v32.current_analysis_workflow import run_current_analysis_workflow
+    root,_,_,store,_=web_release;manifest=read_json(root.parent/"WORKFLOW_INPUT.json")
+    manifest["selected"]={"status":"REUSE","binding":store.binding["component_bindings"]["selected"]}
+    manifest["components"]={k:{"status":"NOT_PRODUCED","reason":"Synthetic absent stage"} for k in COMPONENTS}
+    # This is a real context manifest except for a reference to a later stage.
+    template=read_json(root/"resolved_inputs/state.json")
+    template["selected_analysis"]={"workflow_ref":"external"}
+    manifest["components"]["state"]={"status":"BUILD","input_manifest":record(write(tmp_path/"state.json",template))}
+    path=write(tmp_path/"INPUT.json",manifest);output=tmp_path/"failed"
+    with pytest.raises(ValueError,match="earlier workflow reference"):run_current_analysis_workflow(path,output)
+    status=read_json(output/"STAGE_STATUS.json")
+    assert status["status"]=="FAILED" and status["failed_stage"]=="state"
+    assert any(s["stage"]=="selected" and s["status"]=="REUSED" for s in status["stages"])
+    assert not (output/"SUCCESS.json").exists() and not (output/"CURRENT_WORKFLOW_BINDING.json").exists()
+    before=(output/"STAGE_STATUS.json").read_bytes()
+    with pytest.raises(FileExistsError):run_current_analysis_workflow(path,output)
+    assert (output/"STAGE_STATUS.json").read_bytes()==before
+
+
+def test_workflow_reuses_pinned_components_and_rejects_changed_inputs(web_release,tmp_path):
+    from cc_hhgt.v32.current_analysis_workflow import INPUT_FORMAT as WF,run_current_analysis_workflow
+    root,_,_,store,_=web_release
+    manifest={"format":WF,"release_id":"reused-workflow-synthetic",
+        "selected":{"status":"REUSE","binding":store.binding["component_bindings"]["selected"]},
+        "components":{k:{"status":"REUSE","binding":store.binding["component_bindings"][k]} for k in COMPONENTS}}
+    path=write(tmp_path/"INPUT.json",manifest)
+    result=run_current_analysis_workflow(path,tmp_path/"reused")
+    workflow=read_json(Path(result["binding_path"]))
+    assert all(r["status"]=="REUSED" for r in workflow["stages"] if r["stage"]!="web")
+    manifest["selected"]["binding"]={**manifest["selected"]["binding"],"sha256":"f"*64}
+    write(path,manifest)
+    with pytest.raises(ValueError,match="SHA256 mismatch"):run_current_analysis_workflow(path,tmp_path/"invalid")
+    assert not (tmp_path/"invalid").exists()
+    manifest["selected"]["status"]="TRAIN"
+    with pytest.raises(ValueError,match="stage status"):run_current_analysis_workflow(write(path,manifest),tmp_path/"no_training")
 
 
 def test_version_mismatch_invalid_queries_and_private_downloads_are_rejected(web_release):

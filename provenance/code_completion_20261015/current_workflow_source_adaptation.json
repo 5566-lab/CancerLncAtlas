@@ -1,0 +1,39 @@
+{
+  "method": "EXISTING_NATIVE_PUBLISHERS_IN_DEPENDENCY_ORDER_TO_ACTUAL_MAIN_SITE",
+  "source_hash_receipts": [
+    "current_analysis_workflow_r1",
+    "current_analysis_workflow_r2"
+  ],
+  "latest_source_hash_receipt": "current_analysis_workflow_r2",
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_analysis_workflow.py",
+    "scripts/run_v32_current_analysis_workflow.py",
+    "tests/test_v32_current_analysis_web.py"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "prior_pass": "r1 passed with selected-analysis reuse; r2 additionally builds selected scores/GeneSets with the workflow evidence binding before all downstream contexts.",
+  "captured_browser_receipt": {
+    "path": "current_workflow_web_browser_receipt.json",
+    "sha256": "2cc766ef0a4b3085bdc09eccd3deaf88bfc094ae55d4c6b56936270ccd057324"
+  },
+  "captured_screenshots": [
+    {
+      "remote_basename": "current_web_desktop.png",
+      "local_basename": "current_workflow_web_desktop.png",
+      "sha256": "9cede77ed3e8c23a2478c1a7833d727bd7e7216b01b3b2571331ac10401710e1"
+    },
+    {
+      "remote_basename": "current_web_mobile.png",
+      "local_basename": "current_workflow_web_mobile.png",
+      "sha256": "1cd31df2adba1477ee5d168ddbda224f68bd7fea4b5c5732b798197e60a44590"
+    }
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ]
+}
