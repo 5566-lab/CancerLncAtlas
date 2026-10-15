@@ -35,6 +35,18 @@
     evaluated_patients:"OOF 评价患者数",model_mse:"OOF 模型误差",nuisance_mse:"OOF 协变量模型误差",delta_mse:"OOF 误差改善",
     inference_member_coverage:"可推断成员覆盖率",inference_weight_coverage:"可推断评分权重覆盖率",
     opposite_group_direction_members:"两组方向相反成员数",native_fdr_05_supported_members:"原家族 FDR≤0.05 成员数",
+    producer_catalog:"原生分析来源",native_aggregate:"原生候选汇总",native_folds:"逐折候选预测",
+    selected_member_genomic:"成员基因组关联",selected_geneset_genomic:"基因集成员概率概况",
+    native_candidates:"远端候选统计",native_feature_coverage:"远端输入测量覆盖",native_component_coverage:"表达成分覆盖与分布",
+    selected_member_distal:"成员远端关联",selected_geneset_distal_coverage:"基因集远端分析覆盖",
+    producer_kind:"原生分析类型",modality:"模态",expert_id:"模型输入类型",native_estimand:"原生统计含义",
+    probability:"原生模型概率",mean_member_probability:"成员加权平均概率",folds_available:"可用折数",fold_sd:"折间标准差",
+    patient_fold_id:"患者折",used_in_selected_score:"用于选定评分输入",feature:"输入测量",patients:"患者数",available_patients:"测量可用患者数",
+    distal_regulatory_mutation_pathway_available:"远端关联可用",distal_regulatory_mutation_pathway_unavailable_reason:"远端关联缺失原因",
+    mean_oof_slope:"平均 OOF 斜率",oof_rows:"OOF 评价患者数",oof_folds_pass:"通过折数",oof_rmse:"OOF RMSE",
+    oof_baseline_rmse:"基线 OOF RMSE",oof_delta_mse:"OOF 误差改善",oof_r2:"OOF R²",oof_prediction_correlation:"OOF 预测相关系数",
+    positive_slope_members:"正斜率成员数",negative_slope_members:"负斜率成员数",
+    mean_expression_component_z:"表达成分均值",expression_component_sd:"表达成分标准差",missing_reasons:"缺失原因汇总",
     cancer_id:"癌种",lncrna_id:"lncRNA",pathway_id:"精确通路",pathway_family_id:"通路家族",geneset_id:"基因集 ID",
     geneset_name:"基因集名称",geneset_rank:"成员排序",selected_score:"选定评分",member_count:"成员数",
     association_direction:"关联方向",drug_id:"药物稳定 ID",gene_id:"靶基因",subtype_id:"亚型",subtype_system:"亚型体系",
@@ -69,6 +81,10 @@
     "interaction_p_value","interaction_fdr","inference_available","inference_reason","candidate_selection",
     "evaluated_patients","model_mse","nuisance_mse","delta_mse","inference_member_coverage","inference_weight_coverage",
     "opposite_group_direction_members","native_fdr_05_supported_members",
+    "producer_kind","modality","expert_id","native_estimand","patient_fold_id","probability","mean_member_probability","folds_available","fold_sd","used_in_selected_score",
+    "feature","patients","available_patients","mean_expression_component_z","expression_component_sd","missing_reasons",
+    "mean_oof_slope","oof_rows","oof_folds_pass","oof_rmse","oof_baseline_rmse","oof_delta_mse","oof_r2","oof_prediction_correlation",
+    "distal_regulatory_mutation_pathway_available","distal_regulatory_mutation_pathway_unavailable_reason","positive_slope_members","negative_slope_members",
     "member_coverage","selected_weight_coverage","summary_available","availability","available","availability_reason","unavailable_reason","failure_reason","metric","value","estimate"];
   const statusLabels = {AVAILABLE:"可查询",NOT_PRODUCED:"尚未生成",SOURCE_UNAVAILABLE:"来源不可用",NOT_APPLICABLE:"不适用"};
   let catalog, active, selectedTable, offset = 0, rows = [], requestId = 0, controller;
@@ -133,7 +149,7 @@
     if(info.status!=="AVAILABLE"){el("component-missing").textContent=`${statusLabels[info.status]}：${info.reason}`;return;}
     const tables=catalog.tables.filter(t=>t.component===component&&t.kind==="parquet");el("table-select").replaceChildren();
     for(const t of tables){const option=node("option",labels[t.name]||t.name);option.value=t.id;el("table-select").append(option);}
-    const defaults={selected:"geneset_master",scores:"candidates",state:"selected_geneset_state_profiles",clinical:"selected_geneset_clinical_support",drug:"selected_drug_prediction_profiles",evidence:"summary",external:"metrics",single_cell:"selected_geneset_context",patient:"selected_member_interactions"};
+    const defaults={selected:"geneset_master",scores:"candidates",state:"selected_geneset_state_profiles",clinical:"selected_geneset_clinical_support",drug:"selected_drug_prediction_profiles",evidence:"summary",external:"metrics",single_cell:"selected_geneset_context",patient:"selected_member_interactions",genomic:"selected_member_genomic",distal:"selected_member_distal"};
     const chosen=tables.find(t=>t.id===identity)||tables.find(t=>t.name===defaults[component])||tables[0];
     el("drug-lookup").hidden=component!=="drug";
     if(!chosen){el("controls").hidden=true;el("component-missing").hidden=false;el("component-missing").textContent="本模块仅提供下载文件。";return;}

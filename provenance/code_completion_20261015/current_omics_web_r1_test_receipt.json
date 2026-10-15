@@ -1,0 +1,53 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T22:46:26.336121+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_omics_context.py": "7f2713693a161ba4b896abe9e78dbebc98680df5b74e776398832ba07499e39b",
+    "scripts/materialize_v32_current_omics_context.py": "0520e483ff9a6e275b609beafa1f96f830ca7b0e7ce045e141395264416e8b1e",
+    "scripts/run_v32_distal_regulatory_mutation_head.py": "d9fc444d71028dc28c44997118b4729d009fa41e7669886215d840c93bd1958f",
+    "tests/test_v32_native_auxiliary_fusion.py": "7fc3db0f7beb02d89cb2c00add4395872ffcf681d73a3859382d9d642ae646a1",
+    "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
+    "cc_hhgt/v32/current_analysis_web.py": "967d734bb89bbb6d1d90dfebd59012ffbcd8a3563cc8b9411da6b8875c80f296",
+    "scripts/materialize_v32_current_analysis_web.py": "7c95d27a5ff1548c85a1c2a386e00c9d69abbd641b1c961b697f3cebcc118455",
+    "website/frontend/assets/current-analysis.js": "83da0e7be0cb429803587d3b56eb80f1b88c98ed86dd1903079749356cb0eea0",
+    "tests/test_v32_current_analysis_web.py": "7d72f5f21b345cf8115fa2867832aae62b9acec5a44823681c89f4068050551e"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "tests/test_v32_distal_regulatory_mutation_head.py",
+    "tests/test_v32_epigenetic_expression_head.py",
+    "tests/test_v32_distal_regulatory_head_input.py",
+    "--junitxml=provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T22:47:52.838662+00:00"
+}

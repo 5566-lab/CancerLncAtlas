@@ -1,0 +1,24 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T22:42:56.960101+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_omics_context.py": "7f2713693a161ba4b896abe9e78dbebc98680df5b74e776398832ba07499e39b",
+    "scripts/materialize_v32_current_omics_context.py": "0520e483ff9a6e275b609beafa1f96f830ca7b0e7ce045e141395264416e8b1e",
+    "scripts/run_v32_distal_regulatory_mutation_head.py": "d9fc444d71028dc28c44997118b4729d009fa41e7669886215d840c93bd1958f",
+    "tests/test_v32_native_auxiliary_fusion.py": "7fc3db0f7beb02d89cb2c00add4395872ffcf681d73a3859382d9d642ae646a1",
+    "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_omics_context.py",
+    "--junitxml=provenance/code_completion_20261015/current_omics_context_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T22:43:30.748357+00:00"
+}

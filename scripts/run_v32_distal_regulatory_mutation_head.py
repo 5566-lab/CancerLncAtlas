@@ -7,6 +7,7 @@ import hashlib
 import json
 import socket
 from datetime import datetime, timezone
+from dataclasses import asdict
 from pathlib import Path
 
 import pandas as pd
@@ -37,7 +38,7 @@ def atomic_parquet(frame: pd.DataFrame, path: Path) -> None:
     temporary.replace(path)
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--head-input-root", type=Path, required=True)
     parser.add_argument("--pathway-activity-root", type=Path, required=True)
@@ -47,7 +48,7 @@ def main() -> int:
     parser.add_argument("--ridge-alpha-pathway", type=float, default=1.0)
     parser.add_argument("--min-expression-train-patients", type=int, default=20)
     parser.add_argument("--min-pathway-train-patients", type=int, default=20)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if socket.gethostname() != "149":
         raise RuntimeError("Distal head execution must run on target host 149")
 
@@ -62,8 +63,19 @@ def main() -> int:
     if not candidate_path.is_file():
         raise FileNotFoundError(candidate_path)
     input_audit = json.loads((head_input / "AUDIT.json").read_text(encoding="utf-8"))
+    if (input_audit.get("format")!="CANCERLNCATLAS_V32_DISTAL_REGULATORY_HEAD_INPUT_V1"
+            or input_audit.get("status")!="PASS" or input_audit.get("target_host")!="149"):
+        raise ValueError("Distal head requires completed input preparation on host 149")
     lineage = require_shared_predictive_topology(input_audit.get("topology_lineage", {}))
     input_hashes = {Path(item["path"]).parent.name: item["sha256"] for item in input_audit.get("outputs", [])}
+    if len(input_hashes)!=len(input_audit.get("outputs",[])):raise ValueError("Duplicate distal input partitions")
+    source_record=lambda path:{"path":str(path.resolve()),"sha256":sha256(path)}
+    sources={"head_input_audit":source_record(head_input/"AUDIT.json"),"candidates":source_record(candidate_path)}
+    partition_sources=[]
+    expression_config=EpigeneticExpressionConfig(signal_features=("distal_mutation_burden",),
+        nuisance_features=("atac_distal_accessibility","promoter_methylation_beta","distal_methylation_beta","local_cnv_log2","tumor_purity"),
+        ridge_alpha=args.ridge_alpha_expression,min_train_patients=args.min_expression_train_patients)
+    pathway_config=DistalRegulatoryMutationHeadConfig(ridge_alpha=args.ridge_alpha_pathway,min_train_patients=args.min_pathway_train_patients)
     output.mkdir(parents=True)
     (output / "LAUNCH_PREFLIGHT.json").write_text(json.dumps({
         "target_host": "149", "observed_host": socket.gethostname(),
@@ -76,6 +88,10 @@ def main() -> int:
     pathway_root.mkdir()
 
     candidates = pd.read_parquet(candidate_path)
+    keys=["cancer_id","lncrna_id","pathway_id"]
+    if (candidates.empty or not set(keys).issubset(candidates) or candidates[keys].isna().any().any()
+            or candidates.duplicated(keys).any() or not candidates.cancer_id.astype(str).str.fullmatch(r"[A-Z0-9_]+").all()):
+        raise ValueError("Distal candidate universe needs unique complete canonical keys")
     cancers = sorted(candidates.cancer_id.astype(str).str.upper().unique())
     cancer_audits = []
     artifacts = []
@@ -86,22 +102,12 @@ def main() -> int:
             raise FileNotFoundError(f"Missing formal input for {cancer}")
         if input_hashes.get(input_path.parent.name) != sha256(input_path):
             raise ValueError(f"Assembled distal input differs from its bound audit: {cancer}")
+        partition_sources.append({"cancer_id":cancer,"head_input":source_record(input_path),"activity":source_record(activity_path)})
         frame = pd.read_parquet(input_path)
         component, nested_component, expression_audit = (
             nested_outer_crossfit_epigenetic_expression(
             frame,
-            config=EpigeneticExpressionConfig(
-                signal_features=("distal_mutation_burden",),
-                nuisance_features=(
-                    "atac_distal_accessibility",
-                    "promoter_methylation_beta",
-                    "distal_methylation_beta",
-                    "local_cnv_log2",
-                    "tumor_purity",
-                ),
-                ridge_alpha=args.ridge_alpha_expression,
-                min_train_patients=args.min_expression_train_patients,
-            ),
+            config=expression_config,
             )
         )
         rename_columns = {
@@ -134,10 +140,7 @@ def main() -> int:
             nested_component,
             activity,
             local_candidates,
-            config=DistalRegulatoryMutationHeadConfig(
-                ridge_alpha=args.ridge_alpha_pathway,
-                min_train_patients=args.min_pathway_train_patients,
-            ),
+            config=pathway_config,
         )
         head_dir = pathway_root / f"cancer_id={cancer}"
         head_dir.mkdir()
@@ -166,6 +169,9 @@ def main() -> int:
             }
         )
 
+    for item in [*sources.values(),*(r[key] for r in partition_sources for key in ("head_input","activity"))]:
+        if sha256(Path(item["path"]))!=item["sha256"]:raise ValueError("Distal input changed during execution")
+    from cc_hhgt.v32 import epigenetic_expression_head,distal_regulatory_mutation_head
     audit = {
         "format": "CANCERLNCATLAS_V32_DISTAL_REGULATORY_MUTATION_HEAD_NESTED_OOF_V2",
         "status": "PASS",
@@ -186,6 +192,12 @@ def main() -> int:
         "causal_claimed": False,
         "head_input_audit_sha256": sha256(head_input / "AUDIT.json"),
         "candidate_universe_sha256": sha256(candidate_path),
+        "sources":sources,"partition_sources":partition_sources,
+        "expression_config":asdict(expression_config),"pathway_config":asdict(pathway_config),
+        "implementation_sha256":{"scripts/run_v32_distal_regulatory_mutation_head.py":sha256(Path(__file__)),
+            "cc_hhgt/v32/epigenetic_expression_head.py":sha256(Path(epigenetic_expression_head.__file__)),
+            "cc_hhgt/v32/distal_regulatory_mutation_head.py":sha256(Path(distal_regulatory_mutation_head.__file__))},
+        "statistical_analysis_executed":True,"neural_optimizer_started":False,
         "cancer_audits": cancer_audits,
         "artifacts": artifacts,
     }

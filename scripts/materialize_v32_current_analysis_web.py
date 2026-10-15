@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Register actual selected/context releases for the existing website; no deployment.
 
-CURRENT_ANALYSIS_WEB_INPUT_V2: release_id, selected_analysis={path,sha256},
-components containing state/clinical/drug/evidence/external/single_cell/patient. Each has either
+CURRENT_ANALYSIS_WEB_INPUT_V3: release_id, selected_analysis={path,sha256},
+components containing state/clinical/drug/evidence/external/single_cell/patient/genomic/distal. Each has either
 status=AVAILABLE and binding={path,sha256}, or an explicit NOT_PRODUCED,
 SOURCE_UNAVAILABLE or NOT_APPLICABLE status with reason. No legacy fallback.
 """

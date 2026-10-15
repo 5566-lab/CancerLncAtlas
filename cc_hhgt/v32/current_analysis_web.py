@@ -20,12 +20,13 @@ from .drug_sparse_query import _bounded_duckdb, _parquet_file_relation
 from .current_drug_sources import same_relation
 from .selected_genesets import SelectedAnalysisQuery
 
-INPUT_FORMAT = "CURRENT_ANALYSIS_WEB_INPUT_V2"
+INPUT_FORMAT = "CURRENT_ANALYSIS_WEB_INPUT_V3"
 FORMAT = "CURRENT_ANALYSIS_WEB_RELEASE_V1"
-COMPONENTS = ("state","clinical","drug","evidence","external","single_cell","patient")
+COMPONENTS = ("state","clinical","drug","evidence","external","single_cell","patient","genomic","distal")
 STATUSES = {"NOT_PRODUCED","SOURCE_UNAVAILABLE","NOT_APPLICABLE"}
 LABELS = {"selected":"GeneSet 与跨癌种分型","scores":"完整候选评分","state":"细胞状态",
-    "clinical":"临床关联","drug":"药物","evidence":"规则证据","external":"外部评估","single_cell":"单细胞背景","patient":"患者亚群"}
+    "clinical":"临床关联","drug":"药物","evidence":"规则证据","external":"外部评估","single_cell":"单细胞背景","patient":"患者亚群",
+    "genomic":"突变、CNV 与 ATAC","distal":"远端调控"}
 NOTES = {
     "selected":"基因集和分型由本版本选定评分生成。分型描述癌种间的基因集关系。",
     "scores":"方向来自主模型；若选定的是融合评分，方向仍保留其原始来源。",
@@ -36,13 +37,16 @@ NOTES = {
     "external":"展示实测指标及隔离范围。已登记来源的隔离尚不证明模型使用来源清单完整。",
     "single_cell":"保留细胞背景和数据集的供者 OOF 关联预测；正负强度不是概率，供者标准差不是置信区间。基因集概况是成员描述性汇总。",
     "patient":"亚群斜率和 HC3 区间描述全队列关联，患者 OOF 预测误差单独呈现。保留原始检验家族 FDR；不推断个体因果效应或联合基因集效应。",
+    "genomic":"保留原生五折预测及覆盖。突变/CNV 事件共现、CNV 表达关联和 ATAC 共可及性各自有不同含义；成员概率均值不是联合基因集概率。",
+    "distal":"嵌套患者折内的远端突变—表达—通路分析，保留甲基化、ATAC、CNV 和纯度输入覆盖。斜率和 OOF 指标描述关联，不代表因果效应。",
 }
 FILTERS = {"cancer_id","cancer_a","cancer_b","lncrna_id","pathway_id","pathway_family_id","geneset_id",
     "association_direction","classification_status","state_id","gene_set_id","direction","state_association_direction",
     "pathway_association_direction","clinical_endpoint","subject_id","subject_type","clinical_effect_direction",
     "drug_id","gene_id","subtype_system","subtype_id","ablation_kind","ablation_entity_id","response_metric",
     "response_unit","dose_molar_key","low_dose_molar_key","high_dose_molar_key","exposure_hours_key",
-    "source_id","source_group","endpoint","isolation_scope","model_id","baseline_model_id","metric","route_type","cell_key","dataset_id","group_id","analysis_source_id"}
+    "source_id","source_group","endpoint","isolation_scope","model_id","baseline_model_id","metric","route_type","cell_key","dataset_id","group_id","analysis_source_id",
+    "producer_kind","modality","expert_id","feature"}
 
 
 def read_json(path): return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -116,7 +120,7 @@ def source_tables(manifest_path):
             raise ValueError("Available current component requires its exact binding")
         source = verified_path(spec["binding"],path.parent); digest=spec["binding"]["sha256"]
         bindings[module] = {"path":str(source),"sha256":digest}
-        if module in {"state","clinical","drug","single_cell","patient"}:
+        if module in {"state","clinical","drug","single_cell","patient","genomic","distal"}:
             if module=="state":
                 from .current_state_context import CurrentStateContextQuery
                 reader = CurrentStateContextQuery(source,expected_sha=digest,selected_analysis_sha=selected_sha)
@@ -129,6 +133,9 @@ def source_tables(manifest_path):
             elif module=="patient":
                 from .current_patient_context import CurrentPatientContextQuery
                 reader = CurrentPatientContextQuery(source,expected_sha=digest,selected_analysis_sha=selected_sha)
+            elif module in {"genomic","distal"}:
+                from .current_omics_context import CurrentOmicsContextQuery
+                reader = CurrentOmicsContextQuery(source,expected_sha=digest,selected_analysis_sha=selected_sha,kind=module)
             else:
                 from .current_drug_context import CurrentDrugContextQuery
                 reader = CurrentDrugContextQuery(source,expected_sha=digest,selected_analysis_sha256=selected_sha)

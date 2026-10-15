@@ -30,21 +30,29 @@ def no_fitting(monkeypatch):
     monkeypatch.setattr(runner,'train_pair_blocked_crossfit_fusion',forbidden)
 
 
-def fixture(root,kind='genomic'):
+def fixture(root,kind='genomic',current_sources=None,unavailable=False):
     root.mkdir(parents=True,exist_ok=True)
-    export=root/'core';export.mkdir();core_path,core=export_fixture(export)
-    # These are frozen serialization fixtures; no source fit took place.
-    core['fixture_no_optimizer_run']=True
-    for fold in range(5):
-        p=export/core['folds'][str(fold)]['exports']['lncRNA']['path']
-        pd.DataFrame({'node_index':range(80),'node_id':[f'LNC:L{i}' for i in range(80)],
-            'core_feature_000':np.arange(80,dtype=float),'core_feature_001':1.}).to_parquet(p,index=False)
-        core['folds'][str(fold)]['exports']['lncRNA']={**record(p),'rows':80,'features':2}
-    write(core_path,core)
-    keys=pd.DataFrame([(c,f'LNC:L{i}','PATHWAY:P1') for c in ('BRCA','LAML') for i in range(80)],columns=['cancer_id','lncrna_id','pathway_id'])
+    if current_sources is None:
+        export=root/'core';export.mkdir();core_path,core=export_fixture(export)
+        # These are frozen serialization fixtures; no source fit took place.
+        core['fixture_no_optimizer_run']=True
+        for fold in range(5):
+            p=export/core['folds'][str(fold)]['exports']['lncRNA']['path']
+            pd.DataFrame({'node_index':range(80),'node_id':[f'LNC:L{i}' for i in range(80)],
+                'core_feature_000':np.arange(80,dtype=float),'core_feature_001':1.}).to_parquet(p,index=False)
+            core['folds'][str(fold)]['exports']['lncRNA']={**record(p),'rows':80,'features':2}
+        write(core_path,core)
+        keys=pd.DataFrame([(c,f'LNC:L{i}','PATHWAY:P1') for c in ('BRCA','LAML') for i in range(80)],columns=['cancer_id','lncrna_id','pathway_id'])
+        core_run='current-G2'
+    else:
+        core_path,selected_path,core_run=current_sources;core=read(core_path)
+        selected=read(selected_path);score=read(Path(selected['selected_score_binding']['path']))
+        primary=read(Path(score['sources']['reference_exact_producer']['producer_binding']['path']))
+        keys=pd.read_parquet(primary['input_artifacts'][0]['path'])[['cancer_id','lncrna_id','pathway_id']]
+    cancers=sorted(keys.cancer_id.unique())
     candidate=root/'candidates.parquet';keys.to_parquet(candidate,index=False)
     patients=root/'patients.parquet'
-    pd.DataFrame([(c,f'{c}-patient-{fold}',fold) for c in ('BRCA','LAML') for fold in range(5)],
+    pd.DataFrame([(c,f'{c}-patient-{fold}',fold) for c in cancers for fold in range(5)],
         columns=['cancer_id','patient_id','patient_fold_id']).to_parquet(patients,index=False)
     native=root/'native';native.mkdir();(native/'checkpoints').mkdir()
     modalities=['mutation','cnv'] if kind=='genomic' else ['cnv'] if kind=='cnv_event' else [kind]
@@ -71,8 +79,11 @@ def fixture(root,kind='genomic'):
             cp_records.append({**record(cp),'patient_fold':fold,'fold':fold,'modality':modality,'status':'SUCCESS'})
         available=keys.cancer_id.eq('BRCA').to_numpy(copy=True)
         if fold==4:available &= ~keys.lncrna_id.eq('LNC:L1').to_numpy()
+        if unavailable:available[:]=False
+        if current_sources is not None and fold==4:available[0]=False
         values=np.full(len(keys),(.2+.15*fold),np.float32)
         if fold==0:values[keys.lncrna_id.eq('LNC:L0')]=0.
+        if current_sources is not None and fold==0:values[0]=0.
         values[~available]=np.nan
         reasons=np.where(available,None,'NATIVE_INPUT_NOT_AVAILABLE')
         if kind=='atac':
@@ -94,9 +105,9 @@ def fixture(root,kind='genomic'):
         frame['unused_observed_label']='DO_NOT_CONSUME_THIS_COLUMN'
         fold_frames.append(frame)
         if kind in {'cnv','cnv_event'}:
-            for cancer in ('BRCA','LAML'):
+            for cancer in cancers:
                 path=native/f'fold_{fold}_{cancer}.parquet';frame.loc[frame.cancer_id.eq(cancer)].to_parquet(path,index=False)
-                fold_records.append({**record(path),'fold':fold,'cancer':cancer,'rows':80})
+                fold_records.append({**record(path),'fold':fold,'cancer':cancer,'rows':int(keys.cancer_id.eq(cancer).sum())})
         else:
             path=native/f'fold_{fold}.parquet';frame.to_parquet(path,index=False)
             fold_records.append({**record(path),'patient_fold_id':fold,'rows':len(frame)})
@@ -152,7 +163,7 @@ def fixture(root,kind='genomic'):
             'lineage_path':str(lineage_path),'lineage_sha256':sha256(lineage_path),
             'prediction_path':str(typed_path),'prediction_sha256':sha256(typed_path),
             'patient_fold_oof_prediction_paths':fold_records,'release_ready':False,'fixture_no_optimizer_run':True})
-    manifest={'format':INPUT_FORMAT,'producer_kind':kind,'modalities':modalities,'core_run_id':'current-G2',
+    manifest={'format':INPUT_FORMAT,'producer_kind':kind,'modalities':modalities,'core_run_id':core_run,
         'native_run_id':run,'candidate_authority':record(candidate),'patient_folds':record(patients),
         'core_manifest':record(core_path),'native_receipt':record(native_path)}
     return write(root/'manifest.json',manifest),keys

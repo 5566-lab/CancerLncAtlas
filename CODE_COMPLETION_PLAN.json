@@ -36,7 +36,7 @@
       "status": "code_implemented_fixture_verified",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
       "implementation": "Actual V4 full-candidate inference and selected-score consumption are implemented. Native Mutation/CNV-event/CNV-association/ATAC reach current fusion preparation. Native State and Clinical reach the same selected analysis and version-bound context/query consumers. Native primary validation labels now replay from actual authorized prepared payloads and checkpoints, retaining availability and exact candidate identity. The fusion path excludes unavailable targets from fitting/metrics, preserves full inference coverage, and carries development-only validation-reuse semantics through release lineage. No optimization or real data were executed.",
-      "scope_limit": "Code and synthetic interfaces verified. Real current candidate/auxiliary/fusion releases were not produced. Independent performance validation and complete model-use inventory remain C13/C16; actual public routes now exist for the implemented current contexts; remaining analysis views stay under C15."
+      "scope_limit": "Code and synthetic interfaces verified. Real current candidate/auxiliary/fusion releases were not produced. Independent performance validation and complete model-use inventory remain C13/C16; actual public routes cover the current contexts under C15."
     },
     {
       "id": "C06",
@@ -109,10 +109,10 @@
     {
       "id": "C15",
       "task": "新结果到网站/API/下载完整绑定和同版本查询；不部署",
-      "status": "in_progress",
-      "implementation": "The actual main site serves version-bound selected scores/GeneSets, State, Clinical, Drug, rule evidence, external metrics, signed single-cell cell/dataset contexts and patient subgroup statistics. Same-selected checks, source replay, exact filters, all registered public downloads and typed absence are connected. Native synthetic producers and real desktop/mobile Chromium workflows pass the latest 29-case patient/SC/web and patient-statistics run on host149.",
-      "remaining": "Complete release reconciliation of distal-regulatory and remaining native genomic details; connect final multi-module orchestration/data dictionary and source-use inventory under C16. No deployment.",
-      "real_data_execution": "NOT_RUN_AS_REQUESTED"
+      "status": "code_implemented_fixture_verified",
+      "implementation": "The actual main site serves version-bound selected scores/GeneSets, State, Clinical, Drug, rule evidence, external metrics, signed single-cell contexts, patient subgroups, native genomic predictions and nested distal regulatory statistics. Same-selected checks, native source replay, exact filters, all public downloads, private-record exclusion and typed absence reach the actual API and Chinese frontend. Desktop/mobile Chromium and regression checks passed on host149.",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "scope_limit": "Synthetic native producers only; no real current release or deployment. Genomic publication replays fold aggregation and inspects checkpoints, not neural forwards; distal publication replays the native statistical command from prepared inputs. C13/C16 still own complete model-use inventory, final orchestration and acceptance."
     },
     {
       "id": "C16",
@@ -122,7 +122,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 533,
+    "unique_fixture_tests_passed": 539,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -130,9 +130,8 @@
     "remaining_requirements_not_complete": [
       "C01",
       "C13",
-      "C15",
       "C16"
     ],
-    "latest_change_tests_passed": 29
+    "latest_change_tests_passed": 55
   }
 }

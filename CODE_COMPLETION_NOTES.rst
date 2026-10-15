@@ -1614,14 +1614,15 @@ Current selected website, HTTP routes and public downloads (2026-10-16)
 
 ``python -m scripts.materialize_v32_current_analysis_web --manifest INPUT.json
 --output NEW_DIRECTORY`` registers actual outputs on host 149. The input format
-is CURRENT_ANALYSIS_WEB_INPUT_V2. It requires a release_id, a selected_analysis
-``{path, sha256}`` record, and components with exactly these seven keys: state,
-clinical, drug, evidence, external, single_cell and patient. Each component supplies either
+is CURRENT_ANALYSIS_WEB_INPUT_V3. It requires a release_id, a selected_analysis
+``{path, sha256}`` record, and components with exactly these nine keys: state,
+clinical, drug, evidence, external, single_cell, patient, genomic and distal.
+Each component supplies either
 ``{"status":"AVAILABLE","binding":{"path":"...","sha256":"..."}}``
 or an explicit NOT_PRODUCED, SOURCE_UNAVAILABLE or NOT_APPLICABLE status and a
 nonempty reason. Omitted components and broken configured sources fail.
 
-State, Clinical and Drug must bind the same selected-analysis hash. Rule
+Every selected context must bind the same selected-analysis hash. Rule
 evidence must cover the actual reference producer's candidate universe and,
 when selected scores already carry rule annotations, use that exact binding.
 External metrics must evaluate the selected score snapshot or its exact
@@ -1683,13 +1684,13 @@ directories; the shared scientific environment is unchanged. Runtime version
 pins are in requirements/requirements-current-web.txt. Screenshots and browser
 receipt are under provenance/code_completion_20261015/current_web_*.
 
-C15 remains in progress: these routes cover selected scores/GeneSets, State,
-Clinical, Drug, rule evidence, registered external evaluation, signed single-cell
-details and patient subgroup statistics. Distal-regulatory and remaining native
-genomic detail outputs still require reconciliation into the complete web release. C13 still
-requires complete model-use provenance; C16 owns the final orchestration,
-data dictionary and acceptance pass. This is code and synthetic verification,
-not a new real analysis, independent biological validation or deployment.
+These routes cover selected scores/GeneSets, State, Clinical, Drug, rule
+evidence, registered external evaluation, signed single-cell details, patient
+subgroup statistics, native genomic details and distal regulatory statistics.
+C13 still requires complete model-use provenance; C16 owns the final
+orchestration, data dictionary and acceptance pass. This is code and synthetic
+verification, not a new real analysis, independent biological validation or
+deployment. The requirement ledger records the current acceptance status.
 
 Current signed single-cell and patient subgroup views (2026-10-16)
 ----------------------------------------------------------------
@@ -1754,7 +1755,7 @@ the selected ranking. Individual patient records remain bound private sources.
 
 Both context releases write a source-bound manifest, a public-table replay audit
 and a final SUCCESS receipt. Their query readers require the same selected
-analysis hash as the website. The web input V2 requires explicit single_cell
+analysis hash as the website. The web input V3 requires explicit single_cell
 and patient component statuses, so absent modules cannot silently disappear.
 The frontend offers dataset/cell and subgroup/source filters, all public table
 downloads and readable core statistics. Public HTTP download registration
@@ -1765,5 +1766,69 @@ current context consumers, existing patient-statistics regression checks and
 the real main-site/browser workflow. Optimizer constructors are forbidden;
 only small synthetic statistical fits and frozen core fixture forwards occur.
 These checks do not establish real cohort results or a complete global
-cross-module patient/model-use inventory. Distal/genomic web integration and
-the C01/C13/C16 reconciliation remain unfinished.
+cross-module patient/model-use inventory. The genomic/distal additions below
+extend this verification; the C01/C13/C16 reconciliation remains unfinished.
+
+Current native genomic and distal regulatory views (2026-10-16)
+------------------------------------------------------------
+
+``python -m scripts.materialize_v32_current_omics_context --manifest INPUT.json
+--output NEW_DIRECTORY`` consumes CURRENT_OMICS_CONTEXT_INPUT_V1 on host 149.
+Both kinds require a selected_analysis ``{path, sha256}`` record. Genomic input
+has ``kind: genomic`` and native_bindings with all four producer keys: genomic,
+cnv_event, cnv and atac. Each key supplies an AVAILABLE binding or an explicit
+NOT_PRODUCED, SOURCE_UNAVAILABLE or NOT_APPLICABLE status with a reason. At least
+one native producer must be available. Distal input has ``kind: distal`` and a
+native_binding record for the original nested statistical command's AUDIT.json.
+
+Genomic publication uses the actual native auxiliary loader. It checks native
+checkpoints and five-fold provenance, replays the original fold aggregation and
+matches the full candidate universe. Core-dependent heads must use the same
+five checkpoint and core-parameter hashes as the selected reference model.
+Active genomic experts in the selected fusion require matching source bindings;
+other contextual predictions remain explicitly outside the selected score.
+Mutation/CNV event co-occurrence, CNV expression association and ATAC
+co-accessibility keep distinct producer/modality/expert identities and native
+estimands. CNV event heads and CNV expression association are not interchangeable.
+
+Public tables include the producer catalog, native aggregate, all native fold
+predictions and counts, selected-member predictions and selected-GeneSet member
+summaries. Available zero probabilities stay zero; missing folds, unavailable
+models and their reasons stay explicit. The weighted member mean is descriptive,
+not a jointly fitted GeneSet probability. Publication inspects checkpoint
+provenance and replays aggregation; it does not replay genomic neural forwards
+or reconstruct original raw-omics features.
+
+The actual distal command now records its prepared-input audit, candidate
+authority, each cancer's input and pathway-activity files, full expression and
+pathway configurations, and exact implementation hashes. It rejects duplicate
+input partitions and invalid candidate keys, and rechecks source hashes before
+completion. Old receipts without this provenance cannot become current context
+releases by adding an unverified declaration.
+
+Distal publication re-executes that original statistical CLI in a temporary
+directory with the recorded inputs and settings. It compares both stages'
+audits, patient OOF components, inner-OOF components within every outer fold,
+and candidate pathway results. The prepared-input topology must be eligible
+for prediction and consistent across assays. This replay starts at the bound
+prepared inputs; it does not regenerate mutation, ATAC or methylation features
+from raw experimental files. The upstream feature preparation has its separate
+contracts and tests. Only synthetic prepared inputs were used in this check.
+
+Public distal tables retain slopes, OOF errors, R-squared, prediction correlation,
+availability, assay coverage and per-fold expression-component coverage. GeneSet
+views report supported membership and slope-direction counts; they do not
+invent joint effects, confidence intervals or causal claims. Patient identifiers
+and nested patient predictions remain private. Public aggregation is independently
+recomputed by bounded SQL before the release SUCCESS receipt. Neither context
+changes the selected ranking.
+
+The actual website registers both modules under the same selected-analysis
+version, including their public table queries and hash-pinned downloads. The
+frontend offers producer/modality/expert and assay-feature filters. V3 requires
+explicit genomic and distal statuses, including when results are unavailable.
+The browser verification exercises a missing CNV context and zero measured
+distal-methylation coverage. Versioned screenshots and receipts are preserved
+under ``provenance/code_completion_20261015/current_omics_web_*``; older browser
+evidence is retained. No model optimizer, real cohort analysis or deployment
+is performed by these checks.

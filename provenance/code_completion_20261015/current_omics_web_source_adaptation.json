@@ -1,0 +1,44 @@
+{
+  "method": "NATIVE_GENOMIC_FOLD_AGGREGATION_AND_DISTAL_NESTED_STATISTICAL_REPLAY_TO_SELECTED_CONTEXTS_AND_MAIN_SITE",
+  "source_hash_receipts": [
+    "current_omics_context_r1",
+    "current_omics_web_r1"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_analysis_web.py",
+    "cc_hhgt/v32/current_omics_context.py",
+    "scripts/materialize_v32_current_analysis_web.py",
+    "scripts/materialize_v32_current_omics_context.py",
+    "scripts/run_v32_distal_regulatory_mutation_head.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_current_omics_context.py",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "website/frontend/assets/current-analysis.js"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "synthetic_statistical_fits_executed": true,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "captured_browser_receipt": {
+    "path": "current_omics_web_browser_receipt.json",
+    "sha256": "325ff614b8d145d29b9daf48e5ff54dc02b0a95ab89327a78232c82fdbb2f558"
+  },
+  "captured_screenshots": [
+    {
+      "remote_basename": "current_web_desktop.png",
+      "local_basename": "current_omics_web_desktop.png",
+      "sha256": "8ffd6b411d33252122cd4228bc2919b7c845563015cb8437bbfa5b3181beec04"
+    },
+    {
+      "remote_basename": "current_web_mobile.png",
+      "local_basename": "current_omics_web_mobile.png",
+      "sha256": "e1a7f06a51ca049907036b9f742e9777daccf848ec162c6aa1bc97e0877b6036"
+    }
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ]
+}

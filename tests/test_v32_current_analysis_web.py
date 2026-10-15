@@ -25,6 +25,7 @@ from test_v32_current_clinical_context import clinical_fixture
 from test_v32_current_drug_context import native_fixture as drug_fixture
 from test_v32_current_single_cell_context import native_fixture as single_cell_fixture
 from test_v32_current_patient_context import native_fixture as patient_fixture
+from test_v32_current_omics_context import genomic_fixture,distal_fixture
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -85,6 +86,7 @@ def web_release(tmp_path_factory,current_sources):
     from cc_hhgt.v32.current_drug_context import materialize_current_drug_context
     from cc_hhgt.v32.current_single_cell_context import materialize_current_single_cell_context
     from cc_hhgt.v32.current_patient_context import materialize_current_patient_context
+    from cc_hhgt.v32.current_omics_context import materialize_current_omics_context
     from scripts.materialize_v32_current_analysis_web import main
     root=tmp_path_factory.mktemp("current_web")
     with pytest.MonkeyPatch.context() as monkeypatch:
@@ -92,7 +94,8 @@ def web_release(tmp_path_factory,current_sources):
         bindings={}
         for key,fixture,materialize in [("state",state_fixture,materialize_current_state_context),
             ("clinical",clinical_fixture,materialize_current_clinical_context),("drug",drug_fixture,materialize_current_drug_context),
-            ("single_cell",single_cell_fixture,materialize_current_single_cell_context),("patient",patient_fixture,materialize_current_patient_context)]:
+            ("single_cell",single_cell_fixture,materialize_current_single_cell_context),("patient",patient_fixture,materialize_current_patient_context),
+            ("genomic",genomic_fixture,materialize_current_omics_context),("distal",distal_fixture,materialize_current_omics_context)]:
             result=materialize(fixture(root/(key+"_inputs"),current_sources),root/key)
             bindings[key]=record(Path(result["binding_path"]))
         bindings["evidence"]=record(evidence_fixture(root/"evidence",current_sources[1]))
@@ -146,7 +149,7 @@ def test_version_mismatch_invalid_queries_and_private_downloads_are_rejected(web
         assert client.post(route,json={"version":version,**payload}).status_code==422
     assert client.get("/api/current/downloads/selected.gmt/0").status_code==422
     assert client.get("/api/current/downloads/selected.gmt/0",params={"version":"f"*64}).status_code==409
-    for identity in ("drug.PRIVATE_DOSE_MEASUREMENT_DISPOSITION","scores.checkpoint","clinical.patient_risk","single_cell.donor_cell_context","patient.patient_oof","../INPUT.json"):
+    for identity in ("drug.PRIVATE_DOSE_MEASUREMENT_DISPOSITION","scores.checkpoint","clinical.patient_risk","single_cell.donor_cell_context","patient.patient_oof","distal.nested_outer_expression_components","genomic.checkpoint","../INPUT.json"):
         assert client.get(f"/api/current/downloads/{identity}/0",params={"version":version}).status_code in {404,422}
 
 
@@ -292,6 +295,20 @@ def test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout(live_si
             page.locator("#filters-form button[type='submit']").click()
             expect(page.locator("#table-container tbody tr")).to_have_count(1)
             expect(page.locator("#table-container")).to_contain_text("exploratory_current_core")
+            page.locator("button[data-component='genomic']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(5)
+            page.locator("#extra-filters summary").click()
+            page.locator("#filters-form input[name='producer_kind']").fill("cnv")
+            page.locator("#filters-form button[type='submit']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(1)
+            expect(page.locator("#table-container")).to_contain_text("不可用")
+            page.locator("button[data-component='distal']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(1)
+            page.locator("#table-select").select_option("distal.native_feature_coverage")
+            page.locator("#extra-filters summary").click()
+            page.locator("#filters-form input[name='feature']").fill("distal_methylation_beta")
+            page.locator("#filters-form button[type='submit']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(1)
             page.locator("button[data-component='selected']").click();expect(page.locator("#table-container tbody tr")).to_have_count(1)
             page.screenshot(path=str(out/"current_web_desktop.png"),full_page=True)
             page.locator("#downloads-toggle").click()
