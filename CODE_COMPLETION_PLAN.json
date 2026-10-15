@@ -44,22 +44,31 @@
     {
       "id": "C07",
       "task": "药物稳定标识/同义词、癌种/亚型映射、覆盖分层及自然类别比例",
-      "status": "pending"
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Source-bound stable/synonym drug IDs; targetless assay retention and descriptive scan; one cancer per canonical model; explicit molecular subtypes; uniform natural-prior sampling in both trainers with class-count receipts. Actual staging and command paths verified."
     },
     {
       "id": "C08",
       "task": "药物作用方向、靶点/通路贡献的分析实现，避免联表机制冒充模型归因",
-      "status": "pending"
+      "status": "in_progress",
+      "implementation": "Signed native expression-sensitivity scans and five-fold frozen target/exact-pathway ablation implemented and tested.",
+      "remaining": "Action type, affinity, chemical structure and dose are not consumed by the existing association-strength head; complete pharmacology features/analysis and final public consumption."
     },
     {
       "id": "C09",
       "task": "ENCODE KD/差异剪接获取解析、RBP功能支持分析及证据消费",
-      "status": "pending"
+      "status": "in_progress",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Verified selected-file fetch, native DE/rMATS parsing, gene/event summaries, tested-background pathway enrichment, biosample-matched physical-binding bridge and actual command implemented; 9 synthetic checks passed.",
+      "remaining": "Wire generated FUNCTIONAL_EVIDENCE into the current rule-summary and release consumer (C12)."
     },
     {
       "id": "C10",
       "task": "RBNS 与匹配版本 lncRNA 序列评分、预测关系及下游消费",
-      "status": "pending"
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Version-matched transcript scoring of native RBNS profiles, composition comparator, complete isoform coverage, explicit predicted relations and actual existing typed-binding consumer; 5 synthetic checks passed. Admission to comparison graphs is C11."
     },
     {
       "id": "C11",
@@ -94,7 +103,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 89,
+    "unique_fixture_tests_passed": 125,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -102,10 +111,8 @@
     "remaining_requirements_not_complete": [
       "C01",
       "C05",
-      "C07",
       "C08",
       "C09",
-      "C10",
       "C11",
       "C12",
       "C13",

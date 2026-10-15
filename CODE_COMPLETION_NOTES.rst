@@ -208,3 +208,179 @@ actual inputs and aggregation policy. Use that audit's run_id in the fusion
 manifest. A freely supplied name no longer substitutes for producer identity.
 Native Mutation/CNV/ATAC fold adapters, native State/Clinical context consumption
 and selected-score release integration are still tracked as unfinished C05 work.
+
+Native drug identity, cancer context and response direction
+----------------------------------------------------------
+
+The formal build_v32_drug_raw_inputs command now requires --drug-identifiers,
+a curated TSV/Parquet table with drug_id, identifier_type, identifier_value and
+source. drug_id must be a namespaced stable identity. identifier_type=name
+covers explicitly supplied synonyms; source:<dataset_id> covers native IDs.
+Names are normalized for case, Unicode and whitespace only. Salt, stereo and
+punctuation distinctions are preserved. Conflicting identities remain separate
+source-scoped ASSAY identifiers; they are never merged by fuzzy name matching.
+These unresolved measurements, including unnamed PRISM compounds, are retained.
+
+Optional --model-annotations uses canonical_model_id, cancer_id, source and
+optional paired subtype_system/subtype_id. Native GDSC diagnosis propagates to
+the same canonical model in PRISM. Tissue supplies a cancer only when the mapping
+is unique. Conflicting explicit diagnoses are unavailable. Tissue is never used
+to invent PAM50 or another molecular subtype. MODEL_CONTEXT_AUDIT.parquet and
+MODEL_SUBTYPES.parquet retain the provenance and unavailable reasons. Legacy
+multi-cancer duplication is rejected by both drug training readers.
+
+Both dense and streaming sampling now preserve the eligible population's class
+proportions through uniform sampling. The streaming reservoir is independent of
+chunk boundaries. Unknown/gray labels remain excluded, so the documented prior
+is the non-gray association-label prior, not prevalence of clinical response.
+Both checkpoint formats record population and sampled class counts.
+
+``python -m scripts.analyze_v32_native_drug_response --exact EXACT.parquet
+--response RAW_RESPONSE --expression RAW_EXPRESSION --mapping CELL_LINE_MAP
+--subtypes MODEL_SUBTYPES --targets DRUG_TARGETS --output NEW_DIRECTORY``
+runs a descriptive scan on host 149. Within each cancer and declared subtype,
+every cancer-assayed drug is paired with each exact lncRNA, including drugs
+without annotated targets. Dataset response orientation is normalized to higher
+sensitivity before rank correlation. Repeated assays do not inflate the number
+of unique models. Whole-cohort and five disjoint model-block correlations,
+support counts, direction agreement and context coverage are materialized.
+Insufficient support yields null, not zero. These are descriptive associations;
+no p-values, causal effects, clinical benefit or fitted OOF predictions are claimed.
+
+Frozen drug target and pathway ablation
+---------------------------------------
+
+``python -m scripts.analyze_v32_drug_model_attribution --manifest INPUT.json
+--output NEW_DIRECTORY`` loads all five frozen current-core drug heads on 149.
+INPUT.json is DRUG_MODEL_ATTRIBUTION_INPUT_V1 with core_run_id, drug_run_id and
+artifacts {path,sha256}: core_embedding_manifest, drug_lineage,
+checkpoint_manifest, config, exact_candidates, exact_pathway_membership,
+raw_drug_response, raw_lncrna_expression, cell_line_map, drug_gene_target, queries.
+queries contains cancer_id, lncrna_id, drug_id. Optional checkpoint_paths permits
+relocation by fold while preserving the original checkpoint hashes.
+
+Actual model forward passes compare the baseline with each removed target and
+with all targets in one exact pathway removed jointly. Every removal recomputes
+the mean target embedding and target count/availability. The script binds the
+original trained inputs, model/config hashes, selected current core and fold.
+It verifies parameter immutability and source hashes; it contains no optimizer.
+Outputs preserve signed logit/probability differences and extrapolation to a
+targetless input. These effects explain an association-strength head; they do
+not turn its abs(rho) training label into a sensitivity-direction model. Pathway
+effects are not sums of target effects. Action type, affinity, chemical structure
+and dose remain outside the current head and are unfinished C08 work.
+
+The synthetic end-to-end test constructs five tiny serialized heads solely to
+test loading and inference. Its emulated training receipt is test-only and does
+not constitute a real trained drug model. No real-data scan, checkpoint
+attribution or drug training has been executed in this code-change task.
+
+ENCODE RBP depletion and differential splicing
+----------------------------------------------
+
+``python -m scripts.analyze_v32_encode_functional --manifest INPUT.json
+--cache EXISTING_NATIVE_CACHE --output NEW_DIRECTORY`` runs on host 149.
+It verifies cached native files against the existing ENCODE inventory's byte
+count and MD5. Optional --download retrieves only selected released products,
+uses a temporary file and verifies it before renaming. Optional --proxy passes
+an explicitly configured proxy to curl. No downloads were performed by this
+code-change task; tests use cached synthetic native tables and archives.
+
+INPUT.json is ENCODE_FUNCTIONAL_ANALYSIS_V1 with reference_annotation_id and
+artifacts {path,sha256}: inventory, gene_crosswalk, rbp_crosswalk,
+pathway_membership, physical_binding, exact_candidates. Gene crosswalk columns
+are source_gene_id and gene_id; source versions are matched exactly. RBP crosswalk
+columns are source_rbp_label and rbp_id in the existing graph namespace. Physical
+binding columns are lncrna_id, rbp_id, biosample, graph_assay_class and
+binding_source_id. Exact candidates use cancer_id, lncrna_id, pathway_id.
+
+Each contrasts entry has contrast_id, file_accession, experiment_accession,
+rbp_id, biosample, schema, effect_orientation and orientation_source. Supported
+schemas are deseq2, cuffdiff, rmats and mapped_de. The last requires explicit
+gene_column, effect_column, pvalue_column and qvalue_column; these column overrides
+also work for the named schemas. effect_orientation is KD_MINUS_CONTROL or
+CONTROL_MINUS_KD and is verified as a declared direction, never guessed from
+effect signs. For a splicing archive, member selects one exact native table;
+event_column defaults to ID; event_type declares SE/MXE/A3SS/A5SS/RI and
+quantification selects JC or JCEC. The archive is read without extracting paths.
+Selecting all JC/JCEC variants as independent evidence is not permitted by the
+single-table selector. Biological experiment accessions remain separate from
+file and contrast counts; no cross-file replicate pooling is performed.
+
+DE keeps the source's full-family adjusted p-values. Splicing uses within-gene
+Simes p-values and BH over all declared gene tests, including unavailable and
+unmapped members in the family size. A changed gene additionally needs an event
+meeting the native FDR and absolute-effect cutoffs. Simes/BH rely on their usual
+dependence assumptions; these exploratory summaries are not external validation.
+Opposite splice events in the same gene remain visible. Defaults are alpha=.05,
+absolute log2 fold change >=1 and absolute delta PSI >=.1. analysis can override
+these and min_tested_genes (default 3) before analysis.
+
+Pathway over-representation uses actually tested genes as the background and
+retains all declared pathways in each multiple-testing family. A fully unmapped
+contrast still has unavailable pathway rows. Native tests, per-gene summaries,
+RBP_PATHWAY_SUPPORT.parquet and COVERAGE.parquet are emitted. The functional
+consumer joins significant pathway support to physical lncRNA--RBP binding in
+the SAME biosample and exact lncRNA/pathway candidates, writing
+FUNCTIONAL_EVIDENCE.parquet. Predicted binding is excluded from this bridge.
+This is a traceable RBP-perturbation hypothesis bridge, not a measured lncRNA
+perturbation or evidence that a cell line reproduces a TCGA patient context.
+Final rule-summary/release consumption remains C12 work.
+
+RBNS transcript sequence scoring and predicted relations
+---------------------------------------------------------
+
+``python -m scripts.analyze_v32_rbns_sequences --manifest INPUT.json
+--cache EXISTING_NATIVE_CACHE --output NEW_DIRECTORY`` consumes verified native
+RBNS enrichment tables and a matching transcript FASTA on 149. It also supports
+explicit --download and --proxy for a future run. This task did not download
+sequences or score real project transcripts.
+
+INPUT.json is RBNS_SEQUENCE_ANALYSIS_V1 with annotation_id, artifacts
+{path,sha256}: inventory, rbp_crosswalk, transcript_fasta, transcript_crosswalk,
+lncrnas and protein_gene_map; and profiles entries with profile_id,
+file_accession, rbp_id, concentration (the exact native column, e.g. '5 nM').
+Transcript crosswalk columns are transcript_id, source_gene_id, lncrna_id and
+annotation_id. FASTA transcript and gene versions are checked against this
+crosswalk, and annotation_id must agree. The protein mapping is the existing
+typed-binding map: gene_id, protein_id, uniprot_accession, mapping_multiplicity,
+mapping_weight. lncrnas is the full declared lncRNA universe, including genes
+whose sequences are unavailable.
+
+One prespecified native 4-7-mer table/concentration defines each profile. Missing
+k-mers are rejected rather than imputed as neutral. Measured zero enrichment is
+retained through the declared log floor (default 1e-6). Scores use transcript
+orientation without reverse complementing RNA. Only unambiguous A/C/G/T windows
+are scored; U is normalized to T. The average window log2 enrichment is compared
+with the expectation under independent bases at that transcript's nucleotide
+frequencies. This adjusts a simple composition baseline; it does not model RNA
+structure, dinucleotide dependence, binding affinity or cellular occupancy.
+
+Transcript scores stream into Parquet, then aggregate with equal weight per
+isoform. Defaults require 50 valid windows, at least 90% valid windows per
+transcript and 100% registered-transcript coverage per gene. Missing sequences
+retain null prediction scores and explicit reasons. The outputs preserve
+isoform extrema and coverage. The default predicted relation threshold is
+composition excess >=.25 log2 units with mean log2 enrichment >=0; these are
+prespecified operational cutoffs, not calibrated probabilities or significance
+thresholds. scoring in the input manifest can override these settings.
+
+GENE_SEQUENCE_PREFERENCE.parquet feeds PREDICTED_INTERACTION_RELATION.parquet
+and the ACTUAL existing build_typed_lnc_protein_binding consumer. The resulting
+RBNS_TYPED_BINDING.parquet contains only binds_protein_predicted relations.
+Its weights retain the existing fixed predicted prior and protein-mapping
+weight, not a claim that sequence scores estimate binding probability. The
+separate relation artifact does not alter the currently trained C graph; C11
+must admit it only in the declared predicted-expansion comparison arm.
+
+Both ENCODE/RBNS analyses bind inputs, source files, implementation, run identity
+and outputs in AUDIT/SUCCESS records. Neither starts an optimizer or changes the
+primary graph. The current combined synthetic suite has 14 checks, including
+both complete commands, direction reversal, native archive selection, missing
+gene mappings, sequence/version mismatches and the actual typed-edge consumer.
+
+Primary format/semantic references reviewed for these adapters:
+https://www.encodeproject.org/files/ENCFF949TLK/ (Cuffdiff contrast description),
+https://github.com/Xinglab/rmats-turbo (event fields and inclusion-difference
+orientation), https://www.encodeproject.org/rbns/ and
+https://www.encodeproject.org/data-standards/terms/ (RBNS enrichment definition).

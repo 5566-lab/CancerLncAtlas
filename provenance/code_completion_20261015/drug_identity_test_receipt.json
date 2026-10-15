@@ -1,0 +1,32 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T15:46:55.905552+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/drug_identity.py": "df87b712554cab339504d76993638c120a64432db1371ea6bb8d521079bc78d7",
+    "cc_hhgt/v32/drug_staging.py": "f3787e8013f28e4271c7cb0db379cad7f30520f95097f6da31051c568833cc02",
+    "cc_hhgt/v32/drug_training.py": "be639c176c7e5fc18e949847a8436975e14d8781b20a9427c820965f2fd3d249",
+    "cc_hhgt/v32/drug_training_streaming.py": "c151c8bbf653e968ee19884bf6881de8d88c82a9c52a81919f51f0cd1c76aabe",
+    "cc_hhgt/v32/drug_response_analysis.py": "f5763c99b1c34dfce615ea84bdfba28de36fb4d44bb5bc4a99ee39c55a4ea877",
+    "scripts/build_v32_drug_raw_inputs.py": "ef96f44612277a73fb4a45298d05112c7a71cf6b77896e34e6a213c47bbabb0c",
+    "scripts/analyze_v32_native_drug_response.py": "dd2c9a48a928c45fc6f33742d0179afe1db56adabdcaf6aad968328b825421dd",
+    "tests/test_v32_drug_identity.py": "4e0f6d47d9dcc130c68327cead75a55d12e6f57ae238014dc0e2100f3955e3b9",
+    "tests/test_v32_drug_response_analysis.py": "a2a4d96ab22cdc8caac53b340e527fcd29a2edddeca8bddf31d228e9dcc34d43"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_drug_identity.py",
+    "tests/test_v32_drug_response_analysis.py",
+    "tests/test_v32_drug_training.py::test_canonical_models_never_cross_folds",
+    "tests/test_v32_drug_training.py::test_association_statistics_keep_labels_private_and_missing_explicit",
+    "tests/test_v32_drug_training.py::test_vectorized_statistics_match_reference_without_fold_leakage",
+    "--junitxml=provenance/code_completion_20261015/drug_identity_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-15T15:47:03.790301+00:00"
+}

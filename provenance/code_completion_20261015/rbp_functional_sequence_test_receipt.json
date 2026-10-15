@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T16:25:40.957879+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/encode_functional.py": "8a3ef614a12e58a3bc2965ae39d5b0317cf65018d281db4a51ad7a876c01d3f2",
+    "cc_hhgt/v32/rbns_sequence.py": "0f10b2df801b3e648d6449c6b269d4c76180f1b82565aed9569b5df098679636",
+    "scripts/analyze_v32_encode_functional.py": "dd71a491f0e02d2d6487337934ee972d021bcdbd501ef72f16fafd0de916c9ac",
+    "scripts/analyze_v32_rbns_sequences.py": "e2ab05cbeff5bcde7110264e910c0c3bf265c6152d48ba5e92b11485a65040ff",
+    "tests/test_v32_encode_functional.py": "311f393d1c3c91209e89d2784c5b1678f4e84961d88e646a67c034f0bcb70d2c",
+    "tests/test_v32_rbns_sequence.py": "ec0ed4fc16ba699ff53da7dc52458771ab771ca89d5a9a4aa445064cb3727057"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_encode_functional.py",
+    "tests/test_v32_rbns_sequence.py",
+    "--junitxml=provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T16:25:52.309400+00:00"
+}

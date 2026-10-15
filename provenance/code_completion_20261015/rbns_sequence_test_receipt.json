@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T16:18:07.987182+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/rbns_sequence.py": "b550927596751de193117c511f20d93f6640f8194917e4570c22c6defe0aa757",
+    "scripts/analyze_v32_rbns_sequences.py": "68d0690d5f1f6b7ccb3922ad1b049d6aeda02ac96b85e4243d5707abcae896be",
+    "tests/test_v32_rbns_sequence.py": "ec0ed4fc16ba699ff53da7dc52458771ab771ca89d5a9a4aa445064cb3727057"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_rbns_sequence.py",
+    "--junitxml=provenance/code_completion_20261015/rbns_sequence_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T16:18:13.870146+00:00"
+}

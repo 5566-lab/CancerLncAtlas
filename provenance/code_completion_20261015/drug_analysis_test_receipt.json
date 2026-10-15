@@ -1,0 +1,36 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T16:12:05.765839+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/drug_identity.py": "df87b712554cab339504d76993638c120a64432db1371ea6bb8d521079bc78d7",
+    "cc_hhgt/v32/drug_staging.py": "07977e68faa47d28101fca1346e37e8a9d2500619624e3bee4910e05a100a4c4",
+    "cc_hhgt/v32/drug_training.py": "8bbb90660461ebe66869f80a0063143fdef586e600ac7c326b9a64eedc45329a",
+    "cc_hhgt/v32/drug_training_streaming.py": "c151c8bbf653e968ee19884bf6881de8d88c82a9c52a81919f51f0cd1c76aabe",
+    "cc_hhgt/v32/drug_response_analysis.py": "3ddfb5ba41436104134d08eccd23e1484c3f572ef09f491c0b2fc08dc6f13162",
+    "cc_hhgt/v32/drug_attribution.py": "a4d1b6afc92a5706e56ef058d9f2fb54ebe7fc88b0ea4181c184500d1da63fbd",
+    "scripts/build_v32_drug_raw_inputs.py": "ef96f44612277a73fb4a45298d05112c7a71cf6b77896e34e6a213c47bbabb0c",
+    "scripts/analyze_v32_native_drug_response.py": "dd2c9a48a928c45fc6f33742d0179afe1db56adabdcaf6aad968328b825421dd",
+    "scripts/analyze_v32_drug_model_attribution.py": "2322a3c95c6d74eb70767a962b5ba5370bc6786a2a7a2ca35ef452c6a9530699",
+    "tests/test_v32_drug_identity.py": "e7ec97659d1d68290375f6ff29ce6fbcb5ca532bdf0ff2a16849ef0039485708",
+    "tests/test_v32_drug_response_analysis.py": "80ed702378e0a1bb8e995940aaf5184eafb351900e66c3e456f73b51cc3714be",
+    "tests/test_v32_drug_attribution.py": "ea0d4b3705af14a49a70209c266a621306fe2c6ac5effd7270abc03b677e4ce1"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_drug_identity.py",
+    "tests/test_v32_drug_response_analysis.py",
+    "tests/test_v32_drug_attribution.py",
+    "tests/test_v32_drug_training.py::test_canonical_models_never_cross_folds",
+    "tests/test_v32_drug_training.py::test_association_statistics_keep_labels_private_and_missing_explicit",
+    "tests/test_v32_drug_training.py::test_vectorized_statistics_match_reference_without_fold_leakage",
+    "--junitxml=provenance/code_completion_20261015/drug_analysis_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T16:12:17.707021+00:00"
+}

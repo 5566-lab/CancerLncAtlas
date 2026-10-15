@@ -20,6 +20,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--cmp-expression", required=True)
     parser.add_argument("--cmp-models-json", required=True)
     parser.add_argument("--drugcentral-target", required=True)
+    parser.add_argument("--drug-identifiers", required=True, help="Curated long drug ID/synonym crosswalk with provenance")
+    parser.add_argument("--model-annotations", help="Source-bound cancer and molecular-subtype annotations")
     parser.add_argument("--hgnc", required=True)
     parser.add_argument("--exact-candidates", required=True)
     parser.add_argument("--pathway-membership", required=True)
@@ -69,6 +71,8 @@ def main(argv: list[str] | None = None) -> int:
         cmp_expression_path=_resolve(root, args.cmp_expression),
         cmp_models_json_path=_resolve(root, args.cmp_models_json),
         drugcentral_target_path=_resolve(root, args.drugcentral_target),
+        drug_identity_path=_resolve(root, args.drug_identifiers),
+        model_annotation_path=_resolve(root, args.model_annotations) if args.model_annotations else None,
         hgnc_path=_resolve(root, args.hgnc),
         exact_candidates_path=_resolve(root, args.exact_candidates),
         pathway_membership_path=_resolve(root, args.pathway_membership),

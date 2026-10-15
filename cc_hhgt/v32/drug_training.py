@@ -331,6 +331,8 @@ def normalise_cell_line_map(frame: pd.DataFrame) -> pd.DataFrame:
     lookup = {_normalise_name(column): str(column) for column in frame.columns}
     model = next((lookup[key] for key in ("canonical_model_id", "model_id", "depmap_id") if key in lookup and lookup[key] != cell), None)
     result = frame[[dataset, cell, cancer] + ([model] if model else [])].copy()
+    if result.isna().any().any():
+        raise DrugTrainingError("Cell-line mapping contains missing identities or cancer diagnosis")
     result.columns = ["dataset_id", "cell_line_id", "cancer_id"] + (["canonical_model_id"] if model else [])
     for column in ("dataset_id", "cell_line_id"):
         result[column] = result[column].astype(str).str.strip()
@@ -346,9 +348,8 @@ def normalise_cell_line_map(frame: pd.DataFrame) -> pd.DataFrame:
     conflicts = result.groupby(["dataset_id", "cell_line_id"], observed=True).canonical_model_id.nunique()
     if (conflicts > 1).any():
         raise DrugTrainingError("A dataset cell line maps to conflicting canonical model IDs")
-    # Tissue-compatible cell lines may support more than one TCGA code (for
-    # example kidney models for KICH/KIRC/KIRP).  Keeping those rows is valid;
-    # the canonical model still receives exactly one fold across all cancers.
+    if result.groupby("canonical_model_id", observed=True).cancer_id.nunique().gt(1).any():
+        raise DrugTrainingError("A canonical model cannot be reused across several cancer diagnoses; rebuild the model context map")
     result = result.drop_duplicates(["dataset_id", "cell_line_id", "cancer_id"])
     return result.reset_index(drop=True)
 
@@ -511,8 +512,8 @@ def _rank_correlation_columns(matrix: np.ndarray, response: np.ndarray) -> np.nd
     result = np.full(matrix.shape[1], np.nan, dtype=np.float64)
     dense = np.isfinite(matrix).all(axis=0) & np.isfinite(response).all()
     if dense.any():
-        ranked_x = pd.DataFrame(matrix[:, dense]).rank(method="average").to_numpy(float)
-        ranked_y = pd.Series(response).rank(method="average").to_numpy(float)
+        ranked_x = pd.DataFrame(matrix[:, dense]).rank(method="average").to_numpy(float, copy=True)
+        ranked_y = pd.Series(response).rank(method="average").to_numpy(float, copy=True)
         ranked_x -= ranked_x.mean(axis=0)
         ranked_y -= ranked_y.mean()
         denominator = np.sqrt(
@@ -538,10 +539,10 @@ def _rank_correlation_pairs(left: np.ndarray, right: np.ndarray) -> np.ndarray:
     dense = np.isfinite(left).all(axis=0) & np.isfinite(right).all(axis=0)
     if dense.any():
         ranked_left = (
-            pd.DataFrame(left[:, dense]).rank(method="average").to_numpy(float)
+            pd.DataFrame(left[:, dense]).rank(method="average").to_numpy(float, copy=True)
         )
         ranked_right = (
-            pd.DataFrame(right[:, dense]).rank(method="average").to_numpy(float)
+            pd.DataFrame(right[:, dense]).rank(method="average").to_numpy(float, copy=True)
         )
         ranked_left -= ranked_left.mean(axis=0)
         ranked_right -= ranked_right.mean(axis=0)
@@ -926,7 +927,14 @@ def _embedding_lookup(frame: pd.DataFrame, kind: str) -> EmbeddingLookup:
     features = sorted(column for column in frame.columns if str(column).startswith("core_feature_"))
     if not features:
         raise DrugTrainingError(f"{kind} core embedding lacks core_feature_* columns")
-    ids = frame.node_id.astype(str).tolist()
+    raw_ids = frame.node_id.astype(str).str.strip()
+    if kind == "lncrna":
+        raw_ids = raw_ids.map(_canonical_lncrna)
+    elif kind == "gene":
+        raw_ids = raw_ids.map(_canonical_gene)
+    elif kind == "cancer":
+        raw_ids = raw_ids.str.replace(r"^CANCER:", "", regex=True)
+    ids = raw_ids.tolist()
     if len(ids) != len(set(ids)):
         raise DrugTrainingError(f"{kind} core embedding IDs are duplicated")
     values = frame[features].apply(pd.to_numeric, errors="raise").to_numpy(np.float32)
@@ -1059,15 +1067,12 @@ def _candidate_core(
 
 
 def _balanced_indices(labels: np.ndarray, maximum: int, seed: int) -> np.ndarray:
+    """Compatibility name: sample uniformly, preserving the eligible population prior."""
+    if maximum < 1:
+        raise ValueError("Sample maximum must be positive")
     rng = np.random.default_rng(seed)
-    classes = [np.flatnonzero(labels == value) for value in (0.0, 1.0)]
-    if any(len(index) == 0 for index in classes):
-        return np.empty(0, dtype=int)
-    per_class = max(1, int(maximum) // 2)
-    chosen = [rng.choice(index, size=min(len(index), per_class), replace=False) for index in classes]
-    result = np.concatenate(chosen)
-    rng.shuffle(result)
-    return result
+    eligible = np.flatnonzero(np.isfinite(labels) & np.isin(labels, [0., 1.]))
+    return rng.choice(eligible, size=min(len(eligible), int(maximum)), replace=False)
 
 
 def _fit_head(
@@ -1322,6 +1327,10 @@ def run_drug_training(
         validation_mask = np.isfinite(split_stats["validation"].labels) & core_available
         train_positions = np.flatnonzero(train_mask)
         validation_positions = np.flatnonzero(validation_mask)
+        eligible_counts = {
+            split: {int(label): int(np.sum(split_stats[split].labels[positions] == label)) for label in (0, 1)}
+            for split, positions in (("train", train_positions), ("validation", validation_positions))
+        }
         if len(train_positions):
             local = _balanced_indices(
                 split_stats["train"].labels[train_positions], settings.max_train_rows, settings.seed + fold
@@ -1330,6 +1339,15 @@ def run_drug_training(
         if len(validation_positions) > settings.max_validation_rows:
             rng = np.random.default_rng(settings.seed + fold + 50_000)
             validation_positions = rng.choice(validation_positions, settings.max_validation_rows, replace=False)
+        sampling_audit = {
+            "policy": "UNIFORM_WITHOUT_REPLACEMENT_NO_CLASS_BALANCING",
+            "prior_population": "ELIGIBLE_NON_GRAY_ASSOCIATION_LABELS",
+            "eligible_counts": eligible_counts,
+            "sampled_counts": {
+                split: {int(label): int(np.sum(split_stats[split].labels[positions] == label)) for label in (0, 1)}
+                for split, positions in (("train", train_positions), ("validation", validation_positions))
+            },
+        }
         if not len(train_positions) or set(np.unique(split_stats["train"].labels[train_positions])) != {0.0, 1.0}:
             fold_status.append({"cell_line_fold": fold, "status": "UNAVAILABLE", "reason": "TWO_TRAINING_CLASSES_NOT_AVAILABLE"})
             continue
@@ -1354,6 +1372,7 @@ def run_drug_training(
                 "domain_mean": mean,
                 "domain_scale": scale,
                 "history": history,
+                "sampling_audit": sampling_audit,
                 "core_checkpoint_sha256": core.checkpoint_sha256,
                 "core_parameter_sha256": core.core_parameter_sha256,
                 "old_checkpoint_loaded": False,
@@ -1373,6 +1392,7 @@ def run_drug_training(
                 "core_parameter_sha256": core.core_parameter_sha256,
                 "train_rows": int(len(train_positions)),
                 "validation_rows": int(len(validation_positions)),
+                "sampling_audit": sampling_audit,
                 "status": "SUCCESS",
             }
         )

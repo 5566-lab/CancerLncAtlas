@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 89,
+  "unique_test_cases_passed": 125,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -36,19 +36,39 @@
     "cc_hhgt/v32/current_core_export.py": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd",
     "scripts/export_v32_current_core_embeddings.py": "9bca173de7d0d7ab63c39c7980af7eb99a3ae16a30248943c320164c158197d4",
     "cc_hhgt/v32/genomic_training.py": "6869b6ce3882f63543902538d57cc3a85f3a34d332ed6cf8a0526de448620d2e",
-    "cc_hhgt/v32/drug_training.py": "eb8777cddf55694cfd1b234de9884ff45f6d463b191eed180cc0c24624cc5760",
+    "cc_hhgt/v32/drug_training.py": "8bbb90660461ebe66869f80a0063143fdef586e600ac7c326b9a64eedc45329a",
     "cc_hhgt/v32/state_training.py": "366ee11c149dfb6c36efd55dbd3aba9de96fc9d380404a3b8fe61a8352ef1ec5",
     "cc_hhgt/v32/clinical_training.py": "5d6809206186a3258fa55deec285549b73222e515d04184812ea34653c0125c6",
     "scripts/run_v32_clinical_training.py": "ebf207461678ec573033e18ac81c53c8c0524e244583c6bcfe9f8c7379f50de3",
-    "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1"
+    "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1",
+    "cc_hhgt/v32/drug_identity.py": "df87b712554cab339504d76993638c120a64432db1371ea6bb8d521079bc78d7",
+    "cc_hhgt/v32/drug_staging.py": "07977e68faa47d28101fca1346e37e8a9d2500619624e3bee4910e05a100a4c4",
+    "cc_hhgt/v32/drug_training_streaming.py": "c151c8bbf653e968ee19884bf6881de8d88c82a9c52a81919f51f0cd1c76aabe",
+    "cc_hhgt/v32/drug_response_analysis.py": "3ddfb5ba41436104134d08eccd23e1484c3f572ef09f491c0b2fc08dc6f13162",
+    "cc_hhgt/v32/drug_attribution.py": "a4d1b6afc92a5706e56ef058d9f2fb54ebe7fc88b0ea4181c184500d1da63fbd",
+    "scripts/build_v32_drug_raw_inputs.py": "ef96f44612277a73fb4a45298d05112c7a71cf6b77896e34e6a213c47bbabb0c",
+    "scripts/analyze_v32_native_drug_response.py": "dd2c9a48a928c45fc6f33742d0179afe1db56adabdcaf6aad968328b825421dd",
+    "scripts/analyze_v32_drug_model_attribution.py": "2322a3c95c6d74eb70767a962b5ba5370bc6786a2a7a2ca35ef452c6a9530699",
+    "tests/test_v32_drug_identity.py": "e7ec97659d1d68290375f6ff29ce6fbcb5ca532bdf0ff2a16849ef0039485708",
+    "tests/test_v32_drug_response_analysis.py": "80ed702378e0a1bb8e995940aaf5184eafb351900e66c3e456f73b51cc3714be",
+    "tests/test_v32_drug_attribution.py": "ea0d4b3705af14a49a70209c266a621306fe2c6ac5effd7270abc03b677e4ce1",
+    "cc_hhgt/v32/encode_functional.py": "8a3ef614a12e58a3bc2965ae39d5b0317cf65018d281db4a51ad7a876c01d3f2",
+    "cc_hhgt/v32/rbns_sequence.py": "0f10b2df801b3e648d6449c6b269d4c76180f1b82565aed9569b5df098679636",
+    "scripts/analyze_v32_encode_functional.py": "dd71a491f0e02d2d6487337934ee972d021bcdbd501ef72f16fafd0de916c9ac",
+    "scripts/analyze_v32_rbns_sequences.py": "e2ab05cbeff5bcde7110264e910c0c3bf265c6152d48ba5e92b11485a65040ff",
+    "tests/test_v32_encode_functional.py": "311f393d1c3c91209e89d2784c5b1678f4e84961d88e646a67c034f0bcb70d2c",
+    "tests/test_v32_rbns_sequence.py": "ec0ed4fc16ba699ff53da7dc52458771ab771ca89d5a9a4aa445064cb3727057"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
-    "C01, C05 and C07-C16 remain unfinished",
     "Independent coordinate links are candidate hypotheses",
     "SC donor SD is descriptive spread, not a confidence interval",
     "Patient HC3 inference is descriptive association; current-core candidate selection is exploratory",
-    "Current core CLI verification substitutes a deterministic tiny graph/model; no real checkpoint inference was run"
+    "Current core CLI verification substitutes a deterministic tiny graph/model; no real checkpoint inference was run",
+    "C01, C05, C08, C09 and C11-C16 remain unfinished; C09 final rule-summary consumption is tracked under C12.",
+    "Drug attribution uses actual frozen forward passes but explains association strength, not sensitivity direction or pharmacological causality.",
+    "ENCODE functional bridges remain RBP depletion evidence; no lncRNA perturbation or external-validation claim.",
+    "RBNS sequence scores are predictions; the separate typed relation artifact has not entered a real graph/training run."
   ],
   "test_suites": [
     {
@@ -67,6 +87,11 @@
       "sha256": "319f84c9815760eb68e699ff28a026b1579730d0f3712f960c0973550137c457"
     },
     {
+      "path": "provenance/code_completion_20261015/drug_analysis_tests.xml",
+      "passed": 22,
+      "sha256": "61e17d6e5c882c85f92101138ebd92df53e8ad6fc9723bd02b3ec0a39ae0ba7c"
+    },
+    {
       "path": "provenance/code_completion_20261015/methylation_distal_tests.xml",
       "passed": 33,
       "sha256": "660ad8f8ba6f44f9c01115a187887f00228239c485b376a5412c2a0129eec25a"
@@ -77,10 +102,647 @@
       "sha256": "cbf30de2fa9560d1e14b0fab430ae1eef6094fafabfb17b8fd1d308ae88f8ca2"
     },
     {
+      "path": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml",
+      "passed": 14,
+      "sha256": "2cc3b4b192b1cdfad3b3b979f2e731bb7c61559e401090635ba552497026fdad"
+    },
+    {
       "path": "provenance/code_completion_20261015/signed_fusion_tests.xml",
       "passed": 12,
       "sha256": "f23fbddb1d0631065261874f1f493cc5bc3ea9e0f9778d1bfd4a43112f81dcdf"
     }
   ],
-  "case_count_policy": "Use the latest full signed-SC suite instead of superseded unparameterized cases; deduplicate other cases by module and test name."
+  "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
+  "superseded_suites": {
+    "drug_identity_tests.xml": "Intermediate failed development run; superseded by drug_analysis_tests.xml (22 PASS).",
+    "encode_functional_tests.xml": "Earlier 8-case run; superseded by rbp_functional_sequence_tests.xml.",
+    "rbns_sequence_tests.xml": "Earlier 5-case run; superseded by rbp_functional_sequence_tests.xml."
+  },
+  "verified_case_inventory": [
+    {
+      "module": "tests.test_v32_clinical_training",
+      "case": "test_projection_scaler_is_fit_on_training_patients_only",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_artifact_hash_is_enforced",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_checkpoint_and_manifest_binding",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_clinical_feature_entry_uses_current_core_hashes_and_fold_local_scaler",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_clinical_node_alias_collision_is_not_averaged",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_clinical_resume_cannot_mix_runs_or_outputs[None]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_clinical_resume_cannot_mix_runs_or_outputs[config]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_clinical_resume_cannot_mix_runs_or_outputs[core]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_clinical_resume_cannot_mix_runs_or_outputs[file]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_clinical_resume_cannot_mix_runs_or_outputs[input]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_command_exports_five_folds_and_native_reader_consumes_them",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_current_export_consumed_by_native_heads",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_incomplete_or_wrong_current_export_rejected[fold]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_incomplete_or_wrong_current_export_rejected[frozen]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_incomplete_or_wrong_current_export_rejected[receipt]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_incomplete_or_wrong_current_export_rejected[run]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_incomplete_or_wrong_current_export_rejected[weights]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_no_silent_chunk_or_node_drift[alignment]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_no_silent_chunk_or_node_drift[missing_type]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_no_silent_chunk_or_node_drift[nan]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_no_silent_chunk_or_node_drift[shape]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_partial_or_bad_weights_rejected_before_encoding[weights0]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_partial_or_bad_weights_rejected_before_encoding[weights1]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_partial_or_bad_weights_rejected_before_encoding[weights2]",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_registered_weighted_sum_and_parameter_freeze",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_core_export",
+      "case": "test_training_receipt_requires_optimizer_evidence",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_head_input",
+      "case": "test_atac_aliquot_means_are_order_independent_and_id_collisions_rejected",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_head_input",
+      "case": "test_feature_availability_strings_cannot_be_silently_cast_to_true",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_head_input",
+      "case": "test_materializer_preserves_typed_missingness_and_patient_keys[False]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_head_input",
+      "case": "test_materializer_preserves_typed_missingness_and_patient_keys[True]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_mutation_head",
+      "case": "test_component_typed_null_contract_fails_closed",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_mutation_head",
+      "case": "test_heldout_pathway_change_affects_metric_not_its_fold_fit",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_mutation_head",
+      "case": "test_independent_pathway_head_is_patient_oof_and_typed",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_mutation_head",
+      "case": "test_nested_expression_excludes_outer_heldout_expression_from_every_fit",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_distal_regulatory_mutation_head",
+      "case": "test_nested_head_consumes_the_matching_outer_fold_component",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_attribution",
+      "case": "test_complete_command_loads_five_serialized_heads_without_optimizer",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_attribution",
+      "case": "test_invalid_scaler_or_assay_mask_rejected",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_attribution",
+      "case": "test_no_assay_support_is_null_not_zero_contribution",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_attribution",
+      "case": "test_same_membership_different_head_changes_attribution",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_attribution",
+      "case": "test_target_and_pathway_effects_are_actual_forward_passes_not_a_join",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_attribution",
+      "case": "test_wrong_target_count_cannot_change_baseline_silently",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_ambiguous_or_conflicting_identifiers_keep_separate_native_assays",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_conflicting_native_cancer_and_model_annotations_are_unavailable",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_crosswalk_requires_provenance_and_namespaced_id",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_explicit_cancer_propagates_across_assays_without_tissue_broadcast",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_full_native_staging_writes_corrected_context_and_target_mapping",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_native_readers_use_identity_and_keep_targetless_or_unnamed_assays",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_sampler_does_not_turn_unknown_labels_into_negatives",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_stable_id_and_explicit_synonym_join_without_punctuation_guessing",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_training_rejects_old_multicancer_model_expansion",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_identity",
+      "case": "test_uniform_sampling_preserves_rare_class_and_is_chunk_invariant",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_response_analysis",
+      "case": "test_all_assayed_drugs_keep_signed_subtype_effect_and_unique_models",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_response_analysis",
+      "case": "test_command_materializes_results_and_hash_bound_coverage_without_training",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_response_analysis",
+      "case": "test_subtype_annotations_cannot_relabel_cancer_or_multiply_model_identity",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_training",
+      "case": "test_association_statistics_keep_labels_private_and_missing_explicit",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_training",
+      "case": "test_canonical_models_never_cross_folds",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_training",
+      "case": "test_vectorized_statistics_match_reference_without_fold_leakage",
+      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_archive_member_selection_does_not_extract_or_double_count",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_cached_file_is_verified_and_missing_does_not_trigger_download",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_complete_command_consumes_cached_native_data_without_training",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_completely_unmapped_contrast_retains_unavailable_pathway_universe",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_de_contrast_direction_and_tested_background_are_preserved",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_functional_bridge_requires_physical_assay_same_biosample_and_exact_pathway",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_missing_tests_and_missing_version_mapping_are_not_no_effect",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_native_cuffdiff_status_and_orientation",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_encode_functional",
+      "case": "test_rmats_counts_genes_once_and_preserves_opposite_event_directions",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_epigenetic_expression_head",
+      "case": "test_crossfit_predicts_expression_and_preserves_typed_missingness",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_epigenetic_expression_head",
+      "case": "test_finite_value_with_false_availability_fails_closed",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_epigenetic_expression_head",
+      "case": "test_heldout_assay_unseen_in_training_cannot_be_reported_supported",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_epigenetic_expression_head",
+      "case": "test_heldout_target_cannot_change_its_own_fold_predictions",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_epigenetic_expression_head",
+      "case": "test_no_signal_is_explicitly_unavailable_not_zero",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_independent_distal_topology",
+      "case": "test_coordinates_exclude_all_transcript_promoters_and_preserve_uncovered_genes",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_independent_distal_topology",
+      "case": "test_legacy_changed_and_mixed_topologies_cannot_be_formal_inputs",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_independent_distal_topology",
+      "case": "test_real_mutation_materializer_consumes_new_topology_and_preserves_wes_semantics",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_independent_distal_topology",
+      "case": "test_topology_does_not_consume_expression_or_association_columns",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_lncrna",
+      "case": "test_single_beta_file_maps_promoter_and_distal_without_zero_imputation",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_lncrna",
+      "case": "test_single_beta_file_rejects_out_of_range_beta",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_conflicting_patient_folds_rejected",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[beta]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[count]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[duplicate]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[incomplete]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[patient]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[unknown_lnc]",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_fresh_cli_reaches_final_audit_and_matches_recovery",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_raw_cleanup_eligibility_cannot_be_inferred_from_feature_success",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_recovers_without_raw_and_preserves_patient_weight_and_missingness",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_recovery_cannot_replace_the_original_aggregation_map",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_recovery_refuses_overwrite_and_non149_host",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_methylation_recovery",
+      "case": "test_zero_probe_file_requires_processing_evidence",
+      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_multimodal_fusion",
+      "case": "test_fusion_fails_closed_on_untyped_missing_or_direct_discovery_evidence",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_multimodal_fusion",
+      "case": "test_fusion_rejects_legacy_derived_sources",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_multimodal_fusion",
+      "case": "test_streamed_parquet_builder_matches_in_memory_contract",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_multimodal_fusion",
+      "case": "test_zero_weight_available_expert_falls_back_bit_for_bit",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_bad_patient_authority_fails_closed[boolean]",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_bad_patient_authority_fails_closed[covariate]",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_bad_patient_authority_fails_closed[duplicate]",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_bad_patient_authority_fails_closed[fold]",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_cli_streams_patient_results_and_all_candidate_inference",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_detects_opposite_group_associations_and_retains_individual_oof_rows",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_fdr_uses_full_declared_family_including_unavailable_tests",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_hc3_uncertainty_matches_independent_statsmodels_reference",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_heldout_outcomes_cannot_change_own_predictions_or_fit",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_sparse_group_is_typed_unavailable_with_no_fake_effect",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_unknown_subgroups_and_missing_outcomes_are_not_silently_zero_filled",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_heterogeneity",
+      "case": "test_wes_no_report_is_unknown_without_locus_coverage",
+      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbns_sequence",
+      "case": "test_full_command_streams_native_scores_and_writes_predicted_binding",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbns_sequence",
+      "case": "test_gene_coverage_and_actual_typed_graph_materializer_preserve_predicted_status",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbns_sequence",
+      "case": "test_incomplete_kmer_profile_and_undeclared_concentration_are_rejected",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbns_sequence",
+      "case": "test_sequence_version_and_ambiguity_cannot_be_silently_ignored",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbns_sequence",
+      "case": "test_sequence_windows_use_rna_orientation_and_composition_comparator",
+      "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_crossfit_passes_declared_transforms_to_all_folds_without_optimizer",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_current_runner_consumes_signed_adapter_without_starting_training[None]",
+      "suite": "provenance/code_completion_20261015/current_source_binding_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_current_runner_consumes_signed_adapter_without_starting_training[core]",
+      "suite": "provenance/code_completion_20261015/current_source_binding_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_current_runner_consumes_signed_adapter_without_starting_training[estimand]",
+      "suite": "provenance/code_completion_20261015/current_source_binding_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_current_runner_consumes_signed_adapter_without_starting_training[run_id]",
+      "suite": "provenance/code_completion_20261015/current_source_binding_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_current_runner_consumes_signed_adapter_without_starting_training[spec]",
+      "suite": "provenance/code_completion_20261015/current_source_binding_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_release_keeps_signed_native_measurement_names_without_optimizer",
+      "suite": "provenance/code_completion_20261015/current_source_binding_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_signed_adapter_rejects_corrupt_donor_predictions[cross_fold_donor]",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_signed_adapter_rejects_corrupt_donor_predictions[duplicates]",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_signed_adapter_rejects_corrupt_donor_predictions[missing_crosswalk]",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_signed_adapter_rejects_corrupt_donor_predictions[range]",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_signed_hhgt_reaches_actual_fusion_and_preserves_context",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_signed_single_cell_fusion",
+      "case": "test_signed_transform_preserves_negative_values_and_parquet_builder_matches",
+      "suite": "provenance/code_completion_20261015/signed_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_state_training",
+      "case": "test_core_loader_reads_only_fresh_v32_embedding_tables",
+      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    }
+  ]
 }

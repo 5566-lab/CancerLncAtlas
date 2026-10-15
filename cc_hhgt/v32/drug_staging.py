@@ -430,7 +430,7 @@ def _tissue_to_cancers() -> dict[str, tuple[str, ...]]:
 
 
 def _stage_gdsc(
-    sources: Sequence[Path], response_root: Path, config: DrugStagingConfig
+    sources: Sequence[Path], response_root: Path, config: DrugStagingConfig, identity_resolver=None
 ) -> tuple[list[dict[str, str]], pd.DataFrame, list[pd.DataFrame]]:
     sink = _ParquetSink(response_root / "gdsc_auc.parquet")
     source_maps: list[pd.DataFrame] = []
@@ -443,7 +443,9 @@ def _stage_gdsc(
             source, usecols=required, dtype={"SANGER_MODEL_ID": str, "DRUG_ID": str},
             chunksize=config.csv_chunk_rows, low_memory=False,
         ):
-            chunk = chunk.loc[chunk.SANGER_MODEL_ID.notna() & chunk.DRUG_NAME.notna()].copy()
+            usable = chunk.SANGER_MODEL_ID.notna() & chunk.DRUG_ID.notna()
+            if identity_resolver is None: usable &= chunk.DRUG_NAME.notna()
+            chunk = chunk.loc[usable].copy()
             if config.max_models is not None:
                 allowed = sorted(chunk.SANGER_MODEL_ID.astype(str).unique())[: config.max_models]
                 chunk = chunk.loc[chunk.SANGER_MODEL_ID.astype(str).isin(allowed)]
@@ -451,9 +453,11 @@ def _stage_gdsc(
             chunk = chunk.loc[np.isfinite(chunk.response_value)].copy()
             chunk["dataset_id"] = chunk.DATASET.astype(str) + "_AUC"
             chunk["cell_line_id"] = chunk.SANGER_MODEL_ID.astype(str)
-            chunk["drug_name"] = chunk.DRUG_NAME.astype(str).str.strip()
+            chunk["drug_name"] = chunk.DRUG_NAME.fillna("").astype(str).str.strip()
             chunk["drug_id"] = chunk.drug_name.map(canonical_drug_id)
             chunk["source_drug_id"] = chunk.DRUG_ID.astype(str)
+            if identity_resolver is not None:
+                chunk = identity_resolver.resolve_frame(chunk)
             chunk["higher_is_sensitive"] = False
             sink.write(
                 chunk[[
@@ -462,7 +466,9 @@ def _stage_gdsc(
                 ]]
             )
             source_maps.append(
-                chunk[["dataset_id", "source_drug_id", "drug_id", "drug_name"]].drop_duplicates()
+                chunk[["dataset_id", "source_drug_id", "drug_id", "drug_name"] +
+                      (["identity_available", "identity_unavailable_reason", "identity_method", "identity_sources", "identity_candidate_ids"]
+                       if identity_resolver is not None else [])].drop_duplicates()
             )
             for row in chunk[["dataset_id", "cell_line_id", "TCGA_DESC"]].drop_duplicates().itertuples(index=False):
                 map_rows.append(
@@ -479,16 +485,19 @@ def _stage_prism(
     compound_path: Path,
     response_root: Path,
     config: DrugStagingConfig,
+    identity_resolver=None,
 ) -> tuple[list[str], pd.DataFrame, dict[str, Any]]:
     compound = pd.read_csv(compound_path, low_memory=False)
     id_col = next((column for column in ("IDs", "broad_id", "Broad_ID") if column in compound), None)
     name_col = next((column for column in ("Drug.Name", "name", "drug_name") if column in compound), None)
     if id_col is None or name_col is None:
         raise DrugStagingError("PRISM compound list lacks source ID/name")
-    mapping = compound[[id_col, name_col]].dropna().copy()
+    mapping = compound[[id_col, name_col]].dropna(subset=[id_col]).copy()
     mapping.columns = ["source_drug_id", "drug_name"]
     mapping["source_drug_id"] = mapping.source_drug_id.astype(str).str.strip()
-    mapping["drug_name"] = mapping.drug_name.astype(str).str.strip()
+    mapping["drug_name"] = mapping.drug_name.fillna("").astype(str).str.strip()
+    if mapping.groupby("source_drug_id").drug_name.nunique().gt(1).any():
+        raise DrugStagingError("PRISM compound registry has conflicting names for one native ID")
     mapping = mapping.loc[mapping.drug_name.ne("")].drop_duplicates("source_drug_id")
     name_map = dict(zip(mapping.source_drug_id, mapping.drug_name))
     header = pd.read_csv(matrix_path, nrows=0)
@@ -511,8 +520,11 @@ def _stage_prism(
         chunk = chunk.rename(columns={source_col: "source_drug_id"})
         chunk["source_drug_id"] = chunk.source_drug_id.astype(str).str.strip()
         chunk["drug_name"] = chunk.source_drug_id.map(name_map)
-        chunk = chunk.loc[chunk.drug_name.notna()].copy()
-        rows_mapped += len(chunk)
+        rows_mapped += int(chunk.drug_name.notna().sum())
+        if identity_resolver is None:
+            chunk = chunk.loc[chunk.drug_name.notna()].copy()
+        else:
+            chunk["drug_name"] = chunk.drug_name.fillna("")
         if chunk.empty:
             continue
         long = chunk.melt(
@@ -522,6 +534,8 @@ def _stage_prism(
         long = long.loc[np.isfinite(long.response_value)].copy()
         long["dataset_id"] = "PRISM_24Q2"
         long["drug_id"] = long.drug_name.map(canonical_drug_id)
+        if identity_resolver is not None:
+            long = identity_resolver.resolve_frame(long)
         long["higher_is_sensitive"] = False
         sink.write(
             long[[
@@ -530,7 +544,9 @@ def _stage_prism(
             ]]
         )
         source_frames.append(
-            long[["dataset_id", "source_drug_id", "drug_id", "drug_name"]].drop_duplicates()
+            long[["dataset_id", "source_drug_id", "drug_id", "drug_name"] +
+                 (["identity_available", "identity_unavailable_reason", "identity_method", "identity_sources", "identity_candidate_ids"]
+                  if identity_resolver is not None else [])].drop_duplicates()
         )
     sink.close()
     source_map = pd.concat(source_frames, ignore_index=True).drop_duplicates()
@@ -544,7 +560,7 @@ def _stage_prism(
     return model_columns, source_map, audit
 
 
-def _stage_drug_targets(drugcentral_path: Path, hgnc_path: Path, output_path: Path) -> tuple[pd.DataFrame, dict[str, Any]]:
+def _stage_drug_targets(drugcentral_path: Path, hgnc_path: Path, output_path: Path, identity_resolver=None) -> tuple[pd.DataFrame, dict[str, Any]]:
     hgnc = pd.read_csv(
         hgnc_path, sep="\t", dtype=str, usecols=["symbol", "alias_symbol", "prev_symbol", "ensembl_gene_id"],
         low_memory=False,
@@ -575,6 +591,12 @@ def _stage_drug_targets(drugcentral_path: Path, hgnc_path: Path, output_path: Pa
     human["target_gene_symbol"] = human.GENE.astype(str).str.strip().str.upper()
     human["drug_name"] = human.DRUG_NAME.astype(str).str.strip()
     human["drug_id"] = human.drug_name.map(canonical_drug_id)
+    if identity_resolver is not None:
+        # DrugCentral exports use STRUCT_ID. Without it, a curated name may
+        # still resolve, while unresolved target annotations remain distinct.
+        human["dataset_id"] = "DRUGCENTRAL"
+        human["source_drug_id"] = human["STRUCT_ID"].map(str) if "STRUCT_ID" in human else human.drug_name
+        human = identity_resolver.resolve_frame(human)
     mapped = human.merge(symbol_frame, on="target_gene_symbol", how="inner", validate="many_to_one")
     result = mapped[["drug_id", "gene_id", "drug_name", "target_gene_symbol", "mapping_method"]].drop_duplicates()
     result["source_database"] = "DrugCentral_native"
@@ -592,43 +614,12 @@ def _build_cell_line_map(
     models: pd.DataFrame,
     gdsc_rows: Sequence[Mapping[str, str]],
     prism_models: Sequence[str],
+    annotations: pd.DataFrame | None = None,
+    return_context: bool = False,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    inverse = _tissue_to_cancers()
-    by_sidm = models.drop_duplicates("canonical_model_id").set_index("canonical_model_id")
-    by_ach = models.loc[models.depmap_id.ne("")].drop_duplicates("depmap_id").set_index("depmap_id")
-    output: list[dict[str, str]] = []
-    for row in gdsc_rows:
-        sidm = str(row["cell_line_id"])
-        tissue = str(by_sidm.loc[sidm, "tissue"]) if sidm in by_sidm.index else ""
-        cancers = set(inverse.get(tissue, ()))
-        tcga = str(row.get("tcga_desc", "")).upper()
-        if tcga in TCGA_CANCERS:
-            cancers.add(tcga)
-        for cancer in sorted(cancers):
-            output.append(
-                {
-                    "dataset_id": str(row["dataset_id"]), "cell_line_id": sidm,
-                    "canonical_model_id": sidm, "cancer_id": cancer, "tissue": tissue,
-                    "mapping_method": "CMP_tissue_plus_native_GDSC_TCGA_DESC",
-                }
-            )
-    for ach in prism_models:
-        if ach not in by_ach.index:
-            continue
-        record = by_ach.loc[ach]
-        sidm = str(record.canonical_model_id)
-        tissue = str(record.tissue)
-        for cancer in inverse.get(tissue, ()):
-            output.append(
-                {
-                    "dataset_id": "PRISM_24Q2", "cell_line_id": str(ach),
-                    "canonical_model_id": sidm, "cancer_id": cancer, "tissue": tissue,
-                    "mapping_method": "CMP_ACH_to_SIDM_and_tissue",
-                }
-            )
-    frame = pd.DataFrame(output).drop_duplicates(
-        ["dataset_id", "cell_line_id", "canonical_model_id", "cancer_id"]
-    )
+    from .drug_identity import model_context
+    frame, context_audit, subtypes = model_context(models, gdsc_rows, prism_models,
+        tissue_cancers=_tissue_to_cancers(), cancer_universe=TCGA_CANCERS, annotations=annotations)
     if frame.empty:
         raise DrugStagingError("No GDSC/PRISM cell line could be mapped to a TCGA cancer")
     coverage = pd.DataFrame({"cancer_id": TCGA_CANCERS}).merge(
@@ -642,7 +633,10 @@ def _build_cell_line_map(
     coverage["unavailable_reason"] = np.where(
         coverage.cell_line_assay_available, pd.NA, "NO_NATIVE_GDSC_PRISM_MODEL_MAPPED_TO_CANCER"
     )
-    return frame.sort_values(["cancer_id", "canonical_model_id", "dataset_id"]), coverage
+    frame = frame.sort_values(["cancer_id", "canonical_model_id", "dataset_id"]).reset_index(drop=True)
+    if return_context:
+        return frame, coverage, context_audit, subtypes
+    return frame, coverage
 
 
 def _parse_expression_values(raw: np.ndarray) -> np.ndarray:
@@ -765,10 +759,10 @@ def _staging_resource_preflight(
     disk_budget = max(0, int(usage.free) - disk_reserve)
     available_ram = _available_memory_bytes()
     nonstreamed = sum(
-        sizes[key]
+        sizes.get(key, 0)
         for key in (
             "prism_compound_native", "cmp_models_native",
-            "drugcentral_target_native", "hgnc_native",
+            "drugcentral_target_native", "hgnc_native", "drug_identity_crosswalk", "model_context_annotations",
         )
     )
     chunk_peak = max(
@@ -1204,8 +1198,8 @@ def _native_target_mapping_coverage(
         and fraction >= FORMAL_MIN_NATIVE_TARGET_MAPPING_FRACTION
     )
     return {
-        "identity_scope": NATIVE_TARGET_IDENTITY_SCOPE,
-        "synonym_crosswalk_applied": False,
+        "identity_scope": "CURATED_STABLE_IDS_AND_SYNONYMS_WITH_SOURCE_SCOPED_UNRESOLVED_IDS" if "identity_method" in source_drug_map else NATIVE_TARGET_IDENTITY_SCOPE,
+        "synonym_crosswalk_applied": "identity_method" in source_drug_map,
         "native_assayed_unique_drugs": int(len(native)),
         "native_assayed_with_target_mapping": int(len(matched)),
         "native_assayed_without_target_mapping_silent_nonmatch": int(len(unmatched)),
@@ -1215,8 +1209,8 @@ def _native_target_mapping_coverage(
         "threshold_pass": threshold_pass,
         "silent_nonmatch_examples": sorted(unmatched)[:20],
         "policy": (
-            "Only exact canonical-name identities enter target-derived candidates; "
-            "silent nonmatches are counted and formal training fails closed below threshold."
+            "Target-derived candidates require mapped target annotations; all native assay "
+            "measurements and unresolved identities remain in raw-response staging."
         ),
     }
 
@@ -1247,6 +1241,8 @@ def _run_native_drug_staging_impl(
     staging_run_id: str,
     config: DrugStagingConfig | None = None,
     execution_code_paths: Sequence[str | Path] | None = None,
+    drug_identity_path: str | Path | None = None,
+    model_annotation_path: str | Path | None = None,
 ) -> dict[str, Any]:
     settings = config or DrugStagingConfig()
     settings.validate()
@@ -1264,6 +1260,12 @@ def _run_native_drug_staging_impl(
         "v32_exact_candidates": Path(exact_candidates_path).resolve(),
         "exact_pathway_membership": Path(pathway_membership_path).resolve(),
     }
+    if drug_identity_path is not None:
+        paths["drug_identity_crosswalk"] = Path(drug_identity_path).resolve()
+    if model_annotation_path is not None:
+        paths["model_context_annotations"] = Path(model_annotation_path).resolve()
+    if settings.formal and drug_identity_path is None:
+        raise DrugStagingError("Formal current Drug staging requires a source-bound --drug-identifiers crosswalk")
     proof_supplied = (
         exact_release_prediction_path is not None,
         exact_release_lineage_path is not None,
@@ -1288,6 +1290,7 @@ def _run_native_drug_staging_impl(
     input_start_snapshot = _snapshot_artifacts(paths)
     code_paths: dict[str, Path] = {
         "drug_staging_module": Path(__file__).resolve(),
+        "drug_identity_module": Path(__file__).with_name("drug_identity.py").resolve(),
     }
     for index, code_path in enumerate(execution_code_paths or ()):
         resolved = Path(code_path).resolve()
@@ -1314,7 +1317,7 @@ def _run_native_drug_staging_impl(
         )
         raise DrugStagingError("Native Drug staging resource guard failed")
     source_kinds = {
-        key: ("current_v32_nonpredictive" if key == "v32_exact_candidates" else "static_annotation" if key in {"hgnc_native", "exact_pathway_membership"} else "native_raw")
+        key: ("current_v32_nonpredictive" if key == "v32_exact_candidates" else "static_annotation" if key in {"hgnc_native", "exact_pathway_membership", "drug_identity_crosswalk", "model_context_annotations"} else "native_raw")
         for key in paths
         if key not in {"exact_release_prediction_proof", "exact_release_lineage_proof"}
     }
@@ -1349,22 +1352,27 @@ def _run_native_drug_staging_impl(
     _atomic_json(output / "NATIVE_INPUT_AUDIT.json", audit)
     response_root = output / "raw_cell_line_drug_response"
     response_root.mkdir()
+    from .drug_identity import DrugIdentityResolver
+    def static_table(path):
+        return pd.read_parquet(path) if path.suffix == ".parquet" else pd.read_csv(path, sep="\t", dtype=str)
+    identity_resolver = DrugIdentityResolver(static_table(paths["drug_identity_crosswalk"])) if drug_identity_path else None
+    model_annotations = static_table(paths["model_context_annotations"]) if model_annotation_path else None
     models = load_cmp_models(paths["cmp_models_native"])
     if settings.max_models is not None:
         keep = sorted(models.canonical_model_id.unique())[: settings.max_models]
         models = models.loc[models.canonical_model_id.isin(keep)].copy()
 
     gdsc_map_rows, gdsc_source_map, gdsc_audit_parts = _stage_gdsc(
-        [paths["gdsc1_native"], paths["gdsc2_native"]], response_root, settings
+        [paths["gdsc1_native"], paths["gdsc2_native"]], response_root, settings, identity_resolver
     )
     prism_models, prism_source_map, prism_audit = _stage_prism(
-        paths["prism_matrix_native"], paths["prism_compound_native"], response_root, settings
+        paths["prism_matrix_native"], paths["prism_compound_native"], response_root, settings, identity_resolver
     )
     source_drug_map = pd.concat([gdsc_source_map, prism_source_map], ignore_index=True).drop_duplicates()
     _atomic_parquet(source_drug_map, output / "source_drug_map.parquet")
 
     target, target_audit = _stage_drug_targets(
-        paths["drugcentral_target_native"], paths["hgnc_native"], output / "drug_gene_target.static.parquet"
+        paths["drugcentral_target_native"], paths["hgnc_native"], output / "drug_gene_target.static.parquet", identity_resolver
     )
     native_target_coverage = _native_target_mapping_coverage(source_drug_map, target)
     target_drug_ids = set(target.drug_id.astype(str))
@@ -1384,8 +1392,11 @@ def _run_native_drug_staging_impl(
             "silent_nonmatch_sidecar_rows": int(len(unmapped_native)),
         }
     )
-    cell_map, cell_coverage = _build_cell_line_map(models, gdsc_map_rows, prism_models)
+    cell_map, cell_coverage, model_context_audit, model_subtypes = _build_cell_line_map(
+        models, gdsc_map_rows, prism_models, annotations=model_annotations, return_context=True)
     _atomic_parquet(cell_map, output / "cell_line_map.parquet")
+    _atomic_parquet(model_context_audit, output / "MODEL_CONTEXT_AUDIT.parquet")
+    _atomic_parquet(model_subtypes, output / "MODEL_SUBTYPES.parquet")
     cell_coverage.to_csv(output / "CELL_LINE_CANCER_COVERAGE.tsv", sep="\t", index=False)
     canonical_models = set(cell_map.canonical_model_id)
     expression_audit = _stage_expression(
@@ -1411,6 +1422,8 @@ def _run_native_drug_staging_impl(
         "drug_candidate_universe": output / "drug_candidate_universe",
         "source_drug_map": output / "source_drug_map.parquet",
         "native_assayed_without_target_mapping": unmapped_native_path,
+        "model_context_audit": output / "MODEL_CONTEXT_AUDIT.parquet",
+        "model_subtypes": output / "MODEL_SUBTYPES.parquet",
     }
     artifacts = {
         key: {
@@ -1487,7 +1500,9 @@ def _run_native_drug_staging_impl(
         "old_association_tables_read": False,
         "old_predictions_used": False,
         "old_checkpoints_used": False,
-        "canonical_drug_id_policy": "DRUG:sha1(uppercase_alphanumeric_drug_name)[:16]",
+        "canonical_drug_id_policy": "CURATED_STABLE_ID_OR_SOURCE_SCOPED_ASSAY_ID" if identity_resolver else "LEGACY_NAME_HASH_NONFORMAL_ONLY",
+        "cancer_mapping_policy": "ONE_UNAMBIGUOUS_CANCER_PER_CANONICAL_MODEL",
+        "molecular_subtypes_inferred_from_tissue": False,
         "cell_line_fold_group": "canonical_SIDM_shared_across_GDSC_PRISM",
         "canonical_models_available_for_folding": len(canonical_models),
         "minimum_canonical_models_for_five_folds": 5,
@@ -1541,9 +1556,14 @@ def run_native_drug_staging(
     staging_run_id: str,
     config: DrugStagingConfig | None = None,
     execution_code_paths: Sequence[str | Path] | None = None,
+    drug_identity_path: str | Path | None = None,
+    model_annotation_path: str | Path | None = None,
 ) -> dict[str, Any]:
     """Fail closed around all native-staging failures and partial artifacts."""
 
+    import socket
+    if socket.gethostname() != "149":
+        raise DrugStagingError("Native Drug staging must execute on target host 149")
     output = Path(output_root).resolve()
     if output.exists() and any(output.iterdir()):
         raise DrugStagingError(f"Refusing to overwrite non-empty staging directory: {output}")
@@ -1557,6 +1577,7 @@ def run_native_drug_staging(
             "staging_run_id": str(staging_run_id),
             "release_ready": False,
             "partial_not_publishable": True,
+            "target_host": "149", "training_started": False,
         },
     )
     try:
@@ -1577,6 +1598,8 @@ def run_native_drug_staging(
             staging_run_id=staging_run_id,
             config=config,
             execution_code_paths=execution_code_paths,
+            drug_identity_path=drug_identity_path,
+            model_annotation_path=model_annotation_path,
         )
     except Exception as error:
         (output / "SUCCESS.json").unlink(missing_ok=True)

@@ -138,49 +138,49 @@ class _PreparedAssociationCache:
 
 
 class _BalancedReservoir:
-    """Bounded, deterministic two-class reservoir for head fitting."""
+    """Compatibility name for a uniform-priority, natural-prevalence reservoir."""
 
     def __init__(self, maximum: int, seed: int) -> None:
-        self.per_class = max(1, int(maximum) // 2)
+        if maximum < 1:
+            raise ValueError("Reservoir maximum must be positive")
+        self.maximum = int(maximum)
         self.rng = np.random.default_rng(seed)
-        self.parts: dict[int, tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]] = {}
+        self.part = None
+        self.seen_counts = {0: 0, 1: 0}
 
     def offer(
         self, core: np.ndarray, domain: np.ndarray, labels: np.ndarray
     ) -> None:
+        if len(core) != len(domain) or len(core) != len(labels):
+            raise ValueError("Reservoir row arrays are misaligned")
+        positions = np.flatnonzero(np.isfinite(labels) & np.isin(labels, [0., 1.]))
+        if not len(positions):
+            return
         for label in (0, 1):
-            positions = np.flatnonzero(labels == float(label))
-            if not len(positions):
-                continue
-            priority = self.rng.random(len(positions))
-            incoming = (
-                core[positions], domain[positions], labels[positions], priority
-            )
-            if label in self.parts:
-                previous = self.parts[label]
-                joined = tuple(
-                    np.concatenate([previous[index], incoming[index]], axis=0)
-                    for index in range(4)
-                )
-            else:
-                joined = incoming
-            if len(joined[2]) > self.per_class:
-                keep = np.argpartition(joined[3], self.per_class - 1)[: self.per_class]
-                joined = tuple(value[keep] for value in joined)
-            self.parts[label] = joined  # type: ignore[assignment]
+            self.seen_counts[label] += int(np.count_nonzero(labels[positions] == label))
+        incoming = (core[positions], domain[positions], labels[positions], self.rng.random(len(positions)))
+        joined = incoming if self.part is None else tuple(
+            np.concatenate([a, b], axis=0) for a, b in zip(self.part, incoming))
+        if len(joined[2]) > self.maximum:
+            keep = np.argpartition(joined[3], self.maximum - 1)[:self.maximum]
+            joined = tuple(value[keep] for value in joined)
+        self.part = joined
 
     def arrays(self, core_width: int, domain_width: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-        present = [self.parts[label] for label in (0, 1) if label in self.parts]
-        if not present:
+        if self.part is None:
             return (
                 np.empty((0, core_width), dtype=np.float32),
                 np.empty((0, domain_width), dtype=np.float32),
                 np.empty(0, dtype=np.float32),
             )
-        return tuple(
-            np.concatenate([part[index] for part in present], axis=0)
-            for index in range(3)
-        )  # type: ignore[return-value]
+        order = np.argsort(self.part[3], kind="stable")
+        return tuple(value[order] for value in self.part[:3])
+
+    def audit(self):
+        labels = self.part[2] if self.part is not None else np.empty(0)
+        return {"sampling": "UNIFORM_WITHOUT_CLASS_REBALANCING", "seen_counts": self.seen_counts,
+                "sampled_counts": {label: int(np.count_nonzero(labels == label)) for label in (0, 1)},
+                "prior_population": "ELIGIBLE_NON_GRAY_ASSOCIATION_LABELS"}
 
 
 class _FrameReservoir:
@@ -972,9 +972,10 @@ def _validate_staging_manifest(
     mapping_coverage = payload.get("native_assayed_to_target_mapping_coverage")
     if not isinstance(mapping_coverage, Mapping):
         raise base.DrugTrainingError("Drug staging lacks native-assayed target coverage")
-    if mapping_coverage.get("identity_scope") != (
-        "EXACT_DRUG_NAME_AFTER_UPPERCASE_ALPHANUMERIC_NORMALIZATION_NO_SYNONYM_CROSSWALK"
-    ):
+    if mapping_coverage.get("identity_scope") not in {
+        "EXACT_DRUG_NAME_AFTER_UPPERCASE_ALPHANUMERIC_NORMALIZATION_NO_SYNONYM_CROSSWALK",
+        "CURATED_STABLE_IDS_AND_SYNONYMS_WITH_SOURCE_SCOPED_UNRESOLVED_IDS",
+    }:
         raise base.DrugTrainingError("Drug target identity scope is not explicit/fail-closed")
     if int(mapping_coverage.get("minimum_mapped_drugs", 0)) < FORMAL_MIN_TARGET_MAPPED_DRUGS:
         raise base.DrugTrainingError("Drug target mapped-drug threshold is below formal floor")
@@ -2095,11 +2096,8 @@ def _run_streaming_drug_training_impl(
     matched_drugs = native_drugs & targeted_drugs
     unmatched_drugs = native_drugs - targeted_drugs
     target_mapping_coverage = {
-        "identity_scope": (
-            "EXACT_DRUG_NAME_AFTER_UPPERCASE_ALPHANUMERIC_NORMALIZATION_"
-            "NO_SYNONYM_CROSSWALK"
-        ),
-        "synonym_crosswalk_applied": False,
+        "identity_scope": staging_manifest["native_assayed_to_target_mapping_coverage"]["identity_scope"],
+        "synonym_crosswalk_applied": staging_manifest["native_assayed_to_target_mapping_coverage"]["synonym_crosswalk_applied"],
         "native_assayed_unique_drugs": int(len(native_drugs)),
         "native_assayed_with_target_mapping": int(len(matched_drugs)),
         "native_assayed_without_target_mapping_silent_nonmatch": int(
@@ -2453,6 +2451,8 @@ def _run_streaming_drug_training_impl(
                 "old_checkpoint_loaded": False,
                 "old_predictions_used": False,
                 "streaming_candidate_chunks": True,
+                "training_sampling": train_reservoir.audit(),
+                "validation_sampling": validation_reservoir.audit(),
             },
             checkpoint_temporary,
         )
@@ -2470,6 +2470,8 @@ def _run_streaming_drug_training_impl(
                 "core_parameter_sha256": core.core_parameter_sha256,
                 "train_rows": int(len(train_labels)),
                 "validation_rows": int(len(validation_labels)),
+                "training_sampling": train_reservoir.audit(),
+                "validation_sampling": validation_reservoir.audit(),
                 "status": "SUCCESS",
             }
         )
