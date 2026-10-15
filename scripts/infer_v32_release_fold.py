@@ -34,21 +34,34 @@ def _metrics(labels: np.ndarray, probability: np.ndarray) -> dict[str, float | N
     }
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=".")
-    parser.add_argument("--fold", type=int, required=True)
-    parser.add_argument("--config", required=True)
-    parser.add_argument("--prepared", required=True)
-    parser.add_argument("--checkpoint", required=True)
-    parser.add_argument("--companion", required=True)
+    parser.add_argument("--current-manifest", type=Path)
+    parser.add_argument("--expected-core-run-id")
+    parser.add_argument("--device", choices=["cpu", "cuda"], default="cpu")
+    parser.add_argument("--fold", type=int)
+    parser.add_argument("--config")
+    parser.add_argument("--prepared")
+    parser.add_argument("--checkpoint")
+    parser.add_argument("--companion")
     parser.add_argument("--static-root", default="artifacts/formal_prepared")
     parser.add_argument("--output", required=True)
-    parser.add_argument("--metrics", required=True)
-    args = parser.parse_args()
+    parser.add_argument("--metrics")
+    args = parser.parse_args(argv)
 
     root = Path(args.repo_root).resolve()
     sys.path.insert(0, str(root))
+    if args.current_manifest is not None:
+        if not args.expected_core_run_id or any(getattr(args, key) is not None for key in ("fold", "config", "prepared", "checkpoint", "companion", "metrics")):
+            parser.error("Current inference requires --expected-core-run-id and cannot mix legacy fold/metric arguments")
+        from cc_hhgt.v32.current_core_prediction import materialize_current_predictions
+        from cc_hhgt.v32.current_core_export import sha256
+        binding = materialize_current_predictions(args.current_manifest, args.output, expected_run_id=args.expected_core_run_id, device=args.device)
+        print(json.dumps({"binding": str(binding), "sha256": sha256(binding), "training_started": False}))
+        return 0
+    if any(getattr(args, key) is None for key in ("fold", "config", "prepared", "checkpoint", "companion", "metrics")):
+        parser.error("Legacy inference requires --fold, --config, --prepared, --checkpoint, --companion and --metrics")
     import torch
     from cc_hhgt.gnn import build_model, move_graph
     from cc_hhgt.v32.model import build_v32_cc_hhgt_residual

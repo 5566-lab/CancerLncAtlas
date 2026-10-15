@@ -33,7 +33,9 @@
       "id": "C05",
       "task": "Mutation/CNV/ATAC/State/Clinical 与当前核心及最终评分的实际消费",
       "status": "in_progress",
-      "remaining": "Native Mutation/CNV/ATAC fold adapters, State/Clinical native context consumption and current V4 full-candidate predictions. Selected-score downstream release integration is now implemented under C14."
+      "remaining": "Native Mutation/CNV/ATAC fold adapters, State/Clinical native context consumption and authentic post-selection label authority for current fusion. No real current candidate release has been produced.",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Actual V4 five-fold full-candidate decoder inference uses every original runtime chunk with weighted logits before sigmoid, authentic checkpoint/input bindings and optional frozen-model replay. Primary and L1 enter selected GeneSet and external consumers without reading labels or fitting."
     },
     {
       "id": "C06",
@@ -117,7 +119,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 293,
+    "unique_fixture_tests_passed": 306,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,

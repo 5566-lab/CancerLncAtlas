@@ -34,11 +34,12 @@ def producer_scores(spec, root, *, cache=None):
     if not spec.get("run_id") or binding.get("training_run_id") != spec["run_id"]:
         raise ValueError("External model run identity differs from its producer")
     allowed = {"exact_release": {"association_membership_probability", "l1_probability", "ridge_probability"},
+        "current_core_release": {"association_membership_probability", "l1_probability"},
         "fusion_release": {"discovery_adjusted_probability", "fused_confidence_probability"},
         "selected_release": {"selected_score"}}
     if kind not in allowed or column not in allowed[kind]: raise ValueError("Unsupported external prediction producer/score")
     cache_key = (str(binding_path), spec["producer_binding"]["sha256"], spec["run_id"])
-    if cache is not None and kind == "exact_release" and cache_key in cache:
+    if cache is not None and kind in {"exact_release", "current_core_release"} and cache_key in cache:
         observed, source = cache[cache_key]
         verified_path(source["prediction"], root)
         return observed[[*KEYS, column]].rename(columns={column: "score"}), {**source, "model_id": spec["model_id"], "score_column": column}
@@ -72,6 +73,10 @@ def producer_scores(spec, root, *, cache=None):
                 expected.sort_values(KEYS).reset_index(drop=True), check_dtype=False, check_exact=True)
         except (AssertionError, KeyError) as error:
             raise ValueError("Exact producer annotations differ from five-fold recomputation") from error
+    elif kind == "current_core_release":
+        from .current_core_prediction import load_current_predictions
+        observed, binding = load_current_predictions(binding_path, expected_sha=spec["producer_binding"]["sha256"])
+        path = verified_path(binding["prediction"], binding_path.parent)
     elif kind == "fusion_release":
         if (binding.get("format") != "CC_HHGT_V3_2_MULTIMODAL_FUSION_BINDING_V1"
                 or binding.get("status") != "SUCCESS_SECONDARY_FUSION"):
@@ -108,7 +113,7 @@ def producer_scores(spec, root, *, cache=None):
     source = {"model_id": spec["model_id"],
         "run_id": spec["run_id"], "producer_binding": {"path": str(binding_path), "sha256": sha256(binding_path)},
         "prediction": {"path": str(path), "sha256": sha256(path)}, "score_column": column, "producer_recomputed": True}
-    if cache is not None and kind == "exact_release": cache[cache_key] = observed, source
+    if cache is not None and kind in {"exact_release", "current_core_release"}: cache[cache_key] = observed, source
     return observed[[*KEYS, column]].rename(columns={column: "score"}), source
 
 

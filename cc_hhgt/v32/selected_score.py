@@ -12,6 +12,7 @@ from .external_validation_current import producer_scores
 from .external_validation_metrics import validate_scores
 
 FORMAT = "CURRENT_SELECTED_SCORE_RELEASE_V1"
+EXACT_PRODUCERS = {"exact_release", "current_core_release"}
 
 
 def _json(path): return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -20,7 +21,7 @@ def _json(path): return json.loads(Path(path).read_text(encoding="utf-8"))
 def implementation_hashes():
     root = Path(__file__).parent
     names = ["selected_score.py", "external_validation_current.py", "external_validation_metrics.py",
-        "exact_release.py", "multimodal_fusion.py", "evidence_rule_release.py", "evidence_rule_summary.py"]
+        "exact_release.py", "current_core_prediction.py", "multimodal_fusion.py", "evidence_rule_release.py", "evidence_rule_summary.py"]
     return {name: sha256(root/name) for name in names}
 
 
@@ -32,7 +33,7 @@ def selection_provenance(selection, model, reference, root):
         return {"kind": kind, "rationale": selection["rationale"], "validated_winner_claimed": False,
             "external_metrics_used_for_selection": False, "new_model_selection_performed": False}
     if kind != "G012_VALIDATION_WINNER": raise ValueError("Unknown score selection authority")
-    if model["producer_kind"] != "exact_release" or model["score_column"] != "association_membership_probability":
+    if model["producer_kind"] not in EXACT_PRODUCERS or model["score_column"] != "association_membership_probability":
         raise ValueError("A G012 lock cannot select a fusion score or sparse baseline")
     path = verified_path(selection["binding"], root); lock = _json(path)
     from .sealed_test_inference import _validate_winner_declaration
@@ -68,9 +69,9 @@ def prepare_selected_scores(manifest_path):
     manifest_path = Path(manifest_path).resolve(); root = manifest_path.parent; manifest = _json(manifest_path)
     if manifest.get("format") != "CURRENT_SELECTED_ANALYSIS_INPUT_V1": raise ValueError("Unknown selected-analysis manifest")
     chosen = manifest["selected_model"]; reference = manifest["reference_exact_model"]
-    if reference["producer_kind"] != "exact_release" or reference["score_column"] != "association_membership_probability":
+    if reference["producer_kind"] not in EXACT_PRODUCERS or reference["score_column"] != "association_membership_probability":
         raise ValueError("Candidate annotations/direction require a bound exact primary producer")
-    if chosen["producer_kind"] not in {"exact_release", "fusion_release"}: raise ValueError("Selected score must come from an actual supported producer")
+    if chosen["producer_kind"] not in EXACT_PRODUCERS|{"fusion_release"}: raise ValueError("Selected score must come from an actual supported producer")
     cache = {}
     primary, primary_source = producer_scores(reference, root, cache=cache)
     selected, selected_source = producer_scores(chosen, root, cache=cache)
@@ -78,7 +79,7 @@ def prepare_selected_scores(manifest_path):
     primary_binding_path = Path(primary_source["producer_binding"]["path"]); primary_binding = _json(primary_binding_path)
     scientific_status = "EXACT_PRODUCER_REGISTERED_NO_NEW_VALIDATION"
     performance_outcome = "NOT_REESTIMATED"
-    if chosen["producer_kind"] == "exact_release":
+    if chosen["producer_kind"] in EXACT_PRODUCERS:
         if selected_source["producer_binding"]["sha256"] != primary_source["producer_binding"]["sha256"]:
             raise ValueError("Exact selected scores and annotations must come from the same producer")
     else:
@@ -149,8 +150,8 @@ def prepare_selected_scores(manifest_path):
     return manifest, frame.sort_values(KEYS).reset_index(drop=True), {
         "selected_producer": selected_source, "reference_exact_producer": primary_source, "selection": selection,
         "source_scientific_status": scientific_status, "source_performance_outcome": performance_outcome,
-        "selected_fold_estimates_available": chosen["producer_kind"] == "exact_release",
-        "reference_fold_sources": fold_sources, "selected_fold_score_column": chosen["score_column"] if chosen["producer_kind"] == "exact_release" else None}
+        "selected_fold_estimates_available": chosen["producer_kind"] in EXACT_PRODUCERS,
+        "reference_fold_sources": fold_sources, "selected_fold_score_column": chosen["score_column"] if chosen["producer_kind"] in EXACT_PRODUCERS else None}
 
 
 def materialize_selected_scores(manifest_path, output):

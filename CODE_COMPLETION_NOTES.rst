@@ -733,7 +733,8 @@ and require host 149. Neither entry trains or chooses a model from test results:
 
 The input format is CURRENT_SELECTED_ANALYSIS_INPUT_V1. It requires:
 
-* reference_exact_model: model_id, run_id, producer_kind=exact_release,
+* reference_exact_model: model_id, run_id, producer_kind=exact_release or
+  current_core_release,
   producer_binding={path, sha256}, and
   score_column=association_membership_probability. This supplies the complete
   candidate universe, exact pathway/family, shared/local scope and primary model
@@ -742,7 +743,8 @@ The input format is CURRENT_SELECTED_ANALYSIS_INPUT_V1. It requires:
   does not satisfy that check.
 * selected_model: the same producer declaration shape. exact_release may select
   association_membership_probability, l1_probability or ridge_probability from
-  the same exact producer. fusion_release may select
+  the same historical exact producer. current_core_release supplies the actual
+  V4 primary score and L1 only; it has no bound Ridge producer. fusion_release may select
   discovery_adjusted_probability or fused_confidence_probability. Fusion must
   bind the very same primary input SHA/run and retain its real private input
   snapshot. Coefficients are applied again to those inputs, without fitting.
@@ -835,5 +837,93 @@ failures. It also rejects rehashed score, direction, membership and GMT changes.
 Frozen synthetic coefficients and serialization-only checkpoint fixtures are
 used; optimizers and fusion fitting functions are forbidden during these tests.
 No real cohort, current scientific checkpoint inference, training or deployment
-has been performed. C05 still needs the native current-V4 full-candidate producer
-and remaining auxiliary adapters; C01/C08/C13/C15/C16 also remain unfinished.
+has been performed. The native current-V4 full-candidate producer is now described
+below. C05 still needs the remaining auxiliary adapters and the authentic
+post-selection label connection for fusion; C01/C08/C13/C15/C16 remain unfinished.
+
+Current V4 full-candidate predictions
+------------------------------------
+
+The actual current V4 loader, residual decoder and complete runtime chunk
+estimator are used by scripts/infer_v32_current_candidates.py. On host 149::
+
+  python scripts/infer_v32_current_candidates.py \
+    --manifest /absolute/path/current_prediction_input.json \
+    --expected-core-run-id <selected-training-run-id> \
+    --output /absolute/path/new_current_prediction --device cpu
+
+The existing scripts/infer_v32_release_fold.py also accepts --current-manifest,
+--expected-core-run-id, --output and --device for this mode. Historical per-fold
+arguments cannot be mixed with it. The dedicated command avoids the historical
+CUDA-only, single-graph and test-label evaluation path.
+
+CURRENT_CORE_PREDICTION_INPUT_V1 declares core_run_id, graph_variant (G0/G1/G2),
+candidate_authority={path,sha256}, lncrna_scope={path,sha256}, and fold_inputs with
+exactly folds 0..4. Each fold binds config, input_manifest, prepared, checkpoint
+and training_receipt in the same path/sha256 form. Supply graph_overlay,
+global_binding_source and binding_expansion when used by the selected current
+training inputs. The native loader verifies those graph authorities; a different
+input file cannot be substituted for the selected checkpoint's source. This
+command does not train, compare graph variants or select a winner.
+
+The candidate authority contains cancer_id, lncrna_id, pathway_id and
+pathway_family_id. Scope contains cancer_id, lncrna_id and
+shared_or_local_scope (shared/cancer_local). All prepared candidates must match
+the full candidate authority exactly. Stable node maps restore canonical row
+order even when batches are ordered differently. The trained candidate file
+hash is additionally checked when present in the training receipt.
+
+Only candidate node indices, base_logit, conservation_context and graph_available
+are forwarded from prepared train/validation batches. Their shapes, finiteness
+and exact feature parity are checked without evaluating either label set.
+Sealed test payloads are rejected. Original prepared files still carry their
+training metadata; accepting them does not mean labels are prediction inputs.
+
+Each model is frozen and encoded once per registered graph chunk. The actual
+decoder is applied to every candidate batch. Chunk logits are accumulated in
+float64 with the original training weights, then transformed to probabilities.
+The five-fold ensemble averages these probabilities. Averaging chunk
+probabilities or first averaging embeddings would change this estimator and is
+not used. Unavailable graph contributions retain the exact L1 fallback. No
+Ridge scores, held-out metrics or per-patient predictions are fabricated.
+
+Outputs are FOLD_0..4.parquet, CURRENT_CORE_PREDICTIONS.parquet,
+CURRENT_PREDICTION_BINDING.json and SUCCESS.json. Fold tables retain bounded
+residuals/gates and graph availability; the binding retains their sources and
+actual frozen parameter fingerprints. The ensemble carries exact pathway/family
+and scope annotations.
+The prediction scope is FULL_CANDIDATE_DISCOVERY_NOT_HELDOUT_EVALUATION. The
+binding records all five original inputs, checkpoint/training receipts, runtime
+weights and relevant code hashes. Its run_id identifies the prediction release;
+training_run_id remains the selected training identity.
+
+Selected-score/GeneSet and current external readers accept
+producer_kind=current_core_release, producer_binding pointing to this binding,
+run_id equal to its training_run_id, and score_column set to the primary or L1
+probability. They verify the original sources and recompute the fold ensemble.
+This default verification does not rerun the frozen checkpoint forwards.
+To additionally reproduce all five model outputs on host 149::
+
+  python scripts/audit_v32_current_candidates.py \
+    --binding /absolute/path/new_current_prediction/CURRENT_PREDICTION_BINDING.json \
+    --expected-sha256 <binding-sha256> --replay-models --device cpu \
+    --output /absolute/path/new_frozen_prediction_audit.json
+
+Full replay requires the recorded implementation and compares native model
+outputs at absolute tolerance 2e-6. It rejects consistently rehashed fold and
+ensemble scores that disagree with the frozen model. Both levels state their
+scope explicitly; neither constitutes independent biological validation.
+
+Synthetic verification exercises real V4 serialization/loading and residual
+forwards across five folds and two chunks, analytical weighted-logit semantics,
+candidate ordering, L1 fallback, source mismatches, label exclusion, the existing
+CLI, selected Gene Sets and frozen-checkpoint replay. Query records now preserve
+Python floating-point precision rather than rounding through pandas JSON's
+default ten decimal places. The related 46-case suite passed on host 149 with
+all optimizers forbidden; none of these fixtures is a trained scientific model.
+
+This closes the current full-candidate primary producer in C05. It does not
+close the native Mutation/CNV/ATAC fold adapters, State/Clinical context
+consumers, or the authentic held-out label authority needed by the current
+fusion trainer. Full-candidate discovery predictions are not relabelled as OOF
+evaluation. No real candidate release has been generated by this change.

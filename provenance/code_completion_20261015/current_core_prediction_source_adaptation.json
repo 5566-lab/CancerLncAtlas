@@ -1,0 +1,44 @@
+{
+  "method": "NATIVE_V4_LOADER_RESIDUAL_FORWARD_FULL_RUNTIME_CHUNK_ESTIMATOR",
+  "source_hash_receipts": [
+    "current_core_prediction"
+  ],
+  "reference_files": [
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\scripts\\export_v32_current_core_embeddings.py",
+      "sha256": "b926716be441d41b7addb18aa74f5db1f4a5ecc03eea10507ed5e11d35eac23c"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_core_export.py",
+      "sha256": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\training.py",
+      "sha256": "b62eaddd6c6d205b6667c1715b1f486753e255f304ba48c40523c4aa53063a2f"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\model.py",
+      "sha256": "9f23c35346199c12034e13f66aa59f326783c2cd90a37199191a07cb4ad7379a"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/current_core_prediction.py",
+    "cc_hhgt/v32/selected_score.py",
+    "cc_hhgt/v32/selected_genesets.py",
+    "cc_hhgt/v32/external_validation_current.py",
+    "scripts/infer_v32_current_candidates.py",
+    "scripts/infer_v32_release_fold.py",
+    "scripts/audit_v32_current_candidates.py",
+    "tests/test_v32_current_core_prediction.py"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Load authentic V4 checkpoints with their original preparation and graph authorities.",
+    "Forward label-free full-candidate features with exact candidate coverage and original runtime chunk weights.",
+    "Preserve primary/L1 semantics, exact graph fallback, direction and original training identity; no fabricated Ridge or held-out metrics.",
+    "Consume native predictions in selected score/GeneSet and external readers; preserve query float precision.",
+    "Verify fold sources and ensemble, with a separate optional actual frozen-model replay."
+  ]
+}

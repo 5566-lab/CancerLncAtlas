@@ -302,4 +302,4 @@ class SelectedAnalysisQuery:
                 [path, *filters.values(), limit, offset]).df()
         finally: connection.close()
         return {"selected_score_run_id": self.binding["selected_score_run_id"], "binding_sha256": self.binding_sha256,
-                "rows": json.loads(frame.to_json(orient="records"))}
+                "rows": frame.astype(object).where(frame.notna(), None).to_dict(orient="records")}
