@@ -154,7 +154,7 @@ class PharmacologyInputs:
     def __init__(self, targets, structures, design, authority, *, sources=None):
         self.authority = authority[["drug_id", "gene_id"]].drop_duplicates().copy()
         self.targets = targets; self.structures = structures; self.design = design
-        self.sources = sources or {}; self._context_cache = {}; self._core_cache = {}
+        self.sources = sources or {}; self.native_sources = {}; self._context_cache = {}; self._core_cache = {}
         self._static = self.static_table()
 
     def static_table(self, excluded_targets=None):
@@ -257,6 +257,7 @@ class PharmacologyInputs:
     def receipt(self):
         import rdkit
         return {"format":FEATURE_FORMAT, "features":list(FEATURES), "sources":self.sources,
+            "native_origin_sources":self.native_sources,
             "implementation_sha256":sha256(Path(__file__)),
             "rdkit_version":rdkit.__version__, "morgan_radius":2, "morgan_bits":FP_BITS, "chirality":True,
             "model_missing_value":0, "missingness_indicators_included":True,
@@ -268,13 +269,29 @@ class PharmacologyInputs:
 
     def verify_sources(self):
         for record in self.sources.values(): verified_path(record, Path.cwd())
+        if self.native_sources:
+            from .drug_pharmacology_native import verify_artifact
+            for record in self.native_sources.values(): verify_artifact(record, Path.cwd())
 
 
 def source_paths(manifest_path):
     path = Path(manifest_path).resolve(); payload = json.loads(path.read_text(encoding="utf-8"))
     if payload.get("format") != FORMAT: raise ValueError("Unknown pharmacology input format")
-    return {"manifest":path, **{role:verified_path(payload[role], path.parent)
+    paths = {"manifest":path, **{role:verified_path(payload[role], path.parent)
         for role in ("target_annotations", "structures", "assay_conditions")}}
+    if "native_adaptation" in payload or "native_sources" in payload:
+        from .drug_pharmacology_native import verify_artifact, AUDIT_FORMAT
+        audit_path = verified_path(payload["native_adaptation"], path.parent)
+        audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        if (audit.get("format") != AUDIT_FORMAT or audit.get("status") != "PASS"
+                or audit.get("target_host") != "149" or audit.get("sources") != payload["native_sources"]):
+            raise ValueError("Native pharmacology adaptation provenance differs")
+        for role in ("target_annotations", "structures", "assay_conditions"):
+            if audit["outputs"][role]["sha256"] != payload[role]["sha256"]:
+                raise ValueError("Pharmacology input is not the audited native adaptation")
+        paths["native_adaptation"] = audit_path
+        paths.update({"native_"+role:verify_artifact(record,path.parent) for role,record in payload["native_sources"].items()})
+    return paths
 
 
 def load_pharmacology(manifest_path, *, targets, response, mapping):
@@ -291,5 +308,8 @@ def load_pharmacology(manifest_path, *, targets, response, mapping):
     result = PharmacologyInputs(normalize_targets(tables["target_annotations"], targets),
         structure_table(tables["structures"], drugs), normalize_design(tables["assay_conditions"], response, mapping), targets,
         sources=sources)
+    from .drug_staging import artifact_sha256
+    result.native_sources = {role:{"path":str(source), "sha256":artifact_sha256(source)}
+        for role,source in paths.items() if role.startswith("native_")}
     result.verify_sources()
     return result

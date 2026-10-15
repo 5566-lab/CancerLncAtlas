@@ -581,6 +581,7 @@ def _stage_drug_targets(drugcentral_path: Path, hgnc_path: Path, output_path: Pa
     allowed = set(conflicts[conflicts.eq(1)].index)
     symbol_frame = symbol_frame.loc[symbol_frame.target_gene_symbol.isin(allowed)].drop_duplicates("target_gene_symbol")
     targets = pd.read_csv(drugcentral_path, sep="\t", compression="infer", dtype=str, low_memory=False)
+    targets["native_source_row"] = np.arange(len(targets), dtype=np.int64)
     required = {"DRUG_NAME", "GENE", "ORGANISM"}
     if not required.issubset(targets):
         raise DrugStagingError(f"DrugCentral lacks fields: {sorted(required - set(targets))}")
@@ -602,7 +603,7 @@ def _stage_drug_targets(drugcentral_path: Path, hgnc_path: Path, output_path: Pa
     # an explicit source adapter, never an inference from the ACT_VALUE name.
     native_fields = [c for c in ("STRUCT_ID", "ACCESSION", "ACTION_TYPE", "ACT_TYPE", "ACT_VALUE",
         "ACT_UNIT", "RELATION", "ACT_SOURCE", "ACT_COMMENT", "MOA") if c in mapped]
-    result = mapped[["drug_id", "gene_id", "drug_name", "target_gene_symbol", "mapping_method", *native_fields]].drop_duplicates()
+    result = mapped[["drug_id", "gene_id", "drug_name", "target_gene_symbol", "mapping_method", "native_source_row", *native_fields]].drop_duplicates()
     result = result.rename(columns={c:"native_"+c.lower() for c in native_fields})
     result["source_database"] = "DrugCentral_native"
     _atomic_parquet(result, output_path)

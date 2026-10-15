@@ -1,0 +1,31 @@
+{
+  "method": "ACTUAL_NATIVE_DRUG_STAGING_TO_PHARMACOLOGY_ENCODER",
+  "source_hash_receipts": [
+    "drug_pharmacology_native"
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/drug_pharmacology_native.py",
+    "cc_hhgt/v32/drug_pharmacology.py",
+    "cc_hhgt/v32/drug_staging.py",
+    "scripts/materialize_v32_native_drug_pharmacology.py",
+    "tests/test_v32_drug_pharmacology_native.py",
+    "tests/test_v32_drug_identity.py"
+  ],
+  "reference_documentation": [
+    "https://www.drugcentral.org/download"
+  ],
+  "verification_dependencies": {
+    "rdkit": "2025.9.3"
+  },
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Replay actual HGNC and stable compound identity from source-bound native staging.",
+    "Adapt explicit activity value and inequality scales; retain unavailable endpoint/metadata reasons.",
+    "Read native DrugCentral structures and exact protocol identities, including targetless assays.",
+    "Keep fitted concentration ranges separate from observed point doses.",
+    "Preserve all native row dispositions and raw origin hashes through the existing encoder/checkpoint receipt."
+  ],
+  "remaining": "C08 remains open for dose-conditioned signed-response analysis and current selected/public Drug consumers."
+}

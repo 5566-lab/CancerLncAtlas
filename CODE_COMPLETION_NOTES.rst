@@ -267,8 +267,10 @@ It verifies parameter immutability and source hashes; it contains no optimizer.
 Outputs preserve signed logit/probability differences and extrapolation to a
 targetless input. These effects explain an association-strength head; they do
 not turn its abs(rho) training label into a sensitivity-direction model. Pathway
-effects are not sums of target effects. Action type, affinity, chemical structure
-and dose remain outside the current head and are unfinished C08 work.
+effects are not sums of target effects. The optional pharmacology extension
+described below now supplies action, activity, structure and protocol covariates
+to the current head. Dose-conditioned response analysis remains unfinished C08
+work; protocol mixture covariates do not provide that estimand.
 
 The synthetic end-to-end test constructs five tiny serialized heads solely to
 test loading and inference. Its emulated training receipt is test-only and does
@@ -1387,7 +1389,73 @@ DrugCentral's source-specific activity scale must be handled explicitly; its
 native pharmacology description is documented by its authors at
 https://pmc.ncbi.nlm.nih.gov/articles/PMC10692006/ .
 
-C08 remains in progress. Remaining work includes native pharmacology extraction
-and identity integration, dose-conditioned signed response analysis, and actual
-selected-analysis/public Drug consumption. No real compound/cohort processing,
+C08 remains in progress. Native pharmacology extraction and identity integration
+are described in the next section. Remaining work includes dose-conditioned
+signed response analysis and actual selected-analysis/public Drug consumption.
+No real compound/cohort processing,
 optimization, paid compute or deployment was performed for this change.
+
+Native DrugCentral and assay-protocol adaptation
+------------------------------------------------
+
+``python -m scripts.materialize_v32_native_drug_pharmacology --manifest INPUT.json
+--output NEW_DIRECTORY`` runs only on host 149. INPUT.json has format
+NATIVE_DRUG_PHARMACOLOGY_V1, staging_manifest and drugcentral_structures as
+{path,sha256} records, drugcentral_activity, and an assay_protocols list. The
+staging manifest must be the successful native stable-ID producer's actual
+STAGING_MANIFEST.json. Its original DrugCentral/HGNC/identity-crosswalk files
+and its target, response, model-map and native-drug-map outputs are verified.
+The existing native target mapper is replayed; target pairs must equal that
+staging's authority. Original native row numbers are now retained, allowing
+non-human and missing/ambiguous mapping exclusions to be recorded separately.
+
+drugcentral_activity declares value_scale and relation_scale independently as
+NEGATIVE_LOG10_MOLAR or CONCENTRATION, and includes schema_reference. These
+settings are part of the hashed manifest. No default scale is inferred from
+ACT_VALUE or an empty ACT_UNIT. A p-molar value whose inequality is expressed
+on the concentration scale reverses its relation before normalization. A
+concentration requires its native molar unit; conflicting scale/unit declarations
+and invalid values fail. Unsupported endpoints or absent measurement metadata
+retain the target/action row with unavailable quantitative fields and an explicit
+adaptation reason. Raw values, units, endpoints, relations and row identities
+remain in the adaptation audit; censored values never become exact estimates.
+
+The native DrugCentral structures.smiles.tsv reader uses its ID, INN, SMILES
+and optional InChIKey fields. It invokes the same stable identity resolver used
+for the actual assays and targets. Conflicts and out-of-universe structures
+remain in the disposition table. RDKit computes the actual molecular features
+through the existing encoder. The source formats were checked against the
+official download descriptions and table headers:
+https://www.drugcentral.org/download .
+
+Each assay_protocols entry contains a source {path,sha256}, condition_kind,
+columns and constants. Native column names are explicitly mapped to dataset_id,
+cell_line_id, source_drug_id, assay_id, dose_value, dose_unit and exposure_hours;
+constants can supply explicitly declared dataset/unit/protocol metadata. A field
+cannot be supplied by both mechanisms. The four identity fields are required.
+POINT_CONCENTRATION rows join the exact staged native drug map and an observed
+response identity, including source-scoped targetless compounds. Replicates with
+conflicting conditions fail the downstream canonical validator. Zero dose and
+zero exposure remain observed. No response column is copied to the features.
+FITTED_CONCENTRATION_RANGE rows receive RANGE_IS_NOT_POINT_DOSE; their endpoints
+are not expanded into imaginary dose measurements. An empty protocol list keeps
+dose/exposure features unavailable rather than manufacturing a standard protocol.
+
+The command emits canonical target_annotations, structures and assay_conditions,
+native disposition tables, NATIVE_ADAPTATION_AUDIT.json and PHARMACOLOGY_INPUT.json.
+The latter is passed unchanged to the existing training CLI's
+``--pharmacology-manifest`` option or the feature-preparation command. The actual
+encoder verifies the native audit against the three canonical outputs, retains
+all upstream origin hashes in its checkpoint receipt, and rechecks raw files and
+staged directory trees at consumption. Origin records remain separate from the
+three model feature tables: raw response values are not labelled static features.
+Streaming resource/snapshot checks include this complete origin set.
+
+Synthetic checks execute the existing native staging producer and this adapter,
+then load the emitted manifest through the actual encoder. They cover quantitative
+scale/relation conversion, unavailable metadata, conflicting structures/identities,
+targetless protocols, observed vehicle, unsupported endpoints, raw-source tampering,
+and the native target mapping disposition. The existing dense/streaming pre-fit
+checks and five-head frozen attribution checks also run; no optimizer starts.
+C08 is still open for dose-conditioned signed-response analysis and current
+selected/public Drug consumption. No real biological data were processed.

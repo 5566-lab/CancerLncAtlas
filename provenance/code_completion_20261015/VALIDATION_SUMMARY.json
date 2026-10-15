@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 426,
+  "unique_test_cases_passed": 438,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -42,14 +42,14 @@
     "scripts/run_v32_clinical_training.py": "9a8e0cab52b403efff5588eb22889e7be1d6f5da03e3f549892c4882d9064184",
     "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1",
     "cc_hhgt/v32/drug_identity.py": "df87b712554cab339504d76993638c120a64432db1371ea6bb8d521079bc78d7",
-    "cc_hhgt/v32/drug_staging.py": "297283e859bb97577edd35330630ec62753f4ab45ed2b929b0619ffeb4f60ef7",
+    "cc_hhgt/v32/drug_staging.py": "74208fc3b83a12f0cd1271d11e0dff4450d3d73e3ee3f20b3bbfca9dccc8cee5",
     "cc_hhgt/v32/drug_training_streaming.py": "3eb4e8ba0574a069bfa157ac7ce347b6aa09c6b388d5dd73e6129f2386e0aa4d",
     "cc_hhgt/v32/drug_response_analysis.py": "3ddfb5ba41436104134d08eccd23e1484c3f572ef09f491c0b2fc08dc6f13162",
     "cc_hhgt/v32/drug_attribution.py": "8dd31b114dc9140e959e2d8801099146ed5d1ac8e6de38182230b04edb783d5e",
     "scripts/build_v32_drug_raw_inputs.py": "ef96f44612277a73fb4a45298d05112c7a71cf6b77896e34e6a213c47bbabb0c",
     "scripts/analyze_v32_native_drug_response.py": "dd2c9a48a928c45fc6f33742d0179afe1db56adabdcaf6aad968328b825421dd",
     "scripts/analyze_v32_drug_model_attribution.py": "96fb3ddb272978177d600bfe49a62f4daf3f1ee5474604d8c88c50f8cd98fdd4",
-    "tests/test_v32_drug_identity.py": "e7ec97659d1d68290375f6ff29ce6fbcb5ca532bdf0ff2a16849ef0039485708",
+    "tests/test_v32_drug_identity.py": "61180b87b2e67451fd0456cd6e9a3433a8a9b8ef94ee9c253e25eb0fbbe9f4ee",
     "tests/test_v32_drug_response_analysis.py": "80ed702378e0a1bb8e995940aaf5184eafb351900e66c3e456f73b51cc3714be",
     "tests/test_v32_drug_attribution.py": "cb56898e959c0bdb02216fd51d593773935b062cbd7cf0a00392c809cf8b4b10",
     "cc_hhgt/v32/encode_functional.py": "8a3ef614a12e58a3bc2965ae39d5b0317cf65018d281db4a51ad7a876c01d3f2",
@@ -117,11 +117,14 @@
     "cc_hhgt/v32/current_primary_fusion.py": "e798168ba5bebdd5080c855d1e7e2bdd911b994678cfcc86eceacb260105c14c",
     "scripts/materialize_v32_current_primary_fusion.py": "372cbf7b66d8b429400ed204103a0c501f8ee3be27f3b0e74432731cf0b476e8",
     "tests/test_v32_current_primary_fusion.py": "08ff86d475d2e35922a3024c7d4a577c678c6efdb6bfbe73d3e49ab8108fb592",
-    "cc_hhgt/v32/drug_pharmacology.py": "1bbf7051bc4b65ece4df71d5361616ecd2fd3a60cb7d059d3a6587d715896d2e",
+    "cc_hhgt/v32/drug_pharmacology.py": "082053d4c53b0c98282ac21af381ac057027cb4e20ecab73e90892e68a923103",
     "scripts/run_v32_drug_training.py": "8f90e7de1fc183ef2684f2cfb662930ca26c78864f1898f932d1da9bbca758f4",
     "scripts/materialize_v32_drug_pharmacology.py": "3ad2d02761a272830f03fea5747ce46cdbbc561b5f992c65498a697b4199f5ce",
     "requirements/requirements-drug-pharmacology.txt": "695fc7322c5fb05ab765ef6912d7b2eca5f6f58eb3922c922863ad148d732d9b",
-    "tests/test_v32_drug_pharmacology.py": "553e0158cea149d16f51ae674698a31ddc55982cdad7b892d60ac15775a9c06c"
+    "tests/test_v32_drug_pharmacology.py": "553e0158cea149d16f51ae674698a31ddc55982cdad7b892d60ac15775a9c06c",
+    "cc_hhgt/v32/drug_pharmacology_native.py": "339e0cb041f8cea6222ea19bc8482f95965d4b7882c153776b4aeff1db7e3e87",
+    "scripts/materialize_v32_native_drug_pharmacology.py": "d5cb520ef762f41ac6f78b7893d35f9dcf5de42f775d3972b503274a170ce666",
+    "tests/test_v32_drug_pharmacology_native.py": "028380b6dda426d681f15b5985fd417b09ba726800b362ffd7c1a76ed2692ecf"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -165,8 +168,10 @@
     "C01/C08/C13/C15/C16 remain unfinished. C13/C16 still require a complete actual model-use/dependency inventory; C15 requires actual API/frontend integration.",
     "The existing dense and formal streaming drug runners now consume source-bound action, endpoint-specific affinity/potency, real RDKit structure and split-local protocol features. Action/target and potency/target pairings alter the actual frozen-core representation; five serialized private heads and target/pathway deletions consume the same encoder.",
     "Drug pharmacology checks never optimize: actual runner tests stop at the first fitting boundary after inspecting the extended tensors; other tests use frozen synthetic heads. No new trained drug result or real cohort/compound analysis has been produced.",
-    "Dose covariates describe native protocol distributions, not dose-conditioned efficacy. C08 still requires raw pharmacology extraction/identity integration, dose-conditioned signed-response analysis and current selected/public Drug consumption. The original strength head does not acquire a sensitivity-direction or causal interpretation.",
-    "Pharmacology verification uses project-local RDKit 2025.9.3 on 149, recorded in the receipt. Shared environment packages were not modified."
+    "Dose covariates describe native protocol distributions, not dose-conditioned efficacy. Native raw pharmacology extraction/identity integration is now implemented; C08 still requires dose-conditioned signed-response analysis and current selected/public Drug consumption. The original strength head does not acquire a sensitivity-direction or causal interpretation.",
+    "Pharmacology verification uses project-local RDKit 2025.9.3 on 149, recorded in the receipt. Shared environment packages were not modified.",
+    "Native DrugCentral target/action/activity and structure adaptation now replays the actual native staging identity authority. Explicit per-assay protocols use the staged source-drug map, retain targetless assays and reject range-as-point substitution. Declared value and relation scales are independently checked; missing or unsupported activity remains unavailable.",
+    "The actual encoder binds canonical adapted outputs to their native audit and preserves/rechecks raw files and staged directory trees. Native staging-to-adapter-to-encoder verification uses synthetic inputs only; no real compound/cohort processing, fitting or deployment occurred."
   ],
   "test_suites": [
     {
@@ -228,6 +233,11 @@
       "path": "provenance/code_completion_20261015/drug_analysis_tests.xml",
       "passed": 22,
       "sha256": "61e17d6e5c882c85f92101138ebd92df53e8ad6fc9723bd02b3ec0a39ae0ba7c"
+    },
+    {
+      "path": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml",
+      "passed": 56,
+      "sha256": "d17b9c39ba763f5ec653725c720c01bafc55b32acd5cbf2609172aa19c042fa1"
     },
     {
       "path": "provenance/code_completion_20261015/drug_pharmacology_tests.xml",
@@ -1389,6 +1399,66 @@
       "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_actual_native_staging_to_preparation_encoder_and_raw_source_tamper",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_ambiguous_scale_or_invalid_native_measurement_does_not_become_a_feature[infinite]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_ambiguous_scale_or_invalid_native_measurement_does_not_become_a_feature[negative_concentration]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_ambiguous_scale_or_invalid_native_measurement_does_not_become_a_feature[no_relation_scale]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_ambiguous_scale_or_invalid_native_measurement_does_not_become_a_feature[no_value_scale]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_ambiguous_scale_or_invalid_native_measurement_does_not_become_a_feature[p_unit_conflict]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_ambiguous_scale_or_invalid_native_measurement_does_not_become_a_feature[unit_conflict]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_missing_native_measurement_fields_preserve_actions_with_explicit_reasons",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_native_activity_separates_value_scale_relation_scale_and_unavailable_endpoints",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_native_adapter_rejects_changes_to_the_actual_staging_input",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_native_protocol_keeps_targetless_assays_and_never_turns_ranges_into_doses",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology_native",
+      "case": "test_native_structure_uses_stable_identity_and_retains_conflict_reasons",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+    },
+    {
       "module": "tests.test_v32_drug_response_analysis",
       "case": "test_all_assayed_drugs_keep_signed_subtype_effect_and_unique_models",
       "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
@@ -2410,8 +2480,8 @@
     }
   ],
   "latest_change_validation": {
-    "tag": "drug_pharmacology",
-    "passed": 44,
+    "tag": "drug_pharmacology_native",
+    "passed": 56,
     "target_host": "149",
     "training_started": false
   },

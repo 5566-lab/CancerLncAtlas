@@ -130,7 +130,7 @@ def test_native_readers_use_identity_and_keep_targetless_or_unnamed_assays(tmp_p
     assert response.loc[response.drug_id.isin(targets.drug_id)].source_drug_id.tolist() == ["17"]
 
 
-def test_full_native_staging_writes_corrected_context_and_target_mapping(tmp_path):
+def native_staging_fixture(tmp_path, *, pharmacology=False):
     from cc_hhgt.v32.drug_staging import run_native_drug_staging, DrugStagingConfig, TCGA_CANCERS
     paths = {}
     def table(name, frame, sep=","):
@@ -155,7 +155,12 @@ def test_full_native_staging_writes_corrected_context_and_target_mapping(tmp_pat
     paths["expression"] = tmp_path/"expression.csv"
     paths["expression"].write_text("model_id,Unnamed: 1,"+",".join(models)+"\n"+
         "metadata,,, , , ,\n"*3+"lnc,ENSG00000000002,1,2,3,4,5\n")
-    table("targets", pd.DataFrame({"DRUG_NAME": ["compound-alpha"], "STRUCT_ID": ["1"], "GENE": ["G1"], "ORGANISM": ["Homo sapiens"]}), "\t")
+    target_frame = pd.DataFrame({"DRUG_NAME": ["compound-alpha"], "STRUCT_ID": ["1"], "GENE": ["G1"], "ORGANISM": ["Homo sapiens"]})
+    if pharmacology:
+        target_frame = target_frame.assign(ACT_TYPE="Ki", ACT_VALUE=8., ACT_UNIT=None, RELATION="<", ACTION_TYPE="INHIBITOR")
+        target_frame = pd.concat([target_frame, target_frame.assign(ORGANISM="Mus musculus"),
+                                  target_frame.assign(GENE="unmapped-symbol")], ignore_index=True)
+    table("targets", target_frame, "\t")
     table("hgnc", pd.DataFrame({"symbol": ["G1"], "alias_symbol": [""], "prev_symbol": [""], "ensembl_gene_id": ["ENSG00000000001"]}), "\t")
     identifiers = pd.DataFrame([("DC:1", "name", name, "curated-v1") for name in ["brand alpha", "compound-alpha"]],
         columns=["drug_id", "identifier_type", "identifier_value", "source"])
@@ -185,3 +190,8 @@ def test_full_native_staging_writes_corrected_context_and_target_mapping(tmp_pat
     manifest = json.loads((output/"STAGING_MANIFEST.json").read_text())
     assert manifest["native_assayed_to_target_mapping_coverage"]["synonym_crosswalk_applied"]
     assert manifest["cancer_mapping_policy"] == "ONE_UNAMBIGUOUS_CANCER_PER_CANONICAL_MODEL"
+    return output, paths
+
+
+def test_full_native_staging_writes_corrected_context_and_target_mapping(tmp_path):
+    native_staging_fixture(tmp_path)

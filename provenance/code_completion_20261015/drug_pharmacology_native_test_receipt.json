@@ -1,0 +1,37 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T21:13:12.382044+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/drug_pharmacology_native.py": "339e0cb041f8cea6222ea19bc8482f95965d4b7882c153776b4aeff1db7e3e87",
+    "cc_hhgt/v32/drug_pharmacology.py": "082053d4c53b0c98282ac21af381ac057027cb4e20ecab73e90892e68a923103",
+    "cc_hhgt/v32/drug_staging.py": "74208fc3b83a12f0cd1271d11e0dff4450d3d73e3ee3f20b3bbfca9dccc8cee5",
+    "scripts/materialize_v32_native_drug_pharmacology.py": "d5cb520ef762f41ac6f78b7893d35f9dcf5de42f775d3972b503274a170ce666",
+    "tests/test_v32_drug_pharmacology_native.py": "028380b6dda426d681f15b5985fd417b09ba726800b362ffd7c1a76ed2692ecf",
+    "tests/test_v32_drug_identity.py": "61180b87b2e67451fd0456cd6e9a3433a8a9b8ef94ee9c253e25eb0fbbe9f4ee"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/drug_pharmacology",
+  "verification_dependencies": {
+    "rdkit": "2025.9.3"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_drug_pharmacology_native.py",
+    "tests/test_v32_drug_pharmacology.py",
+    "tests/test_v32_drug_attribution.py",
+    "tests/test_v32_drug_identity.py",
+    "tests/test_v32_drug_response_analysis.py",
+    "tests/test_v32_drug_training.py::test_vectorized_statistics_match_reference_without_fold_leakage",
+    "tests/test_v32_drug_training.py::test_prepared_context_cache_is_one_pass_and_reference_equivalent",
+    "tests/test_v32_drug_training.py::test_complete_overlap_uses_unique_model_consensus",
+    "tests/test_v32_drug_training.py::test_formal_streaming_resource_floors_cannot_be_disabled",
+    "--junitxml=provenance/code_completion_20261015/drug_pharmacology_native_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T21:14:09.346477+00:00"
+}
