@@ -1,0 +1,64 @@
+{
+  "format": "single_cell_hhgt_cpu_benchmark_receipt/v1",
+  "status": "PASS",
+  "created_at_utc": "2026-10-05T11:54:03Z",
+  "target_host": "149",
+  "execution": {
+    "device": "cpu",
+    "torch_threads": 16,
+    "optimizer_step_executed": false,
+    "full_training_started": false,
+    "seed": 20261005
+  },
+  "environment": {
+    "python": "3.11.15",
+    "torch": "2.13.0+cpu",
+    "torch_geometric": "2.8.0.post1",
+    "python_executable": "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python"
+  },
+  "sources": {
+    "module": {
+      "path": "cc_hhgt/v32/single_cell_hhgt.py",
+      "sha256": "f5174757bfb545fa8021925a1994010b8232bc5430458a843a0c348d0aa30d2e"
+    },
+    "targeted_test": {
+      "path": "tests/test_single_cell_hhgt.py",
+      "sha256": "7d240a3fb83159f5b04860e0a87632a432db4f41ea6d3c965925607e58a5b32a",
+      "result": "10 passed in 21.23s"
+    }
+  },
+  "episode": {
+    "kind": "synthetic_realistically_sized_reduced_episode",
+    "node_counts": {
+      "lncRNA": 512,
+      "gene": 2048,
+      "pathway": 512,
+      "pathway_family": 64,
+      "cell_context": 1
+    },
+    "edge_count": 25728,
+    "relation_count": 18,
+    "query_batch": 4096,
+    "hidden_channels": 64,
+    "layers": 2,
+    "heads": 4,
+    "parameter_count": 298139
+  },
+  "measurements": {
+    "graph_build_seconds": 0.010671657044440508,
+    "model_init_seconds": 0.15500906901434064,
+    "forward_seconds": 0.34978798497468233,
+    "backward_seconds": 0.6590758680831641,
+    "max_rss_mib": 521.23828125,
+    "smooth_l1_loss": 0.46294310688972473,
+    "hgt_gradient_l1": 1.2560493887489486
+  },
+  "gates": {
+    "five_node_types": true,
+    "real_hgtconv": true,
+    "continuous_features_consumed": true,
+    "signed_edge_weights_consumed": true,
+    "hgt_gradient_positive": true,
+    "no_optimizer_step": true
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "available_responses": 1000,
+  "cpu_only": true,
+  "elapsed_seconds": 309.467308558058,
+  "format": "CANCERLNCATLAS_V32_SC_BATCHED_LASSO_BENCHMARK_V1",
+  "maximum_rss_kib": 230120,
+  "module_sha256": "65eeb0e2c81785b48ac0ecb779aa17cd2f8a0827e788f1009c8dd6d7796e2b00",
+  "negative_edges": 13013,
+  "numpy_version": "2.4.6",
+  "paid_compute": false,
+  "pid": 1122654,
+  "policy": {
+    "alphas": [
+      0.3,
+      0.1,
+      0.03,
+      0.01
+    ],
+    "bootstraps": 4,
+    "inner_folds": 3,
+    "max_iter": 1000,
+    "response_batch_size": 250,
+    "tolerance": 1e-05,
+    "top_k_per_response": null
+  },
+  "positive_edges": 13076,
+  "shape": {
+    "genes": 1000,
+    "observations": 300,
+    "responses": 1000
+  },
+  "signed_edges": 26089,
+  "state": "PASS",
+  "target_host": "149",
+  "unavailable_responses": 0
+}

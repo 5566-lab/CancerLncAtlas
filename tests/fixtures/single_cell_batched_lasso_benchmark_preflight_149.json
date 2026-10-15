@@ -1,0 +1,7 @@
+{
+  "cpu_only": true,
+  "formal_pointer_update_authorized": false,
+  "paid_compute": false,
+  "target_host": "149",
+  "workload": "single_cell_batched_independent_lasso_realistic_synthetic_benchmark"
+}

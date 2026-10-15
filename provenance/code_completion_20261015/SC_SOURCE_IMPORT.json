@@ -1,0 +1,219 @@
+{
+  "target_host": "149",
+  "source_root": "/dsk2/user/dengsc/sc_metacell_formal_integration_20261005_r1",
+  "preserved_existing_package_initializers": true,
+  "entries": [
+    {
+      "path": "cc_hhgt/v32/single_cell_batched_lasso.py",
+      "sha256": "89157253a9d6b66b69f912e79b7e2049f2ea7c41472f80e1136c568c581b5442"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_graph_assets.py",
+      "sha256": "f0a11358c3b4efa6fd4c7f15f9c122da7edfbb792145bf6d98e77ace2d004ff4"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_hhgt.py",
+      "sha256": "f5174757bfb545fa8021925a1994010b8232bc5430458a843a0c348d0aa30d2e"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_hhgt_episodes.py",
+      "sha256": "e2e1e8ee440465031ed11ba0c39a573edc2389d53cbe0619ec8398ca1b735307"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_metacell_screen.py",
+      "sha256": "46b41e68c934b7fc07fdc07221aa6ff78f0af0232b67a7f6c262c18fa08a9ed1"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_metacell_targets.py",
+      "sha256": "6b720cbec59cd5e93f6c3a7353315efabe6925b4c93cf259c6834687add2c04e"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_metacell_universe.py",
+      "sha256": "7f79c29acff1142b1b919679da9b75a5e5699f81b7583380ff7838eb215941e8"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_metacells.py",
+      "sha256": "b88c6d65052d9a1bf6389ad52adf02f9a4a6be5b293260632efa9b61ede46be5"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_nested_episodes.py",
+      "sha256": "289866763f3c34e50ad2d0603d32d98a8068c63ea30404c151e7f2b0e2482b8f"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_preprocessing.py",
+      "sha256": "a9954cc8ebf83183ddb57a90fe01d48a9ff4e13b29a1bb51115fd52f9f5d62ac"
+    },
+    {
+      "path": "cc_hhgt/v32/single_cell_verified_metadata.py",
+      "sha256": "137868c5e809dffdf62789e0cd9af9b3b2289ce930aabf63ed4e559b2c11ea36"
+    },
+    {
+      "path": "scripts/audit_single_cell_preprocessing_149.py",
+      "sha256": "789634e57f819305bb080793dfcb88b841f3ccc42b7fcd14dd7582a85471aef2"
+    },
+    {
+      "path": "scripts/benchmark_single_cell_hhgt_real_episode_149.py",
+      "sha256": "877d68f2a1d270c7a409f411329240e6ab29c269e25489291601dec046dbc1c9"
+    },
+    {
+      "path": "scripts/close_and_promote_single_cell_hhgt_149.py",
+      "sha256": "8f6827920dfc23c596012f819e60d02500606232d6b90251c08d560b4cf84a37"
+    },
+    {
+      "path": "scripts/launch_single_cell_hhgt_episode_batch_149.py",
+      "sha256": "71b8017380a99742b718154262154651af4dc1f03ff1a98cf7ec4e108432b70f"
+    },
+    {
+      "path": "scripts/launch_single_cell_hhgt_graph_assets_batch_149.py",
+      "sha256": "e0ebcc5220ec4d8f0c4f8c2dcc497aea6bad227bea0c02c5e9a41715ad32ed00"
+    },
+    {
+      "path": "scripts/launch_single_cell_metacell_batch_149.py",
+      "sha256": "7978e2f39827e16f7540f74d8cff3d8fc4d04d8f62109365193b54342118113b"
+    },
+    {
+      "path": "scripts/launch_single_cell_nested_hhgt_batch_149.py",
+      "sha256": "0f4e8325628f4b74ba3526062e60d645561abb488ee998dc3b9d7efcc2229bc1"
+    },
+    {
+      "path": "scripts/materialize_single_cell_hhgt_assets_149.py",
+      "sha256": "c45c42f6e5547fb69f6b4d7278c33226c8395187bf23b46c69c94a067ec1f113"
+    },
+    {
+      "path": "scripts/materialize_single_cell_hhgt_training_episodes_149.py",
+      "sha256": "0dcdec5c178032a09b9a73e5b01991f55ac4717d707b0e4f2b0196cb9a3cca33"
+    },
+    {
+      "path": "scripts/materialize_single_cell_metacell_149.py",
+      "sha256": "b95d814d0673140ef630d63f475827a83b68033ec80f4c7df01517a26f2d190a"
+    },
+    {
+      "path": "scripts/materialize_single_cell_nested_hhgt_episodes_149.py",
+      "sha256": "ac7e0a06d24af1f1196cd798aef7363f30df22de10aabf0653e407ebe4192c61"
+    },
+    {
+      "path": "scripts/relay_close_single_cell_hhgt_149.sh",
+      "sha256": "640861628d5f24fb265ff3ffbb921cd0a168b32c6d91b587d026ff4d6f951765"
+    },
+    {
+      "path": "scripts/relay_single_cell_hhgt_episode_149.sh",
+      "sha256": "f381354b35357f2505f82b1cf74da51970554180afecd7366592a9618698f98b"
+    },
+    {
+      "path": "scripts/relay_train_and_validate_single_cell_hhgt_149.sh",
+      "sha256": "c45e87a643cde27fa93f449fe303173510f54135e67b4ac732b452297552d39e"
+    },
+    {
+      "path": "scripts/resume_single_cell_hhgt_pipeline_149.sh",
+      "sha256": "d50f4d50f1eb0900ba4b208d54ccef517f7d242da6a5005a2f0f8954d8108966"
+    },
+    {
+      "path": "scripts/run_v32_single_cell_verified_streaming.py",
+      "sha256": "f24ff25119cde48e075f09cf86f4dee666546298c2100006b9fedb3f7aaee25e"
+    },
+    {
+      "path": "scripts/train_single_cell_hhgt_149.py",
+      "sha256": "1014a66700777b231d853abf7ae576f8a6ae9e3cb3a4bc195c2d691b12d46a5f"
+    },
+    {
+      "path": "scripts/train_single_cell_metacell_head_149.py",
+      "sha256": "6c867c5173dae1b6584e815e604ec38cc5ab1726312eb230a90101db6da6275d"
+    },
+    {
+      "path": "scripts/validate_metacell_materialization_149.py",
+      "sha256": "4e793ddc61edbab8b03e403f09b2c3d1916545ad5365965cd54fb2d71d2261b3"
+    },
+    {
+      "path": "scripts/validate_single_cell_hhgt_training_149.py",
+      "sha256": "47d8cf94e6bd512fd52f0d5041ab5d735e5c613c239c3a3587e863232da504b2"
+    },
+    {
+      "path": "scripts/validate_single_cell_metacell_training_149.py",
+      "sha256": "146e4b610e8adfdb86920909834961a8b18f127f4e1e276199e44f32ffa58f99"
+    },
+    {
+      "path": "tests/benchmark_single_cell_batched_lasso_149.py",
+      "sha256": "e63e6cb5ecefac92bf69ae14e10254d490b473ca451dcdfa37f81840523e5da8"
+    },
+    {
+      "path": "tests/fixtures/single_cell_batched_lasso_benchmark_preflight_149.json",
+      "sha256": "8909439c6c694ab42008fdb5b58c1ad606c60a5abbda4b89eb77302af056673f"
+    },
+    {
+      "path": "tests/fixtures/single_cell_batched_lasso_cpu_benchmark_149.json",
+      "sha256": "0fa01fd042673b1c594f81419356e8a4d27345f18737e49c95de560fc4fc0d6a"
+    },
+    {
+      "path": "tests/fixtures/single_cell_hhgt_cpu_benchmark_149.json",
+      "sha256": "c02520fcbe760cb907e59f0ba706cd8185eb0a375a3997d933a3b138866e886c"
+    },
+    {
+      "path": "tests/test_close_and_promote_single_cell_hhgt.py",
+      "sha256": "b465b1fadcee94492e1d689aacd79fb8d0b1e0520015d97c9fdc45808ef214c3"
+    },
+    {
+      "path": "tests/test_materialize_single_cell_hhgt_training_episodes.py",
+      "sha256": "80ce87e2c9b76401700688edfcb69ee96be3341b0676c4e3a2361b6e209410fd"
+    },
+    {
+      "path": "tests/test_materialize_single_cell_nested_hhgt_episodes.py",
+      "sha256": "6e2a5f3e06338403949ced3711453ed4a81c40ae95ab2c8d3f12e721bc8f0d0c"
+    },
+    {
+      "path": "tests/test_single_cell_batched_lasso.py",
+      "sha256": "8ced993abd2ca78793a90fada7efc08d8d2362b0a1e7ef1f1ce019e948b2c45e"
+    },
+    {
+      "path": "tests/test_single_cell_graph_assets.py",
+      "sha256": "b601bdd4ee3de551e06a0d42a01f1673483ccf1ab1529095006e9c639ee07b57"
+    },
+    {
+      "path": "tests/test_single_cell_graph_assets_real_149.py",
+      "sha256": "3708c8d4ced998b18bad3228e07c4f67134bdda048e9ef8b4d2c3a668607205e"
+    },
+    {
+      "path": "tests/test_single_cell_hhgt.py",
+      "sha256": "7d240a3fb83159f5b04860e0a87632a432db4f41ea6d3c965925607e58a5b32a"
+    },
+    {
+      "path": "tests/test_single_cell_hhgt_episodes.py",
+      "sha256": "793e31b2b8148d35d61c09e21b902648cb84b2ecc62d603df817a670a66a4e5c"
+    },
+    {
+      "path": "tests/test_single_cell_hhgt_graph_launcher.py",
+      "sha256": "c46c6d86ac85e0893884d8b99dbf38fc124a1dd875c6e8d02dc0c79875d531aa"
+    },
+    {
+      "path": "tests/test_single_cell_hhgt_training.py",
+      "sha256": "02f4b486f77d2bf39074c23988048246207be941b8ad52d72ce16efce7a16be1"
+    },
+    {
+      "path": "tests/test_single_cell_metacell_geometry.py",
+      "sha256": "61ce466e1b1ff23dd31486128b12f242eb54141d15eabc8394d47b6c41eb9803"
+    },
+    {
+      "path": "tests/test_single_cell_metacell_screen.py",
+      "sha256": "4b1720cf100840150d4bff1e42fed5c2d480284bf315af1bf6fa97a0c8df0f17"
+    },
+    {
+      "path": "tests/test_single_cell_metacell_universe.py",
+      "sha256": "93e9c59a2ff431064cab516643f7b63344cad61e0ad39ebf44f34b32f4dac889"
+    },
+    {
+      "path": "tests/test_single_cell_nested_episodes.py",
+      "sha256": "677e2bc24917d01c96d2a0b2915e6acb2b0180b7d956fea4bccedc474f046f55"
+    },
+    {
+      "path": "tests/test_train_single_cell_metacell_head.py",
+      "sha256": "bcc806fccd24bc2d4772f976773a9359926f45809a69611a265cf68b3de76dbf"
+    },
+    {
+      "path": "tests/test_validate_metacell_materialization.py",
+      "sha256": "52a5523bd89850a893ed6dbddeec08a048dcbac860c6de1adbcb1d52494fe96d"
+    },
+    {
+      "path": "tests/test_validate_single_cell_metacell_training.py",
+      "sha256": "83615fd94c08fef0868b2c28892a74a6103bf6349e06d8e4f0748946d6656c68"
+    }
+  ]
+}
