@@ -384,3 +384,42 @@ https://www.encodeproject.org/files/ENCFF949TLK/ (Cuffdiff contrast description)
 https://github.com/Xinglab/rmats-turbo (event fields and inclusion-difference
 orientation), https://www.encodeproject.org/rbns/ and
 https://www.encodeproject.org/data-standards/terms/ (RBNS enrichment definition).
+
+Current-C predicted-binding runtime compatibility (C11 in progress)
+------------------------------------------------------------------
+
+Selected GNN changes were imported from the audited October expansion snapshot;
+predicted_runtime_source_import.json records its exact source hash and the
+adaptations. The current typed formal-graph modules were preserved. Unrelated
+R4 context injection was not imported.
+
+HGT/RGCN now route predicted binding through the weighted message channel only.
+The denominator counts predicted edges rather than summing their magnitudes,
+so a solitary .25-weight prediction contributes .25 of its source message
+instead of being normalized back to full strength. Measured relations retain
+their existing normalization and topology behavior. Empty active relations
+retain the full declared schema. Old RGCN bundles containing predicted edges
+must be rematerialized with the new masks; they cannot silently fall back to
+unweighted predicted topology.
+
+GraphBundle.relation_edge_dropout can declare only binds_protein_predicted.
+Runtime masks are deterministic in seed, optimizer step and canonical edge ID,
+independent of row order or runtime replay. A relation may lose all its edges;
+the old expansion code's forced minimum-one retention was removed. Reverse
+edges inherit the same decision when tensors are built. Node features are held
+fixed. The actual training graph closure requests dropout; validation and
+frozen-export calls retain the full graph by default. New predicted-arm
+checkpoints bind this policy in their runtime contract. Existing measured-only
+runtime contracts remain unchanged.
+
+Seven new checks execute real tiny HGT/RGCN forwards and the runtime bridge,
+without an optimizer. Together with current-core export, C-overlay, typed-graph
+and index-invariance regressions, the selected suite has 60 passing cases.
+The measured-only HGT result matches the historical topology path exactly in
+the tested fixture. This does not claim a real-data graph equivalence audit.
+
+C11 is NOT complete: current-C baseline versus experimental expansion versus
+experimental-plus-predicted expansion still needs unified graph/source
+authority, preparation and launch binding, with identical non-graph inputs and
+budgets. The old expansion formal_graph.py must not replace the current typed
+version wholesale, because doing so would remove current eCLIP/RBP relations.

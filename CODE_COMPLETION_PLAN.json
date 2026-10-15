@@ -73,7 +73,10 @@
     {
       "id": "C11",
       "task": "实验/预测扩图三臂兼容当前 C 图和训练入口；不执行训练",
-      "status": "pending"
+      "status": "in_progress",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Selectively merged predicted-only weighted HGT/RGCN message routing and stable training-only edge dropout into the current C runtime, with actual training-closure binding. Seven new inference-only checks plus 53 compatibility regressions pass.",
+      "remaining": "Unify current-C/experimental/experimental-plus-predicted graph source authority, three-arm preparation and launch entry; preserve identical non-graph inputs, node indexing, patient folds and training budgets. Do not replace current typed formal_graph wholesale with old expansion branch."
     },
     {
       "id": "C12",
@@ -103,7 +106,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 125,
+    "unique_fixture_tests_passed": 160,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,

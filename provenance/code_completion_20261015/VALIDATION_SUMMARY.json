@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 125,
+  "unique_test_cases_passed": 160,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -57,7 +57,10 @@
     "scripts/analyze_v32_encode_functional.py": "dd71a491f0e02d2d6487337934ee972d021bcdbd501ef72f16fafd0de916c9ac",
     "scripts/analyze_v32_rbns_sequences.py": "e2ab05cbeff5bcde7110264e910c0c3bf265c6152d48ba5e92b11485a65040ff",
     "tests/test_v32_encode_functional.py": "311f393d1c3c91209e89d2784c5b1678f4e84961d88e646a67c034f0bcb70d2c",
-    "tests/test_v32_rbns_sequence.py": "ec0ed4fc16ba699ff53da7dc52458771ab771ca89d5a9a4aa445064cb3727057"
+    "tests/test_v32_rbns_sequence.py": "ec0ed4fc16ba699ff53da7dc52458771ab771ca89d5a9a4aa445064cb3727057",
+    "cc_hhgt/gnn.py": "a2b439cf3f09d24a7e69cd9182897394e66dd0acd784ab2712008248c3474a1b",
+    "cc_hhgt/v32/training.py": "517434abd23e634d972765df33792b524f7d334420615b6f2f732ff2e3bc858e",
+    "tests/test_v32_predicted_binding_runtime.py": "583bdc628600c8616f346590f4b6bbb9ad05239de8864168b8f9a86896b0dbde"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -102,6 +105,11 @@
       "sha256": "cbf30de2fa9560d1e14b0fab430ae1eef6094fafabfb17b8fd1d308ae88f8ca2"
     },
     {
+      "path": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml",
+      "passed": 60,
+      "sha256": "dce6f1f2c9aa9ba1d653f951a072f5d336d83a8ade4e7046ea1a6f6b17e4a197"
+    },
+    {
       "path": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml",
       "passed": 14,
       "sha256": "2cc3b4b192b1cdfad3b3b979f2e731bb7c61559e401090635ba552497026fdad"
@@ -120,6 +128,46 @@
   },
   "verified_case_inventory": [
     {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_c_graph_overlay_rejects_wrong_graph[missing_eclip]",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_c_graph_overlay_rejects_wrong_graph[node_map]",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_c_graph_overlay_rejects_wrong_graph[predicted]",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_c_graph_overlay_rejects_wrong_graph[receipt]",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_c_graph_overlay_reuses_batches_and_binds_lineage",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_global_binding_overlay_uses_size_and_graph_semantics_without_file_hash",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_manifest_binds_sidecar_and_parent_before_substitution",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_c_graph_overlay",
+      "case": "test_user_directed_no_rehash_reuses_manifest_digest_and_checks_bytes",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
       "module": "tests.test_v32_clinical_training",
       "case": "test_projection_scaler_is_fit_on_training_patients_only",
       "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
@@ -127,127 +175,127 @@
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_artifact_hash_is_enforced",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_checkpoint_and_manifest_binding",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_feature_entry_uses_current_core_hashes_and_fold_local_scaler",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_node_alias_collision_is_not_averaged",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[None]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[config]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[core]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[file]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[input]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_command_exports_five_folds_and_native_reader_consumes_them",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_current_export_consumed_by_native_heads",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[fold]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[frozen]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[receipt]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[run]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[weights]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[alignment]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[missing_type]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[nan]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[shape]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_partial_or_bad_weights_rejected_before_encoding[weights0]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_partial_or_bad_weights_rejected_before_encoding[weights1]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_partial_or_bad_weights_rejected_before_encoding[weights2]",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_registered_weighted_sum_and_parameter_freeze",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_training_receipt_requires_optimizer_evidence",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_head_input",
@@ -475,6 +523,11 @@
       "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
     },
     {
+      "module": "tests.test_v32_formal_graph_index_invariance",
+      "case": "test_materializers_are_invariant_to_nonconsecutive_source_indices",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_coordinates_exclude_all_transcript_promoters_and_preserve_uncovered_genes",
       "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
@@ -650,6 +703,41 @@
       "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
     },
     {
+      "module": "tests.test_v32_predicted_binding_runtime",
+      "case": "test_dropout_is_repeatable_order_invariant_and_validation_keeps_all_edges",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_predicted_binding_runtime",
+      "case": "test_empty_active_relations_keep_the_full_relation_schema",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_predicted_binding_runtime",
+      "case": "test_existing_measured_hgt_forward_is_unchanged_when_predicted_relation_is_empty",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_predicted_binding_runtime",
+      "case": "test_measured_relation_dropout_or_unmasked_old_predicted_graph_is_rejected",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_predicted_binding_runtime",
+      "case": "test_one_predicted_edge_can_really_drop_and_training_bridge_preserves_eval_default",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_predicted_binding_runtime",
+      "case": "test_real_hgt_forward_excludes_predicted_topology_but_uses_scaled_messages",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_predicted_binding_runtime",
+      "case": "test_real_rgcn_forward_has_only_measured_topology_and_preserved_predicted_weight",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
       "module": "tests.test_v32_rbns_sequence",
       "case": "test_full_command_streams_native_scores_and_writes_predicted_binding",
       "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
@@ -673,6 +761,101 @@
       "module": "tests.test_v32_rbns_sequence",
       "case": "test_sequence_windows_use_rna_orientation_and_composition_comparator",
       "suite": "provenance/code_completion_20261015/rbp_functional_sequence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_a_context_specific_edge_never_becomes_pan_cancer",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_binding_roles_are_absent_from_g0_and_present_from_g1",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_candidate_restriction_applies_to_both_paths",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_context_admission_can_be_switched_off",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_context_eclip_keeps_its_cancer_and_its_own_role",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_context_eclip_role_is_a_binding_role",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_context_edge_takes_precedence_over_a_global_edge_for_the_same_pair",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_context_rows_are_never_globalised",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_declared_relation_type_must_match_the_assay_class",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_emitted_edges_select_correctly_in_every_arm",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_g1_still_has_no_ppi_and_g2_does",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_global_edge_survives_when_no_context_edge_competes",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_hepg2_like_context_and_k562_like_absence_behave_differently",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_non_eclip_context_rows_are_not_admitted",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_predictions_are_excluded_by_default",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_predictions_can_be_admitted_explicitly",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_typed_relations_are_emitted_per_assay_class",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_unknown_assay_class_is_rejected",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_rbp_typed_graph",
+      "case": "test_variant_mask_rejects_an_unknown_arm",
+      "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",

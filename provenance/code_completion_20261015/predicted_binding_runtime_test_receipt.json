@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T16:34:31.944894+00:00",
+  "source_sha256": {
+    "cc_hhgt/gnn.py": "a2b439cf3f09d24a7e69cd9182897394e66dd0acd784ab2712008248c3474a1b",
+    "cc_hhgt/v32/training.py": "517434abd23e634d972765df33792b524f7d334420615b6f2f732ff2e3bc858e",
+    "tests/test_v32_predicted_binding_runtime.py": "583bdc628600c8616f346590f4b6bbb9ad05239de8864168b8f9a86896b0dbde"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_predicted_binding_runtime.py",
+    "tests/test_v32_rbp_typed_graph.py",
+    "tests/test_v32_current_core_export.py",
+    "tests/test_v32_c_graph_overlay.py",
+    "tests/test_v32_formal_graph_index_invariance.py",
+    "--junitxml=provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T16:34:45.376372+00:00"
+}

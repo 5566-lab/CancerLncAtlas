@@ -2258,10 +2258,16 @@ def _aggregate_chunk_outputs(
     return result
 
 
-def _runtime_graph_for_chunk(bundle: Any, chunk: int, *, device: str):
+def _runtime_graph_for_chunk(bundle: Any, chunk: int, *, device: str,
+                             apply_relation_edge_dropout: bool = False,
+                             relation_edge_dropout_seed: int = 0,
+                             relation_edge_dropout_step: int | None = None):
     from ..gnn import move_graph, runtime_bundle_for_step
 
-    runtime_bundle = runtime_bundle_for_step(bundle, int(chunk))
+    runtime_bundle = (runtime_bundle_for_step(bundle, int(chunk),
+        apply_relation_edge_dropout=True, relation_edge_dropout_seed=relation_edge_dropout_seed,
+        relation_edge_dropout_step=relation_edge_dropout_step) if apply_relation_edge_dropout
+        else runtime_bundle_for_step(bundle, int(chunk)))
     if int(runtime_bundle.active_runtime_chunk) != int(chunk):
         raise RuntimeError("Runtime bundle returned the wrong active chunk")
     return move_graph(runtime_bundle, device, "cc_hhgt")
@@ -2731,6 +2737,16 @@ def run_authorized_task(context: Any) -> int:
         ),
         "validation_calls_included_in_training_telemetry": False,
     }
+    # Keep existing measured-only runtime contracts byte-identical. New
+    # predicted arms explicitly bind dropout and weighted-message semantics.
+    if getattr(bundle, "relation_edge_dropout", {}):
+        runtime_training_contract["predicted_binding_runtime"] = {
+            "relation_edge_dropout": dict(bundle.relation_edge_dropout),
+            "dropout_scope": "TRAINING_ONLY_SEED_OPTIMIZER_STEP_EDGE_ID",
+            "minimum_kept_edges": 0,
+            "validation_dropout_applied": False,
+            "message_policy": "WEIGHTED_ONLY_PRESERVE_ATTENUATION_NO_UNWEIGHTED_TOPOLOGY",
+        }
     runtime_training_contract_sha256 = hashlib.sha256(
         json.dumps(
             runtime_training_contract,
@@ -2925,6 +2941,10 @@ def run_authorized_task(context: Any) -> int:
     completed_cycles = start_cycle
 
     def graph_for_chunk(chunk: int):
+        if has_runtime_schedule and getattr(bundle, "relation_edge_dropout", {}):
+            return _runtime_graph_for_chunk(bundle, chunk, device=device,
+                apply_relation_edge_dropout=True, relation_edge_dropout_seed=seed,
+                relation_edge_dropout_step=optimizer_steps)
         return (
             _runtime_graph_for_chunk(bundle, chunk, device=device)
             if has_runtime_schedule

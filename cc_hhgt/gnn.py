@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -28,6 +29,51 @@ from .relation_sampling import (
     runtime_chunk_positions as build_runtime_chunk_positions,
     schedule_runtime_edges,
 )
+
+
+_PREDICTED_BINDING_RELATIONS = frozenset(
+    {"binds_protein_predicted", "rev_binds_protein_predicted"}
+)
+
+
+def _is_weighted_only_relation(relation_type: Any) -> bool:
+    """Return whether a typed relation is forbidden from topology convolution."""
+
+    return str(relation_type) in _PREDICTED_BINDING_RELATIONS
+
+
+def _topology_edge_index_dict(edge_index_dict: dict[Any, Any]) -> dict[Any, Any]:
+    """Remove predicted binding relations from the unweighted HGT channel."""
+
+    return {
+        edge_type: edge_index
+        for edge_type, edge_index in edge_index_dict.items()
+        if not _is_weighted_only_relation(edge_type[1])
+    }
+
+
+def _weighted_message_denominator(weight: Any, *, weighted_only: bool) -> Any:
+    """Keep predicted edge weights as attenuation instead of normalizing them away."""
+
+    if weighted_only:
+        return weight.new_ones(weight.shape)
+    return weight.abs()
+
+
+def _weighted_homogeneous_aggregate(h: Any, graph: dict[str, Any]) -> Any:
+    source, target = graph["edge_index"]
+    weight = graph["edge_weight"].to(dtype=h.dtype)
+    weighted_only = graph.get("weighted_only_edge_mask")
+    if weighted_only is None:
+        weighted_only = weight.new_zeros(weight.shape, dtype=bool)
+    else:
+        weighted_only = weighted_only.to(device=weight.device, dtype=bool)
+    aggregate = h.new_zeros(h.shape)
+    denominator = h.new_zeros((h.shape[0], 1))
+    aggregate.index_add_(0, target, h[source] * weight.unsqueeze(-1))
+    denominator_weight = weight.abs().masked_fill(weighted_only, 1.0)
+    denominator.index_add_(0, target, denominator_weight.unsqueeze(-1))
+    return aggregate / denominator.clamp_min(1e-8)
 
 
 def require_torch_geometric():
@@ -74,6 +120,8 @@ class GraphBundle:
     cancer_edge_positions: dict[str, np.ndarray] | None = None
     localization_positions: np.ndarray | None = None
     episode_cache: dict[str, dict[str, Any]] = field(default_factory=dict)
+    relation_edge_dropout: dict[str, float] = field(default_factory=dict)
+    binding_evidence_arm: str = "current_c"
 
 
 def fold_node_degrees(node_group: pd.DataFrame, edges: pd.DataFrame, node_type: str) -> np.ndarray:
@@ -273,6 +321,7 @@ def _materialize_graph_bundle(
         homogeneous_node_x[np.asarray(positions, dtype=np.int64)] = features
 
     relation_names = []
+    relation_id_to_edge_type: dict[int, tuple[str, str, str]] = {}
     homo_edges = []
     relation_counter = 0
     relation_schema_edges = feature_edges if relation_schema_edges is None else relation_schema_edges
@@ -312,9 +361,15 @@ def _materialize_graph_bundle(
             and rel == "physical_interaction"
         )
         forward_relation_id = relation_counter; relation_counter += 1
+        relation_id_to_edge_type[forward_relation_id] = (
+            str(src_type), str(rel), str(dst_type)
+        )
         reverse_relation_id = None
         if not same_relation_symmetric:
             reverse_relation_id = relation_counter; relation_counter += 1
+            relation_id_to_edge_type[reverse_relation_id] = (
+                str(dst_type), f"rev_{rel}", str(src_type)
+            )
         src_map = node_maps[str(src_type)]
         dst_map = node_maps[str(dst_type)]
         edge_type = (str(src_type), str(rel), str(dst_type))
@@ -396,13 +451,34 @@ def _materialize_graph_bundle(
     h_src, h_dst, h_rel, h_weight = [], [], [], []
     for rel_id, src, dst, weight in homo_edges:
         h_src.append(src); h_dst.append(dst); h_rel.append(np.full(len(src), rel_id, dtype=np.int64)); h_weight.append(weight)
+    homogeneous_edge_index = torch.tensor(
+        np.vstack([np.concatenate(h_src), np.concatenate(h_dst)]), dtype=torch.long
+    )
+    homogeneous_edge_type = torch.tensor(np.concatenate(h_rel), dtype=torch.long)
+    weighted_only_relation_ids = np.asarray(
+        sorted(
+            relation_id
+            for relation_id, edge_type in relation_id_to_edge_type.items()
+            if _is_weighted_only_relation(edge_type[1])
+        ),
+        dtype=np.int64,
+    )
+    weighted_only_edge_mask = torch.tensor(
+        np.isin(homogeneous_edge_type.numpy(), weighted_only_relation_ids),
+        dtype=torch.bool,
+    )
+    topology_edge_mask = ~weighted_only_edge_mask
     homogeneous = {
-        "edge_index": torch.tensor(np.vstack([np.concatenate(h_src), np.concatenate(h_dst)]), dtype=torch.long),
-        "edge_type": torch.tensor(np.concatenate(h_rel), dtype=torch.long),
+        "edge_index": homogeneous_edge_index,
+        "edge_type": homogeneous_edge_type,
         "edge_weight": torch.tensor(np.concatenate(h_weight), dtype=torch.float32),
+        "weighted_only_edge_mask": weighted_only_edge_mask,
+        "topology_edge_index": homogeneous_edge_index[:, topology_edge_mask],
+        "topology_edge_type": homogeneous_edge_type[topology_edge_mask],
+        "relation_id_to_edge_type": relation_id_to_edge_type,
         "node_x": torch.tensor(homogeneous_node_x, dtype=torch.float32),
         "num_nodes": len(nodes),
-        "num_relations": int(max(np.concatenate(h_rel)) + 1) if h_rel else 1,
+        "num_relations": max(1, relation_counter),
         "global_map": {(r.node_type, str(r.canonical_id)): i for i, r in enumerate(nodes.itertuples(index=False))},
     }
     if runtime_schedule is not None and len(runtime_schedule):
@@ -557,10 +633,15 @@ def runtime_bundle_for_step(
     pseudoheldout_cancer: str | None = None,
     formal_heldout_cancers: set[str] | None = None,
     reference_only: set[str] | None = None,
+    apply_relation_edge_dropout: bool = False,
+    relation_edge_dropout_seed: int = 0,
+    relation_edge_dropout_step: int | None = None,
 ) -> GraphBundle:
     """Materialize one relation-mixed runtime chunk for an optimizer step."""
 
     if bundle.runtime_schedule is None:
+        if apply_relation_edge_dropout and getattr(bundle, "relation_edge_dropout", {}):
+            raise RuntimeError("Training relation dropout requires a declared runtime schedule")
         return bundle
     chunk = int(step) % int(bundle.runtime_num_chunks)
     if bundle.runtime_chunk_positions is None or bundle.node_degrees is None:
@@ -673,7 +754,49 @@ def runtime_bundle_for_step(
                 active.loc[update, "relation_type"] = active_ids.loc[update].map(
                     localized.relation_type
                 ).astype(str).to_numpy()
-    return _materialize_graph_bundle(
+    dropout_config = getattr(bundle, "relation_edge_dropout", {})
+    if set(dropout_config) - {"binds_protein_predicted"}:
+        raise RuntimeError("Only predicted binding admits relation edge dropout")
+    if apply_relation_edge_dropout and dropout_config:
+        dropout_step = (
+            int(step)
+            if relation_edge_dropout_step is None
+            else int(relation_edge_dropout_step)
+        )
+        keep = np.ones(len(active), dtype=bool)
+        relation = active.relation_type.astype(str).to_numpy()
+        edge_ids = active.edge_id.astype(str).to_numpy()
+        for relation_type, probability in sorted(
+            dropout_config.items()
+        ):
+            probability = float(probability)
+            if not 0.0 < probability < 1.0:
+                raise RuntimeError(
+                    f"Invalid relation edge dropout probability: {relation_type}={probability}"
+                )
+            positions = np.flatnonzero(relation == str(relation_type))
+            if not len(positions):
+                continue
+            uniforms = np.asarray(
+                [
+                    int(
+                        hashlib.sha256(
+                            (
+                                f"{int(relation_edge_dropout_seed)}\x1f"
+                                f"{dropout_step}\x1f{edge_ids[position]}"
+                            ).encode("utf-8")
+                        ).hexdigest()[:16],
+                        16,
+                    )
+                    / float(2**64)
+                    for position in positions
+                ],
+                dtype=float,
+            )
+            relation_keep = uniforms >= probability
+            keep[positions] = relation_keep
+        active = active.loc[keep].copy().reset_index(drop=True)
+    runtime_bundle = _materialize_graph_bundle(
         bundle.nodes,
         active,
         feature_edges=active,
@@ -695,6 +818,9 @@ def runtime_bundle_for_step(
         active_runtime_chunk=chunk,
         graph_contract=bundle.graph_contract,
     )
+    runtime_bundle.relation_edge_dropout = dict(dropout_config)
+    runtime_bundle.binding_evidence_arm = str(getattr(bundle, "binding_evidence_arm", "current_c"))
+    return runtime_bundle
 
 
 def candidate_tensors(frame: pd.DataFrame, bundle: GraphBundle, features: list[str], device: str, model_kind: str):
@@ -793,15 +919,6 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
             z = torch.cat(pieces, dim=-1)
             return self.membership(z).squeeze(-1), self.direction(z).squeeze(-1)
 
-    def weighted_homogeneous_aggregate(h, graph):
-        source, target = graph["edge_index"]
-        weight = graph["edge_weight"].to(dtype=h.dtype)
-        aggregate = torch.zeros_like(h)
-        denominator = torch.zeros((h.shape[0], 1), dtype=h.dtype, device=h.device)
-        aggregate.index_add_(0, target, h[source] * weight.unsqueeze(-1))
-        denominator.index_add_(0, target, weight.abs().unsqueeze(-1))
-        return aggregate / denominator.clamp_min(1e-8)
-
     if kind == "rgcn":
         class RGCNModel(nn.Module):
             def __init__(self):
@@ -816,8 +933,12 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
             def encode(self, graph):
                 h = self.input_projection(graph["node_x"])
                 for conv, weighted in zip(self.layers, self.weighted_layers, strict=True):
-                    topology = conv(h, graph["edge_index"], graph["edge_type"])
-                    weight_message = weighted(weighted_homogeneous_aggregate(h, graph))
+                    topology = conv(
+                        h,
+                        graph["topology_edge_index"],
+                        graph["topology_edge_type"],
+                    )
+                    weight_message = weighted(_weighted_homogeneous_aggregate(h, graph))
                     h = F.relu(topology + weight_message)
                     h = F.dropout(h, p=dropout, training=self.training)
                 return h
@@ -850,7 +971,13 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
                 aggregate[target_type].index_add_(
                     0, target, h[source_type][source] * weight.unsqueeze(-1)
                 )
-                denominator[target_type].index_add_(0, target, weight.abs().unsqueeze(-1))
+                denominator_weight = _weighted_message_denominator(
+                    weight,
+                    weighted_only=_is_weighted_only_relation(edge_type[1]),
+                )
+                denominator[target_type].index_add_(
+                    0, target, denominator_weight.unsqueeze(-1)
+                )
             return {
                 node_type: projection[node_type](aggregate[node_type] / denominator[node_type].clamp_min(1e-8))
                 for node_type in h
@@ -858,10 +985,10 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
         def encode(self, data):
             h = {k: F.relu(self.proj[k](data[k].x)) for k in data.node_types}
             for conv, projection in zip(self.layers, self.weighted_projection, strict=True):
-                updated = conv(h, data.edge_index_dict)
+                updated = conv(h, _topology_edge_index_dict(data.edge_index_dict))
                 weighted = self.weighted_aggregate(h, data, projection)
                 h = {
-                    k: F.dropout(F.relu(updated.get(k, h[k]) + weighted[k]), p=dropout, training=self.training)
+                    k: F.dropout(F.relu((updated[k] if updated.get(k) is not None else h[k]) + weighted[k]), p=dropout, training=self.training)
                     for k in h
                 }
             return h
@@ -873,10 +1000,27 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
 
 def move_graph(bundle: GraphBundle, device: str, kind: str):
     if kind == "rgcn":
+        topology_edge_index = bundle.homogeneous.get("topology_edge_index")
+        topology_edge_type = bundle.homogeneous.get("topology_edge_type")
+        weighted_only_edge_mask = bundle.homogeneous.get("weighted_only_edge_mask")
+        if topology_edge_index is None or topology_edge_type is None:
+            if bundle.edges.relation_type.astype(str).isin(_PREDICTED_BINDING_RELATIONS).any():
+                raise RuntimeError(
+                    "Predicted binding graph lacks weighted-only topology masks"
+                )
+            topology_edge_index = bundle.homogeneous["edge_index"]
+            topology_edge_type = bundle.homogeneous["edge_type"]
+        if weighted_only_edge_mask is None:
+            weighted_only_edge_mask = bundle.homogeneous["edge_type"].new_zeros(
+                bundle.homogeneous["edge_type"].shape
+            ).bool()
         return {
             "edge_index": bundle.homogeneous["edge_index"].to(device),
             "edge_type": bundle.homogeneous["edge_type"].to(device),
             "edge_weight": bundle.homogeneous["edge_weight"].to(device),
+            "weighted_only_edge_mask": weighted_only_edge_mask.to(device),
+            "topology_edge_index": topology_edge_index.to(device),
+            "topology_edge_type": topology_edge_type.to(device),
             "node_x": bundle.homogeneous["node_x"].to(device),
         }
     return bundle.hetero_data.to(device)

@@ -1,0 +1,20 @@
+{
+  "source_snapshot": "D:\\model\\audit\\requirements_status_20261015\\source_snapshots\\cc_expansion\\cc_hhgt\\gnn.py",
+  "source_sha256": "c3bc12f6069c3a84d775eafc1255850a1eefaefcff9e2f8efacf2ad64af67b25",
+  "destination": "cc_hhgt/gnn.py",
+  "imported_behavior": [
+    "Predicted binding excluded from unweighted HGT/RGCN topology",
+    "Predicted message denominator preserves edge attenuation",
+    "Stable edge-ID/optimizer-step/seed dropout"
+  ],
+  "adaptations": [
+    "Retain current C terminology and typed graph modules",
+    "Do not import unrelated R4 context injection",
+    "Allow all predicted edges to drop without forced retention",
+    "Preserve relation schema when active edges are empty",
+    "Reject dropout for measured edges",
+    "Old measured-only runtime contracts remain unchanged"
+  ],
+  "training_started": false,
+  "remaining": "Three-arm current-C graph/source authority and preparation/launch binding are still incomplete."
+}
