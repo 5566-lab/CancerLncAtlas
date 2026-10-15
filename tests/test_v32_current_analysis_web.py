@@ -23,6 +23,8 @@ from website.backend.current_analysis_api import current_analysis_router
 from test_v32_current_state_context import current_sources, native_fixture as state_fixture
 from test_v32_current_clinical_context import clinical_fixture
 from test_v32_current_drug_context import native_fixture as drug_fixture
+from test_v32_current_single_cell_context import native_fixture as single_cell_fixture
+from test_v32_current_patient_context import native_fixture as patient_fixture
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -81,13 +83,16 @@ def web_release(tmp_path_factory,current_sources):
     from cc_hhgt.v32.current_state_context import materialize_current_state_context
     from cc_hhgt.v32.current_clinical_context import materialize_current_clinical_context
     from cc_hhgt.v32.current_drug_context import materialize_current_drug_context
+    from cc_hhgt.v32.current_single_cell_context import materialize_current_single_cell_context
+    from cc_hhgt.v32.current_patient_context import materialize_current_patient_context
     from scripts.materialize_v32_current_analysis_web import main
     root=tmp_path_factory.mktemp("current_web")
     with pytest.MonkeyPatch.context() as monkeypatch:
         for name in ("Adam","AdamW","SGD"): monkeypatch.setattr(torch.optim,name,forbidden)
         bindings={}
         for key,fixture,materialize in [("state",state_fixture,materialize_current_state_context),
-            ("clinical",clinical_fixture,materialize_current_clinical_context),("drug",drug_fixture,materialize_current_drug_context)]:
+            ("clinical",clinical_fixture,materialize_current_clinical_context),("drug",drug_fixture,materialize_current_drug_context),
+            ("single_cell",single_cell_fixture,materialize_current_single_cell_context),("patient",patient_fixture,materialize_current_patient_context)]:
             result=materialize(fixture(root/(key+"_inputs"),current_sources),root/key)
             bindings[key]=record(Path(result["binding_path"]))
         bindings["evidence"]=record(evidence_fixture(root/"evidence",current_sources[1]))
@@ -141,7 +146,7 @@ def test_version_mismatch_invalid_queries_and_private_downloads_are_rejected(web
         assert client.post(route,json={"version":version,**payload}).status_code==422
     assert client.get("/api/current/downloads/selected.gmt/0").status_code==422
     assert client.get("/api/current/downloads/selected.gmt/0",params={"version":"f"*64}).status_code==409
-    for identity in ("drug.PRIVATE_DOSE_MEASUREMENT_DISPOSITION","scores.checkpoint","clinical.patient_risk","../INPUT.json"):
+    for identity in ("drug.PRIVATE_DOSE_MEASUREMENT_DISPOSITION","scores.checkpoint","clinical.patient_risk","single_cell.donor_cell_context","patient.patient_oof","../INPUT.json"):
         assert client.get(f"/api/current/downloads/{identity}/0",params={"version":version}).status_code in {404,422}
 
 
@@ -270,6 +275,23 @@ def test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout(live_si
             expect(page.locator("#drug-results")).to_contain_text("不可用")
             page.locator("button[data-component='evidence']").click();expect(page.locator("#table-container tbody tr")).to_have_count(1)
             page.locator("button[data-component='external']").click();expect(page.locator("#row-status")).not_to_have_text("正在查询…")
+            page.locator("button[data-component='single_cell']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(3)
+            expect(page.locator("#table-container")).to_contain_text("-0.6")
+            page.locator("#table-select").select_option("single_cell.native_dataset_context")
+            page.locator("#extra-filters summary").click()
+            page.locator("#filters-form input[name='dataset_id']").fill("S2")
+            page.locator("#filters-form button[type='submit']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(1)
+            expect(page.locator("#table-container")).to_contain_text("INSUFFICIENT_INDEPENDENT_DONORS")
+            page.locator("button[data-component='patient']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(2)
+            expect(page.locator("#table-container")).to_contain_text("INSUFFICIENT_GROUP_SUPPORT")
+            page.locator("#extra-filters summary").click()
+            page.locator("#filters-form input[name='group_id']").fill("declared")
+            page.locator("#filters-form button[type='submit']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(1)
+            expect(page.locator("#table-container")).to_contain_text("exploratory_current_core")
             page.locator("button[data-component='selected']").click();expect(page.locator("#table-container tbody tr")).to_have_count(1)
             page.screenshot(path=str(out/"current_web_desktop.png"),full_page=True)
             page.locator("#downloads-toggle").click()

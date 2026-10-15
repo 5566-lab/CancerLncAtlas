@@ -20,12 +20,12 @@ from .drug_sparse_query import _bounded_duckdb, _parquet_file_relation
 from .current_drug_sources import same_relation
 from .selected_genesets import SelectedAnalysisQuery
 
-INPUT_FORMAT = "CURRENT_ANALYSIS_WEB_INPUT_V1"
+INPUT_FORMAT = "CURRENT_ANALYSIS_WEB_INPUT_V2"
 FORMAT = "CURRENT_ANALYSIS_WEB_RELEASE_V1"
-COMPONENTS = ("state","clinical","drug","evidence","external")
+COMPONENTS = ("state","clinical","drug","evidence","external","single_cell","patient")
 STATUSES = {"NOT_PRODUCED","SOURCE_UNAVAILABLE","NOT_APPLICABLE"}
 LABELS = {"selected":"GeneSet 与跨癌种分型","scores":"完整候选评分","state":"细胞状态",
-    "clinical":"临床关联","drug":"药物","evidence":"规则证据","external":"外部评估"}
+    "clinical":"临床关联","drug":"药物","evidence":"规则证据","external":"外部评估","single_cell":"单细胞背景","patient":"患者亚群"}
 NOTES = {
     "selected":"基因集和分型由本版本选定评分生成。分型描述癌种间的基因集关系。",
     "scores":"方向来自主模型；若选定的是融合评分，方向仍保留其原始来源。",
@@ -34,13 +34,15 @@ NOTES = {
     "drug":"模型概率表示关联强度；实测药敏方向、剂量变化与模型消融分别呈现。缺失预测不填零。",
     "evidence":"保留实验背景、来源及方向冲突。规则汇总不代表因果概率。",
     "external":"展示实测指标及隔离范围。已登记来源的隔离尚不证明模型使用来源清单完整。",
+    "single_cell":"保留细胞背景和数据集的供者 OOF 关联预测；正负强度不是概率，供者标准差不是置信区间。基因集概况是成员描述性汇总。",
+    "patient":"亚群斜率和 HC3 区间描述全队列关联，患者 OOF 预测误差单独呈现。保留原始检验家族 FDR；不推断个体因果效应或联合基因集效应。",
 }
 FILTERS = {"cancer_id","cancer_a","cancer_b","lncrna_id","pathway_id","pathway_family_id","geneset_id",
     "association_direction","classification_status","state_id","gene_set_id","direction","state_association_direction",
     "pathway_association_direction","clinical_endpoint","subject_id","subject_type","clinical_effect_direction",
     "drug_id","gene_id","subtype_system","subtype_id","ablation_kind","ablation_entity_id","response_metric",
     "response_unit","dose_molar_key","low_dose_molar_key","high_dose_molar_key","exposure_hours_key",
-    "source_id","source_group","endpoint","isolation_scope","model_id","baseline_model_id","metric","route_type"}
+    "source_id","source_group","endpoint","isolation_scope","model_id","baseline_model_id","metric","route_type","cell_key","dataset_id","group_id","analysis_source_id"}
 
 
 def read_json(path): return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -114,13 +116,19 @@ def source_tables(manifest_path):
             raise ValueError("Available current component requires its exact binding")
         source = verified_path(spec["binding"],path.parent); digest=spec["binding"]["sha256"]
         bindings[module] = {"path":str(source),"sha256":digest}
-        if module in {"state","clinical","drug"}:
+        if module in {"state","clinical","drug","single_cell","patient"}:
             if module=="state":
                 from .current_state_context import CurrentStateContextQuery
                 reader = CurrentStateContextQuery(source,expected_sha=digest,selected_analysis_sha=selected_sha)
             elif module=="clinical":
                 from .current_clinical_context import CurrentClinicalContextQuery
                 reader = CurrentClinicalContextQuery(source,expected_sha=digest,selected_analysis_sha=selected_sha)
+            elif module=="single_cell":
+                from .current_single_cell_context import CurrentSingleCellContextQuery
+                reader = CurrentSingleCellContextQuery(source,expected_sha=digest,selected_analysis_sha=selected_sha)
+            elif module=="patient":
+                from .current_patient_context import CurrentPatientContextQuery
+                reader = CurrentPatientContextQuery(source,expected_sha=digest,selected_analysis_sha=selected_sha)
             else:
                 from .current_drug_context import CurrentDrugContextQuery
                 reader = CurrentDrugContextQuery(source,expected_sha=digest,selected_analysis_sha256=selected_sha)
@@ -168,7 +176,7 @@ def materialize_current_analysis_web(manifest_path,output):
             else:
                 kind="parquet"; parquet=pq.ParquetFile(target); rows=parquet.metadata.num_rows; names=parquet.schema_arrow.names
                 if columns is not None and columns!=names: raise ValueError("Public table parts have different schemas")
-                if {"patient_id","canonical_model_id","cell_line_id","response_value"}&set(names):
+                if {"patient_id","canonical_model_id","cell_line_id","response_value","canonical_donor_id","query_donor_id"}&set(names):
                     raise ValueError("Individual-level measurements are not current public web tables")
                 columns=names; total+=rows
             public.append({"path":str(target),"sha256":sha256(target),"rows":rows,"bytes":target.stat().st_size})

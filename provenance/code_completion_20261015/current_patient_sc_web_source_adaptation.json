@@ -1,0 +1,55 @@
+{
+  "method": "NATIVE_SIGNED_SC_AND_PATIENT_SUBGROUP_REPLAY_TO_SELECTED_CONTEXTS_AND_ACTUAL_MAIN_SITE",
+  "source_hash_receipt": "current_patient_sc_web_r1",
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/context_table_replay.py",
+    "cc_hhgt/v32/current_analysis_web.py",
+    "cc_hhgt/v32/current_patient_context.py",
+    "cc_hhgt/v32/current_single_cell_context.py",
+    "scripts/analyze_v32_patient_heterogeneity.py",
+    "scripts/materialize_v32_current_analysis_web.py",
+    "scripts/materialize_v32_current_patient_context.py",
+    "scripts/materialize_v32_current_single_cell_context.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_current_patient_context.py",
+    "tests/test_v32_current_single_cell_context.py",
+    "website/frontend/assets/current-analysis.js"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "synthetic_statistical_fits_executed": true,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "superseded_checks": [
+    {
+      "tag": "current_single_cell_context_r1",
+      "reason": "Replay metadata compared in-memory tuple endpoint roles to JSON lists; normalized through the native serialization representation."
+    },
+    {
+      "tag": "current_single_cell_context_r2",
+      "reason": "11 checks passed; two corruption tests rewrote Arrow schemas through pandas and failed at the earlier schema check. Tests now preserve original schemas to exercise numerical corruption rejection."
+    }
+  ],
+  "captured_browser_receipt": {
+    "path": "current_patient_sc_web_browser_receipt.json",
+    "sha256": "7df15b7540a4b48e45ec7cf7596daf42ae167b48fbd247243f741bb079a9fc43"
+  },
+  "captured_screenshots": [
+    {
+      "remote_basename": "current_web_desktop.png",
+      "local_basename": "current_patient_sc_web_desktop.png",
+      "sha256": "2a031ec91046d24e78aeda5ae4c00d08f12ed91570acde3f0d82511c299c58b7"
+    },
+    {
+      "remote_basename": "current_web_mobile.png",
+      "local_basename": "current_patient_sc_web_mobile.png",
+      "sha256": "bee8140a4c8547d792dcd8c43fa857d815139c99a4bbeb84aa9b64835a60fe22"
+    }
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C15",
+    "C16"
+  ]
+}

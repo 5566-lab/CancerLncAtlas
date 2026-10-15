@@ -142,9 +142,17 @@ def main(argv=None):
     outputs["patient_oof"]=_source_record(patient_root)
     written_rows=sum(pq.ParquetFile(path).metadata.num_rows for path in patient_root.rglob("*.parquet"))
     if written_rows!=all_rows:raise RuntimeError("Patient prediction row-count drift during materialization")
+    for name,path in source_paths.items():
+        if _source_record(path)!=sources[name]:raise ValueError("Patient analysis source changed during execution: "+name)
+    from cc_hhgt.v32 import patient_heterogeneity as implementation
     audit={"format":"PATIENT_SUBGROUP_HETEROGENEITY_V1","status":"PASS","target_host":"149",
         "training_started":False,"statistical_analysis_executed":True,"neural_optimizer_started":False,
         "sources":sources,"outputs":outputs,"config":asdict(config),"candidate_selection":args.candidate_selection,
+        "group_source_policy":{"kind":"MUTATION_CALLS" if args.groups_are_mutation_calls else "DECLARED_GROUPS",
+            "mutation_count_column":args.mutation_count_column,"mutation_assay_column":args.mutation_assay_column,
+            "locus_callable_column":args.locus_callable_column},
+        "implementation_sha256":{"scripts/analyze_v32_patient_heterogeneity.py":sha256(Path(__file__)),
+            "cc_hhgt/v32/patient_heterogeneity.py":sha256(Path(implementation.__file__))},
         "candidate_rows":completed,"patient_prediction_rows":all_rows,"group_id":args.group_id,
         "inference_available_pairs":int(summary.inference_available.sum()),"heldout_outcomes_used_for_own_fit":False,
         "missing_mutation_assumed_wildtype":False,"causal_claimed":False,"external_validation_claimed":False,

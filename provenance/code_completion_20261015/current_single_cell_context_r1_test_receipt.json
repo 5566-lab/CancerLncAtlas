@@ -1,0 +1,48 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T22:23:07.261801+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_single_cell_context.py": "6f83bfd988dd28bee5e8f5d384dbf32bc49fddfa1d632f0d9fe3388eae272489",
+    "scripts/materialize_v32_current_single_cell_context.py": "21db375985bb8b8032178a35b4e1264d73de3a9db2513a243cb9d6342148b7f7",
+    "cc_hhgt/v32/current_analysis_web.py": "91c477f3a5a5fe7f0b2099ea7cc08772456ca7bc014d84b445d4d810f93d6fbc",
+    "scripts/materialize_v32_current_analysis_web.py": "1b838d66e364d85524a98b374c97603858471bafaf35b511df613a89ffa2c9d7",
+    "website/frontend/assets/current-analysis.js": "e29f5c733df70e7572c63c48b17a3086683fc83edb6a70eee4eba9f1a75446ce",
+    "tests/test_v32_current_single_cell_context.py": "2901133428f4146ca2a37bda09c5658186d8f34d13b47e376fad28086ba93c8e",
+    "tests/test_v32_current_analysis_web.py": "e98b28e5042f30ba151d84e30c0f8abf5960b5fea0b574c6310aa9eee887a635"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_single_cell_context.py",
+    "tests/test_v32_current_analysis_web.py",
+    "--junitxml=provenance/code_completion_20261015/current_single_cell_context_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-15T22:23:46.611994+00:00"
+}

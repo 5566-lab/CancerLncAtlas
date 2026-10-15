@@ -1614,9 +1614,9 @@ Current selected website, HTTP routes and public downloads (2026-10-16)
 
 ``python -m scripts.materialize_v32_current_analysis_web --manifest INPUT.json
 --output NEW_DIRECTORY`` registers actual outputs on host 149. The input format
-is CURRENT_ANALYSIS_WEB_INPUT_V1. It requires a release_id, a selected_analysis
-``{path, sha256}`` record, and components with exactly these five keys: state,
-clinical, drug, evidence and external. Each component supplies either
+is CURRENT_ANALYSIS_WEB_INPUT_V2. It requires a release_id, a selected_analysis
+``{path, sha256}`` record, and components with exactly these seven keys: state,
+clinical, drug, evidence, external, single_cell and patient. Each component supplies either
 ``{"status":"AVAILABLE","binding":{"path":"...","sha256":"..."}}``
 or an explicit NOT_PRODUCED, SOURCE_UNAVAILABLE or NOT_APPLICABLE status and a
 nonempty reason. Omitted components and broken configured sources fail.
@@ -1684,9 +1684,86 @@ pins are in requirements/requirements-current-web.txt. Screenshots and browser
 receipt are under provenance/code_completion_20261015/current_web_*.
 
 C15 remains in progress: these routes cover selected scores/GeneSets, State,
-Clinical, Drug, rule evidence and registered external evaluation. Current
-patient heterogeneity, distal-regulatory and signed single-cell detail outputs
-still require reconciliation into the same complete web release. C13 still
+Clinical, Drug, rule evidence, registered external evaluation, signed single-cell
+details and patient subgroup statistics. Distal-regulatory and remaining native
+genomic detail outputs still require reconciliation into the complete web release. C13 still
 requires complete model-use provenance; C16 owns the final orchestration,
 data dictionary and acceptance pass. This is code and synthetic verification,
 not a new real analysis, independent biological validation or deployment.
+
+Current signed single-cell and patient subgroup views (2026-10-16)
+----------------------------------------------------------------
+
+``python -m scripts.materialize_v32_current_single_cell_context --manifest
+INPUT.json --output NEW_DIRECTORY`` consumes CURRENT_SINGLE_CELL_CONTEXT_INPUT_V1
+with selected_analysis and native_binding hash records. The latter is the actual
+AUDIT.json emitted by materialize_v32_signed_single_cell_fusion. The native
+candidate universe must match the selected reference producer exactly. The
+activated pointer, OOF predictions, donor crosswalk, independent-validation
+receipt and every native output are hash checked. Preparation replays the
+existing donor aggregation from those sources and compares all private and
+public native tables with bounded SQL. It does not run model forwards or fit
+an SC model. Floating aggregates use an absolute comparison tolerance of 1e-12.
+
+The release preserves pooled positive/negative strength, per-cell context,
+per-dataset context, selected-member support, selected-member cell contexts and
+selected-GeneSet context summaries. Dataset context averages repeated aliases
+within one canonical donor before summarizing donors. Pooled native context
+continues to reconcile donors reused across studies. Dataset-level donor
+counts are not additive across studies. Both donor counts and outer-fold
+coverage are retained. Donor standard deviation describes observed spread in
+the donor predictions; it is not a confidence interval or model uncertainty.
+
+Context availability applies the native minimum-independent-donor threshold.
+Insufficient contexts retain their descriptive native measurements with an
+explicit support status; they do not enter selected-GeneSet weighted summaries.
+Missing contexts and zero association are separate. Summary denominators use
+the complete selected GeneSet membership and score weight, including members
+without a supported context. The resulting mean is a descriptive member
+profile, not a joint GeneSet activity estimate. If the selected fusion actually
+contains signed single-cell inputs, its source inventory must contain this
+same native binding. Otherwise used_in_selected_score is explicitly false.
+Raw donor identifiers stay in bound private source files.
+
+``python -m scripts.materialize_v32_current_patient_context --manifest INPUT.json
+--output NEW_DIRECTORY`` consumes CURRENT_PATIENT_CONTEXT_INPUT_V1 with
+selected_analysis and a nonempty analyses list. Each list entry has a unique
+source_id and a native_binding hash record pointing to the actual patient
+heterogeneity AUDIT.json. Every analysis must cover the same complete candidate
+universe as the selected reference producer. Separate subgroup definitions and
+analysis sources remain separate, even when they concern the same candidate.
+
+The existing patient analysis command now records its original grouping mode
+(declared groups or mutation calls), mutation source column names and exact
+implementation hashes. It rechecks raw source files/dataset manifests before
+writing completion. Older receipts lacking this information are rejected for
+the current context rather than guessed; they need rematerialization. Current
+preparation replays the original statistical command with its recorded sources,
+covariates, fold settings and grouping policy. It compares interaction tables,
+subgroup OOF metrics, per-patient predictions and fit receipts. This is a replay
+of the same statistical implementation, not independent external validation.
+
+Public tables retain group-specific slopes, their difference, HC3 uncertainty,
+native family-wide P/FDR values, sample counts, missingness and the original
+candidate-selection scope. Patient OOF errors remain in separate metric tables.
+Selected views do not recompute FDR after selecting GeneSet members. GeneSet
+coverage reports available members and weight, opposite group-direction counts
+and counts supported at native family FDR <= 0.05; no mean member slope or joint
+GeneSet interaction is fabricated. Neither the context nor its display changes
+the selected ranking. Individual patient records remain bound private sources.
+
+Both context releases write a source-bound manifest, a public-table replay audit
+and a final SUCCESS receipt. Their query readers require the same selected
+analysis hash as the website. The web input V2 requires explicit single_cell
+and patient component statuses, so absent modules cannot silently disappear.
+The frontend offers dataset/cell and subgroup/source filters, all public table
+downloads and readable core statistics. Public HTTP download registration
+excludes the raw donor and patient tables. No live site was deployed.
+
+The 29-case synthetic check on 149 covers these actual native commands and
+current context consumers, existing patient-statistics regression checks and
+the real main-site/browser workflow. Optimizer constructors are forbidden;
+only small synthetic statistical fits and frozen core fixture forwards occur.
+These checks do not establish real cohort results or a complete global
+cross-module patient/model-use inventory. Distal/genomic web integration and
+the C01/C13/C16 reconciliation remain unfinished.

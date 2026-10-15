@@ -27,7 +27,8 @@
       "id": "C04",
       "task": "最新有符号 SC-HHGT 保留供者/细胞类型信息并接入融合",
       "status": "code_implemented_fixture_verified",
-      "real_data_execution": "NOT_RUN_AS_REQUESTED"
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Signed SC-HHGT donor-balanced positive/negative fusion inputs now also reach same-selected public cell/dataset contexts, selected-member support and descriptive GeneSet context profiles. Native aggregation/source replay, donor identity reconciliation, missingness and actual main-site queries/downloads are synthetic-verified without fitting a model."
     },
     {
       "id": "C05",
@@ -42,7 +43,7 @@
       "task": "患者/突变亚群条件分析和不确定性，避免癌种均值替代亚群效应",
       "status": "code_implemented_fixture_verified",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "implementation": "Patient-blocked OOF interaction predictions, full-cohort HC3 descriptive inference, typed mutation subgroups and full-family FDR; 12 synthetic checks passed."
+      "implementation": "Patient-blocked OOF interaction predictions, full-cohort HC3 descriptive inference, typed mutation subgroups and full-family FDR are implemented. The actual statistical CLI now binds grouping policy and implementation; current selected patient views replay native sources, statistics, private OOF predictions and fit records, and reach the actual website without exposing patient identifiers."
     },
     {
       "id": "C07",
@@ -109,8 +110,8 @@
       "id": "C15",
       "task": "新结果到网站/API/下载完整绑定和同版本查询；不部署",
       "status": "in_progress",
-      "implementation": "The actual existing main app now serves a version-bound selected-analysis frontend, parameterized HTTP queries, all registered public downloads and native Drug missingness. Actual selected scores/GeneSets, State, Clinical, Drug, rule evidence and external metrics are consumed with same-selected checks, exact source hashes, explicit component absence and no historical fallback. Native synthetic producers, every registered table/download, the actual main app, desktop/mobile Chromium interactions and disabled historical-mode compatibility pass eight checks on host149.",
-      "remaining": "Complete release reconciliation of patient heterogeneity, distal-regulatory, signed single-cell and remaining native analysis details; connect final multi-module orchestration/data dictionary under C16. No deployment.",
+      "implementation": "The actual main site serves version-bound selected scores/GeneSets, State, Clinical, Drug, rule evidence, external metrics, signed single-cell cell/dataset contexts and patient subgroup statistics. Same-selected checks, source replay, exact filters, all registered public downloads and typed absence are connected. Native synthetic producers and real desktop/mobile Chromium workflows pass the latest 29-case patient/SC/web and patient-statistics run on host149.",
+      "remaining": "Complete release reconciliation of distal-regulatory and remaining native genomic details; connect final multi-module orchestration/data dictionary and source-use inventory under C16. No deployment.",
       "real_data_execution": "NOT_RUN_AS_REQUESTED"
     },
     {
@@ -121,7 +122,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 523,
+    "unique_fixture_tests_passed": 533,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -132,6 +133,6 @@
       "C15",
       "C16"
     ],
-    "latest_change_tests_passed": 8
+    "latest_change_tests_passed": 29
   }
 }

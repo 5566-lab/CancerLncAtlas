@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 523,
+  "unique_test_cases_passed": 533,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -31,7 +31,7 @@
     "tests/test_v32_methylation_recovery.py": "52894eab755bac92e265a65369b37e0b20907da6f0693c2ac8d5477bb47eee80",
     "tests/test_v32_signed_single_cell_fusion.py": "bbf277971974b94bfde07eddbdbd5e449af8edce405a3baef09caae89a08e40c",
     "cc_hhgt/v32/patient_heterogeneity.py": "e2490e0166bb62c2e5d8d2f4483102a749f5ba690f5abd04aceb9b5a3535bf30",
-    "scripts/analyze_v32_patient_heterogeneity.py": "181cce6e0f98f1a6de75d55c86aeb7dc37e2ec42cca25440312ae32a8a61ed75",
+    "scripts/analyze_v32_patient_heterogeneity.py": "e364ca0508fb0a9a85c64a933652f7b045d0f4f63d4a34da9e247d7ccf8d973c",
     "tests/test_v32_patient_heterogeneity.py": "df00242b3164a73e8e44c06e0e963ace300f232cc1d253c50f9dd95b6635d74e",
     "cc_hhgt/v32/current_core_export.py": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd",
     "scripts/export_v32_current_core_embeddings.py": "b926716be441d41b7addb18aa74f5db1f4a5ecc03eea10507ed5e11d35eac23c",
@@ -133,8 +133,8 @@
     "cc_hhgt/v32/current_drug_context.py": "cd52cb57500dc0a16b61b66b4b6acd9e46dabe87e243b18475cc4e13efe915d9",
     "scripts/materialize_v32_current_drug_context.py": "e74329ef824ce10a30539975aebb5a1646b7918fa84b38c46187a92e62b28dfa",
     "tests/test_v32_current_drug_context.py": "5d9ca8ee08adf2836cd875a9f451fe3823c1f3b99fa3b1beeec965ceb81bca34",
-    "cc_hhgt/v32/current_analysis_web.py": "fcbfdad6c79cef208798e0b25d79d242ec46f46a6427e98afd8508ff62e1041a",
-    "scripts/materialize_v32_current_analysis_web.py": "9a34d93acd0ad535318b7f2959afb4034d4f4c0dadcb910dab393f25a911c587",
+    "cc_hhgt/v32/current_analysis_web.py": "5dbffcf071963312fd745e2125631688597cb66e1c0f8e5be808c13a83bf65cc",
+    "scripts/materialize_v32_current_analysis_web.py": "e51dc0d34fe03d999414db320919f78827f5a167e45943e50b00fd726c104293",
     "website/backend/current_analysis_api.py": "2e4903d3500daed70f43f06098437d522d1e4d27a3053a2b11cb8489ee80022a",
     "website/backend/app.py": "b1900d012eb0379f57487f5edc738e135799d95602403ed2a0a63e96bd37ae3b",
     "website/backend/v31_exact_store.py": "5b5a0a750d219a34f00dfa979819bb974184543fce703a62ff0f926beb0ed3dd",
@@ -143,12 +143,19 @@
     "src/cc_hhgt_v26/query_service.py": "19621739215335311a9192405b15fcb89c1f9aeec51fb9abe15a8f00ea83810d",
     "src/cc_hhgt_v26/query_models.py": "185b5608a1320f2663cc03ca34365af4dd90ddd2de03d8ce9616d23749f7b729",
     "website/frontend/current-analysis.html": "2e4b9984e27fc1799bd00e42f46eb155b2c686ab87fe189a80192b67ebea4f14",
-    "website/frontend/assets/current-analysis.js": "63d6a767b66fcf865466ac89d595915f78b7c30be84f3faa9cc58c4ce83b69eb",
+    "website/frontend/assets/current-analysis.js": "abd1201de6bbc83ecd99fbb4765354c83bbea6b2a44e41799664d29df9dc3bdd",
     "website/frontend/assets/current-analysis.css": "585546ef543374e5c85551ffc898aefeccbec401932bcf3d4611cbbb83b1bf00",
     "website/frontend/assets/mark.svg": "50829b47affe907dd1569d06051925f65c69130570229f1e85ffaa2957d74bc5",
-    "tests/test_v32_current_analysis_web.py": "965defc43934224ea3d2ae1ac63174dec1f89f838e8153b98ce9f2a807972e2f",
+    "tests/test_v32_current_analysis_web.py": "dcc61add5c18886277169ea56b6be45b5b644d52dd393d53a0e0b2f62f6725ed",
     "tests/test_v32_main_app_feature_flag.py": "8f7447a9faaa9dbb4f6773fee20b44da570deff122606e7815c2b1e57b508541",
-    "requirements/requirements-current-web.txt": "d1bee0579df4a72c08776cd157044cb299c8516d5fafb0e172f10fb667b7afd1"
+    "requirements/requirements-current-web.txt": "d1bee0579df4a72c08776cd157044cb299c8516d5fafb0e172f10fb667b7afd1",
+    "cc_hhgt/v32/context_table_replay.py": "f93f03478bd84238ba81012bca6af719988b26770c0ec5b54f4f9a4dfc7f4f49",
+    "cc_hhgt/v32/current_single_cell_context.py": "032358f9ebae3888800b6b39efefd02f08cc56704e42d2447a1581047b18fafd",
+    "scripts/materialize_v32_current_single_cell_context.py": "21db375985bb8b8032178a35b4e1264d73de3a9db2513a243cb9d6342148b7f7",
+    "cc_hhgt/v32/current_patient_context.py": "273fee9bbb6b108777ff6a1b943384a4084d508dba3324a73010ecd01a778155",
+    "scripts/materialize_v32_current_patient_context.py": "7338f2e6037f7c642b3634867eb6c3cc2f86fbeae6f23438f33c9478cbe07db2",
+    "tests/test_v32_current_single_cell_context.py": "e521d4bbe10d1ca4d7065c570c80d16085d625def01b05c2f558d43425e7785f",
+    "tests/test_v32_current_patient_context.py": "045876ee80237766c68b151dc5d18991d6f009b1da9c32ec1ab572d4851dc665"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -170,7 +177,7 @@
     "The selected-analysis 46-case suite verifies this change plus legacy subtype/GeneSet, external and current fusion/rule consumer regressions; cumulative counts are not a full-suite rerun.",
     "Existing G012 validation locks may be consumed; explicit source registration claims no validated winner. Diagnostic fusion status remains unchanged.",
     "Fold stability for final fusion scores is unavailable rather than fabricated. Unknown primary direction cannot enter directional subtypes.",
-    "C15 now has actual main-site/API/frontend integration for selected scores/GeneSets, State, Clinical, Drug, rule evidence and registered external evaluation. Complete remaining analysis-module integration is still open; no deployment was performed.",
+    "C15 now has actual main-site/API/frontend integration for selected scores/GeneSets, State, Clinical, Drug, rule evidence, registered external evaluation, native signed single-cell contexts and patient subgroup statistics. Complete remaining analysis-module integration is still open; no deployment was performed.",
     "Native current V4 full-candidate five-fold inference and source-bound selected analysis consumption are fixture-verified; no actual scientific checkpoint or cohort was inferred.",
     "The current prediction 46-case suite covers native inference, selected analysis and external consumers. Cumulative counts are not one full current-suite run.",
     "Default current prediction verification rechecks source hashes and recomputes the fold ensemble; optional frozen-checkpoint replay reruns all five models. Neither establishes biological external validity.",
@@ -203,8 +210,13 @@
     "Drug sparse publication now accepts source-bound stable namespaces instead of only legacy DRUG IDs. The actual writer/reader and missingness contracts pass 50 tests. Current Drug consumers pass 14 synthetic integration/replay/query checks.",
     "CurrentDrugContextQuery is now consumed by the actual current main-site HTTP routes and frontend. C01/C13/C15/C16 remain incomplete; code completion does not imply real analyses, independent biological validation or deployment.",
     "Current website verification materializes actual native synthetic components, queries every registered table, downloads every public part with matching hashes and launches the actual main app on 149 loopback. Chromium verifies interactions and mobile layout; no production service is changed.",
-    "Web publication currently covers selected scores/GeneSets, State, Clinical, Drug, rule evidence and registered external evaluation. Patient heterogeneity, distal-regulatory and signed single-cell details still need complete release reconciliation. Missing registered components are explicit; old-version data are not substituted.",
-    "Public evidence provenance removes filesystem paths while retaining source hashes and lineage. Current query/download requests require the catalog version and reverify requested artifacts; the full provenance/dependency inventory and final acceptance remain C16."
+    "Web publication currently covers selected scores/GeneSets, State, Clinical, Drug, rule evidence, registered external evaluation, native signed single-cell contexts and patient subgroup statistics. Distal-regulatory and remaining native genomic details still need complete release reconciliation. Missing registered components are explicit; old-version data are not substituted.",
+    "Public evidence provenance removes filesystem paths while retaining source hashes and lineage. Current query/download requests require the catalog version and reverify requested artifacts; the full provenance/dependency inventory and final acceptance remain C16.",
+    "Current single-cell publication replays the actual signed aggregation from pointer-bound OOF predictions and reconciled donor crosswalk, preserves dataset/cell context and between-donor spread, and binds actual selected members. No SC model is fit or forward-replayed; donor SD is not a confidence interval and member profiles are not joint GeneSet predictions.",
+    "Current patient context replays the actual statistical CLI including grouping policy, native interaction/FDR summaries, subgroup OOF metrics, fit records and private patient predictions. Public selected views retain the original inference scope and family-wide FDR. Synthetic statistical fitting is not a real cohort analysis or independent validation.",
+    "The actual website/API/browser now includes SC cell/dataset filters and patient subgroup/source filters, all registered aggregate downloads, typed missingness and same-selected identity. Raw patient/donor records are excluded from public download registration.",
+    "The latest 29-case run covers native current patient/SC consumers, the actual main-site/browser workflow and existing patient-statistics regressions. Cumulative unique cases are versioned historical evidence, not a single full current-version rerun.",
+    "Complete cross-module patient/model-use inventory, distal/genomic web detail integration and final orchestration/acceptance remain open under C01/C13/C15/C16."
   ],
   "test_suites": [
     {
@@ -331,6 +343,11 @@
       "path": "provenance/code_completion_20261015/signed_fusion_tests.xml",
       "passed": 12,
       "sha256": "f23fbddb1d0631065261874f1f493cc5bc3ea9e0f9778d1bfd4a43112f81dcdf"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml",
+      "passed": 29,
+      "sha256": "aa629a6065595595c07ec204466cd3ebf0f15b9e0274b514d62cec0cbef5f7a2"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -429,37 +446,37 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -992,6 +1009,26 @@
       "suite": "provenance/code_completion_20261015/selected_analysis_tests.xml"
     },
     {
+      "module": "tests.test_v32_current_patient_context",
+      "case": "test_missing_group_policy_is_not_guessed_and_source_changes_are_rejected",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_patient_context",
+      "case": "test_native_patient_statistics_reach_members_with_original_uncertainty_and_fdr",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_patient_context",
+      "case": "test_rehashed_native_statistics_cannot_replace_source_replay",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_patient_context",
+      "case": "test_selected_identity_and_analysis_inventory_are_enforced",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_bare_hash_list_cannot_authorize_current_fusion_fit",
       "suite": "provenance/code_completion_20261015/current_primary_fusion_tests.xml"
@@ -1230,6 +1267,36 @@
       "module": "tests.test_v32_current_rule_evidence",
       "case": "test_row_order_and_database_copy_invariance_and_preserved_contexts",
       "suite": "provenance/code_completion_20261015/native_auxiliary_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_single_cell_context",
+      "case": "test_missing_or_insufficient_contexts_keep_nulls_not_false_neutrality[missing]",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_single_cell_context",
+      "case": "test_missing_or_insufficient_contexts_keep_nulls_not_false_neutrality[sparse]",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_single_cell_context",
+      "case": "test_native_replay_preserves_opposite_contexts_zero_and_unique_donor_counts",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_single_cell_context",
+      "case": "test_public_profile_replay_rejects_rehashed_sign_change",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_single_cell_context",
+      "case": "test_rehashed_native_aggregate_cannot_override_actual_donor_rows",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_single_cell_context",
+      "case": "test_wrong_candidate_universe_and_selected_identity_fail",
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
@@ -2469,62 +2536,62 @@
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_bad_patient_authority_fails_closed[boolean]",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_bad_patient_authority_fails_closed[covariate]",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_bad_patient_authority_fails_closed[duplicate]",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_bad_patient_authority_fails_closed[fold]",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_cli_streams_patient_results_and_all_candidate_inference",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_detects_opposite_group_associations_and_retains_individual_oof_rows",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_fdr_uses_full_declared_family_including_unavailable_tests",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_hc3_uncertainty_matches_independent_statsmodels_reference",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_heldout_outcomes_cannot_change_own_predictions_or_fit",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_sparse_group_is_typed_unavailable_with_no_fake_effect",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_unknown_subgroups_and_missing_outcomes_are_not_silently_zero_filled",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_heterogeneity",
       "case": "test_wes_no_report_is_unknown_without_locus_coverage",
-      "suite": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_predicted_binding_runtime",
@@ -2959,9 +3026,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "current_web_r3"
+      "current_patient_sc_web_r1"
     ],
-    "passed": 8,
+    "passed": 29,
     "target_host": "149",
     "training_started": false
   },
