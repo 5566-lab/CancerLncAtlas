@@ -118,3 +118,93 @@ be declared as a calibrated probability.
 This removes hard-coded historical input paths. Remaining native-head adapters,
 the selected-score release binding and downstream GeneSet/web integration are
 tracked separately; this runner alone does not complete those requirements.
+
+Patient and mutation-subgroup heterogeneity
+------------------------------------------
+
+Run ``python -m scripts.analyze_v32_patient_heterogeneity`` on host 149, with
+--expression, --activity, --groups, --covariates, --folds, --candidates,
+--group-id and a NEW --output directory. Each input is a Parquet table/dataset
+(TSV is also accepted for the per-cancer source tables). Exact patient IDs are
+joined without truncation. All patients in the frozen fold map are retained.
+
+Expression columns are cancer_id, patient_id, lncrna_id and lncrna_expression
+(logcpm is accepted). Activity uses pathway_id and activity_score. Groups use
+group_id, group_value (0/1/null), group_available and group_unavailable_reason;
+lncrna_id is optional for a general subgroup. Covariates use measurement columns
+and corresponding <column>__available booleans. The default nuisance covariates
+are local_cnv_log2 and tumor_purity; override with --nuisance-columns.
+
+--groups-are-mutation-calls accepts reported_variant_count,
+mutation_assay_available and locus_callable, with optional column-name overrides.
+A positive mutation report identifies group 1. Group 0 requires an assayed,
+callable locus and zero reported events. Zero WES events without locus coverage
+remain unknown. No missing assay is converted into a wild-type patient.
+
+The five patient folds provide held-out pathway-activity predictions from
+expression, subgroup, their interaction and nuisance covariates. Transformations
+and ridge coefficients are estimated on the other four folds. Separate full-cohort
+OLS interaction estimates use HC3 covariance and asymptotic Wald intervals.
+These describe association heterogeneity, not individual causal effects. BH
+correction includes every declared candidate within cancer x subgroup, including
+unavailable tests in the family size. --candidate-selection is required:
+prespecified_independent or exploratory_current_core. Current-core selection
+does not become independent external validation by using this command.
+
+Outputs include patient_oof/, INTERACTION_SUMMARY.parquet,
+SUBGROUP_OOF_METRICS.parquet and FIT_AUDIT.jsonl, with hash-bound AUDIT/SUCCESS
+records. Synthetic tests verify HC3 against statsmodels, held-out isolation,
+unknown mutation status, sparse groups and the actual CLI materialization.
+
+Current V4 core export and native-head readers
+--------------------------------------------
+
+``python -m scripts.export_v32_current_core_embeddings --manifest INPUT.json
+--expected-core-run-id RUN_ID --output NEW_DIRECTORY`` performs frozen inference
+on host 149. CPU is the default; --device cuda is explicit. This task has NOT
+executed it on real checkpoints. It has no training/optimizer entry point.
+
+INPUT.json uses CURRENT_CORE_EXPORT_INPUT_V1, core_run_id, graph_variant and
+exactly five fold_inputs. Each fold has integer fold plus config, input_manifest,
+prepared, checkpoint and training_receipt, each a {path, sha256} object.
+graph_overlay is required when the original training input authorizes it;
+global_binding_source can locate a relocated C-global binding source. Relative
+paths resolve against INPUT.json. Original config/input hashes remain bound to
+the selected checkpoint. Relocating files must not rewrite those original files.
+
+The exporter reconstructs the original C overlay and data authority, verifies
+the selected checkpoint against its SUCCESS receipt and checks the complete
+registered runtime chunk weights. It computes sum_c w_c * encoder(chunk_c),
+streaming one chunk at a time with compensated float64 accumulation. This is
+an encoder-space feature definition; it is not encoder(union_graph) and is not
+claimed to reproduce the core's decoder probabilities. No partial-chunk export
+can produce a complete manifest. Parameter hashes are checked before/after.
+
+The V2 CORE_EMBEDDING_MANIFEST.json records core_run_id, copied training receipts,
+all exported artifact hashes, exact weights, constant-embedding diagnostics and
+inference precision. It attests to a selected completed training run; it does
+not invent a from-scratch declaration absent from that run's receipts.
+
+Genomic/CNV, Drug and State readers now accept this V2 manifest while retaining
+their old V1 reader checks. The clinical runner also consumes the manifest's
+actual export paths/hashes and reconciles registered graph type prefixes while
+preserving biological namespaces. For clinical V2 runs, provide both
+--expected-core-run-id and --training-run-id. Resume verifies the same core,
+raw-input lineage, training configuration, implementation and output hashes.
+No clinical training has been started by this work.
+
+Fusion producer identity
+------------------------
+
+Every expert binding audit must now declare run_id, estimand, expert_specs and
+core_dependency. The declared spec must exactly match the producer's approved
+columns, transform and endpoint roles. CURRENT_CORE_EMBEDDINGS additionally
+requires core_run_id and core_manifest {path,sha256}, verified against the
+selected run. INDEPENDENT_MODEL and CORE_INDEPENDENT_EVIDENCE retain their own
+source identity without pretending to have used bulk-core embeddings.
+
+The signed SC adapter writes a deterministic adapter run_id derived from its
+actual inputs and aggregation policy. Use that audit's run_id in the fusion
+manifest. A freely supplied name no longer substitutes for producer identity.
+Native Mutation/CNV/ATAC fold adapters, native State/Clinical context consumption
+and selected-score release integration are still tracked as unfinished C05 work.

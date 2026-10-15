@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T14:58:35.134650+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/patient_heterogeneity.py": "e2490e0166bb62c2e5d8d2f4483102a749f5ba690f5abd04aceb9b5a3535bf30",
+    "scripts/analyze_v32_patient_heterogeneity.py": "181cce6e0f98f1a6de75d55c86aeb7dc37e2ec42cca25440312ae32a8a61ed75",
+    "tests/test_v32_patient_heterogeneity.py": "df00242b3164a73e8e44c06e0e963ace300f232cc1d253c50f9dd95b6635d74e"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_patient_heterogeneity.py",
+    "--junitxml=provenance/code_completion_20261015/patient_heterogeneity_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T14:58:38.578753+00:00"
+}

@@ -32,12 +32,14 @@
       "id": "C05",
       "task": "Mutation/CNV/ATAC/State/Clinical 与当前核心及最终评分的实际消费",
       "status": "in_progress",
-      "remaining": "Native Mutation/CNV/ATAC/State/Clinical adapters and current-core producer binding; dynamic fusion entry now exists."
+      "remaining": "Native Mutation/CNV/ATAC fold adapters, State/Clinical native context consumption and selected-score release integration. Current V4 exporter and Genomic/CNV/Drug/State/Clinical readers now implemented; producer identity binding verified."
     },
     {
       "id": "C06",
       "task": "患者/突变亚群条件分析和不确定性，避免癌种均值替代亚群效应",
-      "status": "pending"
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Patient-blocked OOF interaction predictions, full-cohort HC3 descriptive inference, typed mutation subgroups and full-family FDR; 12 synthetic checks passed."
     },
     {
       "id": "C07",
@@ -92,7 +94,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 46,
+    "unique_fixture_tests_passed": 89,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -100,7 +102,6 @@
     "remaining_requirements_not_complete": [
       "C01",
       "C05",
-      "C06",
       "C07",
       "C08",
       "C09",

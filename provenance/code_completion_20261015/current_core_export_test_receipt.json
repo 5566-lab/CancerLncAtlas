@@ -1,0 +1,29 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T15:24:01.314439+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_core_export.py": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd",
+    "scripts/export_v32_current_core_embeddings.py": "9bca173de7d0d7ab63c39c7980af7eb99a3ae16a30248943c320164c158197d4",
+    "cc_hhgt/v32/genomic_training.py": "6869b6ce3882f63543902538d57cc3a85f3a34d332ed6cf8a0526de448620d2e",
+    "cc_hhgt/v32/drug_training.py": "eb8777cddf55694cfd1b234de9884ff45f6d463b191eed180cc0c24624cc5760",
+    "cc_hhgt/v32/state_training.py": "366ee11c149dfb6c36efd55dbd3aba9de96fc9d380404a3b8fe61a8352ef1ec5",
+    "cc_hhgt/v32/clinical_training.py": "5d6809206186a3258fa55deec285549b73222e515d04184812ea34653c0125c6",
+    "scripts/run_v32_clinical_training.py": "ebf207461678ec573033e18ac81c53c8c0524e244583c6bcfe9f8c7379f50de3",
+    "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_core_export.py",
+    "tests/test_v32_state_training.py::test_core_loader_reads_only_fresh_v32_embedding_tables",
+    "tests/test_v32_clinical_training.py::test_projection_scaler_is_fit_on_training_patients_only",
+    "--junitxml=provenance/code_completion_20261015/current_core_export_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T15:24:16.188687+00:00"
+}

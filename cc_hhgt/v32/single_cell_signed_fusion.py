@@ -154,7 +154,14 @@ def materialize_signed_sc_fusion(pointer_path: Path, candidates_path: Path, dono
     finally:
         con.close()
     artifacts={p.stem.lower():_record(p) for p in sorted(output.glob("*.parquet"))}
+    # An adapter run is identified by its actual inputs and aggregation policy,
+    # not by an arbitrary label supplied later in a fusion manifest.
+    import hashlib
+    identity={"inputs":inputs,"arm":selected_arm,"min_donors":min_donors}
+    run_id="SC_SIGNED_"+hashlib.sha256(json.dumps(identity,sort_keys=True).encode()).hexdigest()[:24]
     audit={"format":"SC_HHGT_SIGNED_FUSION_BINDING_V1","status":"PASS","target_host":"149",
+        "run_id":run_id,"source_model_run_id":pointer.get("run_id"),
+        "estimand":"DONOR_BALANCED_SIGNED_ASSOCIATION_STRENGTH","core_dependency":"INDEPENDENT_MODEL",
         "training_started":False,"inputs":inputs,"outputs":artifacts,"arm":selected_arm,
         "rows":counts[0],"available_rows":counts[1],"donor_context_rows":context_rows,
         "min_donors":min_donors,"aggregation":"EQUAL_CONTEXT_WEIGHT_WITHIN_CANONICAL_DONOR_THEN_EQUAL_DONOR_WEIGHT",

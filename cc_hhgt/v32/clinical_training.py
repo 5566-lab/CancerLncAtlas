@@ -172,6 +172,23 @@ def core_feature_columns(frame: pd.DataFrame) -> list[str]:
     return columns
 
 
+def canonical_core_entity_ids(values: pd.Series, kind: str) -> pd.Series:
+    """Remove only registered graph type prefixes; keep biological namespaces."""
+    prefixes = {"lncrna": ("LNC:", "LNCRNA:"), "pathway": ("PATHWAY:", "PW:"),
+                "cancer": ("CANCER:",)}
+    if kind not in prefixes:
+        raise ClinicalTrainingError(f"Unknown core entity kind: {kind}")
+    result = values.astype("string").str.strip()
+    if result.isna().any() or result.eq("").any():
+        raise ClinicalTrainingError("Core alignment contains missing entity IDs")
+    for prefix in prefixes[kind]:
+        mask = result.str.upper().str.startswith(prefix)
+        result.loc[mask] = result.loc[mask].str[len(prefix):]
+    if result.eq("").any():
+        raise ClinicalTrainingError("Empty entity after stripping a core type prefix")
+    return result
+
+
 def project_measurements_to_core(
     measurements: pd.DataFrame,
     embeddings: pd.DataFrame,
@@ -186,6 +203,14 @@ def project_measurements_to_core(
     required = {"patient_id", entity_column, value_column}
     if missing := sorted(required - set(measurements)):
         raise ClinicalTrainingError(f"Molecular measurements lack columns: {missing}")
+    kind = {"lncrna_id": "lncrna", "pathway_id": "pathway"}.get(entity_column)
+    if kind:
+        measurements = measurements.copy()
+        embeddings = embeddings.copy()
+        measurements[entity_column] = canonical_core_entity_ids(measurements[entity_column], kind)
+        embeddings["node_id"] = canonical_core_entity_ids(embeddings.node_id, kind)
+    if embeddings.node_id.duplicated().any():
+        raise ClinicalTrainingError("Core node IDs collide after canonical alignment")
     features = core_feature_columns(embeddings)
     embedding = embeddings.set_index("node_id")
     common = sorted(set(measurements[entity_column].astype(str)).intersection(embedding.index.astype(str)))

@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 46,
+  "unique_test_cases_passed": 89,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -13,7 +13,7 @@
     "cc_hhgt/v32/epigenetic_expression_head.py": "dc8d9785a52d97dd275d69cb8fd255ff36d89e16c3f62e5ab8c0edbf76dcbc3c",
     "cc_hhgt/v32/methylation_recovery.py": "bf44d151c39860f5c0b2cb02c6e74b79965c21da6861dfb745e02d7a86af37aa",
     "cc_hhgt/v32/multimodal_fusion.py": "13bef84bd32e73a55b7544a73481fc5fdf56ad551cecfeac447e2e5144d86c13",
-    "cc_hhgt/v32/single_cell_signed_fusion.py": "7bfe48e43fac91ae631287c424d7049d3299a453f43486ef26c7641389d44753",
+    "cc_hhgt/v32/single_cell_signed_fusion.py": "4ffe874c944517fb214699ebf8a4ad47a2f2a037d5db9e72f08fc2d5e34c5ad6",
     "scripts/audit_v32_distal_regulatory_mutation_head.py": "1653e630c0c72cc17743f06c3cbe6740f47787aa0b1cb750718df965283e98fb",
     "scripts/build_v32_independent_distal_topology.py": "4165c1e37fd08c479e1cb559fd50b5f5272fe4dfeeec3b90e3418b368cd24c1d",
     "scripts/extract_v32_datas7_lnc_topology.py": "d906da3a5d7f390486166cb564587c4a19200511d1b46c95d53041d6e00a32e7",
@@ -23,18 +23,64 @@
     "scripts/materialize_v32_hm450_lncrna_probe_map.py": "a9403a655ca4002d59d8dffe614f4826e86cb6deace19dd228b0363efda3fa1f",
     "scripts/materialize_v32_methylation_lncrna.py": "94627384841189aa90a9f939a783f5ded7a4a5ccbb099f5dfd3b282329dc9fa1",
     "scripts/materialize_v32_signed_single_cell_fusion.py": "653937c7bbf11c48498c6d7bb9c03a2cd69f1bd3a9245337cc945a15ec384868",
-    "scripts/run_v32_current_multimodal_fusion.py": "ccc0ca4946e7165d51a988778457d2a72e71b7cf1b7526cebbb3ef3b8af13bc4",
+    "scripts/run_v32_current_multimodal_fusion.py": "37a8f42a44ae2b612b9d0db965bb6f9323d7f1a1020a7bd725c6876cec071f9b",
     "scripts/run_v32_distal_regulatory_mutation_head.py": "e3ea4f244763578175ec9e5c2de9cfb325193f397bd751c62c12f1650dd4b90a",
     "tests/test_v32_distal_regulatory_head_input.py": "52c1643680c98ddb404e8d96b200720aba8ec725d077758d8956b83aa1196340",
     "tests/test_v32_epigenetic_expression_head.py": "0d4ad9ae3a4b3290334f1ade0eb94aa5a594eebb8b4e9a6e9562bb00a80cbe40",
     "tests/test_v32_independent_distal_topology.py": "a616bf1e6ebaeb0d811a68d313cea49ff313487f5740da246acb63e31cbf520b",
     "tests/test_v32_methylation_recovery.py": "52894eab755bac92e265a65369b37e0b20907da6f0693c2ac8d5477bb47eee80",
-    "tests/test_v32_signed_single_cell_fusion.py": "807d363af76365b6d8e541eed373cebb849c23d60d822758cde03e8b4df1c12e"
+    "tests/test_v32_signed_single_cell_fusion.py": "bbf277971974b94bfde07eddbdbd5e449af8edce405a3baef09caae89a08e40c",
+    "cc_hhgt/v32/patient_heterogeneity.py": "e2490e0166bb62c2e5d8d2f4483102a749f5ba690f5abd04aceb9b5a3535bf30",
+    "scripts/analyze_v32_patient_heterogeneity.py": "181cce6e0f98f1a6de75d55c86aeb7dc37e2ec42cca25440312ae32a8a61ed75",
+    "tests/test_v32_patient_heterogeneity.py": "df00242b3164a73e8e44c06e0e963ace300f232cc1d253c50f9dd95b6635d74e",
+    "cc_hhgt/v32/current_core_export.py": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd",
+    "scripts/export_v32_current_core_embeddings.py": "9bca173de7d0d7ab63c39c7980af7eb99a3ae16a30248943c320164c158197d4",
+    "cc_hhgt/v32/genomic_training.py": "6869b6ce3882f63543902538d57cc3a85f3a34d332ed6cf8a0526de448620d2e",
+    "cc_hhgt/v32/drug_training.py": "eb8777cddf55694cfd1b234de9884ff45f6d463b191eed180cc0c24624cc5760",
+    "cc_hhgt/v32/state_training.py": "366ee11c149dfb6c36efd55dbd3aba9de96fc9d380404a3b8fe61a8352ef1ec5",
+    "cc_hhgt/v32/clinical_training.py": "5d6809206186a3258fa55deec285549b73222e515d04184812ea34653c0125c6",
+    "scripts/run_v32_clinical_training.py": "ebf207461678ec573033e18ac81c53c8c0524e244583c6bcfe9f8c7379f50de3",
+    "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
-    "C01 and C05-C16 remain unfinished",
+    "C01, C05 and C07-C16 remain unfinished",
     "Independent coordinate links are candidate hypotheses",
-    "SC donor SD is descriptive spread, not a confidence interval"
-  ]
+    "SC donor SD is descriptive spread, not a confidence interval",
+    "Patient HC3 inference is descriptive association; current-core candidate selection is exploratory",
+    "Current core CLI verification substitutes a deterministic tiny graph/model; no real checkpoint inference was run"
+  ],
+  "test_suites": [
+    {
+      "path": "provenance/code_completion_20261015/current_core_export_tests.xml",
+      "passed": 27,
+      "sha256": "6e3ebd98db62211dfb98ad149ec1957d832bac5f260e7f3140d0c0f000eae21a"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_runner_release_tests.xml",
+      "passed": 2,
+      "sha256": "2c5b0c2d9e1311af7f8a3012b6717d2496b7646989d6932632bce6e00173fa98"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_source_binding_tests.xml",
+      "passed": 13,
+      "sha256": "319f84c9815760eb68e699ff28a026b1579730d0f3712f960c0973550137c457"
+    },
+    {
+      "path": "provenance/code_completion_20261015/methylation_distal_tests.xml",
+      "passed": 33,
+      "sha256": "660ad8f8ba6f44f9c01115a187887f00228239c485b376a5412c2a0129eec25a"
+    },
+    {
+      "path": "provenance/code_completion_20261015/patient_heterogeneity_tests.xml",
+      "passed": 12,
+      "sha256": "cbf30de2fa9560d1e14b0fab430ae1eef6094fafabfb17b8fd1d308ae88f8ca2"
+    },
+    {
+      "path": "provenance/code_completion_20261015/signed_fusion_tests.xml",
+      "passed": 12,
+      "sha256": "f23fbddb1d0631065261874f1f493cc5bc3ea9e0f9778d1bfd4a43112f81dcdf"
+    }
+  ],
+  "case_count_policy": "Use the latest full signed-SC suite instead of superseded unparameterized cases; deduplicate other cases by module and test name."
 }

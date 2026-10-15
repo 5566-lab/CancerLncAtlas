@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T15:19:19.448536+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/single_cell_signed_fusion.py": "4ffe874c944517fb214699ebf8a4ad47a2f2a037d5db9e72f08fc2d5e34c5ad6",
+    "scripts/run_v32_current_multimodal_fusion.py": "37a8f42a44ae2b612b9d0db965bb6f9323d7f1a1020a7bd725c6876cec071f9b",
+    "tests/test_v32_signed_single_cell_fusion.py": "bbf277971974b94bfde07eddbdbd5e449af8edce405a3baef09caae89a08e40c"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_signed_single_cell_fusion.py",
+    "--junitxml=provenance/code_completion_20261015/current_source_binding_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T15:19:26.895137+00:00"
+}

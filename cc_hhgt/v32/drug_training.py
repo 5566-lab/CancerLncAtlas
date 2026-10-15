@@ -949,6 +949,9 @@ def _resolve_manifest_path(manifest_path: Path, relative: str) -> Path:
 def _validate_core_manifest(path: str | Path) -> tuple[dict[str, Any], str, str]:
     source = Path(path).resolve()
     payload = json.loads(source.read_text(encoding="utf-8"))
+    from .current_core_export import EXPORT_FORMAT, validate_current_export
+    if payload.get("export_format") == EXPORT_FORMAT:
+        return validate_current_export(source)
     if payload.get("export_format") != CORE_EXPORT_FORMAT:
         raise DrugTrainingError("Core embeddings are not the registered V3.2 export format")
     if not str(payload.get("analysis_version", "")).startswith("CancerLncAtlas_V3.2"):

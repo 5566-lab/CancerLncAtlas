@@ -75,6 +75,22 @@ def main(argv=None):
             raise ValueError("Current policy excludes the retired neural Evidence head")
         audit_path=bound(item["binding_audit"],"provenance_audited_standardized_source")
         audit=json.loads(audit_path.read_text(encoding="utf-8"))
+        if audit.get("run_id")!=item["run_id"] or audit.get("estimand")!=item["estimand"]:
+            raise ValueError(f"{spec.expert_id} run identity or estimand differs from its producer audit")
+        dependency=audit.get("core_dependency")
+        if dependency=="CURRENT_CORE_EMBEDDINGS":
+            if audit.get("core_run_id")!=args.expected_core_run_id:
+                raise ValueError(f"{spec.expert_id} was produced from a different core")
+            from cc_hhgt.v32.current_core_export import validate_current_export
+            source_core=bound(audit["core_manifest"],"provenance_audited_standardized_source")
+            validate_current_export(source_core,expected_run_id=args.expected_core_run_id)
+        elif dependency not in {"INDEPENDENT_MODEL","CORE_INDEPENDENT_EVIDENCE"}:
+            raise ValueError(f"{spec.expert_id} lacks an explicit core dependency")
+        approved_specs=audit.get("expert_specs",[])
+        # JSON normalization changes tuple endpoint roles into list form.
+        from dataclasses import asdict
+        if json.loads(json.dumps(asdict(spec))) not in approved_specs:
+            raise ValueError(f"{spec.expert_id} semantics differ from its producer declaration")
         record=item["prediction"]
         output_records=list(audit.get("outputs",{}).values()) if isinstance(audit.get("outputs"),dict) else audit.get("outputs",[])
         # The producer audit must bind the consumed artifact, not merely state PASS.

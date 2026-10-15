@@ -385,15 +385,19 @@ def load_v32_core_embeddings(
         raise StateTrainingError("Core embedding manifest is invalid JSON") from exc
     if not isinstance(manifest, Mapping):
         raise StateTrainingError("Core embedding manifest must be an object")
-    if manifest.get("export_format") != CORE_EXPORT_FORMAT:
+    from .current_core_export import EXPORT_FORMAT, validate_current_export
+    current_export = manifest.get("export_format") == EXPORT_FORMAT
+    if current_export:
+        validate_current_export(source)
+    if not current_export and manifest.get("export_format") != CORE_EXPORT_FORMAT:
         raise StateTrainingError("Core embeddings are not a registered V3.2 export")
     if str(manifest.get("training_generation", "")).upper() != "V3.2":
         raise StateTrainingError("Core embeddings do not declare V3.2 training")
-    if manifest.get("all_embeddings_from_newly_trained_v32_core") is not True:
+    if not current_export and manifest.get("all_embeddings_from_newly_trained_v32_core") is not True:
         raise StateTrainingError("Core embeddings lack fresh-V3.2 attestation")
-    if manifest.get("historical_checkpoint_loaded") is not False:
+    if not current_export and manifest.get("historical_checkpoint_loaded") is not False:
         raise StateTrainingError("Core embedding export loaded a historical checkpoint")
-    if manifest.get("historical_prediction_loaded") is not False:
+    if not current_export and manifest.get("historical_prediction_loaded") is not False:
         raise StateTrainingError("Core embedding export loaded historical predictions")
     folds = manifest.get("folds")
     if not isinstance(folds, Mapping) or set(map(str, folds)) != set(map(str, range(N_FOLDS))):
@@ -409,11 +413,11 @@ def load_v32_core_embeddings(
             raise StateTrainingError(f"Core fold {fold} lineage is not an object")
         if int(row.get("patient_fold", -1)) != fold:
             raise StateTrainingError(f"Core embedding fold identity drift for fold {fold}")
-        if row.get("checkpoint_format") != CORE_CHECKPOINT_FORMAT:
+        if not current_export and row.get("checkpoint_format") != CORE_CHECKPOINT_FORMAT:
             raise StateTrainingError(f"Fold {fold} core parent is not a V3.2 checkpoint")
-        if row.get("old_checkpoint_loaded") is not False:
+        if not current_export and row.get("old_checkpoint_loaded") is not False:
             raise StateTrainingError(f"Fold {fold} declares an old checkpoint")
-        if row.get("trained_from_scratch") is not True:
+        if not current_export and row.get("trained_from_scratch") is not True:
             raise StateTrainingError(f"Fold {fold} core was not trained from scratch")
         core_hash = str(row.get("core_parameter_sha256", ""))
         if len(core_hash) != 64:
@@ -428,7 +432,9 @@ def load_v32_core_embeddings(
         if lnc_key is None or not isinstance(exports[lnc_key], Mapping):
             raise StateTrainingError(f"Fold {fold} lacks lncRNA core embeddings")
         export = exports[lnc_key]
-        export_path = _resolve_inside(root, str(export.get("path", "")), "core embedding")
+        # V2 paths belong to the export manifest, independently of the code checkout.
+        export_path = _resolve_inside(source.parent if current_export else root,
+                                      str(export.get("path", "")), "core embedding")
         reject_forbidden_input_path(export_path, f"fold-{fold} core embedding")
         expected_hash = str(export.get("sha256", ""))
         if len(expected_hash) != 64 or file_sha256(export_path) != expected_hash:
@@ -443,6 +449,7 @@ def load_v32_core_embeddings(
             raise StateTrainingError(f"Fold {fold} core embedding shape/manifest mismatch")
         embeddings[fold] = frame
         fold_lineage[fold] = {
+            "core_run_id": manifest.get("core_run_id"),
             "core_embedding_path": export_path.as_posix(),
             "core_embedding_sha256": expected_hash,
             "core_parameter_sha256": core_hash,

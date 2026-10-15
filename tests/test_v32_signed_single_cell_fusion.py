@@ -113,12 +113,13 @@ def test_signed_transform_preserves_negative_values_and_parquet_builder_matches(
         apply_residual_fusion_model(replace(model,feature_transforms=("probability_logit",)),memory)
 
 
-def test_current_runner_consumes_signed_adapter_without_starting_training(tmp_path,monkeypatch):
+@pytest.mark.parametrize("binding_fault",[None,"run_id","estimand","spec","core"])
+def test_current_runner_consumes_signed_adapter_without_starting_training(tmp_path,monkeypatch,binding_fault):
     import scripts.run_v32_current_multimodal_fusion as runner
     fixture(tmp_path)
     keys=pd.DataFrame({"cancer_id":"BRCA","lncrna_id":[f"L{i}" for i in range(80)],"pathway_id":"P1"})
     keys.to_parquet(tmp_path/"candidates.parquet",index=False)
-    run(tmp_path)
+    adapter_audit=run(tmp_path)
     primary=keys.assign(**{PRIMARY_COLUMN:.5,"analysis_version":ANALYSIS_VERSION})
     primary.to_parquet(tmp_path/"primary.parquet",index=False)
     record=lambda p:{"path":str(p),"sha256":artifact_sha256(p)}
@@ -135,11 +136,23 @@ def test_current_runner_consumes_signed_adapter_without_starting_training(tmp_pa
         "primary_prediction":record(tmp_path/"primary.parquet"),"primary_folds":folds,
         "primary_binding_audit":record(binding_path),
         "experts":[{"spec":asdict(spec),"prediction":record(tmp_path/"output/SINGLE_CELL_SIGNED_FUSION.parquet"),
-                    "binding_audit":record(tmp_path/"output/AUDIT.json"),"run_id":"SC-CURRENT-FIXTURE",
+                    "binding_audit":record(tmp_path/"output/AUDIT.json"),"run_id":adapter_audit["run_id"],
                     "estimand":"DONOR_BALANCED_SIGNED_ASSOCIATION_STRENGTH"} for spec in SIGNED_SC_EXPERTS]}
+    if binding_fault in {"run_id","estimand"}:manifest["experts"][0][binding_fault]="WRONG_SOURCE"
+    if binding_fault=="spec":manifest["experts"][0]["spec"]["value_transform"]="probability_logit"
+    if binding_fault=="core":
+        adapter_audit.update(core_dependency="CURRENT_CORE_EMBEDDINGS",core_run_id="OLD_CORE")
+        (tmp_path/"output/AUDIT.json").write_text(json.dumps(adapter_audit))
+        for expert in manifest["experts"]:expert["binding_audit"]=record(tmp_path/"output/AUDIT.json")
     path=tmp_path/"manifest.json";path.write_text(json.dumps(manifest))
     def forbidden(*a,**kw):raise AssertionError("Preparation must not start a training optimizer")
     monkeypatch.setattr(runner,"train_pair_blocked_crossfit_fusion",forbidden)
+    if binding_fault:
+        with pytest.raises(ValueError):
+            runner.main(["--manifest",str(path),"--expected-core-run-id","G2-CURRENT-FIXTURE",
+                         "--output",str(tmp_path/"prepared")])
+        assert not (tmp_path/"prepared/PREPARED.json").exists()
+        return
     assert runner.main(["--manifest",str(path),"--expected-core-run-id","G2-CURRENT-FIXTURE",
                         "--output",str(tmp_path/"prepared")])==0
     receipt=json.loads((tmp_path/"prepared/PREPARED.json").read_text())

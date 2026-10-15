@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import socket
 import sys
 from pathlib import Path
 
@@ -37,6 +38,39 @@ def _partition(root: Path, cancer: str) -> Path:
     return path
 
 
+def _load_core_tables(core_root: Path, manifest: dict, fold: int):
+    """Read the exact hash-bound exported files, including relocated V4 output."""
+    from cc_hhgt.v32.clinical_training import core_feature_columns, canonical_core_entity_ids
+    from cc_hhgt.v32.current_core_export import verified_path
+    tables = {}
+    for kind in ("lncRNA", "pathway", "cancer"):
+        declaration = manifest["folds"][str(fold)]["exports"][kind]
+        path = verified_path(declaration, core_root)
+        frame = pd.read_parquet(path)
+        columns = core_feature_columns(frame)
+        if (len(frame) != declaration.get("rows") or len(columns) != declaration.get("features")
+                or not np.isfinite(frame[columns].to_numpy(float)).all()):
+            raise RuntimeError(f"Fold-{fold} {kind} embedding shape or values differ from its manifest")
+        frame["node_id"] = canonical_core_entity_ids(frame.node_id, kind.lower())
+        if frame.node_id.duplicated().any():
+            raise RuntimeError(f"Fold-{fold} {kind} embedding IDs collide")
+        tables[kind] = frame
+    return tables
+
+
+def _validate_resume_receipt(meta, *, training_run_id, core_manifest_sha, input_lineage_sha,
+                             config_sha, public_path, private_path, checkpoint_path):
+    if (meta.get("status") != "SUCCESS" or meta.get("training_run_id") != training_run_id
+            or meta.get("core_manifest_sha256") != core_manifest_sha
+            or meta.get("input_lineage_sha256") != input_lineage_sha
+            or meta.get("training_config_sha256") != config_sha):
+        raise RuntimeError("Clinical resume belongs to a different run, core or input lineage")
+    for key, path in [("public_prediction_sha256", public_path), ("private_prediction_sha256", private_path),
+                      ("checkpoint_sha256", checkpoint_path)]:
+        if meta.get(key) != _sha256(path):
+            raise RuntimeError(f"Clinical resume artifact changed: {key}")
+
+
 def _build_fold_features(
     fold: int,
     folds: pd.DataFrame,
@@ -44,6 +78,7 @@ def _build_fold_features(
     expression_root: Path,
     activity_root: Path,
     core_root: Path,
+    core_manifest: dict | None = None,
 ) -> pd.DataFrame:
     from cc_hhgt.v32.clinical_training import (
         core_feature_columns,
@@ -52,10 +87,11 @@ def _build_fold_features(
     )
 
     validation_fold = (int(fold) + 1) % 5
-    embedding_root = core_root / f"patient_fold={fold}"
-    lnc_embedding = pd.read_parquet(embedding_root / "lncRNA.parquet")
-    pathway_embedding = pd.read_parquet(embedding_root / "pathway.parquet")
-    cancer_embedding = pd.read_parquet(embedding_root / "cancer.parquet")
+    if core_manifest is None:
+        from cc_hhgt.v32.genomic_training import _validate_core_manifest
+        core_manifest = _validate_core_manifest(core_root / "CORE_EMBEDDING_MANIFEST.json")[0]
+    tables = _load_core_tables(core_root, core_manifest, fold)
+    lnc_embedding, pathway_embedding, cancer_embedding = (tables[k] for k in ("lncRNA", "pathway", "cancer"))
     cancer_features = core_feature_columns(cancer_embedding)
     cancer_embedding = cancer_embedding.set_index("node_id")
     output: list[pd.DataFrame] = []
@@ -163,7 +199,7 @@ def _endpoint_arrays(
     return arrays, edges, pd.concat(private, ignore_index=True)
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=".")
     parser.add_argument(
@@ -198,7 +234,12 @@ def main() -> int:
     parser.add_argument("--min-patients", type=int, default=40)
     parser.add_argument("--min-events", type=int, default=12)
     parser.add_argument("--resume", action="store_true")
-    args = parser.parse_args()
+    parser.add_argument("--training-run-id", help="Required for a current-core V2 run")
+    parser.add_argument("--expected-core-run-id", help="Required for a current-core V2 run")
+    args = parser.parse_args(argv)
+    if socket.gethostname() != "149":
+        raise RuntimeError("Clinical preparation and training require target host 149")
+    run_id = args.training_run_id or RUN_ID
 
     root = Path(args.repo_root).resolve()
     sys.path.insert(0, str(root))
@@ -229,10 +270,32 @@ def main() -> int:
     activity_root = root / args.activity_root
     core_root = root / args.core_root
     output_root = root / args.output_root
+    core_manifest_path = core_root / "CORE_EMBEDDING_MANIFEST.json"
+    from cc_hhgt.v32.genomic_training import _validate_core_manifest
+    from cc_hhgt.v32.current_core_export import EXPORT_FORMAT, validate_current_export
+    core_manifest, core_manifest_sha, _ = _validate_core_manifest(core_manifest_path)
+    if core_manifest.get("export_format") == EXPORT_FORMAT:
+        if not args.training_run_id or not args.expected_core_run_id:
+            raise RuntimeError("Current clinical run requires --training-run-id and --expected-core-run-id")
+        validate_current_export(core_manifest_path, expected_run_id=args.expected_core_run_id)
     patient_authority_audit = validate_frozen_v32_patient_fold_binding(
         fold_manifest_path, fold_authority_receipt_path
     )
-    output_root.mkdir(parents=True, exist_ok=True)
+    output_root.mkdir(parents=True, exist_ok=args.resume)
+    training_config_sha = _canonical_hash({
+        "parameters": {key: getattr(args, key) for key in
+                       ["seed", "epochs", "patience", "n_bins", "min_patients", "min_events"]},
+        "runner_sha256": _sha256(Path(__file__)),
+        "implementation_sha256": _sha256(Path(__file__).resolve().parents[1] / "cc_hhgt/v32/clinical_training.py")})
+    preflight = {"target_host": "149",
+        "training_started": False, "training_run_id": run_id, "core_run_id": core_manifest.get("core_run_id"),
+        "core_manifest_sha256": core_manifest_sha, "training_config_sha256": training_config_sha}
+    preflight_path = output_root / "LAUNCH_PREFLIGHT.json"
+    if args.resume:
+        if not preflight_path.is_file() or json.loads(preflight_path.read_text()) != preflight:
+            raise RuntimeError("Clinical resume preflight differs from its original run/core/configuration")
+    else:
+        preflight_path.write_text(json.dumps(preflight, indent=2))
 
     input_audit = validate_input_lineage(
         [
@@ -255,6 +318,11 @@ def main() -> int:
         ]
     )
     input_audit["patient_fold_authority"] = patient_authority_audit
+    if args.resume:
+        previous_audit_path = output_root / "INPUT_LINEAGE_AUDIT.json"
+        if (not previous_audit_path.is_file() or
+                json.loads(previous_audit_path.read_text()).get("lineage_sha256") != input_audit["lineage_sha256"]):
+            raise RuntimeError("Clinical resume raw input lineage changed")
     (output_root / "INPUT_LINEAGE_AUDIT.json").write_text(
         json.dumps(input_audit, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -271,13 +339,6 @@ def main() -> int:
         folds[["cancer_id", "patient_id"]],
         on=["cancer_id", "patient_id"], how="inner", validate="one_to_one"
     )
-    core_manifest_path = core_root / "CORE_EMBEDDING_MANIFEST.json"
-    core_manifest = json.loads(core_manifest_path.read_text(encoding="utf-8"))
-    if set(core_manifest.get("folds", {})) != set(map(str, range(5))):
-        raise RuntimeError("V3.2 core embedding manifest does not contain all five folds")
-    if core_manifest.get("historical_checkpoint_loaded") is not False:
-        raise RuntimeError("V3.2 core lineage did not exclude historical checkpoints")
-
     public_outputs = []
     private_outputs = []
     task_lineage = []
@@ -288,12 +349,16 @@ def main() -> int:
         private_path = fold_root / "clinical_patient_risk_evaluation_labels.parquet"
         success_path = fold_root / "SUCCESS.json"
         if args.resume and public_path.is_file() and private_path.is_file() and success_path.is_file():
+            prior = json.loads(success_path.read_text(encoding="utf-8"))
+            _validate_resume_receipt(prior, training_run_id=run_id, core_manifest_sha=core_manifest_sha,
+                input_lineage_sha=input_audit["lineage_sha256"], public_path=public_path,
+                config_sha=training_config_sha, private_path=private_path, checkpoint_path=fold_root / "best_model_state.pt")
             public_outputs.append(pd.read_parquet(public_path))
             private_outputs.append(pd.read_parquet(private_path))
             task_lineage.append(json.loads(success_path.read_text(encoding="utf-8")))
             continue
         features = _build_fold_features(
-            fold, folds, covariates, expression_root, activity_root, core_root
+            fold, folds, covariates, expression_root, activity_root, core_root, core_manifest
         )
         feature_path = fold_root / "patient_features.fold_local.parquet"
         features.to_parquet(feature_path, index=False, compression="zstd")
@@ -354,7 +419,8 @@ def main() -> int:
                         "failure_reason": "" if trained else "NO_TRAINABLE_DISTINCT_ENDPOINT_SOURCE",
                         "patient_fold_id": fold,
                         "analysis_version": ANALYSIS_VERSION,
-                        "training_run_id": RUN_ID,
+                        "training_run_id": run_id,
+                        "core_run_id": core_manifest.get("core_run_id"),
                         "model_artifact_id": f"clinical-fold-{fold}",
                         "changes_primary_ranking": False,
                     }
@@ -382,7 +448,9 @@ def main() -> int:
         checkpoint = {
             "checkpoint_format": CLINICAL_CHECKPOINT_FORMAT,
             "analysis_version": ANALYSIS_VERSION,
-            "training_run_id": RUN_ID,
+            "training_run_id": run_id,
+            "core_run_id": core_manifest.get("core_run_id"),
+            "core_manifest_sha256": core_manifest_sha,
             "module_id": "clinical",
             "patient_fold": fold,
             "seed": args.seed,
@@ -404,6 +472,13 @@ def main() -> int:
         torch.save(checkpoint, checkpoint_path)
         meta = {
             "status": "SUCCESS",
+            "training_run_id": run_id,
+            "core_run_id": core_manifest.get("core_run_id"),
+            "core_manifest_sha256": core_manifest_sha,
+            "input_lineage_sha256": input_audit["lineage_sha256"],
+            "training_config_sha256": training_config_sha,
+            "public_prediction_sha256": _sha256(public_path),
+            "private_prediction_sha256": _sha256(private_path),
             "module_id": "clinical",
             "patient_fold": fold,
             "seed": args.seed,
@@ -412,7 +487,7 @@ def main() -> int:
             "n_test": int(len(test_indices)),
             "trained_endpoints": sorted(arrays),
             "unavailable_endpoints": sorted(set(CLINICAL_ENDPOINTS) - set(arrays)),
-            "checkpoint_path": checkpoint_path.relative_to(root).as_posix(),
+            "checkpoint_path": str(checkpoint_path.resolve()),
             "checkpoint_sha256": _sha256(checkpoint_path),
             "parent_v32_core_checkpoint_sha256": core_fold["checkpoint_sha256"],
             "parent_v32_core_parameter_sha256": core_fold["core_parameter_sha256"],
@@ -453,13 +528,17 @@ def main() -> int:
         )
     pd.DataFrame(metric_rows).to_csv(output_root / "clinical_oof_metrics.tsv", sep="\t", index=False)
 
+    if _sha256(core_manifest_path) != core_manifest_sha:
+        raise RuntimeError("Selected core manifest changed during clinical training")
     aggregate_core_hash = _canonical_hash(
         {str(fold): core_manifest["folds"][str(fold)]["checkpoint_sha256"] for fold in range(5)}
     )
     lineage = {
         "module_id": "clinical",
         "analysis_version": ANALYSIS_VERSION,
-        "training_run_id": RUN_ID,
+        "training_run_id": run_id,
+        "core_run_id": core_manifest.get("core_run_id"),
+        "core_manifest_sha256": core_manifest_sha,
         "training_status": "SUCCESS" if set(folds_requested) == set(range(5)) else "PARTIAL",
         "initialization_policy": "FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH",
         "folds": len(folds_requested),
@@ -479,7 +558,7 @@ def main() -> int:
         "input_artifacts": [
             {"path": str(workbook), "sha256": _sha256(workbook), "artifact_kind": "training_label"},
             {"path": str(fold_manifest_path), "sha256": _sha256(fold_manifest_path), "artifact_kind": "split_manifest"},
-            {"path": str(core_manifest_path), "sha256": aggregate_core_hash, "artifact_kind": "v32_core_checkpoint"},
+            {"path": str(core_manifest_path), "sha256": core_manifest_sha, "artifact_kind": "v32_core_embedding_manifest"},
         ],
         "task_lineage": task_lineage,
         "public_prediction_rows": int(len(public_all)),
