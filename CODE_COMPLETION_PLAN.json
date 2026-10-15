@@ -9,7 +9,7 @@
       "id": "C01",
       "task": "合并当前 G2/RBP、10月扩图、SC-HHGT 有效代码并保留来源",
       "status": "in_progress",
-      "implementation": "Current SC-HHGT import, drug/RBP adapters and current-C native expansion integration committed with source provenance. Overall consolidation remains open until remaining consumers and final orchestration are reconciled."
+      "implementation": "Current SC-HHGT import, drug/RBP adapters and current-C native expansion integration committed with source provenance. Overall consolidation remains open until remaining consumers and final orchestration are reconciled. The missing native server preparation wrapper was recovered from the original checkout with provenance and corrected baseline-fitting semantics; full consolidation remains open."
     },
     {
       "id": "C02",
@@ -95,7 +95,7 @@
       "task": "独立外部验证入口、来源/实体隔离及真实指标",
       "status": "in_progress",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "implementation": "Native external readers, study/entity isolation, measured metrics, uncertainty and score replay are implemented. External V2 now consumes an independently replayed inventory derived from actual five-fold V4 prepared/checkpoint/graph inputs and masks, chosen selected-score producers and fusion inputs. Actual omitted lncRNA exposure, unresolved dependencies, L1 separation and source-file overlap reach the public API/browser without optimization.",
+      "implementation": "Native external readers, study/entity isolation, measured metrics, uncertainty and score replay are implemented. External V2 now consumes an independently replayed inventory derived from actual five-fold V4 prepared/checkpoint/graph inputs and masks, chosen selected-score producers and fusion inputs. Actual omitted lncRNA exposure, unresolved dependencies, L1 separation and source-file overlap reach the public API/browser without optimization. Formal preparation now preserves actual consumed legacy and adjusted association files, explicit study metadata and native authority hashes through current core/L1 inventory and external V2. Actual study-overlap exclusion is verified for an unseen lncRNA; raw ancestry remains incomplete.",
       "remaining": "Complete raw-study and upstream feature/label ancestry, all auxiliary and validation-competitor dependencies, and cross-module patient/source closure. The native inventory explicitly remains incomplete; actual exposure derivation does not by itself establish independent biological validation."
     },
     {
@@ -125,7 +125,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 551,
+    "unique_fixture_tests_passed": 581,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -135,6 +135,6 @@
       "C13",
       "C16"
     ],
-    "latest_change_tests_passed": 53
+    "latest_change_tests_passed": 49
   }
 }

@@ -1985,3 +1985,74 @@ ancestry and actual external V2 consumption. A deliberately incomplete manual
 list misses an exposed lncRNA; V2 correctly identifies it through the native
 inputs. Complete raw-study reconstruction, all auxiliary/competitor ancestry,
 cross-module patient reconciliation and final C01/C13/C16 acceptance remain open.
+
+2026-10-16: actual formal preparation reads retained through external evaluation
+-----------------------------------------------------------------------------
+
+Formal preparation now records its immediate consumed inputs, including the
+actual local-CNV training and validation association partitions for each cancer
+and fold. A SUCCESS receipt alone previously did not identify those table
+bytes. SourceCapture wraps the native reads, hashes before and after reading,
+and checks again before emitting a fold. A changed association partition fails
+even when the enclosing SUCCESS receipt is unchanged. Legacy preparation also
+records actual expression partitions, the activity tree and its individual
+Parquet files. Detection, pathway hierarchy, candidate authority, patient
+authority and authorization controls retain their separate roles. No input
+path is inferred from an unexplained upstream checksum.
+
+SOURCE_READS/PATIENT_FOLD_<fold>.json is copied into each arm's native payload
+as preparation_sources. Its canonical digest is part of the input authority,
+so the existing C overlays, guarded loader, checkpoints and export lineage
+retain it. Training checks receipt structure, source-role/cancer/fold coverage,
+mode and digest without requiring the original source paths on a training
+machine. Historical payloads without this new receipt remain readable and
+explicitly unresolved; this change does not retroactively attest their sources.
+Inventory replay checks the original files, or exact-hash relocated files,
+including the entire recorded partition list and source metadata.
+
+The native reader extracts study identifiers only from explicit PMID, DOI,
+dataset/accession and experiment columns in consumed tables. It does not infer
+a study from a filename or claim that a standardized table is the raw study.
+Source metadata uses WHOLE_CONSUMED_FILE_BEFORE_ROW_FILTERING semantics. It is
+conservative file-level evidence, not proof that every row or patient entered
+a loss. Usage rows have no asserted entity identity and candidate_rows=0;
+their use_view is PREPARATION_SOURCE_METADATA. Existing lncRNA exposure rows
+remain separate. Absent metadata and unresolved upstream transformations are
+reported explicitly. Full raw-study ancestry and inventory completeness remain
+false. External V2 now detects study overlap for an otherwise unseen lncRNA
+through these actual preparation inputs, and the website displays study tokens.
+
+The fixed-C L1 baseline is fitted on available training rows. Its validation
+metrics are diagnostic and do not fit its numeric score. When new native
+preparation sources exist, L1 therefore retains the actual training sources
+and available-supervision exposure, while validation association sources and
+neural graph dependencies remain excluded from its numeric-score ancestry.
+Core neural selection retains validation sources separately. Legacy L1 inputs
+without this receipt still report unresolved baseline fitting provenance.
+
+The formal CLI now enforces host149 and writes a preflight before preparation.
+It DOES include L1 baseline fitting; it is not a no-training verification
+command. The restored historical server wrapper explicitly says so and checks
+host149. The wrapper was imported from the original ranked-subtypes checkout;
+its provenance is recorded in preparation_sources_source_adaptation.json. It
+was not launched. The previously omitted frozen patient authority fixtures
+were restored to the ignored artifacts directory after checking their exact
+canonical hashes. Regression tests use those only for authority/identity
+checks; no real expression cohort or real model is fitted.
+
+New tests exercise actual adjusted readers, the legacy CLI's native readers
+and all three payload writers, digest/role/fold/cancer rejection, changed
+partitions, metadata alteration, relocation, native five-fold current inputs,
+L1 separation and actual external V2 consumption. The legacy CLI test uses a
+small synthetic scope, fixed baseline output and a graph stand-in; it does not
+claim to validate the full real-data preparation calculation. The independent
+current-producer tests use real native loaders and frozen synthetic forwards,
+then forbid model construction during inventory inspection. Optimizer and
+logistic fitting calls are forbidden. Existing graph authority tests and the
+actual website/API/browser checks provide additional regression coverage.
+
+C13 still requires complete upstream biological transformations and raw
+sources, auxiliary and comparison-model ancestry, and cross-module patient
+closure. C01/C16 consolidation, upstream orchestration and final acceptance
+remain unfinished. This is a source-capture and downstream-consumption change,
+not a completed real-data analysis or an attestation of independent validation.

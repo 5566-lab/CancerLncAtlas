@@ -1,0 +1,30 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T23:31:27.707660+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/preparation_sources.py": "d6e3497bed67b3b0e23bab458952d82e47ee664fea5aab532f9a95077fda3012",
+    "cc_hhgt/v32/current_model_use.py": "2b90abc1e8a9437c054649a548798457cba8b30ed0ce583bb727dcbf3e15b971",
+    "cc_hhgt/v32/training.py": "945335e8e67de684a585a621a978f9bb8b561fd2154a9e033014b7e0db424fb3",
+    "scripts/prepare_v32_formal.py": "9eaaa01d222dc0c97fd96d46737cf658c2a0fe674ec0b58492bf616faf411b81",
+    "tests/test_v32_preparation_sources.py": "5c2d422e70cb060b84b3d62d7e943cd17048eac75c0939f1e1852574435a88d0",
+    "tests/test_v32_formal_preparation_firewall.py": "3ca2520cc107b2e7019fc4e8db17b33c6341288549be3373737144098fbd7e3c"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_preparation_sources.py",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_formal_preparation_firewall.py",
+    "tests/test_prepare_v32_formal_sampler.py",
+    "tests/test_v32_local_cnv_core_preparation.py",
+    "tests/test_v32_formal_prepare_graph_authority.py",
+    "--junitxml=provenance/code_completion_20261015/preparation_sources_r2_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-15T23:32:11.106225+00:00"
+}

@@ -1,0 +1,74 @@
+{
+  "method": "CAPTURE_ACTUAL_FORMAL_PREPARATION_READS_THROUGH_NATIVE_CORE_AND_EXTERNAL_V2",
+  "target_host": "149",
+  "training_started": false,
+  "logistic_fit_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "validation_receipts": [
+    "preparation_sources_r3",
+    "preparation_sources_r4"
+  ],
+  "latest_validation_receipt": "preparation_sources_r4",
+  "prior_failed_attempts": [
+    {
+      "tag": "preparation_sources_r1",
+      "passed": 24,
+      "failed": 2,
+      "reason": "Existing firewall fixtures lacked the already-required association availability columns; corrected fixture fields without changing firewall behavior."
+    },
+    {
+      "tag": "preparation_sources_r2",
+      "passed": 35,
+      "failed": 3,
+      "reason": "Broader historical graph tests required omitted frozen patient files and original server wrapper; recovered canonical originals and reran successfully."
+    }
+  ],
+  "imported_wrapper": {
+    "original_path": "D:\\model\\CC_HHGT_v3_2_ranked_subtypes_dev\\scripts\\server_prepare_v32_g012_patient_first_r2.sh",
+    "original_sha256": "2599e348e6d736b42f70757abaf029094cc8c2a96c2da508a4619690c6d5076b",
+    "destination": "scripts/server_prepare_v32_g012_patient_first_r2.sh",
+    "adapted_sha256": "6af76a4c20de354b52347d761099baba415bacebd194d2628fa22c4433fc4601",
+    "changes": [
+      "Host149 required before authority check",
+      "Clarify included L1 baseline fitting and no neural training"
+    ],
+    "executed": false
+  },
+  "restored_ignored_authority_fixtures": [
+    {
+      "path": "artifacts/v32_patient_fold_authority_20260829_r1/SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "original_path": "D:\\model\\CC_HHGT_v3_2_ranked_subtypes_dev\\artifacts\\v32_patient_fold_authority_20260829_r1\\SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253",
+      "use": "Canonical patient identity authority regression only"
+    },
+    {
+      "path": "artifacts/v32_patient_fold_authority_20260829_r1/PATIENT_FOLD_AUTHORITY_RECEIPT.json",
+      "original_path": "D:\\model\\CC_HHGT_v3_2_ranked_subtypes_dev\\artifacts\\v32_patient_fold_authority_20260829_r1\\PATIENT_FOLD_AUTHORITY_RECEIPT.json",
+      "sha256": "1ef32bda9d14d87997f3b81c34b8aacce172de390db5c29aee011ca73ba317e0",
+      "use": "Canonical patient identity authority regression only"
+    }
+  ],
+  "captured_browser_receipt": {
+    "path": "preparation_sources_web_browser_receipt.json",
+    "sha256": "9d5710caef7a5e69c57b1eecc5163b2a6965903fb43b7354e69dd13199d32240"
+  },
+  "captured_screenshots": [
+    {
+      "remote_basename": "current_web_desktop.png",
+      "local_basename": "preparation_sources_web_desktop.png",
+      "sha256": "4c2582ed721abc9a455912cfc941c3479559b40c52509f6e1c2df88d40f771a5"
+    },
+    {
+      "remote_basename": "current_web_mobile.png",
+      "local_basename": "preparation_sources_web_mobile.png",
+      "sha256": "5da3cfb1c1a1cfc6a4ca148debf75eb5656989cca62dca37464e815958d85201"
+    }
+  ],
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ]
+}

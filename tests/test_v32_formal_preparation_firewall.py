@@ -24,6 +24,8 @@ def _discovery(effect: float, label: int = 1) -> pd.DataFrame:
             "discovery_effect": [effect],
             "proxy_label": [label],
             "weak_positive": [False],
+            "association_available": [True],
+            "association_unavailable_reason": [""],
             "label_class": ["strong_positive" if label else "unlabeled"],
             "shared_or_local_scope": ["shared"],
             "detection_rate": [0.7],

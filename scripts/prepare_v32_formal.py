@@ -91,6 +91,21 @@ def load_expression_cancer(
     )
 
 
+def load_adjusted_associations(capture, train_root, validation_root, *, fold, cancers):
+    """Use the exact consumed partitions, not just their enclosing PASS receipts."""
+    from cc_hhgt.v32.local_cnv_core_preparation import adjusted_association_frame
+    parts = {"train": [], "validation": []}
+    for cancer in cancers:
+        for split, root, directory, prefix in (
+            ("train", train_root, "pair_level", "A1_local"),
+            ("validation", validation_root, "validation_associations", "A1_validation"),
+        ):
+            path = Path(root) / directory / f"cancer={cancer}" / f"fold={fold}" / "part.parquet"
+            raw = capture.read(path, pd.read_parquet, role=split + "_associations", fold=fold, cancer_id=cancer)
+            parts[split].append(adjusted_association_frame(raw, prefix=prefix, expected_cancer=cancer, expected_fold=fold))
+    return {split: pd.concat(frames, ignore_index=True) for split, frames in parts.items()}
+
+
 def build_hierarchy(pathways: list[str], static_authority: pd.DataFrame) -> pd.DataFrame:
     """Build the candidate hierarchy only from the pinned fresh authority."""
 
@@ -476,6 +491,20 @@ def main() -> int:
     parser.add_argument("--local-cnv-validation-root")
     parser.add_argument("--local-cnv-validation-success-sha256")
     args = parser.parse_args()
+    import socket
+    if socket.gethostname() != "149":
+        raise RuntimeError("Formal preparation requires host 149")
+    out = Path(args.output)
+    if out.exists():
+        raise FileExistsError(f"Formal prepared output reuse is forbidden: {out.resolve()}")
+    out.mkdir(parents=True)
+    (out / "LAUNCH_PREFLIGHT.json").write_text(json.dumps({
+        "target_host": "149", "neural_training_started": False,
+        "preparation_includes_l1_baseline_fitting": True,
+    }, indent=2) + "\n", encoding="utf-8")
+    from cc_hhgt.v32.preparation_sources import SourceCapture, attach_sources
+    captured = SourceCapture()
+    read_json = lambda path: json.loads(path.read_text(encoding="utf-8"))
     from cc_hhgt.v32.patient_fold_authority import (
         DEFAULT_SEED,
         validate_frozen_v32_patient_fold_binding,
@@ -490,7 +519,7 @@ def main() -> int:
     patient_authority_audit = validate_frozen_v32_patient_fold_binding(
         patient_folds_path, patient_fold_receipt_path
     )
-    hashes = json.loads(Path(args.hashes).read_text(encoding="utf-8"))
+    hashes = captured.read(args.hashes, read_json, role="authorization", kind="control")
     if not isinstance(hashes, dict):
         raise RuntimeError("Formal authorization hashes must be a JSON mapping")
     graph_receipt_sha = str(args.graph_authority_receipt_sha256).lower()
@@ -498,13 +527,11 @@ def main() -> int:
     if registered_graph_receipt is not None and registered_graph_receipt != graph_receipt_sha:
         raise RuntimeError("Training authorization and graph receipt SHA256 differ")
     hashes["formal_graph_authority_receipt_sha256"] = graph_receipt_sha
-    out = Path(args.output)
-    if out.exists():
-        raise FileExistsError(f"Formal prepared output reuse is forbidden: {out.resolve()}")
-    fold_manifest = pd.read_csv(
-        patient_folds_path,
-        sep="\t",
-        dtype={"cancer_id": str, "sample_id": str, "patient_id": str},
+    captured.read(patient_fold_receipt_path, read_json, role="patient_receipt", kind="control",
+                  expected_sha=patient_authority_audit["receipt_sha256"])
+    fold_manifest = captured.read(
+        patient_folds_path, lambda path: pd.read_csv(path, sep="\t", dtype={"cancer_id": str, "sample_id": str, "patient_id": str}),
+        role="patient_map", kind="control", expected_sha=patient_authority_audit["manifest_sha256"],
     )
     from cc_hhgt.v32.formal_graph_authority import (
         load_formal_graph_input_authority,
@@ -538,11 +565,12 @@ def main() -> int:
         fold_expression_pattern=args.graph_fold_expression_pattern,
         fold_coexpression_pattern=args.graph_fold_coexpression_pattern,
     )
-    scope = load_scope(read_formal_graph_table(graph_inputs, "detection"))
+    scope = load_scope(captured.read(graph_inputs.static_paths["detection"],
+        lambda path: read_formal_graph_table(graph_inputs, "detection"), role="detection",
+        expected_sha=graph_inputs.static_sha256["detection"]))
     adjusted_mode = args.association_mode == "local-cnv-adjusted"
     if adjusted_mode:
         from cc_hhgt.v32.local_cnv_core_preparation import (
-            adjusted_association_frame,
             sha256_file,
             validate_local_cnv_audit,
             validate_validation_a1_authority,
@@ -561,7 +589,8 @@ def main() -> int:
         candidate_path = Path(args.formal_candidates).resolve(strict=True)
         if sha256_file(candidate_path) != args.formal_candidates_sha256.lower():
             raise RuntimeError("Formal candidate authority SHA256 drift")
-        candidates = pd.read_parquet(candidate_path)
+        candidates = captured.read(candidate_path, pd.read_parquet, role="candidate_authority",
+                                   expected_sha=args.formal_candidates_sha256.lower())
         if (
             len(candidates) != 3_300_000
             or candidates.duplicated(KEYS).any()
@@ -577,16 +606,26 @@ def main() -> int:
             args.local_cnv_validation_root,
             expected_success_sha256=args.local_cnv_validation_success_sha256,
         )
+        for role, filename, authority, key in (
+            ("train_audit_success", "SUCCESS.json", local_cnv_authority, "success_sha256"),
+            ("train_audit_independent", "LOCAL_CNV_INDEPENDENT_AUDIT.json", local_cnv_authority, "independent_audit_sha256"),
+            ("train_audit_decision", "LOCAL_CNV_DECISION.json", local_cnv_authority, "decision_sha256"),
+            ("validation_audit_success", "SUCCESS.json", validation_a1_authority, "success_sha256"),
+            ("validation_audit_independent", "INDEPENDENT_AUDIT.json", validation_a1_authority, "independent_audit_sha256"),
+        ):
+            captured.read(Path(authority["root"]) / filename, read_json, role=role, kind="control", expected_sha=authority[key])
         if validation_a1_authority.get("candidate_sha256") != args.formal_candidates_sha256.lower():
             raise RuntimeError("Validation-A1 candidate authority differs from formal candidates")
         cancers = sorted(candidates.cancer_id.astype(str).unique())
         pathways = sorted(candidates.pathway_id.astype(str).unique())
     else:
-        activity = load_activity(args.formal_activity_root)
+        activity = captured.read(args.formal_activity_root, load_activity, role="activity")
         cancers = sorted(activity.cancer_id.unique())
         pathways = sorted(activity.pathway_id.unique())
     hierarchy = build_hierarchy(
-        pathways, read_formal_graph_table(graph_inputs, "pathway_hierarchy")
+        pathways, captured.read(graph_inputs.static_paths["pathway_hierarchy"],
+            lambda path: read_formal_graph_table(graph_inputs, "pathway_hierarchy"), role="pathway_hierarchy",
+            expected_sha=graph_inputs.static_sha256["pathway_hierarchy"])
     )
     if adjusted_mode:
         candidates = candidates.drop(columns=["pathway_family_id"], errors="ignore").merge(
@@ -594,7 +633,6 @@ def main() -> int:
         )
     else:
         candidates = make_candidate_pairs(scope, pathways, budget=args.budget_per_cancer, seed=args.seed).merge(hierarchy, on="pathway_id", how="left", validate="many_to_one")
-    out.mkdir(parents=True)
     candidates.to_parquet(out / "FORMAL_CANDIDATE_UNIVERSE.parquet", index=False)
     if adjusted_mode:
         expr_sample = fold_manifest[["cancer_id", "sample_id", "patient_id"]].drop_duplicates()
@@ -667,7 +705,8 @@ def main() -> int:
     scope.to_parquet(out / "FORMAL_LNCRNA_SCOPE.parquet", index=False)
     if not adjusted_mode:
         expr_by = {
-            c: load_expression_cancer(c, args.formal_expression_root) for c in cancers
+            c: captured.read(Path(args.formal_expression_root) / f"cancer_id={c}" / "part-0.parquet",
+                             pd.read_parquet, role="expression", cancer_id=c) for c in cancers
         }
         activity_by = {c: activity.loc[activity.cancer_id.eq(c)].copy() for c in cancers}
     metrics = []
@@ -675,39 +714,18 @@ def main() -> int:
         print(json.dumps({"status": "PREPARING_FORMAL", "fold": fold, "candidates": len(candidates), "source_lnc": int(scope.lncrna_id.nunique()), "shared_lnc": int(scope.loc[scope.detected_cancers.ge(3), "lncrna_id"].nunique())}), flush=True)
         split_manifest = assign_outer_split(fold_manifest, fold, n_folds=5, validation_offset=1)
         if adjusted_mode:
-            train_parts = []
-            validation_parts = []
-            for cancer in cancers:
-                train_raw = pd.read_parquet(
-                    Path(args.local_cnv_audit_root)
-                    / "pair_level" / f"cancer={cancer}" / f"fold={fold}" / "part.parquet"
-                )
-                validation_raw = pd.read_parquet(
-                    Path(args.local_cnv_validation_root)
-                    / "validation_associations" / f"cancer={cancer}" / f"fold={fold}" / "part.parquet"
-                )
-                train_parts.append(
-                    adjusted_association_frame(
-                        train_raw, prefix="A1_local", expected_cancer=cancer,
-                        expected_fold=fold,
-                    )
-                )
-                validation_parts.append(
-                    adjusted_association_frame(
-                        validation_raw, prefix="A1_validation", expected_cancer=cancer,
-                        expected_fold=fold,
-                    )
-                )
+            associations = load_adjusted_associations(captured, args.local_cnv_audit_root,
+                args.local_cnv_validation_root, fold=fold, cancers=cancers)
             metadata = candidates.merge(
                 scope[["cancer_id", "lncrna_id", "detection_rate", "detected_cancers", "shared_or_local_scope"]],
                 on=["cancer_id", "lncrna_id"], how="left", validate="many_to_one",
             )
             train_discovery = metadata.merge(
-                pd.concat(train_parts, ignore_index=True), on=KEYS,
+                associations["train"], on=KEYS,
                 how="left", validate="one_to_one",
             )
             validation_replication = metadata.merge(
-                pd.concat(validation_parts, ignore_index=True), on=KEYS,
+                associations["validation"], on=KEYS,
                 how="left", validate="one_to_one",
             )
             if train_discovery.association_available.isna().any() or validation_replication.association_available.isna().any():
@@ -744,6 +762,10 @@ def main() -> int:
         from cc_hhgt.v32.formal_graph import build_variant_runtime_bundle
         from cc_hhgt.v32.formal_graph_authority import bind_formal_graph_variant
         import torch
+        source_receipt = captured.receipt(fold=fold, mode=args.association_mode, cancers=cancers)
+        source_receipt_path = out / "SOURCE_READS" / f"PATIENT_FOLD_{fold}.json"
+        source_receipt_path.parent.mkdir(parents=True, exist_ok=True)
+        source_receipt_path.write_text(json.dumps(source_receipt, sort_keys=True, indent=2) + "\n", encoding="utf-8")
         for variant in ("G0", "G1", "G2"):
             bundle = build_variant_runtime_bundle(bound_graph.authority, variant)
             graph_binding = bind_formal_graph_variant(
@@ -781,6 +803,7 @@ def main() -> int:
                 "patient_fold_authority": patient_binding,
                 "input_scope": {"source_lnc_n": int(scope.lncrna_id.nunique()), "shared_lnc_n": int(scope.loc[scope.detected_cancers.ge(3), "lncrna_id"].nunique()), "budget_per_cancer": args.budget_per_cancer, "candidate_rows_per_split": int(len(frames["train"])), "discovery_features_split": "train_patients_only", "replication_labels_splits": ["validation"], "held_out_effects_as_features": False, "sealed_test_accessed": False, "association_mode": args.association_mode, "unavailable_rows_loss_masked": adjusted_mode},
             }
+            attach_sources(payload, source_receipt)
             variant_root = out / variant
             torch.save(payload, variant_root / f"PATIENT_FOLD_{fold}.pt")
             fold_metrics = {"fold": fold, "variant": variant, **baseline_metrics, "rows": {s: int(len(f)) for s, f in frames.items()}, "graph_variant_edge_count": int(bound_graph.authority.manifest["variant_edge_counts"][variant])}

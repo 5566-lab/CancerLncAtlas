@@ -354,6 +354,8 @@ def _validate_prepared(
     }
     if missing := sorted(required - set(payload)):
         raise RuntimeError(f"Prepared fold payload lacks fields: {missing}")
+    from .preparation_sources import validate_payload_sources
+    validate_payload_sources(payload)
     try:
         from .patient_fold_authority import (
             validate_frozen_v32_patient_fold_payload_binding,

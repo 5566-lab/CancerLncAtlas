@@ -18,6 +18,7 @@
     events:"候选证据事件",contexts:"实验背景",metrics:"评价指标",coverage:"评价覆盖",details:"逐项评价",isolation:"来源隔离",model_use:"模型使用来源与输入实体",
     model_dependencies:"模型输入文件核对",model_dependency_gaps:"尚未追溯的来源",
     phase:"使用阶段",use_view:"原生输入用途",candidate_rows:"候选记录数",entity_scope:"实体排除范围",role:"依赖用途",reason:"未解析原因",status:"核对状态",
+    study_tokens_json:"研究来源标识",study_id:"关联研究组",study_overlap:"研究来源重叠",
     native_pooled_support:"供者平衡的正负关联",native_cell_context:"细胞背景关联",native_dataset_context:"数据集与细胞背景",
     selected_member_support:"成员单细胞支持",selected_member_context:"成员细胞背景",selected_geneset_context:"基因集细胞背景概况",
     cell_key:"细胞背景",dataset_id:"数据集",donors:"独立供者数",donor_folds:"供者折数",
@@ -88,7 +89,7 @@
     "mean_oof_slope","oof_rows","oof_folds_pass","oof_rmse","oof_baseline_rmse","oof_delta_mse","oof_r2","oof_prediction_correlation",
     "distal_regulatory_mutation_pathway_available","distal_regulatory_mutation_pathway_unavailable_reason","positive_slope_members","negative_slope_members",
     "member_coverage","selected_weight_coverage","summary_available","availability","available","availability_reason","unavailable_reason","failure_reason","metric","value","estimate",
-    "model_id","source_id","phase","use_view","candidate_rows","entity_scope","role","reason","status"];
+    "model_id","source_id","phase","use_view","candidate_rows","entity_scope","role","reason","status","study_tokens_json","study_overlap"];
   const statusLabels = {AVAILABLE:"可查询",NOT_PRODUCED:"尚未生成",SOURCE_UNAVAILABLE:"来源不可用",NOT_APPLICABLE:"不适用"};
   let catalog, active, selectedTable, offset = 0, rows = [], requestId = 0, controller;
   let drugOffset = 0, drugRequest = 0;

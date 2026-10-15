@@ -41,6 +41,7 @@ def implementations():
     names=["cc_hhgt/v32/current_model_use.py","cc_hhgt/v32/current_core_prediction.py",
         "cc_hhgt/v32/current_core_export.py","cc_hhgt/v32/current_primary_fusion.py",
         "scripts/export_v32_current_core_embeddings.py","cc_hhgt/v32/training.py",
+        "cc_hhgt/v32/preparation_sources.py","scripts/prepare_v32_formal.py",
         "cc_hhgt/v32/external_validation_current.py"]
     return {name:sha256(root/name) for name in names}
 
@@ -111,6 +112,55 @@ class Inventory:
                 "model_id":model,"patient_fold_id":fold,"use_view":view,"candidate_rows":int(count),
                 "entity_scope":"LNCRNA_EXPOSURE_ALL_PATHWAYS"})
 
+    def preparation(self,payload,root,model,fold,baseline):
+        from .preparation_sources import validate_payload_sources,canonical_sha,source_members
+        receipt=validate_payload_sources(payload)
+        if receipt is None:return set()
+        known={canonical_sha(receipt)}
+        for item in receipt["source_reads"]:
+            role=item["role"];digest=item["sha256"];known.add(digest)
+            # Validation metrics were diagnostic; fixed-C L1 was fitted only
+            # on train rows. They are not dependencies of its numeric score.
+            if baseline and role.startswith("validation_"):continue
+            source=self.locations.get(digest,item)
+            if digest in self.locations:self.used_locations.add(digest)
+            path=Path(source["path"]);path=path if path.is_absolute() else root/path
+            label="prepared.sources."+role+("."+item["cancer_id"] if item["cancer_id"] else "")
+            if not path.exists():
+                self.authority(source,root,model,label,fold);continue
+            path=self.bind(source,root,model,label,fold)
+            observed=source_members(path,item["kind"])
+            # Compare the complete actual file list, not a subset declared by
+            # the receipt. Relocation preserves relative partition names.
+            original=Path(item["path"])
+            expected=[]
+            for member in item["members"]:
+                relocated=path/Path(member["path"]).relative_to(original) if path.is_dir() else path
+                expected.append({**member,"path":str(relocated)})
+            if observed!=expected:raise ValueError("Preparation consumed-file metadata differs: "+role)
+            for member in observed:
+                known.add(member["sha256"])
+                self.bind(member,path.parent,model,label+".consumed_file",fold)
+                tokens=member["study_tokens"]
+                if item["kind"]=="control":continue
+                if not tokens:self.gap(model,label,"SOURCE_STUDY_METADATA_ABSENT",fold,member["sha256"])
+                phases=["MODEL_SELECTION"] if role=="validation_associations" else ["FEATURE_CONSTRUCTION"]
+                if role in {"train_associations","expression","activity"}:phases.append("TRAINING")
+                if not baseline and role in {"expression","activity"}:phases.append("MODEL_SELECTION")
+                for phase in phases:
+                    identity=stable_id("",[model,fold,label,phase,member["sha256"]])
+                    self.usage.append({"cancer_id":"","lncrna_id":"","pathway_id":"",
+                        "source_id":"PREPARATION-SOURCE:"+identity,"source_event_id":identity,
+                        "source_file_sha256":member["sha256"],"phase":phase,"endpoint":"MODEL_USE",
+                        "label":np.nan,"is_experimental":False,"is_predicted":False,"mapped":True,
+                        "assay":"CONSUMED_SOURCE_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
+                        "raw_record_id":identity,"raw_row_sha256":canonical_sha(member),"raw_identifiers_json":"{}",
+                        "model_id":model,"patient_fold_id":fold,"use_view":"PREPARATION_SOURCE_METADATA",
+                        "candidate_rows":0,"entity_scope":"WHOLE_CONSUMED_FILE_NO_ENTITY_ASSERTION"})
+            if item["kind"]=="table":
+                self.gap(model,label,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
+        return known
+
     def core(self,path,binding,model,score_column):
         import torch
         from .current_core_prediction import candidate_table,prediction_batches
@@ -132,11 +182,20 @@ class Inventory:
             features=prediction_batches(payload,candidates)
             digest=item["prepared"]["sha256"]
             self.entities(candidates,model=model,fold=fold,phase="FEATURE_CONSTRUCTION",view="CANDIDATE_FEATURES",digest=digest)
+            known=self.preparation(payload,paths["prepared"].parent,model,fold,score_column=="l1_probability")
             if score_column=="l1_probability":
                 # The published baseline is sigmoid(base_logit). The reference
                 # neural head, graph and its checkpoint selection did not fit
                 # those baseline values, even though they share a container.
-                self.gap(model,"baseline.preparation","BASELINE_FITTING_STUDY_DEPENDENCIES_NOT_RECONSTRUCTED",fold,digest)
+                if known:
+                    indices=[]
+                    for batch,feature in zip(payload["train_batches"],features):
+                        mask=batch.get("association_available",torch.ones(len(feature["candidate_positions"]),dtype=torch.bool))
+                        if not torch.is_tensor(mask) or mask.dtype!=torch.bool or tuple(mask.shape)!=(len(feature["candidate_positions"]),):
+                            raise ValueError("Baseline model-use supervision mask differs")
+                        indices.extend(feature["candidate_positions"][mask.cpu().numpy()].tolist())
+                    self.entities(candidates.iloc[indices],model=model,fold=fold,phase="TRAINING",view="BASELINE_AVAILABLE_SUPERVISION",digest=digest)
+                else:self.gap(model,"baseline.preparation","BASELINE_FITTING_STUDY_DEPENDENCIES_NOT_RECONSTRUCTED",fold,digest)
                 del payload,checkpoint,features
                 continue
             graph_nodes=pd.DataFrame({"lncrna_id":list(payload["bundle"].node_maps["lncRNA"])})
@@ -152,7 +211,6 @@ class Inventory:
                     indices.extend(positions[mask.cpu().numpy()].tolist())
                 self.entities(candidates.iloc[indices],model=model,fold=fold,phase=phase,view="AVAILABLE_ASSOCIATION_SUPERVISION",digest=digest)
             graph=payload["formal_graph_authority"]
-            known=set()
             for group in ("static_artifacts","fold_artifacts"):
                 for role,value in graph.get(group,{}).items():
                     self.authority(value,paths["prepared"].parent,model,"graph."+group+"."+role,fold);known.add(value.get("sha256"))
