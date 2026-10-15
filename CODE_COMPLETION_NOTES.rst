@@ -1107,3 +1107,111 @@ fusion-label authority still require implementation. C15 also still needs the
 actual API/frontend and full multi-module download integration. This change
 completes the native State-to-selected-context subpath, not those requirements
 as a whole.
+
+Current native Clinical results and selected analysis
+----------------------------------------------------
+
+scripts/materialize_v32_current_clinical_context.py accepts
+``--manifest INPUT.json --output NEW_DIRECTORY`` and requires host 149. It reads
+completed Clinical results, replays recorded computations and materializes the
+selected analysis's clinical context. It never calls a neural-head trainer or
+an optimizer. Existing training commands only gained provenance fields; they
+were not run as part of this code change.
+
+INPUT.json has format CURRENT_CLINICAL_CONTEXT_INPUT_V1, core_run_id,
+patient_risk_run_id, entity_run_id and optional fdr_threshold (default 0.05).
+The required {path, sha256} records are core_manifest, selected_analysis,
+patient_risk_lineage, patient_risk_predictions, entity_lineage and
+entity_calculation_manifest. These identify the current V2 frozen-core export,
+completed selected analysis, native clinical MODULE_LINEAGE.json and root
+patient risk parquet, ENTITY_CLINICAL_LINEAGE.json and CALCULATION_MANIFEST.json.
+
+The selected primary reference must be the actual current V4 producer. Its
+five core checkpoint and parameter identities must match those used by the
+clinical private heads. All five native checkpoint files are inspected and
+loaded with their recorded architecture and initialization. The original
+input audit and hashes are checked, and patient identity retains the native
+explicit patient_id contract rather than truncating TCGA-like identifiers.
+Patient risk and entity associations must use the same outcome workbook and
+patient-fold assignments. Entity annotations must bind the selected candidate
+authority; incomplete typed universes and duplicate folds fail closed.
+
+New patient-risk producer receipts include feature_artifact (path and SHA256)
+for patient_features.fold_local.parquet, and the root lineage records the
+public prediction artifact. When these feature records exist, the consumer
+replays the frozen private head on the held-out rows and compares predictions
+at absolute tolerance 1e-6 to accommodate FP32 device arithmetic. It does not
+recompute the projection from raw measurements. Older native receipts without
+feature hashes remain readable but explicitly record an empty or partial
+patient_risk_frozen_replay_folds list; merely loading a checkpoint is not
+reported as replaying its predictions.
+
+The entity producer now stores calculation_config in its native calculation
+manifest and lineage. This preserves the original minimum eligible-fold
+threshold and its config hash for downstream replay. For an older native
+result that only stored config_sha256, the context manifest must additionally
+bind an entity_config JSON whose canonical hash matches that original receipt.
+There is no default threshold substitution or fixture-authority bypass.
+
+Entity summaries are reconstructed from each native cancer/subject partition's
+five held-out beta/standard-error records using the existing random-effects
+Cox score summary. The original full native subject-type/cancer/endpoint FDR
+family is preserved. It is not recomputed over the smaller selected GeneSet.
+This is a replay of the same statistical implementation, not independent
+biological validation or a rerun of raw patient-level Cox statistics.
+
+The two Clinical units remain distinct in the public context:
+
+* Native entity results retain beta, standard error, hazard ratio, confidence
+  interval, p-value, FDR, heterogeneity, fold support and typed missing reasons.
+  The native field named clinical_relevance_probability is exposed as
+  one_minus_fdr_score with an explicit non-posterior definition. A measured
+  zero beta has a neutral effect direction; the original native direction is
+  retained separately for traceability. DFS remains unavailable with
+  NO_DISTINCT_DFS_SOURCE. PFS, PFI and DFI are not silently renamed or pooled.
+* Patient-risk distributions are summarized separately for each cancer,
+  endpoint and held-out fold, with that fold's recorded training time bins.
+  Coverage counts every authorized patient, including those absent from the
+  native molecular-feature intersection. Missing risks remain unavailable,
+  while an observed probability of zero is valid. No shared-time calibration
+  or cross-fold pooled risk distribution is claimed. These context tables
+  contain no patient identifiers or private outcome labels.
+
+Selected GeneSet members keep their actual rank and selected score alongside
+the native lncRNA Clinical association. The consumer calculates the selected
+score mass of risk/protective/neutral members meeting the recorded FDR
+threshold, divided by available selected score mass. It also reports member
+coverage and selected weight coverage. Missing members do not count as negative
+clinical evidence, and zero available weight yields null support fractions.
+Six-endpoint coverage persists for candidate groups that exported no GeneSet.
+The corresponding exact pathway's native survival association is a separate
+table and is explicitly associated with measured pathway activity.
+
+These support fractions are descriptive member summaries. They do not average
+member hazard ratios into a GeneSet hazard ratio, estimate joint GeneSet survival
+effects, establish causality, provide a new GeneSet p-value or alter the selected
+primary/fusion ranking. Joint GeneSet survival analysis is not claimed by this
+context adapter.
+
+The six public outputs are native_entity_clinical.parquet,
+patient_risk_fold_coverage.parquet, selected_member_clinical.parquet,
+selected_geneset_clinical_support.parquet, selected_clinical_coverage.parquet and
+selected_pathway_clinical.parquet. CURRENT_CLINICAL_CONTEXT_BINDING.json binds
+sources, policy, implementation and outputs. RECOMPUTATION_AUDIT.json and
+SUCCESS.json record source replay. CurrentClinicalContextQuery requires the
+expected context hash and selected_analysis_sha, supports exact parameterized
+filters and offers same-version downloads. It is a query implementation, not
+yet an API/frontend route or deployment.
+
+Synthetic checks use actual tiny current V4 loaders/exporters and selected
+analysis, serialized native Clinical heads with frozen forward passes, and
+native vectorized Cox statistics on synthetic patients. Optimizers and private
+head training are forbidden. Tests include changed checkpoints/features/risk,
+patient-fold drift, missing folds, invalid standard errors, rewritten summaries,
+private-label leakage, DFS, empty sets and changed selected-score weights.
+No real patient data, model training or production deployment was executed.
+
+C05's native Clinical-to-selected-context connection is implemented; authentic
+post-selection labels for current fusion remain unfinished. Global completeness
+of cross-module patient/use inventories remains C16, and actual public routes
+and frontend consumption remain C15.

@@ -1,0 +1,51 @@
+{
+  "method": "NATIVE_CLINICAL_HEAD_AND_ENTITY_FOLDS_TO_CURRENT_SELECTED_CONTEXT",
+  "source_hash_receipts": [
+    "current_clinical_native"
+  ],
+  "reference_files": [
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\clinical_training.py",
+      "sha256": "5d6809206186a3258fa55deec285549b73222e515d04184812ea34653c0125c6"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\clinical_entity_training.py",
+      "sha256": "ffd7739e534fe2f410e4e80827cd887bc2b1c50c679387c7573cb48bcc8c586c"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_core_export.py",
+      "sha256": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_state_context.py",
+      "sha256": "16aea238d32ff49e02295964d7e345ff7268acf7aea6a062a6cc2fd6e9bf5045"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\selected_genesets.py",
+      "sha256": "d25db37e46ac8144ba0a178899945000c4e68c8199c90f507e542993f074bb44"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/current_clinical_sources.py",
+    "cc_hhgt/v32/current_clinical_context.py",
+    "scripts/materialize_v32_current_clinical_context.py",
+    "scripts/run_v32_clinical_entity_training.py",
+    "scripts/run_v32_clinical_training.py",
+    "tests/test_v32_current_clinical_context.py"
+  ],
+  "verification_dependencies": {
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Bind native Clinical lineages, input audits, five actual heads, explicit patient folds, original outcomes and selected current core.",
+    "Record original entity calculation config and native fold features in the producers without executing them.",
+    "Replay frozen risk forwards where feature hashes exist, retain original fold time grids, and account for every authorized patient in coverage.",
+    "Reconstruct full-universe native Cox meta-analysis and retain its FDR instead of recomputing FDR over selected members.",
+    "Compute actual selected-score-weighted member support, exact-pathway context and full endpoint coverage; expose safe version-bound queries and downloads.",
+    "Keep predictive risk, descriptive entity associations and member support distinct; no new joint GeneSet hazard ratio or significance claim."
+  ]
+}

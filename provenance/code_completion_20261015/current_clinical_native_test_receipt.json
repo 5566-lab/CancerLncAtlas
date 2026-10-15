@@ -1,0 +1,36 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T20:10:22.803192+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_clinical_sources.py": "eee4a872c796b17b7e7686890a3482610625a8ed3e83b5f67d83610fce029c1f",
+    "cc_hhgt/v32/current_clinical_context.py": "aa6a453cf9f38b1a3ec212cc1159e8e7aa9cd292fee36ee5e2d89ec82c937d6b",
+    "scripts/materialize_v32_current_clinical_context.py": "3402b58f4671bac9f5fc3be152e318aaa3a732c727f6da87e6b0123d69b532a8",
+    "scripts/run_v32_clinical_entity_training.py": "00e6fa05ba7d5b70200abe07225b7e69098568f2833b8865708333166b8f4ce6",
+    "scripts/run_v32_clinical_training.py": "9a8e0cab52b403efff5588eb22889e7be1d6f5da03e3f549892c4882d9064184",
+    "tests/test_v32_current_clinical_context.py": "8d5d024aeb239f195cb0b716ae936dd88e5fc4bf6364216d2009fe51b53f5a7d"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/clinical_excel",
+  "verification_dependencies": {
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_clinical_context.py",
+    "tests/test_v32_clinical_entity_training.py",
+    "tests/test_v32_current_core_export.py",
+    "tests/test_v32_clinical_training.py::test_tcga_cdr_keeps_dfi_and_does_not_invent_dfs",
+    "tests/test_v32_clinical_training.py::test_patient_fold_manifest_rejects_patient_leakage",
+    "tests/test_v32_clinical_training.py::test_projection_scaler_is_fit_on_training_patients_only",
+    "tests/test_v32_clinical_training.py::test_discrete_survival_loss_and_risk_are_valid",
+    "--junitxml=provenance/code_completion_20261015/current_clinical_native_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T20:12:02.029091+00:00"
+}

@@ -478,6 +478,7 @@ def main(argv=None) -> int:
             "input_lineage_sha256": input_audit["lineage_sha256"],
             "training_config_sha256": training_config_sha,
             "public_prediction_sha256": _sha256(public_path),
+            "feature_artifact": {"path": str(feature_path.resolve()), "sha256": _sha256(feature_path)},
             "private_prediction_sha256": _sha256(private_path),
             "module_id": "clinical",
             "patient_fold": fold,
@@ -562,6 +563,10 @@ def main(argv=None) -> int:
         ],
         "task_lineage": task_lineage,
         "public_prediction_rows": int(len(public_all)),
+        "public_prediction_artifact": {
+            "path": str((output_root / "clinical_patient_risk.parquet").resolve()),
+            "sha256": _sha256(output_root / "clinical_patient_risk.parquet"),
+        },
         "private_label_rows": int(len(private_all)),
         "labels_in_public_output": False,
     }

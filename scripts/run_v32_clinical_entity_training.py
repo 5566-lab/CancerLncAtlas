@@ -326,6 +326,7 @@ def main(argv: list[str] | None = None) -> int:
         "format": CALCULATION_FORMAT,
         "analysis_version": ANALYSIS_VERSION,
         "training_run_id": args.training_run_id,
+        "calculation_config": config,
         "folds": 5,
         "split_policy": {
             str(fold): {
@@ -395,6 +396,7 @@ def main(argv: list[str] | None = None) -> int:
         "code_sha256": file_sha256(ROOT / "cc_hhgt" / "v32" / "clinical_entity_training.py"),
         "runner_sha256": file_sha256(Path(__file__)),
         "config_sha256": json_sha256(config),
+        "calculation_config": config,
         "input_manifest_sha256": json_sha256(input_artifacts),
         "calculation_manifest_sha256": file_sha256(calculation_manifest_path),
         "input_artifacts": input_artifacts,

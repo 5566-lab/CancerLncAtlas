@@ -33,9 +33,9 @@
       "id": "C05",
       "task": "Mutation/CNV/ATAC/State/Clinical 与当前核心及最终评分的实际消费",
       "status": "in_progress",
-      "remaining": "Clinical native context consumption and authentic post-selection label authority for current fusion. Global cross-module patient/use inventory completeness remains C16. No real current candidate/auxiliary/fusion release has been produced.",
+      "remaining": "Authentic post-selection label authority for current fusion. Global cross-module patient/use inventory completeness remains C16. No real current candidate/auxiliary/fusion release has been produced.",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "implementation": "Actual V4 full-candidate inference and selected-score consumption are implemented. Native Mutation/CNV-event/CNV-association/ATAC reach current fusion preparation. Native State lineage, five actual heads and the same selected current core now drive independent OOF aggregation, native State GeneSets, selected-score-weighted member profiles, seven-state coverage, GMT and query. No optimization or real data were executed."
+      "implementation": "Actual V4 full-candidate inference and selected-score consumption are implemented. Native Mutation/CNV-event/CNV-association/ATAC reach current fusion preparation. Native State reaches selected GeneSet profiles and native State sets. Native Clinical now binds the same selected core, replays eligible frozen patient-risk heads, reconstructs original entity Cox summaries, and computes selected-member support, endpoint coverage, exact-pathway context and query/download outputs. No optimization or real data were executed."
     },
     {
       "id": "C06",
@@ -108,7 +108,7 @@
       "id": "C15",
       "task": "新结果到网站/API/下载完整绑定和同版本查询；不部署",
       "status": "in_progress",
-      "implementation": "SelectedAnalysisQuery and CurrentStateContextQuery supply parameterized same-version queries and hash-verified downloads for actual selected and native State context artifacts. They are not yet API/frontend routes.",
+      "implementation": "SelectedAnalysisQuery, CurrentStateContextQuery and CurrentClinicalContextQuery supply parameterized same-version queries and hash-verified downloads for actual selected, State and Clinical context artifacts. They are not yet API/frontend routes.",
       "remaining": "Connect actual website/API routes, frontend views and complete multi-module downloads; do not deploy."
     },
     {
@@ -119,7 +119,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 353,
+    "unique_fixture_tests_passed": 382,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -132,6 +132,6 @@
       "C15",
       "C16"
     ],
-    "latest_change_tests_passed": 79
+    "latest_change_tests_passed": 55
   }
 }
