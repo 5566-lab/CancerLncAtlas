@@ -35,7 +35,7 @@
       "status": "code_implemented_fixture_verified",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
       "implementation": "Actual V4 full-candidate inference and selected-score consumption are implemented. Native Mutation/CNV-event/CNV-association/ATAC reach current fusion preparation. Native State and Clinical reach the same selected analysis and version-bound context/query consumers. Native primary validation labels now replay from actual authorized prepared payloads and checkpoints, retaining availability and exact candidate identity. The fusion path excludes unavailable targets from fitting/metrics, preserves full inference coverage, and carries development-only validation-reuse semantics through release lineage. No optimization or real data were executed.",
-      "scope_limit": "Code and synthetic interfaces verified. Real current candidate/auxiliary/fusion releases were not produced. Independent performance validation and complete model-use inventory remain C13/C16; actual public routes remain C15."
+      "scope_limit": "Code and synthetic interfaces verified. Real current candidate/auxiliary/fusion releases were not produced. Independent performance validation and complete model-use inventory remain C13/C16; actual public routes now exist for the implemented current contexts; remaining analysis views stay under C15."
     },
     {
       "id": "C06",
@@ -57,7 +57,7 @@
       "status": "code_implemented_fixture_verified",
       "implementation": "Native pharmacology/structure/target-action feature paths, signed observed-response and point-dose analyses, five-fold frozen target/pathway ablation, and actual current selected Drug context/query/download consumers are implemented. Current consumers bind the native Drug heads and selected scores to the same five core checkpoints; replay native statistics/ablation and preserve sparse typed missingness, measured direction, dose conditions and attribution semantics.",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "scope_limit": "Real analyses/training were not executed. Public predictions outside explicit ablation queries are source-bound but not independently forward-replayed. Summaries are descriptive member profiles, not joint GeneSet responses or causal effects. Website/API/frontend routes remain C15; complete dependency inventory and orchestration remain C13/C16."
+      "scope_limit": "Real analyses/training were not executed. Public predictions outside explicit ablation queries are source-bound but not independently forward-replayed. Summaries are descriptive member profiles, not joint GeneSet responses or causal effects. Actual current Website/API/frontend routes are now synthetic-verified under C15; complete dependency inventory and orchestration remain C13/C16."
     },
     {
       "id": "C09",
@@ -109,8 +109,9 @@
       "id": "C15",
       "task": "新结果到网站/API/下载完整绑定和同版本查询；不部署",
       "status": "in_progress",
-      "implementation": "SelectedAnalysisQuery, CurrentStateContextQuery, CurrentClinicalContextQuery and CurrentDrugContextQuery supply parameterized same-version queries and hash-verified public downloads. Drug consumes actual native sparse predictions, observed response/dose analyses and frozen ablation. These readers are not yet API/frontend routes.",
-      "remaining": "Connect actual website/API routes, frontend views and complete multi-module downloads; do not deploy."
+      "implementation": "The actual existing main app now serves a version-bound selected-analysis frontend, parameterized HTTP queries, all registered public downloads and native Drug missingness. Actual selected scores/GeneSets, State, Clinical, Drug, rule evidence and external metrics are consumed with same-selected checks, exact source hashes, explicit component absence and no historical fallback. Native synthetic producers, every registered table/download, the actual main app, desktop/mobile Chromium interactions and disabled historical-mode compatibility pass eight checks on host149.",
+      "remaining": "Complete release reconciliation of patient heterogeneity, distal-regulatory, signed single-cell and remaining native analysis details; connect final multi-module orchestration/data dictionary under C16. No deployment.",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED"
     },
     {
       "id": "C16",
@@ -120,7 +121,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 515,
+    "unique_fixture_tests_passed": 523,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -131,6 +132,6 @@
       "C15",
       "C16"
     ],
-    "latest_change_tests_passed": 64
+    "latest_change_tests_passed": 8
   }
 }

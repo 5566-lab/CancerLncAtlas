@@ -1,0 +1,4 @@
+# Runtime for the current analysis API; verified without deployment.
+fastapi==0.115.12
+uvicorn==0.34.2
+httpx==0.28.1

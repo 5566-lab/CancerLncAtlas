@@ -1,0 +1,49 @@
+{
+  "method": "ACTUAL_SELECTED_NATIVE_CONTEXTS_TO_EXISTING_MAIN_SITE_AND_VERSIONED_HTTP_DOWNLOADS",
+  "source_hash_receipt": "current_web_r3",
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_analysis_web.py",
+    "requirements/requirements-current-web.txt",
+    "scripts/materialize_v32_current_analysis_web.py",
+    "src/cc_hhgt_v26/__init__.py",
+    "src/cc_hhgt_v26/api.py",
+    "src/cc_hhgt_v26/query_models.py",
+    "src/cc_hhgt_v26/query_service.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_main_app_feature_flag.py",
+    "website/backend/app.py",
+    "website/backend/current_analysis_api.py",
+    "website/backend/v31_exact_store.py",
+    "website/frontend/assets/current-analysis.css",
+    "website/frontend/assets/current-analysis.js",
+    "website/frontend/assets/mark.svg",
+    "website/frontend/current-analysis.html"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "target_host": "149",
+  "superseded_checks": [
+    {
+      "tag": "current_web_r1",
+      "status": "5_PASSED_2_SETUP_ERRORS",
+      "reason": "Isolated remote devcopy lacked the unchanged historical v31_exact_store import. Existing dependencies were synchronized before the final complete-main-app check."
+    },
+    {
+      "tag": "current_web_r2",
+      "status": "7_PASSED",
+      "reason": "Final revision additionally rechecks source bindings before completion and exercises native Drug missingness, malformed links and historical disabled-mode compatibility."
+    }
+  ],
+  "browser_receipt_sha256": "3973d6ccd7d6b8f365de29a1e090b64fec2dc9650eb5ac650047dcd4691ad8da",
+  "screenshots": {
+    "current_web_desktop.png": "0f5fcf37554cbb25b138d09202a129889eb9563398349719a12234f216b51e05",
+    "current_web_mobile.png": "dfb23ae6334bbb92a9961c61f1295e233f544b548523d3ea70e96f46d667e8d8"
+  },
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C15",
+    "C16"
+  ]
+}

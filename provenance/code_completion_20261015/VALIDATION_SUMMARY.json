@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 515,
+  "unique_test_cases_passed": 523,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -132,7 +132,23 @@
     "cc_hhgt/v32/current_drug_sources.py": "08579a24536eb9e2a203fb3d3744842ddba821110a7aa7feead21cdecdfafb97",
     "cc_hhgt/v32/current_drug_context.py": "cd52cb57500dc0a16b61b66b4b6acd9e46dabe87e243b18475cc4e13efe915d9",
     "scripts/materialize_v32_current_drug_context.py": "e74329ef824ce10a30539975aebb5a1646b7918fa84b38c46187a92e62b28dfa",
-    "tests/test_v32_current_drug_context.py": "5d9ca8ee08adf2836cd875a9f451fe3823c1f3b99fa3b1beeec965ceb81bca34"
+    "tests/test_v32_current_drug_context.py": "5d9ca8ee08adf2836cd875a9f451fe3823c1f3b99fa3b1beeec965ceb81bca34",
+    "cc_hhgt/v32/current_analysis_web.py": "fcbfdad6c79cef208798e0b25d79d242ec46f46a6427e98afd8508ff62e1041a",
+    "scripts/materialize_v32_current_analysis_web.py": "9a34d93acd0ad535318b7f2959afb4034d4f4c0dadcb910dab393f25a911c587",
+    "website/backend/current_analysis_api.py": "2e4903d3500daed70f43f06098437d522d1e4d27a3053a2b11cb8489ee80022a",
+    "website/backend/app.py": "b1900d012eb0379f57487f5edc738e135799d95602403ed2a0a63e96bd37ae3b",
+    "website/backend/v31_exact_store.py": "5b5a0a750d219a34f00dfa979819bb974184543fce703a62ff0f926beb0ed3dd",
+    "src/cc_hhgt_v26/__init__.py": "60afe60d9a77078e3b7fb7339bf2f90eabf07ad005cd1e62b338390bd502310e",
+    "src/cc_hhgt_v26/api.py": "e4c156bdae609b3a9a21ebf7ae3cb7682d0477826c7388bda4d209e89a1feeb6",
+    "src/cc_hhgt_v26/query_service.py": "19621739215335311a9192405b15fcb89c1f9aeec51fb9abe15a8f00ea83810d",
+    "src/cc_hhgt_v26/query_models.py": "185b5608a1320f2663cc03ca34365af4dd90ddd2de03d8ce9616d23749f7b729",
+    "website/frontend/current-analysis.html": "2e4b9984e27fc1799bd00e42f46eb155b2c686ab87fe189a80192b67ebea4f14",
+    "website/frontend/assets/current-analysis.js": "63d6a767b66fcf865466ac89d595915f78b7c30be84f3faa9cc58c4ce83b69eb",
+    "website/frontend/assets/current-analysis.css": "585546ef543374e5c85551ffc898aefeccbec401932bcf3d4611cbbb83b1bf00",
+    "website/frontend/assets/mark.svg": "50829b47affe907dd1569d06051925f65c69130570229f1e85ffaa2957d74bc5",
+    "tests/test_v32_current_analysis_web.py": "965defc43934224ea3d2ae1ac63174dec1f89f838e8153b98ce9f2a807972e2f",
+    "tests/test_v32_main_app_feature_flag.py": "8f7447a9faaa9dbb4f6773fee20b44da570deff122606e7815c2b1e57b508541",
+    "requirements/requirements-current-web.txt": "d1bee0579df4a72c08776cd157044cb299c8516d5fafb0e172f10fb667b7afd1"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -154,7 +170,7 @@
     "The selected-analysis 46-case suite verifies this change plus legacy subtype/GeneSet, external and current fusion/rule consumer regressions; cumulative counts are not a full-suite rerun.",
     "Existing G012 validation locks may be consumed; explicit source registration claims no validated winner. Diagnostic fusion status remains unchanged.",
     "Fold stability for final fusion scores is unavailable rather than fabricated. Unknown primary direction cannot enter directional subtypes.",
-    "C15 has a bound query/download backend but no completed website/API/frontend integration. No deployment was performed.",
+    "C15 now has actual main-site/API/frontend integration for selected scores/GeneSets, State, Clinical, Drug, rule evidence and registered external evaluation. Complete remaining analysis-module integration is still open; no deployment was performed.",
     "Native current V4 full-candidate five-fold inference and source-bound selected analysis consumption are fixture-verified; no actual scientific checkpoint or cohort was inferred.",
     "The current prediction 46-case suite covers native inference, selected analysis and external consumers. Cumulative counts are not one full current-suite run.",
     "Default current prediction verification rechecks source hashes and recomputes the fold ensemble; optional frozen-checkpoint replay reruns all five models. Neither establishes biological external validity.",
@@ -173,10 +189,10 @@
     "C05 native primary supervision now replays exact checkpoint-authorized validation payloads and masks into current fusion preparation. Missing targets stay null; only eligible targets enter fit/metrics, while prediction retains all candidates. Legacy bare hash-list preparation is explicitly unverified and cannot authorize fitting/current release.",
     "Primary validation labels were already used for checkpoint selection. Fusion pair crossfit is conditional development only: DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED, never independent validation of the entire system. Sealed test labels are not loaded by the native adapter.",
     "An earlier 161-case suite uses frozen synthetic parameters or forbids fitting. No optimizer, real cohort analysis, current trained fusion release or deployment was executed. Cumulative unique case counts describe versioned receipts, not a single full current-suite run.",
-    "C01/C08/C13/C15/C16 remain unfinished. C13/C16 still require a complete actual model-use/dependency inventory; C15 requires actual API/frontend integration.",
+    "C08 is code-implemented and synthetic-verified. C01/C13/C15/C16 remain incomplete. C13/C16 require complete actual model-use/dependency inventory; C15 retains additional analysis-module integration.",
     "The existing dense and formal streaming drug runners now consume source-bound action, endpoint-specific affinity/potency, real RDKit structure and split-local protocol features. Action/target and potency/target pairings alter the actual frozen-core representation; five serialized private heads and target/pathway deletions consume the same encoder.",
     "Drug pharmacology checks never optimize: actual runner tests stop at the first fitting boundary after inspecting the extended tensors; other tests use frozen synthetic heads. No new trained drug result or real cohort/compound analysis has been produced.",
-    "Dose covariates describe native protocol distributions, not dose-conditioned efficacy. Native raw pharmacology extraction/identity integration is now implemented; C08 current selected Drug context/query/download consumption is implemented and synthetic-verified; real routes/frontend remain C15. The original strength head does not acquire a sensitivity-direction or causal interpretation.",
+    "Dose covariates describe native protocol distributions, not dose-conditioned efficacy. Native raw pharmacology extraction/identity integration is now implemented; C08 current selected Drug context/query/download consumption is implemented and synthetic-verified; actual current routes/frontend are now synthetic-verified under C15. The original strength head does not acquire a sensitivity-direction or causal interpretation.",
     "Pharmacology verification uses project-local RDKit 2025.9.3 on 149, recorded in the receipt. Shared environment packages were not modified.",
     "Native DrugCentral target/action/activity and structure adaptation now replays the actual native staging identity authority. Explicit per-assay protocols use the staged source-drug map, retain targetless assays and reject range-as-point substitution. Declared value and relation scales are independently checked; missing or unsupported activity remains unavailable.",
     "The actual encoder binds canonical adapted outputs to their native audit and preserves/rechecks raw files and staged directory trees. Native staging-to-adapter-to-encoder verification uses synthetic inputs only; no real compound/cohort processing, fitting or deployment occurred.",
@@ -185,7 +201,10 @@
     "Current Drug context binds selected scores and all five native heads to the same current core, independently replays native signed/dose statistics and frozen attribution, compares native ensemble baselines and recomputes sparse selected-member profiles. Public predictions outside explicit attribution queries are source-bound, not independently forward-replayed.",
     "The current Drug integration fixture serializes historical-format tiny heads and, for dose analysis, a synthetic prior staging receipt. No optimizer actually runs. Actual native staging-to-dose production is covered separately by the existing dose tests. Neither fixture is a biological result.",
     "Drug sparse publication now accepts source-bound stable namespaces instead of only legacy DRUG IDs. The actual writer/reader and missingness contracts pass 50 tests. Current Drug consumers pass 14 synthetic integration/replay/query checks.",
-    "CurrentDrugContextQuery is an application reader, not an installed HTTP route or frontend. C01/C13/C15/C16 remain incomplete; code completion does not imply real analyses, independent biological validation or deployment."
+    "CurrentDrugContextQuery is now consumed by the actual current main-site HTTP routes and frontend. C01/C13/C15/C16 remain incomplete; code completion does not imply real analyses, independent biological validation or deployment.",
+    "Current website verification materializes actual native synthetic components, queries every registered table, downloads every public part with matching hashes and launches the actual main app on 149 loopback. Chromium verifies interactions and mobile layout; no production service is changed.",
+    "Web publication currently covers selected scores/GeneSets, State, Clinical, Drug, rule evidence and registered external evaluation. Patient heterogeneity, distal-regulatory and signed single-cell details still need complete release reconciliation. Missing registered components are explicit; old-version data are not substituted.",
+    "Public evidence provenance removes filesystem paths while retaining source hashes and lineage. Current query/download requests require the catalog version and reverify requested artifacts; the full provenance/dependency inventory and final acceptance remain C16."
   ],
   "test_suites": [
     {
@@ -252,6 +271,11 @@
       "path": "provenance/code_completion_20261015/current_state_native_tests.xml",
       "passed": 79,
       "sha256": "88466603c88f704ec3318063fae30cb20faec9605e9b549052ccea9bb07beac5"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_web_r3_tests.xml",
+      "passed": 8,
+      "sha256": "6f0177ed3cd4dad0df282bb4b743e35ba5265d8d3049b1ff39a2b23ebefa8e2e"
     },
     {
       "path": "provenance/code_completion_20261015/drug_analysis_tests.xml",
@@ -401,6 +425,41 @@
       "module": "tests.test_v32_clinical_training",
       "case": "test_tcga_cdr_keeps_dfi_and_does_not_invent_dfs",
       "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_modified_artifact_fails_without_disclosing_source_paths",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_real_current_components_are_served_and_every_public_part_downloads",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -2093,6 +2152,11 @@
       "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
     },
     {
+      "module": "tests.test_v32_main_app_feature_flag",
+      "case": "test_default_disabled_mode_fails_closed_for_v32_surface",
+      "suite": "provenance/code_completion_20261015/current_web_r3_tests.xml"
+    },
+    {
       "module": "tests.test_v32_methylation_lncrna",
       "case": "test_single_beta_file_maps_promoter_and_distal_without_zero_imputation",
       "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
@@ -2895,10 +2959,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "current_drug_sparse",
-      "current_drug_context_r2"
+      "current_web_r3"
     ],
-    "passed": 64,
+    "passed": 8,
     "target_host": "149",
     "training_started": false
   },

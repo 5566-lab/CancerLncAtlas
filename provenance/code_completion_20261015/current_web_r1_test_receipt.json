@@ -1,0 +1,49 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T22:09:12.840001+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_analysis_web.py": "51762a7440da60139b59c8f1db1b6d7f36bf032d32eb226c063f3863e58a304c",
+    "scripts/materialize_v32_current_analysis_web.py": "9a34d93acd0ad535318b7f2959afb4034d4f4c0dadcb910dab393f25a911c587",
+    "website/backend/current_analysis_api.py": "ed375db66770bbf337513c10408c84cc2fc0e7cc3123b82bb4492c959e3bae2c",
+    "website/backend/app.py": "b1900d012eb0379f57487f5edc738e135799d95602403ed2a0a63e96bd37ae3b",
+    "website/frontend/current-analysis.html": "2e4b9984e27fc1799bd00e42f46eb155b2c686ab87fe189a80192b67ebea4f14",
+    "website/frontend/assets/current-analysis.js": "e5dc4677adf51e831a7eecd4700ccd2fd69625954d251f5c46e07dfdc8941884",
+    "website/frontend/assets/current-analysis.css": "585546ef543374e5c85551ffc898aefeccbec401932bcf3d4611cbbb83b1bf00",
+    "tests/test_v32_current_analysis_web.py": "c03b94538e411795575658f6bab172cdd8a1e2021e853a4b0850e1d5adce988e",
+    "requirements/requirements-current-web.txt": "d1bee0579df4a72c08776cd157044cb299c8516d5fafb0e172f10fb667b7afd1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_analysis_web.py",
+    "--junitxml=provenance/code_completion_20261015/current_web_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-15T22:10:02.925371+00:00"
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="CancerLncAtlas：同一版本的 lncRNA 通路基因集、状态、临床、药物及证据查询">
+  <title>CancerLncAtlas · 当前分析</title>
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/current-analysis.css">
+  <script src="/assets/current-analysis.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#results">跳至分析结果</a>
+  <header class="site-header">
+    <a href="/" class="brand"><img src="/assets/mark.svg" width="36" height="36" alt=""><strong>CancerLncAtlas</strong></a>
+    <span class="version" id="release-name">正在读取分析版本…</span>
+    <nav aria-label="资源"><button id="downloads-toggle" type="button" aria-expanded="false">下载本版本数据</button><a href="/docs">API</a></nav>
+  </header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">lncRNA · pathway · cancer</p>
+      <h1>通路基因集与关联分析</h1>
+      <p>从选定评分追溯基因集成员，再查看同一版本的状态、临床、药物及实验支持。</p>
+      <details><summary>分析版本与评价范围</summary><dl id="version-details"></dl></details>
+    </section>
+    <div id="message" class="message" role="status" aria-live="polite" hidden></div>
+    <div class="analysis-layout">
+      <nav id="components" class="components" aria-label="分析模块"></nav>
+      <section id="results" class="results" tabindex="-1">
+        <h2 id="component-title">载入结果</h2>
+        <p id="component-description" class="description"></p>
+        <p id="component-missing" class="message" hidden></p>
+        <div id="controls" hidden>
+          <label class="table-choice">结果表 <select id="table-select" aria-label="结果表"></select></label>
+          <form id="filters-form">
+            <div id="primary-filters" class="filters"></div>
+            <details id="extra-filters"><summary>更多筛选条件</summary><div id="secondary-filters" class="filters"></div></details>
+            <div class="actions"><button class="primary" type="submit">查询</button><button id="clear-filters" type="button">清空筛选</button>
+              <label class="all-columns"><input id="all-columns" type="checkbox">显示全部字段</label></div>
+          </form>
+          <div class="result-meta"><span id="row-status" role="status"></span><a id="table-download" hidden>下载此表</a></div>
+          <div id="table-container" class="table-container"></div>
+          <div class="pagination"><button id="previous" type="button" disabled>上一页</button><span id="page-number">第 1 页</span><button id="next" type="button" disabled>下一页</button></div>
+          <details id="drug-lookup" hidden><summary>查看基因集成员的药物预测及缺失原因</summary>
+            <form id="drug-form" class="filters">
+              <label>基因集 ID<input name="geneset_id" required autocomplete="off"></label>
+              <label>药物稳定 ID<input name="drug_id" required placeholder="例如 DC:1" autocomplete="off"></label>
+              <button type="submit">查询成员</button>
+            </form><div id="drug-results" class="table-container"></div>
+            <div class="pagination"><button id="drug-previous" type="button" disabled>上一页</button><span id="drug-page">第 1 页</span><button id="drug-next" type="button" disabled>下一页</button></div>
+          </details>
+        </div>
+      </section>
+    </div>
+    <section id="downloads" class="downloads" hidden><h2>本版本公共数据下载</h2>
+      <p>查询和下载使用同一分析版本。分区表按文件提供，每个文件保留 SHA256 校验值。</p><div id="download-list"></div>
+    </section>
+  </main>
+  <footer>研究数据与描述性关联。临床意义请结合具体终点和验证范围解读。</footer>
+</body>
+</html>

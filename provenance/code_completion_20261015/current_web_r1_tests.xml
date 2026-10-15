@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="2" failures="0" skipped="0" tests="7" time="45.786" timestamp="2026-10-16T06:09:14.629244+08:00" hostname="149"><testcase classname="tests.test_v32_current_analysis_web" name="test_real_current_components_are_served_and_every_public_part_downloads" time="30.267" /><testcase classname="tests.test_v32_current_analysis_web" name="test_version_mismatch_invalid_queries_and_private_downloads_are_rejected" time="0.076" /><testcase classname="tests.test_v32_current_analysis_web" name="test_http_semantics_keep_null_zero_and_drug_missingness" time="0.471" /><testcase classname="tests.test_v32_current_analysis_web" name="test_modified_artifact_fails_without_disclosing_source_paths" time="0.006" /><testcase classname="tests.test_v32_current_analysis_web" name="test_missing_components_are_explicit_but_cross_selected_components_fail" time="0.142" /><testcase classname="tests.test_v32_current_analysis_web" name="test_full_application_uses_current_home_and_does_not_serve_old_results" time="3.667"><error message="failed on setup with &quot;AssertionError: Traceback (most recent call last):&#10;  File &quot;/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py&quot;, line 27, in &lt;module&gt;&#10;    from .v31_exact_store import (&#10;ModuleNotFoundError: No module named 'website.backend.v31_exact_store'&#10;&#10;During handling of the above exception, another exception occurred:&#10;&#10;Traceback (most recent call last):&#10;  File &quot;&lt;string&gt;&quot;, line 7, in &lt;module&gt;&#10;  File &quot;/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py&quot;, line 32, in &lt;module&gt;&#10;    from v31_exact_store import (&#10;ModuleNotFoundError: No module named 'v31_exact_store'&quot;">tests/test_v32_current_analysis_web.py:213: in live_site
+    if process.poll() is not None: raise AssertionError(process.communicate()[1])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Traceback (most recent call last):
+E     File "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py", line 27, in &lt;module&gt;
+E       from .v31_exact_store import (
+E   ModuleNotFoundError: No module named 'website.backend.v31_exact_store'
+E   
+E   During handling of the above exception, another exception occurred:
+E   
+E   Traceback (most recent call last):
+E     File "&lt;string&gt;", line 7, in &lt;module&gt;
+E     File "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py", line 32, in &lt;module&gt;
+E       from v31_exact_store import (
+E   ModuleNotFoundError: No module named 'v31_exact_store'</error></testcase><testcase classname="tests.test_v32_current_analysis_web" name="test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout" time="0.001"><error message="failed on setup with &quot;AssertionError: Traceback (most recent call last):&#10;  File &quot;/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py&quot;, line 27, in &lt;module&gt;&#10;    from .v31_exact_store import (&#10;ModuleNotFoundError: No module named 'website.backend.v31_exact_store'&#10;&#10;During handling of the above exception, another exception occurred:&#10;&#10;Traceback (most recent call last):&#10;  File &quot;&lt;string&gt;&quot;, line 7, in &lt;module&gt;&#10;  File &quot;/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py&quot;, line 32, in &lt;module&gt;&#10;    from v31_exact_store import (&#10;ModuleNotFoundError: No module named 'v31_exact_store'&quot;">tests/test_v32_current_analysis_web.py:213: in live_site
+    if process.poll() is not None: raise AssertionError(process.communicate()[1])
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: Traceback (most recent call last):
+E     File "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py", line 27, in &lt;module&gt;
+E       from .v31_exact_store import (
+E   ModuleNotFoundError: No module named 'website.backend.v31_exact_store'
+E   
+E   During handling of the above exception, another exception occurred:
+E   
+E   Traceback (most recent call last):
+E     File "&lt;string&gt;", line 7, in &lt;module&gt;
+E     File "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/website/backend/app.py", line 32, in &lt;module&gt;
+E       from v31_exact_store import (
+E   ModuleNotFoundError: No module named 'v31_exact_store'</error></testcase></testsuite></testsuites>

@@ -125,7 +125,15 @@ WEB_TABLES = FORMAL_RELEASE / "web_tables"
 CLINICAL_RELEASE = _discover_v30_release()
 CLINICAL_WEB_TABLES = CLINICAL_RELEASE / "web_tables" if CLINICAL_RELEASE else None
 V31_RELEASE = _discover_v31_release()
-if _environment_flag("CANCERLNCATLAS_REQUIRE_V31_EXACT_PATHWAY", default=True) and V31_RELEASE is None:
+CURRENT_WEB_BINDING = os.getenv("CANCERLNCATLAS_CURRENT_WEB_BINDING", "").strip()
+CURRENT_WEB_SHA256 = os.getenv("CANCERLNCATLAS_CURRENT_WEB_SHA256", "").strip()
+if bool(CURRENT_WEB_BINDING) != bool(CURRENT_WEB_SHA256):
+    raise RuntimeError("Current analysis requires both its web binding and pinned SHA256")
+current_analysis_store = None
+if CURRENT_WEB_BINDING:
+    from cc_hhgt.v32.current_analysis_web import CurrentAnalysisWebStore
+    current_analysis_store = CurrentAnalysisWebStore(CURRENT_WEB_BINDING, expected_sha=CURRENT_WEB_SHA256)
+if current_analysis_store is None and _environment_flag("CANCERLNCATLAS_REQUIRE_V31_EXACT_PATHWAY", default=True) and V31_RELEASE is None:
     raise RuntimeError(
         "Production website requires an audited V3.1 exact-pathway release; "
         "refusing silent fallback to the historical V2.9 reference-only presentation. "
@@ -1393,7 +1401,7 @@ def site_docs(key: str) -> dict[str, str]:
 async def request_metrics(request: Request, call_next):
     started = time.perf_counter()
     response = await call_next(request)
-    if request.url.path.startswith(("/v2.6/", "/api/site/")):
+    if current_analysis_store is None and request.url.path.startswith(("/v2.6/", "/api/site/")):
         event = {
             "timestamp": time.time(),
             "method": request.method,
@@ -1451,11 +1459,30 @@ def _attach_v32_staging_application() -> None:
         )
 
 
-_attach_v32_staging_application()
+if current_analysis_store is None:
+    _attach_v32_staging_application()
+else:
+    from website.backend.current_analysis_api import current_analysis_router
+    if _environment_flag("CANCERLNCATLAS_ENABLE_V32_STAGING", default=False):
+        raise RuntimeError("A current selected release cannot share unversioned routes with the historical staging registry")
+    # Current mode serves one selected snapshot. Historical API adapters must
+    # not answer an old URL with results from a different release on this site.
+    legacy_prefixes = ("/api/", "/v2.6/", "/v3.2-staging/")
+    app.router.routes[:] = [r for r in app.router.routes if not getattr(r,"path","").startswith(legacy_prefixes)]
+    app.include_router(current_analysis_router(current_analysis_store))
+    app.state.v32_staging_enabled = False
+    app.state.current_analysis_enabled = True
+    app.title = "CancerLncAtlas current selected analysis"
+    app.version = current_analysis_store.binding["release_id"]
+    app.description = "One version-bound selected score, GeneSets, contextual analyses and public downloads."
 
 
 @app.get("/{page_path:path}", include_in_schema=False)
 def frontend(page_path: str) -> FileResponse:
+    if current_analysis_store is not None:
+        if page_path not in {"", "current-analysis", "current-analysis.html"}:
+            raise HTTPException(status_code=404)
+        return FileResponse(FRONTEND / "current-analysis.html", headers={"Cache-Control":"no-store"})
     if page_path in {"v32-staging.html", "v32-capability-catalog.json"} or page_path.startswith(
         ("api/", "v2.6/", "v3.2-staging/")
     ):

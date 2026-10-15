@@ -1608,3 +1608,85 @@ native analyses and context aggregation. C15 still owns real website/API route
 and frontend integration, and C16 owns final orchestration/model-use inventory.
 No real cohort analysis, optimizer, paid compute or deployment is performed by
 the code-verification work.
+
+Current selected website, HTTP routes and public downloads (2026-10-16)
+-------------------------------------------------------------------
+
+``python -m scripts.materialize_v32_current_analysis_web --manifest INPUT.json
+--output NEW_DIRECTORY`` registers actual outputs on host 149. The input format
+is CURRENT_ANALYSIS_WEB_INPUT_V1. It requires a release_id, a selected_analysis
+``{path, sha256}`` record, and components with exactly these five keys: state,
+clinical, drug, evidence and external. Each component supplies either
+``{"status":"AVAILABLE","binding":{"path":"...","sha256":"..."}}``
+or an explicit NOT_PRODUCED, SOURCE_UNAVAILABLE or NOT_APPLICABLE status and a
+nonempty reason. Omitted components and broken configured sources fail.
+
+State, Clinical and Drug must bind the same selected-analysis hash. Rule
+evidence must cover the actual reference producer's candidate universe and,
+when selected scores already carry rule annotations, use that exact binding.
+External metrics must evaluate the selected score snapshot or its exact
+selected producer as their primary model; merely including that model as a
+comparator is insufficient. Full external model-use completeness remains open.
+
+The output CURRENT_WEB_BINDING.json records the selected run, component source
+bindings, public files, source files, schemas, row counts, sizes, hashes and
+materializer implementation hash. Publication does not rerun optimization.
+Evidence provenance is streamed into new public Parquet files with machine
+paths removed, while source hashes and experiment lineage remain. Native
+evidence files are unchanged. Other verified public outputs are referenced
+directly; moving a release requires retaining those pinned files. Raw patient
+and cell-model measurements, private Drug dispositions and checkpoints are not
+download entries. Source bindings and files are rechecked before completion.
+
+The existing ``website.backend.app:app`` activates this mode only when both
+CANCERLNCATLAS_CURRENT_WEB_BINDING and CANCERLNCATLAS_CURRENT_WEB_SHA256 are set.
+A mismatching binding prevents startup. This mode serves the new page at the
+site root, uses the actual selected readers and excludes historical API/page
+routes. It cannot be combined with the old V3.2 staging flag. Without the new
+configuration, the existing historical mode and its V3.1 requirement remain.
+No production process or pointer was changed during this work.
+
+The HTTP contract is:
+
+* GET /api/current/catalog: available components, explicit missing statuses,
+  public tables, schemas, exact filter names and immutable file hashes.
+* POST /api/current/tables/{table_id}/query: version (the web binding SHA256),
+  filters, limit (1--1000) and offset (0--1000000). Filters are parameterized
+  exact strings; unknown fields and invalid values are rejected. The response
+  retains nulls and zeros and includes has_more.
+* GET /api/current/downloads/{table_id}/{part}?version=...: a registered file,
+  with its content hash, web version and selected-analysis hash in headers.
+* GET /api/current/drug-members?geneset_id=...&drug_id=...&version=...: native
+  sparse member predictions, including typed missingness, with pagination.
+
+The catalog supplies the version used by every query and download. Stale
+versions receive 409; bad queries receive 422; unregistered downloads receive
+404. Changed artifacts receive a generic 503 without their filesystem paths.
+The online table reader uses bounded DuckDB rather than loading a full graph.
+The Drug missingness endpoint also revalidates its native source factors.
+
+The Chinese frontend provides module/table selection, exact identity filters,
+member drill-through, pagination, detailed fields, version details, all public
+download parts and native Drug missingness lookup. A saved link retains its
+analysis version and filters. Numeric zero stays zero; unavailable estimates
+remain explicit. Descriptive member summaries, measured response direction,
+model probability and nonadditive ablation retain their separate meanings.
+The external page explicitly discloses the incomplete model-use inventory.
+
+Verification uses native synthetic producers, HTTP calls to every table and
+download, and a temporary loopback instance of the actual main application on
+149. Chromium exercises filters, module navigation, missingness lookup, GMT
+download, stale links and mobile layout. Its process is stopped after testing
+and also has an independent 90-second stop timer. Optimizer constructors are
+forbidden. Test/browser dependencies live in project-specific verification
+directories; the shared scientific environment is unchanged. Runtime version
+pins are in requirements/requirements-current-web.txt. Screenshots and browser
+receipt are under provenance/code_completion_20261015/current_web_*.
+
+C15 remains in progress: these routes cover selected scores/GeneSets, State,
+Clinical, Drug, rule evidence and registered external evaluation. Current
+patient heterogeneity, distal-regulatory and signed single-cell detail outputs
+still require reconciliation into the same complete web release. C13 still
+requires complete model-use provenance; C16 owns the final orchestration,
+data dictionary and acceptance pass. This is code and synthetic verification,
+not a new real analysis, independent biological validation or deployment.
