@@ -69,8 +69,8 @@ def main(argv=None):
         spec.validate()
         if not item.get("run_id") or not item.get("estimand"):
             raise ValueError("Every current expert requires a run identity and declared estimand")
-        if item.get("evidence_mode") == "RULE_ONLY" and spec.value_transform=="probability_logit":
-            raise ValueError("A rule evidence strength is not a calibrated probability")
+        if item.get("evidence_mode") == "RULE_ONLY":
+            raise ValueError("Rule evidence is an annotation; use rule_evidence_binding, not a fitted expert")
         if spec.expert_id=="evidence_transformer":
             raise ValueError("Current policy excludes the retired neural Evidence head")
         audit_path=bound(item["binding_audit"],"provenance_audited_standardized_source")
@@ -103,6 +103,13 @@ def main(argv=None):
         experts[spec]=bound(record)
     frame,audit=build_pair_aggregated_fusion_frame_from_parquet(primary,folds,experts,
                                                               temp_directory=args.output/"duckdb_tmp")
+    rule_binding = manifest.get("rule_evidence_binding")
+    if rule_binding:
+        from cc_hhgt.v32.evidence_rule_release import attach_rule_annotations
+        path = bound(rule_binding, "provenance_audited_standardized_source")
+        rule_binding = {"path": str(path), "sha256": verified[path]}
+        frame = attach_rule_annotations(frame, binding_path=path, expected_sha=verified[path])
+        audit.update(rule_evidence_binding=rule_binding, rule_evidence_used_as_model_input=False)
     frame_path=args.output/"PRIVATE_FUSION_INPUT.parquet"
     frame.to_parquet(frame_path,index=False)
     audit.update(core_run_id=args.expected_core_run_id,manifest_sha256=artifact_sha256(args.manifest),
@@ -119,7 +126,8 @@ def main(argv=None):
     discovery=train_pair_blocked_crossfit_fusion(frame,specs,endpoint="discovery",config=config)
     confidence=train_pair_blocked_crossfit_fusion(frame,specs,endpoint="confidence",config=config)
     result=materialize_multimodal_fusion_release(args.output/"release",frame,discovery,confidence,
-        source_declarations=declarations,training_run_id=manifest["fusion_run_id"],input_audit=audit)
+        source_declarations=declarations,training_run_id=manifest["fusion_run_id"],input_audit=audit,
+        rule_evidence_binding=rule_binding)
     (args.output/"SUCCESS.json").write_text(json.dumps({"status":"SUCCESS_SECONDARY_FUSION",**result,
         "core_run_id":args.expected_core_run_id,"target_host":"149","training_started":True},indent=2)+"\n")
     print(json.dumps(result))

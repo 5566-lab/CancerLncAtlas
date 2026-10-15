@@ -59,10 +59,9 @@
     {
       "id": "C09",
       "task": "ENCODE KD/差异剪接获取解析、RBP功能支持分析及证据消费",
-      "status": "in_progress",
+      "status": "code_implemented_fixture_verified",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "implementation": "Verified selected-file fetch, native DE/rMATS parsing, gene/event summaries, tested-background pathway enrichment, biosample-matched physical-binding bridge and actual command implemented; 9 synthetic checks passed.",
-      "remaining": "Wire generated FUNCTIONAL_EVIDENCE into the current rule-summary and release consumer (C12)."
+      "implementation": "Verified native ENCODE DE/rMATS analysis, biosample-matched physical-binding bridge and source-bound rule-summary/exact/fusion release consumption. Actual cached-synthetic producer-to-consumer integration verified; KD direction is not relabelled as direct lncRNA effect."
     },
     {
       "id": "C10",
@@ -82,7 +81,10 @@
     {
       "id": "C12",
       "task": "规则证据汇总、独立验证及发布消费接通，保留来源与方向",
-      "status": "pending"
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Connected source provenance, retained experimental contexts and conflicts, explicit review and missingness semantics, native/ENCODE/RBNS consumers, independent SQL aggregation audit, actual exact/fusion release annotations and parameterized queries. Scores preserved and retired Evidence expert excluded.",
+      "biological_external_validation_performed": false
     },
     {
       "id": "C13",
@@ -107,7 +109,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 214,
+    "unique_fixture_tests_passed": 248,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -116,8 +118,6 @@
       "C01",
       "C05",
       "C08",
-      "C09",
-      "C12",
       "C13",
       "C14",
       "C15",

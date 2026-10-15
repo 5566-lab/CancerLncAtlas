@@ -510,3 +510,99 @@ overlay, export and training-guard checks are included in the recorded receipt.
 No real-data expansion was materialized, no model was fitted and no new arm's
 accuracy was measured. Selection/validation metrics and downstream release
 integration remain separate outstanding work under C12-C16.
+
+Observed rule evidence, independent aggregation audit and actual consumers (C09/C12)
+-----------------------------------------------------------------------------------
+
+The new command consumes generated native exact events, ENCODE functional bridges
+and RBNS gene sequence preferences. It prepares an evidence annotation release,
+without a learned Evidence head, optimizer, model probability or ranking change.
+Run from this checkout on server 149::
+
+  python -m scripts.materialize_v32_current_rule_evidence \
+    --manifest /path/to/RULE_INPUT.json --output /path/to/new-rule-release
+  python -m scripts.audit_v32_current_rule_evidence \
+    --binding /path/to/new-rule-release/RULE_EVIDENCE_BINDING.json \
+    --expected-sha256 <binding-sha256> --output /path/to/new-reaudit.json
+
+CURRENT_RULE_EVIDENCE_INPUT_V1 contains candidates and exact_membership as
+path/sha256 records. Candidates have unique cancer_id/lncrna_id/pathway_id keys;
+members have pathway_id/member_id, never just a pathway family. Each sources
+entry has a unique source_id and one of these kinds:
+
+* native_exact_events supplies events and lineage path/sha256 records. Every
+  event must retain complete source-row/file hashes and exact routing. Partner
+  routes are checked against exact members; family broadcasts are rejected.
+* encode_functional supplies audit and table records. The table hash must match
+  FUNCTIONAL_EVIDENCE.parquet in the completed upstream analysis audit. The rule
+  reader retains contrast, RBP, biosample, assay, affected genes, tested universe,
+  p/q values and direction of the RBP-depletion readout. It does not convert that
+  direction into a direct lncRNA effect or claim binding inferred from knockdown.
+* rbns_sequence supplies audit and table records bound to the upstream
+  GENE_SEQUENCE_PREFERENCE.parquet. Only available scores meeting the registered
+  producer thresholds enter a gene-RBP to exact-member prediction bridge. These
+  are predicted sequence preferences, excluded from measured study counts and
+  direct direction/review. Physical occupancy and affinity are not estimated.
+
+PMID, DOI, registered study dataset and ENCODE experiment tokens form connected
+provenance groups. Thus overlapping multi-PMID database copies are not counted
+as independent replications. The historical independent_studies column name is
+retained, with the explicit semantics CONNECTED_PROVENANCE_GROUPS_NOT_PROOF_OF_
+STATISTICALLY_INDEPENDENT_REPLICATION. Provenance-free records remain inspectable
+but cannot contribute to verified study counts, direct direction or review.
+
+The event ledger retains each source row and full hash lineage. Context summaries
+retain cell line, biosample, tissue, species, assay, intervention, readout, mediator
+and source cancer. Opposing directions and review statuses remain conflicts.
+Global/cell-line evidence can be displayed beside multiple cancer candidates;
+source_cancer_id remains GLOBAL and cancer_specific_studies stays zero for it.
+This presentation does not turn a cell-line experiment into a TCGA patient result.
+
+Review uses only explicit raw manual-review status. For example, validated is
+accepted, invalid is rejected, and not validated is unknown. Legacy learned
+confidence_target values are ignored. The fraction accepted among explicitly
+reviewed provenance groups is descriptive, not an evidence or causal probability.
+The upstream native builder now preserves raw review, DOI and experiment/context
+fields and includes context/review/typed provenance in new event signatures.
+Old artifacts cannot recover fields previously discarded by deduplication; they
+must be rematerialized from raw inputs to obtain this additional information.
+
+The full candidate universe is retained. No registered support is unavailable
+with NO_REGISTERED_EVIDENCE_NOT_A_NEGATIVE, never a zero confidence prediction.
+SOURCE_COVERAGE.parquet reports normalized events, distinct events actually
+matched to candidates, attached candidate rows, and unmatched source events.
+Version suffixes and pathway families are never guessed away to improve coverage.
+
+The output binds SOURCE_EVENTS, per-cancer EVENTS/CONTEXTS, RULE_SUMMARY and
+SOURCE_COVERAGE by SHA256. The independent audit reloads the original sources,
+reconstructs the attached ledger and recomputes summary counts, directions and
+review fractions with DuckDB SQL instead of the pandas aggregation. It also
+compares context and source-coverage outputs. SUCCESS is emitted only after this
+audit passes. This is a computational consistency audit; independent biological
+validation remains C13 and is explicitly false in these evidence summaries.
+
+Actual consumption is implemented in ensemble_fold_predictions and
+materialize_exact_release, via an optional rule_evidence_binding path/sha256
+record; the exact-release CLI accepts matching --rule-evidence-binding and
+--rule-evidence-binding-sha256 options. run_v32_current_multimodal_fusion accepts
+the same record in its manifest, writes rule annotations to its prepared input,
+and carries them through materialize_multimodal_fusion_release. Explicit expert
+specifications control fitting features, so rule annotations never become fitted
+expert inputs. All existing score values are checked unchanged during attachment.
+
+The retired evidence_transformer is removed from the default fusion policy.
+The historical run_v32_multimodal_fusion_formal entry now delegates to the current
+manifest runner: use --manifest, --expected-core-run-id and --output; preparation
+is the default and fitting still requires explicit --fit. It no longer launches
+the hard-coded August workflow. Historical binding readers remain available for
+provenance inspection. RuleEvidenceQuery provides parameter-bound exact queries
+over the same summary, event and context files; website mounting remains C15.
+
+Synthetic verification uses the actual cached-native ENCODE and RBNS commands,
+rule materializer/audit, current fusion preparation, public serialization and
+exact ensemble consumer. Fixed synthetic coefficients exercise serialization;
+no fit or optimizer is invoked. Tests cover duplicate research, conflicting
+reviews/directions, empty-source releases, nonmatching versions/families, source
+and rehashed-output corruption, preserved scores and literal query filters.
+Real-data preparation, evidence production, biological validation, training and
+deployment have not been run as part of this code-only task.

@@ -1,0 +1,39 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T17:37:36.602487+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/evidence_rule_summary.py": "70b3954d8f048d1aab28ba97c7e1d059fc6b9b7f872dd78d9a904f8da50b8b15",
+    "cc_hhgt/v32/evidence_rule_sources.py": "6aecfaac0ce592095ee6134d7054066bc8fce8ce26f3b4c60b20e9593b363680",
+    "cc_hhgt/v32/evidence_rule_audit.py": "41207ed2cb3aceea3bb2720bf75badfd715285f317cb90eb302934074fc72e98",
+    "cc_hhgt/v32/evidence_rule_release.py": "cfb987cec32d9a91601b0db49ceef430198d02fc2d862adfa51ceef6fbb3d2fd",
+    "cc_hhgt/v32/evidence_training.py": "cd358cc6d226e92471a872485bf8b0a9592c5ee37032df2f0bbaf74157e8770a",
+    "cc_hhgt/v32/exact_release.py": "aac57f581ab5a86b0283f52a2bba42f51548d19c03f742979f1be24d65b9fca3",
+    "cc_hhgt/v32/multimodal_fusion.py": "2a2a005704d11784d7326a623bc76d34225dace972e5f7e3c0c685d10f44f3a2",
+    "cc_hhgt/v32/fusion_expert_policy.py": "8bad5b6898e304e8237e1e07c6b1e0dab84c637d7eecc04831b08c8fe722acb8",
+    "scripts/materialize_v32_current_rule_evidence.py": "2da2cc3292122bfc1500aa15f6965b1dd0bb9574b006329ef07cc320c1ceb418",
+    "scripts/audit_v32_current_rule_evidence.py": "12167e73e5f1c984366f9124569f68a233b70622cbb138de5a87e68e40320566",
+    "scripts/materialize_v32_exact_release.py": "b122eae68e623a6a33f248453e9cf153138d05d71724d81f2e426c7279bf9c14",
+    "scripts/run_v32_current_multimodal_fusion.py": "4c4c303e1dd2242a15983d04615b45a6836e58909a3e6fa0573b78684f50409d",
+    "scripts/run_v32_multimodal_fusion_formal.py": "b7aff01b4b454d8f4e3a5a2fcfedbb38a3d9c210154a3c61112a411480b9c470",
+    "tests/test_v32_current_rule_evidence.py": "d89c38eae054f11f805db3d51fae3c72ddb223f5e01dba01088933829fad1a6d",
+    "tests/test_v32_fusion_expert_policy.py": "69e05539827658c3bd5f4548f912e8ee09733e45d28fde35fc4bbad173f52cd7"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_rule_evidence.py",
+    "tests/test_v32_exact_release.py",
+    "tests/test_v32_fusion_expert_policy.py",
+    "tests/test_v32_evidence_training.py::test_deduplicates_events_but_retains_raw_lineage_and_physical_fact",
+    "tests/test_v32_evidence_training.py::test_family_only_event_is_rejected_and_never_broadcast_to_exact",
+    "tests/test_v32_signed_single_cell_fusion.py::test_current_runner_consumes_signed_adapter_without_starting_training",
+    "--junitxml=provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T17:38:05.159299+00:00"
+}

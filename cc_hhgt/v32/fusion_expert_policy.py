@@ -25,16 +25,6 @@ EXACT_PATHWAY_FUSION_EXPERTS: tuple[ExpertSpec, ...] = (
         independent_of_primary_label=True,
         direct_target_evidence=False,
     ),
-    ExpertSpec(
-        expert_id="evidence_transformer",
-        probability_column="evidence_confidence_probability",
-        availability_column="availability",
-        endpoint_roles=("confidence",),
-        split_unit="publication_dataset_and_pair",
-        source_role="current_v32_oof_prediction",
-        independent_of_primary_label=True,
-        direct_target_evidence=True,
-    ),
 )
 
 
@@ -45,14 +35,8 @@ def validate_exact_pathway_fusion_expert_policy() -> None:
         if spec.expert_id in ids:
             raise MultimodalFusionError(f"Duplicate formal expert: {spec.expert_id}")
         ids.add(spec.expert_id)
-    if ids != {"genomic", "single_cell", "evidence_transformer"}:
+    if ids != {"genomic", "single_cell"}:
         raise MultimodalFusionError("Formal exact-pathway expert set drifted")
-    evidence = next(
-        spec for spec in EXACT_PATHWAY_FUSION_EXPERTS
-        if spec.expert_id == "evidence_transformer"
-    )
-    if evidence.endpoint_roles != ("confidence",) or not evidence.direct_target_evidence:
-        raise MultimodalFusionError("Evidence Transformer must be direct confidence-only evidence")
     if any(spec.expert_id == "drug" for spec in EXACT_PATHWAY_FUSION_EXPERTS):
         raise MultimodalFusionError("Native cancer-lncRNA-drug scores cannot enter exact fusion")
 

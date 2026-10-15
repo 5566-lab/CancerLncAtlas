@@ -5,6 +5,7 @@ import argparse
 import json
 from pathlib import Path
 import sys
+import socket
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -27,7 +28,18 @@ def main() -> int:
     parser.add_argument("--patient-fold-authority-receipt", required=True)
     parser.add_argument("--prep-summary", required=True)
     parser.add_argument("--output-root", required=True)
+    parser.add_argument("--run-id", default="v32-exact-pathway-20260825")
+    parser.add_argument("--rule-evidence-binding")
+    parser.add_argument("--rule-evidence-binding-sha256")
     args = parser.parse_args()
+    if socket.gethostname() != "149":
+        raise RuntimeError("Exact release materialization must execute on host 149")
+    if bool(args.rule_evidence_binding) != bool(args.rule_evidence_binding_sha256):
+        parser.error("Rule evidence binding path and SHA256 must be supplied together")
+    output = Path(args.output_root).resolve()
+    output.mkdir(parents=True, exist_ok=True)
+    with (output / "LAUNCH_PREFLIGHT.json").open("x", encoding="utf-8") as handle:
+        json.dump({"target_host": "149", "training_started": False, "run_id": args.run_id}, handle, indent=2)
     validate_frozen_v32_patient_fold_binding(
         args.patient_fold_manifest, args.patient_fold_authority_receipt
     )
@@ -40,6 +52,9 @@ def main() -> int:
         fold_manifest_path=args.patient_fold_manifest,
         prep_summary_path=args.prep_summary,
         output_root=args.output_root,
+        run_id=args.run_id,
+        rule_evidence_binding=({"path": args.rule_evidence_binding, "sha256": args.rule_evidence_binding_sha256}
+                               if args.rule_evidence_binding else None),
     )
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
     return 0

@@ -1257,6 +1257,7 @@ def materialize_multimodal_fusion_release(
     source_declarations: Sequence[Mapping[str, Any]],
     training_run_id: str,
     input_audit: Mapping[str, Any] | None = None,
+    rule_evidence_binding: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Write an immutable, hash-bound secondary fusion release.
 
@@ -1375,6 +1376,10 @@ def materialize_multimodal_fusion_release(
         raise MultimodalFusionError("Fusion public output leaks private target labels")
 
     prediction_path = output / "multimodal_secondary_scores.parquet"
+    if rule_evidence_binding is not None:
+        from .evidence_rule_release import attach_rule_annotations
+        public = attach_rule_annotations(public, binding_path=rule_evidence_binding["path"],
+                                         expected_sha=rule_evidence_binding["sha256"])
     metrics_path = output / "crossfit_metrics.parquet"
     discovery_oof_path = output / "discovery_oof.PRIVATE.parquet"
     confidence_oof_path = output / "confidence_oof.PRIVATE.parquet"
@@ -1451,6 +1456,9 @@ def materialize_multimodal_fusion_release(
     }
     if input_audit is not None:
         lineage["fusion_input_audit_sha256"] = artifact_sha256(input_audit_path)
+    if rule_evidence_binding is not None:
+        lineage["rule_evidence_binding"] = dict(rule_evidence_binding)
+        lineage["rule_evidence_used_as_model_input"] = False
     _atomic_json(lineage_path, lineage)
 
     artifacts = {

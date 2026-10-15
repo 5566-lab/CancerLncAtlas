@@ -438,6 +438,12 @@ def _source_columns(frame: pd.DataFrame) -> dict[str, str | None]:
             ["source_dataset", "dataset_id", "dataset", "source_resource", "source_version"],
         ),
         "pmid": _column(frame, ["pmid", "pubmed_id", "independent_pmid"]),
+        "doi": _column(frame, ["doi"]),
+        "experiment_id": _column(frame, ["experiment_id", "experiment_accession"]),
+        "biosample": _column(frame, ["biosample", "biosample_id"]),
+        "intervention": _column(frame, ["intervention"]),
+        "readout": _column(frame, ["readout"]),
+        "mediator_id": _column(frame, ["mediator_id"]),
         "experiment_raw": _column(
             frame,
             ["experiment_raw", "experiment", "experiment_method", "methods", "assay_detail"],
@@ -460,7 +466,8 @@ def _source_columns(frame: pd.DataFrame) -> dict[str, str | None]:
         "evidence_tier": _column(frame, ["evidence_tier", "evidence_level"]),
         "predictive_core_eligible": _column(frame, ["predictive_core_eligible"]),
         "experimental": _column(frame, ["experimental", "is_experimental"]),
-        "computational": _column(frame, ["computational", "is_predicted"]),
+        "computational": _column(frame, ["computational", "is_computational", "is_predicted"]),
+        "model_prediction": _column(frame, ["is_model_prediction"]),
         "physical": _column(frame, ["physical", "is_physical", "physical_interaction"]),
         "directness": _column(frame, ["directness"]),
         "source_row_sha256": _column(frame, ["source_row_sha256"]),
@@ -550,6 +557,8 @@ def _normalize_source_rows(
                 "source_dataset": source_dataset,
                 "pmid": ";".join(pmids),
                 "pmid_tokens": pmids,
+                **{key: _clean(_row_value(row, columns[key])) for key in
+                   ("doi", "experiment_id", "biosample", "intervention", "readout", "mediator_id")},
                 "experiment_type": _clean(_row_value(row, columns["experiment_type"]), UNKNOWN),
                 "experiment_raw": experiment_raw_value,
                 "experiment_family": assay.experiment_family,
@@ -566,8 +575,10 @@ def _normalize_source_rows(
                 "species": _clean(_row_value(row, columns["species"]), UNKNOWN),
                 "evidence_tier": _clean(_row_value(row, columns["evidence_tier"]), UNKNOWN),
                 "confidence_target": _quality_target(row, columns, pmids),
+                "manual_review_status": _clean(_row_value(row, columns["manual_review_status"])),
                 "is_experimental": bool(_truth(_row_value(row, columns["experimental"])) or False),
                 "is_computational": bool(_truth(_row_value(row, columns["computational"])) or False),
+                "is_model_prediction": bool(_truth(_row_value(row, columns["model_prediction"])) or False),
                 "is_physical": _is_physical(row, columns),
                 "family_only": bool(_clean(_row_value(row, columns["pathway_family_id"]))) and not exact_pathway,
             }
@@ -713,6 +724,13 @@ def build_exact_event_bags(
                 raw["relation_type"],
                 raw["experiment_type"],
                 raw["direction_raw"],
+                # Preserve distinct experimental contexts and conflicting
+                # reviews before deduplicating database copies. Event IDs
+                # from older artifacts remain valid inputs; new materializations
+                # use these complete signatures.
+                *(raw[key] for key in ("doi", "experiment_id", "biosample", "intervention", "readout", "mediator_id",
+                    "tissue", "cell_line", "species", "experiment_raw", "graph_assay_class", "assay_subtype",
+                    "manual_review_status", "is_experimental", "is_computational", "is_model_prediction")),
             )
             event_id = "EV32:" + canonical_signature[:24]
             physical_fact_id = (
@@ -745,6 +763,7 @@ def build_exact_event_bags(
                     "source_dataset": raw["source_dataset"],
                     "source_record_id": raw["source_record_id"],
                     "pmid": raw["pmid"],
+                    **{key: raw[key] for key in ("doi", "experiment_id", "biosample", "intervention", "readout", "mediator_id")},
                     "experiment_type": raw["experiment_type"],
                     "experiment_raw": raw["experiment_raw"],
                     "experiment_family": raw["experiment_family"],
@@ -754,13 +773,14 @@ def build_exact_event_bags(
                     "direction_raw": raw["direction_raw"],
                     "direction_target": int(raw["direction_target"]),
                     "confidence_target": float(raw["confidence_target"]),
+                    "manual_review_status": raw["manual_review_status"],
                     "tissue": raw["tissue"],
                     "cell_line": raw["cell_line"],
                     "species": raw["species"],
                     "is_experimental": bool(raw["is_experimental"]),
                     "is_computational": bool(raw["is_computational"]),
                     "is_physical": bool(raw["is_physical"]),
-                    "is_model_prediction": False,
+                    "is_model_prediction": bool(raw["is_model_prediction"]),
                 }
             )
             lineage_rows.append(
@@ -789,13 +809,16 @@ def build_exact_event_bags(
     event_columns = [
         "event_id", *EXACT_KEYS, "partner_id", "member_type", "route_type",
         "static_member_id", "physical_fact_id", "source_database", "source_dataset",
-        "source_record_id", "pmid", "experiment_type", "experiment_raw",
+        "source_record_id", "pmid", "doi", "experiment_id", "biosample", "intervention", "readout", "mediator_id",
+        "experiment_type", "experiment_raw",
         "experiment_family", "assay_subtype", "graph_assay_class", "relation_type",
-        "direction_raw", "direction_target", "confidence_target", "tissue", "cell_line",
+        "direction_raw", "direction_target", "confidence_target", "manual_review_status", "tissue", "cell_line",
         "species", "is_experimental", "is_computational", "is_physical",
         "is_model_prediction",
     ]
     events = pd.DataFrame(event_rows, columns=event_columns)
+    for column in ("is_experimental", "is_computational", "is_physical", "is_model_prediction"):
+        events[column] = events[column].astype(bool)
     if not events.empty:
         duplicate_counts = events.groupby("event_id").size().rename("source_occurrence_count")
         events = (
@@ -815,6 +838,7 @@ def build_exact_event_bags(
         .drop_duplicates("lineage_id")
         .reset_index(drop=True)
     )
+    lineage["family_broadcast_used"] = lineage["family_broadcast_used"].astype(bool)
     rejected = pd.DataFrame(rejected_rows)
     if rejected.empty:
         rejected = pd.DataFrame(

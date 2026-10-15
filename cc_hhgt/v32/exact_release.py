@@ -46,7 +46,8 @@ def _atomic_json(payload: dict[str, Any], path: Path) -> None:
     os.replace(temporary, path)
 
 
-def ensemble_fold_predictions(paths: list[str | Path], *, run_id: str = RUN_ID) -> pd.DataFrame:
+def ensemble_fold_predictions(paths: list[str | Path], *, run_id: str = RUN_ID,
+                              rule_evidence_binding: dict | None = None) -> pd.DataFrame:
     if len(paths) != 5:
         raise ValueError("Exactly five V3.2 fold prediction files are required")
     base: pd.DataFrame | None = None
@@ -99,6 +100,10 @@ def ensemble_fold_predictions(paths: list[str | Path], *, run_id: str = RUN_ID) 
     base["changes_primary_ranking"] = True
     if not base.association_membership_probability.between(0, 1).all():
         raise ValueError("Exact ensemble probability is outside [0,1]")
+    if rule_evidence_binding is not None:
+        from .evidence_rule_release import attach_rule_annotations
+        base = attach_rule_annotations(base, binding_path=rule_evidence_binding["path"],
+                                       expected_sha=rule_evidence_binding["sha256"])
     return base
 
 
@@ -113,6 +118,7 @@ def materialize_exact_release(
     prep_summary_path: str | Path,
     output_root: str | Path,
     run_id: str = RUN_ID,
+    rule_evidence_binding: dict | None = None,
 ) -> dict[str, Any]:
     if (
         len(fold_metrics_paths) != 5
@@ -163,7 +169,7 @@ def materialize_exact_release(
 
     output = Path(output_root).resolve()
     output.mkdir(parents=True, exist_ok=True)
-    public = ensemble_fold_predictions(fold_prediction_paths, run_id=run_id)
+    public = ensemble_fold_predictions(fold_prediction_paths, run_id=run_id, rule_evidence_binding=rule_evidence_binding)
     for fold, metric in enumerate(metrics):
         if int(metric.get("rows", -1)) != len(public):
             raise ValueError(f"Metrics fold {fold} row count differs from the exact universe")
@@ -261,6 +267,8 @@ def materialize_exact_release(
         },
     ]
     first_hashes = successes[0]["artifact_hashes"]
+    if rule_evidence_binding is not None:
+        inputs.append({**rule_evidence_binding, "artifact_kind": "observed_rule_evidence_binding"})
     lineage: dict[str, Any] = {
         "module_id": "exact_pathway",
         "analysis_version": ANALYSIS_VERSION,

@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 214,
+  "unique_test_cases_passed": 248,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -12,7 +12,7 @@
     "cc_hhgt/v32/distal_topology.py": "c6b5087de805351d0baf3819fa82490b15b7ddb87f0349e54d6c9c982b75d420",
     "cc_hhgt/v32/epigenetic_expression_head.py": "dc8d9785a52d97dd275d69cb8fd255ff36d89e16c3f62e5ab8c0edbf76dcbc3c",
     "cc_hhgt/v32/methylation_recovery.py": "bf44d151c39860f5c0b2cb02c6e74b79965c21da6861dfb745e02d7a86af37aa",
-    "cc_hhgt/v32/multimodal_fusion.py": "13bef84bd32e73a55b7544a73481fc5fdf56ad551cecfeac447e2e5144d86c13",
+    "cc_hhgt/v32/multimodal_fusion.py": "2a2a005704d11784d7326a623bc76d34225dace972e5f7e3c0c685d10f44f3a2",
     "cc_hhgt/v32/single_cell_signed_fusion.py": "4ffe874c944517fb214699ebf8a4ad47a2f2a037d5db9e72f08fc2d5e34c5ad6",
     "scripts/audit_v32_distal_regulatory_mutation_head.py": "1653e630c0c72cc17743f06c3cbe6740f47787aa0b1cb750718df965283e98fb",
     "scripts/build_v32_independent_distal_topology.py": "4165c1e37fd08c479e1cb559fd50b5f5272fe4dfeeec3b90e3418b368cd24c1d",
@@ -23,7 +23,7 @@
     "scripts/materialize_v32_hm450_lncrna_probe_map.py": "a9403a655ca4002d59d8dffe614f4826e86cb6deace19dd228b0363efda3fa1f",
     "scripts/materialize_v32_methylation_lncrna.py": "94627384841189aa90a9f939a783f5ded7a4a5ccbb099f5dfd3b282329dc9fa1",
     "scripts/materialize_v32_signed_single_cell_fusion.py": "653937c7bbf11c48498c6d7bb9c03a2cd69f1bd3a9245337cc945a15ec384868",
-    "scripts/run_v32_current_multimodal_fusion.py": "37a8f42a44ae2b612b9d0db965bb6f9323d7f1a1020a7bd725c6876cec071f9b",
+    "scripts/run_v32_current_multimodal_fusion.py": "4c4c303e1dd2242a15983d04615b45a6836e58909a3e6fa0573b78684f50409d",
     "scripts/run_v32_distal_regulatory_mutation_head.py": "e3ea4f244763578175ec9e5c2de9cfb325193f397bd751c62c12f1650dd4b90a",
     "tests/test_v32_distal_regulatory_head_input.py": "52c1643680c98ddb404e8d96b200720aba8ec725d077758d8956b83aa1196340",
     "tests/test_v32_epigenetic_expression_head.py": "0d4ad9ae3a4b3290334f1ade0eb94aa5a594eebb8b4e9a6e9562bb00a80cbe40",
@@ -69,7 +69,20 @@
     "cc_hhgt/v32/safe_graph.py": "7cd09c8eed9493e96f974a2fae49767ea10eb70ca995d1390d379829472596e1",
     "cc_hhgt/v32/orchestration.py": "a759ee75972d3f41797a081529d25878c6aecdebdc7b0b3cc000eae8ee34b8e2",
     "scripts/prepare_v32_current_binding_comparison.py": "06d43f85a2e200d89a488c6d1067b5963c865cff9e3e93257a1f8cf6dfc894b6",
-    "tests/test_v32_current_binding_expansion.py": "07271893a7c8bcafdbddd78f2a35f88d4d5c8ec664cfc9a5c2ca0cd0bcdbc3e9"
+    "tests/test_v32_current_binding_expansion.py": "07271893a7c8bcafdbddd78f2a35f88d4d5c8ec664cfc9a5c2ca0cd0bcdbc3e9",
+    "cc_hhgt/v32/evidence_rule_summary.py": "70b3954d8f048d1aab28ba97c7e1d059fc6b9b7f872dd78d9a904f8da50b8b15",
+    "cc_hhgt/v32/evidence_rule_sources.py": "6aecfaac0ce592095ee6134d7054066bc8fce8ce26f3b4c60b20e9593b363680",
+    "cc_hhgt/v32/evidence_rule_audit.py": "41207ed2cb3aceea3bb2720bf75badfd715285f317cb90eb302934074fc72e98",
+    "cc_hhgt/v32/evidence_rule_release.py": "cfb987cec32d9a91601b0db49ceef430198d02fc2d862adfa51ceef6fbb3d2fd",
+    "cc_hhgt/v32/evidence_training.py": "cd358cc6d226e92471a872485bf8b0a9592c5ee37032df2f0bbaf74157e8770a",
+    "cc_hhgt/v32/exact_release.py": "aac57f581ab5a86b0283f52a2bba42f51548d19c03f742979f1be24d65b9fca3",
+    "cc_hhgt/v32/fusion_expert_policy.py": "8bad5b6898e304e8237e1e07c6b1e0dab84c637d7eecc04831b08c8fe722acb8",
+    "scripts/materialize_v32_current_rule_evidence.py": "2da2cc3292122bfc1500aa15f6965b1dd0bb9574b006329ef07cc320c1ceb418",
+    "scripts/audit_v32_current_rule_evidence.py": "12167e73e5f1c984366f9124569f68a233b70622cbb138de5a87e68e40320566",
+    "scripts/materialize_v32_exact_release.py": "b122eae68e623a6a33f248453e9cf153138d05d71724d81f2e426c7279bf9c14",
+    "scripts/run_v32_multimodal_fusion_formal.py": "b7aff01b4b454d8f4e3a5a2fcfedbb38a3d9c210154a3c61112a411480b9c470",
+    "tests/test_v32_current_rule_evidence.py": "d89c38eae054f11f805db3d51fae3c72ddb223f5e01dba01088933829fad1a6d",
+    "tests/test_v32_fusion_expert_policy.py": "69e05539827658c3bd5f4548f912e8ee09733e45d28fde35fc4bbad173f52cd7"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -80,9 +93,12 @@
     "Drug attribution uses actual frozen forward passes but explains association strength, not sensitivity direction or pharmacological causality.",
     "ENCODE functional bridges remain RBP depletion evidence; no lncRNA perturbation or external-validation claim.",
     "RBNS sequence scores are predictions; the separate typed relation artifact has not entered a real graph/training run.",
-    "C01, C05, C08, C09 and C12-C16 remain unfinished; C09 final rule-summary consumption is tracked under C12.",
     "C11 current-C three-arm preparation, actual training loader and frozen export are code-implemented and fixture-verified; no real expansion/training/effect comparison was run.",
-    "The synthetic comparison uses fixture authority metadata and tiny tensors; it does not attest real patient data, graph quality or scientific accuracy."
+    "The synthetic comparison uses fixture authority metadata and tiny tensors; it does not attest real patient data, graph quality or scientific accuracy.",
+    "C01, C05, C08 and C13-C16 remain unfinished. C09 functional evidence now has an actual C12 rule-summary and release consumer.",
+    "C12 audit independently recomputes aggregation with SQL but shares raw-source normalization adapters; it is not biological external validation.",
+    "C12 tests exercise actual native producers, audit/query, fusion preparation and public serializers with synthetic files and fixed coefficients only; no optimizer or scientific production analysis was run.",
+    "Historical native event artifacts cannot recover discarded context/review fields; obtaining those fields requires rematerializing the upstream events from raw sources."
   ],
   "test_suites": [
     {
@@ -99,6 +115,11 @@
       "path": "provenance/code_completion_20261015/current_core_export_tests.xml",
       "passed": 27,
       "sha256": "6e3ebd98db62211dfb98ad149ec1957d832bac5f260e7f3140d0c0f000eae21a"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_rule_evidence_tests.xml",
+      "passed": 39,
+      "sha256": "94c2bdbaa384c81f51775c3f51deeab7c47244b6820e2dadf34c8b55f89dd83c"
     },
     {
       "path": "provenance/code_completion_20261015/current_runner_release_tests.xml",
@@ -430,6 +451,151 @@
       "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_actual_kd_and_rbns_commands_feed_rule_release_query_and_exact_ensemble",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_actual_native_builder_preserves_review_conflicts_context_and_provenance",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_candidate_mapping_never_guesses_versions_or_families[alias]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_candidate_mapping_never_guesses_versions_or_families[empty]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_candidate_mapping_never_guesses_versions_or_families[family]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_candidate_mapping_never_guesses_versions_or_families[nonstring]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_candidate_mapping_never_guesses_versions_or_families[version]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_connected_studies_database_duplicates_and_conflicts_match_independent_sql",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_current_fusion_entry_and_public_materializer_consume_rules_without_fitting",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_empty_native_source_can_materialize_missing_evidence_release",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_empty_sources_keep_typed_missing_candidate_universe",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_independent_audit_rejects_rehashed_output_or_changed_raw_source[coverage]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_independent_audit_rejects_rehashed_output_or_changed_raw_source[extra_cancer]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_independent_audit_rejects_rehashed_output_or_changed_raw_source[ledger]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_independent_audit_rejects_rehashed_output_or_changed_raw_source[source]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_independent_audit_rejects_rehashed_output_or_changed_raw_source[summary]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_independent_sql_detects_incorrect_production_counts",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_member_prediction_does_not_set_direct_direction_or_review",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_native_events_reject_invalid_lineage_or_exact_mapping[family]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_native_events_reject_invalid_lineage_or_exact_mapping[lineage]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_native_events_reject_invalid_lineage_or_exact_mapping[member]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_native_events_reject_invalid_lineage_or_exact_mapping[typed_bool]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_review_status_is_explicit_and_negation_is_not_accepted[invalid-0]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_review_status_is_explicit_and_negation_is_not_accepted[not approved-0]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_review_status_is_explicit_and_negation_is_not_accepted[not validated-None]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_review_status_is_explicit_and_negation_is_not_accepted[pending-None]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_review_status_is_explicit_and_negation_is_not_accepted[unvalidated-None]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_review_status_is_explicit_and_negation_is_not_accepted[validated-1]",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_rule_evidence",
+      "case": "test_row_order_and_database_copy_invariance_and_preserved_contexts",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
       "module": "tests.test_v32_distal_regulatory_head_input",
       "case": "test_atac_aliquot_means_are_order_independent_and_id_collisions_rejected",
       "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
@@ -655,6 +821,21 @@
       "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
     },
     {
+      "module": "tests.test_v32_evidence_training",
+      "case": "test_deduplicates_events_but_retains_raw_lineage_and_physical_fact",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_evidence_training",
+      "case": "test_family_only_event_is_rejected_and_never_broadcast_to_exact",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_exact_release",
+      "case": "test_exact_release_averages_five_new_folds_and_drops_labels",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
       "module": "tests.test_v32_formal_graph_contract",
       "case": "test_fresh_materializers_preserve_context_sign_and_all_static_layers",
       "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
@@ -693,6 +874,16 @@
       "module": "tests.test_v32_formal_graph_index_invariance",
       "case": "test_materializers_are_invariant_to_nonconsecutive_source_indices",
       "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fusion_expert_policy",
+      "case": "test_formal_expert_policy_routes_single_cell_but_not_drug",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fusion_expert_policy",
+      "case": "test_native_actionability_is_not_an_exact_pathway_endpoint",
+      "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",

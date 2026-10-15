@@ -19,12 +19,9 @@ def test_formal_expert_policy_routes_single_cell_but_not_drug() -> None:
     assert [spec.expert_id for spec in experts_for_endpoint("confidence")] == [
         "genomic",
         "single_cell",
-        "evidence_transformer",
     ]
     assert "drug" not in {spec.expert_id for spec in EXACT_PATHWAY_FUSION_EXPERTS}
-    evidence = EXACT_PATHWAY_FUSION_EXPERTS[-1]
-    assert evidence.direct_target_evidence is True
-    assert evidence.endpoint_roles == ("confidence",)
+    assert "evidence_transformer" not in {spec.expert_id for spec in EXACT_PATHWAY_FUSION_EXPERTS}
 
 
 def test_native_actionability_is_not_an_exact_pathway_endpoint() -> None:

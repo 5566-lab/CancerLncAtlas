@@ -1,0 +1,34 @@
+{
+  "method": "MANUAL_ADAPTATION_WITH_CURRENT_SOURCE_AND_RELEASE_CONSUMERS",
+  "reference_files": [
+    {
+      "path": "D:\\model\\audit\\requirements_status_20261015\\source_snapshots\\cc_expansion\\cc_hhgt\\v32\\evidence_semantics_v2.py",
+      "sha256": "fdf9745b0b188bff5e2e9fc60fac1f2998283e10cb0526f7e590e19966ecad5e"
+    },
+    {
+      "path": "D:\\model\\audit\\requirements_status_20261015\\source_snapshots\\cc_expansion\\cc_hhgt\\v32\\fusion_expert_policy.py",
+      "sha256": "95cfb5549cbd6ec04fec0fa86ea58709ec7959133e0bc84fffe028b870fd5678"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/evidence_rule_summary.py",
+    "cc_hhgt/v32/evidence_rule_sources.py",
+    "cc_hhgt/v32/evidence_rule_audit.py",
+    "cc_hhgt/v32/evidence_rule_release.py",
+    "scripts/materialize_v32_current_rule_evidence.py",
+    "scripts/audit_v32_current_rule_evidence.py"
+  ],
+  "changes_from_reference": [
+    "Conservative connected multi-source study provenance instead of database row counts.",
+    "Explicit raw review status replaces legacy confidence_target; conflicts and experiment contexts survive event deduplication.",
+    "Actual ENCODE functional and RBNS sequence producer consumers preserve indirect/predicted semantics.",
+    "Independent SQL aggregation, raw-source recomputation and candidate/source coverage audit.",
+    "Actual exact/fusion release annotations and parameterized queries without score changes or fitted Evidence features.",
+    "Retired hard-coded formal fusion entry delegates to the current manifest-driven runner."
+  ],
+  "source_hash_receipts": [
+    "current_rule_evidence"
+  ],
+  "training_started": false,
+  "real_data_run": false
+}

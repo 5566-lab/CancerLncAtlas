@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the hash-bound full V3.2 exact-pathway secondary fusion."""
+"""Current fusion entry point with retained historical provenance readers."""
 from __future__ import annotations
 
 import argparse
@@ -401,172 +401,15 @@ def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
     os.replace(temporary, path)
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--single-cell-binding", type=Path, required=True)
-    parser.add_argument("--single-cell-binding-sha256", required=True)
-    parser.add_argument("--single-cell-post-audit-binding", type=Path, required=True)
-    parser.add_argument("--single-cell-post-audit-binding-sha256", required=True)
-    parser.add_argument("--evidence-fusion-binding", type=Path, required=True)
-    parser.add_argument("--evidence-fusion-binding-sha256", required=True)
-    parser.add_argument("--evidence-fusion-post-audit-binding", type=Path, required=True)
-    parser.add_argument("--evidence-fusion-post-audit-binding-sha256", required=True)
-    parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--training-run-id", default="V32-FUSION-FORMAL-20260826-R1")
-    args = parser.parse_args()
+def main(argv=None) -> int:
+    """Use the current manifest runner; legacy hard-coded fits are retired.
 
-    output = args.output.resolve()
-    if output.exists():
-        raise FormalFusionRunnerError(f"Refusing to reuse formal fusion output: {output}")
-    validate_exact_pathway_fusion_expert_policy()
-    fold_paths = _validate_formal_sources()
-    single_cell, single_binding, single_declarations = _resolve_single_cell(
-        args.single_cell_binding,
-        args.single_cell_binding_sha256,
-        args.single_cell_post_audit_binding,
-        args.single_cell_post_audit_binding_sha256,
-    )
-    evidence, evidence_binding, evidence_declarations = _resolve_evidence(
-        args.evidence_fusion_binding,
-        args.evidence_fusion_binding_sha256,
-        args.evidence_fusion_post_audit_binding,
-        args.evidence_fusion_post_audit_binding_sha256,
-    )
-
-    specs = tuple(EXACT_PATHWAY_FUSION_EXPERTS)
-    expert_paths = {
-        next(spec for spec in specs if spec.expert_id == "genomic"): GENOMIC,
-        next(spec for spec in specs if spec.expert_id == "single_cell"): single_cell,
-        next(spec for spec in specs if spec.expert_id == "evidence_transformer"): evidence,
-    }
-    frame, input_audit = build_pair_aggregated_fusion_frame_from_parquet(
-        PRIMARY,
-        fold_paths,
-        expert_paths,
-        expected_rows=FORMAL_CANDIDATE_ROWS,
-        temp_directory=output.parent / f".{output.name}.duckdb_tmp",
-    )
-    input_audit.update(
-        {
-            "formal_primary_sha256": FORMAL_SOURCE_HASHES[PRIMARY],
-            "formal_primary_fold_sha256": {
-                str(index): FORMAL_SOURCE_HASHES[path]
-                for index, path in enumerate(fold_paths)
-            },
-            "genomic_sha256": FORMAL_SOURCE_HASHES[GENOMIC],
-            "single_cell_binding_path": str(single_binding),
-            "single_cell_binding_sha256": artifact_sha256(single_binding),
-            "evidence_canonical_fusion_binding_path": str(evidence_binding),
-            "evidence_canonical_fusion_binding_sha256": artifact_sha256(evidence_binding),
-            "evidence_canonical_fusion_post_audit_binding_path": str(
-                args.evidence_fusion_post_audit_binding.resolve()
-            ),
-            "evidence_canonical_fusion_post_audit_binding_sha256": (
-                args.evidence_fusion_post_audit_binding_sha256.lower()
-            ),
-            "raw_evidence_prediction_direct_fusion_allowed": False,
-            "discovery_experts": [
-                spec.expert_id for spec in experts_for_endpoint("discovery")
-            ],
-            "confidence_experts": [
-                spec.expert_id for spec in experts_for_endpoint("confidence")
-            ],
-            "drug_in_exact_pathway_fusion": False,
-            "primary_score_immutable": True,
-        }
-    )
-    config = ResidualFusionConfig(
-        seed=20260826,
-        learning_rate=0.05,
-        l2=1.0e-3,
-        max_steps=600,
-        patience=60,
-        tolerance=1.0e-7,
-        max_train_rows=2_000_000,
-        max_validation_rows=500_000,
-        batch_size=65_536,
-        evaluation_interval=10,
-        increment_logloss_delta=1.0e-4,
-    )
-    discovery = train_pair_blocked_crossfit_fusion(
-        frame,
-        specs,
-        endpoint="discovery",
-        config=config,
-    )
-    confidence = train_pair_blocked_crossfit_fusion(
-        frame,
-        specs,
-        endpoint="confidence",
-        config=config,
-    )
-    source_declarations: list[dict[str, Any]] = [
-        {
-            "path": str(PRIMARY),
-            "sha256": FORMAL_SOURCE_HASHES[PRIMARY],
-            "source_role": "current_v32_oof_prediction",
-            "generation": "current_v32",
-        },
-        *[
-            {
-                "path": str(path),
-                "sha256": FORMAL_SOURCE_HASHES[path],
-                "source_role": "current_v32_oof_prediction",
-                "generation": "current_v32",
-            }
-            for path in fold_paths
-        ],
-        {
-            "path": str(GENOMIC),
-            "sha256": FORMAL_SOURCE_HASHES[GENOMIC],
-            "source_role": "current_v32_oof_prediction",
-            "generation": "current_v32",
-        },
-        {
-            "path": str(GENOMIC_LINEAGE),
-            "sha256": artifact_sha256(GENOMIC_LINEAGE),
-            "source_role": "provenance_audited_standardized_source",
-            "generation": "current_v32",
-        },
-        *single_declarations,
-        *evidence_declarations,
-    ]
-    result = materialize_multimodal_fusion_release(
-        output,
-        frame,
-        discovery,
-        confidence,
-        source_declarations=source_declarations,
-        training_run_id=args.training_run_id,
-        input_audit=input_audit,
-    )
-    receipt_path = output / "FORMAL_RUN_RECEIPT.json"
-    receipt = {
-        "format": "CC_HHGT_V3_2_MULTIMODAL_FUSION_FORMAL_RUN_RECEIPT_V1",
-        "analysis_version": ANALYSIS_VERSION,
-        "status": "SUCCESS_SECONDARY_FUSION",
-        "training_run_id": args.training_run_id,
-        "runner_sha256": artifact_sha256(Path(__file__)),
-        "binding_path": result["binding_path"],
-        "binding_sha256": result["binding_sha256"],
-        "public_rows": result["public_rows"],
-        "discovery_performance_outcome": result["discovery_performance_outcome"],
-        "confidence_performance_outcome": result["confidence_performance_outcome"],
-        "primary_ranking_unchanged": True,
-        "drug_actionability_separate": True,
-        "release_ready": False,
-        "production_deployed": False,
-    }
-    _atomic_json(receipt_path, receipt)
-    print(
-        json.dumps(
-            {**result, "formal_run_receipt_sha256": artifact_sha256(receipt_path)},
-            ensure_ascii=False,
-            indent=2,
-            sort_keys=True,
-        )
-    )
-    return 0
+    Accepts --manifest, --expected-core-run-id and --output. Preparation is
+    the default; fitting still requires the current runner's explicit --fit.
+    Historical binding readers above remain available for provenance audits.
+    """
+    from scripts.run_v32_current_multimodal_fusion import main as current_main
+    return current_main(argv)
 
 
 if __name__ == "__main__":
