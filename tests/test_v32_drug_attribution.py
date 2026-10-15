@@ -83,7 +83,8 @@ def test_invalid_scaler_or_assay_mask_rejected():
         run(assay_available=np.array(["False"]))
 
 
-def test_complete_command_loads_five_serialized_heads_without_optimizer(tmp_path, monkeypatch):
+@pytest.mark.parametrize("pharmacology_enabled", [False, True])
+def test_complete_command_loads_five_serialized_heads_without_optimizer(tmp_path, monkeypatch, pharmacology_enabled):
     from tests.test_v32_current_core_export import export_fixture
     from tests.test_v32_drug_response_analysis import fixture as response_fixture
     from cc_hhgt.v32.integrated_model import build_private_auxiliary_head
@@ -107,23 +108,34 @@ def test_complete_command_loads_five_serialized_heads_without_optimizer(tmp_path
     config = StreamingDrugTrainingConfig(hidden_features=4, min_total_cell_lines=4, min_cell_lines_per_dataset=4)
     config_path = tmp_path/"config.json"; config_path.write_text(json.dumps({"training": asdict(config)}))
     artifacts["config"] = record(config_path)
+    pharmacology = None; domain_features = list(base._DOMAIN_FEATURES)
+    if pharmacology_enabled:
+        from test_v32_drug_pharmacology import feature_sources
+        from cc_hhgt.v32.drug_pharmacology import load_pharmacology, FEATURES, TARGET_POOLS
+        pharma_path = feature_sources(tmp_path/"pharma", tables["drug_gene_target"], data["response"])
+        artifacts["pharmacology_manifest"] = record(pharma_path)
+        pharmacology = load_pharmacology(pharma_path, targets=base.normalise_drug_targets(tables["drug_gene_target"]),
+            response=base.normalise_raw_response(data["response"]), mapping=base.normalise_cell_line_map(data["mapping"]))
+        domain_features += list(FEATURES)
     records = []
     # These are hand-constructed synthetic source checkpoints. Their test-only
     # receipts emulate a prior completed run; no optimizer is called here.
     for fold in range(5):
-        head, _ = build_private_auxiliary_head("drug", core_features=6, domain_features=6, hidden_features=4,
+        head, _ = build_private_auxiliary_head("drug", core_features=6+(2*len(TARGET_POOLS) if pharmacology_enabled else 0), domain_features=len(domain_features), hidden_features=4,
             dropout=config.dropout, seed=config.seed+fold*101)
         path = tmp_path/f"head_{fold}.pt"
         torch.save({"checkpoint_format": base.PRIVATE_CHECKPOINT_FORMAT, "cell_line_fold": fold,
             "core_parameter_sha256": core_manifest["folds"][str(fold)]["core_parameter_sha256"],
             "core_checkpoint_sha256": core_manifest["folds"][str(fold)]["checkpoint_sha256"],
-            "domain_features": list(base._DOMAIN_FEATURES), "domain_mean": np.zeros(6, np.float32),
-            "domain_scale": np.ones(6, np.float32), "model_state": head.state_dict()}, path)
+            "domain_features": domain_features, "domain_mean": np.zeros(len(domain_features), np.float32),
+            "domain_scale": np.ones(len(domain_features), np.float32), "model_state": head.state_dict(),
+            "pharmacology_features":pharmacology.receipt() if pharmacology is not None else None}, path)
         records.append({"cell_line_fold": fold, "optimizer_steps": 1, **record(path)})
     checkpoint_path = tmp_path/"checkpoints.json"; checkpoint_path.write_text(json.dumps({"records": records}))
     artifacts["checkpoint_manifest"] = record(checkpoint_path)
     bound_inputs = {name: artifacts[name]["sha256"] for name in [*tables, "core_embedding_manifest"] if name != "queries"}
     lineage = {"training_run_id": "drug-fixture", "training_status": "SUCCESS",
+        "pharmacology_features":pharmacology.receipt() if pharmacology is not None else None,
         "checkpoint_manifest_sha256": artifact_sha256(checkpoint_path), "config_sha256": artifact_sha256(config_path),
         "input_hashes_start": bound_inputs, "input_hashes_end": bound_inputs}
     path = tmp_path/"lineage.json"; path.write_text(json.dumps(lineage)); artifacts["drug_lineage"] = record(path)
@@ -140,3 +152,4 @@ def test_complete_command_loads_five_serialized_heads_without_optimizer(tmp_path
     assert len(effects) == 10
     assert effects.cell_line_fold.nunique() == 5
     assert set(effects.ablation_kind) == {"TARGET", "EXACT_PATHWAY_TARGET_SET"}
+    assert effects.target_pharmacology_recomputed.eq(pharmacology_enabled).all()

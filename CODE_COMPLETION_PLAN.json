@@ -55,8 +55,9 @@
       "id": "C08",
       "task": "药物作用方向、靶点/通路贡献的分析实现，避免联表机制冒充模型归因",
       "status": "in_progress",
-      "implementation": "Signed native expression-sensitivity scans and five-fold frozen target/exact-pathway ablation implemented and tested.",
-      "remaining": "Action type, affinity, chemical structure and dose are not consumed by the existing association-strength head; complete pharmacology features/analysis and final public consumption."
+      "implementation": "Signed native expression-sensitivity scans and five-fold frozen target/pathway ablation are implemented. Actual dense/streaming Drug feature paths now consume endpoint-separated quantitative activity, action-specific target pools, target-potency interactions, real RDKit molecular structure and fold-local dose/exposure protocol covariates. Head checkpoints, source receipts, allocation checks and frozen target/pathway deletion preserve this encoder. Native DrugCentral fields are retained without unit guessing.",
+      "remaining": "Native raw pharmacology extraction and identity integration; dose-conditioned signed-response analysis (current dose features describe protocol mixtures); actual current selected-analysis/public Drug consumption. No real trained pharmacology-aware drug model has been produced.",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED"
     },
     {
       "id": "C09",
@@ -119,7 +120,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 402,
+    "unique_fixture_tests_passed": 426,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -131,6 +132,6 @@
       "C15",
       "C16"
     ],
-    "latest_change_tests_passed": 161
+    "latest_change_tests_passed": 44
   }
 }

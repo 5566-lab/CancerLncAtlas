@@ -75,6 +75,15 @@ def main(argv=None):
     expression = base.normalise_raw_expression(base._read_table(paths["raw_lncrna_expression"]))
     mapping = base.assign_cell_line_folds(base.normalise_cell_line_map(base._read_table(paths["cell_line_map"])), config.seed)
     targets = base.normalise_drug_targets(base._read_table(paths["drug_gene_target"]))
+    pharmacology = None; domain_features = list(base._DOMAIN_FEATURES)
+    if bool(lineage.get("pharmacology_features")) != ("pharmacology_manifest" in paths):
+        raise ValueError("Attribution must retain the trained pharmacology feature sources")
+    if "pharmacology_manifest" in paths:
+        from cc_hhgt.v32.drug_pharmacology import load_pharmacology, FEATURES
+        pharmacology = load_pharmacology(paths["pharmacology_manifest"], targets=targets, response=response, mapping=mapping)
+        if pharmacology.receipt() != lineage["pharmacology_features"]:
+            raise ValueError("Attribution pharmacology differs from the trained source/schema")
+        domain_features += list(FEATURES)
     exact = base._read_table(paths["exact_candidates"])
     membership = base._read_table(paths["exact_pathway_membership"])
     queries = base.normalise_drug_candidates(base._read_table(paths["queries"]), base.normalise_exact_candidates(exact))
@@ -89,10 +98,12 @@ def main(argv=None):
                 or checkpoint.get("cell_line_fold") != fold
                 or checkpoint.get("core_parameter_sha256") != core.core_parameter_sha256
                 or checkpoint.get("core_checkpoint_sha256") != core.checkpoint_sha256
-                or checkpoint.get("domain_features") != list(base._DOMAIN_FEATURES)):
+                or checkpoint.get("domain_features") != domain_features
+                or checkpoint.get("pharmacology_features") != (pharmacology.receipt() if pharmacology is not None else None)):
             raise ValueError("Drug head is not bound to the selected fold/core/feature schema")
-        head, _ = build_private_auxiliary_head("drug", core_features=core.lncrna.values.shape[1]*3,
-            domain_features=len(base._DOMAIN_FEATURES), hidden_features=config.hidden_features,
+        from cc_hhgt.v32.drug_pharmacology import TARGET_POOLS
+        head, _ = build_private_auxiliary_head("drug", core_features=core.lncrna.values.shape[1]*(3+len(TARGET_POOLS) if pharmacology is not None else 3),
+            domain_features=len(domain_features), hidden_features=config.hidden_features,
             dropout=config.dropout, seed=config.seed+fold*101)
         head.load_state_dict(checkpoint["model_state"], strict=True)
         _, counts, availability = base._drug_target_vectors(targets, core)
@@ -100,8 +111,11 @@ def main(argv=None):
             local = queries.iloc[start:start+args.query_chunk_rows].reset_index(drop=True)
             stats = base._statistics_for_split(local, expression, response, mapping, base._split_models(mapping, fold, "test"),
                                                counts, availability, config)
+            if pharmacology is not None:
+                stats = pharmacology.augment(stats, local, base._split_models(mapping, fold, "test"), core=core)
             baseline, attribution, audit = ablate_drug_targets(head, core, local, stats.domain, stats.assay_available,
-                targets, exact, membership, domain_mean=checkpoint["domain_mean"], domain_scale=checkpoint["domain_scale"])
+                targets, exact, membership, domain_mean=checkpoint["domain_mean"], domain_scale=checkpoint["domain_scale"],
+                pharmacology=pharmacology, models=base._split_models(mapping, fold, "test"))
             audits.append({"fold": fold, "query_start": start, **audit})
             for label, table in [("baseline", baseline), ("attribution", attribution)]:
                 if table.empty: continue
@@ -112,6 +126,7 @@ def main(argv=None):
     for role, path in paths.items():
         if artifact_sha256(path) != manifest["artifacts"][role]["sha256"]:
             raise ValueError(f"Attribution source changed during inference: {role}")
+    if pharmacology is not None: pharmacology.verify_sources()
     audit = {"format": "DRUG_MODEL_TARGET_ABLATION_V1", "status": "PASS", "target_host": "149", "training_started": False,
         "core_run_id": manifest["core_run_id"], "drug_run_id": manifest["drug_run_id"],
         "input_manifest_sha256": artifact_sha256(args.manifest), "outputs": outputs, "fold_audits": audits,

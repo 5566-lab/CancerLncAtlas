@@ -1,0 +1,38 @@
+{
+  "method": "NATIVE_DRUG_HEAD_PHARMACOLOGY_FEATURES_AND_FROZEN_TARGET_ABLATION",
+  "source_hash_receipts": [
+    "drug_pharmacology"
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/drug_pharmacology.py",
+    "cc_hhgt/v32/drug_training.py",
+    "cc_hhgt/v32/drug_training_streaming.py",
+    "cc_hhgt/v32/drug_attribution.py",
+    "cc_hhgt/v32/drug_staging.py",
+    "scripts/run_v32_drug_training.py",
+    "scripts/materialize_v32_drug_pharmacology.py",
+    "scripts/analyze_v32_drug_model_attribution.py",
+    "requirements/requirements-drug-pharmacology.txt",
+    "tests/test_v32_drug_pharmacology.py",
+    "tests/test_v32_drug_attribution.py"
+  ],
+  "verification_dependencies": {
+    "rdkit": "2025.9.3"
+  },
+  "reference_documentation": [
+    "https://www.rdkit.org/docs/source/rdkit.Chem.rdFingerprintGenerator.html",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC10692006/"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Validate source-bound exact target/action/quantitative activity, real structures and assay design identities.",
+    "Keep endpoints and censoring separate, preserve observed zero and typed missing values, encode actual molecular graphs.",
+    "Couple action type and quantitative activity to individual target embeddings, not only drug-level summaries.",
+    "Consume the extended features in both existing training runners and preserve their schema/source contract in checkpoints and lineage.",
+    "Recompute target-specific pharmacology for actual frozen target/pathway ablations.",
+    "Account for larger feature matrices before reservoir allocation; preserve raw DrugCentral fields without assuming their activity scale."
+  ],
+  "remaining": "C08 is not complete; native raw adaptation, dose-conditioned signed analysis and actual selected/public Drug consumers remain."
+}

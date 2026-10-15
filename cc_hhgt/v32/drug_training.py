@@ -1048,6 +1048,7 @@ def _candidate_core(
     candidates: pd.DataFrame,
     core: FoldCoreEmbeddings,
     drug_vectors: Mapping[str, np.ndarray],
+    *, pharmacology=None,
 ) -> tuple[np.ndarray, np.ndarray]:
     width = core.lncrna.values.shape[1]
     result = np.zeros((len(candidates), width * 3), dtype=np.float32)
@@ -1063,6 +1064,8 @@ def _candidate_core(
         target = drug_vectors.get(str(row.drug_id))
         if target is not None:
             result[index, 2 * width :] = target
+    if pharmacology is not None:
+        result = np.concatenate([result, pharmacology.target_core(candidates, core)[0]], axis=1)
     return result, available
 
 
@@ -1234,12 +1237,17 @@ def run_drug_training(
     training_run_id: str,
     drug_candidates_path: str | Path | None = None,
     curated_drug_response_path: str | Path | None = None,
+    pharmacology_manifest_path: str | Path | None = None,
     config: DrugTrainingConfig | None = None,
 ) -> dict[str, Any]:
     """Train five fresh heads and emit a complete, availability-aware universe."""
-
+    import socket
+    if socket.gethostname() != "149": raise DrugTrainingError("Drug execution requires target host 149")
     settings = config or DrugTrainingConfig()
     settings.validate()
+    output = Path(output_root).resolve(); output.mkdir(parents=True, exist_ok=True)
+    _atomic_json(output/"LAUNCH_PREFLIGHT.json", {"target_host":"149", "training_started":False,
+        "stage":"DRUG_DENSE_DEVELOPMENT_PREFLIGHT", "training_run_id":training_run_id})
     if not re.fullmatch(r"v32-[a-z0-9][a-z0-9._-]*", str(training_run_id).strip()):
         raise DrugTrainingError(
             "training_run_id must be lowercase and start with 'v32-'"
@@ -1267,6 +1275,12 @@ def run_drug_training(
     expression = normalise_raw_expression(_read_table(paths["expression"]))
     mapping = assign_cell_line_folds(normalise_cell_line_map(_read_table(paths["mapping"])), settings.seed)
     targets = normalise_drug_targets(_read_table(paths["targets"]))
+    pharmacology = None
+    domain_features = list(_DOMAIN_FEATURES)
+    if pharmacology_manifest_path is not None:
+        from .drug_pharmacology import load_pharmacology, FEATURES
+        pharmacology = load_pharmacology(pharmacology_manifest_path, targets=targets, response=response, mapping=mapping)
+        domain_features += list(FEATURES)
     curated = (
         normalise_curated_response(_read_table(paths["curated"]))
         if "curated" in paths else pd.DataFrame(columns=[*TARGET_KEYS, "pmid", "source_database"])
@@ -1290,6 +1304,10 @@ def run_drug_training(
         source_specs.append({"path": paths["drug_candidates"], "generation": "V3.2", "source_role": "standardized_input", "outcome_derived": False, "fold_fitted": False, "use_role": "aux_input", "artifact_id": "v32_drug_candidate_universe"})
     if "curated" in paths:
         source_specs.append({"path": paths["curated"], "generation": "historical_curated_observation", "source_role": "raw_data", "outcome_derived": True, "fold_fitted": False, "use_role": "training_target", "artifact_id": "curated_lncrna_drug_response_observations"})
+    if pharmacology is not None:
+        source_specs.extend({"path":r["path"], "generation":"historical_static", "source_role":"static_annotation",
+            "outcome_derived":False, "fold_fitted":False, "use_role":"aux_input", "artifact_id":"pharmacology_"+role}
+            for role,r in pharmacology.sources.items())
     source_audit = audit_input_lineage(source_specs)
     if source_audit["status"] != "PASS":
         failures = {row["artifact_id"]: row["reasons"] for row in source_audit["artifacts"] if row["status"] != "PASS"}
@@ -1298,6 +1316,8 @@ def run_drug_training(
     core_manifest, core_manifest_sha, core_parameter_composite = _validate_core_manifest(paths["core_manifest"])
     output = Path(output_root).resolve()
     output.mkdir(parents=True, exist_ok=True)
+    if pharmacology is not None:
+        _atomic_json(output / "PHARMACOLOGY_FEATURE_RECEIPT.json", pharmacology.receipt())
     mapping[["dataset_id", "cell_line_id", "canonical_model_id", "cancer_id", "cell_line_fold_id"]].to_parquet(
         output / "CELL_LINE_FOLD_MANIFEST.parquet", index=False
     )
@@ -1315,7 +1335,7 @@ def run_drug_training(
                 raise DrugTrainingError("Frozen core embedding hash drifted between folds")
             frozen_hashes[path_text] = digest
         drug_vectors, target_counts, target_available = _drug_target_vectors(targets, core)
-        candidate_core, core_available = _candidate_core(candidates, core, drug_vectors)
+        candidate_core, core_available = _candidate_core(candidates, core, drug_vectors, pharmacology=pharmacology)
         split_stats = {
             split: _statistics_for_split(
                 candidates, expression, response, mapping, _split_models(mapping, fold, split),
@@ -1323,6 +1343,9 @@ def run_drug_training(
             )
             for split in ("train", "validation", "test")
         }
+        if pharmacology is not None:
+            split_stats = {split: pharmacology.augment(stats, candidates, _split_models(mapping, fold, split), core=core)
+                           for split, stats in split_stats.items()}
         train_mask = np.isfinite(split_stats["train"].labels) & core_available
         validation_mask = np.isfinite(split_stats["validation"].labels) & core_available
         train_positions = np.flatnonzero(train_mask)
@@ -1368,7 +1391,8 @@ def run_drug_training(
                 "cell_line_fold": fold,
                 "model_state": head.state_dict(),
                 "initialization": initialization,
-                "domain_features": list(_DOMAIN_FEATURES),
+                "domain_features": domain_features,
+                "pharmacology_features": pharmacology.receipt() if pharmacology is not None else None,
                 "domain_mean": mean,
                 "domain_scale": scale,
                 "history": history,
@@ -1459,6 +1483,8 @@ def run_drug_training(
     public["module_id"] = MODULE_ID
     public["target_level"] = TARGET_LEVEL
     public["prediction_format"] = PREDICTION_FORMAT
+    public["pharmacology_features_consumed"] = pharmacology is not None
+    public["dose_specific_response_claimed"] = False
     if not curated.empty:
         curated_count = curated.groupby(list(TARGET_KEYS), observed=True).size().rename("curated_evidence_count").reset_index()
         public = public.merge(curated_count, on=list(TARGET_KEYS), how="left", validate="one_to_one")
@@ -1538,12 +1564,16 @@ def run_drug_training(
     )
     runner_path = Path(__file__).resolve().parents[2] / "scripts" / "run_v32_drug_training.py"
     code_hashes = {"drug_training.py": artifact_sha256(Path(__file__).resolve())}
+    if pharmacology is not None:
+        pharmacology.verify_sources()
+        code_hashes["drug_pharmacology.py"] = artifact_sha256(Path(__file__).with_name("drug_pharmacology.py"))
     if runner_path.is_file():
         code_hashes["run_v32_drug_training.py"] = artifact_sha256(runner_path)
     lineage = {
         "module_id": MODULE_ID,
         "analysis_version": ANALYSIS_VERSION,
         "training_run_id": str(training_run_id),
+        "pharmacology_features": pharmacology.receipt() if pharmacology is not None else None,
         "training_status": "SUCCESS",
         "initialization_policy": "FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH",
         "folds": N_FOLDS,

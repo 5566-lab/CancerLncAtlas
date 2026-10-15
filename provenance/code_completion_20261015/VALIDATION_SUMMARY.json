@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 402,
+  "unique_test_cases_passed": 426,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -36,22 +36,22 @@
     "cc_hhgt/v32/current_core_export.py": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd",
     "scripts/export_v32_current_core_embeddings.py": "b926716be441d41b7addb18aa74f5db1f4a5ecc03eea10507ed5e11d35eac23c",
     "cc_hhgt/v32/genomic_training.py": "6869b6ce3882f63543902538d57cc3a85f3a34d332ed6cf8a0526de448620d2e",
-    "cc_hhgt/v32/drug_training.py": "8bbb90660461ebe66869f80a0063143fdef586e600ac7c326b9a64eedc45329a",
+    "cc_hhgt/v32/drug_training.py": "4ff035d5ad4ffd8585ceb67d50aae38469c094224245117bc424a954210e412c",
     "cc_hhgt/v32/state_training.py": "366ee11c149dfb6c36efd55dbd3aba9de96fc9d380404a3b8fe61a8352ef1ec5",
     "cc_hhgt/v32/clinical_training.py": "5d6809206186a3258fa55deec285549b73222e515d04184812ea34653c0125c6",
     "scripts/run_v32_clinical_training.py": "9a8e0cab52b403efff5588eb22889e7be1d6f5da03e3f549892c4882d9064184",
     "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1",
     "cc_hhgt/v32/drug_identity.py": "df87b712554cab339504d76993638c120a64432db1371ea6bb8d521079bc78d7",
-    "cc_hhgt/v32/drug_staging.py": "07977e68faa47d28101fca1346e37e8a9d2500619624e3bee4910e05a100a4c4",
-    "cc_hhgt/v32/drug_training_streaming.py": "c151c8bbf653e968ee19884bf6881de8d88c82a9c52a81919f51f0cd1c76aabe",
+    "cc_hhgt/v32/drug_staging.py": "297283e859bb97577edd35330630ec62753f4ab45ed2b929b0619ffeb4f60ef7",
+    "cc_hhgt/v32/drug_training_streaming.py": "3eb4e8ba0574a069bfa157ac7ce347b6aa09c6b388d5dd73e6129f2386e0aa4d",
     "cc_hhgt/v32/drug_response_analysis.py": "3ddfb5ba41436104134d08eccd23e1484c3f572ef09f491c0b2fc08dc6f13162",
-    "cc_hhgt/v32/drug_attribution.py": "a4d1b6afc92a5706e56ef058d9f2fb54ebe7fc88b0ea4181c184500d1da63fbd",
+    "cc_hhgt/v32/drug_attribution.py": "8dd31b114dc9140e959e2d8801099146ed5d1ac8e6de38182230b04edb783d5e",
     "scripts/build_v32_drug_raw_inputs.py": "ef96f44612277a73fb4a45298d05112c7a71cf6b77896e34e6a213c47bbabb0c",
     "scripts/analyze_v32_native_drug_response.py": "dd2c9a48a928c45fc6f33742d0179afe1db56adabdcaf6aad968328b825421dd",
-    "scripts/analyze_v32_drug_model_attribution.py": "2322a3c95c6d74eb70767a962b5ba5370bc6786a2a7a2ca35ef452c6a9530699",
+    "scripts/analyze_v32_drug_model_attribution.py": "96fb3ddb272978177d600bfe49a62f4daf3f1ee5474604d8c88c50f8cd98fdd4",
     "tests/test_v32_drug_identity.py": "e7ec97659d1d68290375f6ff29ce6fbcb5ca532bdf0ff2a16849ef0039485708",
     "tests/test_v32_drug_response_analysis.py": "80ed702378e0a1bb8e995940aaf5184eafb351900e66c3e456f73b51cc3714be",
-    "tests/test_v32_drug_attribution.py": "ea0d4b3705af14a49a70209c266a621306fe2c6ac5effd7270abc03b677e4ce1",
+    "tests/test_v32_drug_attribution.py": "cb56898e959c0bdb02216fd51d593773935b062cbd7cf0a00392c809cf8b4b10",
     "cc_hhgt/v32/encode_functional.py": "8a3ef614a12e58a3bc2965ae39d5b0317cf65018d281db4a51ad7a876c01d3f2",
     "cc_hhgt/v32/rbns_sequence.py": "0f10b2df801b3e648d6449c6b269d4c76180f1b82565aed9569b5df098679636",
     "scripts/analyze_v32_encode_functional.py": "dd71a491f0e02d2d6487337934ee972d021bcdbd501ef72f16fafd0de916c9ac",
@@ -116,7 +116,12 @@
     "tests/test_v32_current_clinical_context.py": "8d5d024aeb239f195cb0b716ae936dd88e5fc4bf6364216d2009fe51b53f5a7d",
     "cc_hhgt/v32/current_primary_fusion.py": "e798168ba5bebdd5080c855d1e7e2bdd911b994678cfcc86eceacb260105c14c",
     "scripts/materialize_v32_current_primary_fusion.py": "372cbf7b66d8b429400ed204103a0c501f8ee3be27f3b0e74432731cf0b476e8",
-    "tests/test_v32_current_primary_fusion.py": "08ff86d475d2e35922a3024c7d4a577c678c6efdb6bfbe73d3e49ab8108fb592"
+    "tests/test_v32_current_primary_fusion.py": "08ff86d475d2e35922a3024c7d4a577c678c6efdb6bfbe73d3e49ab8108fb592",
+    "cc_hhgt/v32/drug_pharmacology.py": "1bbf7051bc4b65ece4df71d5361616ecd2fd3a60cb7d059d3a6587d715896d2e",
+    "scripts/run_v32_drug_training.py": "8f90e7de1fc183ef2684f2cfb662930ca26c78864f1898f932d1da9bbca758f4",
+    "scripts/materialize_v32_drug_pharmacology.py": "3ad2d02761a272830f03fea5747ce46cdbbc561b5f992c65498a697b4199f5ce",
+    "requirements/requirements-drug-pharmacology.txt": "695fc7322c5fb05ab765ef6912d7b2eca5f6f58eb3922c922863ad148d732d9b",
+    "tests/test_v32_drug_pharmacology.py": "553e0158cea149d16f51ae674698a31ddc55982cdad7b892d60ac15775a9c06c"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -157,7 +162,11 @@
     "C05 native primary supervision now replays exact checkpoint-authorized validation payloads and masks into current fusion preparation. Missing targets stay null; only eligible targets enter fit/metrics, while prediction retains all candidates. Legacy bare hash-list preparation is explicitly unverified and cannot authorize fitting/current release.",
     "Primary validation labels were already used for checkpoint selection. Fusion pair crossfit is conditional development only: DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED, never independent validation of the entire system. Sealed test labels are not loaded by the native adapter.",
     "The latest 161-case suite uses frozen synthetic parameters or forbids fitting. No optimizer, real cohort analysis, current trained fusion release or deployment was executed. Cumulative unique case counts describe versioned receipts, not a single full current-suite run.",
-    "C01/C08/C13/C15/C16 remain unfinished. C13/C16 still require a complete actual model-use/dependency inventory; C15 requires actual API/frontend integration."
+    "C01/C08/C13/C15/C16 remain unfinished. C13/C16 still require a complete actual model-use/dependency inventory; C15 requires actual API/frontend integration.",
+    "The existing dense and formal streaming drug runners now consume source-bound action, endpoint-specific affinity/potency, real RDKit structure and split-local protocol features. Action/target and potency/target pairings alter the actual frozen-core representation; five serialized private heads and target/pathway deletions consume the same encoder.",
+    "Drug pharmacology checks never optimize: actual runner tests stop at the first fitting boundary after inspecting the extended tensors; other tests use frozen synthetic heads. No new trained drug result or real cohort/compound analysis has been produced.",
+    "Dose covariates describe native protocol distributions, not dose-conditioned efficacy. C08 still requires raw pharmacology extraction/identity integration, dose-conditioned signed-response analysis and current selected/public Drug consumption. The original strength head does not acquire a sensitivity-direction or causal interpretation.",
+    "Pharmacology verification uses project-local RDKit 2025.9.3 on 149, recorded in the receipt. Shared environment packages were not modified."
   ],
   "test_suites": [
     {
@@ -219,6 +228,11 @@
       "path": "provenance/code_completion_20261015/drug_analysis_tests.xml",
       "passed": 22,
       "sha256": "61e17d6e5c882c85f92101138ebd92df53e8ad6fc9723bd02b3ec0a39ae0ba7c"
+    },
+    {
+      "path": "provenance/code_completion_20261015/drug_pharmacology_tests.xml",
+      "passed": 44,
+      "sha256": "59fce7261a5bfa3a84ed3bf10e19edd1a1b9fb99fce5b1af597c9da98742ec37"
     },
     {
       "path": "provenance/code_completion_20261015/methylation_distal_tests.xml",
@@ -1191,98 +1205,203 @@
     },
     {
       "module": "tests.test_v32_drug_attribution",
-      "case": "test_complete_command_loads_five_serialized_heads_without_optimizer",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "case": "test_complete_command_loads_five_serialized_heads_without_optimizer[False]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_attribution",
+      "case": "test_complete_command_loads_five_serialized_heads_without_optimizer[True]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_attribution",
       "case": "test_invalid_scaler_or_assay_mask_rejected",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_attribution",
       "case": "test_no_assay_support_is_null_not_zero_contribution",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_attribution",
       "case": "test_same_membership_different_head_changes_attribution",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_attribution",
       "case": "test_target_and_pathway_effects_are_actual_forward_passes_not_a_join",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_attribution",
       "case": "test_wrong_target_count_cannot_change_baseline_silently",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_ambiguous_or_conflicting_identifiers_keep_separate_native_assays",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_conflicting_native_cancer_and_model_annotations_are_unavailable",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_crosswalk_requires_provenance_and_namespaced_id",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_explicit_cancer_propagates_across_assays_without_tissue_broadcast",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_full_native_staging_writes_corrected_context_and_target_mapping",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_native_readers_use_identity_and_keep_targetless_or_unnamed_assays",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_sampler_does_not_turn_unknown_labels_into_negatives",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_stable_id_and_explicit_synonym_join_without_punctuation_guessing",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_training_rejects_old_multicancer_model_expansion",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_identity",
       "case": "test_uniform_sampling_preserves_rare_class_and_is_chunk_invariant",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_actual_existing_training_entry_receives_extended_features_before_fitting[False]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_actual_existing_training_entry_receives_extended_features_before_fitting[True]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_actual_rdkit_structure_equivalence_conflict_and_missing_masks",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_assay_protocol_identity_and_measurement_constraints[conflicting_assay]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_assay_protocol_identity_and_measurement_constraints[dose_unit]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_assay_protocol_identity_and_measurement_constraints[negative_time]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_assay_protocol_identity_and_measurement_constraints[unknown_identity]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_endpoint_separation_unit_conversion_and_censoring_are_not_affinity_imputation",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_existing_native_staging_keeps_pharmacology_without_guessing_scale",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_fold_local_dose_design_does_not_read_heldout_models_or_response_values",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_frozen_forward_and_target_ablation_consume_the_new_features",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_incomplete_or_incompatible_target_measurements_fail[endpoint]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_incomplete_or_incompatible_target_measurements_fail[missing_unit]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_incomplete_or_incompatible_target_measurements_fail[relation]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_incomplete_or_incompatible_target_measurements_fail[target]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_incomplete_or_incompatible_target_measurements_fail[unit]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_incomplete_or_incompatible_target_measurements_fail[zero]",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_preparation_command_materializes_actual_structures_affinity_and_five_fold_design",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_target_identity_is_coupled_to_action_and_potency_not_only_drug_level_counts",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_pharmacology",
+      "case": "test_vehicle_zero_and_zero_exposure_remain_observed_not_missing",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_response_analysis",
       "case": "test_all_assayed_drugs_keep_signed_subtype_effect_and_unique_models",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_response_analysis",
       "case": "test_command_materializes_results_and_hash_bound_coverage_without_training",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_response_analysis",
       "case": "test_subtype_annotations_cannot_relabel_cancer_or_multiply_model_identity",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_training",
@@ -1296,8 +1415,23 @@
     },
     {
       "module": "tests.test_v32_drug_training",
+      "case": "test_complete_overlap_uses_unique_model_consensus",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_training",
+      "case": "test_formal_streaming_resource_floors_cannot_be_disabled",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_training",
+      "case": "test_prepared_context_cache_is_one_pass_and_reference_equivalent",
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_training",
       "case": "test_vectorized_statistics_match_reference_without_fold_leakage",
-      "suite": "provenance/code_completion_20261015/drug_analysis_tests.xml"
+      "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
     },
     {
       "module": "tests.test_v32_encode_functional",
@@ -2276,8 +2410,8 @@
     }
   ],
   "latest_change_validation": {
-    "tag": "current_primary_fusion",
-    "passed": 161,
+    "tag": "drug_pharmacology",
+    "passed": 44,
     "target_host": "149",
     "training_started": false
   },

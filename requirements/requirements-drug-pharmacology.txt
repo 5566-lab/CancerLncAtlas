@@ -1,0 +1,2 @@
+# Optional current drug pharmacology encoder; original neural environment unchanged.
+rdkit==2025.9.3

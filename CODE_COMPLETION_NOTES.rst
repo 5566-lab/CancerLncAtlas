@@ -1287,3 +1287,107 @@ This completes C05's remaining code path for native primary supervision.
 C05 is code_implemented_fixture_verified, with real-data execution recorded as
 NOT_RUN_AS_REQUESTED. C01, C08, C13, C15 and C16 remain open; the overall code
 completion goal is not yet complete.
+
+Pharmacology features in the actual drug head and frozen ablation
+---------------------------------------------------------------
+
+scripts/run_v32_drug_training.py now accepts --pharmacology-manifest for both
+the existing formal streaming runner and the development dense runner. The
+optional source is DRUG_PHARMACOLOGY_INPUT_V1 with three {path, sha256} records:
+target_annotations, structures and assay_conditions. They are verified against
+the actual target authority and native response/model identities; no fuzzy
+drug/target matching is performed in this encoder. The input tables are:
+
+* target_annotations: drug_id, gene_id, action_type, affinity_type,
+  affinity_value, affinity_unit, affinity_relation and source_id. Missing
+  measurements use nulls for the complete affinity tuple. The supported
+  quantitative endpoints are Ki, Kd, IC50 and EC50, kept separate. Supported
+  concentration units are M, mM, uM, micro-symbol M, nM and pM; p_molar explicitly
+  denotes an already negative-log10-molar value. Concentration inequalities
+  reverse under the logarithmic conversion. Censored values remain bounds and
+  never enter exact-point medians. Native p-scale measurements are not treated
+  as statistical p-values or as automatically equivalent endpoints.
+* structures: drug_id, smiles and source_id. RDKit parses the actual molecule,
+  preserves stereo and disconnected fragments, and computes canonical SMILES,
+  six molecular descriptors and a 256-bit radius-2 chiral Morgan fingerprint.
+  Conflicting structures, invalid SMILES and absent structures have separate
+  unavailable reasons. No identifier hash is substituted for molecular data.
+* assay_conditions: dataset_id, cell_line_id, drug_id, assay_id, dose_value,
+  dose_unit, exposure_hours and source_id. Each protocol must match an observed
+  native assay key and an unambiguous canonical model/cancer. Response-derived
+  fields are rejected. Conflicting conditions for one native assay ID fail.
+
+The DrugCentral staging reader also retains native STRUCT_ID, ACCESSION,
+ACTION_TYPE, ACT_TYPE, ACT_VALUE, ACT_UNIT, RELATION, ACT_SOURCE, ACT_COMMENT and
+MOA fields when present, under native_ column names. It does not infer a unit or
+convert ACT_VALUE. Automated conversion of these retained raw fields into the
+canonical pharmacology input still requires its explicit native-source adapter.
+
+The new input is consumed by actual candidate feature construction and the
+existing private head. It adds action-specific target embedding means and, for
+each quantitative endpoint separately, the mean of the target embedding times
+that target's median exact p-molar value. Availability is explicit for every
+additional target pool. These are interaction covariates for a learned model,
+not signed biological effects or estimates of occupancy. Swapping which gene
+is inhibited or swapping target potencies changes this representation even
+when the old mean target embedding and drug-level summaries remain identical.
+
+Domain covariates include action fractions, separate exact/censored endpoint
+coverage and exact-point medians, real structure descriptors/fingerprints, and
+the observed assay protocol distribution within the requested cell-model split.
+Dose range/median, vehicle fraction, exposure time and protocol count are never
+calculated from a different fold's cell models. Zero concentration is an
+observed vehicle, with a separate positive-dose flag for logarithmic features;
+zero exposure is also observed. Missing public values stay null. Only the
+model tensor uses zero fillers with explicit availability indicators. Existing
+domain scaling is fitted on training inputs only.
+
+Protocol-distribution covariates do not convert the existing cross-cell-line
+association-strength label into a dose-specific efficacy or patient-treatment
+label. Public predictions carry pharmacology_features_consumed and explicitly
+set dose_specific_response_claimed=false. Dose-conditioned signed response
+analysis remains unfinished. The legacy abs(rho)-based strength estimand is not
+renamed as sensitivity/resistance merely because pharmacology features exist.
+
+PHARMACOLOGY_FEATURE_RECEIPT.json, native head checkpoints and run lineage bind
+feature order, the source hashes, implementation, RDKit version and target-pool
+definitions. The formal runner snapshots the extra source files, accounts for
+the extra domain/target-pool arrays and cache in its memory preflight, and stops
+before feature reservoirs or optimization if the verified budget is insufficient.
+Both public runner functions require host 149 and write LAUNCH_PREFLIGHT.json.
+Legacy six-domain-feature heads remain readable and explicitly lack the new
+feature receipt; they are not reported as having consumed pharmacology.
+
+scripts/analyze_v32_drug_model_attribution.py accepts the same optional
+pharmacology_manifest artifact, but it must match the selected native head's
+recorded source/schema. Target or exact-pathway deletion recomputes the original
+target mean, the action-specific pools, endpoint-specific interaction pools,
+and all target pharmacology summaries before a new frozen forward. Structure
+and assay design are retained. Outputs record target_pharmacology_recomputed.
+The effects remain model-input ablations without a biological causal claim.
+
+scripts/materialize_v32_drug_pharmacology.py provides a preparation-only command
+on 149. Its DRUG_PHARMACOLOGY_PREPARATION_V1 manifest binds pharmacology_manifest,
+drug_gene_target, raw_drug_response and cell_line_map, plus the cell-fold seed.
+It writes normalized target measurements, actual drug structure/feature rows,
+and explicit train/validation/test protocol context for all five folds. This
+output is not a new trained model or a dose-response fit.
+
+Verification forbids optimizers, stops both existing runners at the first fit
+boundary after inspecting their real feature tensors, and loads five serialized
+native private heads for frozen attribution. It checks unit conversion,
+censoring, invalid/ambiguous structures, observed zeros, model-fold isolation,
+changed target-action/target-potency assignments, actual forward sensitivity,
+source tampering and the original signed association paths. Project-local RDKit
+2025.9.3 was installed on 149 for these checks; the shared environment was not
+modified. The dependency is in requirements/requirements-drug-pharmacology.txt.
+The fingerprint API follows the official documentation:
+https://www.rdkit.org/docs/source/rdkit.Chem.rdFingerprintGenerator.html .
+DrugCentral's source-specific activity scale must be handled explicitly; its
+native pharmacology description is documented by its authors at
+https://pmc.ncbi.nlm.nih.gov/articles/PMC10692006/ .
+
+C08 remains in progress. Remaining work includes native pharmacology extraction
+and identity integration, dose-conditioned signed response analysis, and actual
+selected-analysis/public Drug consumption. No real compound/cohort processing,
+optimization, paid compute or deployment was performed for this change.

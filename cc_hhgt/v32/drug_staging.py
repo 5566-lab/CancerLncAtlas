@@ -598,7 +598,12 @@ def _stage_drug_targets(drugcentral_path: Path, hgnc_path: Path, output_path: Pa
         human["source_drug_id"] = human["STRUCT_ID"].map(str) if "STRUCT_ID" in human else human.drug_name
         human = identity_resolver.resolve_frame(human)
     mapped = human.merge(symbol_frame, on="target_gene_symbol", how="inner", validate="many_to_one")
-    result = mapped[["drug_id", "gene_id", "drug_name", "target_gene_symbol", "mapping_method"]].drop_duplicates()
+    # Preserve native pharmacology verbatim. Unit/p-scale conversion belongs to
+    # an explicit source adapter, never an inference from the ACT_VALUE name.
+    native_fields = [c for c in ("STRUCT_ID", "ACCESSION", "ACTION_TYPE", "ACT_TYPE", "ACT_VALUE",
+        "ACT_UNIT", "RELATION", "ACT_SOURCE", "ACT_COMMENT", "MOA") if c in mapped]
+    result = mapped[["drug_id", "gene_id", "drug_name", "target_gene_symbol", "mapping_method", *native_fields]].drop_duplicates()
+    result = result.rename(columns={c:"native_"+c.lower() for c in native_fields})
     result["source_database"] = "DrugCentral_native"
     _atomic_parquet(result, output_path)
     return result, {
@@ -607,6 +612,8 @@ def _stage_drug_targets(drugcentral_path: Path, hgnc_path: Path, output_path: Pa
         "mapped_drugs": int(result.drug_id.nunique()),
         "mapped_genes": int(result.gene_id.nunique()),
         "symbol_mapping_rate": float(len(mapped) / max(len(human), 1)),
+        "native_pharmacology_fields_preserved": native_fields,
+        "native_activity_units_or_scale_inferred": False,
     }
 
 

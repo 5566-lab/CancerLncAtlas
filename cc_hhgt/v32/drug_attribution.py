@@ -15,7 +15,7 @@ from . import drug_training as base
 
 
 def ablate_drug_targets(head, core, queries, domain, assay_available, targets, exact, membership,
-                       *, domain_mean, domain_scale, batch_size=256):
+                       *, domain_mean, domain_scale, batch_size=256, pharmacology=None, models=()):
     """Return baselines and actual target/pathway deletion effects for one fold."""
     import torch
     from .integrated_model import freeze_v32_core, assert_v32_core_unchanged
@@ -27,10 +27,16 @@ def ablate_drug_targets(head, core, queries, domain, assay_available, targets, e
         raise ValueError("Attribution requires unique complete cancer/lncRNA/drug queries")
     domain = np.asarray(domain, dtype=np.float32)
     mean, scale = np.asarray(domain_mean, np.float32), np.asarray(domain_scale, np.float32)
-    if (domain.shape != (len(queries), len(base._DOMAIN_FEATURES)) or mean.shape != scale.shape
-            or mean.shape != (len(base._DOMAIN_FEATURES),) or not np.isfinite(domain).all()
+    from .drug_pharmacology import FEATURES
+    domain_width = len(base._DOMAIN_FEATURES) + (len(FEATURES) if pharmacology is not None else 0)
+    if (domain.shape != (len(queries), domain_width) or mean.shape != scale.shape
+            or mean.shape != (domain_width,) or not np.isfinite(domain).all()
             or not np.isfinite(mean).all() or not np.isfinite(scale).all() or np.any(scale <= 0)):
         raise ValueError("Drug attribution domain features/scaler are invalid")
+    if pharmacology is not None:
+        expected = pharmacology.encode(queries, models, core=core)
+        if not np.array_equal(domain[:,len(base._DOMAIN_FEATURES):], expected):
+            raise ValueError("Baseline pharmacology features differ from the actual split/source encoder")
     available = np.asarray(assay_available)
     if available.shape != (len(queries),) or available.dtype != bool:
         raise ValueError("Attribution assay availability must be an aligned boolean mask")
@@ -41,7 +47,7 @@ def ablate_drug_targets(head, core, queries, domain, assay_available, targets, e
     pathway_genes = membership.groupby("pathway_id").gene_id.agg(set).to_dict()
     pair_pathways = exact.groupby(["cancer_id", "lncrna_id"]).pathway_id.agg(set).to_dict()
     vectors, counts, target_available = base._drug_target_vectors(target, core)
-    core_values, core_available = base._candidate_core(queries, core, vectors)
+    core_values, core_available = base._candidate_core(queries, core, vectors, pharmacology=pharmacology)
     before = freeze_v32_core(head)
     baselines, effects = [], []
     count_index = base._DOMAIN_FEATURES.index("log1p_drug_target_count")
@@ -82,9 +88,13 @@ def ablate_drug_targets(head, core, queries, domain, assay_available, targets, e
             remaining = sorted(set(all_genes)-removed)
             positions = [core.gene.index[g] for g in remaining if g in core.gene.index]
             x = core_values[i].copy()
-            x[2*width:] = core.gene.values[positions].mean(axis=0) if positions else 0.
+            x[2*width:3*width] = core.gene.values[positions].mean(axis=0) if positions else 0.
             d = domain[i].copy()
             d[count_index] = np.log1p(len(remaining)); d[available_index] = bool(positions)
+            if pharmacology is not None:
+                x[3*width:] = pharmacology.target_core(queries.iloc[[i]], core, excluded_targets={drug:removed})[0][0]
+                d[len(base._DOMAIN_FEATURES):] = pharmacology.encode(queries.iloc[[i]], models, core=core,
+                    excluded_targets={drug:removed})[0]
             xs.append(x); ds.append(d)
             changed.append((kind, entity, removed, remaining, len(positions)))
         scored = forward(np.asarray(xs), np.asarray(ds))
@@ -99,7 +109,8 @@ def ablate_drug_targets(head, core, queries, domain, assay_available, targets, e
                 "baseline_probability": full_probability, "ablated_probability": probability,
                 "delta_probability": full_probability-probability,
                 "targetless_counterfactual": not bool(embedded), "additive_attribution_claimed": False,
-                "estimand": "ABLATION_OF_ASSOCIATION_STRENGTH_MODEL_INPUT", "causal_claimed": False})
+                "estimand": "ABLATION_OF_ASSOCIATION_STRENGTH_MODEL_INPUT", "causal_claimed": False,
+                "target_pharmacology_recomputed":pharmacology is not None})
     assert_v32_core_unchanged(head, before)
     return pd.DataFrame(baselines), pd.DataFrame(effects), {"head_parameter_sha256": before,
         "parameters_unchanged": True, "optimizer_started": False, "forward_counterfactuals_executed": len(effects),

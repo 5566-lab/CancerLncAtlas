@@ -1,0 +1,41 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T20:55:25.996632+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/drug_pharmacology.py": "1bbf7051bc4b65ece4df71d5361616ecd2fd3a60cb7d059d3a6587d715896d2e",
+    "cc_hhgt/v32/drug_training.py": "4ff035d5ad4ffd8585ceb67d50aae38469c094224245117bc424a954210e412c",
+    "cc_hhgt/v32/drug_training_streaming.py": "3eb4e8ba0574a069bfa157ac7ce347b6aa09c6b388d5dd73e6129f2386e0aa4d",
+    "cc_hhgt/v32/drug_attribution.py": "8dd31b114dc9140e959e2d8801099146ed5d1ac8e6de38182230b04edb783d5e",
+    "cc_hhgt/v32/drug_staging.py": "297283e859bb97577edd35330630ec62753f4ab45ed2b929b0619ffeb4f60ef7",
+    "scripts/run_v32_drug_training.py": "8f90e7de1fc183ef2684f2cfb662930ca26c78864f1898f932d1da9bbca758f4",
+    "scripts/materialize_v32_drug_pharmacology.py": "3ad2d02761a272830f03fea5747ce46cdbbc561b5f992c65498a697b4199f5ce",
+    "scripts/analyze_v32_drug_model_attribution.py": "96fb3ddb272978177d600bfe49a62f4daf3f1ee5474604d8c88c50f8cd98fdd4",
+    "requirements/requirements-drug-pharmacology.txt": "695fc7322c5fb05ab765ef6912d7b2eca5f6f58eb3922c922863ad148d732d9b",
+    "tests/test_v32_drug_pharmacology.py": "553e0158cea149d16f51ae674698a31ddc55982cdad7b892d60ac15775a9c06c",
+    "tests/test_v32_drug_attribution.py": "cb56898e959c0bdb02216fd51d593773935b062cbd7cf0a00392c809cf8b4b10"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/drug_pharmacology",
+  "verification_dependencies": {
+    "rdkit": "2025.9.3"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_drug_pharmacology.py",
+    "tests/test_v32_drug_attribution.py",
+    "tests/test_v32_drug_identity.py",
+    "tests/test_v32_drug_response_analysis.py",
+    "tests/test_v32_drug_training.py::test_vectorized_statistics_match_reference_without_fold_leakage",
+    "tests/test_v32_drug_training.py::test_prepared_context_cache_is_one_pass_and_reference_equivalent",
+    "tests/test_v32_drug_training.py::test_complete_overlap_uses_unique_model_consensus",
+    "tests/test_v32_drug_training.py::test_formal_streaming_resource_floors_cannot_be_disabled",
+    "--junitxml=provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T20:56:20.738659+00:00"
+}

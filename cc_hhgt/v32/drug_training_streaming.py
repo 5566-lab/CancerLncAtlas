@@ -324,6 +324,7 @@ def _execution_code_paths() -> dict[str, Path]:
     paths = {
         "drug_training_streaming.py": Path(__file__).resolve(),
         "drug_training.py": module_root / "drug_training.py",
+        "drug_pharmacology.py": module_root / "drug_pharmacology.py",
         "drug_staging.py": module_root / "drug_staging.py",
         "drug_sparse_query.py": module_root / "drug_sparse_query.py",
         "integrated_model.py": module_root / "integrated_model.py",
@@ -420,6 +421,7 @@ def _early_resource_preflight(
     conceptual_candidate_rows: int,
     pandas_input_paths: Mapping[str, Path],
     config: StreamingDrugTrainingConfig,
+    extra_domain_features: int = 0,
 ) -> dict[str, Any]:
     disk = _disk_preflight(output, conceptual_candidate_rows, config)
     input_sizes = {key: _path_size_bytes(path) for key, path in pandas_input_paths.items()}
@@ -428,6 +430,8 @@ def _early_resource_preflight(
         sum(input_sizes.values()) * RAM_INPUT_EXPANSION_MULTIPLIER
         + RAM_FIXED_OVERHEAD_BYTES
         + int(config.candidate_chunk_rows) * 2048
+        + (int(config.max_train_rows) + int(config.max_validation_rows) + 2*int(config.candidate_chunk_rows))
+          * int(extra_domain_features) * 4 * 4  # reservoirs, concatenation, scaling and tensors
     )
     ram_budget = max(
         0,
@@ -464,6 +468,7 @@ def _early_resource_preflight(
         "ram_reserve_bytes": RAM_RESERVE_BYTES,
         "ram_max_available_fraction": RAM_MAX_AVAILABLE_FRACTION,
         "estimated_peak_ram_bytes": estimated_ram,
+        "additional_pharmacology_domain_features": int(extra_domain_features),
         "ram_budget_bytes": ram_budget,
         "ram_status": ram_status,
         "duckdb_temp_directory": str(output / ".duckdb_tmp"),
@@ -1977,6 +1982,7 @@ def _run_streaming_drug_training_impl(
     output_root: str | Path,
     training_run_id: str,
     curated_drug_response_path: str | Path | None = None,
+    pharmacology_manifest_path: str | Path | None = None,
     expected_staging_manifest_sha256: str | None = None,
     expected_exact_release_prediction_sha256: str | None = None,
     expected_exact_release_lineage_sha256: str | None = None,
@@ -2016,11 +2022,18 @@ def _run_streaming_drug_training_impl(
         for key in ("response", "expression", "mapping", "targets", "curated")
         if key in paths
     }
+    pharmacology_paths = {}; extra_features = ()
+    if pharmacology_manifest_path is not None:
+        from .drug_pharmacology import source_paths, FEATURES
+        pharmacology_paths = source_paths(pharmacology_manifest_path)
+        pandas_input_paths.update({"pharmacology_"+k:p for k,p in pharmacology_paths.items()})
+        extra_features = FEATURES
     budget = _early_resource_preflight(
         output,
         int(definition["conceptual_candidate_rows"]),
         pandas_input_paths,
         settings,
+        extra_domain_features=len(extra_features),
     )
     budget.update(
         {
@@ -2074,6 +2087,7 @@ def _run_streaming_drug_training_impl(
     }
     if "curated" in paths:
         input_hash_paths["curated_drug_response"] = paths["curated"]
+    input_hash_paths.update({"pharmacology_"+k:p for k,p in pharmacology_paths.items()})
     code_paths = _execution_code_paths()
     for role, path in staging_validation["code_snapshot_paths"].items():
         if path not in code_paths.values():
@@ -2091,6 +2105,12 @@ def _run_streaming_drug_training_impl(
         base.normalise_cell_line_map(base._read_table(paths["mapping"])), settings.seed
     )
     targets = base.normalise_drug_targets(base._read_table(paths["targets"]))
+    pharmacology = None
+    domain_features = [*base._DOMAIN_FEATURES, *extra_features]
+    if pharmacology_manifest_path is not None:
+        from .drug_pharmacology import load_pharmacology
+        pharmacology = load_pharmacology(pharmacology_manifest_path, targets=targets, response=response, mapping=mapping)
+        _atomic_json(output / "PHARMACOLOGY_FEATURE_RECEIPT.json", pharmacology.receipt())
     native_drugs = set(response.drug_id.astype(str))
     targeted_drugs = set(targets.drug_id.astype(str))
     matched_drugs = native_drugs & targeted_drugs
@@ -2169,6 +2189,10 @@ def _run_streaming_drug_training_impl(
         source_specs.append(
             {"path": paths["curated"], "generation": "historical_curated_observation", "source_role": "raw_data", "outcome_derived": True, "fold_fitted": False, "use_role": "training_target", "artifact_id": "curated_lncrna_drug_response_observations"}
         )
+    if pharmacology is not None:
+        source_specs.extend({"path":r["path"], "generation":"historical_static", "source_role":"static_annotation",
+            "outcome_derived":False, "fold_fitted":False, "use_role":"aux_input", "artifact_id":"pharmacology_"+role}
+            for role,r in pharmacology.sources.items())
     source_audit = audit_input_lineage(source_specs)
     if source_audit["status"] != "PASS":
         failures = {
@@ -2197,6 +2221,21 @@ def _run_streaming_drug_training_impl(
             paths["core_manifest"], core_manifest, targets, matched_drugs
         )
     )
+    if pharmacology is not None:
+        from .drug_pharmacology import TARGET_POOLS
+        widths = {int(core.gene.values.shape[1]) for core in cores.values()}
+        if len(widths) != 1: raise base.DrugTrainingError("Pharmacology core width differs across folds")
+        extra_width = len(TARGET_POOLS)*next(iter(widths))
+        additional = ((settings.max_train_rows+settings.max_validation_rows+2*settings.candidate_chunk_rows)*extra_width*4*4
+                      + len(pharmacology.structures)*extra_width*4*len(cores))
+        budget["additional_pharmacology_core_features"] = extra_width
+        budget["estimated_peak_ram_bytes"] += int(additional)
+        budget["duckdb_memory_limit_bytes"] = min(budget["duckdb_memory_limit_bytes"],
+            max(0,budget["ram_budget_bytes"]-budget["estimated_peak_ram_bytes"]))
+        enough = budget["estimated_peak_ram_bytes"] <= budget["ram_budget_bytes"] and budget["duckdb_memory_limit_bytes"] >= 256*1024**2
+        budget.update(status="PASS" if enough else "FAIL", pharmacology_core_allocation_guard="BEFORE_FEATURE_RESERVOIRS_AND_ANY_OPTIMIZER")
+        _atomic_json(output/"EXECUTION_BUDGET_AUDIT.json",budget)
+        if not enough: raise base.DrugTrainingError("Pharmacology target pools exceed the verified RAM budget")
     core_target_preflight_path = output / "CORE_TARGET_PREFLIGHT_AUDIT.json"
     _atomic_json(core_target_preflight_path, core_target_preflight_audit)
     expression_fold_coverage_path = output / "LNCRNA_EXPRESSION_FOLD_COVERAGE.parquet"
@@ -2341,7 +2380,8 @@ def _run_streaming_drug_training_impl(
     for fold in range(base.N_FOLDS):
         core = cores[fold]
         features = drug_features[fold]
-        core_width = int(core.lncrna.values.shape[1] * 3)
+        from .drug_pharmacology import TARGET_POOLS
+        core_width = int(core.lncrna.values.shape[1] * (3+len(TARGET_POOLS) if pharmacology is not None else 3))
         train_reservoir = _BalancedReservoir(settings.max_train_rows, settings.seed + fold)
         validation_reservoir = _BalancedReservoir(
             settings.max_validation_rows, settings.seed + 50_000 + fold
@@ -2369,7 +2409,7 @@ def _run_streaming_drug_training_impl(
                 eligible_lncrnas,
                 settings.candidate_chunk_rows, output, budget,
             ):
-                candidate_core, core_available = base._candidate_core(candidates, core, vectors)
+                candidate_core, core_available = base._candidate_core(candidates, core, vectors, pharmacology=pharmacology)
                 target_core_available = candidates.drug_id.astype(str).map(
                     target_available
                 ).fillna(False).to_numpy(dtype=bool)
@@ -2377,22 +2417,26 @@ def _run_streaming_drug_training_impl(
                 train_stats = _association_statistics_vectorized(
                     candidates, train_context, target_counts, target_available, settings
                 )
+                if pharmacology is not None:
+                    train_stats = pharmacology.augment(train_stats, candidates, base._split_models(mapping, fold, "train"), core=core)
                 train_labels = train_stats.labels.copy()
                 train_labels[~core_available] = np.nan
                 train_reservoir.offer(candidate_core, train_stats.domain, train_labels)
                 validation_stats = _association_statistics_vectorized(
                     candidates, validation_context, target_counts, target_available, settings
                 )
+                if pharmacology is not None:
+                    validation_stats = pharmacology.augment(validation_stats, candidates, base._split_models(mapping, fold, "validation"), core=core)
                 validation_labels = validation_stats.labels.copy()
                 validation_labels[~core_available] = np.nan
                 validation_reservoir.offer(
                     candidate_core, validation_stats.domain, validation_labels
                 )
         train_core, train_domain, train_labels = train_reservoir.arrays(
-            core_width, len(base._DOMAIN_FEATURES)
+            core_width, len(domain_features)
         )
         validation_core, validation_domain, validation_labels = validation_reservoir.arrays(
-            core_width, len(base._DOMAIN_FEATURES)
+            core_width, len(domain_features)
         )
         if set(np.unique(train_labels)) != {0.0, 1.0}:
             fold_status.append(
@@ -2440,7 +2484,8 @@ def _run_streaming_drug_training_impl(
                 "cell_line_fold": fold,
                 "model_state": head.state_dict(),
                 "initialization": initialization,
-                "domain_features": list(base._DOMAIN_FEATURES),
+                "domain_features": domain_features,
+                "pharmacology_features": pharmacology.receipt() if pharmacology is not None else None,
                 "domain_mean": mean,
                 "domain_scale": scale,
                 "history": history,
@@ -2555,7 +2600,7 @@ def _run_streaming_drug_training_impl(
             for fold, head in heads.items():
                 vectors, target_counts, target_available = drug_features[fold]
                 candidate_core, core_available = base._candidate_core(
-                    candidates, cores[fold], vectors
+                    candidates, cores[fold], vectors, pharmacology=pharmacology
                 )
                 target_core_available = candidates.drug_id.astype(str).map(
                     target_available
@@ -2564,6 +2609,8 @@ def _run_streaming_drug_training_impl(
                 stats = _association_statistics_vectorized(
                     candidates, contexts[fold], target_counts, target_available, settings
                 )
+                if pharmacology is not None:
+                    stats = pharmacology.augment(stats, candidates, base._split_models(mapping, fold, "test"), core=cores[fold])
                 mask = stats.assay_available & core_available
                 if not mask.any():
                     continue
@@ -2608,6 +2655,8 @@ def _run_streaming_drug_training_impl(
             public["module_id"] = base.MODULE_ID
             public["target_level"] = base.TARGET_LEVEL
             public["prediction_format"] = STREAMING_PREDICTION_FORMAT
+            public["pharmacology_features_consumed"] = pharmacology is not None
+            public["dose_specific_response_claimed"] = False
             public["curated_evidence_count"] = [
                 int(curated_count.get(tuple(row), 0))
                 for row in public[list(base.TARGET_KEYS)].itertuples(index=False, name=None)
@@ -2771,6 +2820,7 @@ def _run_streaming_drug_training_impl(
     )
     conceptual_rows = int(definition["conceptual_candidate_rows"])
     lineage = {
+        "pharmacology_features": pharmacology.receipt() if pharmacology is not None else None,
         "module_id": base.MODULE_ID,
         "analysis_version": base.ANALYSIS_VERSION,
         "training_run_id": str(training_run_id),
@@ -3000,17 +3050,21 @@ def run_streaming_drug_training(
     output_root: str | Path,
     training_run_id: str,
     curated_drug_response_path: str | Path | None = None,
+    pharmacology_manifest_path: str | Path | None = None,
     expected_staging_manifest_sha256: str | None = None,
     expected_exact_release_prediction_sha256: str | None = None,
     expected_exact_release_lineage_sha256: str | None = None,
     config: StreamingDrugTrainingConfig | None = None,
 ) -> dict[str, Any]:
     """Fail-closed public wrapper with non-reusable output and terminal markers."""
-
+    import socket
+    if socket.gethostname() != "149": raise base.DrugTrainingError("Drug execution requires target host 149")
     output = Path(output_root).resolve()
     if output.exists() and any(output.iterdir()):
         raise base.DrugTrainingError(f"Refusing to overwrite non-empty output: {output}")
     output.mkdir(parents=True, exist_ok=True)
+    _atomic_json(output/"LAUNCH_PREFLIGHT.json", {"target_host":"149", "training_started":False,
+        "stage":"DRUG_STREAMING_PREFLIGHT", "training_run_id":training_run_id})
     in_progress = output / "RUN_IN_PROGRESS.json"
     _atomic_json(
         in_progress,
@@ -3036,6 +3090,7 @@ def run_streaming_drug_training(
             output_root=output,
             training_run_id=training_run_id,
             curated_drug_response_path=curated_drug_response_path,
+            pharmacology_manifest_path=pharmacology_manifest_path,
             expected_staging_manifest_sha256=expected_staging_manifest_sha256,
             expected_exact_release_prediction_sha256=(
                 expected_exact_release_prediction_sha256

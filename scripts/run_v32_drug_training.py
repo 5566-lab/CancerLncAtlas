@@ -43,6 +43,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--cell-line-map", required=True)
     parser.add_argument("--drug-gene-target", required=True)
     parser.add_argument("--curated-drug-response")
+    parser.add_argument("--pharmacology-manifest", help="Hash-bound action, affinity, SMILES and assay-design sources; adds explicit masked pharmacology features")
     parser.add_argument("--core-embedding-manifest", required=True)
     parser.add_argument(
         "--expected-staging-manifest-sha256",
@@ -184,6 +185,7 @@ def main(argv: list[str] | None = None) -> int:
             cell_line_map_path=_resolve(root, args.cell_line_map),
             drug_gene_target_path=_resolve(root, args.drug_gene_target),
             curated_drug_response_path=_resolve(root, args.curated_drug_response),
+            pharmacology_manifest_path=_resolve(root, args.pharmacology_manifest),
             core_embedding_manifest_path=_resolve(root, args.core_embedding_manifest),
             output_root=_resolve(root, args.output_root),
             training_run_id=args.training_run_id,
@@ -206,6 +208,7 @@ def main(argv: list[str] | None = None) -> int:
             cell_line_map_path=_resolve(root, args.cell_line_map),
             drug_gene_target_path=_resolve(root, args.drug_gene_target),
             curated_drug_response_path=_resolve(root, args.curated_drug_response),
+            pharmacology_manifest_path=_resolve(root, args.pharmacology_manifest),
             core_embedding_manifest_path=_resolve(root, args.core_embedding_manifest),
             output_root=_resolve(root, args.output_root),
             training_run_id=args.training_run_id,
