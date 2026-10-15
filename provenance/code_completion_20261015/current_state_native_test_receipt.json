@@ -1,0 +1,25 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T19:49:22.407973+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_state_context.py": "16aea238d32ff49e02295964d7e345ff7268acf7aea6a062a6cc2fd6e9bf5045",
+    "scripts/materialize_v32_state_gene_sets.py": "4fd6948aa7e374e5fb3fa5110e268485bef02c61453e7f2ccd45f78df4d1c3eb",
+    "tests/test_v32_current_state_context.py": "4d44b84477bc51a5591107ab1caf5b736098cfb2d9b2207c31fecef4e7c2b687"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_state_context.py",
+    "tests/test_v32_current_core_prediction.py",
+    "tests/test_v32_current_core_export.py",
+    "tests/test_v32_selected_analysis.py",
+    "--junitxml=provenance/code_completion_20261015/current_state_native_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T19:50:43.564030+00:00"
+}

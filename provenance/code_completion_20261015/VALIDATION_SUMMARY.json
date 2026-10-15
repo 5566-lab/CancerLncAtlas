@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 334,
+  "unique_test_cases_passed": 353,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -105,7 +105,10 @@
     "cc_hhgt/v32/native_auxiliary_fusion.py": "1bf7f39cb9af88c1e9755ee9020e435f9d559412c6bf232d86d19fc63a0a7532",
     "cc_hhgt/v32/cnv_only_training.py": "b160ff744b41a82896d9a48be2d13274151af3064c48bc9314cbc51676ea5507",
     "scripts/materialize_v32_native_auxiliary_fusion.py": "9320612a5d10eb35207ed409a2b48aca953d0e2008905019679ba30f9284f971",
-    "tests/test_v32_native_auxiliary_fusion.py": "5fe3a7a18eee97565a5a54aa22ca1765cd7f36388e9074afb5ed43fbf3fb3ec0"
+    "tests/test_v32_native_auxiliary_fusion.py": "5fe3a7a18eee97565a5a54aa22ca1765cd7f36388e9074afb5ed43fbf3fb3ec0",
+    "cc_hhgt/v32/current_state_context.py": "16aea238d32ff49e02295964d7e345ff7268acf7aea6a062a6cc2fd6e9bf5045",
+    "scripts/materialize_v32_state_gene_sets.py": "4fd6948aa7e374e5fb3fa5110e268485bef02c61453e7f2ccd45f78df4d1c3eb",
+    "tests/test_v32_current_state_context.py": "4d44b84477bc51a5591107ab1caf5b736098cfb2d9b2207c31fecef4e7c2b687"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -136,7 +139,10 @@
     "The 70-case native auxiliary suite also covers the signed single-cell/current rule consumers. Cumulative counts are not a full current-suite rerun.",
     "Native auxiliary replay inspects checkpoints and reconstructs fold aggregation/context/coverage. It does not reproduce omics-derived model forwards or establish biological validation.",
     "CNV event and expression-association proxy outputs remain distinct experts. Historical unbound V1 event manifests are not silently promoted; newly generated event manifests include run/input/partition bindings.",
-    "C01/C05/C08/C13/C15/C16 remain unfinished. C05 still needs State/Clinical native context consumption and authentic post-selection fusion-label authority; its primary-label integration checks remain synthetic."
+    "Native State five-fold results now reach native State GeneSets and actual selected-score-weighted member profiles, coverage, GMT and query consumers. No real cohort or current State release was processed.",
+    "State aggregation is independently reconstructed from the native OOF table; private-head predictions and raw-measurement statistics are not replayed. Patient consistency is checked within the native input authority; global cross-module patient/use inventory completeness remains C16.",
+    "Selected State profiles are descriptive weighted member summaries, not joint GeneSet effects, causal estimates, calibrated pathway probabilities or significance tests; they do not change primary/fusion ranking.",
+    "C01/C05/C08/C13/C15/C16 remain unfinished. C05 still needs Clinical native context consumption and authentic post-selection fusion-label authority; its primary-label integration checks remain synthetic."
   ],
   "test_suites": [
     {
@@ -178,6 +184,11 @@
       "path": "provenance/code_completion_20261015/current_source_binding_tests.xml",
       "passed": 13,
       "sha256": "319f84c9815760eb68e699ff28a026b1579730d0f3712f960c0973550137c457"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_state_native_tests.xml",
+      "passed": 79,
+      "sha256": "88466603c88f704ec3318063fae30cb20faec9605e9b549052ccea9bb07beac5"
     },
     {
       "path": "provenance/code_completion_20261015/drug_analysis_tests.xml",
@@ -511,67 +522,67 @@
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_actual_v4_loaders_all_chunks_existing_cli_and_selected_geneset_consumer",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_chunk_logits_precede_sigmoid_and_candidate_order_is_restored_without_label_reads",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[checkpoint]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[run]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[weights]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[availability]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[duplicate]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[extra]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[feature]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[indices]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[missing]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[nan]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[sealed]",
-      "suite": "provenance/code_completion_20261015/current_core_prediction_tests.xml"
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
@@ -772,6 +783,101 @@
       "module": "tests.test_v32_current_rule_evidence",
       "case": "test_row_order_and_database_copy_invariance_and_preserved_contexts",
       "suite": "provenance/code_completion_20261015/native_auxiliary_fusion_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_current_cli_does_not_allow_fixture_authority_or_missing_inputs",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_empty_selected_sets_keep_seven_state_coverage_without_invented_profiles",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_existing_cli_current_native_route_profiles_neutral_missing_and_queries",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_materializer_enforces_server149_before_writing",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_minimum_available_fold_count_preserves_distinct_missing_reasons",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_five_fold_recomputation_and_null_semantics[aggregate]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_five_fold_recomputation_and_null_semantics[bad_direction]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_five_fold_recomputation_and_null_semantics[bad_effect]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_five_fold_recomputation_and_null_semantics[partial_folds]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_five_fold_recomputation_and_null_semantics[sentinel]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_five_fold_recomputation_and_null_semantics[string_bool]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_source_identity_and_actual_tensors_are_required[checkpoint_run]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_source_identity_and_actual_tensors_are_required[checkpoint_tensor]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_source_identity_and_actual_tensors_are_required[fold_parent]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_source_identity_and_actual_tensors_are_required[frozen]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_source_identity_and_actual_tensors_are_required[missing_input]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_source_identity_and_actual_tensors_are_required[state_run]",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_same_run_id_cannot_substitute_a_different_selected_core_checkpoint",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_selected_scores_change_profiles_and_missing_weight_is_not_a_zero_effect",
+      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_head_input",
@@ -1900,8 +2006,8 @@
     }
   ],
   "latest_change_validation": {
-    "tag": "native_auxiliary_fusion",
-    "passed": 70,
+    "tag": "current_state_native",
+    "passed": 79,
     "target_host": "149",
     "training_started": false
   },

@@ -1,0 +1,47 @@
+{
+  "method": "NATIVE_STATE_OOF_AND_CURRENT_SELECTED_ANALYSIS_TO_STATE_GENESETS_AND_WEIGHTED_CONTEXT",
+  "source_hash_receipts": [
+    "current_state_native"
+  ],
+  "reference_files": [
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\state_training.py",
+      "sha256": "366ee11c149dfb6c36efd55dbd3aba9de96fc9d380404a3b8fe61a8352ef1ec5"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\state_gene_set_release.py",
+      "sha256": "fcc7a9e3022a7a42de1d93123d27f73b49ca01a45bd3c9576c67d3e52b694f43"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_core_export.py",
+      "sha256": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_core_prediction.py",
+      "sha256": "cf82a1ce416dfc4a1ba37916f1a168a4542c46af506c249530da4ddd9bbfb96b"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\selected_score.py",
+      "sha256": "3951105d6603be35fc8e4924f30220aa138d50a809230994e015bd649dc83320"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\selected_genesets.py",
+      "sha256": "d25db37e46ac8144ba0a178899945000c4e68c8199c90f507e542993f074bb44"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/current_state_context.py",
+    "scripts/materialize_v32_state_gene_sets.py",
+    "tests/test_v32_current_state_context.py"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Bind native State lineage, raw input identities, five actual private checkpoints and the same selected current core.",
+    "Independently reconstruct native pair-count-weighted OOF probabilities/effects, preserving null reasons and neutral measured effects.",
+    "Compute native signed State GeneSets and selected-score-weighted member profiles with member/weight coverage and empty-set reasons.",
+    "Connect the existing State CLI and version-bound context queries/downloads; independently reject changed core identity and modified profiles.",
+    "Distinguish descriptive member summaries from joint GeneSet inference, raw-measurement replay and private-head forward replay."
+  ]
+}

@@ -15,23 +15,42 @@ if str(ROOT) not in sys.path:
 from cc_hhgt.v32.state_gene_set_release import materialize_state_gene_set_release
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--state-predictions', required=True, type=Path)
-    parser.add_argument('--state-lineage', required=True, type=Path)
-    parser.add_argument('--state-checkpoints', required=True, type=Path)
+    parser.add_argument('--current-manifest', type=Path,
+        help='CURRENT_STATE_CONTEXT_INPUT_V1: native State lineage, current core and selected analysis; set policy lives in the manifest')
+    parser.add_argument('--state-predictions', type=Path)
+    parser.add_argument('--state-lineage', type=Path)
+    parser.add_argument('--state-checkpoints', type=Path)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--fixture-authority', action='store_true')
-    parser.add_argument('--cancer-max-members', type=int, default=100)
-    parser.add_argument('--pan-cancer-max-members', type=int, default=200)
-    parser.add_argument('--minimum-set-members', type=int, default=3)
-    parser.add_argument('--pan-cancer-min-cancers', type=int, default=5)
-    parser.add_argument('--pan-cancer-min-direction-consistency', type=float, default=0.60)
-    return parser.parse_args()
+    parser.add_argument('--cancer-max-members', type=int)
+    parser.add_argument('--pan-cancer-max-members', type=int)
+    parser.add_argument('--minimum-set-members', type=int)
+    parser.add_argument('--pan-cancer-min-cancers', type=int)
+    parser.add_argument('--pan-cancer-min-direction-consistency', type=float)
+    args = parser.parse_args(argv)
+    legacy = [args.state_predictions, args.state_lineage, args.state_checkpoints]
+    if args.current_manifest and (any(legacy) or args.fixture_authority):
+        parser.error('Current native State inputs cannot be mixed with legacy or fixture authority')
+    if not args.current_manifest and not all(legacy):
+        parser.error('Provide --current-manifest or all three legacy State inputs')
+    defaults = dict(cancer_max_members=100, pan_cancer_max_members=200, minimum_set_members=3,
+        pan_cancer_min_cancers=5, pan_cancer_min_direction_consistency=.60)
+    if args.current_manifest and any(getattr(args,key) is not None for key in defaults):
+        parser.error('Current State set policy must be recorded in the input manifest')
+    for key,value in defaults.items():
+        if getattr(args,key) is None: setattr(args,key,value)
+    return args
 
 
-def main() -> None:
-    args = parse_args()
+def main(argv=None) -> int:
+    args = parse_args(argv)
+    if args.current_manifest:
+        from cc_hhgt.v32.current_state_context import materialize_current_state_context
+        result = materialize_current_state_context(args.current_manifest, args.output)
+        print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
+        return 0
     result = materialize_state_gene_set_release(
         state_prediction_path=args.state_predictions,
         state_lineage_path=args.state_lineage,
@@ -46,7 +65,8 @@ def main() -> None:
         pan_cancer_min_direction_consistency=args.pan_cancer_min_direction_consistency,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())

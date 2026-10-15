@@ -1022,3 +1022,88 @@ consumer, and current full-candidate primary predictions still need the authenti
 post-selection label authority for fusion. The preparation tests above use
 explicit synthetic primary-label fixtures; they do not establish that unfinished
 connection or independent pair-held-out performance for native patient-OOF heads.
+
+Current native State results and selected GeneSet context
+-------------------------------------------------------
+
+The existing scripts/materialize_v32_state_gene_sets.py command now accepts
+``--current-manifest INPUT.json --output NEW_DIRECTORY`` on host 149. Legacy
+inputs remain supported; current manifests cannot use ``--fixture-authority``
+or unrecorded command-line threshold overrides. This path only consumes
+completed sources and computes descriptive summaries. It cannot train a head.
+
+The input JSON has format CURRENT_STATE_CONTEXT_INPUT_V1, core_run_id,
+state_run_id, and three {path, sha256} records: core_manifest (the current V2
+core export), state_training_lineage (the native STATE_TRAINING_LINEAGE.json),
+and selected_analysis (SELECTED_ANALYSIS_BINDING.json). Optional state_sets
+contains cancer_max_members=100, pan_cancer_max_members=200,
+minimum_set_members=3, pan_cancer_min_cancers=5 and
+pan_cancer_min_direction_consistency=0.60. The last threshold must exceed 0.5;
+a tied positive/negative cancer count cannot establish a consistent direction.
+
+The adapter reads actual native private-head checkpoints, verifies their tensor
+fingerprints and architecture, deterministic initialization receipts and changed
+parameters, and binds all five frozen core checkpoints to the selected primary
+reference. It checks the native input hashes, patient-fold consistency, complete
+five-fold predictions per native candidate and original aggregate. The native
+producer's core run must match the selected analysis's current V4 reference,
+including when the selected scores themselves came from residual fusion.
+
+DuckDB independently reconstructs native State aggregation: available fold
+predictions are weighted by max(test_n_pairs, 1), with the producer's original
+minimum available-fold count. Missing folds retain their native reasons.
+Predicted membership probability, observed held-out Pearson correlation and
+effect direction remain separate. Measured zero is a valid neutral effect.
+Unavailable values must be null, and availability must be Boolean. The adapter
+does not estimate a causal effect or treat a State probability as an exact
+pathway membership probability.
+
+Two actual downstream computations share this bound source:
+
+* Native cancer-specific and direction-consistent pan-cancer State GeneSets
+  use the existing ranking algorithms and recorded set thresholds. Neutral
+  effects remain in the aggregate and selected-member context, and are excluded
+  from both positive and negative State sets. GMT members preserve the native
+  gene-ID convention and include source-run and selected-analysis identity.
+* Every selected pathway GeneSet member is joined to all seven State programs.
+  Its actual selected score weights the available members' predicted membership
+  and observed correlations. Profiles report member coverage and available score
+  mass divided by total selected score mass. Missing members never enter the
+  available-weight denominator as zero effects. No available weight produces a
+  null summary with reason. All seven states also appear in coverage for groups
+  that failed the selected GeneSet threshold and therefore exported no set.
+
+The weighted correlation is explicitly a descriptive mean over selected
+members. It is not a correlation of joint GeneSet activity, a posterior
+probability, a p-value or an independent validation result. Pathway association
+direction and State correlation direction are different columns. State context
+does not change the already selected primary/fusion ranking.
+
+Outputs include native_state_aggregate.parquet, state_geneset_catalog.parquet,
+state_geneset_members.parquet, state_genesets.gmt,
+selected_member_states.parquet, selected_geneset_state_profiles.parquet and
+selected_state_coverage.parquet. CURRENT_STATE_CONTEXT_BINDING.json binds the
+input manifest, source artifacts, selected version, policy, implementation and
+outputs. A successful source recomputation writes RECOMPUTATION_AUDIT.json and
+SUCCESS.json. Rehashing a modified profile cannot bypass recomputation.
+
+CurrentStateContextQuery(binding_path, expected_sha=..., selected_analysis_sha=...)
+provides exact, parameterized filters and version-bound downloads. The default
+query table is selected_geneset_state_profiles; member, coverage and native
+State tables are separately queryable. A different selected-analysis identity
+is rejected. This query class is not yet a website/API route.
+
+Synthetic verification uses real tiny V4 checkpoint loaders, all-chunk frozen
+inference/export, the selected-analysis materializer, native-format State
+checkpoint serialization, and the existing State command. Optimizers and
+native State fitting are forbidden. The tests exercise observed zeros, neutral
+effects, missing measurements, absent members, empty sets, invalid source
+identity, five-fold incompleteness and changed selected-score weights. Raw
+measurement statistics and private State model predictions are not replayed;
+the binding and audit explicitly record both limits. No real cohort was run.
+
+C05 remains in progress: Clinical native context and authentic post-selection
+fusion-label authority still require implementation. C15 also still needs the
+actual API/frontend and full multi-module download integration. This change
+completes the native State-to-selected-context subpath, not those requirements
+as a whole.
