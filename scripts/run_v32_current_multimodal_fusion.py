@@ -62,6 +62,7 @@ def main(argv=None):
         raise ValueError("Primary fold labels differ from the selected core binding")
     folds=[bound(item["artifact"]) for item in sorted(fold_records,key=lambda item:item["fold_id"])]
     experts={}
+    native_audits={}
     for item in manifest["experts"]:
         definition=dict(item["spec"])
         definition["endpoint_roles"]=tuple(definition["endpoint_roles"])
@@ -75,6 +76,12 @@ def main(argv=None):
             raise ValueError("Current policy excludes the retired neural Evidence head")
         audit_path=bound(item["binding_audit"],"provenance_audited_standardized_source")
         audit=json.loads(audit_path.read_text(encoding="utf-8"))
+        if audit.get("format")=="NATIVE_AUXILIARY_FUSION_BINDING_V1":
+            from cc_hhgt.v32.native_auxiliary_fusion import load_native_auxiliary
+            if audit_path not in native_audits:
+                _,native_audits[audit_path]=load_native_auxiliary(audit_path,
+                    expected_sha=verified[audit_path],expected_core_run_id=args.expected_core_run_id)
+            audit=native_audits[audit_path]
         if audit.get("run_id")!=item["run_id"] or audit.get("estimand")!=item["estimand"]:
             raise ValueError(f"{spec.expert_id} run identity or estimand differs from its producer audit")
         dependency=audit.get("core_dependency")

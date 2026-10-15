@@ -1,0 +1,50 @@
+{
+  "method": "NATIVE_CHECKPOINT_AND_PARTITION_READERS_TO_CURRENT_FUSION_CONSUMPTION",
+  "source_hash_receipts": [
+    "native_auxiliary_fusion"
+  ],
+  "reference_files": [
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\genomic_training.py",
+      "sha256": "6869b6ce3882f63543902538d57cc3a85f3a34d332ed6cf8a0526de448620d2e"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\cnv_only_training.py",
+      "sha256": "b160ff744b41a82896d9a48be2d13274151af3064c48bc9314cbc51676ea5507"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\cnv_only_training_v2.py",
+      "sha256": "097fd002ac66535409d85a45a19afd73feb1dd191322dc303849da2bba83a8af"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\atac_training.py",
+      "sha256": "acd7a0c251f0a6d21f8fb4109a67eae046806fd1e642a5f27abd6ea798a22217"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_core_export.py",
+      "sha256": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\multimodal_fusion.py",
+      "sha256": "2cd2d0b4e3264748ea597a0074e5ad423e78be79686773148e3ec62b0271947c"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/native_auxiliary_fusion.py",
+    "cc_hhgt/v32/cnv_only_training.py",
+    "scripts/materialize_v32_native_auxiliary_fusion.py",
+    "scripts/run_v32_current_multimodal_fusion.py",
+    "tests/test_v32_native_auxiliary_fusion.py"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Read native model success/lineage/checkpoints and all five original fold partitions.",
+    "Bind current-core-dependent heads to their actual selected V4 exports and verify canonical patient/candidate identity.",
+    "Stream equal-available-fold aggregation, preserve native context/reasons/coverage, and keep distinct CNV targets separate.",
+    "Version the original CNV event writer with authentic run, precheck and partition hashes without changing its scientific target.",
+    "Connect the actual current fusion CLI to source replay; verify frozen contributions and exact wholly-missing primary fallback.",
+    "Expose scope honestly: no native raw-omics forward replay, new fitting, independent validation or real analysis."
+  ]
+}

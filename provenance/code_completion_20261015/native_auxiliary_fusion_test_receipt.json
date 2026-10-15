@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T19:21:55.745313+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/native_auxiliary_fusion.py": "1bf7f39cb9af88c1e9755ee9020e435f9d559412c6bf232d86d19fc63a0a7532",
+    "cc_hhgt/v32/cnv_only_training.py": "b160ff744b41a82896d9a48be2d13274151af3064c48bc9314cbc51676ea5507",
+    "scripts/materialize_v32_native_auxiliary_fusion.py": "9320612a5d10eb35207ed409a2b48aca953d0e2008905019679ba30f9284f971",
+    "scripts/run_v32_current_multimodal_fusion.py": "2665f083bbde902d3beca01bccc2bb1e072a22103830dd5fc8e76edfcb7db36a",
+    "tests/test_v32_native_auxiliary_fusion.py": "5fe3a7a18eee97565a5a54aa22ca1765cd7f36388e9074afb5ed43fbf3fb3ec0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "tests/test_v32_signed_single_cell_fusion.py",
+    "tests/test_v32_current_rule_evidence.py",
+    "--junitxml=provenance/code_completion_20261015/native_auxiliary_fusion_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T19:22:49.233364+00:00"
+}

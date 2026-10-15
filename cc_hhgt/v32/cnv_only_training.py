@@ -121,6 +121,37 @@ def _canonical_patient(value: Any) -> str:
     return text[:12] if text.startswith("TCGA-") else text
 
 
+def write_cnv_event_oof_manifest(output: Path, *, training_run_id: str, checkpoints: list,
+                                 predictions: list, core_manifest_sha: str, core_composite: str,
+                                 core_hashes_before: dict, core_hashes_after: dict) -> dict:
+    """Bind the native event-phi producer's actual partitions; never change its target."""
+    output = Path(output).resolve()
+    if (output/"OOF_MANIFEST.json").exists():
+        raise ValueError("Refuse to overwrite an existing CNV event manifest")
+    precheck = output/"INPUT_PRECHECK.json"
+    inputs = json.loads(precheck.read_text(encoding="utf-8"))
+    if (inputs.get("status") != "PASS" or not training_run_id
+            or _file_sha256(inputs["core_manifest_path"]) != core_manifest_sha
+            or core_hashes_before != core_hashes_after):
+        raise ValueError("CNV event producer input/core identity changed")
+    for role in ("candidates", "folds"):
+        if _file_sha256(inputs[role+"_path"]) != inputs[role+"_sha256"]:
+            raise ValueError("CNV event producer candidate/patient authority changed")
+    payload = {"format":"CC_HHGT_V3_2_CNV_HEAD_OOF_V2","status":"SUCCESS",
+        "training_run_id":str(training_run_id),"target":"positive_cnv_event_cooccurrence_phi",
+        "cnv_only":True,"five_fold_oof":True,"mutation_features_used":False,
+        "checkpoint_count":len(checkpoints),"checkpoints":checkpoints,
+        "predictions":[{**r,"sha256":_file_sha256(r["path"])} for r in predictions],
+        "prediction_file_count":len(predictions),"core_manifest_sha256":core_manifest_sha,
+        "core_parameter_composite_sha256":core_composite,
+        "candidate_authority_sha256":inputs["candidates_sha256"],"fold_manifest_sha256":inputs["folds_sha256"],
+        "input_precheck":{"path":str(precheck),"sha256":_file_sha256(precheck)},
+        "core_parameters_before_sha256":core_hashes_before,"core_parameters_after_sha256":core_hashes_after,
+        "old_checkpoint_loaded":False,"old_predictions_used":False,"metrics_path":str(output/"METRICS.json")}
+    _atomic_json(output/"OOF_MANIFEST.json",payload)
+    return payload
+
+
 def run_cnv_only_oof(*, candidates_path: str | Path, folds_path: str | Path,
                      streaming_root: str | Path, core_manifest_path: str | Path,
                      output_root: str | Path, training_run_id: str,
@@ -272,5 +303,7 @@ def run_cnv_only_oof(*, candidates_path: str | Path, folds_path: str | Path,
     if core_hashes_after != core_hashes_before or _file_sha256(core_manifest_path) != manifest_sha:
         raise RuntimeError("Frozen core embedding or manifest changed during CNV-only OOF")
     _atomic_json(output / "METRICS.json", {"format":"CC_HHGT_V3_2_CNV_HEAD_OOF_METRICS_V1","records":metric_records,"global":{"n":int(sum(x["n"] for x in metric_records)),"brier":float(np.average([x["brier"] for x in metric_records],weights=[x["n"] for x in metric_records])) if metric_records else None,"logloss":float(np.average([x["logloss"] for x in metric_records],weights=[x["n"] for x in metric_records])) if metric_records else None}})
-    _atomic_json(output / "OOF_MANIFEST.json", {"format":"CC_HHGT_V3_2_CNV_HEAD_OOF_V1","status":"SUCCESS","cnv_only":True,"mutation_features_used":False,"checkpoint_count":5,"checkpoints":checkpoint_records,"predictions":prediction_records,"core_manifest_sha256":manifest_sha,"core_parameter_composite_sha256":core_composite,"core_parameters_before_sha256":core_hashes_before,"core_parameters_after_sha256":core_hashes_after,"old_checkpoint_loaded":False,"old_predictions_used":False,"metrics_path":str(output/"METRICS.json")})
+    write_cnv_event_oof_manifest(output,training_run_id=training_run_id,checkpoints=checkpoint_records,
+        predictions=prediction_records,core_manifest_sha=manifest_sha,core_composite=core_composite,
+        core_hashes_before=core_hashes_before,core_hashes_after=core_hashes_after)
     return {"status":"SUCCESS","checkpoint_count":5,"prediction_files":len(prediction_records)}
