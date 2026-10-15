@@ -17,6 +17,8 @@ from .patient_fold_authority import (
 from .sealed_test_inference import GRAPH_VARIANTS, WINNER_DECLARATION_FORMAT
 from .training_guard import code_tree_sha256
 
+COMPARISON_SOURCES_FORMAT = "G012_COMPARISON_SOURCES_V1"
+
 
 class G012WinnerLockError(RuntimeError):
     pass
@@ -68,6 +70,84 @@ def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
     os.replace(temporary, path)
 
 
+def validate_comparison_sources(declaration, root):
+    """Replay all fifteen recorded validation losses from their native receipts.
+
+    Old locks lack this inventory and return None. New locks cannot silently
+    discard a losing arm or replace its receipt with a winner-only assertion.
+    This validates selection lineage, not optimizer execution or raw ancestry.
+    """
+    from .current_core_export import verified_path
+    from .sealed_test_inference import _validate_winner_declaration, _records_by_fold
+    if "comparison_sources_format" not in declaration and "compared_runs" not in declaration:
+        return None
+    if declaration.get("comparison_sources_format") != COMPARISON_SOURCES_FORMAT:
+        raise G012WinnerLockError("Unknown G012 comparison source inventory")
+    runs = declaration.get("compared_runs", {})
+    if set(runs) != set(GRAPH_VARIANTS):
+        raise G012WinnerLockError("G012 comparison sources must include all three arms")
+    rows = declaration.get("selection_table", [])
+    if len(rows) != 3 or {r["graph_variant"] for r in rows} != set(GRAPH_VARIANTS):
+        raise G012WinnerLockError("G012 comparison loss table is incomplete")
+    selected_rows = {row["graph_variant"]: row for row in rows}
+    if declaration.get("selection_metric") != "MEAN_FIVE_FOLD_BEST_VALIDATION_LOSS":
+        raise G012WinnerLockError("G012 comparison metric changed")
+    candidate = declaration["candidate_authority"]
+    verified_path(candidate, root)
+    if candidate["sha256"] != declaration["candidate_authority_sha256"]:
+        raise G012WinnerLockError("G012 comparison candidate authority differs")
+    codes = set()
+    for variant in GRAPH_VARIANTS:
+        run = runs[variant]
+        # Reuse the sealed-inference authority checks without opening test data.
+        _validate_winner_declaration({**declaration, "winner_id": variant, "graph_variant": variant,
+            "prepared_folds": run["prepared_folds"], "checkpoints": run["checkpoints"]}, expected_graph_variant=variant)
+        prepared = _records_by_fold(run["prepared_folds"], "comparison prepared folds")
+        checkpoints = _records_by_fold(run["checkpoints"], "comparison checkpoints")
+        paths = {key: verified_path(run[key], root) for key in ("config", "input_manifest", "task_manifest")}
+        tasks = _task_fold_map(paths["task_manifest"])
+        manifest = _json(paths["input_manifest"], "comparison input manifest")
+        inputs = manifest.get("fold_inputs", [])
+        if len(inputs) != 5 or any(type(r.get("fold")) is not int for r in inputs) or {r["fold"] for r in inputs} != set(range(5)):
+            raise G012WinnerLockError("G012 comparison input manifest is incomplete")
+        inputs = {r["fold"]: r for r in inputs}
+        losses = []
+        for fold in range(5):
+            p, c = prepared[fold], checkpoints[fold]
+            verified_path(p, root); verified_path(c, root)
+            success_path = verified_path(c["training_receipt"], root)
+            success = _json(success_path, "comparison training receipt")
+            expected_hashes = {"code_sha256": declaration["training_code_sha256"],
+                "config_sha256": run["config"]["sha256"], "input_manifest_sha256": run["input_manifest"]["sha256"],
+                "task_manifest_sha256": run["task_manifest"]["sha256"]}
+            if (inputs[fold].get("sha256") != p["sha256"]
+                    or success.get("status") != "SUCCESS" or success.get("patient_fold") != fold
+                    or success.get("task_id") != tasks[fold]
+                    or success.get("architecture_id") != "HHGT_FORMAL_CORE_EXTERNAL_ROUTER"
+                    or success.get("evidence_integration_mode") != "external_router"
+                    or success.get("test_labels_read") is not False or success.get("test_metrics_computed") is not False
+                    or success.get("artifact_hashes") != expected_hashes
+                    or c["training_artifact_hashes"] != expected_hashes
+                    or run["training_artifact_hashes"] != expected_hashes):
+                raise G012WinnerLockError("G012 comparison receipt/input authority differs")
+            for key, expected in (("best_model_state_sha256", c["sha256"]), ("prepared_artifact_sha256", p["sha256"]), ("graph_variant", variant)):
+                if key in success and success[key] != expected:
+                    raise G012WinnerLockError("G012 comparison selected checkpoint differs: " + key)
+            loss = float(success.get("best_validation_loss", math.nan))
+            if not math.isfinite(loss) or loss < 0: raise G012WinnerLockError("Invalid G012 comparison validation loss")
+            losses.append(loss); codes.add(expected_hashes["code_sha256"])
+        row = selected_rows[variant]
+        if (row["fold_validation_losses"] != losses or not math.isclose(row["mean_validation_loss"], sum(losses)/5, rel_tol=0, abs_tol=1e-12)):
+            raise G012WinnerLockError("G012 comparison losses differ from actual training receipts")
+    winner = min(rows, key=lambda r: (r["mean_validation_loss"], GRAPH_VARIANTS.index(r["graph_variant"])))["graph_variant"]
+    if winner != declaration["winner_id"] or declaration["graph_variant"] != winner or len(codes) != 1:
+        raise G012WinnerLockError("G012 comparison winner or shared code differs")
+    for field in ("prepared_folds", "checkpoints", "config"):
+        if declaration[field] != runs[winner][field]:
+            raise G012WinnerLockError("G012 winner aliases differ from comparison inventory")
+    return runs
+
+
 def lock_g012_validation_winner(
     *,
     repo_root: str | Path | None = None,
@@ -84,11 +164,10 @@ def lock_g012_validation_winner(
     declaration is written.
     """
 
+    import socket
+    if socket.gethostname() != "149": raise G012WinnerLockError("G012 winner selection requires host 149")
     prepared_parent = Path(prepared_parent).resolve()
     run_parent = Path(run_parent).resolve()
-    expected_code_sha256 = (
-        code_tree_sha256(Path(repo_root).resolve()) if repo_root is not None else None
-    )
     candidate = Path(candidate_authority_path).resolve()
     output = Path(output_root).resolve()
     if output.exists():
@@ -97,6 +176,12 @@ def lock_g012_validation_winner(
         raise G012WinnerLockError(f"Candidate authority is missing: {candidate}")
     if not isinstance(pair_fold_seed, int) or pair_fold_seed < 0:
         raise G012WinnerLockError("pair_fold_seed must be a non-negative integer")
+    output.mkdir(parents=True)
+    _atomic_json(output / "LAUNCH_PREFLIGHT.json", {"target_host":"149", "training_started":False,
+        "test_inputs_opened":False, "stage":"VALIDATION_SELECTION_SOURCE_CAPTURE"})
+    expected_code_sha256 = (
+        code_tree_sha256(Path(repo_root).resolve()) if repo_root is not None else None
+    )
 
     variant_rows: list[dict[str, Any]] = []
     variant_records: dict[str, dict[str, Any]] = {}
@@ -200,6 +285,8 @@ def lock_g012_validation_winner(
                     "selected_using": "VALIDATION_ONLY",
                     "heldout_test_metrics_used": False,
                     "training_artifact_hashes": expected_hashes,
+                    "training_receipt": {"path": str((task_dir / "SUCCESS.json").resolve()),
+                                         "sha256": sha256_file(task_dir / "SUCCESS.json")},
                 }
             )
         mean_loss = float(sum(losses) / len(losses))
@@ -215,6 +302,8 @@ def lock_g012_validation_winner(
             "prepared_folds": prepared_records,
             "checkpoints": checkpoint_records,
             "config": {"path": str(config.resolve()), "sha256": sha256_file(config)},
+            "input_manifest": {"path": str(input_manifest_path.resolve()), "sha256": sha256_file(input_manifest_path)},
+            "task_manifest": {"path": str(task_manifest_path.resolve()), "sha256": sha256_file(task_manifest_path)},
             "patient_fold_authority": binding,
             "training_artifact_hashes": training_hashes,
         }
@@ -252,8 +341,10 @@ def lock_g012_validation_winner(
         "prepared_folds": selected["prepared_folds"],
         "checkpoints": selected["checkpoints"],
         "config": selected["config"],
+        "comparison_sources_format": COMPARISON_SOURCES_FORMAT,
+        "compared_runs": variant_records,
     }
-    output.mkdir(parents=True)
+    validate_comparison_sources(declaration, output)
     _atomic_json(output / "G012_VALIDATION_WINNER_LOCK.json", declaration)
     receipt = {
         "status": "PASS_VALIDATION_ONLY_WINNER_LOCK",

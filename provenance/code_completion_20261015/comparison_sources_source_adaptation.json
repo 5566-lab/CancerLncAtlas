@@ -1,0 +1,54 @@
+{
+  "method": "NATIVE_G012_ALL_ARM_RECEIPTS_TO_CURRENT_INPUT_INSPECTION_AND_EXTERNAL_ISOLATION",
+  "source_hash_receipts": [
+    "comparison_sources_r1",
+    "comparison_sources_r2",
+    "comparison_sources_web_r1"
+  ],
+  "latest_validation_receipts": [
+    "comparison_sources_r2",
+    "comparison_sources_web_r1"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_analysis_web.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/external_validation_current.py",
+    "cc_hhgt/v32/g012_winner_lock.py",
+    "cc_hhgt/v32/selected_score.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_current_comparison_sources.py",
+    "tests/test_v32_preparation_sources.py",
+    "website/frontend/assets/current-analysis.js"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "native_inventory_model_forwards_executed": false,
+  "selection_validation_scope": "Replay all fifteen native SUCCESS losses and the deterministic selection rule; no independent model-forward validation-loss recomputation.",
+  "fixture_scope": "Actual three-arm graph masks and V4 serialization with fixed random checkpoints; G1-only frozen score inference occurs before inspection. Native selection lock and current producers/consumers run on synthetic observations. Frozen real patient identities serve only as authority fixtures.",
+  "captured_browser_receipt": {
+    "path": "comparison_sources_web_browser_receipt.json",
+    "sha256": "a03ccb129e1cc03892ec9679ea3e2d2b47339bf273a35dff15020be461b35ee5"
+  },
+  "captured_screenshots": [
+    {
+      "remote_basename": "current_web_desktop.png",
+      "local_basename": "comparison_sources_web_desktop.png",
+      "sha256": "8b3aad3bb4555f8d8b0cd8c13e7ba1cdd292fb282feffeee3bf3f89eae49c3cc"
+    },
+    {
+      "remote_basename": "current_web_mobile.png",
+      "local_basename": "comparison_sources_web_mobile.png",
+      "sha256": "452d08d411bcc70b073a30a69e81986075e7889bcd51e2a876ed4dee2b91dcf2"
+    }
+  ],
+  "raw_study_provenance_reconstructed": false,
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ]
+}

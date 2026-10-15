@@ -2056,3 +2056,66 @@ sources, auxiliary and comparison-model ancestry, and cross-module patient
 closure. C01/C16 consolidation, upstream orchestration and final acceptance
 remain unfinished. This is a source-capture and downstream-consumption change,
 not a completed real-data analysis or an attestation of independent validation.
+
+2026-10-16: all G0/G1/G2 selection inputs reach native source isolation
+-------------------------------------------------------------------
+
+The native G012 winner-lock producer previously inspected all fifteen folds
+but serialized only the winner's prepared/checkpoint files. The other two
+arms survived only as scalar validation summaries. New locks retain all three
+compared_runs, including per-fold prepared files, checkpoints, exact SUCCESS
+receipts and each arm's config, input manifest and task manifest. They carry
+comparison_sources_format=G012_COMPARISON_SOURCES_V1. Existing top-level winner
+aliases and sealed-inference compatibility are preserved. The producer enforces
+host149 and writes a preflight before code hashing or source inspection.
+
+validate_comparison_sources reopens the pinned native records for all fifteen
+folds. It checks complete arm/fold coverage, task/authorization identity,
+candidate authority, validation-only flags, recorded checkpoint/prepared hashes,
+each fold loss, mean losses, deterministic winner ordering and winner aliases.
+The selected-score consumer invokes this replay and reports whether all
+comparison receipts were replayed. This reconstructs the selection calculation
+from native training receipts; it does not independently recompute neural
+validation losses or attest optimizer execution.
+
+Model-use inspection now traverses the comparison inputs through the same
+authorized V4 payload/checkpoint loader and candidate-alignment firewall used
+for current core prediction. It records actual candidate/graph exposure,
+available training and model-selection supervision, preparation sources and
+unresolved upstream ancestry for every arm. Authorized C/expansion sidecars
+are retained when present; their native loader still checks their contract.
+No comparator model is constructed and no neural forward or optimizer is run
+during inventory inspection. This does not average losing models' scores into
+the published score or change which producer supplies that score.
+
+The new dependency_context column applies to usage, dependency and gap rows.
+SELECTED_SCORE means a dependency of the selected numeric producer;
+G012_COMPARISON:G0/G1/G2 identifies an arm involved in choosing that producer.
+These contexts retain the evaluated model_id, allowing source isolation to
+exclude the union of all comparison inputs while displaying their distinct
+roles. The native external query and actual website support exact context
+filters. Public dependency tables continue to omit file paths and patient IDs.
+
+Old winner-only locks remain readable and report
+ALL_COMPETITOR_TRAINING_DEPENDENCIES_NOT_RECONSTRUCTED. An unsupported historical
+checkpoint or unresolved native run identity remains an explicit gap. New
+locks cannot omit an arm/fold or substitute losses without being checked
+against their bound receipts. Reading all fifteen native inputs still does
+not reconstruct missing raw studies or upstream transformations; overall
+model-use completeness and independent-validation attestation remain false.
+
+Synthetic verification stages actual three-arm graph masks, native V4 payloads
+and fixed random checkpoints with optimizer calls forbidden. Only the selected
+G1 producer performs frozen forwards to create its test score publication.
+The actual native winner-lock writer, selected-score consumer, model-use
+materializer and external V2 evaluator are then exercised. A study present
+only in losing G0 preparation inputs correctly excludes an otherwise unseen
+external lncRNA. Tests also reject losing-arm/fold omission, altered losses,
+receipt replacement and winner-alias drift. Historical frozen patient files
+serve only as identity authorities in these fixtures; no real biological
+cohort analysis or model fitting occurs.
+
+C13 still requires raw biological ancestry, auxiliary-model dependencies,
+cross-module patient closure and handling historical comparison gaps. The
+current V4 all-arm traversal is implemented; C01/C13/C16 final acceptance is
+not complete.

@@ -21,7 +21,8 @@ def _json(path): return json.loads(Path(path).read_text(encoding="utf-8"))
 def implementation_hashes():
     root = Path(__file__).parent
     names = ["selected_score.py", "external_validation_current.py", "external_validation_metrics.py",
-        "exact_release.py", "current_core_prediction.py", "multimodal_fusion.py", "evidence_rule_release.py", "evidence_rule_summary.py"]
+        "exact_release.py", "current_core_prediction.py", "multimodal_fusion.py", "evidence_rule_release.py", "evidence_rule_summary.py",
+        "g012_winner_lock.py"]
     return {name: sha256(root/name) for name in names}
 
 
@@ -38,6 +39,8 @@ def selection_provenance(selection, model, reference, root):
     path = verified_path(selection["binding"], root); lock = _json(path)
     from .sealed_test_inference import _validate_winner_declaration
     prepared, checkpoints = _validate_winner_declaration(lock, expected_graph_variant=lock.get("graph_variant"))
+    from .g012_winner_lock import validate_comparison_sources
+    compared = validate_comparison_sources(lock, path.parent)
     rows = lock.get("selection_table", [])
     if len(rows) != 3 or {r["graph_variant"] for r in rows} != {"G0", "G1", "G2"}:
         raise ValueError("G012 selection table does not cover the declared comparison")
@@ -62,6 +65,7 @@ def selection_provenance(selection, model, reference, root):
         if any(observed.get(key) != value for key, value in expected.items()):
             raise ValueError("G012 checkpoint training authority differs from exact producer receipts")
     return {"kind": kind, "binding": {"path": str(path), "sha256": sha256(path)}, "winner_id": lock["winner_id"],
+        "all_comparison_receipts_replayed": compared is not None,
         "validated_winner_claimed": True, "external_metrics_used_for_selection": False, "new_model_selection_performed": False}
 
 

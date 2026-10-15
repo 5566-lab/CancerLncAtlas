@@ -46,7 +46,7 @@ FILTERS = {"cancer_id","cancer_a","cancer_b","lncrna_id","pathway_id","pathway_f
     "drug_id","gene_id","subtype_system","subtype_id","ablation_kind","ablation_entity_id","response_metric",
     "response_unit","dose_molar_key","low_dose_molar_key","high_dose_molar_key","exposure_hours_key",
     "source_id","source_group","endpoint","isolation_scope","model_id","baseline_model_id","metric","route_type","cell_key","dataset_id","group_id","analysis_source_id",
-    "producer_kind","modality","expert_id","feature","phase","use_view","role","reason","status"}
+    "producer_kind","modality","expert_id","feature","phase","use_view","role","reason","status","dependency_context"}
 
 
 def read_json(path): return json.loads(Path(path).read_text(encoding="utf-8"))

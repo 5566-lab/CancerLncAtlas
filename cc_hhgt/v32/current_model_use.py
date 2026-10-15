@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import socket
+from contextlib import contextmanager
 
 import numpy as np
 import pandas as pd
@@ -19,9 +20,9 @@ from .external_validation_sources import SOURCE_COLUMNS
 INPUT_FORMAT="CURRENT_MODEL_USE_INPUT_V1"
 FORMAT="CURRENT_MODEL_USE_RELEASE_V1"
 SCOPE="NATIVE_INPUT_EXPOSURE_WITH_UNRESOLVED_UPSTREAM_PROVENANCE"
-EXTRA=["model_id","patient_fold_id","use_view","candidate_rows","entity_scope"]
-DEPENDENCIES=["model_id","patient_fold_id","role","path","sha256","status"]
-GAPS=["model_id","patient_fold_id","role","sha256","reason"]
+EXTRA=["model_id","patient_fold_id","use_view","candidate_rows","entity_scope","dependency_context"]
+DEPENDENCIES=["model_id","patient_fold_id","role","path","sha256","status","dependency_context"]
+GAPS=["model_id","patient_fold_id","role","sha256","reason","dependency_context"]
 
 
 def read(path):return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -42,6 +43,7 @@ def implementations():
         "cc_hhgt/v32/current_core_export.py","cc_hhgt/v32/current_primary_fusion.py",
         "scripts/export_v32_current_core_embeddings.py","cc_hhgt/v32/training.py",
         "cc_hhgt/v32/preparation_sources.py","scripts/prepare_v32_formal.py",
+        "cc_hhgt/v32/g012_winner_lock.py","cc_hhgt/v32/selected_score.py",
         "cc_hhgt/v32/external_validation_current.py"]
     return {name:sha256(root/name) for name in names}
 
@@ -61,19 +63,26 @@ def model_identities(models,root):
 class Inventory:
     def __init__(self,locations,root):
         self.sources={};self.dependencies=[];self.gaps=[];self.usage=[];self.visited=set();self.locations={};self.used_locations=set()
+        self.context_id="SELECTED_SCORE"
         for item in locations:
             path=verified_source(item,root);digest=item["sha256"]
             if digest in self.locations:raise ValueError("Duplicate model-use artifact location")
             self.locations[digest]={"path":str(path),"sha256":digest}
 
+    @contextmanager
+    def context(self,value):
+        previous=self.context_id;self.context_id=value
+        try:yield
+        finally:self.context_id=previous
+
     def bind(self,item,root,model,role,fold=-1):
         path=verified_source(item,root);source={"path":str(path),"sha256":item["sha256"]};self.sources[str(path)]=source
         self.dependencies.append({"model_id":model,"patient_fold_id":fold,"role":role,**source,
-            "status":"VERIFIED_DIRECTORY" if path.is_dir() else "VERIFIED_FILE"})
+            "status":"VERIFIED_DIRECTORY" if path.is_dir() else "VERIFIED_FILE","dependency_context":self.context_id})
         return path
 
     def gap(self,model,role,reason,fold=-1,digest=""):
-        self.gaps.append({"model_id":model,"patient_fold_id":fold,"role":role,"sha256":digest,"reason":reason})
+        self.gaps.append({"model_id":model,"patient_fold_id":fold,"role":role,"sha256":digest,"reason":reason,"dependency_context":self.context_id})
 
     def authority(self,item,root,model,role,fold):
         digest=item.get("sha256","")
@@ -84,7 +93,7 @@ class Inventory:
         path=Path(source.get("path",""));path=path if path.is_absolute() else root/path
         if not source.get("path") or not (path.is_file() or path.is_dir()):
             self.dependencies.append({"model_id":model,"patient_fold_id":fold,"role":role,"path":str(path) if source.get("path") else "",
-                "sha256":digest,"status":"UNRESOLVED_LOCATION"})
+                "sha256":digest,"status":"UNRESOLVED_LOCATION","dependency_context":self.context_id})
             self.gap(model,role,"HASH_BOUND_AUTHORITY_NOT_LOCATED",fold,digest);return
         self.bind(source,root,model,role,fold)
         self.gap(model,role,"RAW_STUDY_LINEAGE_NOT_RECONSTRUCTED",fold,digest)
@@ -100,7 +109,7 @@ class Inventory:
         if frame.lncrna_id.isna().any() or frame.lncrna_id.astype(str).str.strip().eq("").any():
             raise ValueError("Native model-use entity identity is missing")
         counts=frame.groupby("lncrna_id",sort=True).size()
-        source_id="NATIVE-USE:"+stable_id("",[model,fold,phase,view,digest])
+        source_id="NATIVE-USE:"+stable_id("",[model,fold,phase,view,digest,self.context_id])
         for lnc,count in counts.items():
             ids={"lncrna":str(lnc),"cancer":"","pathway":""}
             identity=stable_id("",[source_id,str(lnc)])
@@ -110,7 +119,7 @@ class Inventory:
                 "assay":"NATIVE_MODEL_INPUT_EXPOSURE","biosample":"","study_tokens_json":"[]",
                 "raw_record_id":identity,"raw_row_sha256":stable_id("",[ids,int(count)]),"raw_identifiers_json":json.dumps(ids,sort_keys=True),
                 "model_id":model,"patient_fold_id":fold,"use_view":view,"candidate_rows":int(count),
-                "entity_scope":"LNCRNA_EXPOSURE_ALL_PATHWAYS"})
+                "entity_scope":"LNCRNA_EXPOSURE_ALL_PATHWAYS","dependency_context":self.context_id})
 
     def preparation(self,payload,root,model,fold,baseline):
         from .preparation_sources import validate_payload_sources,canonical_sha,source_members
@@ -148,7 +157,7 @@ class Inventory:
                 if role in {"train_associations","expression","activity"}:phases.append("TRAINING")
                 if not baseline and role in {"expression","activity"}:phases.append("MODEL_SELECTION")
                 for phase in phases:
-                    identity=stable_id("",[model,fold,label,phase,member["sha256"]])
+                    identity=stable_id("",[model,fold,label,phase,member["sha256"],self.context_id])
                     self.usage.append({"cancer_id":"","lncrna_id":"","pathway_id":"",
                         "source_id":"PREPARATION-SOURCE:"+identity,"source_event_id":identity,
                         "source_file_sha256":member["sha256"],"phase":phase,"endpoint":"MODEL_USE",
@@ -156,18 +165,23 @@ class Inventory:
                         "assay":"CONSUMED_SOURCE_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
                         "raw_record_id":identity,"raw_row_sha256":canonical_sha(member),"raw_identifiers_json":"{}",
                         "model_id":model,"patient_fold_id":fold,"use_view":"PREPARATION_SOURCE_METADATA",
-                        "candidate_rows":0,"entity_scope":"WHOLE_CONSUMED_FILE_NO_ENTITY_ASSERTION"})
+                        "candidate_rows":0,"entity_scope":"WHOLE_CONSUMED_FILE_NO_ENTITY_ASSERTION","dependency_context":self.context_id})
             if item["kind"]=="table":
                 self.gap(model,label,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
         return known
 
     def core(self,path,binding,model,score_column):
-        import torch
-        from .current_core_prediction import candidate_table,prediction_batches
-        from scripts.export_v32_current_core_embeddings import _validated_payload
+        from .current_core_prediction import candidate_table
         source=self.bind(binding["input_manifest"],path.parent,model,"core_prediction_input")
         manifest=read(source);root=source.parent;candidates=candidate_table(manifest,root)
         for role in ("candidate_authority","lncrna_scope"):self.bind(manifest[role],root,model,role)
+        self.core_inputs(manifest,root,candidates,model,score_column)
+
+    def core_inputs(self,manifest,root,candidates,model,score_column,*,comparison=False):
+        import torch
+        from .current_core_prediction import prediction_batches
+        from .current_core_export import CHECKPOINT_FORMAT,validate_training_receipt
+        from scripts.export_v32_current_core_embeddings import _validated_payload
         for item in sorted(manifest["fold_inputs"],key=lambda r:r["fold"]):
             fold=item["fold"]
             roles={"config","input_manifest","prepared","checkpoint","training_receipt"}
@@ -175,9 +189,16 @@ class Inventory:
             paths={r:self.bind(item[r],root,model,r,fold) for r in sorted(roles)}
             receipt=read(paths["training_receipt"])
             checkpoint=torch.load(paths["checkpoint"],map_location="cpu",weights_only=False)
+            if comparison and checkpoint.get("checkpoint_format")!=CHECKPOINT_FORMAT:
+                self.gap(model,"comparison.checkpoint","UNSUPPORTED_COMPARISON_CHECKPOINT_FORMAT",fold,item["checkpoint"]["sha256"])
+                continue
+            validate_training_receipt(receipt,run_id=manifest["core_run_id"],fold=fold,
+                checkpoint_sha=item["checkpoint"]["sha256"],variant=manifest["graph_variant"])
             validate_checkpoint(checkpoint,receipt,fold=fold,prepared_sha=item["prepared"]["sha256"],
                 config_sha=item["config"]["sha256"],input_manifest_sha=item["input_manifest"]["sha256"])
             payload=_validated_payload(paths,item,fold)
+            if payload["formal_graph_variant"]!=manifest["graph_variant"]:
+                raise ValueError("Model-use prepared graph differs from the selected training arm")
             # Reuse the exact candidate alignment and validation-only input firewall.
             features=prediction_batches(payload,candidates)
             digest=item["prepared"]["sha256"]
@@ -224,6 +245,49 @@ class Inventory:
             self.gap(model,"prepared.feature_and_label_construction","RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED",fold,item["prepared"]["sha256"])
             del payload,checkpoint,features
 
+    def comparison(self,path,model):
+        from .g012_winner_lock import validate_comparison_sources
+        from .evidence_rule_summary import candidate_aliases
+        lock=read(path);runs=validate_comparison_sources(lock,path.parent)
+        if runs is None:
+            self.gap(model,"model_selection_lock","ALL_COMPETITOR_TRAINING_DEPENDENCIES_NOT_RECONSTRUCTED")
+            return
+        candidate=self.bind(lock["candidate_authority"],path.parent,model,"comparison.candidate_authority")
+        candidates=pd.read_parquet(candidate);candidate_aliases(candidates)
+        candidates=candidates.sort_values(KEYS,kind="stable").reset_index(drop=True)
+        for variant,run in sorted(runs.items()):
+            with self.context("G012_COMPARISON:"+variant):
+                manifests={k:self.bind(run[k],path.parent,model,"comparison."+k) for k in ("config","input_manifest","task_manifest")}
+                inputs={r["fold"]:r for r in read(manifests["input_manifest"])["fold_inputs"]}
+                prepared={r["patient_fold"]:r for r in run["prepared_folds"]}
+                records=[];run_ids=set()
+                for checkpoint in sorted(run["checkpoints"],key=lambda r:r["patient_fold"]):
+                    fold=checkpoint["patient_fold"]
+                    receipt=self.bind(checkpoint["training_receipt"],path.parent,model,"comparison.training_receipt",fold)
+                    run_ids.add(read(receipt).get("run_id"))
+                    item={"fold":fold,"prepared":prepared[fold],"checkpoint":checkpoint,
+                          "training_receipt":record(receipt),"config":record(manifests["config"]),
+                          "input_manifest":record(manifests["input_manifest"])}
+                    for role in ("graph_overlay","global_binding_source","binding_expansion"):
+                        if not inputs[fold].get(role):continue
+                        declared=inputs[fold][role];raw=Path(declared["path"])
+                        raw=raw if raw.is_absolute() else manifests["input_manifest"].parent/raw
+                        observed=record(raw)
+                        size_only=role=="graph_overlay" and declared.get("verification_mode")=="SIZE_AND_GRAPH_SEMANTICS_V1"
+                        if (size_only and raw.stat().st_size!=declared.get("bytes")) or (not size_only and observed["sha256"]!=declared.get("sha256")):
+                            raise ValueError("G012 comparison sidecar differs from training authority")
+                        item[role]=observed
+                    # Resolve top-level records relative to the lock, then use
+                    # those exact files in the same native loader as prediction.
+                    for role in ("prepared","checkpoint"):
+                        item[role]=record(self.bind(item[role],path.parent,model,"comparison."+role,fold))
+                    records.append(item)
+                if len(run_ids)!=1 or None in run_ids:
+                    self.gap(model,"comparison.run","COMPARISON_NATIVE_RUN_ID_UNRESOLVED")
+                    continue
+                self.core_inputs({"core_run_id":next(iter(run_ids)),"graph_variant":variant,"fold_inputs":records},
+                    path.parent,candidates,model,"association_membership_probability",comparison=True)
+
     def producer(self,spec,root,model):
         from .external_validation_current import producer_scores
         path=self.bind(spec["producer_binding"],root,model,"producer."+spec["producer_kind"])
@@ -240,8 +304,7 @@ class Inventory:
             # they do not fit or modify its selected numeric score.
             selection=manifest["selection"]
             if selection["kind"]=="G012_VALIDATION_WINNER":
-                self.bind(selection["binding"],source.parent,model,"model_selection_lock")
-                self.gap(model,"model_selection_lock","ALL_COMPETITOR_TRAINING_DEPENDENCIES_NOT_RECONSTRUCTED")
+                self.comparison(self.bind(selection["binding"],source.parent,model,"model_selection_lock"),model)
             # Rule annotations do not change scores or fit model parameters.
         elif kind=="fusion_release":
             artifacts={k:self.bind(v,path.parent,model,"fusion."+k) for k,v in binding["artifacts"].items()}

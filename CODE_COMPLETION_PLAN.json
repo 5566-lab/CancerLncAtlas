@@ -95,8 +95,8 @@
       "task": "独立外部验证入口、来源/实体隔离及真实指标",
       "status": "in_progress",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "implementation": "Native external readers, study/entity isolation, measured metrics, uncertainty and score replay are implemented. External V2 now consumes an independently replayed inventory derived from actual five-fold V4 prepared/checkpoint/graph inputs and masks, chosen selected-score producers and fusion inputs. Actual omitted lncRNA exposure, unresolved dependencies, L1 separation and source-file overlap reach the public API/browser without optimization. Formal preparation now preserves actual consumed legacy and adjusted association files, explicit study metadata and native authority hashes through current core/L1 inventory and external V2. Actual study-overlap exclusion is verified for an unseen lncRNA; raw ancestry remains incomplete.",
-      "remaining": "Complete raw-study and upstream feature/label ancestry, all auxiliary and validation-competitor dependencies, and cross-module patient/source closure. The native inventory explicitly remains incomplete; actual exposure derivation does not by itself establish independent biological validation."
+      "implementation": "Native external readers, study/entity isolation, measured metrics, uncertainty and score replay are implemented. External V2 now consumes an independently replayed inventory derived from actual five-fold V4 prepared/checkpoint/graph inputs and masks, chosen selected-score producers and fusion inputs. Actual omitted lncRNA exposure, unresolved dependencies, L1 separation and source-file overlap reach the public API/browser without optimization. Formal preparation now preserves actual consumed legacy and adjusted association files, explicit study metadata and native authority hashes through current core/L1 inventory and external V2. Actual study-overlap exclusion is verified for an unseen lncRNA; raw ancestry remains incomplete. Native G012 selection now retains/replays all fifteen comparison receipts and traverses every V4 comparator input, with explicit SELECTED_SCORE versus G012_COMPARISON contexts. Actual external V2 excludes studies seen only by losing models, and native/public/browser queries retain comparison provenance.",
+      "remaining": "Complete raw-study and upstream feature/label ancestry, auxiliary-model dependencies, cross-module patient/source closure, and unresolved historical comparison inputs. Current V4 G012 all-arm source traversal is implemented; the native inventory still explicitly does not attest full biological independence."
     },
     {
       "id": "C14",
@@ -120,12 +120,12 @@
       "status": "in_progress",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
       "implementation": "A unified current publication CLI now invokes actual rule evidence, selected score/GeneSet, all seven native context, external-evaluation and web publishers. It resolves earlier-stage binding references, preserves pinned reuse and explicit absence, records per-stage failures and generates actual public Arrow schemas/table semantics. All-stage synthetic BUILD, REUSE, missing-stage and failure workflows reach the real API/browser without optimization. External V2 workflow templates can now derive native model-use inputs automatically before evaluation, with an explicit model_use stage and public path-free dependency/gap tables.",
-      "remaining": "Finish raw biological-source and cross-module patient closure, auxiliary/competitor ancestry, upstream preparation/training command records without starting training, scientific field definitions/units and final per-requirement acceptance. Native input exposure and publication orchestration are implemented; complete upstream lineage is not attested."
+      "remaining": "Finish raw biological-source and cross-module patient closure, auxiliary and unsupported historical comparison ancestry, upstream preparation/training command records without starting training, scientific field definitions/units and final per-requirement acceptance. Current V4 comparison input traversal and publication orchestration are implemented; complete upstream lineage is not attested."
     }
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 581,
+    "unique_fixture_tests_passed": 594,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -135,6 +135,6 @@
       "C13",
       "C16"
     ],
-    "latest_change_tests_passed": 49
+    "latest_change_tests_passed": 69
   }
 }

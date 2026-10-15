@@ -367,6 +367,7 @@ def test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout(live_si
             page.locator("#table-select").select_option("external.model_dependency_gaps")
             page.locator("#extra-filters summary").click()
             page.locator("#filters-form input[name='role']").fill("prepared.feature_and_label_construction")
+            page.locator("#filters-form input[name='dependency_context']").fill("SELECTED_SCORE")
             page.locator("#filters-form button[type='submit']").click()
             expect(page.locator("#table-container tbody tr")).to_have_count(5)
             expect(page.locator("#table-container")).to_contain_text("RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED")

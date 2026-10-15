@@ -1,0 +1,29 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T23:48:44.511658+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/g012_winner_lock.py": "7263198a3cfe428717c305f5068a5aecf95850a614f259b075d892fcc3d5934a",
+    "cc_hhgt/v32/selected_score.py": "e04224259acc9d638d3a14f4f815cda91229883ea762d3d9e675d5847b6cb0d7",
+    "cc_hhgt/v32/current_model_use.py": "f480be10e484ae93400e280e42eddfe35df7bb37de9632ca12074ac2b664be8f",
+    "cc_hhgt/v32/current_analysis_web.py": "5e315fa7976441ed0552448ec1db00a53b5b7e22489829e02ed195a45645714d",
+    "website/frontend/assets/current-analysis.js": "2021ad80fe97332438bb7024b3c9b758f989c0ebb6a4e72146c9156d853b513d",
+    "tests/test_v32_current_comparison_sources.py": "9d275addba2d14923a7641f87c88b51f87e135df779504dfd0de734345885acd",
+    "tests/test_v32_preparation_sources.py": "084e3af7cfa1f214cedbd73f8208f21e5c890e2568dc2717fd929456dfab8c3e"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_comparison_sources.py",
+    "tests/test_v32_g012_winner_lock.py",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_selected_analysis.py",
+    "--junitxml=provenance/code_completion_20261015/comparison_sources_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T23:50:40.278335+00:00"
+}

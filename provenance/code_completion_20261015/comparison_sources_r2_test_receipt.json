@@ -1,0 +1,32 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T23:52:21.482163+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/g012_winner_lock.py": "9e7cc87dd5b59d9614ab30333bf2068b12ad4d817b0d6625f3bb2a4019feb12e",
+    "cc_hhgt/v32/selected_score.py": "e04224259acc9d638d3a14f4f815cda91229883ea762d3d9e675d5847b6cb0d7",
+    "cc_hhgt/v32/current_model_use.py": "0f6672cbc5239ad455f79855b19cbac076564234667109e3b3b12002a32acc6b",
+    "cc_hhgt/v32/current_analysis_web.py": "5e315fa7976441ed0552448ec1db00a53b5b7e22489829e02ed195a45645714d",
+    "cc_hhgt/v32/external_validation_current.py": "390c7c2926ab1e3fbe4fe2c33fa254c125782ceeb7da2fcfb766686836a1a4b3",
+    "website/frontend/assets/current-analysis.js": "2021ad80fe97332438bb7024b3c9b758f989c0ebb6a4e72146c9156d853b513d",
+    "tests/test_v32_current_comparison_sources.py": "03cb8099a762d5940d7abd2b7bf220bef3b9afa8266d503a8c00b52fab36056f",
+    "tests/test_v32_preparation_sources.py": "084e3af7cfa1f214cedbd73f8208f21e5c890e2568dc2717fd929456dfab8c3e",
+    "tests/test_v32_current_analysis_web.py": "7fe4268a6a4c2cfcf46b77200fb67c5c19a543f7c0d7674faa3880ae6828693d"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_comparison_sources.py",
+    "tests/test_v32_g012_winner_lock.py",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_selected_analysis.py",
+    "tests/test_v32_preparation_sources.py",
+    "--junitxml=provenance/code_completion_20261015/comparison_sources_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T23:54:46.183961+00:00"
+}

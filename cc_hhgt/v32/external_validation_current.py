@@ -256,7 +256,8 @@ class CurrentExternalValidationQuery:
         if type(limit) is not int or type(offset) is not int or not 1 <= limit <= 1000 or not 0 <= offset <= 1000000:
             raise ValueError("Invalid external pagination")
         filters = filters or {}
-        allowed = {"cancer_id", "lncrna_id", "pathway_id", "source_id", "source_group", "endpoint", "isolation_scope", "model_id", "baseline_model_id", "metric"}
+        allowed = {"cancer_id", "lncrna_id", "pathway_id", "source_id", "source_group", "endpoint", "isolation_scope", "model_id", "baseline_model_id", "metric",
+                   "phase", "use_view", "role", "reason", "status", "dependency_context"}
         if not set(filters).issubset(allowed) or not all(isinstance(v, str) for v in filters.values()):
             raise ValueError("External filters require exact string identities")
         connection = duckdb.connect()

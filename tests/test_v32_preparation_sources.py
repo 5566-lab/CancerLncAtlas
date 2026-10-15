@@ -26,7 +26,7 @@ def no_fitting(monkeypatch):
     monkeypatch.setattr(LogisticRegression, "fit", forbidden)
 
 
-def adjusted_capture(root, fold=0):
+def adjusted_capture(root, fold=0, *, train_pmid="12345678", validation_pmid="87654321"):
     root.mkdir(parents=True)
     capture = SourceCapture()
     for role in ("authorization", "patient_map", "patient_receipt", "train_audit_success",
@@ -38,8 +38,8 @@ def adjusted_capture(root, fold=0):
         path = root / (role + ".parquet")
         pd.DataFrame({"cancer_id": ["BRCA"], "lncrna_id": ["LNC:Z"], "pathway_id": ["P1"]}).to_parquet(path, index=False)
         capture.read(path, pd.read_parquet, role=role)
-    for split, directory, prefix, pmid in (("train", "pair_level", "A1_local", "12345678"),
-                                           ("validation", "validation_associations", "A1_validation", "87654321")):
+    for split, directory, prefix, pmid in (("train", "pair_level", "A1_local", train_pmid),
+                                           ("validation", "validation_associations", "A1_validation", validation_pmid)):
         path = root / split / directory / "cancer=BRCA" / f"fold={fold}" / "part.parquet"
         path.parent.mkdir(parents=True)
         pd.DataFrame({"cancer_id": ["BRCA"], "lncrna_id": ["LNC:Z"], "pathway_id": ["P1"],
