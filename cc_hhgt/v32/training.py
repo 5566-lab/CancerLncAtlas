@@ -387,6 +387,11 @@ def _validate_prepared(
         overlay = payload.get("graph_overlay_authority")
         if not isinstance(overlay, Mapping) or overlay.get("verified") is not True:
             raise RuntimeError("C graph overlay has no verified source binding")
+        if payload.get("formal_graph_authority", {}).get("format") == "CURRENT_C_BINDING_EXPANSION_AUTHORITY_V1":
+            expansion = payload.get("binding_expansion_authority", {})
+            if (expansion.get("verified") is not True
+                    or expansion.get("arm") != payload["formal_graph_authority"]["binding_expansion_arm"]):
+                raise RuntimeError("Binding expansion has no verified source/arm binding")
     elif registered is not None:
         drift = {
             key: {"prepared": registered.get(key), "authorized": artifact_hashes.get(key)}
@@ -2549,6 +2554,9 @@ def run_authorized_task(context: Any) -> int:
             parent_sha256=prepared_artifact_sha256,
             old_payload=payload,
         )
+    from .current_binding_overlay import load_declared_binding_expansion
+    payload = load_declared_binding_expansion(torch, payload=payload, config=config,
+        input_manifest_path=ctx["input_manifest_path"], fold=fold, root=root, task_seed=seed)
     _validate_prepared(
         payload, fold=fold, artifact_hashes=ctx["artifact_hashes"],
         **({"authorized_graph_overlay": True} if overlay_active else {}),
@@ -2565,9 +2573,8 @@ def run_authorized_task(context: Any) -> int:
     model_config = dict(payload["legacy_model_config"])
     feature_dim = int(payload["feature_dim"])
     bundle = payload["bundle"]
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    if device != "cuda":
-        raise RuntimeError("Authorized CC-HHGT training requires CUDA; CPU fallback is forbidden")
+    from .training_device import resolve_training_device, cuda_memory_event
+    device = resolve_training_device(torch, runtime, ctx)
     precision = resolve_mixed_precision_contract(
         torch, runtime, device=device
     )
@@ -3003,7 +3010,7 @@ def run_authorized_task(context: Any) -> int:
                 group_start_rng = _capture_torch_rng_state(torch)
                 group_start_buffers = _capture_model_buffers(model)
                 optimizer.zero_grad(set_to_none=True)
-                torch.cuda.reset_peak_memory_stats()
+                cuda_memory_event(torch, device, "reset_peak_memory_stats")
                 if shared_encoder_group_mode:
                     try:
                         loss_plan, call_telemetry = (
@@ -3024,7 +3031,7 @@ def run_authorized_task(context: Any) -> int:
                         optimizer.zero_grad(set_to_none=True)
                         _restore_torch_rng_state(torch, group_start_rng)
                         _restore_model_buffers(model, group_start_buffers)
-                        torch.cuda.empty_cache()
+                        cuda_memory_event(torch, device, "empty_cache")
                         raise RuntimeError(
                             "CUDA_OOM_SHARED_ENCODER_GROUP_FAIL_CLOSED; "
                             "fallback would change the registered algorithm"
@@ -3063,7 +3070,7 @@ def run_authorized_task(context: Any) -> int:
                         optimizer.zero_grad(set_to_none=True)
                         _restore_torch_rng_state(torch, group_start_rng)
                         _restore_model_buffers(model, group_start_buffers)
-                        torch.cuda.empty_cache()
+                        cuda_memory_event(torch, device, "empty_cache")
                         if oom_fallback_active:
                             raise RuntimeError(
                                 "CUDA_OOM_FALLBACK_EXHAUSTED; sealed graph edge "
@@ -3093,7 +3100,7 @@ def run_authorized_task(context: Any) -> int:
                                 optimizer.zero_grad(set_to_none=True)
                                 _restore_torch_rng_state(torch, group_start_rng)
                                 _restore_model_buffers(model, group_start_buffers)
-                                torch.cuda.empty_cache()
+                                cuda_memory_event(torch, device, "empty_cache")
                                 raise RuntimeError(
                                     "CUDA_OOM_FALLBACK_EXHAUSTED; sealed graph edge "
                                     "chunking cannot be changed by the trainer"
@@ -3126,7 +3133,7 @@ def run_authorized_task(context: Any) -> int:
                 global_loss_calls += call_telemetry.global_loss_calls
                 backward_calls += call_telemetry.backward_calls
                 last_optimizer_guard = dict(update_probe)
-                peak_reserved_bytes = int(torch.cuda.max_memory_reserved())
+                peak_reserved_bytes = int(cuda_memory_event(torch, device, "max_memory_reserved"))
                 optimizer.zero_grad(set_to_none=True)
                 print(
                     json.dumps(
@@ -3259,14 +3266,14 @@ def run_authorized_task(context: Any) -> int:
                 == CANDIDATE_CHUNK_SCHEDULE_BALANCED_GROUP_SHARED_ENCODER
                 and _is_cuda_oom(torch, exc)
             ):
-                torch.cuda.empty_cache()
+                cuda_memory_event(torch, device, "empty_cache")
                 raise RuntimeError(
                     "CUDA_OOM_SHARED_ENCODER_MODE_VALIDATION_FAIL_CLOSED; "
                     "runtime fallback is forbidden for this mode"
                 ) from exc
             if not _is_cuda_oom(torch, exc) or oom_fallback_active:
                 raise
-            torch.cuda.empty_cache()
+            cuda_memory_event(torch, device, "empty_cache")
             oom_fallback_active = True
             oom_fallback_events += 1
             try:
@@ -3275,7 +3282,7 @@ def run_authorized_task(context: Any) -> int:
                 )
             except BaseException as fallback_exc:
                 if _is_cuda_oom(torch, fallback_exc):
-                    torch.cuda.empty_cache()
+                    cuda_memory_event(torch, device, "empty_cache")
                     raise RuntimeError(
                         "CUDA_OOM_VALIDATION_FALLBACK_EXHAUSTED; sealed graph edge "
                         "chunking cannot be changed by the trainer"

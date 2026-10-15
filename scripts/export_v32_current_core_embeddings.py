@@ -21,6 +21,7 @@ from cc_hhgt.v32.current_core_export import (EXPORT_FORMAT, CHECKPOINT_FORMAT, E
 
 def _validated_payload(paths, record, fold):
     import torch
+    import yaml
     from cc_hhgt.v32.c_graph_overlay import apply_c_graph_overlay
     from cc_hhgt.v32.training import _validate_prepared, _prepared_input_authority_hashes
 
@@ -47,6 +48,20 @@ def _validated_payload(paths, record, fold):
             overlay_bytes=paths["graph_overlay"].stat().st_size,
             receipt_sha256=overlay_record["graph_authority_receipt_sha256"],
             global_binding_source_path=paths.get("global_binding_source"))
+    expansion = authorized.get("binding_expansion")
+    if bool(expansion) != ("binding_expansion" in paths):
+        raise ValueError("Export must use exactly the training-authorized binding expansion")
+    config = yaml.safe_load(paths["config"].read_text(encoding="utf-8"))
+    declared_arm = config.get("task_contract", {}).get("binding_expansion_arm")
+    if bool(declared_arm) != bool(expansion):
+        raise ValueError("Export comparison arm differs from its training config")
+    if expansion:
+        from cc_hhgt.v32.current_binding_overlay import apply_binding_overlay
+        if record["binding_expansion"]["sha256"] != expansion.get("sha256") or expansion.get("arm") != declared_arm:
+            raise ValueError("Selected expansion sidecar/arm differs from training")
+        sidecar = torch.load(paths["binding_expansion"], map_location="cpu", weights_only=False)
+        payload = apply_binding_overlay(payload, sidecar, fold=fold, arm=declared_arm,
+            overlay_sha=record["binding_expansion"]["sha256"], comparison_sha=expansion["comparison_sha256"], config=config)
     receipt = json.loads(paths["training_receipt"].read_text(encoding="utf-8"))
     _validate_prepared(payload, fold=fold, artifact_hashes=receipt["artifact_hashes"],
                        authorized_graph_overlay=bool(overlay_record))
@@ -107,7 +122,7 @@ def main(argv=None):
     for record in sorted(records, key=lambda r: r["fold"]):
         fold = record["fold"]
         roles = ["config", "input_manifest", "prepared", "checkpoint", "training_receipt"]
-        roles += [key for key in ["graph_overlay", "global_binding_source"] if key in record]
+        roles += [key for key in ["graph_overlay", "global_binding_source", "binding_expansion"] if key in record]
         paths = {key: verified_path(record[key], args.manifest.resolve().parent) for key in roles}
         receipt = json.loads(paths["training_receipt"].read_text(encoding="utf-8"))
         validate_training_receipt(receipt, run_id=args.expected_core_run_id, fold=fold,

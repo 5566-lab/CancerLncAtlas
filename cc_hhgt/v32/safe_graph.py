@@ -204,7 +204,11 @@ def build_safe_graph(edges: pd.DataFrame, *, outer_fold: int) -> SafeGraph:
     ) | (
         frame.target_type.eq("lncRNA") & frame.source_type.isin(["pathway", "exact_pathway"])
     )
-    rejected = forbidden_token | direct_target | outcome_derived.fillna(True) | ~observed.fillna(False)
+    # Predictions are permitted only in their explicit static binding role.
+    # Marking them observed would erase the distinction from physical assays.
+    predicted_binding = role.eq("static_global_lnc_protein_binding_predicted")
+    rejected = forbidden_token | direct_target | outcome_derived.fillna(True)
+    rejected |= (~observed & ~predicted_binding) | (observed & predicted_binding)
     rejected |= localization.fillna(False) | disallowed_role
 
     for edge_role, (source_type, relation, target_type, split) in ROLE_CONTRACTS.items():

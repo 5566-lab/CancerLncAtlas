@@ -370,8 +370,8 @@ and the ACTUAL existing build_typed_lnc_protein_binding consumer. The resulting
 RBNS_TYPED_BINDING.parquet contains only binds_protein_predicted relations.
 Its weights retain the existing fixed predicted prior and protein-mapping
 weight, not a claim that sequence scores estimate binding probability. The
-separate relation artifact does not alter the currently trained C graph; C11
-must admit it only in the declared predicted-expansion comparison arm.
+separate relation artifact does not alter the currently trained C graph; the C11
+entry below admits it only in the declared predicted-expansion comparison arm.
 
 Both ENCODE/RBNS analyses bind inputs, source files, implementation, run identity
 and outputs in AUDIT/SUCCESS records. Neither starts an optimizer or changes the
@@ -385,8 +385,8 @@ https://github.com/Xinglab/rmats-turbo (event fields and inclusion-difference
 orientation), https://www.encodeproject.org/rbns/ and
 https://www.encodeproject.org/data-standards/terms/ (RBNS enrichment definition).
 
-Current-C predicted-binding runtime compatibility (C11 in progress)
-------------------------------------------------------------------
+Current-C predicted-binding runtime compatibility (C11)
+------------------------------------------------------
 
 Selected GNN changes were imported from the audited October expansion snapshot;
 predicted_runtime_source_import.json records its exact source hash and the
@@ -418,8 +418,95 @@ and index-invariance regressions, the selected suite has 60 passing cases.
 The measured-only HGT result matches the historical topology path exactly in
 the tested fixture. This does not claim a real-data graph equivalence audit.
 
-C11 is NOT complete: current-C baseline versus experimental expansion versus
-experimental-plus-predicted expansion still needs unified graph/source
-authority, preparation and launch binding, with identical non-graph inputs and
-budgets. The old expansion formal_graph.py must not replace the current typed
-version wholesale, because doing so would remove current eCLIP/RBP relations.
+C11 preparation and consumers are completed by the current-C sidecar integration
+below. The historical graph module was not substituted for the current typed
+version; current eCLIP/RBP relations are retained.
+
+Current-C three-arm preparation and actual consumers (C11)
+--------------------------------------------------------
+
+The entry is scripts/prepare_v32_current_binding_comparison.py. It runs only on
+host 149, writes a target-host receipt, and prepares current_c, experimental,
+and experimental_predicted for the same five patient folds. It never dispatches
+training. The original prepared files are reused, including all candidate,
+label, patient, modality and non-graph inputs. Source admission rows, comparison
+receipts, three configs/input manifests and 15 blocked task commands are emitted.
+
+Example invocation on 149::
+
+  python scripts/prepare_v32_current_binding_comparison.py \
+    --manifest /path/to/COMPARISON_INPUT.json \
+    --output /path/to/new-comparison-directory \
+    --release current-c-binding-r1 --edge-chunk-size 250000
+
+The input format is CURRENT_C_BINDING_COMPARISON_INPUT_V1. Its config is a
+path/sha256 record for the current typed C config, with graph_variant=G2. Its
+fold_inputs contains exactly five integer fold records, each with hash-bound
+prepared, graph_overlay and input_manifest artifacts and an optional relocated
+global_binding_source. Prepared files remain under G2 and both graph/prepared
+filenames use a consistent FOLD_{fold} pattern. Existing size-and-semantics C
+overlays are supported, while their source artifacts in this preparation input
+are independently SHA256-bound. This procedure does not overwrite the large
+original prepared files or their old authorization hashes.
+
+Each sources entry has a unique source_id and one supported kind:
+
+* native_october: edges and lineage Parquet path/sha256 records. The adapter
+  recomputes ordered event-lineage hashes, event counts and endpoint-bound edge
+  identifiers from the native October schema. Unique protein mapping, physical
+  evidence, absence of family broadcast and experimental/computational flags
+  are checked. Raw methods recover the current assay classes; contradictions
+  such as knockdown labelled physical binding are rejected.
+* rbns_sequence: binding and audit path/sha256 records. The binding hash must
+  match RBNS_TYPED_BINDING.parquet in the completed, versioned sequence-analysis
+  audit. These rows are admitted only as predicted binding, never as measured
+  lncRNA occupancy. In-vitro RBP preference remains distinct from this prediction.
+
+Current C edges are retained with their original metadata. A pair already in
+current C is excluded from both expansions. A new physical pair takes precedence
+over predictions for that same pair; multiple physical assay classes remain
+typed. Predicted weights are capped at .25, with raw source weights retained in
+the admission audit. Predictions carry observed=false; the safe graph rejects
+predictions labelled observed or unobserved edges in other roles.
+
+All arms share an extended node universe, G0-derived features and full relation
+schema. New lncRNA/protein nodes append to their existing type-specific indices.
+Old candidate tensors therefore keep the same biological endpoints. The
+coexpression schedule, chunk count and weights remain common; new binding edges
+are resident. A comparison without both new physical and predicted pairs is
+rejected rather than producing an empty contrast.
+
+The expansion sidecar is loaded AFTER the existing C overlay by the actual
+cc_hhgt.v32.training.run_authorized_task entry. Its manifest, full SHA256, parent
+authority, complete non-graph digest, graph tables, node features, runtime
+schedule, arm and dropout policy are checked. The common config digest covers
+runtime budgets, optimizer/batching/scientific settings and seed. Only arm/output
+locations and the separately guarded execution switch differ. The actual task
+seed must agree with the common config. Unknown new non-graph inputs participate
+in the digest instead of escaping a fixed field allowlist.
+
+Generated tasks target server149/SERVER149_CPU with explicit CPU/FP32 settings.
+The existing trainer now accepts that declared host/device contract and skips
+CUDA memory calls on CPU; it never turns missing CUDA into implicit CPU fallback.
+The existing training authorization remains required for a future run; no
+approval artifact is generated and no optimizer is created during preparation.
+The code-only command records deliberately omit --allow-training and are blocked.
+
+scripts/export_v32_current_core_embeddings.py consumes the same expansion after
+the current C overlay, binds it to the selected training config/receipt, and
+restores the actual residual model strictly. Its export input includes an
+additional binding_expansion path/sha256 artifact for every expanded fold.
+The resulting current-core manifest retains those source identities for the
+existing Genomic/CNV/Drug/State/Clinical readers. Predictions are not dropped
+during frozen export.
+
+Verification uses synthetic files only on 149. It exercises native lineage,
+pair exclusion, node-index preservation, real HGT forwards, five-fold preparation,
+all 15 actual training-loader paths, the frozen-export payload/model entry and
+the residual candidate forward. Adam/AdamW construction is forbidden in the
+integration test. Corrupted sidecars, changed labels/candidates, newly introduced
+non-graph fields, budget/seed drift and wrong arms are rejected. Existing graph,
+overlay, export and training-guard checks are included in the recorded receipt.
+No real-data expansion was materialized, no model was fitted and no new arm's
+accuracy was measured. Selection/validation metrics and downstream release
+integration remain separate outstanding work under C12-C16.

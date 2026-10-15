@@ -1,0 +1,20 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T17:05:08.762900+00:00",
+  "source_sha256": {
+    "tests/test_v32_current_binding_expansion.py": "07271893a7c8bcafdbddd78f2a35f88d4d5c8ec664cfc9a5c2ca0cd0bcdbc3e9"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_binding_expansion.py::test_fivefold_prepare_to_training_loader_and_frozen_export_entry_without_optimizer",
+    "--junitxml=provenance/code_completion_20261015/current_binding_residual_forward_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T17:05:31.623330+00:00"
+}

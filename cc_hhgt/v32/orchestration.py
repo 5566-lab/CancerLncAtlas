@@ -123,8 +123,8 @@ def endpoint_registry(policy: ExecutionPolicy | None = None) -> list[dict[str, A
         {
             "endpoint_id": "server149",
             "hardware_class": "SERVER149_CPU",
-            "roles": ["input_audit", "fold_assets", "linear_baselines", "final_audit"],
-            "may_train_cc_hhgt": False,
+            "roles": ["input_audit", "fold_assets", "linear_baselines", "final_audit", "cc_hhgt_patient_fold_training"],
+            "may_train_cc_hhgt": not resolved.blocks_training,
             "remote_contacted": False,
             "paid": False,
         },
@@ -237,6 +237,7 @@ def validate_task_manifest(
     for task in tasks:
         endpoint = (str(task.get("owner")), str(task.get("hardware_class")))
         allowed_endpoints = {
+            ("server149", "SERVER149_CPU"),
             ("local4070", "LOCAL_RTX_4070_TI_SUPER_16GB"),
             ("local_gpu", "COMPUTE_HOST_CUDA_GPU"),
             ("paid_gpu", "PAID_PREEMPTIBLE_GPU"),

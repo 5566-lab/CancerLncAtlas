@@ -478,6 +478,7 @@ def materialize_typed_lnc_protein_binding(
             relation_polarity=1.0,
             source_database=rows.get("source_database", "static_global_binding"),
         )
+        edges["observed"] = rows.iloc[0]._assay_class != "predicted"
         edges["is_context_specific"] = bool(contextual)
         if contextual:
             edges["cancer_id"] = rows.cancer_id.astype("string").to_numpy()

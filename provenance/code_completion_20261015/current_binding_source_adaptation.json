@@ -1,0 +1,36 @@
+{
+  "method": "MANUAL_CURRENT_C_ADAPTATION_NO_WHOLESALE_LEGACY_GRAPH_REPLACEMENT",
+  "reference_files": [
+    {
+      "path": "D:\\model\\audit\\requirements_status_20261015\\source_snapshots\\cc_expansion\\scripts\\materialize_v32_cc_binding_expansion.py",
+      "sha256": "0d7c0b76db256683d3639b746279eb3d219cb0feb85a5b29ad307c2b82f94788"
+    },
+    {
+      "path": "D:\\model\\audit\\requirements_status_20261015\\source_snapshots\\cc_expansion\\scripts\\prepare_v32_cc_binding_ablation.py",
+      "sha256": "5987d15c4b3cb3021024add8274c1e45d2356403d7a2f90e6a676f65b4565a18"
+    },
+    {
+      "path": "D:\\model\\audit\\requirements_status_20261015\\source_snapshots\\cc_expansion\\cc_hhgt\\v32\\binding_ablation.py",
+      "sha256": "9f8e1fdbbf4b71805f0f134d68ada2e59757a395512f0d4aad552d7bf3b99788"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/current_binding_graph.py",
+    "cc_hhgt/v32/current_binding_overlay.py",
+    "cc_hhgt/v32/training_device.py",
+    "scripts/prepare_v32_current_binding_comparison.py"
+  ],
+  "changes_from_reference": [
+    "Use current typed C as baseline instead of the legacy graph authority.",
+    "Recover assay classes from native event lineage and validate its ordered digest.",
+    "Reuse current prepared tensors with source-bound sidecars; append new node indices.",
+    "Admit current RBNS sequence-analysis predictions with capped weights and explicit unobserved semantics.",
+    "Use current training and frozen-export consumers and the explicit server149 CPU contract."
+  ],
+  "source_hash_receipts": [
+    "current_binding_integration",
+    "current_binding_residual_forward"
+  ],
+  "training_started": false,
+  "real_data_run": false
+}

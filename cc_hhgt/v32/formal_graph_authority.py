@@ -584,6 +584,9 @@ def validate_formal_graph_payload_binding(
 
     if not isinstance(binding, Mapping):
         raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+    if binding.get("format") == "CURRENT_C_BINDING_EXPANSION_AUTHORITY_V1":
+        from .current_binding_overlay import validate_expansion_binding
+        return validate_expansion_binding(binding, outer_fold=outer_fold, variant=variant, bundle=bundle)
     arm = str(variant).upper()
     gates = binding.get("gates", {})
     graph = binding.get("graph", {})

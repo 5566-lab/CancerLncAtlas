@@ -1,0 +1,38 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T17:02:31.200681+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_binding_graph.py": "a290a3f948c1c58d51eced276b1bde62822db59c521bf33aa36225ca310fc57f",
+    "cc_hhgt/v32/current_binding_overlay.py": "eb1cf4f7b474031a4e1ebd575c6c12e9dace6ed2d5fa60cdfbc9918a4409f1d8",
+    "cc_hhgt/v32/training_device.py": "2aa45e08f60e25fd52ac05eb491e021a4fdcbbb7fe249e7bc67a0b2fa37c6cd7",
+    "cc_hhgt/v32/formal_graph.py": "9d8ac8d41eba3bb20574a2b5abc3116f233da17dfa249754d695f088e132b336",
+    "cc_hhgt/v32/formal_graph_authority.py": "21d1f3e0c9a170453714cc11b118965f0cfdca66d1aacab2b386f29a03a32b63",
+    "cc_hhgt/v32/safe_graph.py": "7cd09c8eed9493e96f974a2fae49767ea10eb70ca995d1390d379829472596e1",
+    "cc_hhgt/v32/orchestration.py": "a759ee75972d3f41797a081529d25878c6aecdebdc7b0b3cc000eae8ee34b8e2",
+    "cc_hhgt/v32/training.py": "b62eaddd6c6d205b6667c1715b1f486753e255f304ba48c40523c4aa53063a2f",
+    "scripts/prepare_v32_current_binding_comparison.py": "06d43f85a2e200d89a488c6d1067b5963c865cff9e3e93257a1f8cf6dfc894b6",
+    "scripts/export_v32_current_core_embeddings.py": "b926716be441d41b7addb18aa74f5db1f4a5ecc03eea10507ed5e11d35eac23c",
+    "tests/test_v32_current_binding_expansion.py": "6e1cd207094c80e2b5cbc33b6e6c9512584c6dab51ef1ec3d5ca9752da4fa67b"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_binding_expansion.py",
+    "tests/test_v32_current_core_export.py",
+    "tests/test_v32_c_graph_overlay.py",
+    "tests/test_v32_predicted_binding_runtime.py",
+    "tests/test_v32_rbp_typed_graph.py",
+    "tests/test_v32_formal_graph_contract.py",
+    "tests/test_v32_model_and_graph.py",
+    "tests/test_v32_orchestration.py",
+    "tests/test_v32_training_guard.py",
+    "--junitxml=provenance/code_completion_20261015/current_binding_integration_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T17:03:06.825931+00:00"
+}
