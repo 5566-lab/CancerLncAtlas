@@ -770,12 +770,16 @@ def _validate_factor_semantics(role: str, path: Path) -> dict[str, int]:
         )
     if "drug_id" in keys:
         domain_predicates.append(
-            "NOT starts_with(CAST(drug_id AS VARCHAR), 'DRUG:') "
-            "OR length(CAST(drug_id AS VARCHAR)) <= 5"
+            "NOT regexp_full_match(CAST(drug_id AS VARCHAR), "
+            "'[A-Za-z][A-Za-z0-9_.-]*:[^[:space:]]+')"
         )
     if role == "core_entity_availability":
         domain_predicates.append(
             "CAST(entity_type AS VARCHAR) NOT IN ('cancer', 'lncRNA', 'drug_target')"
+        )
+        domain_predicates.append(
+            "entity_type = 'drug_target' AND NOT regexp_full_match(CAST(entity_id AS VARCHAR), "
+            "'[A-Za-z][A-Za-z0-9_.-]*:[^[:space:]]+')"
         )
     domain_predicate = " OR ".join(f"({item})" for item in domain_predicates) or "FALSE"
     distinct_tuple = ", ".join(keys)
@@ -862,8 +866,7 @@ def _validate_available_values(path: Path, *, allow_empty: bool) -> dict[str, in
                        OR NOT starts_with(CAST(lncrna_id AS VARCHAR), 'LNC:')
                        OR length(CAST(lncrna_id AS VARCHAR)) <= 4
                        OR CAST(lncrna_id AS VARCHAR) != upper(CAST(lncrna_id AS VARCHAR))
-                       OR NOT starts_with(CAST(drug_id AS VARCHAR), 'DRUG:')
-                       OR length(CAST(drug_id AS VARCHAR)) <= 5
+                       OR NOT regexp_full_match(CAST(drug_id AS VARCHAR), '[A-Za-z][A-Za-z0-9_.-]*:[^[:space:]]+')
                   ) AS invalid_domains,
                   count(*) FILTER (WHERE availability IS NOT TRUE) AS unavailable,
                   count(*) FILTER (

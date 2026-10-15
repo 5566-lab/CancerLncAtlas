@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 451,
+  "unique_test_cases_passed": 515,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -126,7 +126,13 @@
     "scripts/materialize_v32_native_drug_pharmacology.py": "d5cb520ef762f41ac6f78b7893d35f9dcf5de42f775d3972b503274a170ce666",
     "tests/test_v32_drug_pharmacology_native.py": "028380b6dda426d681f15b5985fd417b09ba726800b362ffd7c1a76ed2692ecf",
     "cc_hhgt/v32/drug_dose_response.py": "21e6aeac724aa64c5696fc3dd3b11bbb80f80b001908be58272be96d2c870e07",
-    "tests/test_v32_drug_dose_response.py": "930a10701c29c15dcfac9d31e1685187a0d0044d98dc460cfa93599f97ae512f"
+    "tests/test_v32_drug_dose_response.py": "930a10701c29c15dcfac9d31e1685187a0d0044d98dc460cfa93599f97ae512f",
+    "cc_hhgt/v32/drug_sparse_query.py": "76a0d06b3c2d0d629a68bddc3c78d6044f0e592a17195d6dfdd06123464e74c7",
+    "tests/test_v32_drug_sparse_query.py": "dedc6f792e2a67a93abbc6ab382a42dd1c9e38558c194975fbd6a6447d2a5ba5",
+    "cc_hhgt/v32/current_drug_sources.py": "08579a24536eb9e2a203fb3d3744842ddba821110a7aa7feead21cdecdfafb97",
+    "cc_hhgt/v32/current_drug_context.py": "cd52cb57500dc0a16b61b66b4b6acd9e46dabe87e243b18475cc4e13efe915d9",
+    "scripts/materialize_v32_current_drug_context.py": "e74329ef824ce10a30539975aebb5a1646b7918fa84b38c46187a92e62b28dfa",
+    "tests/test_v32_current_drug_context.py": "5d9ca8ee08adf2836cd875a9f451fe3823c1f3b99fa3b1beeec965ceb81bca34"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -170,12 +176,16 @@
     "C01/C08/C13/C15/C16 remain unfinished. C13/C16 still require a complete actual model-use/dependency inventory; C15 requires actual API/frontend integration.",
     "The existing dense and formal streaming drug runners now consume source-bound action, endpoint-specific affinity/potency, real RDKit structure and split-local protocol features. Action/target and potency/target pairings alter the actual frozen-core representation; five serialized private heads and target/pathway deletions consume the same encoder.",
     "Drug pharmacology checks never optimize: actual runner tests stop at the first fitting boundary after inspecting the extended tensors; other tests use frozen synthetic heads. No new trained drug result or real cohort/compound analysis has been produced.",
-    "Dose covariates describe native protocol distributions, not dose-conditioned efficacy. Native raw pharmacology extraction/identity integration is now implemented; Measured dose-conditioned signed-response analysis is implemented; C08 still requires current selected/public Drug consumption. The original strength head does not acquire a sensitivity-direction or causal interpretation.",
+    "Dose covariates describe native protocol distributions, not dose-conditioned efficacy. Native raw pharmacology extraction/identity integration is now implemented; C08 current selected Drug context/query/download consumption is implemented and synthetic-verified; real routes/frontend remain C15. The original strength head does not acquire a sensitivity-direction or causal interpretation.",
     "Pharmacology verification uses project-local RDKit 2025.9.3 on 149, recorded in the receipt. Shared environment packages were not modified.",
     "Native DrugCentral target/action/activity and structure adaptation now replays the actual native staging identity authority. Explicit per-assay protocols use the staged source-drug map, retain targetless assays and reject range-as-point substitution. Declared value and relation scales are independently checked; missing or unsupported activity remains unavailable.",
     "The actual encoder binds canonical adapted outputs to their native audit and preserves/rechecks raw files and staged directory trees. Native staging-to-adapter-to-encoder verification uses synthetic inputs only; no real compound/cohort processing, fitting or deployment occurred.",
     "The existing native drug response CLI now consumes source-bound observed point responses, preserving exact dose/exposure/endpoint/unit contexts. Adjacent-dose contrasts pair canonical models within the same dataset; targetless assays, absent pairings, observed zero and missing measurements retain explicit semantics.",
-    "Dose analyses use measured data and the existing signed rank-association engine. They are not fitted dose-response curves, strength-head predictions, causal effects or independent validation. Synthetic-only checks execute the actual native staging and analysis entry without optimizers; real biological sources were not run."
+    "Dose analyses use measured data and the existing signed rank-association engine. They are not fitted dose-response curves, strength-head predictions, causal effects or independent validation. Synthetic-only checks execute the actual native staging and analysis entry without optimizers; real biological sources were not run.",
+    "Current Drug context binds selected scores and all five native heads to the same current core, independently replays native signed/dose statistics and frozen attribution, compares native ensemble baselines and recomputes sparse selected-member profiles. Public predictions outside explicit attribution queries are source-bound, not independently forward-replayed.",
+    "The current Drug integration fixture serializes historical-format tiny heads and, for dose analysis, a synthetic prior staging receipt. No optimizer actually runs. Actual native staging-to-dose production is covered separately by the existing dose tests. Neither fixture is a biological result.",
+    "Drug sparse publication now accepts source-bound stable namespaces instead of only legacy DRUG IDs. The actual writer/reader and missingness contracts pass 50 tests. Current Drug consumers pass 14 synthetic integration/replay/query checks.",
+    "CurrentDrugContextQuery is an application reader, not an installed HTTP route or frontend. C01/C13/C15/C16 remain incomplete; code completion does not imply real analyses, independent biological validation or deployment."
   ],
   "test_suites": [
     {
@@ -202,6 +212,16 @@
       "path": "provenance/code_completion_20261015/current_core_prediction_tests.xml",
       "passed": 46,
       "sha256": "6a48a7c71c983c77d342c553fd77984e92bfd54a8e5d25388d0777e541237090"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml",
+      "passed": 14,
+      "sha256": "ce031531fe3ddc09574fb62e5927144df7047bf08b9218575699751801806880"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_drug_sparse_tests.xml",
+      "passed": 50,
+      "sha256": "ecbde15ecddf4c03c367b17b2a12dded6087a386d913f3715b90a9456b8b1f9f"
     },
     {
       "path": "provenance/code_completion_20261015/current_external_validation_tests.xml",
@@ -786,6 +806,76 @@
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[sealed]",
       "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_actual_current_drug_predictions_and_signed_subtypes_remain_distinct[native]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_actual_current_drug_predictions_and_signed_subtypes_remain_distinct[pharmacology_and_dose]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_dose_consumer_preserves_observed_zero_and_undefined_correlation[native]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_dose_consumer_preserves_observed_zero_and_undefined_correlation[pharmacology_and_dose]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_independent_replay_and_modified_public_download_fail_closed[native]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_independent_replay_and_modified_public_download_fail_closed[pharmacology_and_dose]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_native_ablation_is_consumed_without_inventing_target_pathway_attribution[native]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_native_ablation_is_consumed_without_inventing_target_pathway_attribution[pharmacology_and_dose]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_rehashed_native_output_forgery_fails_actual_replay[native-attribution_audit]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_rehashed_native_output_forgery_fails_actual_replay[native-response_scan_audit]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_rehashed_native_output_forgery_fails_actual_replay[pharmacology_and_dose-attribution_audit]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_rehashed_native_output_forgery_fails_actual_replay[pharmacology_and_dose-response_scan_audit]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_same_selected_version_exact_queries_and_downloads[native]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_drug_context",
+      "case": "test_same_selected_version_exact_queries_and_downloads[pharmacology_and_dose]",
+      "suite": "provenance/code_completion_20261015/current_drug_context_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
@@ -1546,6 +1636,256 @@
       "module": "tests.test_v32_drug_response_analysis",
       "case": "test_subtype_annotations_cannot_relabel_cancer_or_multiply_model_identity",
       "suite": "provenance/code_completion_20261015/drug_pharmacology_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_audited_unavailable_is_global_but_outside_universe_has_precedence",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_bounded_duckdb_cleans_private_spill_directory_on_failure",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_bounded_duckdb_rejects_invalid_or_too_low_temp_caps[-cannot be empty]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_bounded_duckdb_rejects_invalid_or_too_low_temp_caps[1MB-must be at least 256MB]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_bounded_duckdb_rejects_invalid_or_too_low_temp_caps[unbounded-must be a byte size]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_dataset_expression_coverage_uses_canonical_model_union",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_expression_and_core_factor_builders_are_compact",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_artifact_root_fails_closed_on_wrong_root_escape_hash_and_missing",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_independently_rejects_hash_consistent_duplicate_keys[assay_fold_eligibility-assay_fold_eligibility]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_independently_rejects_hash_consistent_duplicate_keys[available_predictions-available_predictions]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_independently_rejects_hash_consistent_duplicate_keys[core_entity_availability-core_entity_availability]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_independently_rejects_hash_consistent_duplicate_keys[exact_candidates-exact_candidates]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_independently_rejects_hash_consistent_duplicate_keys[expression_fold_coverage-expression_fold_coverage]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_independently_rejects_hash_consistent_duplicate_keys[pathway_drug_edges-pathway_drug_edges]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_independently_rejects_hash_consistent_fold_256",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_recomputes_conceptual_count_and_rejects_hashed_semantic_drift",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_rejects_hash_consistent_available_key_outside_universe",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_rejects_hash_consistent_mask_with_unsupported_fold",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_rejects_hash_consistent_null_available_key",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_rejects_hash_drift_missing_sidecar_and_wrong_manifest_hash",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_rejects_manifest_path_escape",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_rejects_unpinned_formal_load_and_validation_audit_drift",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_loader_supports_separately_pinned_manifest_and_artifact_root",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_malformed_drug_identity_is_rejected_by_sparse_writer[1:drug]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_malformed_drug_identity_is_rejected_by_sparse_writer[DC:]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_malformed_drug_identity_is_rejected_by_sparse_writer[DC:bad id]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_partitioned_binding_equals_legacy_full_sql_across_cancers_and_folds",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_public_loader_has_no_legacy_expected_hash_opt_out[constructor]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_public_loader_has_no_legacy_expected_hash_opt_out[function]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_sparse_resolver_distinguishes_available_and_each_absence_reason",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_stable_drug_identity_survives_actual_sparse_publication[ASSAY:PRISM:b1]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_stable_drug_identity_survives_actual_sparse_publication[CHEMBL:CHEMBL25]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_stable_drug_identity_survives_actual_sparse_publication[DC:1]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_stable_drug_identity_survives_actual_sparse_publication[DRUG:CaseSensitive]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_recomputes_distinct_conceptual_count_and_available_bound",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_available_key_outside_or_without_same_fold_support",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_duplicate_factor_keys[assay]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_duplicate_factor_keys[core]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_duplicate_factor_keys[edges]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_duplicate_factor_keys[exact]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_duplicate_factor_keys[expression]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_invalid_fold_masks_and_counts[0-1-invalid prediction_fold_mask]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_invalid_fold_masks_and_counts[1-2-fold count does not equal fold-mask popcount]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_invalid_fold_masks_and_counts[3-1-fold count does not equal fold-mask popcount]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_invalid_fold_masks_and_counts[32-1-invalid prediction_fold_mask]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_mask_fold_without_full_support",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_null_before_identifier_string_coercion",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_wide_overflow_fractional_and_null_folds[1.5-non-integer fold IDs]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_wide_overflow_fractional_and_null_folds[256-folds outside 0..4]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_drug_sparse_query",
+      "case": "test_writer_rejects_wide_overflow_fractional_and_null_folds[None-null fold IDs]",
+      "suite": "provenance/code_completion_20261015/current_drug_sparse_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_training",
@@ -2554,8 +2894,11 @@
     }
   ],
   "latest_change_validation": {
-    "tag": "drug_dose_response",
-    "passed": 28,
+    "tags": [
+      "current_drug_sparse",
+      "current_drug_context_r2"
+    ],
+    "passed": 64,
     "target_host": "149",
     "training_started": false
   },

@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T21:47:38.843322+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_drug_sources.py": "08579a24536eb9e2a203fb3d3744842ddba821110a7aa7feead21cdecdfafb97",
+    "cc_hhgt/v32/current_drug_context.py": "8482940ff26533e2e250cf61fac90089de5857a05c595e2e59165e5a6bd24514",
+    "scripts/materialize_v32_current_drug_context.py": "e74329ef824ce10a30539975aebb5a1646b7918fa84b38c46187a92e62b28dfa",
+    "tests/test_v32_current_drug_context.py": "a8cb175c2b7d86cc739eb2bea58509ec52238ecdb944f49f06e6a9770f1e0431"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/drug_pharmacology",
+  "verification_dependencies": {
+    "rdkit": "2025.9.3"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_drug_context.py",
+    "--junitxml=provenance/code_completion_20261015/current_drug_context_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-15T21:48:16.693114+00:00"
+}

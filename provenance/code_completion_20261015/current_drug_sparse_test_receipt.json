@@ -1,0 +1,21 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T21:44:36.444284+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/drug_sparse_query.py": "76a0d06b3c2d0d629a68bddc3c78d6044f0e592a17195d6dfdd06123464e74c7",
+    "tests/test_v32_drug_sparse_query.py": "dedc6f792e2a67a93abbc6ab382a42dd1c9e38558c194975fbd6a6447d2a5ba5"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_drug_sparse_query.py",
+    "--junitxml=provenance/code_completion_20261015/current_drug_sparse_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T21:45:05.156646+00:00"
+}

@@ -1545,3 +1545,66 @@ The single-dataset correlation expectation preserves the existing Fisher
 transform's documented-in-code clipping at 0.999999. The real native sources
 and trained models were not executed. C08 remains open for current selected
 Drug context and public query/download consumption.
+
+Current selected Drug context and native replay (2026-10-16)
+---------------------------------------------------------
+
+``scripts/materialize_v32_current_drug_context.py`` consumes the actual selected
+score/GeneSet release together with the native sparse Drug release, signed
+response scan and five-fold frozen ablation. Its input format is
+CURRENT_DRUG_CONTEXT_INPUT_V1. It requires core_run_id, drug_run_id and
+``{path, sha256}`` records named core_manifest, selected_analysis,
+sparse_query_manifest, attribution_manifest, attribution_audit and
+response_scan_audit. Paths are resolved against the input manifest. Execution
+and independent replay auditing require hostname 149; no fitting is invoked.
+
+The selected exact-reference producer and Drug heads must use the same five
+current core checkpoints and candidate universe. Native configuration, input
+hashes, private-head initialization, finite tensors, changed parameter hashes,
+optimizer receipts and frozen-core identities are checked. These checks consume
+existing completed training artifacts; they do not train or fabricate a new
+real model. Optional pharmacology must match the actual trained source/schema.
+
+The existing signed-response CLI is replayed from its bound native inputs,
+including point-dose analysis when present. The actual attribution CLI is
+replayed with all five frozen heads. Bounded multiset comparisons check the
+published tables against the replay, including subtype/condition coverage.
+Ablation baseline means and fold masks must also match the native public
+ensemble. Public predictions outside explicitly requested attribution queries
+are source-bound but are not claimed as independently forward-replayed.
+
+The materializer emits selected members and available drug predictions without
+expanding every member against every drug. It keeps association-strength model
+probabilities separate from measured signed associations and model-input
+ablation deltas. Response summaries report positive/negative/neutral available
+member weight fractions, with member and selected-weight coverage; absent
+correlations do not become neutral observations. Dose/exposure/endpoint/unit
+identities stay separate, and observed zero changes remain measured even when
+the correlation is undefined. These are descriptive member summaries, not
+joint GeneSet response estimates, causal effects or clinical efficacy.
+
+Target ablation rows remain drug/lncRNA-specific. Only native
+EXACT_PATHWAY_TARGET_SET experiments contribute to a selected pathway's
+attribution profile. Fold deltas are averaged within member before selected
+score weighting. The result remains nonadditive. Chemical structure descriptors
+and action/potency annotations are available when consumed by the native head;
+potency's negative-log-molar scale is explicitly named to avoid confusing it
+with a statistical p-value. No raw cell measurements, model IDs, private
+disposition tables or fingerprint arrays are exposed as public downloads.
+
+``CurrentDrugContextQuery`` provides bounded, parameterized same-version table
+queries and hash-verified downloads. ``member_predictions(geneset_id=...,
+drug_id=...)`` resolves missing predictions through the actual native sparse
+factors. It revalidates those factors for each request and never fills absent
+predictions with zero. DC:, CHEMBL:, ASSAY: and legacy DRUG: identifiers now
+survive the actual sparse writer/reader; identity case is preserved, and
+malformed namespaces remain rejected. This fixes the previous DRUG:-only
+publication validator that contradicted the stable-ID staging implementation.
+
+The context binding records source hashes, semantics, selected-score identity,
+native-replay scope and implementation hashes. A second bounded SQL comparison
+recomputes the derived tables before SUCCESS. Independent audit can rerun both
+native analyses and context aggregation. C15 still owns real website/API route
+and frontend integration, and C16 owns final orchestration/model-use inventory.
+No real cohort analysis, optimizer, paid compute or deployment is performed by
+the code-verification work.

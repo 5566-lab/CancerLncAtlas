@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="14" failures="0" skipped="0" tests="14" time="33.889" timestamp="2026-10-16T05:47:40.336697+08:00" hostname="149"><testcase classname="tests.test_v32_current_drug_context" name="test_actual_current_drug_predictions_and_signed_subtypes_remain_distinct[native]" time="14.865"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_native_ablation_is_consumed_without_inventing_target_pathway_attribution[native]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_same_selected_version_exact_queries_and_downloads[native]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_dose_consumer_preserves_observed_zero_and_undefined_correlation[native]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_independent_replay_and_modified_public_download_fail_closed[native]" time="0.002"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_rehashed_native_output_forgery_fails_actual_replay[native-response_scan_audit]" time="0.002"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_rehashed_native_output_forgery_fails_actual_replay[native-attribution_audit]" time="0.002"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_actual_current_drug_predictions_and_signed_subtypes_remain_distinct[pharmacology_and_dose]" time="3.560"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_native_ablation_is_consumed_without_inventing_target_pathway_attribution[pharmacology_and_dose]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_same_selected_version_exact_queries_and_downloads[pharmacology_and_dose]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_dose_consumer_preserves_observed_zero_and_undefined_correlation[pharmacology_and_dose]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_independent_replay_and_modified_public_download_fail_closed[pharmacology_and_dose]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_rehashed_native_output_forgery_fails_actual_replay[pharmacology_and_dose-response_scan_audit]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase><testcase classname="tests.test_v32_current_drug_context" name="test_rehashed_native_output_forgery_fails_actual_replay[pharmacology_and_dose-attribution_audit]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet&quot;">tests/test_v32_current_drug_context.py:172: in released
+    manifest_path = native_fixture(root/"native",current_sources,pharmacology=request.param,dose=request.param)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_drug_context.py:112: in native_fixture
+    sparse = write_drug_sparse_query_sidecars(bundle_root=sparse_root,exact_candidates=tables["exact"],
+cc_hhgt/v32/drug_sparse_query.py:1237: in write_drug_sparse_query_sidecars
+    available_audit = _validate_available_values(available, allow_empty=allow_empty)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:925: in _validate_available_values
+    groups = _available_partition_groups(path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/drug_sparse_query.py:360: in _available_partition_groups
+    raise DrugSparseAssetError(
+E   cc_hhgt.v32.drug_sparse_query.DrugSparseAssetError: Available Drug partition path is non-canonical: part.parquet</error></testcase></testsuite></testsuites>

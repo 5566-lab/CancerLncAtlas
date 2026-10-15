@@ -54,10 +54,10 @@
     {
       "id": "C08",
       "task": "药物作用方向、靶点/通路贡献的分析实现，避免联表机制冒充模型归因",
-      "status": "in_progress",
-      "implementation": "Actual dense/streaming pharmacology input, native identity/structure/activity adaptation, signed observed response scans and five-fold frozen target/pathway ablation are implemented. The existing response CLI additionally analyzes observed point doses and within-dataset/model adjacent-dose changes, with exact exposure/endpoint/unit contexts, subtype directions and explicit measured/missing/undefined distinctions.",
-      "remaining": "Actual current selected-analysis/public Drug context, query and download consumption. Measured dose response is implemented separately from the association-strength model; no real trained pharmacology-aware model or real cohort analysis was produced.",
-      "real_data_execution": "NOT_RUN_AS_REQUESTED"
+      "status": "code_implemented_fixture_verified",
+      "implementation": "Native pharmacology/structure/target-action feature paths, signed observed-response and point-dose analyses, five-fold frozen target/pathway ablation, and actual current selected Drug context/query/download consumers are implemented. Current consumers bind the native Drug heads and selected scores to the same five core checkpoints; replay native statistics/ablation and preserve sparse typed missingness, measured direction, dose conditions and attribution semantics.",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "scope_limit": "Real analyses/training were not executed. Public predictions outside explicit ablation queries are source-bound but not independently forward-replayed. Summaries are descriptive member profiles, not joint GeneSet responses or causal effects. Website/API/frontend routes remain C15; complete dependency inventory and orchestration remain C13/C16."
     },
     {
       "id": "C09",
@@ -109,7 +109,7 @@
       "id": "C15",
       "task": "新结果到网站/API/下载完整绑定和同版本查询；不部署",
       "status": "in_progress",
-      "implementation": "SelectedAnalysisQuery, CurrentStateContextQuery and CurrentClinicalContextQuery supply parameterized same-version queries and hash-verified downloads for actual selected, State and Clinical context artifacts. They are not yet API/frontend routes.",
+      "implementation": "SelectedAnalysisQuery, CurrentStateContextQuery, CurrentClinicalContextQuery and CurrentDrugContextQuery supply parameterized same-version queries and hash-verified public downloads. Drug consumes actual native sparse predictions, observed response/dose analyses and frozen ablation. These readers are not yet API/frontend routes.",
       "remaining": "Connect actual website/API routes, frontend views and complete multi-module downloads; do not deploy."
     },
     {
@@ -120,18 +120,17 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 451,
+    "unique_fixture_tests_passed": 515,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
     "r_validation": "PARSE_ONLY",
     "remaining_requirements_not_complete": [
       "C01",
-      "C08",
       "C13",
       "C15",
       "C16"
     ],
-    "latest_change_tests_passed": 28
+    "latest_change_tests_passed": 64
   }
 }

@@ -41,6 +41,31 @@ D_NO_CORE = "DRUG:no-core"
 D_OUTPUT_MISSING = "DRUG:output-missing"
 
 
+@pytest.mark.parametrize("drug_id", ["DC:1", "CHEMBL:CHEMBL25", "ASSAY:PRISM:b1", "DRUG:CaseSensitive"])
+def test_stable_drug_identity_survives_actual_sparse_publication(tmp_path, drug_id):
+    factors = _factor_frames()
+    for table in factors.values():
+        if "drug_id" in table: table.loc[table.drug_id.eq(D_OK), "drug_id"] = drug_id
+        if "entity_id" in table: table.loc[table.entity_id.eq(D_OK), "entity_id"] = drug_id
+    available = _available_frame(); available["drug_id"] = drug_id
+    result = _write_bundle(tmp_path/"bundle", available_frame=available, factor_overrides=factors)
+    manifest = tmp_path/"bundle"/"DRUG_SPARSE_QUERY_MANIFEST.json"
+    # The writer's canonical manifest, loaded by the actual query consumer.
+    if not manifest.exists():
+        manifest = Path(result["manifest_path"])
+    bundle = DrugSparseQueryBundle(manifest, expected_manifest_sha256=artifact_sha256(manifest))
+    resolved = bundle.resolve("BRCA", L_OK, drug_id)
+    assert resolved[PROBABILITY_COLUMN] == .83 and resolved["availability"]
+    assert not bundle.resolve("BRCA", L_OK, drug_id.lower())["availability"]
+
+
+@pytest.mark.parametrize("drug_id", ["1:drug", "DC:", "DC:bad id"])
+def test_malformed_drug_identity_is_rejected_by_sparse_writer(tmp_path, drug_id):
+    factors = _factor_frames(); factors["edges"].loc[0, "drug_id"] = drug_id
+    with pytest.raises(DrugSparseAssetError, match="identifier|domain"):
+        _write_bundle(tmp_path/"bundle", factor_overrides=factors)
+
+
 def _factor_frames() -> dict[str, pd.DataFrame]:
     exact = pd.DataFrame(
         {

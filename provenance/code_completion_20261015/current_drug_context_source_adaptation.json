@@ -1,0 +1,35 @@
+{
+  "method": "NATIVE_CURRENT_DRUG_SELECTED_CONTEXT_WITH_STATISTICAL_AND_FROZEN_FORWARD_REPLAY",
+  "source_hash_receipts": [
+    "current_drug_sparse",
+    "current_drug_context_r2"
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/current_drug_context.py",
+    "cc_hhgt/v32/current_drug_sources.py",
+    "cc_hhgt/v32/drug_sparse_query.py",
+    "scripts/materialize_v32_current_drug_context.py",
+    "tests/test_v32_current_drug_context.py",
+    "tests/test_v32_drug_sparse_query.py"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "superseded_failed_check": {
+    "tag": "current_drug_context_r1",
+    "reason": "Synthetic sparse prediction fixture used a flat filename instead of the required cancer partition layout; corrected before final checks."
+  },
+  "changes": [
+    "Admit stable drug namespaces through actual sparse publication/read paths.",
+    "Bind actual native heads, selected scores, inputs and current core checkpoint identities.",
+    "Replay signed response/dose statistics and all requested frozen attribution forwards.",
+    "Consume available predictions, measured direction, conditions and nonadditive attribution in selected summaries.",
+    "Expose bounded exact-identity queries, hash-verified public downloads and on-demand typed prediction absence."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C15",
+    "C16"
+  ]
+}
