@@ -5,12 +5,15 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import socket
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import pandas as pd
+
+from cc_hhgt.v32.distal_topology import feature_topology_lineage, require_shared_predictive_topology
 
 
 FORMAL_CANCERS = (
@@ -65,6 +68,8 @@ def _atac_long(root: Path, cancer: str, allowed_lncrnas: set[str]) -> pd.DataFra
     if wide.empty:
         return pd.DataFrame(columns=columns)
     wide["lncrna_id"] = wide.lncrna_core.map(core_to_id)
+    if wide.lncrna_id.duplicated().any():
+        raise ValueError("ATAC rows collide after lncRNA namespace normalization")
     long = wide.melt(
         id_vars=["lncrna_id"],
         value_vars=[
@@ -76,14 +81,15 @@ def _atac_long(root: Path, cancer: str, allowed_lncrnas: set[str]) -> pd.DataFra
         value_name="atac_distal_accessibility",
     )
     long["atac_distal_accessibility"] = pd.to_numeric(
-        long.atac_distal_accessibility, errors="coerce"
+        long.atac_distal_accessibility, errors="raise"
     )
+    if np.isinf(long.atac_distal_accessibility.to_numpy(float)).any():
+        raise ValueError("Infinite distal ATAC value")
     long = long.loc[np.isfinite(long.atac_distal_accessibility.to_numpy(float))]
     long["patient_id"] = long.patient_id.astype(str).str[:12]
     long.insert(0, "cancer_id", cancer)
-    return long[columns].drop_duplicates(
-        ["cancer_id", "patient_id", "lncrna_id"], keep="last"
-    )
+    return long.groupby(["cancer_id", "patient_id", "lncrna_id"], as_index=False,
+                        observed=True).atac_distal_accessibility.mean()[columns]
 
 
 def _purity_table(path: Path) -> pd.DataFrame:
@@ -109,6 +115,8 @@ def _purity_table(path: Path) -> pd.DataFrame:
         }
     )
     local = local.loc[np.isfinite(local.tumor_purity.to_numpy(float))]
+    if not local.tumor_purity.between(0, 1).all():
+        raise ValueError("Tumour purity must lie in [0,1]")
     # Equal patient weight; multiple tumour aliquots are averaged first.
     purity = local.groupby(
         ["cancer_id", "patient_id"], observed=True, sort=False
@@ -131,13 +139,15 @@ def _typed_feature(
     availability: str | None = None,
 ) -> None:
     flag = availability or f"{feature}__available"
-    frame[feature] = pd.to_numeric(frame[feature], errors="coerce")
+    frame[feature] = pd.to_numeric(frame[feature], errors="raise")
     if flag not in frame:
         frame[flag] = frame[feature].notna()
+    if not frame[flag].dropna().isin([True, False]).all():
+        raise ValueError(f"{feature} availability must be boolean")
     frame[flag] = frame[flag].fillna(False).astype(bool)
-    valid = frame[flag] & np.isfinite(frame[feature].to_numpy(float))
-    frame[flag] = valid
-    frame.loc[~valid, feature] = np.nan
+    finite = np.isfinite(frame[feature].to_numpy(float))
+    if np.isinf(frame[feature].to_numpy(float)).any() or not np.array_equal(finite, frame[flag].to_numpy()):
+        raise ValueError(f"{feature} violates typed-null availability")
 
 
 def main() -> int:
@@ -150,7 +160,11 @@ def main() -> int:
     parser.add_argument("--purity-covariates", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--cancers", default=",".join(FORMAL_CANCERS))
+    parser.add_argument("--allow-cohort-selected-topology", action="store_true",
+                        help="Materialize diagnostic inputs only; the formal prediction runner rejects these")
     args = parser.parse_args()
+    if socket.gethostname() != "149":
+        raise RuntimeError("Distal head inputs must be prepared on target host 149")
 
     sources = {
         "distal_mutation": args.distal_mutation.resolve(),
@@ -167,6 +181,10 @@ def main() -> int:
     if output.exists():
         raise FileExistsError(f"Head input output reuse refused: {output}")
     output.mkdir(parents=True)
+    (output / "LAUNCH_PREFLIGHT.json").write_text(json.dumps({
+        "target_host": "149", "observed_host": socket.gethostname(), "training_started": False,
+    }, indent=2), encoding="utf-8")
+    lineages = [feature_topology_lineage(sources[name], kind=name) for name in ["distal_mutation", "methylation"]]
     purity_all = _purity_table(sources["purity_covariates"])
     cancers = tuple(
         item.strip().upper() for item in args.cancers.split(",") if item.strip()
@@ -214,6 +232,10 @@ def main() -> int:
             raise RuntimeError(f"Expression rows lack frozen patient fold in {cancer}")
 
         atac = _atac_long(atac_root, cancer, allowed_lncrnas)
+        if (atac_root / f"{cancer}.distal_accessibility.tsv.gz").is_file():
+            lineages.append(feature_topology_lineage(atac_root / f"{cancer}.distal_accessibility.tsv.gz", kind="atac"))
+        if not args.allow_cohort_selected_topology:
+            require_shared_predictive_topology(*lineages)
         base = base.merge(
             atac, on=["cancer_id", "patient_id", "lncrna_id"],
             how="left", validate="one_to_one",
@@ -221,6 +243,11 @@ def main() -> int:
         methylation = _read_filtered(sources["methylation"], cancer)
         methylation["patient_id"] = methylation.patient_id.astype(str).str[:12]
         methylation["lncrna_id"] = methylation.lncrna_id.astype(str)
+        if "patient_fold_id" in methylation:
+            joined_folds = methylation.merge(base[["cancer_id", "patient_id", "lncrna_id", "patient_fold_id"]],
+                on=["cancer_id", "patient_id", "lncrna_id"], suffixes=("_methylation", "_mutation"), validate="one_to_one")
+            if not joined_folds.patient_fold_id_methylation.eq(joined_folds.patient_fold_id_mutation).all():
+                raise ValueError("Methylation and mutation patient folds disagree")
         methylation_columns = [
             "cancer_id", "patient_id", "lncrna_id",
             "promoter_methylation_beta", "promoter_methylation_beta__available",
@@ -293,6 +320,9 @@ def main() -> int:
     audit = {
         "format": "CANCERLNCATLAS_V32_DISTAL_REGULATORY_HEAD_INPUT_V1",
         "status": "PASS",
+        "target_host": "149",
+        "topology_lineage": ({"predictive_evaluation_eligible": False, "policy": "DIAGNOSTIC_ONLY"}
+                             if args.allow_cohort_selected_topology else require_shared_predictive_topology(*lineages)),
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "cancers": list(cancers),
         "mutation_feature_for_formal_head": "distal_mutation_burden",

@@ -7,10 +7,13 @@ import argparse
 import hashlib
 import json
 import os
+import socket
 from pathlib import Path
 
 import duckdb
 import pandas as pd
+
+from cc_hhgt.v32.distal_topology import topology_lineage
 
 
 EXPECTED_GDC_HM450_MD5 = "e163fc110043abb5a7ef623816383bb9"
@@ -30,9 +33,11 @@ def main() -> int:
     parser.add_argument("--promoters", type=Path, required=True)
     parser.add_argument("--required-genes", type=Path, required=True)
     parser.add_argument("--peak-set", type=Path, required=True)
-    parser.add_argument("--datas7-links", type=Path, required=True)
+    parser.add_argument("--topology-links", "--datas7-links", dest="datas7_links", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if socket.gethostname() != "149":
+        raise RuntimeError("Probe-map preparation must execute on target host 149")
     paths = {
         name: path.resolve(strict=True)
         for name, path in {
@@ -46,6 +51,11 @@ def main() -> int:
     output = args.output.resolve()
     if output.exists():
         raise FileExistsError(f"HM450 lncRNA probe-map output reuse refused: {output}")
+    output.mkdir(parents=True)
+    (output / "LAUNCH_PREFLIGHT.json").write_text(json.dumps({
+        "target_host": "149", "observed_host": socket.gethostname(), "training_started": False,
+        "stage": "HM450_PROBE_MAP_MATERIALIZATION"}, indent=2), encoding="utf-8")
+    lineage = topology_lineage(paths["datas7_links"])
     observed_md5 = checksum(paths["hm450_manifest"], "md5")
     if observed_md5 != EXPECTED_GDC_HM450_MD5:
         raise RuntimeError("Official GDC HM450 manifest MD5 mismatch")
@@ -138,7 +148,6 @@ def main() -> int:
     if mapping.empty or mapping.duplicated().any():
         raise RuntimeError("HM450 lncRNA region probe map is empty or duplicated")
     mapping = mapping.sort_values(["probe_id", "lncrna_id", "region_type"], kind="stable").reset_index(drop=True)
-    output.mkdir(parents=True)
     target = output / "HM450_LNCRNA_REGION_PROBES.parquet"
     temporary = output / ".HM450_LNCRNA_REGION_PROBES.tmp.parquet"
     mapping.to_parquet(temporary, index=False, compression="zstd")
@@ -154,7 +163,9 @@ def main() -> int:
         "coordinate_build": "GRCh38",
         "coordinate_contract": "BED0_HALF_OPEN_INTERVAL_OVERLAP",
         "promoter_definition": "GENCODE_V36_TRANSCRIPT_TSS_MINUS1000_PLUS100",
-        "distal_definition": "DATAS7_STATIC_LINKED_TCGA_ATAC_PEAK",
+        "distal_definition": "CANDIDATE_LINKED_TCGA_ATAC_PEAK",
+        "target_host": "149",
+        "topology_lineage": lineage,
         "gdc_hm450_manifest_md5": observed_md5,
         "valid_hm450_probes": int(probes.probe_id.nunique()),
         "required_lncrnas": len(required_ids),

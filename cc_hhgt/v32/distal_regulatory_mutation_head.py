@@ -69,6 +69,8 @@ def _normalise_components(frame: pd.DataFrame) -> pd.DataFrame:
     if nested_outer:
         selected_columns.add(OUTER_FOLD_COLUMN)
     data = frame.loc[:, sorted(selected_columns)].copy()
+    if data[["cancer_id", "patient_id", "lncrna_id"]].isna().any().any():
+        raise DistalRegulatoryMutationHeadError("Missing component identity")
     data["cancer_id"] = data.cancer_id.astype(str).str.upper()
     data["patient_id"] = data.patient_id.astype(str).str[:12]
     data["lncrna_id"] = data.lncrna_id.astype(str)
@@ -90,6 +92,8 @@ def _normalise_components(frame: pd.DataFrame) -> pd.DataFrame:
     data[COMPONENT_COLUMN] = pd.to_numeric(data[COMPONENT_COLUMN], errors="coerce")
     if data[COMPONENT_AVAILABLE].isna().any():
         raise DistalRegulatoryMutationHeadError("Component availability contains null")
+    if not data[COMPONENT_AVAILABLE].isin([True, False]).all():
+        raise DistalRegulatoryMutationHeadError("Component availability must be boolean")
     data[COMPONENT_AVAILABLE] = data[COMPONENT_AVAILABLE].astype(bool)
     finite = np.isfinite(data[COMPONENT_COLUMN].to_numpy(float))
     if not np.array_equal(finite, data[COMPONENT_AVAILABLE].to_numpy(bool)):

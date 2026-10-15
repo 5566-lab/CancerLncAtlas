@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_FIXTURE_TESTS_ONLY",
+  "patch_sha256": "e314bc1b0ded5a49c1c656801abf2bdd6e08549504c1809068ab6e5565d92852",
+  "started_utc": "2026-10-15T14:23:09.320162+00:00",
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_v32_methylation_lncrna.py",
+    "tests/test_v32_methylation_recovery.py",
+    "tests/test_v32_independent_distal_topology.py",
+    "tests/test_v32_distal_regulatory_head_input.py",
+    "tests/test_v32_epigenetic_expression_head.py",
+    "tests/test_v32_distal_regulatory_mutation_head.py",
+    "--junitxml=provenance/code_completion_20261015/methylation_distal_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T14:23:13.837190+00:00"
+}

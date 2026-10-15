@@ -6,10 +6,13 @@ suppressPackageStartupMessages({
 })
 
 args <- commandArgs(trailingOnly = TRUE)
+if (!identical(unname(Sys.info()["nodename"]), "149")) {
+  stop("Distal ATAC preparation must execute on target host 149")
+}
 if (length(args) != 8L) {
   stop(paste(
     "usage: materialize_v32_distal_atac_lncrna.R",
-    "<matrix.rds> <mapping.tsv> <peak_set.tsv> <datas7_links.tsv.gz>",
+    "<matrix.rds> <mapping.tsv> <peak_set.tsv> <topology_links.tsv.gz>",
     "<required_genes.tsv.gz> <patient_folds.tsv> <output_dir> <contract>"
   ))
 }
@@ -27,6 +30,24 @@ if (dir.exists(output_dir) && length(list.files(output_dir, all.files = TRUE)) >
   stop("distal ATAC materializer refuses output reuse")
 }
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+writeLines(toJSON(list(target_host = "149", training_started = FALSE), auto_unbox = TRUE),
+           file.path(output_dir, "LAUNCH_PREFLIGHT.json"))
+topology_lineage <- list(policy = "UNVERIFIED_OR_COHORT_SELECTED", predictive_evaluation_eligible = FALSE)
+topology_audit_path <- paste0(link_path, ".audit.json")
+if (file.exists(topology_audit_path)) {
+  topology_audit <- fromJSON(topology_audit_path)
+  if (!identical(unname(tools::md5sum(link_path)), topology_audit$output_md5)) {
+    stop("Topology file differs from its bound audit")
+  }
+  topology_lineage <- list(
+    policy = topology_audit$policy, links_sha256 = topology_audit$output_sha256,
+    coordinate_build = topology_audit$coordinate_build,
+    predictive_evaluation_eligible = identical(topology_audit$status, "PASS") &&
+      identical(topology_audit$policy, "GRCH38_PROMOTER_WINDOW_CANDIDATES_V1") &&
+      identical(topology_audit$coordinate_build, "GRCh38") &&
+      identical(topology_audit$cohort_expression_used, FALSE) &&
+      identical(topology_audit$cohort_pathway_activity_used, FALSE))
+}
 
 formal_cancers <- c(
   "ACC", "BLCA", "BRCA", "CESC", "CHOL", "COAD", "DLBC", "ESCA",
@@ -188,7 +209,10 @@ audit <- list(
   required_lncrnas = length(required_genes),
   distal_linked_lncrnas = length(covered_gene_index),
   unique_distal_peak_links = nrow(links),
-  source_policy = "DATAS7_ALL_LINKS_STATIC_TOPOLOGY_ONLY_NO_CORRELATION_OR_FDR",
+  source_policy = "CANDIDATE_LINKED_PEAK_MEAN_ACCESSIBILITY",
+  target_host = "149",
+  topology_lineage = topology_lineage,
+  output_md5 = as.list(tools::md5sum(list.files(output_dir, pattern = "distal_accessibility.tsv.gz$", full.names = TRUE))),
   patient_fold_aligned = TRUE,
   technical_replicate_policy = "MEAN_WITHIN_EXACT_ALIQUOT_ID",
   multiple_aliquot_policy = "EQUAL_ALIQUOT_WEIGHT_MEAN_WITHIN_PATIENT",

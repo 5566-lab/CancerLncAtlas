@@ -65,6 +65,8 @@ def _normalise(frame: pd.DataFrame, config: EpigeneticExpressionConfig) -> pd.Da
     if missing := sorted(required - set(frame.columns)):
         raise EpigeneticExpressionError(f"Epigenetic expression input lacks: {missing}")
     result = frame.loc[:, sorted(required)].copy()
+    if result[list(KEYS)].isna().any().any():
+        raise EpigeneticExpressionError("Missing patient or entity identifier")
     result["cancer_id"] = result.cancer_id.astype(str).str.upper()
     result["patient_id"] = result.patient_id.astype(str).str[:12]
     result["lncrna_id"] = result.lncrna_id.astype(str)
@@ -84,6 +86,8 @@ def _normalise(frame: pd.DataFrame, config: EpigeneticExpressionConfig) -> pd.Da
         available_column = _availability_column(feature)
         if result[available_column].isna().any():
             raise EpigeneticExpressionError(f"{feature} availability contains null")
+        if not result[available_column].isin([True, False]).all():
+            raise EpigeneticExpressionError(f"{feature} availability must be boolean")
         result[available_column] = result[available_column].astype(bool)
         result[feature] = pd.to_numeric(result[feature], errors="coerce")
         available = result[available_column].to_numpy(bool)
@@ -220,6 +224,9 @@ def crossfit_epigenetic_expression(
                 record["reason"] = "NO_USABLE_OUTER_TRAIN_REGULATORY_SIGNAL"
                 fit_records.append(record)
                 continue
+            usable_signals = [item["feature"] for item in feature_records
+                              if item["usable"] and item["feature"] in signal_columns]
+            supported = test[[_availability_column(feature) for feature in usable_signals]].any(axis=1).to_numpy()
             nuisance_train, nuisance_test, _ = _design(
                 train, test, nuisance_columns, min_feature_sd=settings.min_feature_sd
             )
@@ -228,10 +235,10 @@ def crossfit_epigenetic_expression(
             nuisance_beta = _ridge_fit(nuisance_train, y_z, settings.ridge_alpha)
             full_prediction = full_test @ full_beta
             nuisance_prediction = nuisance_test @ nuisance_beta
-            destination = indices[np.flatnonzero(heldout)]
-            output.loc[destination, "predicted_expression_z"] = full_prediction
+            destination = indices[np.flatnonzero(heldout)][supported]
+            output.loc[destination, "predicted_expression_z"] = full_prediction[supported]
             output.loc[destination, "regulatory_expression_component_z"] = (
-                full_prediction - nuisance_prediction
+                (full_prediction - nuisance_prediction)[supported]
             )
             output.loc[destination, "epigenetic_expression_available"] = True
             output.loc[
@@ -246,6 +253,7 @@ def crossfit_epigenetic_expression(
                     "feature_fits": feature_records,
                     "full_coefficients": full_beta.tolist(),
                     "nuisance_coefficients": nuisance_beta.tolist(),
+                    "heldout_supported_signal_patients": int(supported.sum()),
                 }
             )
             fit_records.append(record)

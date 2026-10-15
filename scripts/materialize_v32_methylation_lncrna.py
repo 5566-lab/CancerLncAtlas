@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 import os
+import socket
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
@@ -39,7 +40,13 @@ def md5(path: Path) -> str:
 def _initialise_worker(probe_map_path: str) -> None:
     global _PROBE_MAP, _PROBE_IDS
     _PROBE_MAP = pd.read_parquet(probe_map_path)
+    required = ["probe_id", "lncrna_id", "region_type"]
+    if not set(required).issubset(_PROBE_MAP) or _PROBE_MAP[required].isna().any().any():
+        raise ValueError("Incomplete probe map")
+    if _PROBE_MAP.empty or not set(_PROBE_MAP.region_type).issubset({"promoter", "distal"}):
+        raise ValueError("Empty probe map or unknown region")
     _PROBE_MAP["probe_id"] = _PROBE_MAP["probe_id"].astype(str)
+    _PROBE_MAP = _PROBE_MAP.drop_duplicates(["probe_id", "lncrna_id", "region_type"])
     _PROBE_IDS = set(_PROBE_MAP["probe_id"])
 
 
@@ -57,9 +64,11 @@ def _process_file(task: dict[str, str]) -> tuple[pd.DataFrame, dict[str, Any]]:
         na_values=["NA", "NaN", "nan", ""],
         engine="c",
     )
-    beta["beta"] = pd.to_numeric(beta["beta"], errors="coerce")
+    if beta["probe_id"].isna().any() or beta["probe_id"].duplicated().any():
+        raise ValueError(f"Missing or duplicate probe ID: {source}")
+    beta["beta"] = pd.to_numeric(beta["beta"], errors="raise")
     finite = np.isfinite(beta["beta"].to_numpy(float))
-    if ((beta.loc[finite, "beta"] < 0) | (beta.loc[finite, "beta"] > 1)).any():
+    if np.isinf(beta["beta"].to_numpy(float)).any() or ((beta.loc[finite, "beta"] < 0) | (beta.loc[finite, "beta"] > 1)).any():
         raise RuntimeError(f"Beta value outside [0,1]: {source}")
     beta = beta.loc[finite & beta["probe_id"].isin(_PROBE_IDS)]
     merged = beta.merge(_PROBE_MAP, on="probe_id", how="inner", validate="many_to_many")
@@ -118,7 +127,7 @@ def sql_output_path(path: Path) -> str:
     return str(path.resolve()).replace("'", "''").replace("\\", "/")
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     import duckdb
 
     parser = argparse.ArgumentParser(description=__doc__)
@@ -129,7 +138,19 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=16)
     parser.add_argument("--batch-size", type=int, default=64)
-    args = parser.parse_args()
+    parser.add_argument("--resume-batches", type=Path,
+                        help="Recover complete sample_feature_batches into a new output directory")
+    parser.add_argument("--target-host", choices=["149"], default="149")
+    args = parser.parse_args(argv)
+    if socket.gethostname() != args.target_host:
+        raise RuntimeError("Methylation materialization must execute on target host 149")
+    if args.resume_batches is not None:
+        from cc_hhgt.v32.methylation_recovery import recover_methylation_batches
+        recover_methylation_batches(
+            args.resume_batches, args.selected_files, args.probe_map, args.patient_folds,
+            args.output, download_root=args.download_root, threads=args.workers,
+        )
+        return 0
 
     selected_path = args.selected_files.resolve(strict=True)
     download_root = args.download_root.resolve(strict=True)
@@ -145,8 +166,16 @@ def main() -> int:
     required = {"file_id", "file_name", "md5sum", "file_size", "patient_id", "cancer_id", "sample_id"}
     if missing := sorted(required - set(selected)):
         raise RuntimeError(f"Selected methylation manifest lacks: {missing}")
-    if selected["file_id"].duplicated().any() or selected["file_name"].duplicated().any():
+    if selected.empty or selected[list(required)].isna().any().any():
+        raise ValueError("Selected methylation manifest is empty or contains missing identities")
+    if selected["file_id"].duplicated().any():
         raise RuntimeError("Selected methylation manifest has duplicate files")
+    selected["cancer_id"] = selected.cancer_id.str.upper()
+    selected["patient_id"] = selected.patient_id.str[:12]
+    from cc_hhgt.v32.distal_topology import methylation_probe_lineage
+    from cc_hhgt.v32.methylation_recovery import read_patient_folds
+    lineage = methylation_probe_lineage(probe_map_path)
+    folds = read_patient_folds(fold_path)
     selected = selected.sort_values(["cancer_id", "patient_id", "sample_id", "file_id"], kind="stable").reset_index(drop=True)
     tasks: list[dict[str, str]] = []
     for row in selected.to_dict(orient="records"):
@@ -157,11 +186,18 @@ def main() -> int:
             }
         )
 
+    output.mkdir(parents=True)
+    (output / "LAUNCH_PREFLIGHT.json").write_text(json.dumps({
+        "target_host": "149", "observed_host": socket.gethostname(),
+        "stage": "METHYLATION_FEATURE_MATERIALIZATION", "training_started": False,
+        "topology_lineage": lineage,
+    }, indent=2) + "\n", encoding="utf-8")
     with ThreadPoolExecutor(max_workers=min(8, args.workers)) as pool:
         verification = list(pool.map(_verify_file, tasks))
     failures = [record for record in verification if record["status"] != "PASS"]
     if failures:
         retry = selected.loc[selected["file_id"].isin({row["file_id"] for row in failures})]
+        retry = retry.assign(state=retry.get("state", "released"))
         retry_path = download_root.parent / "RETRY_MISSING_OR_INVALID_METHYLATION.gdc_manifest.tsv"
         retry[["file_id", "file_name", "md5sum", "file_size", "state"]].rename(
             columns={"file_id": "id", "md5sum": "md5", "file_size": "size"}
@@ -170,9 +206,12 @@ def main() -> int:
             f"Methylation download preflight failed for {len(failures)} files; retry manifest: {retry_path}"
         )
 
-    output.mkdir(parents=True)
     batch_root = output / "sample_feature_batches"
     batch_root.mkdir()
+    (output / "BATCH_INPUT_AUTHORITY.json").write_text(json.dumps({
+        "probe_map_sha256": sha256(probe_map_path), "selected_files_sha256": sha256(selected_path),
+        "patient_folds_sha256": sha256(fold_path), "target_host": "149",
+    }, indent=2) + "\n", encoding="utf-8")
     records: list[dict[str, Any]] = []
     batch_paths: list[Path] = []
     with ProcessPoolExecutor(
@@ -205,12 +244,11 @@ def main() -> int:
                 flush=True,
             )
 
-    folds = pd.read_csv(fold_path, sep="\t")
-    folds["cancer_id"] = folds["cancer_id"].astype(str).str.upper()
-    folds["patient_id"] = folds["patient_id"].astype(str).str[:12]
-    folds = folds[["cancer_id", "patient_id", "patient_fold_id"]].drop_duplicates()
-    if folds.duplicated(["cancer_id", "patient_id"]).any():
-        raise RuntimeError("Patient-fold authority is duplicated")
+    # Persist zero-output samples too, before any final SQL that may fail.
+    records_path = output / "SAMPLE_PROCESSING_RECORDS.parquet"
+    pd.DataFrame(records).sort_values("file_id", kind="stable").to_parquet(
+        records_path, index=False, compression="zstd"
+    )
     con = duckdb.connect()
     con.execute("PRAGMA threads=16")
     con.execute("PRAGMA memory_limit='64GB'")
@@ -225,8 +263,8 @@ def main() -> int:
             SELECT cancer_id, patient_id, sample_id, lncrna_id,
                    avg(promoter_methylation_beta) FILTER (WHERE isfinite(promoter_methylation_beta)) AS promoter_methylation_beta,
                    avg(distal_methylation_beta) FILTER (WHERE isfinite(distal_methylation_beta)) AS distal_methylation_beta,
-                   sum(coalesce(promoter_probe_count, 0)) AS promoter_probe_count,
-                   sum(coalesce(distal_probe_count, 0)) AS distal_probe_count
+                   avg(promoter_probe_count) FILTER (WHERE promoter_probe_count > 0) AS promoter_probe_count,
+                   avg(distal_probe_count) FILTER (WHERE distal_probe_count > 0) AS distal_probe_count
             FROM read_parquet('{batch_glob}')
             GROUP BY ALL
           ), patient_level AS (
@@ -255,24 +293,26 @@ def main() -> int:
     )
     final_stats = con.execute(
         f"""
-        SELECT count(*) rows, count(DISTINCT cancer_id) cancers,
-               count(DISTINCT patient_id) patients,
-               count(DISTINCT lncrna_id) lncrnas,
-               count(*) FILTER (WHERE promoter_methylation_beta__available) promoter_rows,
-               count(*) FILTER (WHERE distal_methylation_beta__available) distal_rows
+        SELECT count(*) AS row_count, count(DISTINCT cancer_id) AS cancers,
+               count(DISTINCT (cancer_id, patient_id)) AS patients,
+               count(DISTINCT lncrna_id) AS lncrnas,
+               count(*) FILTER (WHERE promoter_methylation_beta__available) AS promoter_rows,
+               count(*) FILTER (WHERE distal_methylation_beta__available) AS distal_rows
         FROM read_parquet('{sql_output_path(final_tmp)}')
         """
     ).fetchone()
     con.close()
+    if final_stats[0] == 0:
+        raise ValueError("Methylation has no rows aligned to the patient-fold authority")
     os.replace(final_tmp, final_path)
 
-    records_path = output / "SAMPLE_PROCESSING_RECORDS.parquet"
-    pd.DataFrame(records).sort_values("file_id", kind="stable").to_parquet(
-        records_path, index=False, compression="zstd"
-    )
     audit = {
         "format": "CC_HHGT_V3_2_PATIENT_LNCRNA_METHYLATION_FEATURES_V1",
         "status": "PASS_PATIENT_LNCRNA_METHYLATION_FEATURES",
+        "target_host": "149",
+        "training_started": False,
+        "topology_lineage": lineage,
+        "probe_count_semantics": "MEAN_INFORMATIVE_PROBES_PER_FILE_THEN_SAMPLE",
         "download_files_expected": int(len(tasks)),
         "download_files_md5_verified": int(len(verification)),
         "download_bytes_md5_verified": int(sum(int(item["bytes"]) for item in verification)),

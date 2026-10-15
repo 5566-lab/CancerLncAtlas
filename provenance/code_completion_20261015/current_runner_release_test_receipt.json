@@ -1,0 +1,20 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "MANIFEST_AND_RELEASE_SYNTHETIC_TESTS_WITH_MOCKED_OPTIMIZER",
+  "source_sha256": {
+    "cc_hhgt/v32/multimodal_fusion.py": "13bef84bd32e73a55b7544a73481fc5fdf56ad551cecfeac447e2e5144d86c13",
+    "scripts/run_v32_current_multimodal_fusion.py": "ccc0ca4946e7165d51a988778457d2a72e71b7cf1b7526cebbb3ef3b8af13bc4",
+    "tests/test_v32_signed_single_cell_fusion.py": "807d363af76365b6d8e541eed373cebb849c23d60d822758cde03e8b4df1c12e"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_v32_signed_single_cell_fusion.py::test_current_runner_consumes_signed_adapter_without_starting_training",
+    "tests/test_v32_signed_single_cell_fusion.py::test_release_keeps_signed_native_measurement_names_without_optimizer",
+    "--junitxml=provenance/code_completion_20261015/current_runner_release_tests.xml"
+  ],
+  "exit_code": 0
+}

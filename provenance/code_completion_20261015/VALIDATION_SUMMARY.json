@@ -1,0 +1,40 @@
+{
+  "status": "PASS_SYNTHETIC_CODE_CHECKS",
+  "target_host": "149",
+  "unique_test_cases_passed": 46,
+  "optimizer_jobs_started": 0,
+  "real_data_runs_started": 0,
+  "paid_compute_started": false,
+  "production_changed": false,
+  "r_validation": "SYNTAX_PARSE_ONLY",
+  "source_sha256": {
+    "cc_hhgt/v32/distal_regulatory_mutation_head.py": "670b298627b737733dad5663418216b87dfc792fc13bfd85bd1b3163891ff1d9",
+    "cc_hhgt/v32/distal_topology.py": "c6b5087de805351d0baf3819fa82490b15b7ddb87f0349e54d6c9c982b75d420",
+    "cc_hhgt/v32/epigenetic_expression_head.py": "dc8d9785a52d97dd275d69cb8fd255ff36d89e16c3f62e5ab8c0edbf76dcbc3c",
+    "cc_hhgt/v32/methylation_recovery.py": "bf44d151c39860f5c0b2cb02c6e74b79965c21da6861dfb745e02d7a86af37aa",
+    "cc_hhgt/v32/multimodal_fusion.py": "13bef84bd32e73a55b7544a73481fc5fdf56ad551cecfeac447e2e5144d86c13",
+    "cc_hhgt/v32/single_cell_signed_fusion.py": "7bfe48e43fac91ae631287c424d7049d3299a453f43486ef26c7641389d44753",
+    "scripts/audit_v32_distal_regulatory_mutation_head.py": "1653e630c0c72cc17743f06c3cbe6740f47787aa0b1cb750718df965283e98fb",
+    "scripts/build_v32_independent_distal_topology.py": "4165c1e37fd08c479e1cb559fd50b5f5272fe4dfeeec3b90e3418b368cd24c1d",
+    "scripts/extract_v32_datas7_lnc_topology.py": "d906da3a5d7f390486166cb564587c4a19200511d1b46c95d53041d6e00a32e7",
+    "scripts/materialize_v32_distal_atac_lncrna.R": "a3c0186b4c9dba5a282495f372ec3485a1ef181db2f51a8216a77c14ab5347da",
+    "scripts/materialize_v32_distal_mutation_lncrna.py": "bd12db11fc0478705e223b639f90dd05375d485439bc7d2bfa060eca5f6d84bc",
+    "scripts/materialize_v32_distal_regulatory_head_input.py": "d979b72a340ef95c655fd35e9288188c5c57eaea710c2ef581173dfb0e6f910b",
+    "scripts/materialize_v32_hm450_lncrna_probe_map.py": "a9403a655ca4002d59d8dffe614f4826e86cb6deace19dd228b0363efda3fa1f",
+    "scripts/materialize_v32_methylation_lncrna.py": "94627384841189aa90a9f939a783f5ded7a4a5ccbb099f5dfd3b282329dc9fa1",
+    "scripts/materialize_v32_signed_single_cell_fusion.py": "653937c7bbf11c48498c6d7bb9c03a2cd69f1bd3a9245337cc945a15ec384868",
+    "scripts/run_v32_current_multimodal_fusion.py": "ccc0ca4946e7165d51a988778457d2a72e71b7cf1b7526cebbb3ef3b8af13bc4",
+    "scripts/run_v32_distal_regulatory_mutation_head.py": "e3ea4f244763578175ec9e5c2de9cfb325193f397bd751c62c12f1650dd4b90a",
+    "tests/test_v32_distal_regulatory_head_input.py": "52c1643680c98ddb404e8d96b200720aba8ec725d077758d8956b83aa1196340",
+    "tests/test_v32_epigenetic_expression_head.py": "0d4ad9ae3a4b3290334f1ade0eb94aa5a594eebb8b4e9a6e9562bb00a80cbe40",
+    "tests/test_v32_independent_distal_topology.py": "a616bf1e6ebaeb0d811a68d313cea49ff313487f5740da246acb63e31cbf520b",
+    "tests/test_v32_methylation_recovery.py": "52894eab755bac92e265a65369b37e0b20907da6f0693c2ac8d5477bb47eee80",
+    "tests/test_v32_signed_single_cell_fusion.py": "807d363af76365b6d8e541eed373cebb849c23d60d822758cde03e8b4df1c12e"
+  },
+  "known_scope_limits": [
+    "No real-data execution or scientific performance claims",
+    "C01 and C05-C16 remain unfinished",
+    "Independent coordinate links are candidate hypotheses",
+    "SC donor SD is descriptive spread, not a confidence interval"
+  ]
+}

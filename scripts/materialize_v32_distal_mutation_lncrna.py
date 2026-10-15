@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Materialize MC3-WES mutations overlapping DataS7-linked distal ATAC peaks.
+"""Materialize MC3-WES mutations overlapping candidate-linked distal ATAC peaks.
 
 The output is a patient x lncRNA feature table bound to the frozen five-fold
 authority.  GRCh37 MC3 coordinates are never compared directly with the
@@ -14,10 +14,13 @@ import argparse
 import hashlib
 import json
 import os
+import socket
 from pathlib import Path
 
 import duckdb
 import pandas as pd
+
+from cc_hhgt.v32.distal_topology import topology_lineage
 
 
 EXPECTED_MC3_SHA256 = "cb0caa0e3a80a24cc4ccaaacc95c690a4032cc87c8ac78519a5b33f3aa3f6b81"
@@ -44,10 +47,12 @@ def main() -> int:
     parser.add_argument("--sample-crosswalk", type=Path, required=True)
     parser.add_argument("--chain", type=Path, required=True)
     parser.add_argument("--peak-set", type=Path, required=True)
-    parser.add_argument("--datas7-links", type=Path, required=True)
+    parser.add_argument("--topology-links", "--datas7-links", dest="datas7_links", type=Path, required=True)
     parser.add_argument("--patient-folds", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    if socket.gethostname() != "149":
+        raise RuntimeError("Distal mutation preparation must execute on target host 149")
 
     paths = {
         name: value.resolve(strict=True)
@@ -65,6 +70,11 @@ def main() -> int:
     output = args.output.resolve()
     if output.exists():
         raise FileExistsError(f"Distal mutation output reuse is forbidden: {output}")
+    output.mkdir(parents=True)
+    (output / "LAUNCH_PREFLIGHT.json").write_text(json.dumps({
+        "target_host": "149", "observed_host": socket.gethostname(), "training_started": False,
+        "stage": "DISTAL_MUTATION_MATERIALIZATION"}, indent=2), encoding="utf-8")
+    lineage = topology_lineage(paths["datas7_links"])
     if sha256(paths["mc3"]) != EXPECTED_MC3_SHA256:
         raise RuntimeError("MC3 source SHA256 differs from the pinned authority")
     if sha256(paths["chain"]) != EXPECTED_CHAIN_SHA256:
@@ -106,7 +116,6 @@ def main() -> int:
     if folds.duplicated(["cancer_id", "patient_id"]).any() or set(folds.patient_fold_id) != set(range(5)):
         raise RuntimeError("Frozen patient-fold authority is not unique and exact folds 0..4")
 
-    output.mkdir(parents=True)
     con = duckdb.connect()
     con.execute("PRAGMA threads=8")
     con.execute("PRAGMA memory_limit='48GB'")
@@ -322,7 +331,9 @@ def main() -> int:
             "direct_grch37_grch38_overlap_forbidden": True,
             "chain_sha256": EXPECTED_CHAIN_SHA256,
         },
-        "source_policy": "MC3_WES_REPORTED_EVENTS_OVERLAPPING_DATAS7_LINKED_GRCH38_ATAC_PEAKS",
+        "source_policy": "MC3_WES_REPORTED_EVENTS_OVERLAPPING_CANDIDATE_GRCH38_ATAC_PEAKS",
+        "target_host": "149",
+        "topology_lineage": lineage,
         "zero_semantics": "NO_REPORTED_MC3_WES_EVENT_IN_LINKED_ATAC_PEAKS_NOT_CONFIRMED_LOCUS_WILDTYPE",
         "locus_callability_claimed": False,
         "nearby_site_regularisation": "EVENTS_COLLAPSED_TO_LINKED_PEAK_THEN_LNCRNA;NO_PER_SITE_MODEL_COEFFICIENT",

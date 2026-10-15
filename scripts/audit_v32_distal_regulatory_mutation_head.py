@@ -83,6 +83,10 @@ def main() -> int:
     input_audit = read_json(input_audit_path)
     methylation = read_json(methylation_audit_path)
     mutation = read_json(mutation_audit_path)
+    from cc_hhgt.v32.distal_topology import require_shared_predictive_topology
+    topology = require_shared_predictive_topology(
+        head.get("topology_lineage", {}), input_audit.get("topology_lineage", {}),
+        methylation.get("topology_lineage", {}), mutation.get("topology_lineage", {}))
 
     require(head.get("status") == "PASS", "Head audit is not PASS")
     require(success.get("status") == "PASS", "Head success marker is not PASS")
@@ -109,7 +113,10 @@ def main() -> int:
         methylation.get("status") == "PASS_PATIENT_LNCRNA_METHYLATION_FEATURES",
         "Methylation feature audit is not PASS",
     )
-    require(methylation.get("raw_download_delete_ready") is True, "Methylation raw deletion not ready")
+    # Recovered features are valid analysis inputs without claiming a new raw
+    # checksum audit. Their analysis can close while raw deletion stays disabled.
+    from cc_hhgt.v32.methylation_recovery import raw_deletion_eligible
+    raw_delete_ready = raw_deletion_eligible(methylation)
     require(mutation.get("status") == "PASS_DISTAL_MUTATION_FEATURES", "Distal mutation audit not PASS")
     require(mutation.get("locus_callability_claimed") is False, "Invalid locus-callability claim")
     require(mutation.get("missing_assay_assumed_zero") is False, "Mutation missingness zero-filled")
@@ -224,13 +231,17 @@ def main() -> int:
         )
 
     require(total_available > 0, "No distal-regulatory mutation head row is available")
-    raw_target = Path(str(methylation.get("raw_download_delete_target", ""))).resolve()
-    require(raw_target.is_dir(), "Methylation raw delete target is not an existing directory")
+    raw_target_value = methylation.get("raw_download_delete_target")
+    raw_target = Path(str(raw_target_value)).resolve() if raw_target_value else None
+    if raw_delete_ready:
+        require(raw_target is not None and raw_target.is_dir(),
+                "Methylation raw delete target is not an existing directory")
     closure = {
         "format": "CANCERLNCATLAS_V32_DISTAL_REGULATORY_MUTATION_CLOSURE_NESTED_OOF_V2",
         "status": "PASS",
         "completed_at_utc": datetime.now(timezone.utc).isoformat(),
         "full33": True,
+        "topology_lineage": topology,
         "candidate_rows": int(sum(expected.values())),
         "candidate_available_rows": total_available,
         "fresh_v32_training": True,
@@ -241,8 +252,8 @@ def main() -> int:
         "patient_oof_pathway": True,
         "missing_assay_assumed_zero": False,
         "causal_claimed": False,
-        "raw_methylation_delete_authorized": True,
-        "raw_methylation_delete_target": str(raw_target),
+        "raw_methylation_delete_authorized": raw_delete_ready,
+        "raw_methylation_delete_target": str(raw_target) if raw_target is not None else None,
         "retained_audits": {
             "head": {"path": str(head_audit_path), "sha256": sha256(head_audit_path)},
             "head_input": {"path": str(input_audit_path), "sha256": sha256(input_audit_path)},

@@ -7,12 +7,14 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 import scripts.materialize_v32_distal_regulatory_head_input as materialize
 
 
+@pytest.mark.parametrize("diagnostic_only", [False, True])
 def test_materializer_preserves_typed_missingness_and_patient_keys(
-    tmp_path: Path, monkeypatch
+    tmp_path: Path, monkeypatch, diagnostic_only
 ) -> None:
     expression_root = tmp_path / "expression"
     expression_dir = expression_root / "cancer_id=BRCA"
@@ -99,6 +101,17 @@ def test_materializer_preserves_typed_missingness_and_patient_keys(
     )
     purity_path = tmp_path / "purity.parquet"
     purity.to_parquet(purity_path, index=False)
+    if not diagnostic_only:
+        import hashlib
+        from cc_hhgt.v32.distal_topology import POLICY, sha256
+        lineage = {"predictive_evaluation_eligible": True, "policy": POLICY,
+                   "coordinate_build": "GRCh38", "links_sha256": "a"*64}
+        (tmp_path/"AUDIT.json").write_text(json.dumps({"topology_lineage": lineage,
+            "outputs": {name: {"path":str(path), "sha256":sha256(path)} for name,path in
+                        [("mutation",mutation_path),("methylation",methylation_path)]}}))
+        atac_path=atac_root/"BRCA.distal_accessibility.tsv.gz"
+        (atac_root/"DISTAL_ATAC_AUDIT.json").write_text(json.dumps({"topology_lineage":lineage,
+            "output_md5":{str(atac_path):hashlib.md5(atac_path.read_bytes()).hexdigest()}}))
     output = tmp_path / "assembled"
     monkeypatch.setattr(
         sys,
@@ -113,7 +126,7 @@ def test_materializer_preserves_typed_missingness_and_patient_keys(
             "--purity-covariates", str(purity_path),
             "--output", str(output),
             "--cancers", "BRCA",
-        ],
+        ] + (["--allow-cohort-selected-topology"] if diagnostic_only else []),
     )
     assert materialize.main() == 0
     assembled = pd.read_parquet(output / "cancer_id=BRCA" / "part-0.parquet")
@@ -128,3 +141,19 @@ def test_materializer_preserves_typed_missingness_and_patient_keys(
     audit = json.loads((output / "AUDIT.json").read_text())
     assert audit["status"] == "PASS"
     assert audit["atac_lncrna_namespace_normalized_to_formal_ids"] is True
+    assert audit["topology_lineage"]["predictive_evaluation_eligible"] is (not diagnostic_only)
+
+
+def test_atac_aliquot_means_are_order_independent_and_id_collisions_rejected(tmp_path):
+    path=tmp_path/"BRCA.distal_accessibility.tsv.gz"
+    pd.DataFrame({"gene_id":["L1"],"TCGA-AA-0001-A":[.2],"TCGA-AA-0001-B":[.8]}).to_csv(path,sep="\t",index=False)
+    assert materialize._atac_long(tmp_path,"BRCA",{"LNC:L1"}).atac_distal_accessibility.iloc[0]==pytest.approx(.5)
+    pd.DataFrame({"gene_id":["L1.1","L1.2"],"TCGA-AA-0001":[.2,.8]}).to_csv(path,sep="\t",index=False)
+    with pytest.raises(ValueError,match="collide"):
+        materialize._atac_long(tmp_path,"BRCA",{"LNC:L1"})
+
+
+def test_feature_availability_strings_cannot_be_silently_cast_to_true():
+    frame=pd.DataFrame({"test":[.2],"test__available":["False"]})
+    with pytest.raises(ValueError,match="boolean"):
+        materialize._typed_feature(frame,"test")

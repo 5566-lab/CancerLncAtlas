@@ -1,0 +1,116 @@
+{
+  "objective": "在现有代码基础上实现此前核查的全部分析要求；只修改代码，不启动训练",
+  "base_commit": "70bff4fbf510fc144ea188659448f8d15b6ab231",
+  "target_host_for_checks": "149",
+  "training_launched": false,
+  "completion_definition": "每项都有真实实现、可调用入口、上下游消费路径及对应语义验证；不以占位接口、配置、门禁或旧结果冒充实现。真实训练和生产部署不在本次执行范围。",
+  "requirements": [
+    {
+      "id": "C01",
+      "task": "合并当前 G2/RBP、10月扩图、SC-HHGT 有效代码并保留来源",
+      "status": "in_progress"
+    },
+    {
+      "id": "C02",
+      "task": "修复甲基化汇总、恢复已完成批次、衔接远端分析",
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED"
+    },
+    {
+      "id": "C03",
+      "task": "远端突变/ATAC/甲基化两阶段分析的折内拓扑、患者隔离和缺失语义",
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED"
+    },
+    {
+      "id": "C04",
+      "task": "最新有符号 SC-HHGT 保留供者/细胞类型信息并接入融合",
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED"
+    },
+    {
+      "id": "C05",
+      "task": "Mutation/CNV/ATAC/State/Clinical 与当前核心及最终评分的实际消费",
+      "status": "in_progress",
+      "remaining": "Native Mutation/CNV/ATAC/State/Clinical adapters and current-core producer binding; dynamic fusion entry now exists."
+    },
+    {
+      "id": "C06",
+      "task": "患者/突变亚群条件分析和不确定性，避免癌种均值替代亚群效应",
+      "status": "pending"
+    },
+    {
+      "id": "C07",
+      "task": "药物稳定标识/同义词、癌种/亚型映射、覆盖分层及自然类别比例",
+      "status": "pending"
+    },
+    {
+      "id": "C08",
+      "task": "药物作用方向、靶点/通路贡献的分析实现，避免联表机制冒充模型归因",
+      "status": "pending"
+    },
+    {
+      "id": "C09",
+      "task": "ENCODE KD/差异剪接获取解析、RBP功能支持分析及证据消费",
+      "status": "pending"
+    },
+    {
+      "id": "C10",
+      "task": "RBNS 与匹配版本 lncRNA 序列评分、预测关系及下游消费",
+      "status": "pending"
+    },
+    {
+      "id": "C11",
+      "task": "实验/预测扩图三臂兼容当前 C 图和训练入口；不执行训练",
+      "status": "pending"
+    },
+    {
+      "id": "C12",
+      "task": "规则证据汇总、独立验证及发布消费接通，保留来源与方向",
+      "status": "pending"
+    },
+    {
+      "id": "C13",
+      "task": "独立外部验证入口、来源/实体隔离及真实指标",
+      "status": "pending"
+    },
+    {
+      "id": "C14",
+      "task": "选定最终评分驱动 GeneSet、分型、覆盖表与 GMT，明确来源版本",
+      "status": "pending"
+    },
+    {
+      "id": "C15",
+      "task": "新结果到网站/API/下载完整绑定和同版本查询；不部署",
+      "status": "pending"
+    },
+    {
+      "id": "C16",
+      "task": "统一编排、数据字典、命令和逐项代码验收，保留未运行状态",
+      "status": "pending"
+    }
+  ],
+  "latest_validation": {
+    "target_host": "149",
+    "unique_fixture_tests_passed": 46,
+    "optimizer_jobs_started": 0,
+    "real_data_analysis_started": false,
+    "production_deployed": false,
+    "r_validation": "PARSE_ONLY",
+    "remaining_requirements_not_complete": [
+      "C01",
+      "C05",
+      "C06",
+      "C07",
+      "C08",
+      "C09",
+      "C10",
+      "C11",
+      "C12",
+      "C13",
+      "C14",
+      "C15",
+      "C16"
+    ]
+  }
+}

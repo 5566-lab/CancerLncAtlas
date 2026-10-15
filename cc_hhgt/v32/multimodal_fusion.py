@@ -67,8 +67,11 @@ class ExpertSpec:
     source_role: str = "provenance_audited_standardized_source"
     independent_of_primary_label: bool = True
     direct_target_evidence: bool = False
+    value_transform: str = "probability_logit"
 
     def validate(self) -> None:
+        if self.value_transform not in {"probability_logit", "signed_fisher", "identity_unit"}:
+            raise MultimodalFusionError(f"Unknown expert value transform: {self.value_transform}")
         if not re.fullmatch(r"[a-z][a-z0-9_]{1,63}", self.expert_id):
             raise MultimodalFusionError(f"Invalid expert_id: {self.expert_id!r}")
         if not self.probability_column or not self.availability_column:
@@ -114,6 +117,7 @@ class ResidualFusionConfig:
     batch_size: int = 65_536
     evaluation_interval: int = 10
     clip_probability: float = 1.0e-6
+
     increment_logloss_delta: float = 1.0e-4
 
     def validate(self) -> None:
@@ -146,12 +150,16 @@ class ResidualFusionModel:
     optimiser_steps: int
     validation_logloss: float
     clip_probability: float = 1.0e-6
+    # Empty preserves the meaning of existing V1 checkpoints.
+    feature_transforms: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
         payload.update(
             {
-                "checkpoint_format": CHECKPOINT_FORMAT,
+                "checkpoint_format": ("CC_HHGT_V3_2_RESIDUAL_FUSION_CHECKPOINT_V2"
+                                      if self.feature_transforms and any(t != "probability_logit" for t in self.feature_transforms)
+                                      else CHECKPOINT_FORMAT),
                 "analysis_version": ANALYSIS_VERSION,
                 "module_id": MODULE_ID,
                 "primary_probability_offset_fixed": True,
@@ -199,6 +207,15 @@ def _probability(values: pd.Series, label: str, *, allow_null: bool) -> np.ndarr
         raise MultimodalFusionError(f"{label} contains null/non-finite values")
     if ((numeric[finite] < 0) | (numeric[finite] > 1)).any():
         raise MultimodalFusionError(f"{label} is outside [0, 1]")
+    return numeric
+
+
+def _expert_value(values: pd.Series, spec: ExpertSpec) -> np.ndarray:
+    numeric = pd.to_numeric(values, errors="raise").to_numpy(float)
+    finite = np.isfinite(numeric)
+    lower = -1 if spec.value_transform == "signed_fisher" else 0
+    if np.isinf(numeric).any() or ((numeric[finite] < lower) | (numeric[finite] > 1)).any():
+        raise MultimodalFusionError(f"{spec.expert_id} is outside [{lower}, 1]")
     return numeric
 
 
@@ -366,12 +383,10 @@ def build_pair_aggregated_fusion_frame(
         available = expert[spec.availability_column]
         if available.isna().any():
             raise MultimodalFusionError(f"{spec.expert_id} availability contains nulls")
+        if not available.isin([True, False]).all():
+            raise MultimodalFusionError(f"{spec.expert_id} availability must be boolean")
         available = available.astype(bool)
-        probability = _probability(
-            expert[spec.probability_column],
-            f"{spec.expert_id}.{spec.probability_column}",
-            allow_null=True,
-        )
+        probability = _expert_value(expert[spec.probability_column], spec)
         if np.isnan(probability[available.to_numpy()]).any():
             raise MultimodalFusionError(
                 f"{spec.expert_id} has available rows without a probability"
@@ -595,6 +610,7 @@ def build_pair_aggregated_fusion_frame_from_parquet(
             relation = f"expert_{index}_norm"
             probability_column = _duckdb_identifier(spec.probability_column)
             availability_column = _duckdb_identifier(spec.availability_column)
+            value_lower_bound = -1 if spec.value_transform == "signed_fisher" else 0
             connection.execute(
                 f"""
                 CREATE TEMP TABLE {relation} AS
@@ -613,7 +629,7 @@ def build_pair_aggregated_fusion_frame_from_parquet(
                        count_if(expert_available IS NULL) AS null_availability,
                        count_if(expert_available AND
                                 (expert_probability IS NULL OR NOT isfinite(expert_probability)
-                                 OR expert_probability < 0 OR expert_probability > 1)) AS bad_available,
+                                 OR expert_probability < {value_lower_bound} OR expert_probability > 1)) AS bad_available,
                        count_if(NOT expert_available AND expert_probability IS NOT NULL)
                          AS filled_unavailable,
                        count(DISTINCT analysis_version) AS version_count,
@@ -666,6 +682,7 @@ def build_pair_aggregated_fusion_frame_from_parquet(
                 "primary_only_keys": 0,
                 "typed_null_violations": 0,
                 "analysis_version": ANALYSIS_VERSION,
+                "value_transform": spec.value_transform,
             }
 
         final_projection = ",\n                   ".join(expert_projection)
@@ -749,17 +766,36 @@ def _expert_matrix(
     expert_ids: Sequence[str],
     centres: np.ndarray | None,
     clip: float,
+    transforms: Sequence[str] = (),
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     logits: list[np.ndarray] = []
     masks: list[np.ndarray] = []
-    for expert in expert_ids:
-        probability = pd.to_numeric(frame[f"{expert}_probability"], errors="coerce").to_numpy(float)
+    transforms = tuple(transforms) or ("probability_logit",) * len(expert_ids)
+    if len(transforms) != len(expert_ids):
+        raise MultimodalFusionError("Expert transform dimension mismatch")
+    for expert, transform in zip(expert_ids, transforms):
+        probability = pd.to_numeric(frame[f"{expert}_probability"], errors="raise").to_numpy(float)
         # Pandas copy-on-write may expose a read-only ndarray.  The mask is
         # intentionally refined in place below, so request an owned buffer.
-        available = frame[f"{expert}_available"].fillna(False).astype(bool).to_numpy(copy=True)
-        available &= np.isfinite(probability)
+        flag = frame[f"{expert}_available"]
+        if flag.isna().any() or not flag.isin([True, False]).all():
+            raise MultimodalFusionError(f"{expert} availability must be non-null boolean")
+        available = flag.astype(bool).to_numpy(copy=True)
+        if not np.array_equal(available, np.isfinite(probability)):
+            raise MultimodalFusionError(f"{expert} violates typed-null availability")
         values = np.zeros(len(frame), dtype=float)
-        values[available] = _logit(probability[available], clip)
+        observed = probability[available]
+        lower = -1 if transform == "signed_fisher" else 0
+        if np.isinf(probability).any() or ((observed < lower) | (observed > 1)).any():
+            raise MultimodalFusionError(f"{expert} is outside its declared value domain")
+        if transform == "probability_logit":
+            values[available] = _logit(observed, clip)
+        elif transform == "signed_fisher":
+            values[available] = np.arctanh(np.clip(observed, -1 + clip, 1 - clip))
+        elif transform == "identity_unit":
+            values[available] = observed
+        else:
+            raise MultimodalFusionError(f"Unknown expert transform {transform}")
         logits.append(values)
         masks.append(available.astype(float))
     logit_matrix = np.column_stack(logits) if logits else np.empty((len(frame), 0), float)
@@ -796,6 +832,7 @@ def fit_residual_fusion_model(
     endpoint: str,
     config: ResidualFusionConfig,
     seed: int,
+    feature_transforms: Sequence[str] = (),
 ) -> ResidualFusionModel:
     """Fit one fresh non-negative residual model with a fixed primary offset."""
 
@@ -803,6 +840,7 @@ def fit_residual_fusion_model(
     if endpoint not in {"discovery", "confidence", "actionability"}:
         raise MultimodalFusionError(f"Invalid fusion endpoint: {endpoint}")
     experts = tuple(expert_ids)
+    transforms = tuple(feature_transforms) or ("probability_logit",) * len(experts)
     if not experts or len(experts) != len(set(experts)):
         raise MultimodalFusionError("Fusion requires distinct non-empty expert IDs")
     train = _subsample(train, config.max_train_rows, seed)
@@ -829,10 +867,10 @@ def fit_residual_fusion_model(
         allow_null=False,
     )
     train_matrix, train_mask, centres = _expert_matrix(
-        train, experts, None, config.clip_probability
+        train, experts, None, config.clip_probability, transforms
     )
     validation_matrix, _, _ = _expert_matrix(
-        validation, experts, centres, config.clip_probability
+        validation, experts, centres, config.clip_probability, transforms
     )
     if not train_mask.any():
         raise MultimodalFusionError("No auxiliary expert is available in fusion training")
@@ -896,6 +934,7 @@ def fit_residual_fusion_model(
         optimiser_steps=int(steps),
         validation_logloss=float(best_loss),
         clip_probability=float(config.clip_probability),
+        feature_transforms=transforms,
     )
 
 
@@ -918,7 +957,7 @@ def apply_residual_fusion_model(
         frame.primary_probability, "fusion apply primary_probability", allow_null=False
     )
     matrix, masks, _ = _expert_matrix(
-        frame, experts, centres, model.clip_probability
+        frame, experts, centres, model.clip_probability, model.feature_transforms
     )
     contributions = matrix * weights[None, :]
     total_contribution = contributions.sum(axis=1)
@@ -955,6 +994,8 @@ def apply_residual_fusion_model(
     for index, expert in enumerate(experts):
         available = masks[:, index].astype(bool)
         output[f"{expert}_available"] = available
+        output[f"{expert}_input_value"] = np.where(available, frame[f"{expert}_probability"], np.nan)
+        output[f"{expert}_value_transform"] = (model.feature_transforms or ("probability_logit",)*len(experts))[index]
         contribution = contributions[:, index]
         output[f"{expert}_logit_contribution"] = np.where(
             available, contribution, np.nan
@@ -1036,6 +1077,7 @@ def train_pair_blocked_crossfit_fusion(
             endpoint=endpoint,
             config=settings,
             seed=settings.seed + heldout,
+            feature_transforms=tuple(spec.value_transform for spec in selected),
         )
         prediction = apply_residual_fusion_model(
             model, test, include_private_target=True
@@ -1097,6 +1139,7 @@ def train_pair_blocked_crossfit_fusion(
         endpoint=endpoint,
         config=settings,
         seed=settings.seed + 10_000,
+        feature_transforms=tuple(spec.value_transform for spec in selected),
     )
     metrics = pd.DataFrame(metric_rows)
     metrics = pd.concat(
@@ -1275,6 +1318,7 @@ def materialize_multimodal_fusion_release(
         )
     )
     native = fusion_frame[list(TARGET_KEYS)].copy()
+    native_specs = {spec.expert_id: spec for spec in (*discovery.expert_specs, *confidence.expert_specs)}
     for expert in native_experts:
         probability_column = f"{expert}_probability"
         availability_column = f"{expert}_available"
@@ -1293,9 +1337,11 @@ def materialize_multimodal_fusion_release(
             raise MultimodalFusionError(
                 f"Native public expert {expert} violates typed-null semantics"
             )
-        native[f"{expert}_native_probability"] = np.where(
+        value_name = "probability" if native_specs[expert].value_transform == "probability_logit" else "value"
+        native[f"{expert}_native_{value_name}"] = np.where(
             available, probability, np.nan
         )
+        native[f"{expert}_value_transform"] = native_specs[expert].value_transform
         native[f"{expert}_native_available"] = available
     public = public.merge(
         native,
@@ -1344,7 +1390,9 @@ def materialize_multimodal_fusion_release(
     _atomic_parquet(discovery.oof_prediction, discovery_oof_path)
     _atomic_parquet(confidence.oof_prediction, confidence_oof_path)
     checkpoint = {
-        "checkpoint_format": CHECKPOINT_FORMAT,
+        "checkpoint_format": ("CC_HHGT_V3_2_RESIDUAL_FUSION_CHECKPOINT_V2"
+                              if any(s.value_transform != "probability_logit" for s in native_specs.values())
+                              else CHECKPOINT_FORMAT),
         "analysis_version": ANALYSIS_VERSION,
         "training_run_id": str(training_run_id),
         "module_id": MODULE_ID,

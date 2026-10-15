@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Extract static lncRNA peak topology from official TCGA ATAC Data S7.
 
-Only peak name, linked-gene symbol and linked-gene type are consumed.  The
-workbook's association, correlation and FDR values are deliberately excluded
-so labels/outcomes cannot leak into the static graph topology.
+Only identifiers are exported, but membership was selected using cohort-level
+expression. Removing correlation/FDR columns does not remove selection leakage.
+These links are evidence-only for prediction in the same patient cohort.
 """
 
 from __future__ import annotations
@@ -105,6 +105,9 @@ def main() -> None:
     audit = {
         "format": "CC_HHGT_V3_2_DATAS7_STATIC_LNCRNA_TOPOLOGY_V1",
         "status": "PASS_DATAS7_STATIC_TOPOLOGY",
+        "policy": "COHORT_EXPRESSION_SELECTED_DATAS7_EVIDENCE_ONLY",
+        "predictive_evaluation_eligible": False,
+        "cohort_expression_used_in_original_selection": True,
         "source_workbook": str(args.workbook),
         "source_workbook_sha256": sha256(args.workbook),
         "source_sheet": "All_Links",

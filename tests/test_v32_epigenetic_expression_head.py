@@ -115,3 +115,16 @@ def test_finite_value_with_false_availability_fails_closed() -> None:
     frame.loc[0, "atac_distal_accessibility__available"] = False
     with pytest.raises(EpigeneticExpressionError, match="typed-null availability"):
         crossfit_epigenetic_expression(frame)
+
+
+def test_heldout_assay_unseen_in_training_cannot_be_reported_supported():
+    frame = _fixture()
+    for feature in ("atac_distal_accessibility", "distal_mutation_burden",
+                    "promoter_methylation_beta", "distal_methylation_beta"):
+        observed = frame.patient_fold_id.eq(0) if feature == "distal_mutation_burden" else frame.patient_fold_id.ne(0)
+        frame.loc[~observed,feature]=np.nan
+        frame[f"{feature}__available"]=frame[feature].notna()
+    output,_ = crossfit_epigenetic_expression(frame,config=EpigeneticExpressionConfig(min_train_patients=20))
+    heldout=output.patient_fold_id.eq(0)
+    assert not output.loc[heldout,"epigenetic_expression_available"].any()
+    assert output.loc[heldout,"predicted_expression_z"].isna().all()

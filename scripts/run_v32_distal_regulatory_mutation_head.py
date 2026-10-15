@@ -5,10 +5,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import socket
 from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
+
+from cc_hhgt.v32.distal_topology import require_shared_predictive_topology
 
 from cc_hhgt.v32.distal_regulatory_mutation_head import (
     DistalRegulatoryMutationHeadConfig,
@@ -45,6 +48,8 @@ def main() -> int:
     parser.add_argument("--min-expression-train-patients", type=int, default=20)
     parser.add_argument("--min-pathway-train-patients", type=int, default=20)
     args = parser.parse_args()
+    if socket.gethostname() != "149":
+        raise RuntimeError("Distal head execution must run on target host 149")
 
     head_input = args.head_input_root.resolve()
     activity_root = args.pathway_activity_root.resolve()
@@ -56,7 +61,13 @@ def main() -> int:
         raise FileNotFoundError(head_input / "AUDIT.json")
     if not candidate_path.is_file():
         raise FileNotFoundError(candidate_path)
+    input_audit = json.loads((head_input / "AUDIT.json").read_text(encoding="utf-8"))
+    lineage = require_shared_predictive_topology(input_audit.get("topology_lineage", {}))
+    input_hashes = {Path(item["path"]).parent.name: item["sha256"] for item in input_audit.get("outputs", [])}
     output.mkdir(parents=True)
+    (output / "LAUNCH_PREFLIGHT.json").write_text(json.dumps({
+        "target_host": "149", "observed_host": socket.gethostname(),
+        "stage": "DISTAL_NESTED_OOF", "topology_lineage": lineage}, indent=2), encoding="utf-8")
     component_root = output / "patient_oof_expression_component"
     nested_component_root = output / "nested_outer_expression_components"
     pathway_root = output / "candidate_oof_pathway_head"
@@ -73,6 +84,8 @@ def main() -> int:
         activity_path = activity_root / f"cancer_id={cancer}" / "part-0.parquet"
         if not input_path.is_file() or not activity_path.is_file():
             raise FileNotFoundError(f"Missing formal input for {cancer}")
+        if input_hashes.get(input_path.parent.name) != sha256(input_path):
+            raise ValueError(f"Assembled distal input differs from its bound audit: {cancer}")
         frame = pd.read_parquet(input_path)
         component, nested_component, expression_audit = (
             nested_outer_crossfit_epigenetic_expression(
@@ -156,6 +169,8 @@ def main() -> int:
     audit = {
         "format": "CANCERLNCATLAS_V32_DISTAL_REGULATORY_MUTATION_HEAD_NESTED_OOF_V2",
         "status": "PASS",
+        "target_host": "149",
+        "topology_lineage": lineage,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "fresh_v32_training": True,
         "old_model_prediction_or_score_reused": False,
