@@ -1,0 +1,52 @@
+{
+  "method": "ACTUAL_NATIVE_MODEL_INPUT_INSPECTION_TO_EXTERNAL_V2_AND_UNIFIED_PUBLICATION",
+  "source_hash_receipts": [
+    "current_model_use_r1",
+    "current_model_use_r2",
+    "current_model_use_web_r1"
+  ],
+  "latest_validation_receipts": [
+    "current_model_use_r2",
+    "current_model_use_web_r1"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_analysis_web.py",
+    "cc_hhgt/v32/current_analysis_workflow.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/external_validation_current.py",
+    "cc_hhgt/v32/external_validation_sources.py",
+    "scripts/materialize_v32_current_model_use.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_current_model_use.py",
+    "website/frontend/assets/current-analysis.js"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "native_inventory_model_forwards_executed": false,
+  "fixture_scope": "Current V4 synthetic inputs/checkpoints and tiny frozen forwards are built before inventory inspection; inventory itself forbids model construction. Historical-format fixed-coefficient fusion is synthetic only.",
+  "prior_pass": "r1 passed 40 checks; r2 adds L1/reference separation and directory authority integrity and passes 42. The web suite verifies automatic derivation and actual downstream use.",
+  "captured_browser_receipt": {
+    "path": "current_model_use_web_browser_receipt.json",
+    "sha256": "3d9d8b5b60b08f126f6c5cc6ac7637f801b59726b6095fa03e823c69096d20cc"
+  },
+  "captured_screenshots": [
+    {
+      "remote_basename": "current_web_desktop.png",
+      "local_basename": "current_model_use_web_desktop.png",
+      "sha256": "a12f74e410dcb76a2b63c062de387ff2cdb4ceb312844e561d2e8f5dc852ddac"
+    },
+    {
+      "remote_basename": "current_web_mobile.png",
+      "local_basename": "current_model_use_web_mobile.png",
+      "sha256": "27e983241f44f228f39bcc4adb515f5ca074758a48cd8b4cc98cedf601181b3f"
+    }
+  ],
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ]
+}

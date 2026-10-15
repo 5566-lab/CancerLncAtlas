@@ -34,7 +34,7 @@ NOTES = {
     "clinical":"保留临床终点、事件数、方向和缺失原因；成员汇总不代表联合基因集生存效应。",
     "drug":"模型概率表示关联强度；实测药敏方向、剂量变化与模型消融分别呈现。缺失预测不填零。",
     "evidence":"保留实验背景、来源及方向冲突。规则汇总不代表因果概率。",
-    "external":"展示实测指标及隔离范围。已登记来源的隔离尚不证明模型使用来源清单完整。",
+    "external":"结合登记来源与可追溯的原生模型输入检查重叠。未解析来源单列；来源清单完整前，不能据此宣称独立验证。",
     "single_cell":"保留细胞背景和数据集的供者 OOF 关联预测；正负强度不是概率，供者标准差不是置信区间。基因集概况是成员描述性汇总。",
     "patient":"亚群斜率和 HC3 区间描述全队列关联，患者 OOF 预测误差单独呈现。保留原始检验家族 FDR；不推断个体因果效应或联合基因集效应。",
     "genomic":"保留原生五折预测及覆盖。突变/CNV 事件共现、CNV 表达关联和 ATAC 共可及性各自有不同含义；成员概率均值不是联合基因集概率。",
@@ -46,7 +46,7 @@ FILTERS = {"cancer_id","cancer_a","cancer_b","lncrna_id","pathway_id","pathway_f
     "drug_id","gene_id","subtype_system","subtype_id","ablation_kind","ablation_entity_id","response_metric",
     "response_unit","dose_molar_key","low_dose_molar_key","high_dose_molar_key","exposure_hours_key",
     "source_id","source_group","endpoint","isolation_scope","model_id","baseline_model_id","metric","route_type","cell_key","dataset_id","group_id","analysis_source_id",
-    "producer_kind","modality","expert_id","feature"}
+    "producer_kind","modality","expert_id","feature","phase","use_view","role","reason","status"}
 
 
 def read_json(path): return json.loads(Path(path).read_text(encoding="utf-8"))

@@ -144,7 +144,7 @@ def read_sources(specs, maps, root, *, usage=False):
     return pd.concat(frames, ignore_index=True)
 
 
-def isolate_sources(external, usage):
+def isolate_sources(external, usage, *, dependency_complete=None, dependency_hashes=()):
     """Connected study exclusion plus cancer-agnostic pair and lncRNA novelty."""
     if set(external.source_id) & set(usage.source_id): raise ValueError("External and used source identities must be distinct")
     combined = assign_study_components(pd.concat([usage, external], ignore_index=True))
@@ -154,12 +154,12 @@ def isolate_sources(external, usage):
     used_lnc = set(used.loc[used.lncrna_id.ne(""), "lncrna_id"])
     used_pairs = set(used.loc[used.lncrna_id.ne("") & used.pathway_id.ne(""), ["lncrna_id", "pathway_id"]].itertuples(index=False, name=None))
     used_unspecified_pair = set(used.loc[used.pathway_id.eq(""), "lncrna_id"])
-    complete = bool(len(used) and used.provenance_verified.all())
+    complete = bool(len(used) and used.provenance_verified.all() and dependency_complete is not False)
     entity_complete = bool(len(used) and used.mapped.all())
     evaluated["model_usage_provenance_complete"] = complete
     evaluated["model_usage_entity_complete"] = entity_complete
     evaluated["study_overlap"] = evaluated.study_id.isin(used_studies)
-    evaluated["source_file_overlap"] = evaluated.source_file_sha256.isin(used.source_file_sha256)
+    evaluated["source_file_overlap"] = evaluated.source_file_sha256.isin(set(used.source_file_sha256)|set(dependency_hashes))
     evaluated["lncrna_overlap"] = evaluated.lncrna_id.isin(used_lnc)
     evaluated["pair_overlap"] = [lnc in used_unspecified_pair or (lnc, pathway) in used_pairs
         or (not pathway and lnc in used_lnc) for lnc, pathway in evaluated[["lncrna_id", "pathway_id"]].itertuples(index=False, name=None)]
@@ -173,6 +173,7 @@ def isolate_sources(external, usage):
             ("IDENTITY_UNMAPPED", not row.mapped), ("NONEXPERIMENTAL_OR_PREDICTED", not row.is_experimental or row.is_predicted),
             ("OUTCOME_UNKNOWN", pd.isna(row.label)), ("EXTERNAL_PROVENANCE_MISSING", not row.provenance_verified),
             ("MODEL_USE_PROVENANCE_INCOMPLETE", not complete), ("STUDY_OVERLAP", row.study_overlap),
+            ("NATIVE_DEPENDENCIES_INCOMPLETE", dependency_complete is False),
             ("MODEL_USE_ENTITY_INCOMPLETE", not entity_complete),
             ("SOURCE_FILE_OVERLAP", row.source_file_overlap), ("PAIR_OVERLAP", row.pair_overlap),
             ("LNCRNA_OVERLAP", row.lncrna_overlap)) if condition])

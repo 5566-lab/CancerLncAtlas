@@ -98,7 +98,9 @@ def web_release(tmp_path_factory,current_sources):
         template=evidence_fixture(source_root/"evidence",current_sources[1],input_only=True)
         components["evidence"]={"status":"BUILD","input_manifest":record(template)}
         template=external_fixture(source_root/"external",current_sources[1],input_only=True);data=read_json(template)
-        data["models"][0]["producer_binding"]={"workflow_ref":"selected_score"};write(template,data)
+        data["models"][0]["producer_binding"]={"workflow_ref":"selected_score"}
+        data["format"]="CURRENT_EXTERNAL_VALIDATION_INPUT_V2"
+        data["model_use_inventory"]={"derive_from_native_models":True};write(template,data)
         components["external"]={"status":"BUILD","input_manifest":record(template)}
         selected_input=read_json(Path(read_json(current_sources[1])["input_manifest"]["path"]))
         selected_input["rule_evidence_binding"]={"workflow_ref":"evidence"}
@@ -150,9 +152,14 @@ def test_workflow_builds_native_contexts_and_records_actual_public_schemas(web_r
     workflow=read_json(root/"CURRENT_WORKFLOW_BINDING.json");success=read_json(root/"SUCCESS.json")
     assert success["binding_sha256"]==sha256(root/"CURRENT_WORKFLOW_BINDING.json")
     assert success["stage_status_sha256"]==sha256(root/"STAGE_STATUS.json")
-    assert tuple(s["stage"] for s in workflow["stages"])==ORDER
+    assert tuple(s["stage"] for s in workflow["stages"])==ORDER[:-2]+("model_use",)+ORDER[-2:]
     assert all(s["status"]=="BUILT" for s in workflow["stages"])
     assert not workflow["model_use_inventory_completeness_verified"] and not workflow["training_started"]
+    external=read_json(root/"external/EXTERNAL_BINDING.json")
+    assert external["native_model_use_inventory"]==record(root/"model_use/MODEL_USE_BINDING.json")
+    rows=store.query("external.isolation",version=store.sha)["rows"]
+    assert rows[0]["lncrna_overlap"] and not rows[0]["provenance_held_out"]
+    assert "external.model_dependency_gaps" in store.binding["tables"]
     catalog=read_json(root/"PUBLIC_TABLE_CATALOG.json")
     assert catalog["web_binding_sha256"]==store.sha and "path\"" not in json.dumps(catalog)
     assert {t["table_id"] for t in catalog["tables"]}==set(store.binding["tables"])
@@ -355,6 +362,12 @@ def test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout(live_si
             expect(page.locator("#drug-results")).to_contain_text("不可用")
             page.locator("button[data-component='evidence']").click();expect(page.locator("#table-container tbody tr")).to_have_count(1)
             page.locator("button[data-component='external']").click();expect(page.locator("#row-status")).not_to_have_text("正在查询…")
+            page.locator("#table-select").select_option("external.model_dependency_gaps")
+            page.locator("#extra-filters summary").click()
+            page.locator("#filters-form input[name='role']").fill("prepared.feature_and_label_construction")
+            page.locator("#filters-form button[type='submit']").click()
+            expect(page.locator("#table-container tbody tr")).to_have_count(5)
+            expect(page.locator("#table-container")).to_contain_text("RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED")
             page.locator("button[data-component='single_cell']").click()
             expect(page.locator("#table-container tbody tr")).to_have_count(3)
             expect(page.locator("#table-container")).to_contain_text("-0.6")

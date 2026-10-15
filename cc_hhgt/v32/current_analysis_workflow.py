@@ -38,7 +38,7 @@ def implementation_hashes():
         "cc_hhgt/v32/current_drug_context.py","cc_hhgt/v32/current_single_cell_context.py",
         "cc_hhgt/v32/current_patient_context.py","cc_hhgt/v32/current_omics_context.py",
         "scripts/materialize_v32_current_rule_evidence.py","cc_hhgt/v32/evidence_rule_release.py",
-        "cc_hhgt/v32/external_validation_current.py"]
+        "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/current_model_use.py"]
     return {name:sha256(root/name) for name in names}
 
 
@@ -151,6 +151,23 @@ def run_current_analysis_workflow(manifest_path,output):
                 if spec["status"]=="BUILD":
                     source=verified_path(declared[stage],path.parent)
                     resolved=resolve_template(read(source),source.parent,refs,sources)
+                    request=resolved.get("model_use_inventory",{})
+                    if stage=="external" and "derive_from_native_models" in request:
+                        if (resolved.get("format")!="CURRENT_EXTERNAL_VALIDATION_INPUT_V2"
+                                or set(request)!={"derive_from_native_models"} or request["derive_from_native_models"] is not True):
+                            raise ValueError("External native inventory derivation requires the exact V2 workflow directive")
+                        from .current_model_use import INPUT_FORMAT as USE_INPUT,materialize_current_model_use
+                        stage="model_use"
+                        use_input=inputs/"model_use.json"
+                        write(use_input,{"format":USE_INPUT,"models":resolved["models"]})
+                        sources[str(use_input)]=record(use_input)
+                        use_result=materialize_current_model_use(use_input,output/"model_use")
+                        refs["model_use"]=record(Path(use_result["binding_path"]))
+                        state["stages"].append({"stage":"model_use","status":"BUILT",
+                            "resolved_input":record(use_input),"binding":refs["model_use"]})
+                        write(output/"STAGE_STATUS.json",state)
+                        resolved["model_use_inventory"]=refs["model_use"]
+                        stage="external"
                     resolved_path=inputs/(stage+".json");write(resolved_path,resolved)
                     sources[str(resolved_path)]=record(resolved_path)
                     binding=build_stage(stage,resolved_path,output/stage)

@@ -119,7 +119,10 @@ def producer_scores(spec, root, *, cache=None):
 
 def evaluate_manifest(path):
     path = Path(path).resolve(); root = path.parent; manifest = _json(path)
-    if manifest.get("format") != "CURRENT_EXTERNAL_VALIDATION_INPUT_V1": raise ValueError("Unknown current external evaluation manifest")
+    native_use=manifest.get("format")=="CURRENT_EXTERNAL_VALIDATION_INPUT_V2"
+    if manifest.get("format") not in {"CURRENT_EXTERNAL_VALIDATION_INPUT_V1","CURRENT_EXTERNAL_VALIDATION_INPUT_V2"}:
+        raise ValueError("Unknown current external evaluation manifest")
+    if not native_use and "model_use_inventory" in manifest:raise ValueError("Native model-use binding requires external input V2")
     maps = identity_maps(read_table(verified_path(manifest["identity_crosswalk"], root)))
     models = {}; model_sources = []; producer_cache = {}
     for spec in manifest["models"]:
@@ -128,22 +131,36 @@ def evaluate_manifest(path):
         model, source = producer_scores(spec, root, cache=producer_cache); models[spec["model_id"]] = model; model_sources.append(source)
     producer_cache.clear()
     validate_scores(models)
-    uses = manifest["model_use_sources"]
+    uses = manifest.get("model_use_sources",[])
     for spec in uses:
         if not spec.get("model_ids") or not set(spec["model_ids"]).issubset(models): raise ValueError("Every used source must be assigned to evaluated models")
-    for name in models:
-        if not any(name in s["model_ids"] for s in uses): raise ValueError("Missing model-use inventory for a compared model")
+    if not native_use:
+        for name in models:
+            if not any(name in s["model_ids"] for s in uses): raise ValueError("Missing model-use inventory for a compared model")
     # The union across compared models is excluded from every model's evaluation.
     # Otherwise a comparator could have seen the primary model's test evidence.
-    usage = read_sources(uses, maps, root, usage=True)
+    frames=[read_sources(uses,maps,root,usage=True)] if uses else []
+    derived={};dependency_complete=None;dependency_hashes=()
+    if native_use:
+        from .current_model_use import load_current_model_use,SCOPE
+        source=verified_path(manifest["model_use_inventory"],root)
+        use_binding,derived=load_current_model_use(source,expected_sha=manifest["model_use_inventory"]["sha256"],models=manifest["models"],root=root)
+        frames.append(derived["usage"])
+        dependency_complete=use_binding["model_use_inventory_completeness_verified"]
+        dependency_hashes=derived["dependencies"].sha256
+    usage=pd.concat(frames,ignore_index=True)
     observations = read_sources(manifest["external_sources"], maps, root)
     if observations.empty: raise ValueError("No external source records were registered")
-    isolated, used = isolate_sources(observations, usage)
+    isolated, used = isolate_sources(observations, usage,dependency_complete=dependency_complete,dependency_hashes=dependency_hashes)
     settings = manifest["evaluation"]
     required = {"primary_model", "cutoffs", "lncrna_aggregation", "bootstrap_replicates", "seed"}
     if set(settings) != required: raise ValueError("External evaluation policy must explicitly declare all settings")
     metrics, details, coverage = evaluate_external(isolated, used, models, **settings)
-    return manifest, {"isolation": isolated, "model_use": used, "metrics": metrics, "details": details, "coverage": coverage}, model_sources
+    tables={"isolation":isolated,"model_use":used,"metrics":metrics,"details":details,"coverage":coverage}
+    if native_use:
+        coverage["independence_scope"]=SCOPE
+        tables.update(model_dependencies=derived["dependencies"].drop(columns="path"),model_dependency_gaps=derived["gaps"])
+    return manifest,tables,model_sources
 
 
 def materialize_current_external(manifest_path, output):
@@ -160,13 +177,21 @@ def materialize_current_external(manifest_path, output):
         outputs[name] = {"path": str(path), "sha256": sha256(path), "rows": len(frame)}
     if sha256(manifest_path) != digest: raise ValueError("External policy changed during evaluation")
     from . import external_validation_sources, external_validation_metrics
+    native_use=manifest["format"]=="CURRENT_EXTERNAL_VALIDATION_INPUT_V2"
+    native_binding=None;scope="REGISTERED_MODEL_USE_ONLY"
+    implementation_files=[__file__,external_validation_sources.__file__,external_validation_metrics.__file__]
+    if native_use:
+        from . import current_model_use
+        source=verified_path(manifest["model_use_inventory"],manifest_path.parent)
+        native_binding={"path":str(source),"sha256":sha256(source)};scope=current_model_use.SCOPE
+        implementation_files.append(current_model_use.__file__)
     implementation = {str(Path(p).resolve()): sha256(Path(p)) for p in
-        (__file__, external_validation_sources.__file__, external_validation_metrics.__file__)}
-    binding = {"format": "CURRENT_EXTERNAL_VALIDATION_RELEASE_V1", "status": "PASS", "target_host": "149",
+        implementation_files}
+    binding = {"format": "CURRENT_EXTERNAL_VALIDATION_RELEASE_V2" if native_use else "CURRENT_EXTERNAL_VALIDATION_RELEASE_V1", "status": "PASS", "target_host": "149",
         "run_id": stable_id("EXTERNAL:", [digest, implementation]), "input_manifest": {"path": str(manifest_path), "sha256": digest},
         "outputs": outputs, "models": model_sources, "implementation_sha256": implementation, "evaluation": manifest["evaluation"],
         "training_started": False, "used_for_model_selection": False, "negative_labels_synthesized": False,
-        "isolation_scope": "REGISTERED_MODEL_USE_ONLY", "model_use_inventory_completeness_verified": False,
+        "isolation_scope":scope,"native_model_use_inventory":native_binding,"model_use_inventory_completeness_verified":False,
         "independent_external_validation_attested": False, "production_deployed": False}
     path = output/"EXTERNAL_BINDING.json"; path.write_text(json.dumps(binding, indent=2)+"\n")
     # Recompute from the original raw tables, not from already filtered outputs.
@@ -179,13 +204,17 @@ def materialize_current_external(manifest_path, output):
 
 def _load_binding(path, expected_sha):
     path = verified_path({"path": str(path), "sha256": expected_sha}, Path.cwd()); binding = _json(path)
-    if (binding.get("format") != "CURRENT_EXTERNAL_VALIDATION_RELEASE_V1" or binding.get("status") != "PASS"
+    from .current_model_use import SCOPE
+    scopes={"CURRENT_EXTERNAL_VALIDATION_RELEASE_V1":"REGISTERED_MODEL_USE_ONLY","CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":SCOPE}
+    if (binding.get("format") not in scopes or binding.get("status") != "PASS"
             or binding.get("target_host") != "149" or binding.get("training_started") is not False
             or binding.get("used_for_model_selection") is not False or binding.get("negative_labels_synthesized") is not False
             or binding.get("independent_external_validation_attested") is not False
             or binding.get("model_use_inventory_completeness_verified") is not False
-            or binding.get("isolation_scope") != "REGISTERED_MODEL_USE_ONLY"):
+            or binding.get("isolation_scope") != scopes.get(binding.get("format"))):
         raise ValueError("Invalid external evaluation binding")
+    if binding["format"]=="CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":verified_path(binding["native_model_use_inventory"],path.parent)
+    elif binding.get("native_model_use_inventory") is not None:raise ValueError("Legacy external release has a hidden native inventory")
     outputs = {name: verified_path(record, path.parent) for name, record in binding["outputs"].items()}
     return path, binding, outputs
 
@@ -193,7 +222,12 @@ def _load_binding(path, expected_sha):
 def audit_current_external(path, *, expected_sha):
     path, binding, outputs = _load_binding(path, expected_sha)
     source = verified_path(binding["input_manifest"], path.parent)
-    _, expected, model_sources = evaluate_manifest(source)
+    manifest, expected, model_sources = evaluate_manifest(source)
+    if manifest["format"]=="CURRENT_EXTERNAL_VALIDATION_INPUT_V2":
+        native=verified_path(manifest["model_use_inventory"],source.parent)
+        if binding.get("native_model_use_inventory")!={"path":str(native),"sha256":sha256(native)}:
+            raise ValueError("External native model-use provenance drift")
+    elif binding["format"]!="CURRENT_EXTERNAL_VALIDATION_RELEASE_V1":raise ValueError("External input/release inventory mode differs")
     if model_sources != binding["models"]: raise ValueError("External model provenance drift")
     if set(expected) != set(outputs): raise ValueError("External output tables differ from the registered analysis")
     for name, frame in expected.items():
@@ -235,5 +269,5 @@ class CurrentExternalValidationQuery:
                 [path, *filters.values(), limit, offset]).df()
         finally: connection.close()
         return {"run_id": self.binding["run_id"], "binding_sha256": self.binding_sha256,
-            "isolation_scope": "REGISTERED_MODEL_USE_ONLY", "independent_external_validation_attested": False,
+            "isolation_scope":self.binding["isolation_scope"],"independent_external_validation_attested":False,
             "rows": json.loads(frame.to_json(orient="records"))}

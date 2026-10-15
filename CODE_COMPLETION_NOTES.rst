@@ -1895,3 +1895,93 @@ and independent_external_validation_attested=false. Its stage/input inventory
 is not a complete raw biological-source inventory. C16 remains in progress:
 complete source-use/patient reconciliation, field definitions, upstream command
 integration and final per-requirement acceptance still need implementation.
+
+Native model input exposure and external evaluation V2 (2026-10-16)
+-----------------------------------------------------------------
+
+``python -m scripts.materialize_v32_current_model_use --manifest INPUT.json
+--output NEW_DIRECTORY`` inspects existing selected/core/fusion producers on
+host 149. CURRENT_MODEL_USE_INPUT_V1 contains models with the same model_id,
+producer_kind, producer_binding, run_id and score_column specifications used
+by current external evaluation. Optional artifact_locations are path/SHA256
+records for relocated native authorities. A locator must match a hash already
+carried by an actual authority and be used; it cannot register unrelated data
+as a model dependency.
+
+For current V4 predictions, the implementation follows all five authorized
+config/input/prepared/checkpoint/training-receipt records and graph sidecars.
+It uses the real native payload validator and candidate-alignment reader,
+including their sealed-test firewall. The training and validation availability
+masks determine available-supervision exposure separately. Candidate features
+and graph lncRNA nodes retain their own views. It does not read sealed test
+payloads, construct a neural model, perform neural forwards or fit parameters.
+
+The entity table groups native candidate exposure by lncRNA within model,
+outer fold, use phase and input view. candidate_rows counts candidate records,
+not patients, effective gradients or independent observations. The exclusion
+scope is explicitly LNCRNA_EXPOSURE_ALL_PATHWAYS: a lncRNA exposed through a
+model input is conservatively excluded from entity-novel evaluation for every
+pathway. This avoids expanding millions of candidate rows across all five
+folds merely to recover the same exposed lncRNA universe. It is not a pair-
+specific claim about which learned coefficient is nonzero.
+
+The L1 score is treated separately: its published values come from base_logit.
+The inventory retains candidate-feature exposure and reports unresolved
+baseline-fitting ancestry. It does not attribute the reference neural graph
+or neural checkpoint-selection labels to L1. A selected score follows its
+actual selected producer; reference directions and post-hoc rule annotations
+do not become model-fitting dependencies. A validation winner lock remains
+explicitly incomplete until all competitors' training ancestry is resolved.
+
+For fusion, the actual private feature snapshot and available calibration
+targets supply exposure. A native primary-label binding is replayed and traced
+to the actual current core when present. Every declared fitted expert is
+retained in the unresolved ancestry table, including a zero final coefficient:
+zero contribution is not proof that its source was absent during fitting.
+Historical fusion without native primary ancestry remains explicitly incomplete.
+
+Graph static/fold authorities, patient authorities and unlocated input hashes
+are recorded separately from the actual exposure. Present files with a wrong
+hash fail. Directory inputs use the existing native artifact-tree hash and
+detect changed partitions. Missing authorities remain unresolved rather than
+being asserted complete. File integrity does not reconstruct original study
+identity or the upstream raw feature/label transformations. The current release
+therefore records raw_study_provenance_reconstructed=false and
+model_use_inventory_completeness_verified=false. No study ID is invented from
+a prepared filename, checkpoint or input checksum.
+
+MODEL_USE_BINDING.json pins USAGE.parquet, private DEPENDENCIES.parquet and
+GAPS.parquet, actual model identities, source inputs and implementation hashes.
+An audit independently reruns the native input inspection and compares all
+three tables before SUCCESS. Consumers replay this inspection and require the
+same evaluated model, run, producer hash and numeric score. Rehashing an edited
+usage table cannot hide omitted exposure. All individual patient identities
+remain outside the public inventory.
+
+The existing external-analysis CLI now also accepts
+CURRENT_EXTERNAL_VALIDATION_INPUT_V2, requiring model_use_inventory as a bound
+MODEL_USE_BINDING.json record. Optional model_use_sources supplement that native
+inventory; they cannot replace it. V1 remains explicitly limited to declared
+sources. V2 combines native exposure and registered evidence, checks source-file
+overlap against native dependency hashes, and reports
+NATIVE_DEPENDENCIES_INCOMPLETE when ancestry is unresolved. Descriptive metrics
+continue to use the actual measured outcomes; held-out eligibility is not
+fabricated. Coverage and query results retain the native inventory's actual
+scope. Public model_dependencies omits paths; model_dependency_gaps explains
+the unresolved roles. Completeness and biological independence remain false.
+
+In an external BUILD template for the unified publication workflow, use V2
+and ``"model_use_inventory":{"derive_from_native_models":true}`` to derive
+the inventory automatically from the resolved evaluated models. The workflow
+records a real model_use stage before external evaluation and substitutes its
+actual binding. The standalone external-analysis CLI takes an already built
+binding instead of this workflow directive. The actual website serves the new
+public tables and provides role/phase/use-view filters. Browser verification
+checks the unresolved feature/label lineage for all five folds.
+
+Synthetic validation covers native masks, graph exposure, L1 separation,
+directory integrity, model identity substitution, rehashed omission, fusion
+ancestry and actual external V2 consumption. A deliberately incomplete manual
+list misses an exposed lncRNA; V2 correctly identifies it through the native
+inputs. Complete raw-study reconstruction, all auxiliary/competitor ancestry,
+cross-module patient reconciliation and final C01/C13/C16 acceptance remain open.
