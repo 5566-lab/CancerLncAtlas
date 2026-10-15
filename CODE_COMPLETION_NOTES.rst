@@ -606,3 +606,108 @@ reviews/directions, empty-source releases, nonmatching versions/families, source
 and rehashed-output corruption, preserved scores and literal query filters.
 Real-data preparation, evidence production, biological validation, training and
 deployment have not been run as part of this code-only task.
+
+External source isolation and observed metrics (C13, integration still open)
+-------------------------------------------------------------------------
+
+scripts/analyze_v32_current_external_validation.py is an executable analysis
+entry, not a source inventory or a training command. It reads existing bound
+exact/fusion producer outputs, reconstructs their scores, parses raw external
+observations and computes new metrics. It runs only on 149::
+
+  python -m scripts.analyze_v32_current_external_validation \
+    --manifest /path/to/EXTERNAL_INPUT.json --output /path/to/new-external-run
+
+The manifest format is CURRENT_EXTERNAL_VALIDATION_INPUT_V1. It contains:
+
+* identity_crosswalk: a path/sha256 table with namespace, raw_id, canonical_id.
+  Namespaces are lncrna, cancer and pathway. Mapping is explicit and unambiguous;
+  versions are not removed and pathway families are not expanded. For cell-line
+  cohorts the registered cancer crosswalk must explicitly map the cell line.
+* models: unique model_id, run_id, producer_kind, producer_binding path/sha256,
+  and score_column. exact_release accepts association_membership_probability,
+  l1_probability or ridge_probability and independently recomputes the five-fold
+  arithmetic ensemble from bound source predictions. fusion_release accepts
+  discovery_adjusted_probability or fused_confidence_probability and replays the
+  frozen coefficients on the published native inputs. No optimizer is created.
+  Baseline and primary models must have the same full exact candidate universe.
+* model_use_sources: unique source_id, kind (canonical_usage or native_exact_events),
+  phase (TRAINING, MODEL_SELECTION, FEATURE_CONSTRUCTION or CALIBRATION), model_ids
+  and a table path/sha256 record. The tables preserve lncrna_id/pathway_id plus
+  cancer and study provenance when present. Their union across all compared models
+  is excluded for each model, avoiding an asymmetric comparison.
+* external_sources: unique source_id, kind and table path/sha256. exact_assay
+  requires record_id, lncrna, cancer, pathway, label, is_experimental, is_predicted
+  and assay. label is measured 0/1 or unknown; any zero requires a registered
+  measured_negative_definition. Provenance may include pmid, doi, dataset_id,
+  dataset_accession, source_dataset, experiment_id or study_accession.
+* evaluation: exactly primary_model, cutoffs, lncrna_aggregation,
+  bootstrap_replicates and seed. The aggregation is MAX, MEAN_TOP5 or the explicitly
+  named LEGACY_0.7_MAX_0.3_TOP5 policy. The primary model, aggregation and cutoffs are
+  supplied before evaluation; external results never select a model or threshold.
+
+Native known-positive readers accept lnc2cancer, lncrnadisease,
+rnadisease_experimental, rnadisease_predicted and gse85011_followup. Mixed
+LncRNADisease methods require typed source flags or an explicit method_classes
+mapping of exact method strings to experimental/predicted/unknown; unrecognized
+methods remain unknown. Predicted database records cannot become measured truth.
+GSE85011 uses typed control status and the registered published follow-up
+selection interpretation PUBLISHED_GROWTH_MODIFIER_HITS. Selected noncontrol
+RNA-seq follow-up targets support only known-positive lncRNA ranking; controls and
+other metadata rows are not invented as measured negatives, and these records
+do not validate individual pathways. No screen effect size is inferred from
+sample inclusion.
+
+PMID/DOI/dataset/experiment/study-token connected components exclude overlap,
+including transitive multi-PMID bridges across database copies. Same-file overlap
+is recorded separately. Cancer-agnostic lncRNA/pathway pairs and lncRNA identities
+are compared against all registered model-use phases. Four scopes are reported:
+descriptive, provenance_held_out, pair_held_out and lncrna_held_out. Missing model-use
+study provenance prevents provenance-held-out eligibility; missing entity
+identities prevents pair/lncRNA-held-out eligibility. Unknown mappings stay in the
+isolation ledger. A cell-line label is not silently promoted to patient evidence.
+
+Within each source/cancer/endpoint and the pooled source cohort, identical target
+annotations are deduplicated. Conflicting measured labels are excluded from
+metrics and counted in coverage. Their raw records remain in the isolation table.
+Exact-pathway recovery ranks exact pairs within cancer; disease-only recovery
+ranks lncRNAs using the registered aggregation. Rankings use the full eligible
+candidate universe, with separate novel-entity universes for the relevant scopes.
+Equal-score ties contribute their expected hit fraction under uniform tie breaking,
+so alphabetical ordering cannot create apparent enrichment.
+
+Observed AUROC, average precision, Brier score and log loss require both measured
+classes. Known-positive sources produce recovery metrics rather than synthetic
+classification labels. Recovery reports both all-eligible-positive and matched-
+positive denominators. Coverage reports unmatched targets, conflicting labels,
+available candidate universe and resampling block count. Missing results are null
+with a reason, not zero performance.
+
+Confidence intervals and primary-minus-baseline differences use paired resampling
+blocks connected by shared lncRNA or study provenance. All models use identical
+block draws. Bootstrap multiplicities are handled as observation weights instead
+of expanding repeated large tables. Fewer than two blocks or insufficient valid
+replicates leaves uncertainty unavailable. Intervals are explicitly exploratory
+and unadjusted across the reported comparisons; they do not establish multiplicity-
+controlled superiority or component-specific causal effects.
+
+The release binds ISOLATION, MODEL_USE, METRICS, DETAILS and COVERAGE tables, model
+producer provenance and the exact evaluation policy. It replays the raw-source
+analysis before SUCCESS. This replay uses the same statistical implementation;
+the separate numerical tests compare AUROC/AP/ties/weighted resampling against
+analytic examples. CurrentExternalValidationQuery serves these same hash-bound
+tables with parameterized filters and pagination.
+
+C13 is NOT marked complete. These calculations isolate against REGISTERED_MODEL_
+USE_ONLY: completeness of the inventory has not yet been derived from all actual
+training, feature-construction, calibration and model-selection dependencies.
+The final selected-score binding and complete usage-closure integration remain
+required alongside C14/C16. The output deliberately records
+model_use_inventory_completeness_verified=false and
+independent_external_validation_attested=false. A passing replay or a supplied
+inventory must not be substituted for that missing completeness proof.
+
+Synthetic checks run the actual exact producer and current external command,
+reconstruct a frozen synthetic fusion release, verify analytic metrics and paired
+intervals, and reject altered producer/metric outputs. No real external cohort
+was analyzed, no actual scientific gain was estimated and no model was trained.

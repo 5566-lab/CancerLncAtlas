@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 248,
+  "unique_test_cases_passed": 259,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -82,7 +82,12 @@
     "scripts/materialize_v32_exact_release.py": "b122eae68e623a6a33f248453e9cf153138d05d71724d81f2e426c7279bf9c14",
     "scripts/run_v32_multimodal_fusion_formal.py": "b7aff01b4b454d8f4e3a5a2fcfedbb38a3d9c210154a3c61112a411480b9c470",
     "tests/test_v32_current_rule_evidence.py": "d89c38eae054f11f805db3d51fae3c72ddb223f5e01dba01088933829fad1a6d",
-    "tests/test_v32_fusion_expert_policy.py": "69e05539827658c3bd5f4548f912e8ee09733e45d28fde35fc4bbad173f52cd7"
+    "tests/test_v32_fusion_expert_policy.py": "69e05539827658c3bd5f4548f912e8ee09733e45d28fde35fc4bbad173f52cd7",
+    "cc_hhgt/v32/external_validation_sources.py": "f76c988313669d038e9440acfbc49d4f7545d6dd1b3aa682081479d2a435ac79",
+    "cc_hhgt/v32/external_validation_metrics.py": "1e000522dcbfb80561481b5606f29de4be48234c72cf98c30f20372a3b43153c",
+    "cc_hhgt/v32/external_validation_current.py": "b2749da2aba45730a21c3ee6c4637ad02e5866e09f96b58af3669effee0c2589",
+    "scripts/analyze_v32_current_external_validation.py": "7e07b081a45320aaf75736340617b81246032e41a3f93dfdb435dcd1a050b5cd",
+    "tests/test_v32_current_external_validation.py": "955414265e940228dfad35a6f241ee6423fa697be4f3e963b85ed1023f8f03cc"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -98,7 +103,10 @@
     "C01, C05, C08 and C13-C16 remain unfinished. C09 functional evidence now has an actual C12 rule-summary and release consumer.",
     "C12 audit independently recomputes aggregation with SQL but shares raw-source normalization adapters; it is not biological external validation.",
     "C12 tests exercise actual native producers, audit/query, fusion preparation and public serializers with synthetic files and fixed coefficients only; no optimizer or scientific production analysis was run.",
-    "Historical native event artifacts cannot recover discarded context/review fields; obtaining those fields requires rematerializing the upstream events from raw sources."
+    "Historical native event artifacts cannot recover discarded context/review fields; obtaining those fields requires rematerializing the upstream events from raw sources.",
+    "C13 raw-source isolation, observed metrics, paired block bootstrap, actual exact/fusion producer readers and query/replay are fixture-verified. Final selected-score and full model-use dependency closure remain unfinished.",
+    "External isolation is explicitly REGISTERED_MODEL_USE_ONLY; no complete biological-independence attestation or real external performance is claimed.",
+    "External source replay uses the same metric implementation; separate analytic tests verify weighted AUROC/AP, tie handling and paired differences. Intervals are exploratory and not multiplicity adjusted."
   ],
   "test_suites": [
     {
@@ -115,6 +123,11 @@
       "path": "provenance/code_completion_20261015/current_core_export_tests.xml",
       "passed": 27,
       "sha256": "6e3ebd98db62211dfb98ad149ec1957d832bac5f260e7f3140d0c0f000eae21a"
+    },
+    {
+      "path": "provenance/code_completion_20261015/current_external_validation_tests.xml",
+      "passed": 11,
+      "sha256": "390bffa5c6966a62856f7b701661c2519ef8b930eabfdaf3df7d8c01837ac869"
     },
     {
       "path": "provenance/code_completion_20261015/current_rule_evidence_tests.xml",
@@ -449,6 +462,61 @@
       "module": "tests.test_v32_current_core_export",
       "case": "test_training_receipt_requires_optimizer_evidence",
       "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_actual_exact_producer_external_command_and_queries_without_training",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_actual_fusion_public_scores_are_reconstructed_and_changed_scores_rejected",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_connected_multi_pmid_dataset_and_entity_exclusions_are_cancer_agnostic",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_duplicate_database_rows_do_not_change_estimates_and_conflicts_are_visible",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_exact_source_uses_explicit_negatives_and_typed_flags",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_metrics_match_analytic_auc_average_precision_and_tied_rank_recovery",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_missing_use_provenance_or_unknown_entity_cannot_claim_independence",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_native_mixed_methods_numeric_pmids_and_followup_cohorts_are_not_synthetic_truth",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_paired_cluster_intervals_and_no_false_classification_without_negatives",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_study_or_lncrna_dependence_forms_one_resampling_block",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_external_validation",
+      "case": "test_versions_and_families_are_not_guessed_and_paired_universes_must_match",
+      "suite": "provenance/code_completion_20261015/current_external_validation_tests.xml"
     },
     {
       "module": "tests.test_v32_current_rule_evidence",

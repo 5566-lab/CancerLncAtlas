@@ -89,7 +89,10 @@
     {
       "id": "C13",
       "task": "独立外部验证入口、来源/实体隔离及真实指标",
-      "status": "pending"
+      "status": "in_progress",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Native external readers, connected study and entity isolation across registered use phases, existing exact/fusion producer recomputation, measured binary/rank metrics, paired cluster uncertainty, hash-bound replay and query implemented; 11 synthetic checks passed without optimization.",
+      "remaining": "Bind the final selected-score release and derive completeness of model-use inventory from actual training/feature/calibration/model-selection dependencies (C14/C16); registered inventories alone do not prove independent external validation."
     },
     {
       "id": "C14",
@@ -109,7 +112,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 248,
+    "unique_fixture_tests_passed": 259,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,

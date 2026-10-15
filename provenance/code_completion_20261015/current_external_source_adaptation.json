@@ -1,0 +1,36 @@
+{
+  "method": "MANUAL_CURRENT_SOURCE_AND_METRIC_IMPLEMENTATION_WITH_EXISTING_PRODUCER_CONSUMERS",
+  "reference_files": [
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\external_validation.py",
+      "sha256": "a96a6c650cc0d013af805f36248efdb98684872c9c052ea6068961a59870cd15"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\external_validation_release.py",
+      "sha256": "34d03f18c85bda63fc19566b643061b3fabfcc8cd832ae63cbae8cba21791710"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\external_validation_query.py",
+      "sha256": "84158038b3b371847af7633ec71f676a3b52eb3677cfbb1d466f8858cbe70d5a"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/external_validation_sources.py",
+    "cc_hhgt/v32/external_validation_metrics.py",
+    "cc_hhgt/v32/external_validation_current.py",
+    "scripts/analyze_v32_current_external_validation.py"
+  ],
+  "changes_from_reference": [
+    "Replace first-PMID exclusion with connected provenance across all registered model-use phases.",
+    "Audit cancer-agnostic pair/lncRNA identity overlap using explicit version-preserving crosswalks.",
+    "Recompute actual exact/fusion producer scores instead of using fixed August artifact hashes.",
+    "Separate known-positive recovery from measured binary outcomes; never synthesize negatives from unlabelled candidates.",
+    "Use exact tied-score hit expectations and paired study/lncRNA block uncertainty, with honest missingness and coverage.",
+    "Retain the explicit incompleteness of model-use closure until integration with final selected-score producers."
+  ],
+  "source_hash_receipts": [
+    "current_external_validation"
+  ],
+  "training_started": false,
+  "real_data_run": false
+}

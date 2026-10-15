@@ -1,0 +1,24 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T18:03:11.270776+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/external_validation_sources.py": "f76c988313669d038e9440acfbc49d4f7545d6dd1b3aa682081479d2a435ac79",
+    "cc_hhgt/v32/external_validation_metrics.py": "1e000522dcbfb80561481b5606f29de4be48234c72cf98c30f20372a3b43153c",
+    "cc_hhgt/v32/external_validation_current.py": "b2749da2aba45730a21c3ee6c4637ad02e5866e09f96b58af3669effee0c2589",
+    "scripts/analyze_v32_current_external_validation.py": "7e07b081a45320aaf75736340617b81246032e41a3f93dfdb435dcd1a050b5cd",
+    "tests/test_v32_current_external_validation.py": "955414265e940228dfad35a6f241ee6423fa697be4f3e963b85ed1023f8f03cc"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_external_validation.py",
+    "--junitxml=provenance/code_completion_20261015/current_external_validation_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T18:03:29.829113+00:00"
+}
