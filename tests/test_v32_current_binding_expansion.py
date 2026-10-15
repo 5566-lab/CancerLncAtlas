@@ -170,10 +170,15 @@ def verified_payload(fold=0):
     batch = {"candidate_batch": {"l": torch.tensor([0]), "p": torch.tensor([0]), "c": torch.tensor([0])},
         "base_logit": torch.zeros(1), "conservation_context": torch.zeros((1, 4)),
         "proxy_label": torch.ones(1), "weak_positive": torch.tensor([False]),
+        "association_available": torch.tensor([True]),
         "direction_label": torch.ones(1), "direction_available": torch.tensor([True])}
     payload = {"prepared_format": PREPARED_FORMAT, "patient_fold": fold, "feature_dim": 2,
         "patient_fold_authority": patient, "formal_graph_variant": "G2", "train_batches": [batch],
-        "validation_batches": [copy.deepcopy(batch)], "label_contract": {
+        "validation_batches": [copy.deepcopy(batch)],
+        "input_scope": {"candidate_rows_per_split": 1, "discovery_features_split": "train_patients_only",
+            "replication_labels_splits": ["validation"], "held_out_effects_as_features": False,
+            "sealed_test_accessed": False},
+        "label_contract": {
             "train_direction_label_source": "train_discovery_effect", "validation_direction_label_source": "validation_replication_effect",
             "heldout_direction_is_model_input": False, "test_labels_in_training_payload": False,
             "test_logits_in_training_payload": False, "test_metrics_computed_before_winner_lock": False}}

@@ -40,7 +40,9 @@ def main(argv=None):
     verified={}
 
     def bound(record,role="current_v32_oof_prediction"):
-        path=Path(record["path"]).resolve()
+        path=Path(record["path"])
+        if not path.is_absolute():path=args.manifest.resolve().parent/path
+        path=path.resolve()
         if path not in verified:
             verified[path]=artifact_sha256(path)
         if verified[path]!=record.get("sha256"):
@@ -49,18 +51,30 @@ def main(argv=None):
         if declaration not in declarations:declarations.append(declaration)
         return path
 
-    primary=bound(manifest["primary_prediction"])
+    primary=bound(manifest["primary_prediction"],"provenance_audited_standardized_source")
     core_binding_path=bound(manifest["primary_binding_audit"],"provenance_audited_standardized_source")
     core_binding=json.loads(core_binding_path.read_text(encoding="utf-8"))
+    from cc_hhgt.v32.current_primary_fusion import FORMAT, load_primary_fusion_inputs
+    native_labels=core_binding.get("format")==FORMAT
+    if native_labels:
+        core_binding=load_primary_fusion_inputs(core_binding_path,expected_sha=verified[core_binding_path],
+                                              expected_core_run_id=args.expected_core_run_id)
+    elif args.fit:
+        raise ValueError("Fitting requires replayed native primary validation labels; bare label hash lists are unverified")
     if (core_binding.get("run_id")!=args.expected_core_run_id or core_binding.get("status")!="PASS"
             or core_binding.get("prediction",{}).get("sha256")!=verified[primary]):
         raise ValueError("Primary prediction is not bound to the requested current core run")
     fold_records=manifest["primary_folds"]
     if len(fold_records)!=5 or {item["fold_id"] for item in fold_records}!=set(range(5)):
-        raise ValueError("Current primary requires all five held-out label files")
-    if {item["artifact"]["sha256"] for item in fold_records} != set(core_binding.get("fold_prediction_sha256", [])):
+        raise ValueError("Current primary requires all five label views")
+    authorized_folds = ({r["fold_id"]:r["artifact"]["sha256"] for r in core_binding["folds"]}
+                        if native_labels else None)
+    if native_labels and {r["fold_id"]:r["artifact"]["sha256"] for r in fold_records} != authorized_folds:
+        raise ValueError("Native validation fold labels differ from the selected core binding")
+    if not native_labels and {item["artifact"]["sha256"] for item in fold_records} != set(core_binding.get("fold_prediction_sha256", [])):
         raise ValueError("Primary fold labels differ from the selected core binding")
-    folds=[bound(item["artifact"]) for item in sorted(fold_records,key=lambda item:item["fold_id"])]
+    folds=[bound(item["artifact"],"task_definition" if native_labels else "current_v32_oof_prediction")
+           for item in sorted(fold_records,key=lambda item:item["fold_id"])]
     experts={}
     native_audits={}
     for item in manifest["experts"]:
@@ -109,7 +123,13 @@ def main(argv=None):
             raise ValueError("Duplicate current fusion expert")
         experts[spec]=bound(record)
     frame,audit=build_pair_aggregated_fusion_frame_from_parquet(primary,folds,experts,
-                                                              temp_directory=args.output/"duckdb_tmp")
+        temp_directory=args.output/"duckdb_tmp",native_validation_labels=native_labels)
+    available_pair_folds=(set(frame.loc[frame.fusion_target_available,"fusion_pair_fold"])
+                          if native_labels else set())
+    fit_ready=native_labels and available_pair_folds==set(range(5))
+    audit.update(primary_label_authority="NATIVE_VALIDATION_REPLAY" if native_labels else "UNVERIFIED_LEGACY_HASH_LIST",
+                 native_label_authority_verified=native_labels,eligible_for_current_fitting=fit_ready,
+                 primary_label_binding={"path":str(core_binding_path),"sha256":verified[core_binding_path]})
     rule_binding = manifest.get("rule_evidence_binding")
     if rule_binding:
         from cc_hhgt.v32.evidence_rule_release import attach_rule_annotations
@@ -124,10 +144,13 @@ def main(argv=None):
     (args.output/"INPUT_AUDIT.json").write_text(json.dumps(audit,indent=2)+"\n")
     if not args.fit:
         receipt={"status":"PREPARED_NOT_TRAINED","target_host":"149","training_started":False,
-                 "core_run_id":args.expected_core_run_id,"rows":len(frame),"input_sha256":artifact_sha256(frame_path)}
+                 "core_run_id":args.expected_core_run_id,"rows":len(frame),"input_sha256":artifact_sha256(frame_path),
+                 "eligible_for_current_fitting":fit_ready,"primary_label_authority":audit["primary_label_authority"]}
         (args.output/"PREPARED.json").write_text(json.dumps(receipt,indent=2)+"\n")
         print(json.dumps(receipt))
         return 0
+    if not fit_ready:
+        raise ValueError("Native available fusion labels do not cover all five pair folds; fitting did not start")
     config=ResidualFusionConfig(**manifest.get("training_config",{}))
     specs=tuple(experts)
     discovery=train_pair_blocked_crossfit_fusion(frame,specs,endpoint="discovery",config=config)

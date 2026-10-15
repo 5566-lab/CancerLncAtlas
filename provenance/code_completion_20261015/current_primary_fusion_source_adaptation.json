@@ -1,0 +1,53 @@
+{
+  "method": "NATIVE_PRIMARY_VALIDATION_PAYLOADS_TO_CURRENT_FUSION_DEVELOPMENT",
+  "source_hash_receipts": [
+    "current_primary_fusion"
+  ],
+  "reference_files": [
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_core_prediction.py",
+      "sha256": "cf82a1ce416dfc4a1ba37916f1a168a4542c46af506c249530da4ddd9bbfb96b"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\current_core_export.py",
+      "sha256": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\scripts\\export_v32_current_core_embeddings.py",
+      "sha256": "b926716be441d41b7addb18aa74f5db1f4a5ecc03eea10507ed5e11d35eac23c"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\scripts\\prepare_v32_formal.py",
+      "sha256": "ec4895d3b4cf4ba83dcf628268a10284c957a9a4af3d803f505cb42d88074510"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\training.py",
+      "sha256": "b62eaddd6c6d205b6667c1715b1f486753e255f304ba48c40523c4aa53063a2f"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\selected_score.py",
+      "sha256": "3951105d6603be35fc8e4924f30220aa138d50a809230994e015bd649dc83320"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/current_primary_fusion.py",
+    "cc_hhgt/v32/multimodal_fusion.py",
+    "scripts/materialize_v32_current_primary_fusion.py",
+    "scripts/run_v32_current_multimodal_fusion.py",
+    "tests/test_v32_current_primary_fusion.py",
+    "tests/test_v32_current_binding_expansion.py",
+    "tests/test_v32_current_rule_evidence.py",
+    "tests/test_v32_selected_analysis.py"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Replay native five-fold prepared payloads, checkpoint authorities, candidate/node identities and validation-only scope.",
+    "Convert masked loss fillers into explicit null labels; keep real zeros and partial-fold target support.",
+    "Emit a directly reusable primary-input manifest fragment and consume it in the actual current fusion runner.",
+    "Filter unavailable labels before any fit/selection/metric; preserve frozen full-candidate inference.",
+    "Carry primary-validation reuse through metrics, public scores and lineage; block independent-validation status upgrades.",
+    "Reject bare hash-list fitting and release while retaining explicitly unverified compatibility preparation."
+  ]
+}

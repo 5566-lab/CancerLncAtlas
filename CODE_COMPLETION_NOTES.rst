@@ -1215,3 +1215,75 @@ C05's native Clinical-to-selected-context connection is implemented; authentic
 post-selection labels for current fusion remain unfinished. Global completeness
 of cross-module patient/use inventories remains C16, and actual public routes
 and frontend consumption remain C15.
+
+Native primary validation labels for current fusion development
+--------------------------------------------------------------
+
+scripts/materialize_v32_current_primary_fusion.py accepts
+``--binding CURRENT_PREDICTION_BINDING.json --expected-sha256 SHA256`` plus
+``--expected-core-run-id RUN_ID --output NEW_DIRECTORY``. It requires host 149
+and consumes a completed current V4 prediction release. The command validates
+the five native checkpoints and their exact authorized prepared payloads using
+the existing current loader, including graph overlays and binding expansions.
+It constructs no model, optimizer or replacement labels. Native training and
+validation features must match and cover the exact candidate authority.
+
+The adapter extracts validation_batches.proxy_label and the explicit boolean
+association_available tensor. It never assumes that a missing availability
+mask means all labels are observed. Prepared input_scope must identify only
+validation replication labels, train-patient features, and no sealed-test
+access. Sealed test payloads remain forbidden. Model outer fold f and actual
+validation patient fold (f + 1) modulo 5 are recorded separately.
+
+An unavailable native loss entry may contain a zero filler. The exported private
+validation_proxy_label is null in that case, with a boolean availability column
+and a reason noting that the original detailed reason was not serialized.
+Observed zeros remain valid negative labels. Neither direction/effect labels
+nor test labels are used as fusion inputs. Label extraction restores exact
+candidate order through the native node maps; it does not join on guessed IDs.
+
+The output includes five FOLD_n.PRIVATE.parquet files,
+CURRENT_PRIMARY_FUSION_BINDING.json, FUSION_PRIMARY_INPUTS.json and SUCCESS.json.
+The JSON fragment supplies core_run_id, primary_prediction,
+primary_binding_audit and primary_folds for the existing
+CURRENT_MULTIMODAL_FUSION_MANIFEST_V1. Add the expert entries emitted by the
+native auxiliary or signed single-cell adapter, then call
+scripts/run_v32_current_multimodal_fusion.py. Its default remains prepare-only.
+The consumer re-extracts every label from the checkpoint-authorized source;
+editing a label file and recomputing its output hash cannot bypass this replay.
+
+All five native validation views must cover the complete candidate universe.
+The fusion target is the mean of available validation labels, with the actual
+number of available folds retained. A wholly unavailable target remains null.
+Fitting, model selection and metrics use only eligible targets, while frozen
+application still predicts every candidate. All five pair folds must contain
+eligible targets before any optimizer can start. A small preparation with fewer
+pair folds is allowed but is explicitly marked ineligible for fitting.
+
+These are development labels already used by the primary model's validation
+and checkpoint selection. The source, private frame, metrics, public scores
+and lineage retain VALIDATION_REUSED_FOR_FUSION_DEVELOPMENT. Any resulting
+increment is DEVELOPMENT_INCREMENT or DEVELOPMENT_NO_INCREMENT; scientific
+status is DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED. Pair cross-fitting is
+conditional on the already fitted primary and is not independent validation
+of the full system. Existing selected-score consumers carry this status into
+GeneSet context. A release cannot upgrade this status to SECONDARY_VALIDATED.
+Independent performance assessment still requires the separate frozen-winner
+evaluation/external-validation workflows and complete model-use inventories.
+
+Older bare primary hash lists remain usable only for compatibility preparation.
+They are marked UNVERIFIED_LEGACY_HASH_LIST and ineligible for current fitting;
+--fit rejects them before training starts. This compatibility path does not
+count as verification of authentic primary labels.
+
+Synthetic checks cover actual tiny V4 producers, native checkpoint/source
+replay, current preparation CLI consumption, masked and partial-fold labels,
+real zeros, full-candidate frozen predictions, rejection of rewritten labels,
+and propagation of development-only status. Cross-fit orchestration tests
+substitute explicit frozen parameters for fitting; no optimizer or real cohort
+analysis is executed. A successful code test is not a new trained fusion result.
+
+This completes C05's remaining code path for native primary supervision.
+C05 is code_implemented_fixture_verified, with real-data execution recorded as
+NOT_RUN_AS_REQUESTED. C01, C08, C13, C15 and C16 remain open; the overall code
+completion goal is not yet complete.

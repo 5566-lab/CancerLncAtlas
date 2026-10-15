@@ -299,10 +299,16 @@ def test_current_fusion_entry_and_public_materializer_consume_rules_without_fitt
         results.append(fusion.CrossfitFusionResult(endpoint, (spec,), score, pd.DataFrame({"fixture_only": [True]}),
             (model,)*5, model, "SYNTHETIC_NOT_ESTIMATED", "SYNTHETIC_NOT_ESTIMATED"))
     declarations = [{**record(path), "source_role": "raw_source_data", "generation": "raw_source"}]
+    assert not input_audit["eligible_for_current_fitting"]
+    with pytest.raises(fusion.MultimodalFusionError, match="input audit"):
+        fusion.materialize_multimodal_fusion_release(tmp_path/"unverified_current", frame, *results,
+            source_declarations=declarations, training_run_id="V32-FUSION-SYNTHETIC_ONLY", input_audit=input_audit)
+    # Standalone frozen serialization fixture: the legacy hash-list preparation
+    # above is deliberately NOT presented as an authenticated current release.
     before = fusion.materialize_multimodal_fusion_release(tmp_path/"public_before", frame, *results,
-        source_declarations=declarations, training_run_id="V32-FUSION-SYNTHETIC_ONLY", input_audit=input_audit)
+        source_declarations=declarations, training_run_id="V32-FUSION-SYNTHETIC_ONLY")
     after = fusion.materialize_multimodal_fusion_release(tmp_path/"public_after", frame, *results,
-        source_declarations=declarations, training_run_id="V32-FUSION-SYNTHETIC_ONLY", input_audit=input_audit,
+        source_declarations=declarations, training_run_id="V32-FUSION-SYNTHETIC_ONLY",
         rule_evidence_binding=record(binding))
     before_frame = pd.read_parquet(before["prediction_path"]); after_frame = pd.read_parquet(after["prediction_path"])
     pd.testing.assert_frame_equal(before_frame, after_frame[list(before_frame)])

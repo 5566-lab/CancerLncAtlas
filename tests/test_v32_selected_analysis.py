@@ -75,7 +75,7 @@ def tables(binding_path):
     return {name:pd.read_parquet(value['path']) for name,value in binding['outputs'].items() if name!='gmt'},binding
 
 
-def fusion_fixture(root, exact):
+def fusion_fixture(root, exact, *, development=False):
     import cc_hhgt.v32.multimodal_fusion as fusion
     root.mkdir()
     lineage=json.loads(exact.read_text());primary=Path(lineage['prediction_path'])
@@ -91,12 +91,21 @@ def fusion_fixture(root, exact):
     folds=[Path(r['prediction_path']) for r in lineage['ensemble_source_records']]
     frame,audit=fusion.build_pair_aggregated_fusion_frame_from_parquet(primary,folds,{spec:expert_path,zero_spec:zero_path})
     audit.update(core_run_id=lineage['training_run_id'],primary_source_sha256=sha256(primary),synthetic_only=True)
+    if development:
+        from cc_hhgt.v32.current_primary_fusion import SCOPE
+        frame['fusion_supervision_scope']=SCOPE
+        frame['fusion_target_available']=True
+        frame['fusion_target_available_fold_count']=5
+        frame['fusion_target_unavailable_reason']=None
+        audit.update(supervision_scope=SCOPE,independent_validation_claimed=False)
     results=[]
     for endpoint in ('discovery','confidence'):
         model=fusion.ResidualFusionModel(endpoint,('sc','zero'),(0.,0.),(2.,0.),1,'0'*64,'1'*64,0,0.,
             feature_transforms=('signed_fisher','probability_logit'))
         results.append(fusion.CrossfitFusionResult(endpoint,(spec,zero_spec),fusion.apply_residual_fusion_model(model,frame),
-            pd.DataFrame({'synthetic_only':[True]}),(model,)*5,model,'SYNTHETIC_NOT_ESTIMATED','SYNTHETIC_NOT_ESTIMATED'))
+            pd.DataFrame({'synthetic_only':[True]}),(model,)*5,model,
+            'DEVELOPMENT_NO_INCREMENT' if development else 'SYNTHETIC_NOT_ESTIMATED',
+            'DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED' if development else 'SYNTHETIC_NOT_ESTIMATED'))
     sources=[{**record(path),'source_role':'current_v32_oof_prediction','generation':'current_v32'}
              for path in [primary,*folds,expert_path,zero_path]]
     result=fusion.materialize_multimodal_fusion_release(root/'release',frame,*results,source_declarations=sources,
@@ -170,6 +179,20 @@ def test_actual_frozen_fusion_drives_gene_sets_and_preserves_missing_fold_suppor
     assert members.score_scientific_status.eq('SYNTHETIC_NOT_ESTIMATED').all()
     private=json.loads(Path(selected['producer_binding']['path']).read_text())['artifacts']['fusion_input_private']
     assert private['public'] is False
+
+
+def test_development_validation_reuse_status_reaches_actual_selected_geneset_members(tmp_path):
+    producer=exact_fixture(tmp_path/'exact')
+    selected=fusion_fixture(tmp_path/'fusion',producer,development=True)
+    manifest=input_manifest(tmp_path,producer,selected=selected)
+    result=materialize_selected_analysis(manifest,tmp_path/'analysis')
+    data,binding=tables(Path(result['binding_path']))
+    members=data['geneset_members']
+    assert len(members)>0 and members.score_scientific_status.eq('DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED').all()
+    assert members.score_performance_outcome.eq('DEVELOPMENT_NO_INCREMENT').all()
+    scores,_=load_selected_scores(binding['selected_score_binding']['path'],expected_sha=binding['selected_score_binding']['sha256'])
+    assert scores.score_scientific_status.eq('DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED').all()
+    assert 'validation_proxy_label' not in scores and 'fusion_target' not in members
 
 
 @pytest.mark.parametrize('unknown,threshold',[(True,.5),(False,1.)])

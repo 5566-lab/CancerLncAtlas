@@ -421,6 +421,7 @@ def build_pair_aggregated_fusion_frame_from_parquet(
     seed: int = 20260826,
     expected_rows: int | None = None,
     temp_directory: str | Path | None = None,
+    native_validation_labels: bool = False,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Build the formal fusion frame with one DuckDB scan per bound source.
 
@@ -508,17 +509,42 @@ def build_pair_aggregated_fusion_frame_from_parquet(
         ):
             raise MultimodalFusionError(f"Primary parquet failed formal audit: {primary_summary}")
 
+        from .current_primary_fusion import LABEL, AVAILABLE, REASON, SCOPE
+        label_column = LABEL if native_validation_labels else LABEL_COLUMN
+        label_identifier = _duckdb_identifier(label_column)
         fold_selects: list[str] = []
         observed_folds: set[int] = set()
         fold_audit: list[dict[str, Any]] = []
         for index, path in enumerate(fold_paths):
             relation = f"fold_{index}_norm"
+            native_projection = (
+                f", {AVAILABLE} AS label_available, {REASON} AS label_reason, "
+                "validation_patient_fold_id, fusion_supervision_scope"
+                if native_validation_labels else ""
+            )
+            if native_validation_labels:
+                schema = dict((r[0], r[1]) for r in connection.execute(
+                    f"DESCRIBE SELECT * FROM read_parquet({_duckdb_literal(path)})").fetchall())
+                if schema.get(AVAILABLE) != "BOOLEAN":
+                    raise MultimodalFusionError("Native validation availability must be a boolean")
+            bad_labels = (
+                "label_available IS NULL OR TRY_CAST(patient_fold_id AS INTEGER) IS NULL OR (label_available AND (held_out_proxy_label IS NULL "
+                "OR NOT isfinite(held_out_proxy_label) OR held_out_proxy_label NOT IN (0, 1))) "
+                "OR (NOT label_available AND (held_out_proxy_label IS NOT NULL OR label_reason IS NULL OR label_reason = '')) "
+                "OR (label_available AND label_reason IS NOT NULL) "
+                f"OR fusion_supervision_scope IS NULL OR fusion_supervision_scope <> '{SCOPE}' "
+                "OR validation_patient_fold_id IS NULL "
+                "OR validation_patient_fold_id <> (TRY_CAST(patient_fold_id AS INTEGER) + 1) % 5"
+                if native_validation_labels else
+                "held_out_proxy_label IS NULL OR NOT isfinite(held_out_proxy_label) OR held_out_proxy_label NOT IN (0, 1)"
+            )
             connection.execute(
                 f"""
                 CREATE TEMP VIEW {relation} AS
                 SELECT {key_projection},
                        CAST(patient_fold_id AS VARCHAR) AS patient_fold_id,
-                       TRY_CAST({_duckdb_identifier(LABEL_COLUMN)} AS DOUBLE) AS held_out_proxy_label
+                       TRY_CAST({label_identifier} AS DOUBLE) AS held_out_proxy_label
+                       {native_projection}
                 FROM read_parquet({_duckdb_literal(path)})
                 """
             )
@@ -527,8 +553,7 @@ def build_pair_aggregated_fusion_frame_from_parquet(
                 SELECT count(*) AS rows,
                        count(DISTINCT ({key_tuple})) AS distinct_keys,
                        count_if({key_bad}) AS bad_keys,
-                       count_if(held_out_proxy_label IS NULL OR NOT isfinite(held_out_proxy_label)
-                                OR held_out_proxy_label NOT IN (0, 1)) AS bad_labels,
+                       count_if({bad_labels}) AS bad_labels,
                        count(DISTINCT patient_fold_id) AS patient_fold_count,
                        min(patient_fold_id) AS patient_fold_id
                 FROM {relation}
@@ -585,17 +610,22 @@ def build_pair_aggregated_fusion_frame_from_parquet(
             SELECT {key_tuple},
                    avg(held_out_proxy_label) AS fusion_target,
                    sum(held_out_proxy_label) AS fusion_target_positive_folds,
-                   count(DISTINCT patient_fold) AS fusion_target_fold_count
+                   count(DISTINCT patient_fold) AS fusion_target_fold_count,
+                   count(held_out_proxy_label) AS fusion_target_available_fold_count
             FROM ({' UNION ALL '.join(fold_selects)})
             GROUP BY {key_tuple}
             """
         )
+        bad_target = ("(fusion_target_available_fold_count > 0 AND (fusion_target IS NULL OR NOT isfinite(fusion_target) "
+                      "OR fusion_target < 0 OR fusion_target > 1)) OR "
+                      "(fusion_target_available_fold_count = 0 AND fusion_target IS NOT NULL)"
+                      if native_validation_labels else
+                      "fusion_target IS NULL OR NOT isfinite(fusion_target) OR fusion_target < 0 OR fusion_target > 1")
         target_summary = connection.execute(
-            """
+            f"""
             SELECT count(*) AS rows,
                    count_if(fusion_target_fold_count <> 5) AS incomplete,
-                   count_if(fusion_target IS NULL OR NOT isfinite(fusion_target)
-                            OR fusion_target < 0 OR fusion_target > 1) AS bad_target
+                   count_if({bad_target}) AS bad_target
             FROM target_summary
             """
         ).fetchone()
@@ -686,6 +716,7 @@ def build_pair_aggregated_fusion_frame_from_parquet(
             }
 
         final_projection = ",\n                   ".join(expert_projection)
+        native_target_projection = "t.fusion_target_available_fold_count," if native_validation_labels else ""
         frame = connection.execute(
             f"""
             SELECT p.{_duckdb_identifier(TARGET_KEYS[0])},
@@ -695,6 +726,7 @@ def build_pair_aggregated_fusion_frame_from_parquet(
                    t.fusion_target,
                    t.fusion_target_positive_folds,
                    t.fusion_target_fold_count,
+                   {native_target_projection}
                    {final_projection}
             FROM primary_norm p
             JOIN target_summary t USING ({key_tuple})
@@ -719,9 +751,13 @@ def build_pair_aggregated_fusion_frame_from_parquet(
     if (
         len(frame) != primary_rows
         or frame[list(TARGET_KEYS)].duplicated().any()
-        or set(pd.unique(frame[FUSION_FOLD_COLUMN])) != set(range(N_FOLDS))
     ):
         raise MultimodalFusionError("Formal parquet builder changed the exact candidate universe")
+    if native_validation_labels:
+        frame["fusion_target_available"] = frame.fusion_target_available_fold_count.gt(0)
+        frame["fusion_target_unavailable_reason"] = np.where(frame.fusion_target_available, None,
+                                                             "NO_AVAILABLE_NATIVE_VALIDATION_FOLD")
+        frame["fusion_supervision_scope"] = SCOPE
     audit = {
         "status": "PASS",
         "builder": "DUCKDB_STREAMED_EXACT_KEY_JOIN",
@@ -737,7 +773,15 @@ def build_pair_aggregated_fusion_frame_from_parquet(
         "all_experts_full_candidate_universe": True,
         "all_unavailable_probabilities_null": True,
         "pair_blocked_folds": N_FOLDS,
+        "observed_pair_folds": sorted(map(int, pd.unique(frame[FUSION_FOLD_COLUMN]))),
     }
+    if native_validation_labels:
+        audit.update(supervision_scope=SCOPE, independent_validation_claimed=False,
+            labels_previously_used_for_primary_selection=True, sealed_test_labels_used=False,
+            target_available_rows=int(frame.fusion_target_available.sum()),
+            target_unavailable_rows=int((~frame.fusion_target_available).sum()),
+            target_partial_fold_rows=int(frame.fusion_target_available_fold_count.between(1, 4).sum()),
+            target_estimand="MEAN_OF_AVAILABLE_NATIVE_VALIDATION_LABELS")
     return frame, audit
 
 
@@ -981,7 +1025,8 @@ def apply_residual_fusion_model(
     if include_private_target:
         output_columns += [
             column
-            for column in ("fusion_target", FUSION_FOLD_COLUMN)
+            for column in ("fusion_target", FUSION_FOLD_COLUMN, "fusion_target_available",
+                           "fusion_target_available_fold_count", "fusion_target_unavailable_reason", "fusion_supervision_scope")
             if column in frame
         ]
     output = frame[output_columns].copy()
@@ -1035,6 +1080,31 @@ class CrossfitFusionResult:
     scientific_status: str
 
 
+def fusion_supervision(frame: pd.DataFrame) -> tuple[pd.Series, str | None]:
+    """Validate eligibility before any fitting; unavailable labels stay nullable."""
+    from .current_primary_fusion import SCOPE
+    target = pd.to_numeric(frame.fusion_target, errors="raise")
+    if "fusion_supervision_scope" not in frame:
+        if not np.isfinite(target).all() or not target.between(0, 1).all():
+            raise MultimodalFusionError("Legacy complete fusion labels must be finite")
+        return pd.Series(True, index=frame.index), None
+    if not frame.fusion_supervision_scope.eq(SCOPE).all():
+        raise MultimodalFusionError("Unknown or mixed fusion supervision scope")
+    required = {"fusion_target_available", "fusion_target_available_fold_count", "fusion_target_unavailable_reason"}
+    if not required.issubset(frame):
+        raise MultimodalFusionError("Native fusion supervision lacks availability metadata")
+    available = frame.fusion_target_available
+    counts = pd.to_numeric(frame.fusion_target_available_fold_count, errors="raise")
+    reason = frame.fusion_target_unavailable_reason
+    if (available.dtype != bool or available.isna().any() or not counts.isin(range(6)).all()
+            or not available.equals(counts.gt(0))
+            or not np.isfinite(target[available]).all() or not target[available].between(0, 1).all()
+            or target[~available].notna().any() or reason[available].notna().any()
+            or not reason[~available].eq("NO_AVAILABLE_NATIVE_VALIDATION_FOLD").all()):
+        raise MultimodalFusionError("Native fusion target violates typed availability")
+    return available, SCOPE
+
+
 def train_pair_blocked_crossfit_fusion(
     frame: pd.DataFrame,
     specs: Sequence[ExpertSpec],
@@ -1059,16 +1129,21 @@ def train_pair_blocked_crossfit_fusion(
             raise MultimodalFusionError(f"Fusion frame lacks {expert}: {missing}")
     if set(pd.unique(frame[FUSION_FOLD_COLUMN])) != set(range(N_FOLDS)):
         raise MultimodalFusionError("Fusion pair folds do not cover 0..4")
+    eligible, supervision_scope = fusion_supervision(frame)
+    development = frame.loc[eligible]
+    # Complete this check before the first optimizer can be constructed.
+    if set(pd.unique(development[FUSION_FOLD_COLUMN])) != set(range(N_FOLDS)):
+        raise MultimodalFusionError("Available fusion labels must cover all five pair folds before fitting")
 
     oof_parts: list[pd.DataFrame] = []
     models: list[ResidualFusionModel] = []
     metric_rows: list[dict[str, Any]] = []
     for heldout in range(N_FOLDS):
         validation_fold = (heldout + 1) % N_FOLDS
-        train = frame.loc[
-            ~frame[FUSION_FOLD_COLUMN].isin([heldout, validation_fold])
+        train = development.loc[
+            ~development[FUSION_FOLD_COLUMN].isin([heldout, validation_fold])
         ]
-        validation = frame.loc[frame[FUSION_FOLD_COLUMN].eq(validation_fold)]
+        validation = development.loc[development[FUSION_FOLD_COLUMN].eq(validation_fold)]
         test = frame.loc[frame[FUSION_FOLD_COLUMN].eq(heldout)]
         model = fit_residual_fusion_model(
             train,
@@ -1087,15 +1162,18 @@ def train_pair_blocked_crossfit_fusion(
             "confidence": "fused_confidence_probability",
             "actionability": "drug_actionability_probability",
         }[endpoint]
-        target = prediction.fusion_target.to_numpy(float)
-        primary = prediction.primary_probability.to_numpy(float)
-        adjusted = prediction[score_column].to_numpy(float)
+        evaluated = prediction.loc[prediction.fusion_target.notna()]
+        target = evaluated.fusion_target.to_numpy(float)
+        primary = evaluated.primary_probability.to_numpy(float)
+        adjusted = evaluated[score_column].to_numpy(float)
         metric_rows.append(
             {
                 "endpoint": endpoint,
                 "heldout_pair_fold": f"PAIR_FOLD_{heldout}",
                 "validation_pair_fold": f"PAIR_FOLD_{validation_fold}",
-                "test_rows": int(len(prediction)),
+                "test_rows": int(len(evaluated)),
+                "predicted_rows": int(len(prediction)),
+                "unavailable_label_rows": int(len(prediction)-len(evaluated)),
                 "primary_logloss": _logloss(target, primary, settings.clip_probability),
                 "adjusted_logloss": _logloss(target, adjusted, settings.clip_probability),
                 "primary_brier": _brier(target, primary),
@@ -1112,17 +1190,18 @@ def train_pair_blocked_crossfit_fusion(
     ).reset_index(drop=True)
     if len(oof) != len(frame) or oof[list(TARGET_KEYS)].duplicated().any():
         raise MultimodalFusionError("Crossfit fusion did not predict every exact candidate once")
-    target = oof.fusion_target.to_numpy(float)
+    evaluated_oof = oof.loc[oof.fusion_target.notna()]
+    target = evaluated_oof.fusion_target.to_numpy(float)
     score_column = {
         "discovery": "discovery_adjusted_probability",
         "confidence": "fused_confidence_probability",
         "actionability": "drug_actionability_probability",
     }[endpoint]
     primary_loss = _logloss(
-        target, oof.primary_probability.to_numpy(float), settings.clip_probability
+        target, evaluated_oof.primary_probability.to_numpy(float), settings.clip_probability
     )
     adjusted_loss = _logloss(
-        target, oof[score_column].to_numpy(float), settings.clip_probability
+        target, evaluated_oof[score_column].to_numpy(float), settings.clip_probability
     )
     outcome = (
         "INCREMENT"
@@ -1130,11 +1209,14 @@ def train_pair_blocked_crossfit_fusion(
         else "NO_INCREMENT"
     )
     status = "SECONDARY_VALIDATED" if outcome == "INCREMENT" else "DIAGNOSTIC_ONLY"
+    if supervision_scope is not None:
+        outcome = "DEVELOPMENT_" + outcome
+        status = "DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED"
 
     final_validation_fold = N_FOLDS - 1
     final_model = fit_residual_fusion_model(
-        frame.loc[~frame[FUSION_FOLD_COLUMN].eq(final_validation_fold)],
-        frame.loc[frame[FUSION_FOLD_COLUMN].eq(final_validation_fold)],
+        development.loc[~development[FUSION_FOLD_COLUMN].eq(final_validation_fold)],
+        development.loc[development[FUSION_FOLD_COLUMN].eq(final_validation_fold)],
         expert_ids,
         endpoint=endpoint,
         config=settings,
@@ -1151,14 +1233,16 @@ def train_pair_blocked_crossfit_fusion(
                         "endpoint": endpoint,
                         "heldout_pair_fold": "ALL_OOF",
                         "validation_pair_fold": "NOT_APPLICABLE",
-                        "test_rows": int(len(oof)),
+                        "test_rows": int(len(evaluated_oof)),
+                        "predicted_rows": int(len(oof)),
+                        "unavailable_label_rows": int(len(oof)-len(evaluated_oof)),
                         "primary_logloss": primary_loss,
                         "adjusted_logloss": adjusted_loss,
                         "primary_brier": _brier(
-                            target, oof.primary_probability.to_numpy(float)
+                            target, evaluated_oof.primary_probability.to_numpy(float)
                         ),
                         "adjusted_brier": _brier(
-                            target, oof[score_column].to_numpy(float)
+                            target, evaluated_oof[score_column].to_numpy(float)
                         ),
                         "performance_outcome": outcome,
                         "scientific_status": status,
@@ -1168,6 +1252,11 @@ def train_pair_blocked_crossfit_fusion(
         ],
         ignore_index=True,
     )
+    if supervision_scope is not None:
+        metrics["fusion_supervision_scope"] = supervision_scope
+        metrics["independent_validation_claimed"] = False
+        metrics["scientific_status"] = status
+        metrics["metric_scope"] = "CONDITIONAL_PAIR_CROSSFIT_ON_REUSED_PRIMARY_VALIDATION"
     return CrossfitFusionResult(
         endpoint=endpoint,
         expert_specs=selected,
@@ -1268,12 +1357,28 @@ def materialize_multimodal_fusion_release(
 
     if discovery.endpoint != "discovery" or confidence.endpoint != "confidence":
         raise MultimodalFusionError("Release requires discovery and confidence fits")
+    # Frozen application may legitimately omit labels altogether. Native
+    # development releases must retain their declared supervision metadata.
+    supervision_scope = None
+    if "fusion_supervision_scope" in fusion_frame:
+        _, supervision_scope = fusion_supervision(fusion_frame)
+    if input_audit is not None and input_audit.get("supervision_scope") != supervision_scope:
+        raise MultimodalFusionError("Fusion release lost its declared supervision scope")
+    if supervision_scope is not None:
+        if any(result.scientific_status != "DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED"
+               or result.performance_outcome not in {"DEVELOPMENT_INCREMENT", "DEVELOPMENT_NO_INCREMENT"}
+               for result in (discovery, confidence)):
+            raise MultimodalFusionError("Reused primary validation cannot claim independent fusion validation")
+        if input_audit is not None and (input_audit.get("supervision_scope") != supervision_scope
+                                       or input_audit.get("independent_validation_claimed") is not False):
+            raise MultimodalFusionError("Native supervision scope differs from the release input audit")
     if not re.fullmatch(r"V32-FUSION-[A-Z0-9_-]{8,96}", str(training_run_id)):
         raise MultimodalFusionError("Fusion training_run_id is invalid")
     validate_source_declarations(source_declarations)
     if input_audit is not None:
         if (
             input_audit.get("status") != "PASS"
+            or input_audit.get("eligible_for_current_fitting") is False
             or input_audit.get("analysis_version") != ANALYSIS_VERSION
             or int(input_audit.get("candidate_rows", -1)) != len(fusion_frame)
             or input_audit.get("all_five_primary_folds_present") is not True
@@ -1371,7 +1476,11 @@ def materialize_multimodal_fusion_release(
     public["used_for_primary_release"] = False
     public["historical_predictions_used"] = False
     public["historical_rankings_used"] = False
-    forbidden_public = {"fusion_target", LABEL_COLUMN, "test_membership_label"}
+    if supervision_scope is not None:
+        public["fusion_supervision_scope"] = supervision_scope
+        public["independent_validation_claimed"] = False
+        public["fusion_scientific_status"] = "DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED"
+    forbidden_public = {"fusion_target", LABEL_COLUMN, "test_membership_label", "validation_proxy_label"}
     if forbidden_public.intersection(public.columns):
         raise MultimodalFusionError("Fusion public output leaks private target labels")
 
@@ -1458,6 +1567,10 @@ def materialize_multimodal_fusion_release(
     }
     if input_audit is not None:
         lineage["fusion_input_audit_sha256"] = artifact_sha256(input_audit_path)
+    if supervision_scope is not None:
+        lineage.update(fusion_supervision_scope=supervision_scope, independent_validation_claimed=False,
+            labels_previously_used_for_primary_selection=True, sealed_test_labels_used=False,
+            unavailable_labels_excluded_from_fitting_and_metrics=True)
     if rule_evidence_binding is not None:
         lineage["rule_evidence_binding"] = dict(rule_evidence_binding)
         lineage["rule_evidence_used_as_model_input"] = False

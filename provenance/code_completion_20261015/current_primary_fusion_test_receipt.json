@@ -1,0 +1,37 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T20:30:58.951218+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_primary_fusion.py": "e798168ba5bebdd5080c855d1e7e2bdd911b994678cfcc86eceacb260105c14c",
+    "cc_hhgt/v32/multimodal_fusion.py": "f842b6b579e8e4d9b3431cba7141fabdad3cde9408aad39a0682cb59ff4b9bce",
+    "scripts/materialize_v32_current_primary_fusion.py": "372cbf7b66d8b429400ed204103a0c501f8ee3be27f3b0e74432731cf0b476e8",
+    "scripts/run_v32_current_multimodal_fusion.py": "8f45d7a6fb75c11712c2486bd52e49c4218389edfdeab62e049f0f4d774d8fb9",
+    "tests/test_v32_current_primary_fusion.py": "08ff86d475d2e35922a3024c7d4a577c678c6efdb6bfbe73d3e49ab8108fb592",
+    "tests/test_v32_current_binding_expansion.py": "d80cb11d2565beb7483050259516aadcd3fb4a4e05e5c0d10b16a9e80dcbaa1d",
+    "tests/test_v32_current_rule_evidence.py": "a3f150995cda351f20687cf9302bb79be1d35e841dd377da6ee9a3e0436fbccd",
+    "tests/test_v32_selected_analysis.py": "88944cc0b3289036905fd60ad7b6c988fa4b1d8cc4dbfc6d532648ff78478d7a"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_primary_fusion.py",
+    "tests/test_v32_signed_single_cell_fusion.py",
+    "tests/test_v32_multimodal_fusion.py::test_streamed_parquet_builder_matches_in_memory_contract",
+    "tests/test_v32_multimodal_fusion.py::test_zero_weight_available_expert_falls_back_bit_for_bit",
+    "tests/test_v32_multimodal_fusion.py::test_fusion_fails_closed_on_untyped_missing_or_direct_discovery_evidence",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "tests/test_v32_current_core_prediction.py",
+    "tests/test_v32_current_binding_expansion.py",
+    "tests/test_v32_current_rule_evidence.py",
+    "tests/test_v32_selected_analysis.py",
+    "tests/test_v32_current_external_validation.py",
+    "--junitxml=provenance/code_completion_20261015/current_primary_fusion_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T20:33:34.632299+00:00"
+}

@@ -32,10 +32,10 @@
     {
       "id": "C05",
       "task": "Mutation/CNV/ATAC/State/Clinical 与当前核心及最终评分的实际消费",
-      "status": "in_progress",
-      "remaining": "Authentic post-selection label authority for current fusion. Global cross-module patient/use inventory completeness remains C16. No real current candidate/auxiliary/fusion release has been produced.",
+      "status": "code_implemented_fixture_verified",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "implementation": "Actual V4 full-candidate inference and selected-score consumption are implemented. Native Mutation/CNV-event/CNV-association/ATAC reach current fusion preparation. Native State reaches selected GeneSet profiles and native State sets. Native Clinical now binds the same selected core, replays eligible frozen patient-risk heads, reconstructs original entity Cox summaries, and computes selected-member support, endpoint coverage, exact-pathway context and query/download outputs. No optimization or real data were executed."
+      "implementation": "Actual V4 full-candidate inference and selected-score consumption are implemented. Native Mutation/CNV-event/CNV-association/ATAC reach current fusion preparation. Native State and Clinical reach the same selected analysis and version-bound context/query consumers. Native primary validation labels now replay from actual authorized prepared payloads and checkpoints, retaining availability and exact candidate identity. The fusion path excludes unavailable targets from fitting/metrics, preserves full inference coverage, and carries development-only validation-reuse semantics through release lineage. No optimization or real data were executed.",
+      "scope_limit": "Code and synthetic interfaces verified. Real current candidate/auxiliary/fusion releases were not produced. Independent performance validation and complete model-use inventory remain C13/C16; actual public routes remain C15."
     },
     {
       "id": "C06",
@@ -119,19 +119,18 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 382,
+    "unique_fixture_tests_passed": 402,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
     "r_validation": "PARSE_ONLY",
     "remaining_requirements_not_complete": [
       "C01",
-      "C05",
       "C08",
       "C13",
       "C15",
       "C16"
     ],
-    "latest_change_tests_passed": 55
+    "latest_change_tests_passed": 161
   }
 }
