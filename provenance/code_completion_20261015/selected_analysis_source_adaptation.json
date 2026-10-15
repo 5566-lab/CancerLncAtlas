@@ -1,0 +1,43 @@
+{
+  "method": "EXISTING_EXACT_FUSION_AND_SUBTYPE_CONSUMERS_WITH_SELECTED_SCORE_SNAPSHOT",
+  "source_hash_receipts": [
+    "selected_analysis"
+  ],
+  "reference_files": [
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\genesets.py",
+      "sha256": "b19d53e5b1458bbecc8002fd56fa5f7260e252f662e47ee7facfb63eb2bf2c84"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\exact_release.py",
+      "sha256": "aac57f581ab5a86b0283f52a2bba42f51548d19c03f742979f1be24d65b9fca3"
+    },
+    {
+      "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\cc_hhgt\\v32\\sealed_test_inference.py",
+      "sha256": "82bfc78b9974c39c50b5966e6df08c4a26e789865ad833e2e75afc7222563265"
+    }
+  ],
+  "implemented_files": [
+    "cc_hhgt/v32/selected_score.py",
+    "cc_hhgt/v32/selected_genesets.py",
+    "cc_hhgt/v32/subtypes.py",
+    "cc_hhgt/v32/multimodal_fusion.py",
+    "cc_hhgt/v32/external_validation_current.py",
+    "scripts/materialize_v32_selected_analysis.py",
+    "scripts/materialize_v32_release.py",
+    "scripts/audit_v32_selected_analysis.py",
+    "tests/test_v32_selected_analysis.py",
+    "tests/test_v32_subtypes.py",
+    "tests/test_v32_genesets.py"
+  ],
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "changes": [
+    "Route existing release CLI through selected score input without changing historical defaults.",
+    "Preserve exact primary/direction/scientific status while using selected scores for actual downstream membership, ranks and weights.",
+    "Retain actual private fusion inputs, replay frozen endpoints, preserve missing fold stability and zero-contribution availability.",
+    "Keep full candidate coverage and typed missing subtype outcomes, source-bound GMT/query/download and upstream replay.",
+    "Consume selected snapshots in the real external metric engine without using its results for model selection."
+  ]
+}

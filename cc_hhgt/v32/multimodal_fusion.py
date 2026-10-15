@@ -1383,6 +1383,7 @@ def materialize_multimodal_fusion_release(
     metrics_path = output / "crossfit_metrics.parquet"
     discovery_oof_path = output / "discovery_oof.PRIVATE.parquet"
     confidence_oof_path = output / "confidence_oof.PRIVATE.parquet"
+    fusion_input_path = output / "FUSION_INPUT.PRIVATE.parquet"
     checkpoint_path = output / "FUSION_CHECKPOINT.json"
     sources_path = output / "SOURCE_INPUTS.json"
     input_audit_path = output / "FUSION_INPUT_AUDIT.json"
@@ -1394,6 +1395,7 @@ def materialize_multimodal_fusion_release(
     _atomic_parquet(metrics, metrics_path)
     _atomic_parquet(discovery.oof_prediction, discovery_oof_path)
     _atomic_parquet(confidence.oof_prediction, confidence_oof_path)
+    _atomic_parquet(fusion_frame, fusion_input_path)
     checkpoint = {
         "checkpoint_format": ("CC_HHGT_V3_2_RESIDUAL_FUSION_CHECKPOINT_V2"
                               if any(s.value_transform != "probability_logit" for s in native_specs.values())
@@ -1466,6 +1468,7 @@ def materialize_multimodal_fusion_release(
         "crossfit_metrics": _artifact_declaration(metrics_path, public=True),
         "discovery_oof_private": _artifact_declaration(discovery_oof_path, public=False),
         "confidence_oof_private": _artifact_declaration(confidence_oof_path, public=False),
+        "fusion_input_private": _artifact_declaration(fusion_input_path, public=False),
         "checkpoint": _artifact_declaration(checkpoint_path, public=False),
         "source_inputs": _artifact_declaration(sources_path, public=True),
         "module_lineage": _artifact_declaration(lineage_path, public=True),

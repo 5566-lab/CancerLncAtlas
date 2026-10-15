@@ -47,8 +47,11 @@ class RankedSubtypeConfig:
     program_subtype_weight: float = 0.30
     min_program_pathways: int = 1
     random_seed: int = 20260726
+    score_column: str = "association_membership_probability"
 
     def validate(self) -> None:
+        if self.score_column not in {"association_membership_probability", "selected_score"}:
+            raise SubtypeContractError("Subtype weights require a primary or explicitly selected score")
         if self.top_n < 1:
             raise SubtypeContractError("top_n must be positive")
         if not 0.0 < self.rbo_p < 1.0:
@@ -198,13 +201,13 @@ def _canonical_scope(value: Any) -> str:
     raise SubtypeContractError(f"invalid shared_or_local_scope: {value!r}")
 
 
-def _validate_members(members: pd.DataFrame) -> str | None:
+def _validate_members(members: pd.DataFrame, score_column="association_membership_probability") -> str | None:
     required = {
         "cancer_id",
         "lncrna_id",
         "pathway_id",
         "pathway_family_id",
-        "association_membership_probability",
+        score_column,
         "association_direction",
     }
     if not isinstance(members, pd.DataFrame) or members.empty:
@@ -233,7 +236,7 @@ def _validate_members(members: pd.DataFrame) -> str | None:
     if family_count.gt(1).any():
         raise SubtypeContractError("an exact pathway maps to multiple families")
     probabilities = pd.to_numeric(
-        members["association_membership_probability"], errors="coerce"
+        members[score_column], errors="coerce"
     )
     if (
         not np.isfinite(probabilities).all()
@@ -253,12 +256,12 @@ def _validate_members(members: pd.DataFrame) -> str | None:
 def _build_profiles(
     members: pd.DataFrame, config: RankedSubtypeConfig
 ) -> dict[str, list[_Profile]]:
-    rank_column = _validate_members(members)
+    rank_column = _validate_members(members, config.score_column)
     work = members.copy()
     for column in ("cancer_id", "lncrna_id", "pathway_id", "pathway_family_id"):
         work[column] = work[column].astype(str)
-    work["association_membership_probability"] = pd.to_numeric(
-        work["association_membership_probability"], errors="raise"
+    work["profile_score"] = pd.to_numeric(
+        work[config.score_column], errors="raise"
     ).astype(float)
     work["association_direction"] = (
         work["association_direction"].astype(str).str.strip().str.lower()
@@ -286,7 +289,7 @@ def _build_profiles(
                 "cancer_id",
                 "pathway_id",
                 "association_direction",
-                "association_membership_probability",
+                "profile_score",
                 "lncrna_id",
             ],
             ascending=[True, True, True, False, True],
@@ -338,7 +341,7 @@ def _build_profiles(
             for row in ordered.itertuples(index=False):
                 token = f"{direction}\x1f{row.lncrna_id}"
                 tokens.append(token)
-                weights[token] = float(row.association_membership_probability)
+                weights[token] = float(row.profile_score)
             directional[str(direction)] = tuple(tokens)
         profile = _Profile(
             cancer_id=str(cancer),

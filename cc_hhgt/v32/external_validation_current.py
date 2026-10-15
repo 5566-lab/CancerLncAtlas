@@ -14,7 +14,7 @@ import pandas as pd
 
 from .current_core_export import verified_path, sha256
 from .evidence_rule_sources import read_table
-from .evidence_rule_summary import KEYS, stable_id
+from .evidence_rule_summary import KEYS, stable_id, candidate_aliases
 from .external_validation_sources import identity_maps, read_sources, isolate_sources
 from .external_validation_metrics import evaluate_external, validate_scores
 
@@ -34,7 +34,8 @@ def producer_scores(spec, root, *, cache=None):
     if not spec.get("run_id") or binding.get("training_run_id") != spec["run_id"]:
         raise ValueError("External model run identity differs from its producer")
     allowed = {"exact_release": {"association_membership_probability", "l1_probability", "ridge_probability"},
-        "fusion_release": {"discovery_adjusted_probability", "fused_confidence_probability"}}
+        "fusion_release": {"discovery_adjusted_probability", "fused_confidence_probability"},
+        "selected_release": {"selected_score"}}
     if kind not in allowed or column not in allowed[kind]: raise ValueError("Unsupported external prediction producer/score")
     cache_key = (str(binding_path), spec["producer_binding"]["sha256"], spec["run_id"])
     if cache is not None and kind == "exact_release" and cache_key in cache:
@@ -58,8 +59,19 @@ def producer_scores(spec, root, *, cache=None):
                 if role == "prediction": folds.append(source)
         from .exact_release import ensemble_fold_predictions
         expected = ensemble_fold_predictions(folds, run_id=spec["run_id"])
-        observed = pd.read_parquet(path, columns=[*KEYS, "training_run_id", *sorted(allowed[kind])])
+        observed = pd.read_parquet(path)
+        inputs = [verified_path(record, binding_path.parent) for record in binding["input_artifacts"]]
+        candidates = read_table(inputs[0])[KEYS]
+        candidate_aliases(candidates)
+        if not candidates.sort_values(KEYS).reset_index(drop=True).equals(expected[KEYS].sort_values(KEYS).reset_index(drop=True)):
+            raise ValueError("Exact producer predictions do not cover the bound candidate authority")
         for score_column in allowed[kind]: _compare_scores(observed, expected, score_column)
+        # Directions and candidate annotations drive downstream Gene Sets too.
+        try:
+            pd.testing.assert_frame_equal(observed[expected.columns].sort_values(KEYS).reset_index(drop=True),
+                expected.sort_values(KEYS).reset_index(drop=True), check_dtype=False, check_exact=True)
+        except (AssertionError, KeyError) as error:
+            raise ValueError("Exact producer annotations differ from five-fold recomputation") from error
     elif kind == "fusion_release":
         if (binding.get("format") != "CC_HHGT_V3_2_MULTIMODAL_FUSION_BINDING_V1"
                 or binding.get("status") != "SUCCESS_SECONDARY_FUSION"):
@@ -74,13 +86,22 @@ def producer_scores(spec, root, *, cache=None):
         from .multimodal_fusion import ResidualFusionModel, apply_residual_fusion_model
         record = checkpoint[endpoint]
         model = ResidualFusionModel(**{field.name: record[field.name] for field in fields(ResidualFusionModel) if field.name in record})
-        inputs = observed[[*KEYS, "primary_probability"]].copy()
-        for index, name in enumerate(model.expert_ids):
-            transform = model.feature_transforms[index] if model.feature_transforms else "probability_logit"
-            suffix = "probability" if transform == "probability_logit" else "value"
-            inputs[name+"_probability"] = observed[name+"_native_"+suffix]
-            inputs[name+"_available"] = observed[name+"_native_available"]
+        if "fusion_input_private" in paths:
+            inputs = pd.read_parquet(paths["fusion_input_private"])
+        else:
+            # Legacy releases retain native public inputs but lack the complete
+            # private input snapshot. Selected current releases require the latter.
+            inputs = observed[[*KEYS, "primary_probability"]].copy()
+            for index, name in enumerate(model.expert_ids):
+                transform = model.feature_transforms[index] if model.feature_transforms else "probability_logit"
+                suffix = "probability" if transform == "probability_logit" else "value"
+                inputs[name+"_probability"] = observed[name+"_native_"+suffix]
+                inputs[name+"_available"] = observed[name+"_native_available"]
         _compare_scores(observed, apply_residual_fusion_model(model, inputs), column)
+    elif kind == "selected_release":
+        from .selected_score import load_selected_scores
+        observed, binding = load_selected_scores(binding_path, expected_sha=spec["producer_binding"]["sha256"])
+        path = verified_path(binding["scores"], binding_path.parent)
     else: raise ValueError("Unsupported external prediction producer; a bare score table is insufficient")
     if "training_run_id" not in observed or not observed.training_run_id.eq(spec["run_id"]).all():
         raise ValueError("External prediction rows have another run identity")

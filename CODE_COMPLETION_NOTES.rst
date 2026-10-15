@@ -701,8 +701,8 @@ tables with parameterized filters and pagination.
 C13 is NOT marked complete. These calculations isolate against REGISTERED_MODEL_
 USE_ONLY: completeness of the inventory has not yet been derived from all actual
 training, feature-construction, calibration and model-selection dependencies.
-The final selected-score binding and complete usage-closure integration remain
-required alongside C14/C16. The output deliberately records
+The selected-score producer is now connected through C14 below. Complete
+usage-closure integration remains required alongside C16. The output records
 model_use_inventory_completeness_verified=false and
 independent_external_validation_attested=false. A passing replay or a supplied
 inventory must not be substituted for that missing completeness proof.
@@ -711,3 +711,129 @@ Synthetic checks run the actual exact producer and current external command,
 reconstruct a frozen synthetic fusion release, verify analytic metrics and paired
 intervals, and reject altered producer/metric outputs. No real external cohort
 was analyzed, no actual scientific gain was estimated and no model was trained.
+
+Selected score, Gene Sets and downstream consumers
+------------------------------------------------
+
+The existing scripts/materialize_v32_release.py now accepts --selected-manifest
+as an alternative to the historical --prediction-pattern. It invokes the real
+selected-score materializer; it does not send the new policy through the old
+primary-only ranking path. The standalone entry point is
+scripts/materialize_v32_selected_analysis.py. Both use new output directories
+and require host 149. Neither entry trains or chooses a model from test results::
+
+  python scripts/materialize_v32_release.py \
+    --selected-manifest /absolute/path/SELECTED_INPUT.json \
+    --output /absolute/path/new_selected_analysis
+
+  python scripts/audit_v32_selected_analysis.py \
+    --binding /absolute/path/new_selected_analysis/SELECTED_ANALYSIS_BINDING.json \
+    --expected-sha256 <binding-sha256> \
+    --output /absolute/path/new_selected_analysis_reaudit.json
+
+The input format is CURRENT_SELECTED_ANALYSIS_INPUT_V1. It requires:
+
+* reference_exact_model: model_id, run_id, producer_kind=exact_release,
+  producer_binding={path, sha256}, and
+  score_column=association_membership_probability. This supplies the complete
+  candidate universe, exact pathway/family, shared/local scope and primary model
+  direction. Candidate keys and annotations are checked against the actual five
+  fold files and bound candidate authority; merely rehashing changed annotations
+  does not satisfy that check.
+* selected_model: the same producer declaration shape. exact_release may select
+  association_membership_probability, l1_probability or ridge_probability from
+  the same exact producer. fusion_release may select
+  discovery_adjusted_probability or fused_confidence_probability. Fusion must
+  bind the very same primary input SHA/run and retain its real private input
+  snapshot. Coefficients are applied again to those inputs, without fitting.
+* selection: either kind=EXPLICIT_SOURCE_REGISTRATION with a nonempty rationale,
+  or kind=G012_VALIDATION_WINNER with a path/sha256 binding to the existing locked
+  G0/G1/G2 comparison. Explicit registration records a source choice and claims
+  no validated winner. A G012 lock is restricted to its exact primary score;
+  all five losses, the deterministic winner, candidate authority, prepared files,
+  checkpoint hashes and training receipts must agree. No new winner is selected.
+* geneset: min_members (positive integer), max_members (at least min_members),
+  and score_min in [0,1]. Example: 10, 200 and 0.5.
+* subtype: RankedSubtypeConfig fields, explicitly including
+  score_column=selected_score. Other defaults retain the existing rank/composition
+  analysis; bootstrap_replicates defaults to 200. These are Gene Set composition
+  subtypes across cancers, not newly inferred patient molecular subtypes.
+* optional rule_evidence_binding={path, sha256}: actual observed rule annotations
+  covering precisely the same candidate universe. They reach member outputs but
+  never become ranking or similarity weights.
+
+The selected_score snapshot preserves the primary score separately, as well as
+the selected model/run/column and source scientific status. Selecting a diagnostic
+fusion result does not upgrade its performance status or establish a new gain.
+Fusion confidence remains labelled FUSED_CONFIDENCE. Association direction comes
+from the bound primary model; it is explicitly not a causal regulation label or
+a direction learned by the selected fusion. An exactly neutral 0.5 direction is
+unknown and may form an unknown-direction Gene Set, but is excluded from the
+directional subtype comparison.
+
+Gene Sets group by cancer, exact pathway and primary association direction. They
+filter and rank selected_score descending, break score ties by stable lncRNA ID,
+cap max_members and require min_members. Master and member tables keep exact
+pathway IDs; family is an annotation, never a substituted target. Coverage lists
+all input candidate groups, including groups producing no Gene Set, threshold
+counts, exported member counts, cap-boundary ties and explicit missing reasons.
+
+Ranked subtypes now actually use selected_score for weighted Jaccard and the
+selected member ordering for rank-biased overlap. Cancer-local members remain
+excluded from cross-cancer profiles. The full input cancer/pathway universe is
+retained even if no directional Gene Sets survive. Unavailable subtype IDs and
+K values remain typed nulls, with reasons for insufficient members, directions,
+pathways or cancer coverage. No subtype result feeds back into model scores.
+
+Exact-producer fold statistics use the actual five prediction files. The sample
+SD uses ddof=1. Selection frequency applies the same per-fold direction, score
+threshold, minimum count, ranking cap and tie policy as Gene Sets. Mean rank
+percentile compares scores within cancer/exact-pathway. Primary direction
+agreement is separate. Fusion has no matched per-fold estimates for its final
+candidate scores: these statistics stay null, their count is zero and the missing
+reason is retained. The final fusion score is never copied five times to invent
+stability. These quantities are descriptive stability summaries, not independent
+confidence intervals.
+
+Fusion materialization now records FUSION_INPUT.PRIVATE.parquet, with public=false
+in its artifact declaration. This includes the actual native inputs and may
+contain private labels; it is not a downloadable public table. Existing legacy
+fusion readers can still reconstruct their public scores, but a selected current
+release requires rematerializing its private input snapshot from authentic bound
+sources. No synthetic substitute is acceptable for a real release. Availability,
+nonzero contribution and exact-primary fallback flags are recomputed from the
+chosen frozen endpoint and carried into selected scores and coverage. Available
+experts with zero coefficients remain visible without claiming a contribution.
+
+Outputs include SELECTED_SCORES.parquet and its binding in selected_score/, plus
+GENESET_MASTER, GENESET_MEMBERS, GENESET_COVERAGE, PATHWAY_CONTEXT_SUBTYPE,
+PATHWAY_CONSERVATION, PATHWAY_PAIRWISE_SIMILARITY, CANCER_PROGRAM_SUBTYPE,
+CANCER_PROGRAM_SIMILARITY parquet files and SELECTED_GENESETS.gmt. Every analysis
+table carries selected_score_run_id and selected_score_binding_sha256; GMT's
+description carries the same identifiers. A changed policy/producer or relevant
+implementation produces a different selected score identity. SUCCESS is written
+only after upstream score and downstream table/GMT replay agree. The replay is
+explicitly the same implementation, not an independent statistical validation.
+
+SelectedAnalysisQuery offers exact parameterized table filters and pagination;
+download(name) returns the verified same-version file declaration. It does not
+expose the fusion private snapshot. C15 still needs the actual website/API routes
+and frontend consumption. This query helper alone does not complete that task.
+
+Current external evaluation additionally accepts producer_kind=selected_release,
+score_column=selected_score, with producer_binding pointing to
+SELECTED_SCORE_BINDING.json. Its run_id is the underlying training_run_id recorded
+there; selected_score_run_id is a distinct analysis identity. The reader replays
+the bound actual producer before computing external metrics. This connection does
+not prove model-use inventory completeness or biological external independence.
+
+Synthetic validation exercises the existing CLI, actual exact/fusion serializers,
+both fusion endpoints, selected score swaps, analytical weighted similarities,
+five-fold selection caps, unknown directions, empty Gene Sets, source-rule
+annotations, same-version queries/GMT, external metric consumption and G012 lock
+failures. It also rejects rehashed score, direction, membership and GMT changes.
+Frozen synthetic coefficients and serialization-only checkpoint fixtures are
+used; optimizers and fusion fitting functions are forbidden during these tests.
+No real cohort, current scientific checkpoint inference, training or deployment
+has been performed. C05 still needs the native current-V4 full-candidate producer
+and remaining auxiliary adapters; C01/C08/C13/C15/C16 also remain unfinished.

@@ -34,12 +34,18 @@ def _load_subtype_members(member_paths: list[Path]) -> pd.DataFrame:
     )
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--prediction-pattern", required=True)
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument("--prediction-pattern")
+    inputs.add_argument("--selected-manifest", type=Path)
     parser.add_argument("--output", required=True)
     parser.add_argument("--analysis-version", default="CancerLncAtlas_V3.2_RS_CC-HHGT_1seed_FORMAL_RELEASE")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
+    if args.selected_manifest is not None:
+        from cc_hhgt.v32.selected_genesets import materialize_selected_analysis
+        print(json.dumps(materialize_selected_analysis(args.selected_manifest, args.output)))
+        return 0
 
     from cc_hhgt.v32.genesets import (
         GeneSetMaterializationConfig,

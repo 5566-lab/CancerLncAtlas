@@ -33,7 +33,7 @@
       "id": "C05",
       "task": "Mutation/CNV/ATAC/State/Clinical 与当前核心及最终评分的实际消费",
       "status": "in_progress",
-      "remaining": "Native Mutation/CNV/ATAC fold adapters, State/Clinical native context consumption and selected-score release integration. Current V4 exporter and Genomic/CNV/Drug/State/Clinical readers now implemented; producer identity binding verified."
+      "remaining": "Native Mutation/CNV/ATAC fold adapters, State/Clinical native context consumption and current V4 full-candidate predictions. Selected-score downstream release integration is now implemented under C14."
     },
     {
       "id": "C06",
@@ -92,17 +92,22 @@
       "status": "in_progress",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
       "implementation": "Native external readers, connected study and entity isolation across registered use phases, existing exact/fusion producer recomputation, measured binary/rank metrics, paired cluster uncertainty, hash-bound replay and query implemented; 11 synthetic checks passed without optimization.",
-      "remaining": "Bind the final selected-score release and derive completeness of model-use inventory from actual training/feature/calibration/model-selection dependencies (C14/C16); registered inventories alone do not prove independent external validation."
+      "remaining": "Derive completeness of model-use inventory from actual training/feature/calibration/model-selection dependencies (C16); selected-score release consumption is now implemented and tested. Registered inventories alone do not prove independent external validation."
     },
     {
       "id": "C14",
       "task": "选定最终评分驱动 GeneSet、分型、覆盖表与 GMT，明确来源版本",
-      "status": "pending"
+      "status": "code_implemented_fixture_verified",
+      "real_data_execution": "NOT_RUN_AS_REQUESTED",
+      "implementation": "Actual exact/fusion score snapshots drive thresholding, deterministic ranked Gene Sets, selected-score subtype weights, full coverage and versioned GMT. Existing CLI, G012 lock verification, producer replay, typed missingness, query/download and actual external-metric consumption verified without fitting.",
+      "scientific_effect_estimated": false
     },
     {
       "id": "C15",
       "task": "新结果到网站/API/下载完整绑定和同版本查询；不部署",
-      "status": "pending"
+      "status": "in_progress",
+      "implementation": "SelectedAnalysisQuery now supplies parameterized same-version queries and hash-verified downloads for actual selected analysis artifacts.",
+      "remaining": "Connect actual website/API routes, frontend views and complete multi-module downloads; do not deploy."
     },
     {
       "id": "C16",
@@ -112,7 +117,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 259,
+    "unique_fixture_tests_passed": 293,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -122,9 +127,9 @@
       "C05",
       "C08",
       "C13",
-      "C14",
       "C15",
       "C16"
-    ]
+    ],
+    "latest_change_tests_passed": 46
   }
 }

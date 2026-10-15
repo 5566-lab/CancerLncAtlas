@@ -1,0 +1,34 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-15T18:37:21.535393+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/selected_score.py": "7793e941146c93042ca801811ee34f0779b754911f009f625a7536cf25bdf3d6",
+    "cc_hhgt/v32/selected_genesets.py": "75e77fbaba0432524637adbad4589d53323fc63472bade067263b40c1f09ef2e",
+    "cc_hhgt/v32/subtypes.py": "dc2412a90cd5a58e43e8321d58a98634dc5d44a168cd8f908f9773f447be1920",
+    "cc_hhgt/v32/multimodal_fusion.py": "2cd2d0b4e3264748ea597a0074e5ad423e78be79686773148e3ec62b0271947c",
+    "cc_hhgt/v32/external_validation_current.py": "102868ee83826153dfb8777e763378958fc42137c2947f98242b8c006955228b",
+    "scripts/materialize_v32_selected_analysis.py": "d7b6eb0bf83709cf0fd145c3dc2d9369f484b962ee45d03b4fe7dcafc7659a1f",
+    "scripts/materialize_v32_release.py": "941d0852e978c6d6f117ef0d9c5b8b9e8691ecf3a0ec6645052ff70bb5d5ca1a",
+    "scripts/audit_v32_selected_analysis.py": "2a5d8a6c48ccb3d895ad9d177931b5125433ffdc1af7971d9652cb2659ba7af1",
+    "tests/test_v32_selected_analysis.py": "f15ceb58ed70b3ad38e1ea671c1e6ef6bd10faeb310fecce480826418aa26845",
+    "tests/test_v32_subtypes.py": "855b5f209237585952f78936fb13553072fa0b6721dd3e3890ff565e26935a01",
+    "tests/test_v32_genesets.py": "75f438475616550840210edc7d8117d527c3cd2bfc99ae860ff194446c66711e"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_selected_analysis.py",
+    "tests/test_v32_subtypes.py",
+    "tests/test_v32_genesets.py",
+    "tests/test_v32_current_external_validation.py",
+    "tests/test_v32_current_rule_evidence.py::test_current_fusion_entry_and_public_materializer_consume_rules_without_fitting",
+    "--junitxml=provenance/code_completion_20261015/selected_analysis_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-15T18:38:19.510352+00:00"
+}
