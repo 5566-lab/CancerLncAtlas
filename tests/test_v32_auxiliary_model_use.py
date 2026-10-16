@@ -24,11 +24,12 @@ def forbid_fit(monkeypatch):
     monkeypatch.setattr(exporter,"_build_model",forbidden)
 
 
-def setup(root,kind,prepare_native=None):
+def setup(root,kind,prepare_native=None,core_override=None):
     import cc_hhgt.v32.multimodal_fusion as fusion
     from cc_hhgt.v32.native_auxiliary_fusion import materialize_native_auxiliary
     from scripts.run_v32_current_multimodal_fusion import main
-    path,keys=fixture(root,kind)
+    path,keys=fixture(root,kind,core_override=core_override)
+    core_run=read(path)["core_run_id"]
     raw=root/"raw.parquet"
     pd.DataFrame({"pmid":["11112222"],"dataset_accession":["GSE_SYNTHETIC_AUX"],
         "patient_id":["PRIVATE_TEST_PATIENT"],"value":[1.]}).to_parquet(raw,index=False)
@@ -41,19 +42,19 @@ def setup(root,kind,prepare_native=None):
             write(ip,inputs);lineage["input_lineage_audit_sha256"]=sha256(ip)
         write(lp,lineage);repin_native(path)
     if prepare_native is not None:prepare_native(path)
-    adapter=materialize_native_auxiliary(path,root/"adapter",expected_core_run_id="current-G2")
+    adapter=materialize_native_auxiliary(path,root/"adapter",expected_core_run_id=core_run)
     primary=root/"primary.parquet"
     keys.assign(**{fusion.PRIMARY_COLUMN:.25,"analysis_version":fusion.ANALYSIS_VERSION}).to_parquet(primary,index=False)
     folds=[]
     for f in range(5):
         p=root/f"labels{f}.parquet";keys.assign(patient_fold_id=f,held_out_proxy_label=f%2).to_parquet(p,index=False)
         folds.append({"fold_id":f,"artifact":record(p)})
-    parent=root/"primary.json";write(parent,{"status":"PASS","run_id":"current-G2","prediction":record(primary),
+    parent=root/"primary.json";write(parent,{"status":"PASS","run_id":core_run,"prediction":record(primary),
         "fold_prediction_sha256":[r["artifact"]["sha256"] for r in folds]})
     manifest=root/"fusion.json";experts=read(root/"adapter/FUSION_EXPERTS.json")
-    write(manifest,{"format":"CURRENT_MULTIMODAL_FUSION_MANIFEST_V1","core_run_id":"current-G2",
+    write(manifest,{"format":"CURRENT_MULTIMODAL_FUSION_MANIFEST_V1","core_run_id":core_run,
         "primary_prediction":record(primary),"primary_binding_audit":record(parent),"primary_folds":folds,"experts":experts})
-    assert main(["--manifest",str(manifest),"--expected-core-run-id","current-G2","--output",str(root/"prepared")])==0
+    assert main(["--manifest",str(manifest),"--expected-core-run-id",core_run,"--output",str(root/"prepared")])==0
     prepared_audit=read(root/"prepared/INPUT_AUDIT.json")
     assert set(prepared_audit["expert_bindings"])=={e["spec"]["expert_id"] for e in experts}
     assert read(root/"prepared/PREPARED.json")["training_started"] is False
@@ -66,7 +67,7 @@ def setup(root,kind,prepare_native=None):
     # no training-ready or independently validated release is claimed.
     frame,audit=fusion.build_pair_aggregated_fusion_frame_from_parquet(primary,
         [Path(r["artifact"]["path"]) for r in folds],{s:Path(e["prediction"]["path"]) for s,e in zip(specs,experts)})
-    audit.update(core_run_id="current-G2",expert_bindings=prepared_audit["expert_bindings"],synthetic_only=True)
+    audit.update(core_run_id=core_run,expert_bindings=prepared_audit["expert_bindings"],synthetic_only=True)
     ids=tuple(s.expert_id for s in specs);results=[]
     for endpoint in ("discovery","confidence"):
         # All experts have zero coefficients: ancestry must still be retained.

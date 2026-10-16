@@ -1,0 +1,50 @@
+{
+  "method": "AUXILIARY_CORE_EXPORT_TO_NATIVE_TRAINING_INPUT_AND_STUDY_INSPECTION",
+  "successful_validation_receipts": [
+    "core_ancestry_r2",
+    "core_ancestry_r3",
+    "core_ancestry_regression_r1",
+    "core_ancestry_web_r1"
+  ],
+  "historical_intermediate_receipts": [
+    "core_ancestry_r1"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_core_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "scripts/export_v32_current_core_embeddings.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_core_export_model_use.py",
+    "tests/test_v32_native_auxiliary_fusion.py"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "fixture_frozen_core_export_forwards_executed": true,
+  "inventory_model_forwards_executed": false,
+  "raw_study_provenance_reconstructed": false,
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "initial_test_failure": "Node-identity drift was correctly rejected; the test expected the singular error word differs rather than differ. The message matcher was corrected.",
+  "captured_browser_receipt": {
+    "path": "core_ancestry_web_browser_receipt.json",
+    "sha256": "89bc0c226439d1c6ae6b31252b55635bcafc9accd7838fd02e5c82c047df8e4c"
+  },
+  "captured_screenshots": [
+    {
+      "path": "core_ancestry_web_desktop.png",
+      "sha256": "a91b696f28939ed8437769af6455886148e1edcad92bfcfd02271e71775bb535"
+    },
+    {
+      "path": "core_ancestry_web_mobile.png",
+      "sha256": "ec9fb495db9867641703c7643acd42872be8b6ee47c7e656c7652ea4d1a4dcca"
+    }
+  ]
+}

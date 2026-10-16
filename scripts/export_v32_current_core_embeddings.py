@@ -118,6 +118,7 @@ def main(argv=None):
         "core_run_id": args.expected_core_run_id, "graph_variant": inputs["graph_variant"],
         "embedding_estimand": ESTIMAND, "all_registered_chunks_exported": False,
         "labels_used_for_export": False, "optimizer_started_during_export": False,
+        "source_inputs": {"path":str(args.manifest.resolve()),"sha256":sha256(args.manifest)},
         "export_precision": "FP32_ENCODER_FLOAT64_WEIGHTED_SUM", "folds": {}}
     for record in sorted(records, key=lambda r: r["fold"]):
         fold = record["fold"]
@@ -156,7 +157,8 @@ def main(argv=None):
             "checkpoint_cycle": checkpoint.get("cycle"), "core_unchanged_after_export": True,
             "runtime_chunks_total": len(chunks), "chunk_weights": {str(c): weights[c] for c in chunks},
             "training_receipt": {"path": str(receipt_copy.relative_to(args.output)), "sha256": sha256(receipt_copy)},
-            "exports": exports, "embedding_usability": usability, "sources": {k: record[k] for k in roles}}
+            "exports": exports, "embedding_usability": usability,
+            "sources": {k:{"path":str(paths[k]),"sha256":record[k]["sha256"]} for k in roles}}
         manifest["folds"][str(fold)] = item
         (args.output / "PARTIAL_MANIFEST.json").write_text(json.dumps(manifest, indent=2))
         print(json.dumps({"fold": fold, "status": "EXPORTED", "chunks": len(chunks)}), flush=True)

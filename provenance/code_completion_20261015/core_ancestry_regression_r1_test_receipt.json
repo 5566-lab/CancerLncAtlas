@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T01:08:38.113787+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_core_model_use.py": "8d4055b04208f289387c0927202a18fe933fa1d9ada2fd49f34175854492f957",
+    "cc_hhgt/v32/current_model_use.py": "9288ce7c1c4e6bd9b77e1702646a72c3fed12063be9c0cbc1aae7b9bcb7c3082",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "3460d61abfebbcf6788b2ef2116fc4101b16840c60f9f9616dad641c2ba4f664",
+    "scripts/export_v32_current_core_embeddings.py": "2640f3cf68bba559effc6d9b06c9a6f4f1f5450ff7fef34e2d909d6c29382869",
+    "tests/test_v32_auxiliary_model_use.py": "2cdd8a129044b3bb7d3ab6cff45334df07b1b9bbdf87591ae385db33c3342845",
+    "tests/test_v32_native_auxiliary_fusion.py": "4e137b425f00e886090509884b9aee113c72104f85e9319b1c0c15089b8ab7c6"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_single_cell_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/core_ancestry_regression_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T01:10:05.390365+00:00"
+}

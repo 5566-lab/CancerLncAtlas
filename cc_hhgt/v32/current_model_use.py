@@ -48,6 +48,7 @@ def implementations():
         "scripts/run_v32_current_multimodal_fusion.py",
         "cc_hhgt/v32/multimodal_fusion.py",
         "cc_hhgt/v32/current_single_cell_model_use.py","cc_hhgt/v32/single_cell_signed_fusion.py",
+        "cc_hhgt/v32/current_core_model_use.py","cc_hhgt/v32/integrated_model.py",
         "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
         "cc_hhgt/v32/cnv_only_training.py","cc_hhgt/v32/cnv_only_training_v2.py",
         "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py",
@@ -185,7 +186,7 @@ class Inventory:
         for role in ("candidate_authority","lncrna_scope"):self.bind(manifest[role],root,model,role)
         self.core_inputs(manifest,root,candidates,model,score_column)
 
-    def core_inputs(self,manifest,root,candidates,model,score_column,*,comparison=False):
+    def core_inputs(self,manifest,root,candidates,model,score_column,*,comparison=False,exported_folds=None):
         import torch
         from .current_core_prediction import prediction_batches
         from .current_core_export import CHECKPOINT_FORMAT,validate_training_receipt
@@ -207,10 +208,14 @@ class Inventory:
             payload=_validated_payload(paths,item,fold)
             if payload["formal_graph_variant"]!=manifest["graph_variant"]:
                 raise ValueError("Model-use prepared graph differs from the selected training arm")
+            from .current_core_model_use import prepared_candidates,check_export_payload,graph_sources
+            fold_candidates=prepared_candidates(payload) if candidates is None else candidates
+            if exported_folds is not None:
+                check_export_payload(self,exported_folds[str(fold)],root,payload,checkpoint,model,fold)
             # Reuse the exact candidate alignment and validation-only input firewall.
-            features=prediction_batches(payload,candidates)
+            features=prediction_batches(payload,fold_candidates)
             digest=item["prepared"]["sha256"]
-            self.entities(candidates,model=model,fold=fold,phase="FEATURE_CONSTRUCTION",view="CANDIDATE_FEATURES",digest=digest)
+            self.entities(fold_candidates,model=model,fold=fold,phase="FEATURE_CONSTRUCTION",view="CANDIDATE_FEATURES",digest=digest)
             known=self.preparation(payload,paths["prepared"].parent,model,fold,score_column=="l1_probability")
             if score_column=="l1_probability":
                 # The published baseline is sigmoid(base_logit). The reference
@@ -223,7 +228,7 @@ class Inventory:
                         if not torch.is_tensor(mask) or mask.dtype!=torch.bool or tuple(mask.shape)!=(len(feature["candidate_positions"]),):
                             raise ValueError("Baseline model-use supervision mask differs")
                         indices.extend(feature["candidate_positions"][mask.cpu().numpy()].tolist())
-                    self.entities(candidates.iloc[indices],model=model,fold=fold,phase="TRAINING",view="BASELINE_AVAILABLE_SUPERVISION",digest=digest)
+                    self.entities(fold_candidates.iloc[indices],model=model,fold=fold,phase="TRAINING",view="BASELINE_AVAILABLE_SUPERVISION",digest=digest)
                 else:self.gap(model,"baseline.preparation","BASELINE_FITTING_STUDY_DEPENDENCIES_NOT_RECONSTRUCTED",fold,digest)
                 del payload,checkpoint,features
                 continue
@@ -238,13 +243,10 @@ class Inventory:
                     if not torch.is_tensor(mask) or mask.dtype!=torch.bool or tuple(mask.shape)!=(len(positions),):
                         raise ValueError("Model-use supervision requires an aligned boolean availability mask")
                     indices.extend(positions[mask.cpu().numpy()].tolist())
-                self.entities(candidates.iloc[indices],model=model,fold=fold,phase=phase,view="AVAILABLE_ASSOCIATION_SUPERVISION",digest=digest)
+                self.entities(fold_candidates.iloc[indices],model=model,fold=fold,phase=phase,view="AVAILABLE_ASSOCIATION_SUPERVISION",digest=digest)
             graph=payload["formal_graph_authority"]
-            for group in ("static_artifacts","fold_artifacts"):
-                for role,value in graph.get(group,{}).items():
-                    self.authority(value,paths["prepared"].parent,model,"graph."+group+"."+role,fold);known.add(value.get("sha256"))
-            for role,value in [("graph.receipt",graph.get("receipt",{})),
-                *[("patient."+k,payload.get("patient_fold_authority",{}).get(k,{})) for k in ("sample_patient_fold_map","authority_receipt")]]:
+            known.update(graph_sources(self,graph,paths["prepared"].parent,model,fold))
+            for role,value in [("patient."+k,payload.get("patient_fold_authority",{}).get(k,{})) for k in ("sample_patient_fold_map","authority_receipt")]:
                 self.authority(value,paths["prepared"].parent,model,role,fold);known.add(value.get("sha256"))
             known.update(r["sha256"] for r in item.values() if isinstance(r,dict) and "sha256" in r)
             for role,digest in receipt["input_authority_hashes"].items():

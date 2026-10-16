@@ -2254,3 +2254,45 @@ CNV consumed-partition tracing is implemented for newly generated receipts.
 Complete raw transformation ancestry, absent historical source bindings, full
 frozen-core ancestry and cross-module patient closure remain C13/C16 work.
 Scientific independence and final C01/C13/C16 acceptance are still unverified.
+
+Frozen-core training ancestry consumed through auxiliary exports
+----------------------------------------------------------------
+
+The native current-core exporter now binds its input manifest and writes resolved
+source paths. Previously it copied relative input paths into a different output
+directory without changing their base. Existing consumers still accept historical
+exports, while new exports retain the exact prepared/config/checkpoint/training
+receipt and optional graph-overlay/expansion records that were actually read.
+
+Auxiliary model-use inspection follows those sources through the same V4 native
+prepared loader used by core inference. Source checkpoints and copied training
+receipts must match the exported fold, and new export records must match the
+bound export-input manifest. Exact-hash artifact locators support relocated
+source files. Missing historical source records remain gaps; a partially declared
+or mismatched new source record is rejected.
+
+Without constructing a model, the inspector verifies checkpoint tensor state
+against the exported parameter digest, prepared runtime chunks/weights against
+the export contract, and exported lncRNA/pathway node order against the graph.
+It reconstructs the complete core candidate keys from native node indices,
+independently of any smaller downstream candidate table, and uses the existing
+availability masks to retain training and model-selection exposure. Formal
+preparation source metadata and graph source tables now propagate into the
+auxiliary FUSION_EXPERT context. Graph inspection also follows the base authority
+inside a current-C binding expansion and retains fold-specific source events.
+
+Synthetic checks execute the actual frozen five-fold exporter on tiny native
+graphs and fixed checkpoint parameters; inventory inspection itself performs no
+model construction or forward. Actual genomic, directional CNV and event CNV
+adapters/fusion/external consumers then verify exclusion of unseen entities whose
+studies appeared only in core training, validation or graph sources. Tests reject
+repinned parameter identities, changed node IDs, omitted sources, inconsistent
+copied receipts, wrong export input identities and changed graph-source files.
+No optimizer, LASSO fitting, real cohort analysis or deployment is performed.
+
+This closes native frozen-core export-to-training-input traversal for present
+sources, not reconstruction of every raw transformation. Complete upstream study
+ancestry, missing historical bindings, cross-module patient closure and final
+C01/C13/C16 acceptance remain open. Source integrity is not a biological
+independence attestation, and exported embedding values are not recomputed by
+the source inspector.

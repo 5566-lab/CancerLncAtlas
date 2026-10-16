@@ -30,9 +30,12 @@ def no_fitting(monkeypatch):
     monkeypatch.setattr(runner,'train_pair_blocked_crossfit_fusion',forbidden)
 
 
-def fixture(root,kind='genomic',current_sources=None,unavailable=False):
+def fixture(root,kind='genomic',current_sources=None,unavailable=False,core_override=None):
     root.mkdir(parents=True,exist_ok=True)
-    if current_sources is None:
+    if core_override is not None:
+        assert current_sources is None
+        core_path,keys,core_run=core_override;core=read(core_path)
+    elif current_sources is None:
         export=root/'core';export.mkdir();core_path,core=export_fixture(export)
         # These are frozen serialization fixtures; no source fit took place.
         core['fixture_no_optimizer_run']=True

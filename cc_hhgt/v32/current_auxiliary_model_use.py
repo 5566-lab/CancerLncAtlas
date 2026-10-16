@@ -19,17 +19,17 @@ from .evidence_rule_summary import KEYS, candidate_aliases, stable_id
 def read(path):return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def input_source(inventory,item,root,model,role):
+def input_source(inventory,item,root,model,role,fold=-1):
     """Follow only hash-bound records from the actual native producer lineage."""
     digest=item.get("sha256")
     if not digest:
-        inventory.gap(model,role,"AUTHORITY_HAS_NO_FILE_HASH");return
+        inventory.gap(model,role,"AUTHORITY_HAS_NO_FILE_HASH",fold);return
     source=inventory.locations.get(digest,item)
     if digest in inventory.locations:inventory.used_locations.add(digest)
     path=Path(source.get("path",""));path=path if path.is_absolute() else root/path
     if not source.get("path") or not path.exists():
-        inventory.authority(source,root,model,role,-1);return
-    path=inventory.bind(source,root,model,role)
+        inventory.authority(source,root,model,role,fold);return
+    path=inventory.bind(source,root,model,role,fold)
     # Controls are dependencies, not biological study evidence. Never infer
     # provenance from a filename, a directory name or patient identifiers.
     if item.get("source_role") in {"split_manifest","v32_core_checkpoint"} or item.get("role") in {"folds","materialization_success"}:
@@ -40,23 +40,23 @@ def input_source(inventory,item,root,model,role):
         files=[p for p in path.rglob("*") if p.is_file()]
         is_table=bool(files) and all(p.suffix==".parquet" for p in files)
     if not is_table:
-        inventory.gap(model,role,"AUXILIARY_NON_TABLE_UPSTREAM_CONTENT_NOT_RECONSTRUCTED",digest=digest);return
+        inventory.gap(model,role,"AUXILIARY_NON_TABLE_UPSTREAM_CONTENT_NOT_RECONSTRUCTED",fold,digest);return
     from .preparation_sources import source_members,canonical_sha
     for member in source_members(path,"table"):
-        inventory.bind(member,path.parent,model,role+".consumed_file")
+        inventory.bind(member,path.parent,model,role+".consumed_file",fold)
         tokens=member["study_tokens"]
-        if not tokens:inventory.gap(model,role,"SOURCE_STUDY_METADATA_ABSENT",digest=member["sha256"])
-        identity=stable_id("",[model,role,member["sha256"],inventory.context_id])
+        if not tokens:inventory.gap(model,role,"SOURCE_STUDY_METADATA_ABSENT",fold,member["sha256"])
+        identity=stable_id("",[model,fold,role,member["sha256"],inventory.context_id])
         inventory.usage.append({"cancer_id":"","lncrna_id":"","pathway_id":"",
             "source_id":"AUXILIARY-SOURCE:"+identity,"source_event_id":identity,
             "source_file_sha256":member["sha256"],"phase":"FEATURE_CONSTRUCTION","endpoint":"MODEL_USE",
             "label":np.nan,"is_experimental":False,"is_predicted":False,"mapped":True,
             "assay":"REGISTERED_NATIVE_INPUT_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
             "raw_record_id":identity,"raw_row_sha256":canonical_sha(member),"raw_identifiers_json":"{}",
-            "model_id":model,"patient_fold_id":-1,"use_view":"AUXILIARY_SOURCE_METADATA",
+            "model_id":model,"patient_fold_id":fold,"use_view":"AUXILIARY_SOURCE_METADATA",
             "candidate_rows":0,"entity_scope":"WHOLE_REGISTERED_FILE_NO_ENTITY_ASSERTION",
             "dependency_context":inventory.context_id})
-    inventory.gap(model,role,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",digest=digest)
+    inventory.gap(model,role,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
 
 
 def inspect_fusion_expert(inventory,path,binding,audit,frame,expert,model,endpoint):
@@ -154,7 +154,7 @@ def inspect_fusion_expert(inventory,path,binding,audit,frame,expert,model,endpoi
                 if node_type=="lncRNA":
                     nodes=pd.read_parquet(actual,columns=["node_id"]).rename(columns={"node_id":"lncrna_id"})
                     inventory.entities(nodes,model=model,fold=fold,phase="FEATURE_CONSTRUCTION",view="AUXILIARY_CORE_NODE_INPUT",digest=export["sha256"])
-            for name,item in part.get("sources",{}).items():
-                inventory.authority(item,core_path.parent,model,role+".core."+name,fold)
-        inventory.gap(model,role,"AUXILIARY_CORE_TRAINING_ANCESTRY_NOT_FULLY_RECONSTRUCTED")
+        from .current_core_model_use import inspect_export
+        if not inspect_export(inventory,core_path,model,role+".core"):
+            inventory.gap(model,role,"AUXILIARY_CORE_TRAINING_ANCESTRY_NOT_FULLY_RECONSTRUCTED")
     inventory.gap(model,role,"AUXILIARY_RAW_STUDY_AND_PATIENT_USAGE_NOT_FULLY_RECONSTRUCTED")
