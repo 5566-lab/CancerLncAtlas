@@ -31,22 +31,33 @@ class DirectionalEntityCNV:
 class DirectionalCNVStore:
     """Read-only memory-mapped view of one directional CNV partition."""
 
-    def __init__(self, root: str | Path) -> None:
+    def __init__(self, root: str | Path, *, source_capture=None, cancer="") -> None:
         self.root = Path(root).resolve()
-        self.patient_ids = tuple(json.loads((self.root / "patient_ids.json").read_text()))
-        self.lncrna_ids = tuple(json.loads((self.root / "lncrna_ids.json").read_text()))
-        self.pathway_ids = tuple(json.loads((self.root / "pathway_ids.json").read_text()))
+        def read_json(name):
+            path=self.root/name
+            return (json.loads(path.read_text()) if source_capture is None else
+                    source_capture.json(path,role="compact",cancer=cancer))
+        def array(name):
+            path=self.root/name
+            return (np.load(path,mmap_mode="r",allow_pickle=False) if source_capture is None else
+                    source_capture.array(path,role="compact",cancer=cancer))
+        self.patient_ids = tuple(read_json("patient_ids.json"))
+        self.lncrna_ids = tuple(read_json("lncrna_ids.json"))
+        self.pathway_ids = tuple(read_json("pathway_ids.json"))
         self.patient_index = {value: index for index, value in enumerate(self.patient_ids)}
         self.lncrna_index = {value: index for index, value in enumerate(self.lncrna_ids)}
         self.pathway_index = {value: index for index, value in enumerate(self.pathway_ids)}
-        self.lncrna_signed = np.load(self.root / "lncrna_signed_mean.npy", mmap_mode="r")
-        self.lncrna_callable = np.load(self.root / "lncrna_callable.npy", mmap_mode="r")
-        self.lncrna_amplification = np.load(self.root / "lncrna_amplification.npy", mmap_mode="r")
-        self.lncrna_deletion = np.load(self.root / "lncrna_deletion.npy", mmap_mode="r")
-        self.pathway_signed = np.load(self.root / "pathway_signed_mean.npy", mmap_mode="r")
-        self.pathway_callable = np.load(self.root / "pathway_callable.npy", mmap_mode="r")
-        self.pathway_amplification = np.load(self.root / "pathway_amplification.npy", mmap_mode="r")
-        self.pathway_deletion = np.load(self.root / "pathway_deletion.npy", mmap_mode="r")
+        self.lncrna_signed = array("lncrna_signed_mean.npy")
+        self.lncrna_callable = array("lncrna_callable.npy")
+        self.lncrna_amplification = array("lncrna_amplification.npy")
+        self.lncrna_deletion = array("lncrna_deletion.npy")
+        self.pathway_signed = array("pathway_signed_mean.npy")
+        self.pathway_callable = array("pathway_callable.npy")
+        self.pathway_amplification = array("pathway_amplification.npy")
+        self.pathway_deletion = array("pathway_deletion.npy")
+        if source_capture is not None and (self.root/"SUCCESS.json").is_file():
+            receipt=read_json("SUCCESS.json")
+            source_capture.check_partition(self.root,receipt)
 
 
 def map_segments_directional(

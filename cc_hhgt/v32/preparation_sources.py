@@ -80,6 +80,14 @@ class SourceCapture:
     """Wrap real reads; changes during or between reads fail before serialization."""
     def __init__(self): self.reads = []
 
+    def attach_transformation(self,path,receipt):
+        from .local_cnv_sources import partition_binding
+        binding=partition_binding(path,receipt)
+        if binding is not None:
+            selected=[r for r in self.reads if r["path"]==str(Path(path).resolve())]
+            if not selected:raise ValueError("Transformation has no actual preparation read")
+            for item in selected:item["upstream_transformation"]=binding
+
     def read(self, path, reader, *, role, kind="table", fold=-1, cancer_id="", expected_sha=None):
         path = Path(path).resolve(strict=True)
         before = artifact_sha256(path)
@@ -93,7 +101,8 @@ class SourceCapture:
                   "fold": fold, "cancer_id": str(cancer_id), "members": members}
         for old in self.reads:
             if (old["role"], old["path"], old["fold"], old["cancer_id"]) == (role, str(path), fold, str(cancer_id)):
-                if old != record: raise ValueError("Preparation source changed between reads: " + role)
+                if {k:v for k,v in old.items() if k!="upstream_transformation"} != record:
+                    raise ValueError("Preparation source changed between reads: " + role)
                 return value
         self.reads.append(record)
         return value
@@ -103,6 +112,10 @@ class SourceCapture:
         for item in records:
             if artifact_sha256(item["path"]) != item["sha256"]:
                 raise ValueError("Preparation source changed before output: " + item["role"])
+            if item.get("upstream_transformation"):
+                for source in item["upstream_transformation"].values():
+                    if artifact_sha256(source["path"])!=source["sha256"]:
+                        raise ValueError("Preparation transformation source changed before output")
         value = {"format": FORMAT, "patient_fold": fold, "association_mode": mode,
                  "cancer_ids": sorted(set(map(str, cancers))), "source_reads": records,
                  "metadata_scope": "WHOLE_CONSUMED_FILE_BEFORE_ROW_FILTERING",
@@ -144,6 +157,10 @@ def validate_receipt(value, *, fold):
             digest = source.get("sha256", "")
             if not source.get("path") or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
                 raise ValueError("Preparation source lacks file identity")
+        transformation=item.get("upstream_transformation")
+        if transformation is not None:
+            if set(transformation)!={"receipt","sources","output"} or transformation["output"]!={"path":item["path"],"sha256":item["sha256"]}:
+                raise ValueError("Preparation transformation output differs from actual read")
         for member in item["members"]:
             if (member["metadata_columns"] != sorted(set(member["metadata_columns"]))
                     or not set(member["metadata_columns"]).issubset(METADATA_COLUMNS)

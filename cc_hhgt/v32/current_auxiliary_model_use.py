@@ -19,7 +19,7 @@ from .evidence_rule_summary import KEYS, candidate_aliases, stable_id
 def read(path):return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def input_source(inventory,item,root,model,role,fold=-1):
+def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRUCTION"):
     """Follow only hash-bound records from the actual native producer lineage."""
     digest=item.get("sha256")
     if not digest:
@@ -45,13 +45,13 @@ def input_source(inventory,item,root,model,role,fold=-1):
     for member in source_members(path,"table"):
         inventory.bind(member,path.parent,model,role+".consumed_file",fold)
         inventory.patient_use.table(member["path"],digest=member["sha256"],model=model,context=inventory.context_id,
-            role=role,fold=fold,scope="WHOLE_REGISTERED_NATIVE_INPUT_NOT_ALL_ROWS_FITTED")
+            role=role,fold=fold,phase=phase,scope="WHOLE_REGISTERED_NATIVE_INPUT_NOT_ALL_ROWS_FITTED")
         tokens=member["study_tokens"]
         if not tokens:inventory.gap(model,role,"SOURCE_STUDY_METADATA_ABSENT",fold,member["sha256"])
-        identity=stable_id("",[model,fold,role,member["sha256"],inventory.context_id])
+        identity=stable_id("",[model,fold,role,member["sha256"],inventory.context_id,phase])
         inventory.usage.append({"cancer_id":"","lncrna_id":"","pathway_id":"",
             "source_id":"AUXILIARY-SOURCE:"+identity,"source_event_id":identity,
-            "source_file_sha256":member["sha256"],"phase":"FEATURE_CONSTRUCTION","endpoint":"MODEL_USE",
+            "source_file_sha256":member["sha256"],"phase":phase,"endpoint":"MODEL_USE",
             "label":np.nan,"is_experimental":False,"is_predicted":False,"mapped":True,
             "assay":"REGISTERED_NATIVE_INPUT_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
             "raw_record_id":identity,"raw_row_sha256":canonical_sha(member),"raw_identifiers_json":"{}",

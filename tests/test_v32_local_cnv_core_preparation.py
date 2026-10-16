@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import pandas as pd
 import pytest
 import torch
 
 from cc_hhgt.v32 import group_shared_encoder_oracle, training
+from cc_hhgt.v32.local_cnv_confounding import COVARIATE_CONTRACT_VERSION,DEFAULT_COVARIATES
 from cc_hhgt.v32.local_cnv_core_preparation import (
     adjusted_association_frame,
     e1_coexpression_frame,
@@ -26,6 +29,8 @@ def _association_rows() -> pd.DataFrame:
             "label_A1_local": ["strong_positive", "unlabeled"],
             "direction_A1_local": ["positive", "unavailable"],
             "n_A1_local": [75, 8],
+            "residual_design_rank_A1_local": [2, 0],
+            "correlation_df_A1_local": [72, 0],
             "availability": ["available", "typed_unavailable"],
             "unavailable_reason": ["", "LOCAL_CNV_INSUFFICIENT_MATCHED_PATIENTS"],
         }
@@ -92,6 +97,10 @@ def test_validation_a1_authority_requires_firewall_gates(tmp_path) -> None:
         }\n""",
         encoding="utf-8",
     )
+    declared=json.loads(success.read_text(encoding="utf-8"))
+    declared.update(covariate_contract_version=COVARIATE_CONTRACT_VERSION,covariates={"declared":list(DEFAULT_COVARIATES)})
+    declared["gates"].update(shared_covariate_contract=COVARIATE_CONTRACT_VERSION,covariates_declared=list(DEFAULT_COVARIATES))
+    success.write_text(json.dumps(declared),encoding="utf-8")
     result = validate_validation_a1_authority(tmp_path)
     assert result["candidate_sha256"] == "a" * 64
     payload = success.read_text(encoding="utf-8").replace(

@@ -1,0 +1,28 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T02:05:38.478015+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "fad3060a4e2ee2838b12529f8723bb82d4d0990d5515cf23007d55b972a175b7",
+    "cc_hhgt/v32/current_cnv_model_use.py": "cb44c99f211540d33dcf767e432c843031055b0ea1a0012d0395920910707256",
+    "cc_hhgt/v32/current_core_model_use.py": "50bab4d0c067d3616f3fe2134d79889246ed312dda55ff796d3f3fb21163fab7",
+    "cc_hhgt/v32/current_model_use.py": "9efdcd4eb9674a12b74c22764f1a15dca9709e6e7805e2cff7d2e81f363dc863",
+    "cc_hhgt/v32/local_cnv_sources.py": "d3626db0d28f68ab1f419286ed8c02c11e622445ba056c0a5957ec2ec917fac1"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_patient_source_identity.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_single_cell_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T02:08:06.566377+00:00"
+}

@@ -16,6 +16,11 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from cc_hhgt.v32.local_cnv_confounding import (
+    COVARIATE_CONTRACT_VERSION,
+    DEFAULT_COVARIATES,
+)
+
 
 KEYS = ("cancer_id", "lncrna_id", "pathway_id")
 POSITIVE_LABELS = frozenset({"strong_positive", "weak_positive"})
@@ -54,12 +59,25 @@ def validate_local_cnv_audit(
         raise RuntimeError("Local-CNV decision receipt did not pass")
     if decision.get("decision") != "LOCAL_CNV_CORE_RETRAIN_REQUIRED":
         raise RuntimeError("Local-CNV authority does not require corrected core inputs")
+    if success.get("covariate_contract_version") != COVARIATE_CONTRACT_VERSION:
+        raise RuntimeError("Local-CNV SUCCESS lacks the shared covariate contract")
+    if success.get("association_C0") != "shared_covariate_current_v32_formal_association":
+        raise RuntimeError("Local-CNV SUCCESS is not from the shared-covariate C0 path")
+    covariates = success.get("covariates", {})
+    if covariates.get("declared") != list(DEFAULT_COVARIATES):
+        raise RuntimeError("Local-CNV SUCCESS covariate declaration drift")
+    binding = success.get("covariate_contract", {})
+    if binding.get("version") != COVARIATE_CONTRACT_VERSION:
+        raise RuntimeError("Local-CNV SUCCESS covariate authority binding missing")
     return {
         "root": str(audit_root),
         "success_sha256": success_sha,
         "independent_audit_sha256": sha256_file(independent_path),
         "decision_sha256": sha256_file(decision_path),
         "decision": decision["decision"],
+        "covariate_contract_version": COVARIATE_CONTRACT_VERSION,
+        "covariate_contract": binding,
+        "covariates_declared": list(DEFAULT_COVARIATES),
     }
 
 
@@ -83,6 +101,10 @@ def validate_validation_a1_authority(
         raise RuntimeError("Validation-A1 SUCCESS authority did not pass")
     if independent.get("status") != "PASS":
         raise RuntimeError("Validation-A1 independent audit did not pass")
+    if success.get("covariate_contract_version") != COVARIATE_CONTRACT_VERSION:
+        raise RuntimeError("Validation-A1 SUCCESS lacks the shared covariate contract")
+    if success.get("covariates", {}).get("declared") != list(DEFAULT_COVARIATES):
+        raise RuntimeError("Validation-A1 SUCCESS covariate declaration drift")
     gates = success.get("gates", {})
     if (
         gates.get("validation_label_only") is not True
@@ -91,6 +113,8 @@ def validate_validation_a1_authority(
         or gates.get("mutation_used") is not False
         or gates.get("candidate_closure") is not True
         or gates.get("typed_unavailable_preserved") is not True
+        or gates.get("shared_covariate_contract") != COVARIATE_CONTRACT_VERSION
+        or gates.get("covariates_declared") != list(DEFAULT_COVARIATES)
     ):
         raise RuntimeError("Validation-A1 governance contract failed")
     return {
@@ -99,6 +123,9 @@ def validate_validation_a1_authority(
         "independent_audit_sha256": sha256_file(independent_path),
         "candidate_sha256": success.get("candidate_sha256"),
         "patient_map_sha256": success.get("patient_map_sha256"),
+        "covariate_contract_version": COVARIATE_CONTRACT_VERSION,
+        "covariates_declared": list(DEFAULT_COVARIATES),
+        "covariate_contract": success.get("covariate_contract", {}),
     }
 
 
@@ -156,15 +183,67 @@ def adjusted_association_frame(
     labels = value[columns["label"]].astype(str)
     if not set(labels.loc[available]).issubset(VALID_LABELS):
         raise RuntimeError("Adjusted association contains an unknown available label")
+    # The effective residual design is candidate-specific: a constant or
+    # design-collinear CNV column does not increase the rank, whereas a
+    # variable CNV column does.  The audit must carry the rank/df it actually
+    # used; deriving ``2``/``n-3`` here silently misstates constant-CNV rows.
+    rank_column = next(
+        (
+            candidate
+            for candidate in (
+                f"residual_design_rank_{prefix}",
+                "residual_design_rank",
+            )
+            if candidate in value.columns
+        ),
+        None,
+    )
+    df_column = next(
+        (
+            candidate
+            for candidate in (
+                f"correlation_df_{prefix}",
+                "correlation_df",
+            )
+            if candidate in value.columns
+        ),
+        None,
+    )
+    if rank_column is None or df_column is None:
+        raise ValueError(
+            "Adjusted association must carry per-candidate residual rank and "
+            "correlation df; re-materialize with the corrected CNV audit"
+        )
+    residual_rank = pd.to_numeric(value[rank_column], errors="coerce")
+    correlation_df = pd.to_numeric(value[df_column], errors="coerce")
+    if available.any():
+        if (
+            residual_rank.loc[available].isna().any()
+            or correlation_df.loc[available].isna().any()
+        ):
+            raise RuntimeError("Available adjusted association lacks finite rank/df")
+        rank_float = residual_rank.loc[available].to_numpy(float)
+        df_float = correlation_df.loc[available].to_numpy(float)
+        n_float = n_samples.loc[available].to_numpy(float)
+        if (
+            (rank_float < 1).any()
+            or (df_float <= 0).any()
+            or not np.equal(rank_float, np.floor(rank_float)).all()
+            or not np.equal(df_float, np.floor(df_float)).all()
+            or not np.equal(df_float, n_float - rank_float - 1).all()
+        ):
+            raise RuntimeError("Adjusted association rank/df contract failed")
     label_class = labels.where(available, "unavailable")
     result = value[list(KEYS)].astype(str).copy()
     result["discovery_effect"] = rho
     result["discovery_pvalue"] = pvalue
     result["discovery_fdr"] = fdr
     result["association_n_samples"] = n_samples
-    result["residual_design_rank"] = np.where(available, 2, 0).astype("int16")
+    result["residual_design_rank"] = np.where(
+        available, residual_rank.to_numpy(float), 0
+    ).astype("int16")
     result["correlation_df"] = np.where(
-        available, np.maximum(n_samples.to_numpy() - 3, 0), 0
+        available, correlation_df.to_numpy(float), 0
     ).astype("int32")
     result["label_class"] = label_class
     result["proxy_label"] = (

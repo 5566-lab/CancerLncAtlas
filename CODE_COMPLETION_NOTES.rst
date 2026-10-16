@@ -2368,3 +2368,95 @@ sources. Complete raw transformations, row-level usage and patient coverage,
 missing historical source bindings, upstream command records and final C01/C13/C16
 acceptance remain open. Existing preparation-only datasets have not been analysed
 by this code change.
+
+Native local-CNV transformations and recovered statistical corrections
+--------------------------------------------------------------------
+
+Source inspection found that this development copy lacked the native local-CNV
+association, validation-label, corrected-E1-graph and closeout scripts present in
+the original October checkout. Eleven original source/test files were recovered
+or reconciled; local_cnv_ancestry_recovered_sources.json preserves their original
+paths, hashes and the previous development-file hashes. Subsequent adaptations
+are recorded separately. The original checkout and existing results are unchanged.
+
+The recovered numerical corrections keep constant or design-collinear CNV as a
+zero adjustment, rather than multiplying by a NaN coefficient and discarding an
+otherwise observed association. Effective residual rank and correlation degrees
+of freedom are retained per candidate. Finite correlation alone does not make a
+row estimable when its p value or residual degrees of freedom is unavailable.
+The preparation adapter now requires the actual rank/df columns and rejects
+nonpositive df for an available row; it no longer invents rank=2 and df=n-3.
+Historical association tables lacking those columns require regeneration.
+
+The shared covariate contract includes every declared covariate. Missing declared
+columns fail, and high-cardinality categorical covariates are retained for this
+contract rather than silently dropped. The generic prepare_design default still
+retains its historical category cap; strict callers explicitly disable it. The
+existing bulk-coexpression test fixture was updated to declare all covariates,
+but its clustering suite was not executed because it fits KMeans. Focused design
+and actual native association calculations were verified without model training.
+
+Both native per-cancer producers now hash their actual table reads and all eight
+directional CNV matrices/three identifier lists, before and after reads and before
+publication. Available materializer hashes are checked. The produced five-fold
+partitions bind these reads, their columns, the statistical/read implementations
+and their own exact output hashes in source_reads/<cancer>.json. Reuse validates
+both prior content and the requested candidate, patient-map, covariate, compact
+directory and run identity. Old receipts without captured reads are not upgraded
+by reuse; a new output directory is required. Entry points check host 149 and
+write preflight records before scientific work.
+
+Each output binds the roles it actually depends on. A1/pair tables do not inherit
+the gene-expression and graph-annotation inputs used only by G0 construction.
+Corrected G0 graphs do not inherit pathway-activity inputs used only for pair
+statistics. Captured files describe conservative file exposure, not an assertion
+that every patient or every row contributed to a particular correlation.
+
+The actual formal preparation reader attaches the native transformation receipt
+to each consumed train/validation association partition. Current model-use replay
+follows the bound source tables and compact materialization records, retaining
+explicit study metadata and file-scoped patient mapping. Validation-only upstream
+exposure retains MODEL_SELECTION semantics. L1 continues to exclude diagnostic
+validation dependencies. The E1 graph materializer also retains each consumed
+edge-partition transformation. Its inspector replays the native present_E1/rho_E1
+selection and compares actual corrected graph rows before following upstream
+gene-expression/CNV sources. Repinning a changed graph output does not bypass
+this replay. New provenance reaches direct core, auxiliary-core and comparison
+contexts through the existing inventory paths.
+
+The recovered commands are runnable on 149 with PYTHONPATH set to the development
+root; they were not launched on real inputs. The required ordering is:
+
+* run_v32_local_cnv_confounding_audit_r2.py, once per cancer, with --candidates,
+  --patient-map, --covariates, --source-config, --graph-root, --directional-root,
+  --output-root and --cancer. Use --run-id V32_LOCAL_CNV_CONFOUNDING_20260902_R3
+  when using the recovered R3 closeout/downstream contract. The candidate scope
+  remains 100,000 pairs per cancer across the 33 declared cancers.
+* finalize_and_audit_v32_local_cnv_r3.py, with --root, --candidates,
+  --directional-root, --runner-code, --patient-map, --covariates and
+  --source-config. It requires all 33 cancers/five folds; restoration and import
+  checks do not constitute execution of that full closeout.
+* materialize_v32_local_cnv_validation_associations.py, once per cancer, with
+  --cancer, --candidates, --patient-map, --source-config, --directional-root,
+  --local-cnv-audit-root, --local-cnv-success-sha256 and --output-root. The
+  subsequent audit_v32_local_cnv_validation_associations.py consumes --root,
+  --candidates, --patient-map and --local-cnv-audit-success.
+* materialize_v32_local_cnv_corrected_graph_authority.py uses --phase initialize,
+  then materialize-cancer for each --cancer, then finalize. All phases bind
+  --source-graph-receipt, --source-graph-receipt-sha256, --local-cnv-audit-root,
+  --local-cnv-audit-success-sha256 and --output-root. This precedes the existing
+  formal preparation/current comparison path; it does not start a trainer.
+
+Synthetic verification uses actual per-cancer calculations on 120 patients and
+one candidate, reducing only fixture dimensions. Actual five-fold association,
+validation and E1 graph materialization, native preparation, frozen core forwards,
+inventory replay and external evaluation are exercised. The full 33-cancer
+statistical closeout is not run; its aggregate authorization in the fixture is
+explicitly synthetic. No neural optimizer, LASSO/KMeans fit, real-cohort analysis,
+paid compute or deployment occurred. A transient SSH banner error interrupted
+receipt downloads after successful tests; read-only host probes returned 149 and
+the existing receipts were retrieved without repeating completed jobs.
+
+This implements local-CNV transformation ancestry for newly bound native sources.
+Earlier raw expression/activity normalization, complete per-row patient usage,
+absent historical bindings and final C01/C13/C16 acceptance remain unresolved.

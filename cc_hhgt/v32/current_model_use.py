@@ -50,6 +50,8 @@ def implementations():
         "cc_hhgt/v32/current_single_cell_model_use.py","cc_hhgt/v32/single_cell_signed_fusion.py",
         "cc_hhgt/v32/current_core_model_use.py","cc_hhgt/v32/integrated_model.py",
         "cc_hhgt/v32/patient_source_identity.py",
+        "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_confounding.py",
+        "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/stats.py","cc_hhgt/v32/directional_cnv.py",
         "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
         "cc_hhgt/v32/cnv_only_training.py","cc_hhgt/v32/cnv_only_training_v2.py",
         "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py",
@@ -184,7 +186,10 @@ class Inventory:
                         "raw_record_id":identity,"raw_row_sha256":canonical_sha(member),"raw_identifiers_json":"{}",
                         "model_id":model,"patient_fold_id":fold,"use_view":"PREPARATION_SOURCE_METADATA",
                         "candidate_rows":0,"entity_scope":"WHOLE_CONSUMED_FILE_NO_ENTITY_ASSERTION","dependency_context":self.context_id})
-            if item["kind"]=="table":
+            if item.get("upstream_transformation"):
+                from .local_cnv_sources import inspect
+                inspect(self,item["upstream_transformation"],root,model,label+".transformation",fold)
+            elif item["kind"]=="table":
                 self.gap(model,label,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
         return known
 

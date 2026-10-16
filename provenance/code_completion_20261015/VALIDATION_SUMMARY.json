@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 667,
+  "unique_test_cases_passed": 713,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -161,24 +161,24 @@
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "1ea88912d0a66bd31443d35b36e336f0ca1214701a1990ce0a929197690c569c",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
-    "cc_hhgt/v32/current_model_use.py": "9db1cf0601f86f52329aecd18381f596fd783d526e96dd25d8942a82626a82fd",
+    "cc_hhgt/v32/current_model_use.py": "9efdcd4eb9674a12b74c22764f1a15dca9709e6e7805e2cff7d2e81f363dc863",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "75c340c6e0bac50d2aff0840ec4cfc4ef5b972b37fa3c28da0d8536f39732323",
-    "cc_hhgt/v32/preparation_sources.py": "d6e3497bed67b3b0e23bab458952d82e47ee664fea5aab532f9a95077fda3012",
-    "scripts/prepare_v32_formal.py": "9eaaa01d222dc0c97fd96d46737cf658c2a0fe674ec0b58492bf616faf411b81",
-    "tests/test_v32_preparation_sources.py": "084e3af7cfa1f214cedbd73f8208f21e5c890e2568dc2717fd929456dfab8c3e",
+    "cc_hhgt/v32/preparation_sources.py": "5e7ce542436c3bdb73faf657b6c853f948a18687e25e442421137ed433ac214b",
+    "scripts/prepare_v32_formal.py": "f4fe2b2d4c9ef8c30216825d6ca5c363192d51627ba4d228cd83f7c5ada58fda",
+    "tests/test_v32_preparation_sources.py": "967573cc29359b8a19a2a7240ae2d15a429f1b568ffa4c34b2fb476e0baaed8b",
     "tests/test_v32_formal_preparation_firewall.py": "3ca2520cc107b2e7019fc4e8db17b33c6341288549be3373737144098fbd7e3c",
     "scripts/server_prepare_v32_g012_patient_first_r2.sh": "6af76a4c20de354b52347d761099baba415bacebd194d2628fa22c4433fc4601",
     "artifacts/v32_patient_fold_authority_20260829_r1/SAMPLE_PATIENT_FOLD_MAP.tsv": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253",
     "artifacts/v32_patient_fold_authority_20260829_r1/PATIENT_FOLD_AUTHORITY_RECEIPT.json": "1ef32bda9d14d87997f3b81c34b8aacce172de390db5c29aee011ca73ba317e0",
     "cc_hhgt/v32/g012_winner_lock.py": "9e7cc87dd5b59d9614ab30333bf2068b12ad4d817b0d6625f3bb2a4019feb12e",
     "tests/test_v32_current_comparison_sources.py": "03cb8099a762d5940d7abd2b7bf220bef3b9afa8266d503a8c00b52fab36056f",
-    "cc_hhgt/v32/current_auxiliary_model_use.py": "0d3382d95f9742d1776a2fb89df7f8b78c850ee29202a6fc2322bd03d2e1a4c5",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "fad3060a4e2ee2838b12529f8723bb82d4d0990d5515cf23007d55b972a175b7",
     "tests/test_v32_auxiliary_model_use.py": "2cdd8a129044b3bb7d3ab6cff45334df07b1b9bbdf87591ae385db33c3342845",
     "cc_hhgt/v32/current_single_cell_model_use.py": "4f6defa9b953de9fc003448a0192b040725e014db85486581da81c9546a3a899",
     "tests/test_v32_single_cell_model_use.py": "be1988feea5f055ef18988cc091871322bc1c36038a57c504e2ed326d704d3f3",
     "cc_hhgt/v32/cnv_input_sources.py": "76ffc0c69ffcac3a830a28e4cf93eb8888c4914fcf2fa8be077c387149213002",
-    "cc_hhgt/v32/current_cnv_model_use.py": "9ab70e792cda98c4ebff3bd25e123637b2055d16617556d7be0326ae8f1551ea",
+    "cc_hhgt/v32/current_cnv_model_use.py": "cb44c99f211540d33dcf767e432c843031055b0ea1a0012d0395920910707256",
     "cc_hhgt/v32/cnv_only_training_v2.py": "3f0bb687bda8f2ad2f2c6ba2460b7b633f91cfb7ea277487cbfadd8b6e759f47",
     "scripts/materialize_v32_directional_cnv.py": "40a075f2775508b90eb1c61c3d71ca1d250578e0aa2a0a6cd7964c661a8ca344",
     "cc_hhgt/v32/segment_cnv_streaming.py": "0eda55d497adf081ac104635b6bba362d89373ea24b62069223ebaaf14202027",
@@ -186,9 +186,25 @@
     "tests/test_v32_cnv_materialization_sources.py": "b45e120fa77675d8cfa420fa6012161c716eb233b0ccd275d76f48e213e09260",
     "tests/test_v32_segment_cnv_streaming.py": "b07749b8a450e95d6136c00fd4f75c044427e8a112778ac70fecc8682edbe1cb",
     "tests/test_v32_core_export_model_use.py": "cf51dd3f1dfe25ab7d8db2232e6ccd3881ffb48e2828988c1cb6ae9f0ae22276",
-    "cc_hhgt/v32/current_core_model_use.py": "8d4055b04208f289387c0927202a18fe933fa1d9ada2fd49f34175854492f957",
+    "cc_hhgt/v32/current_core_model_use.py": "50bab4d0c067d3616f3fe2134d79889246ed312dda55ff796d3f3fb21163fab7",
     "cc_hhgt/v32/patient_source_identity.py": "b1d2c48e351f2881fd95ab81f8c9bdff6c9c3ad69ce7980aa43549abd5602766",
-    "tests/test_v32_patient_source_identity.py": "7f9687d362ab6d6b5db578ccdcadfb953b85d60b06568e2a6ea27d53c913008b"
+    "tests/test_v32_patient_source_identity.py": "7f9687d362ab6d6b5db578ccdcadfb953b85d60b06568e2a6ea27d53c913008b",
+    "cc_hhgt/stats.py": "83130c205522b276ccaa2ec5c677cc3a02aa1e5a69991b38b38b9d5ede04e53e",
+    "cc_hhgt/v32/bulk_coexpression_release.py": "881d8fed7e2cace95c45f39731fedad8f72a61d57711d02f647a1698d26b5f47",
+    "cc_hhgt/v32/directional_cnv.py": "748f5db244e189f5a81ffa722ba075a1ddea19e9e30e5c165abd149e8d747402",
+    "cc_hhgt/v32/local_cnv_confounding.py": "878a21ca7146bea8af0077ea41d64c552cc9cf94c705dd081599399aa5c74bec",
+    "cc_hhgt/v32/local_cnv_core_preparation.py": "93ab20530d3dcc38f1029aeff7f923593c98abf9850a79954ecd75908ab5c8a6",
+    "cc_hhgt/v32/local_cnv_sources.py": "d3626db0d28f68ab1f419286ed8c02c11e622445ba056c0a5957ec2ec917fac1",
+    "scripts/audit_v32_local_cnv_validation_associations.py": "740d51e169f0a639e4b3b28d0543d73d1b7ee909f78dcb5b513000ecc01f16d7",
+    "scripts/finalize_and_audit_v32_local_cnv_r3.py": "0de64188a4ec782f026cb66fa078f557a5d71edca2d6ae3b4dffd5dd59a3378b",
+    "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "94c9b24f453008497d8d01ad15bb5c7c9ac01e42e56ba659c54ed619291e21da",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "eae8de295abbe8be9e44a9e6a8cceb99585c1b8d5c2372c4b2619793a87f66cc",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "e2c16381b46e27712733bf8f2aaea47228fa33a16861ba52244df8a183a5f8fc",
+    "tests/test_local_cnv_residualization.py": "88da7b9767ed16af5d01392a7100fb1900ceb042623a21d3cccae770ba01d841",
+    "tests/test_v32_bulk_coexpression.py": "b2a51a81e42dc533aac54d616bab7fa147da966386b31511d478e143cc6ad14b",
+    "tests/test_v32_covariate_contract.py": "0f39433b2d533108d4453769a13b291413a6aed990197880055e12386d28c3f6",
+    "tests/test_v32_local_cnv_core_preparation.py": "2d613a4e6b9419055a2968ee231cef6876d359516816d9502e4489e518fc9168",
+    "tests/test_v32_local_cnv_source_ancestry.py": "20d66270eb5efa38dd530e6f6865e4c2744fceae3b6767e4017ce613a09b6c83"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -296,7 +312,12 @@
     "Explicit patient crosswalks are scoped to actual source file SHA256, identity column and raw ID under a shared namespace. Native formal preparation/auxiliary tables, actual compact CNV referenced rows and actual signed-SC episode donors contribute private patient tokens; no alias equivalence is inferred.",
     "Public mapping counts are distinct observed aliases, while context overlap counts are unique mapped people. Context overlap is a lower bound, not a comparison of unrelated numeric fold IDs or an optimizer leakage attestation. Whole-file exposure does not assert that every row fitted a model; absent identities and unbound raw ancestors remain incomplete.",
     "External V2 excludes mapped patient overlap across all compared model/context inputs and keeps missing mappings unverified. Its public loader rejects private tables and private patient columns even under allowed output names. The unified workflow and actual Chinese API/browser consume only aggregate mapping/overlap outputs.",
-    "Synthetic native consumers, external replay and actual web queries/downloads were checked on 149 with optimization forbidden. No real cohort analysis, training, paid compute or deployment occurred. Full raw transformation ancestry, complete row/patient coverage and absent historical source bindings remain open; cumulative evidence is versioned history, not one current-code full-suite run."
+    "Synthetic native consumers, external replay and actual web queries/downloads were checked on 149 with optimization forbidden. No real cohort analysis, training, paid compute or deployment occurred. Full raw transformation ancestry, complete row/patient coverage and absent historical source bindings remain open; cumulative evidence is versioned history, not one current-code full-suite run.",
+    "Recovered five missing local-CNV producer/closeout scripts and four inspected statistical/preparation modules from the original October checkout, preserving original and prior development hashes. Constant/collinear CNV is a no-op, available rows require valid residual df/p values, actual per-candidate rank/df survives preparation, and the declared shared covariate design does not silently drop high-cardinality columns.",
+    "Actual native association/validation reads bind source tables, eight compact arrays, three ID lists, implementation hashes and five-fold outputs. Output-specific roles distinguish pair statistics from G0 edge construction. Reuse rejects changed authorities, compact root and run identity. All recovered execution paths require 149 and write preflights.",
+    "Actual formal preparation carries bound transformation receipts into core inventory. E1 materialization binds source edge partitions and model-use inspection replays corrected graph selection before upstream traversal. Explicit upstream study metadata, source hashes and patient identities reach model/context-specific external isolation; validation-only ancestry retains model-selection semantics.",
+    "Synthetic native calculations use 120 patients and one candidate with only fixture dimensions reduced. Actual native five-fold association, validation, E1 graph preparation, frozen-core forwards, inventory/external consumers and website regression run without optimization. Full 33-cancer closeout and bulk KMeans clustering are not executed; synthetic aggregate authorizations are not real closeout evidence.",
+    "Earlier raw expression/activity normalization, complete per-row patient usage, absent historical bindings and final acceptance remain open. No real cohort analysis, optimizer, paid compute or deployment occurred. Cumulative tests are versioned history, not one current-code full-suite run."
   ],
   "test_suites": [
     {
@@ -568,6 +589,26 @@
       "path": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml",
       "passed": 11,
       "sha256": "64d53fad04a556e87cbec542814a1c1d51ee1993396776e94a65609ec9219e10"
+    },
+    {
+      "path": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml",
+      "passed": 65,
+      "sha256": "124b2e3e7bde21d1d12989feaec19814ef43126a3ffa0b87edc8b8f1460b3d86"
+    },
+    {
+      "path": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml",
+      "passed": 42,
+      "sha256": "215396fae66443e5550bda08c6a542e56ff5463d96381ca9d752ff092187ed89"
+    },
+    {
+      "path": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml",
+      "passed": 46,
+      "sha256": "9b19108acf198546884ea19bbbd5ccc30b6e41e3cb0184292e3641bef2e9857d"
+    },
+    {
+      "path": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml",
+      "passed": 11,
+      "sha256": "670979f463346e6328c303610f464edef0d23f877435fad8cbfe909d45fa28a4"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -578,6 +619,51 @@
     "current_binding_expansion_tests.xml": "Early graph-only iteration; superseded by current_binding_integration and current_binding_residual_forward."
   },
   "verified_case_inventory": [
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_authority_validators_fail_closed_on_shared_covariate_contract",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_constant_local_and_pathway_cnv_are_noop_and_remain_available",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_constant_pathway_cnv_does_not_add_a2_rank_after_local_adjustment",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_core_adapter_preserves_per_candidate_rank_and_df",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_core_adapter_rejects_missing_per_candidate_rank_and_df",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_design_collinear_cnv_does_not_increase_rank",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_g0_edge_p_values_use_per_lncrna_rank",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_nonpositive_df_is_typed_unavailable_even_when_rho_is_finite",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_local_cnv_residualization",
+      "case": "test_variable_local_and_pathway_cnv_increase_rank_independently",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
     {
       "module": "tests.test_prepare_v32_formal_sampler",
       "case": "test_affine_candidate_sampler_changes_with_seed",
@@ -594,49 +680,79 @@
       "suite": "provenance/code_completion_20261015/preparation_sources_r4_tests.xml"
     },
     {
+      "module": "tests.test_stats",
+      "case": "test_bh_monotonic_and_bounded",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_stats",
+      "case": "test_ece_zero_for_perfect_predictions",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_stats",
+      "case": "test_partial_correlation_p_value_matches_frozen_base_r_qr_reference",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_stats",
+      "case": "test_partial_correlation_p_value_uses_effective_residual_df",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_stats",
+      "case": "test_rank_deficient_design_only_removes_its_true_column_space",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_stats",
+      "case": "test_signed_support_prefers_strong_significant_effect",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_auxiliary_only_study_excludes_unseen_external_entity",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[atac]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv_event]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[genomic]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[run_identity]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[snapshot_change]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[unconsumed_binding]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
@@ -726,57 +842,57 @@
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_capture_detects_changes_during_read_and_before_sealing",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv_event]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[matrix_change]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_array]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_label]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_shape]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_split]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv_event]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_materialization_sources",
@@ -806,127 +922,142 @@
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_actual_export_retains_native_training_and_validation_sources",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_actual_input_keys_are_reconstructed_without_downstream_candidates",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_changed_core_graph_source_is_rejected",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_core_only_study_reaches_actual_auxiliary_fusion_and_external_isolation[cnv-88990011]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_core_only_study_reaches_actual_auxiliary_fusion_and_external_isolation[cnv_event-66778899]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_core_only_study_reaches_actual_auxiliary_fusion_and_external_isolation[genomic-55667788]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_expanded_graph_retains_base_source_metadata_and_fold_identity",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_hash_bound_export_input_locator_preserves_source_identity",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_missing_historical_sources_remain_explicit",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[copied_receipt]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[missing_source]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[node_identity]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[source_manifest]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[state_hash]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_covariate_contract",
+      "case": "test_declared_covariates_are_strict_and_high_cardinality_is_retained",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_covariate_contract",
+      "case": "test_prepare_design_none_disables_legacy_category_drop",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_covariate_contract",
+      "case": "test_shared_covariates_change_formal_association_and_rank",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/patient_identity_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -1146,52 +1277,52 @@
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_all_native_competitors_and_their_losing_study_are_retained",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[checkpoint_alias]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[loss]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_arm]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_fold]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_content]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_hash]",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_external_v2_excludes_a_study_seen_only_by_the_losing_model",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_historical_winner_only_lock_remains_explicitly_incomplete",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_selected_consumer_replays_losing_model_receipts",
-      "suite": "provenance/code_completion_20261015/patient_identity_core_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
@@ -1511,42 +1642,42 @@
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_actual_fusion_inputs_include_zero_coefficient_experts_and_explicit_missing_ancestry",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_directory_authority_uses_native_tree_hash_and_cannot_hide_a_changed_partition",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenance",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_inventory_cannot_be_relabelled_for_another_score_or_claim_complete",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_training_selection_and_graph_inputs_are_derived_with_masks",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_rehashed_native_use_omission_fails_actual_input_replay",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inventory",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
@@ -1966,12 +2097,12 @@
     {
       "module": "tests.test_v32_directional_cnv",
       "case": "test_direction_is_preserved_and_unavailable_is_nan",
-      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_directional_cnv",
       "case": "test_pathway_aggregation_keeps_amp_and_deletion_separate",
-      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_directional_cnv_head",
@@ -2859,34 +2990,174 @@
       "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
     },
     {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_bh_and_label_semantics",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_duplicate_aliquots_are_averaged_patient_first",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_g0_stability_keeps_positive_negative_and_per_lncrna_topk_separate",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_heldout_changes_do_not_change_train_fit",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_no_cnv_effect_preserves_matched_association",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_preregistered_impact_thresholds",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_synthetic_local_cnv_confounding_is_attenuated",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_unavailable_cnv_is_excluded_and_never_imputed_as_zero",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_confounding_core",
+      "case": "test_vectorized_four_models_use_identical_matched_patients_and_side_adjustment",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
       "module": "tests.test_v32_local_cnv_core_preparation",
       "case": "test_adjusted_association_preserves_typed_unavailable",
-      "suite": "provenance/code_completion_20261015/preparation_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_core_preparation",
       "case": "test_adjusted_association_rejects_numeric_unavailable",
-      "suite": "provenance/code_completion_20261015/preparation_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_core_preparation",
       "case": "test_association_availability_masks_membership_and_direction_losses",
-      "suite": "provenance/code_completion_20261015/preparation_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_core_preparation",
       "case": "test_e1_edges_never_fall_back_to_e0",
-      "suite": "provenance/code_completion_20261015/preparation_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_core_preparation",
       "case": "test_shared_oracle_and_production_loss_match_with_availability_mask",
-      "suite": "provenance/code_completion_20261015/preparation_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_core_preparation",
       "case": "test_validation_a1_authority_requires_firewall_gates",
-      "suite": "provenance/code_completion_20261015/preparation_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_five_fold_statistics_and_actual_preparation_preserve_sources",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_reuse_rejects_different_requested_inputs",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_reuse_rejects_different_requested_inputs[candidates]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_reuse_rejects_different_requested_inputs[compact]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_reuse_rejects_different_requested_inputs[run_id]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_transformation_drift_rejected[array]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_transformation_drift_rejected[missing_array]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_transformation_drift_rejected[output]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_transformation_drift_rejected[raw_table]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_native_transformation_drift_rejected[wrong_partition]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_recovered_producers_reject_wrong_host_before_execution[audit_v32_local_cnv_validation_associations-main]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_recovered_producers_reject_wrong_host_before_execution[finalize_and_audit_v32_local_cnv_r3-main]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-finalize]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-initialize]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-materialize_cancer]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_validation_associations-main]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_source_ancestry",
+      "case": "test_recovered_producers_reject_wrong_host_before_execution[run_v32_local_cnv_confounding_audit_r2-main]",
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
     },
     {
       "module": "tests.test_v32_main_app_feature_flag",
@@ -3266,47 +3537,47 @@
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_actual_cnv_compact_referenced_patients_are_collected",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_core_preparation_read_uses_file_scoped_patient_mapping",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_file_scopes_aliases_and_public_overlap_counts",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[ambiguous]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[digest]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[namespace]",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_native_genomic_alias_overlap_reaches_external_query_without_identifiers",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_native_sc_actual_episode_donors_are_mapped",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_numeric_looking_csv_ids_keep_leading_zeroes",
-      "suite": "provenance/code_completion_20261015/patient_identity_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_predicted_binding_runtime",
@@ -3346,72 +3617,72 @@
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_adjusted_reader_preserves_used_files_and_separate_study_sources",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_external_v2_excludes_shared_study_even_for_an_unseen_entity",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_during_read_and_extra_directory_partition_fail",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_partition_with_unchanged_success_receipt_is_detected",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_formal_entrypoint_serializes_consumed_legacy_sources_in_all_arms_without_fitting",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_metadata_is_explicit_and_retains_multiple_accession_columns",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[cancer]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[fold]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[invented_metadata]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_receipt]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_role]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[receipt_hash]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_real_current_producer_propagates_train_sources_and_keeps_l1_validation_diagnostic",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_relocated_native_source_keeps_hash_and_explicit_missing_metadata",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_rbns_sequence",
@@ -3741,47 +4012,47 @@
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_canonical_donor_alias_leak_is_rejected",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_native_checkpoint_episode_source_and_external_isolation",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[ablation_report_omission]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[checkpoint_state]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[query_identity]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[checkpoint]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[episode]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[missing_training_binding]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[upstream_file]",
-      "suite": "provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_state_training",
@@ -3916,13 +4187,13 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "patient_identity_r4",
-      "patient_identity_regression_r1",
-      "patient_identity_core_r1",
-      "patient_identity_web_r1"
+      "local_cnv_ancestry_r4",
+      "local_cnv_ancestry_r5",
+      "local_cnv_ancestry_regression_r1",
+      "local_cnv_ancestry_web_r1"
     ],
-    "passed": 106,
-    "count_basis": "UNIQUE_CASES_ACROSS_LISTED_VERSIONED_SUITES",
+    "passed": 148,
+    "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false
   },

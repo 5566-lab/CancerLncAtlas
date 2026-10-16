@@ -46,7 +46,8 @@ def adjusted_capture(root, fold=0, *, train_pmid="12345678", validation_pmid="87
             "fold_id": [fold], "availability": ["available"], "unavailable_reason": [""],
             "rho_"+prefix: [0.4], "p_"+prefix: [0.001], "fdr_official_"+prefix: [0.01],
             "label_"+prefix: ["strong_positive"], "direction_"+prefix: ["positive"],
-            "n_"+prefix: [15], "pmid": [pmid]}).to_parquet(path, index=False)
+            "n_"+prefix: [15], "residual_design_rank_"+prefix:[2], "correlation_df_"+prefix:[12],
+            "pmid": [pmid]}).to_parquet(path, index=False)
     frames = load_adjusted_associations(capture, root / "train", root / "validation", fold=fold, cancers=["BRCA"])
     receipt = capture.receipt(fold=fold, mode="local-cnv-adjusted", cancers=["BRCA"])
     return capture, receipt, frames

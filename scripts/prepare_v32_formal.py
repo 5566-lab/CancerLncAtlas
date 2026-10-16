@@ -102,6 +102,7 @@ def load_adjusted_associations(capture, train_root, validation_root, *, fold, ca
         ):
             path = Path(root) / directory / f"cancer={cancer}" / f"fold={fold}" / "part.parquet"
             raw = capture.read(path, pd.read_parquet, role=split + "_associations", fold=fold, cancer_id=cancer)
+            capture.attach_transformation(path,Path(root)/"receipts"/(str(cancer)+".json"))
             parts[split].append(adjusted_association_frame(raw, prefix=prefix, expected_cancer=cancer, expected_fold=fold))
     return {split: pd.concat(frames, ignore_index=True) for split, frames in parts.items()}
 

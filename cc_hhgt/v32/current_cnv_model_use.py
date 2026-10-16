@@ -4,9 +4,8 @@ import json
 import pandas as pd
 
 
-def inspect_consumed_sources(inventory, context, model, role):
+def inspect_bound_sources(inventory, records, root, model, role, fold=-1,*,phase="FEATURE_CONSTRUCTION"):
     from .current_auxiliary_model_use import input_source
-    receipt_path, receipt = context["consumed"]
     visited = set()
 
     def walk(item, base, label, depth=0):
@@ -22,9 +21,9 @@ def inspect_consumed_sources(inventory, context, model, role):
         declared = Path(resolved.get("path", ""))
         declared = declared if declared.is_absolute() else base/declared
         if not resolved.get("path") or not declared.exists():
-            inventory.authority(resolved, base, model, role+label, -1)
+            inventory.authority(resolved, base, model, role+label, fold)
             return
-        path = inventory.bind(resolved, base, model, role+label)
+        path = inventory.bind(resolved, base, model, role+label, fold)
         identity = (str(path), digest)
         if identity in visited:
             return
@@ -61,12 +60,19 @@ def inspect_consumed_sources(inventory, context, model, role):
                         visit(child, prefix+"."+str(i))
             visit(document, label)
         elif path.suffix in {".parquet", ".tsv", ".csv", ".maf", ".txt", ".seg"}:
-            input_source(inventory, {**resolved, "source_kind":"table"}, base, model, role+label)
+            input_source(inventory, {**resolved, "source_kind":"table"}, base, model, role+label,fold=fold,phase=phase)
+
+    for i,item in enumerate(records):walk(item,root,".consumed."+str(i))
+
+
+def inspect_consumed_sources(inventory, context, model, role):
+    receipt_path, receipt = context["consumed"]
+    biological=[r for r in receipt["records"] if r["role"] not in {"folds","core","candidates"}]
+    inspect_bound_sources(inventory,biological,receipt_path.parent,model,role)
 
     for i, item in enumerate(receipt["records"]):
         if item["role"] in {"folds", "core", "candidates"}:
             continue  # Already bound by native_sources; not biological metadata.
-        walk(item, receipt_path.parent, ".consumed."+str(i))
         if item["role"]=="compact" and Path(item["path"]).name=="patient_ids.json":
             path=Path(item["path"]);path=path if path.is_absolute() else receipt_path.parent/path
             patients=json.loads(path.read_text(encoding="utf-8"))

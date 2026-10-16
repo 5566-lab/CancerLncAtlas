@@ -22,6 +22,7 @@ DEFAULT_COVARIATES = (
     "cell_fraction_Macrophages.M0", "cell_fraction_Macrophages.M1",
     "cell_fraction_Macrophages.M2",
 )
+COVARIATE_CONTRACT_VERSION = "V32_SHARED_COVARIATES_AUTHORITY_V1"
 
 
 MIN_MATCHED_PATIENTS = 12
@@ -29,6 +30,12 @@ STRONG_FDR = 0.05
 STRONG_EFFECT = 0.20
 WEAK_FDR = 0.10
 WEAK_EFFECT = 0.15
+
+# A residualized CNV vector whose squared norm is at or below this threshold
+# contributes no effective column to the residual design.  In particular,
+# constant and design-collinear CNV values must be treated as a no-op rather
+# than as a missing biological observation.
+EFFECTIVE_VARIANCE_TOL = 1e-12
 
 
 @dataclass(frozen=True)
@@ -98,7 +105,9 @@ def covariate_design(
     used = tuple(column for column in columns if column in local.columns)
     if not used:
         return np.ones((len(patients), 1), dtype=float), used
-    design = prepare_design(local[list(used)].reset_index(drop=True))
+    design = prepare_design(
+        local[list(used)].reset_index(drop=True), max_categories=None
+    )
     if len(design) != len(patients) or not np.isfinite(design).all():
         raise ValueError("covariate design is not finite and patient-aligned")
     return np.asarray(design, dtype=float), used
@@ -212,6 +221,41 @@ def _rho_columns(left: np.ndarray, right: np.ndarray) -> np.ndarray:
     )
 
 
+def _adjust_for_covariate(
+    target: np.ndarray, covariate: np.ndarray,
+    *, variance_tol: float = EFFECTIVE_VARIANCE_TOL,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Project ``target`` on a residualized covariate, column-wise.
+
+    A zero/collinear covariate has coefficient zero and leaves ``target``
+    unchanged.  Using an explicit zero coefficient is important: ``0 * NaN``
+    is NaN in NumPy and was the source of the old constant-CNV data loss.
+    The returned boolean records whether the covariate increased the effective
+    residual-design rank for each candidate.
+    """
+
+    denominator = np.sum(covariate * covariate, axis=0)
+    effective = np.isfinite(denominator) & (denominator > float(variance_tol))
+    beta = np.zeros(denominator.shape, dtype=float)
+    numerator = np.sum(covariate * target, axis=0)
+    np.divide(numerator, denominator, out=beta, where=effective)
+    adjusted = target - covariate * beta
+    return adjusted, beta, effective
+
+
+def _covariate_standard_error(
+    residual: np.ndarray, denominator: np.ndarray, degrees_of_freedom: np.ndarray,
+    effective: np.ndarray,
+) -> np.ndarray:
+    """Return coefficient standard errors, leaving ineffective columns NaN."""
+
+    variance = np.full(denominator.shape, np.nan, dtype=float)
+    safe_df = np.maximum(np.asarray(degrees_of_freedom, dtype=float), 1.0)
+    numerator = np.sum(residual * residual, axis=0) / safe_df
+    np.divide(numerator, denominator, out=variance, where=effective)
+    return np.sqrt(variance)
+
+
 def _p_from_df(rho: np.ndarray, df: int) -> np.ndarray:
     if df < 1:
         return np.full(len(rho), np.nan, dtype=float)
@@ -268,7 +312,12 @@ def fold_local_pair_models(
         "pathway_cnv_beta_se": np.full(pair_count, np.nan),
         "residual_design_rank_a0": np.zeros(pair_count, dtype=np.int16),
         "residual_design_rank_a1": np.zeros(pair_count, dtype=np.int16),
+        "residual_design_rank_a1_on_a2": np.zeros(pair_count, dtype=np.int16),
         "residual_design_rank_a2": np.zeros(pair_count, dtype=np.int16),
+        "correlation_df_a0": np.zeros(pair_count, dtype=np.int32),
+        "correlation_df_a1": np.zeros(pair_count, dtype=np.int32),
+        "correlation_df_a1_on_a2": np.zeros(pair_count, dtype=np.int32),
+        "correlation_df_a2": np.zeros(pair_count, dtype=np.int32),
         "available": np.zeros(pair_count, dtype=bool),
     }
     # A0_MATCHED and A1_LOCAL are matched on *local* CNV callability only.
@@ -304,14 +353,10 @@ def fold_local_pair_models(
         x0, y0 = residual(xr), residual(yr)
         local0 = residual(zlr)
         rho0 = _rho_columns(x0, y0)
-        local_den = np.sum(local0 * local0, axis=0)
-        local_beta = np.divide(
-            np.sum(local0 * x0, axis=0), local_den,
-            out=np.full(len(columns), np.nan), where=local_den > 0,
-        )
-        x1 = x0 - local0 * local_beta
+        x1, local_beta, local_effective = _adjust_for_covariate(x0, local0)
         rho1 = _rho_columns(x1, y0)
-        rank_a1 = base_rank + (local_den > 1e-12).astype(np.int16)
+        local_den = np.sum(local0 * local0, axis=0)
+        rank_a1 = base_rank + local_effective.astype(np.int16)
         df0 = n - base_rank - 1
         p0 = _p_from_df(rho0, df0)
         p1 = np.asarray([
@@ -319,12 +364,8 @@ def fold_local_pair_models(
             for value, rank_value in zip(rho1, rank_a1, strict=True)
         ])
         local_df = np.maximum(n - rank_a1 - 1, 1)
-        local_se = np.sqrt(
-            np.divide(
-                np.sum(x1 * x1, axis=0) / local_df,
-                local_den,
-                out=np.full(len(columns), np.nan), where=local_den > 0,
-            )
+        local_se = _covariate_standard_error(
+            x1, local_den, local_df, local_effective
         )
         result["rho_a0_matched"][columns] = rho0
         result["p_a0_matched"][columns] = p0
@@ -334,7 +375,21 @@ def fold_local_pair_models(
         result["local_cnv_beta_se"][columns] = local_se
         result["residual_design_rank_a0"][columns] = base_rank
         result["residual_design_rank_a1"][columns] = rank_a1
-        result["available"][columns] = np.isfinite(rho0) & np.isfinite(rho1)
+        result["correlation_df_a0"][columns] = np.maximum(df0, 0)
+        result["correlation_df_a1"][columns] = np.maximum(n - rank_a1 - 1, 0)
+        # A finite rho is not sufficient for an estimable association: a
+        # high-dimensional shared covariate design can leave no residual
+        # degrees of freedom, in which case p is deliberately NaN.  Keep the
+        # row typed-unavailable so downstream FDR/label adapters cannot
+        # mistake it for a valid association.
+        result["available"][columns] = (
+            np.isfinite(rho0)
+            & np.isfinite(rho1)
+            & np.isfinite(p0)
+            & np.isfinite(p1)
+            & (df0 > 0)
+            & (np.asarray(result["correlation_df_a1"][columns]) > 0)
+        )
     # A2 is recomputed on its own exact complete-case cohort.  Store the A1
     # value on that same cohort separately so delta_rho_pathway_cnv is not a
     # missingness contrast.  The historical rho_a1_local remains the primary
@@ -363,22 +418,14 @@ def fold_local_pair_models(
         y0 = yr - local_design @ (projection @ yr)
         local0 = zlr - local_design @ (projection @ zlr)
         pathway0 = zpr - local_design @ (projection @ zpr)
-        local_den = np.sum(local0 * local0, axis=0)
-        local_beta = np.divide(
-            np.sum(local0 * x0, axis=0), local_den,
-            out=np.full(len(columns), np.nan), where=local_den > 0,
-        )
-        x1 = x0 - local0 * local_beta
+        x1, local_beta, local_effective = _adjust_for_covariate(x0, local0)
         rho1 = _rho_columns(x1, y0)
+        local_den = np.sum(local0 * local0, axis=0)
         pathway_den = np.sum(pathway0 * pathway0, axis=0)
-        pathway_beta = np.divide(
-            np.sum(pathway0 * y0, axis=0), pathway_den,
-            out=np.full(len(columns), np.nan), where=pathway_den > 0,
-        )
-        y2 = y0 - pathway0 * pathway_beta
+        y2, pathway_beta, pathway_effective = _adjust_for_covariate(y0, pathway0)
         rho2 = _rho_columns(x1, y2)
-        rank_a1 = base_rank + (local_den > 1e-12).astype(np.int16)
-        rank_a2 = rank_a1 + (pathway_den > 1e-12).astype(np.int16)
+        rank_a1 = base_rank + local_effective.astype(np.int16)
+        rank_a2 = rank_a1 + pathway_effective.astype(np.int16)
         p1 = np.asarray([
             _p_from_df(np.asarray([value]), n - int(rank_value) - 1)[0]
             for value, rank_value in zip(rho1, rank_a1, strict=True)
@@ -388,12 +435,8 @@ def fold_local_pair_models(
             for value, rank_value in zip(rho2, rank_a2, strict=True)
         ])
         pathway_df = np.maximum(n - rank_a2 - 1, 1)
-        pathway_se = np.sqrt(
-            np.divide(
-                np.sum(y2 * y2, axis=0) / pathway_df,
-                pathway_den,
-                out=np.full(len(columns), np.nan), where=pathway_den > 0,
-            )
+        pathway_se = _covariate_standard_error(
+            y2, pathway_den, pathway_df, pathway_effective
         )
         result["rho_a1_on_a2_matched"][columns] = rho1
         result["p_a1_on_a2_matched"][columns] = p1
@@ -402,11 +445,19 @@ def fold_local_pair_models(
         result["pathway_cnv_beta"][columns] = pathway_beta
         result["pathway_cnv_beta_se"][columns] = pathway_se
         result["residual_design_rank_a2"][columns] = rank_a2
-        result["available_a2"][columns] = np.isfinite(rho1) & np.isfinite(rho2)
-    result["available"] = (
-        np.isfinite(result["rho_a0_matched"])
-        & np.isfinite(result["rho_a1_local"])
-    )
+        result["residual_design_rank_a1_on_a2"][columns] = rank_a1
+        result["correlation_df_a1_on_a2"][columns] = np.maximum(n - rank_a1 - 1, 0)
+        result["correlation_df_a2"][columns] = np.maximum(n - rank_a2 - 1, 0)
+        result["available_a2"][columns] = (
+            np.isfinite(rho1)
+            & np.isfinite(rho2)
+            & np.isfinite(p1)
+            & np.isfinite(p2)
+            & (np.asarray(result["correlation_df_a1_on_a2"][columns]) > 0)
+            & (np.asarray(result["correlation_df_a2"][columns]) > 0)
+        )
+    # Preserve the per-group availability computed above.  Do not recompute
+    # it from rho alone: that would re-introduce finite-rho/NaN-p rows.
     return result
 
 

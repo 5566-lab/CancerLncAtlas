@@ -1,0 +1,42 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T01:50:54.146279+00:00",
+  "source_sha256": {
+    "cc_hhgt/stats.py": "83130c205522b276ccaa2ec5c677cc3a02aa1e5a69991b38b38b9d5ede04e53e",
+    "cc_hhgt/v32/local_cnv_confounding.py": "878a21ca7146bea8af0077ea41d64c552cc9cf94c705dd081599399aa5c74bec",
+    "cc_hhgt/v32/local_cnv_core_preparation.py": "93ab20530d3dcc38f1029aeff7f923593c98abf9850a79954ecd75908ab5c8a6",
+    "cc_hhgt/v32/bulk_coexpression_release.py": "881d8fed7e2cace95c45f39731fedad8f72a61d57711d02f647a1698d26b5f47",
+    "cc_hhgt/v32/local_cnv_sources.py": "5f348008950851330f1dbabbea3b97dd3b68f2e2930187af9bf6ca0d944bea19",
+    "cc_hhgt/v32/directional_cnv.py": "748f5db244e189f5a81ffa722ba075a1ddea19e9e30e5c165abd149e8d747402",
+    "cc_hhgt/v32/current_cnv_model_use.py": "850e889326cc81c58135b57d2581472de49c376b1b843b4aa035200b56c41152",
+    "cc_hhgt/v32/current_model_use.py": "9efdcd4eb9674a12b74c22764f1a15dca9709e6e7805e2cff7d2e81f363dc863",
+    "cc_hhgt/v32/preparation_sources.py": "5e7ce542436c3bdb73faf657b6c853f948a18687e25e442421137ed433ac214b",
+    "scripts/prepare_v32_formal.py": "f4fe2b2d4c9ef8c30216825d6ca5c363192d51627ba4d228cd83f7c5ada58fda",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "25ec84f5fdd8687a642fb17d3af9f233d1ceef83f3d55c250bfc84c85839077a",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "4a67cbf792ec87ea5281a5247c61d5a5c1cbb4f8755f479e34f01abee3cf1425",
+    "scripts/audit_v32_local_cnv_validation_associations.py": "feada757f703acae145eb7cdeef8c0b6a83638a817034e59c2866fa939394527",
+    "scripts/finalize_and_audit_v32_local_cnv_r3.py": "4b793de5758240f2fab64d0500598e7576f29419402363e5612fec2ef8e03eac",
+    "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "13751c509dbff5d62ef701b55e6e6fafce2162299054088b5125fd6b0264c135",
+    "tests/test_local_cnv_residualization.py": "88da7b9767ed16af5d01392a7100fb1900ceb042623a21d3cccae770ba01d841",
+    "tests/test_v32_covariate_contract.py": "0f39433b2d533108d4453769a13b291413a6aed990197880055e12386d28c3f6",
+    "tests/test_v32_preparation_sources.py": "967573cc29359b8a19a2a7240ae2d15a429f1b568ffa4c34b2fb476e0baaed8b",
+    "tests/test_v32_local_cnv_core_preparation.py": "2d613a4e6b9419055a2968ee231cef6876d359516816d9502e4489e518fc9168"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_local_cnv_residualization.py",
+    "tests/test_v32_covariate_contract.py",
+    "tests/test_v32_local_cnv_confounding_core.py",
+    "tests/test_v32_local_cnv_core_preparation.py",
+    "tests/test_v32_preparation_sources.py",
+    "--junitxml=provenance/code_completion_20261015/local_cnv_ancestry_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T01:51:25.953703+00:00"
+}

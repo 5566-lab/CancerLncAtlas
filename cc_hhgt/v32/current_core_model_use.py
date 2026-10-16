@@ -131,5 +131,12 @@ def graph_sources(inventory, graph, root, model, fold):
                 known.add(item.get("sha256"))
         item = authority.get("receipt",{})
         inventory.authority(item,root,model,prefix+"receipt",fold);known.add(item.get("sha256"))
+        receipt=inventory.locations.get(item.get("sha256"),item)
+        path=Path(receipt.get("path",""));path=path if path.is_absolute() else root/path
+        graph_input=authority.get("fold_artifacts",{}).get("train_coexpression")
+        if path.is_file() and graph_input:
+            from .local_cnv_sources import inspect_corrected_graph
+            actual=inventory.bind(graph_input,root,model,prefix+"train_coexpression",fold)
+            inspect_corrected_graph(inventory,path,actual,model,prefix+"local_cnv",fold)
     visit(graph,"graph.")
     return known

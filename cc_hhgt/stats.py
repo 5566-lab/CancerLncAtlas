@@ -59,7 +59,18 @@ def signed_support(effect: pd.Series | np.ndarray, fdr: pd.Series | np.ndarray, 
     return np.nan_to_num(magnitude * significance, nan=0.0)
 
 
-def prepare_design(covariates: pd.DataFrame) -> np.ndarray:
+def prepare_design(
+    covariates: pd.DataFrame, *, max_categories: int | None = 20
+) -> np.ndarray:
+    """Build an intercept-plus-covariate design matrix.
+
+    ``max_categories`` preserves the historical high-cardinality safeguard by
+    default (20 plus the legacy sample-size floor).  Passing ``None`` disables
+    that implicit column drop; callers
+    with a declared covariate contract can then fail on insufficient residual
+    degrees of freedom instead of silently changing the estimand.
+    """
+
     if covariates.empty:
         return np.ones((0, 1), dtype=float)
     blocks: list[pd.DataFrame] = []
@@ -72,8 +83,14 @@ def prepare_design(covariates: pd.DataFrame) -> np.ndarray:
             blocks.append(pd.DataFrame({col: robust_z(numeric)}))
         else:
             text = s.astype("string").fillna("<NA>")
-            if text.nunique(dropna=False) > max(20, len(text) // 4):
-                continue
+            if max_categories is not None:
+                threshold = (
+                    max(int(max_categories), len(text) // 4)
+                    if int(max_categories) == 20
+                    else int(max_categories)
+                )
+                if text.nunique(dropna=False) > threshold:
+                    continue
             blocks.append(pd.get_dummies(text, prefix=col, drop_first=True, dtype=float))
     design = pd.concat(blocks, axis=1) if blocks else pd.DataFrame(index=covariates.index)
     x = design.to_numpy(dtype=float)

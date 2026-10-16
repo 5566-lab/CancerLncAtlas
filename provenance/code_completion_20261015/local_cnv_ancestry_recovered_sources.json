@@ -1,0 +1,73 @@
+{
+  "method": "INSPECTED_NATIVE_SOURCE_RECOVERY_BEFORE_ADAPTATION",
+  "training_started": false,
+  "source_checkout": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1",
+  "records": [
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\cc_hhgt\\stats.py",
+      "destination": "cc_hhgt/stats.py",
+      "source_sha256": "83130c205522b276ccaa2ec5c677cc3a02aa1e5a69991b38b38b9d5ede04e53e",
+      "previous_sha256": "92be6318d192661ead36bb80860ce6407591641c641a8a5f61687b56218a24b3"
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\cc_hhgt\\v32\\local_cnv_confounding.py",
+      "destination": "cc_hhgt/v32/local_cnv_confounding.py",
+      "source_sha256": "878a21ca7146bea8af0077ea41d64c552cc9cf94c705dd081599399aa5c74bec",
+      "previous_sha256": "781b4e7dd184a7952fffc534f5b3bd6e1cc6223d1b362eed0aab494fe33c5d46"
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\cc_hhgt\\v32\\local_cnv_core_preparation.py",
+      "destination": "cc_hhgt/v32/local_cnv_core_preparation.py",
+      "source_sha256": "c085862133449f86e55d13b8f483b38ee8f2133bb9d7898fe9c732dd4ea5ec60",
+      "previous_sha256": "ca029a40d21ff77452dc36b3f71c8c1502bd92159ea638e3e0231f4b5ad814bf"
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\cc_hhgt\\v32\\bulk_coexpression_release.py",
+      "destination": "cc_hhgt/v32/bulk_coexpression_release.py",
+      "source_sha256": "881d8fed7e2cace95c45f39731fedad8f72a61d57711d02f647a1698d26b5f47",
+      "previous_sha256": "17951bdd7288ee1de10f05e7ce7c4265d0d60a5a994f8e5c3e08fe863b1104e8"
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\tests\\test_local_cnv_residualization.py",
+      "destination": "tests/test_local_cnv_residualization.py",
+      "source_sha256": "88da7b9767ed16af5d01392a7100fb1900ceb042623a21d3cccae770ba01d841",
+      "previous_sha256": null
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\tests\\test_v32_covariate_contract.py",
+      "destination": "tests/test_v32_covariate_contract.py",
+      "source_sha256": "0f39433b2d533108d4453769a13b291413a6aed990197880055e12386d28c3f6",
+      "previous_sha256": null
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\scripts\\run_v32_local_cnv_confounding_audit_r2.py",
+      "destination": "scripts/run_v32_local_cnv_confounding_audit_r2.py",
+      "source_sha256": "78c46ebebb2741300dc412c2ed0b18d31273180cf09502d2fcdfd653c4f3f159",
+      "previous_sha256": null
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\scripts\\materialize_v32_local_cnv_validation_associations.py",
+      "destination": "scripts/materialize_v32_local_cnv_validation_associations.py",
+      "source_sha256": "c2b80fc74bc56f506335280943b6a82b1fe6e2406ee4032ad7c757639c6c81ef",
+      "previous_sha256": null
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\scripts\\audit_v32_local_cnv_validation_associations.py",
+      "destination": "scripts/audit_v32_local_cnv_validation_associations.py",
+      "source_sha256": "2f924df1023c8e5c3539fb02b0495257c9f85acba4023fce578860a8d47ccff0",
+      "previous_sha256": null
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\scripts\\finalize_and_audit_v32_local_cnv_r3.py",
+      "destination": "scripts/finalize_and_audit_v32_local_cnv_r3.py",
+      "source_sha256": "86d1ab93532a00988635f54f3112400b101baa503fa33f08e69054bb9aa55e89",
+      "previous_sha256": null
+    },
+    {
+      "source_path": "D:\\model\\CC_HHGT_v32_cc_expansion_20261013_r1\\scripts\\materialize_v32_local_cnv_corrected_graph_authority.py",
+      "destination": "scripts/materialize_v32_local_cnv_corrected_graph_authority.py",
+      "source_sha256": "4e24aae4445a3191d4674d0beefa7aa7d8bd9bbc24ff1fdc2ebd47ef9be28237",
+      "previous_sha256": null
+    }
+  ]
+}

@@ -73,6 +73,7 @@ DEFAULT_COVARIATES = (
     "cell_fraction_Macrophages.M1",
     "cell_fraction_Macrophages.M2",
 )
+COVARIATE_CONTRACT_VERSION = "V32_SHARED_COVARIATES_AUTHORITY_V1"
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -289,7 +290,11 @@ def _covariate_design(
     cancer: str,
     patients: list[str],
     columns: tuple[str, ...],
+    strict_contract: bool | None = None,
 ) -> tuple[np.ndarray, list[str], int]:
+    requested = tuple(columns)
+    if strict_contract is None:
+        strict_contract = requested == tuple(DEFAULT_COVARIATES)
     frame = covariates.loc[
         covariates["cancer_id"].astype(str).eq(cancer)
     ].copy()
@@ -304,10 +309,18 @@ def _covariate_design(
             )
         frame = frame.groupby("patient_id", as_index=False).agg(aggregations)
     frame = frame.set_index("patient_id").reindex(patients)
-    used = [column for column in columns if column in frame.columns]
+    missing_columns = [column for column in requested if column not in frame.columns]
+    if strict_contract and missing_columns:
+        raise RuntimeError(
+            "Declared covariate contract is incomplete: "
+            + ", ".join(missing_columns)
+        )
+    used = [column for column in requested if column in frame.columns]
     missing_patients = int(frame[used].isna().all(axis=1).sum()) if used else len(patients)
     design = (
-        prepare_design(frame[used].reset_index(drop=True))
+        prepare_design(
+            frame[used].reset_index(drop=True), max_categories=None
+        )
         if used
         else np.ones((len(patients), 1), dtype=float)
     )

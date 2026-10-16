@@ -1,0 +1,31 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T01:58:50.663289+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/local_cnv_sources.py": "65be43746a0a1a22e66b33626a0e1b96eab245a1bf25c2b65d5bcc652d30a1a2",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "fad3060a4e2ee2838b12529f8723bb82d4d0990d5515cf23007d55b972a175b7",
+    "cc_hhgt/v32/current_cnv_model_use.py": "cb44c99f211540d33dcf767e432c843031055b0ea1a0012d0395920910707256",
+    "cc_hhgt/v32/current_core_model_use.py": "50bab4d0c067d3616f3fe2134d79889246ed312dda55ff796d3f3fb21163fab7",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "cca969cda2d24c54f4862a3679ab1309d020658059e08f1c8ca2730db420ae8b",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "b85b345280ee5aad8e5e59bab2f1cf3f17bb8ef61c0b82f4d542f23d45d9a89b",
+    "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "94c9b24f453008497d8d01ad15bb5c7c9ac01e42e56ba659c54ed619291e21da",
+    "scripts/finalize_and_audit_v32_local_cnv_r3.py": "0de64188a4ec782f026cb66fa078f557a5d71edca2d6ae3b4dffd5dd59a3378b",
+    "scripts/audit_v32_local_cnv_validation_associations.py": "740d51e169f0a639e4b3b28d0543d73d1b7ee909f78dcb5b513000ecc01f16d7",
+    "tests/test_v32_local_cnv_source_ancestry.py": "3fb16a07ee568a97852178552e7840e3042e4de273440df7d380372037d0073b"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_local_cnv_source_ancestry.py",
+    "tests/test_stats.py",
+    "tests/test_v32_directional_cnv.py",
+    "--junitxml=provenance/code_completion_20261015/local_cnv_ancestry_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T01:59:33.734660+00:00"
+}

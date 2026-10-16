@@ -1,0 +1,23 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T01:54:40.513751+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/local_cnv_sources.py": "e40e86a21cfcd93052fdf2b47c05172c6632babbb140135236d9383d941ea5dd",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "a7346c2dd06ac6948ede61d160d9f2a6290164224c389ee2b4c5afea350cdfe2",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "929795a3e0e33868362da14a5d9e05c4fe3d5f349c40b6e44f1b748f43cb37a5",
+    "tests/test_v32_local_cnv_source_ancestry.py": "6aca4a0a744c2957c9461d7ca05fd6146c410026c5f178b93bf493527e4498b2"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_local_cnv_source_ancestry.py",
+    "--junitxml=provenance/code_completion_20261015/local_cnv_ancestry_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T01:55:30.649392+00:00"
+}

@@ -1,0 +1,76 @@
+{
+  "method": "RECOVER_NATIVE_LOCAL_CNV_TRANSFORMATIONS_AND_TRACE_ACTUAL_CONSUMED_INPUTS",
+  "successful_validation_receipts": [
+    "local_cnv_ancestry_r4",
+    "local_cnv_ancestry_r5",
+    "local_cnv_ancestry_regression_r1",
+    "local_cnv_ancestry_web_r1"
+  ],
+  "intermediate_successful_receipts": [
+    "local_cnv_ancestry_r1",
+    "local_cnv_ancestry_r2",
+    "local_cnv_ancestry_r3"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/stats.py",
+    "cc_hhgt/v32/bulk_coexpression_release.py",
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_cnv_model_use.py",
+    "cc_hhgt/v32/current_core_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/directional_cnv.py",
+    "cc_hhgt/v32/local_cnv_confounding.py",
+    "cc_hhgt/v32/local_cnv_core_preparation.py",
+    "cc_hhgt/v32/local_cnv_sources.py",
+    "cc_hhgt/v32/preparation_sources.py",
+    "scripts/audit_v32_local_cnv_validation_associations.py",
+    "scripts/finalize_and_audit_v32_local_cnv_r3.py",
+    "scripts/materialize_v32_local_cnv_corrected_graph_authority.py",
+    "scripts/materialize_v32_local_cnv_validation_associations.py",
+    "scripts/prepare_v32_formal.py",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py",
+    "tests/test_local_cnv_residualization.py",
+    "tests/test_v32_bulk_coexpression.py",
+    "tests/test_v32_covariate_contract.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_local_cnv_core_preparation.py",
+    "tests/test_v32_local_cnv_source_ancestry.py",
+    "tests/test_v32_preparation_sources.py"
+  ],
+  "source_recovery_receipt": {
+    "path": "local_cnv_ancestry_recovered_sources.json",
+    "sha256": "91fc0a024fce51436e6e8ea41e7607aa0165730f29c1844c86cb11ca13fad403"
+  },
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "synthetic_statistical_calculations_executed": true,
+  "fixture_frozen_core_forwards_executed": true,
+  "inventory_model_forwards_executed": false,
+  "full_33_cancer_closeout_executed": false,
+  "bulk_kmeans_suite_executed": false,
+  "raw_study_provenance_reconstructed": false,
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "transport_events": "r2 and r4 pytest completed successfully; the subsequent multi-source SCP download failed with a banner error. Read-only SSH probes returned 149, and existing receipts were retrieved. The coordinator now retrieves each receipt set with one wildcard SCP source. No completed test job was restarted for transport failure.",
+  "captured_browser_receipt": {
+    "path": "local_cnv_ancestry_web_browser_receipt.json",
+    "sha256": "5b613c90fe95d8146ecc92ac8cd67a142abf89d8ffb98cde3b2545519c49d036"
+  },
+  "captured_screenshots": [
+    {
+      "path": "local_cnv_ancestry_web_desktop.png",
+      "sha256": "0502d933296c75768327f74a987df72696cbf320ad35c75101f427a4e3c93c55"
+    },
+    {
+      "path": "local_cnv_ancestry_web_mobile.png",
+      "sha256": "ab80b5ba735781fe4a01db3e01c6e3bba63556dc26cdc5674e8c4ec7d9683c22"
+    }
+  ]
+}

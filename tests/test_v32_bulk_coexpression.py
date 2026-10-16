@@ -12,6 +12,7 @@ from cc_hhgt.v32.bulk_coexpression_query import (
     BulkCoexpressionReleaseQuery,
 )
 from cc_hhgt.v32.bulk_coexpression_release import (
+    DEFAULT_COVARIATES,
     artifact_sha256,
     materialize_bulk_coexpression_release,
 )
@@ -81,6 +82,8 @@ def _fixture(tmp_path: Path) -> dict[str, Path | str]:
             "stage": ["I", "II", "III"] * (n // 3),
         }
     )
+    for column in DEFAULT_COVARIATES:
+        if column not in covariates:covariates[column]=0.
     cov_path = tmp_path / "covariates.parquet"
     covariates.to_parquet(cov_path, index=False)
     candidates = pd.DataFrame(
