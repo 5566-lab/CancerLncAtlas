@@ -1,0 +1,25 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T01:35:00.337857+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/patient_source_identity.py": "b1d2c48e351f2881fd95ab81f8c9bdff6c9c3ad69ce7980aa43549abd5602766",
+    "cc_hhgt/v32/current_model_use.py": "9db1cf0601f86f52329aecd18381f596fd783d526e96dd25d8942a82626a82fd",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "0d3382d95f9742d1776a2fb89df7f8b78c850ee29202a6fc2322bd03d2e1a4c5",
+    "cc_hhgt/v32/current_single_cell_model_use.py": "4f6defa9b953de9fc003448a0192b040725e014db85486581da81c9546a3a899"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_preparation_sources.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_single_cell_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/patient_identity_regression_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T01:36:29.357085+00:00"
+}

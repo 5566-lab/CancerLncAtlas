@@ -123,6 +123,7 @@ def evaluate_manifest(path):
     if manifest.get("format") not in {"CURRENT_EXTERNAL_VALIDATION_INPUT_V1","CURRENT_EXTERNAL_VALIDATION_INPUT_V2"}:
         raise ValueError("Unknown current external evaluation manifest")
     if not native_use and "model_use_inventory" in manifest:raise ValueError("Native model-use binding requires external input V2")
+    if not native_use and "patient_identity_crosswalk" in manifest:raise ValueError("Patient isolation requires native external input V2")
     maps = identity_maps(read_table(verified_path(manifest["identity_crosswalk"], root)))
     models = {}; model_sources = []; producer_cache = {}
     for spec in manifest["models"]:
@@ -149,7 +150,11 @@ def evaluate_manifest(path):
         dependency_complete=use_binding["model_use_inventory_completeness_verified"]
         dependency_hashes=derived["dependencies"].sha256
     usage=pd.concat(frames,ignore_index=True)
-    observations = read_sources(manifest["external_sources"], maps, root)
+    patients=None
+    if native_use:
+        from .patient_source_identity import ExternalPatientIsolation
+        patients=ExternalPatientIsolation(manifest.get("patient_identity_crosswalk"),root,use_binding,derived)
+    observations = read_sources(manifest["external_sources"], maps, root,patients=patients)
     if observations.empty: raise ValueError("No external source records were registered")
     isolated, used = isolate_sources(observations, usage,dependency_complete=dependency_complete,dependency_hashes=dependency_hashes)
     settings = manifest["evaluation"]
@@ -160,6 +165,7 @@ def evaluate_manifest(path):
     if native_use:
         coverage["independence_scope"]=SCOPE
         tables.update(model_dependencies=derived["dependencies"].drop(columns="path"),model_dependency_gaps=derived["gaps"])
+        tables.update(patient_mapping=derived["patient_mapping"],patient_context_overlap=derived["patient_context_overlap"])
     return manifest,tables,model_sources
 
 
@@ -181,10 +187,11 @@ def materialize_current_external(manifest_path, output):
     native_binding=None;scope="REGISTERED_MODEL_USE_ONLY"
     implementation_files=[__file__,external_validation_sources.__file__,external_validation_metrics.__file__]
     if native_use:
-        from . import current_model_use
+        from . import current_model_use,patient_source_identity
         source=verified_path(manifest["model_use_inventory"],manifest_path.parent)
         native_binding={"path":str(source),"sha256":sha256(source)};scope=current_model_use.SCOPE
         implementation_files.append(current_model_use.__file__)
+        implementation_files.append(patient_source_identity.__file__)
     implementation = {str(Path(p).resolve()): sha256(Path(p)) for p in
         implementation_files}
     binding = {"format": "CURRENT_EXTERNAL_VALIDATION_RELEASE_V2" if native_use else "CURRENT_EXTERNAL_VALIDATION_RELEASE_V1", "status": "PASS", "target_host": "149",
@@ -215,7 +222,16 @@ def _load_binding(path, expected_sha):
         raise ValueError("Invalid external evaluation binding")
     if binding["format"]=="CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":verified_path(binding["native_model_use_inventory"],path.parent)
     elif binding.get("native_model_use_inventory") is not None:raise ValueError("Legacy external release has a hidden native inventory")
+    allowed={"isolation","model_use","metrics","details","coverage"}
+    if binding["format"]=="CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":
+        allowed|={"model_dependencies","model_dependency_gaps","patient_mapping","patient_context_overlap"}
+    if not set(binding["outputs"])<=allowed or any(r.get("private") is True for r in binding["outputs"].values()):
+        raise ValueError("External release may publish only approved aggregate tables")
     outputs = {name: verified_path(record, path.parent) for name, record in binding["outputs"].items()}
+    import pyarrow.parquet as pq
+    private_columns={"patient_token","canonical_patient_id","patient_id","sample_id","donor_id","query_donor_id","canonical_donor_id"}
+    if any(private_columns & set(pq.ParquetFile(file).schema_arrow.names) for file in outputs.values()):
+        raise ValueError("External public tables contain private patient identity columns")
     return path, binding, outputs
 
 
@@ -257,7 +273,8 @@ class CurrentExternalValidationQuery:
             raise ValueError("Invalid external pagination")
         filters = filters or {}
         allowed = {"cancer_id", "lncrna_id", "pathway_id", "source_id", "source_group", "endpoint", "isolation_scope", "model_id", "baseline_model_id", "metric",
-                   "phase", "use_view", "role", "reason", "status", "dependency_context"}
+                   "phase", "use_view", "role", "reason", "status", "dependency_context","source_role","patient_identity_status",
+                   "left_model_id","right_model_id","left_dependency_context","right_dependency_context"}
         if not set(filters).issubset(allowed) or not all(isinstance(v, str) for v in filters.values()):
             raise ValueError("External filters require exact string identities")
         connection = duckdb.connect()

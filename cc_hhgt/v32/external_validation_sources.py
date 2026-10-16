@@ -134,13 +134,17 @@ def normalize_source(frame, spec, maps, *, usage=False):
     return result
 
 
-def read_sources(specs, maps, root, *, usage=False):
+def read_sources(specs, maps, root, *, usage=False,patients=None):
     if not specs or len({s["source_id"] for s in specs}) != len(specs): raise ValueError("Source declarations must be nonempty and unique")
     frames = []
     for spec in specs:
         if not text(spec["source_id"]): raise ValueError("Missing source identity")
         path = verified_path(spec["table"], root)
-        frames.append(normalize_source(read_table(path), spec, maps, usage=usage))
+        raw=read_table(path);normalized=normalize_source(raw,spec,maps,usage=usage)
+        if patients is not None:
+            annotations=patients.annotate(raw,spec,path=path)
+            for column in annotations:normalized[column]=annotations[column].to_numpy()
+        frames.append(normalized)
     return pd.concat(frames, ignore_index=True)
 
 
@@ -164,8 +168,12 @@ def isolate_sources(external, usage, *, dependency_complete=None, dependency_has
     evaluated["pair_overlap"] = [lnc in used_unspecified_pair or (lnc, pathway) in used_pairs
         or (not pathway and lnc in used_lnc) for lnc, pathway in evaluated[["lncrna_id", "pathway_id"]].itertuples(index=False, name=None)]
     evaluated["descriptive_eligible"] = evaluated.mapped & evaluated.is_experimental & ~evaluated.is_predicted & evaluated.label.notna()
+    patient_checked="patient_overlap" in evaluated
+    patient_ready=(evaluated.external_patient_identity_complete.fillna(False)
+                   & evaluated.registered_patient_mapping_complete.fillna(False)
+                   & ~evaluated.patient_overlap.fillna(False)) if patient_checked else True
     evaluated["provenance_held_out"] = (evaluated.descriptive_eligible & evaluated.provenance_verified & complete
-        & ~evaluated.study_overlap & ~evaluated.source_file_overlap)
+        & ~evaluated.study_overlap & ~evaluated.source_file_overlap & patient_ready)
     evaluated["pair_held_out"] = evaluated.provenance_held_out & entity_complete & ~evaluated.pair_overlap
     evaluated["lncrna_held_out"] = evaluated.provenance_held_out & entity_complete & ~evaluated.lncrna_overlap
     def reasons(row):
@@ -176,6 +184,11 @@ def isolate_sources(external, usage, *, dependency_complete=None, dependency_has
             ("NATIVE_DEPENDENCIES_INCOMPLETE", dependency_complete is False),
             ("MODEL_USE_ENTITY_INCOMPLETE", not entity_complete),
             ("SOURCE_FILE_OVERLAP", row.source_file_overlap), ("PAIR_OVERLAP", row.pair_overlap),
-            ("LNCRNA_OVERLAP", row.lncrna_overlap)) if condition])
+            ("LNCRNA_OVERLAP", row.lncrna_overlap),
+            ("PATIENT_OVERLAP",patient_checked and bool(row.patient_overlap)),
+            ("EXTERNAL_PATIENT_IDENTITY_INCOMPLETE",patient_checked and not bool(row.external_patient_identity_complete)),
+            ("REGISTERED_PATIENT_MAPPING_INCOMPLETE",patient_checked and not bool(row.registered_patient_mapping_complete))) if condition])
     evaluated["isolation_reasons_json"] = [reasons(row) for row in evaluated.itertuples()]
+    used=used.drop(columns=["patient_overlap","overlapping_patient_count","external_patient_identity_complete",
+        "registered_patient_mapping_complete","patient_identity_status"],errors="ignore")
     return evaluated.reset_index(drop=True), used.reset_index(drop=True)

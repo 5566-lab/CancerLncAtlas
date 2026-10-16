@@ -185,6 +185,12 @@ def inspect_signed_sources(inventory,native,inputs,outputs,model,role):
                     inventory.authority({"path":batch.get("provenance",""),"sha256":digest},descriptor.static_path.parent,
                         model,role+".external_graph_source",fold)
             phase={"fit":"TRAINING","validation":"MODEL_SELECTION","query":"FEATURE_CONSTRUCTION"}[descriptor.role]
+            inventory.patient_use.observe([loaded.rows[["query_donor_id"]]],digest=descriptor.record["sha256"],
+                model=model,context=inventory.context_id,role="SC_HHGT_EPISODE_TARGET_DONORS",fold=fold,phase=phase,
+                scope="ACTUAL_NATIVE_EPISODE_TARGET_ROWS")
+            inventory.patient_use.observe([pd.DataFrame({"source_donors":list(loaded.source_donors)})],
+                digest=descriptor.record["sha256"],model=model,context=inventory.context_id,
+                role="SC_HHGT_EPISODE_FEATURE_DONORS",fold=fold,scope="ACTUAL_NATIVE_EPISODE_FEATURE_DONORS")
             inventory.entities(loaded.rows,model=model,fold=fold,phase=phase,view="SC_HHGT_"+descriptor.role.upper(),digest=descriptor.record["sha256"])
             ids=static.get("node_identifiers",{}).get("lncRNA")
             if ids is not None:

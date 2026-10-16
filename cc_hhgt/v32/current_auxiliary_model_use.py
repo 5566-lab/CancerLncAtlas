@@ -44,6 +44,8 @@ def input_source(inventory,item,root,model,role,fold=-1):
     from .preparation_sources import source_members,canonical_sha
     for member in source_members(path,"table"):
         inventory.bind(member,path.parent,model,role+".consumed_file",fold)
+        inventory.patient_use.table(member["path"],digest=member["sha256"],model=model,context=inventory.context_id,
+            role=role,fold=fold,scope="WHOLE_REGISTERED_NATIVE_INPUT_NOT_ALL_ROWS_FITTED")
         tokens=member["study_tokens"]
         if not tokens:inventory.gap(model,role,"SOURCE_STUDY_METADATA_ABSENT",fold,member["sha256"])
         identity=stable_id("",[model,fold,role,member["sha256"],inventory.context_id])

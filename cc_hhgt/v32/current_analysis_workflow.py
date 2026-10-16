@@ -159,7 +159,10 @@ def run_current_analysis_workflow(manifest_path,output):
                         from .current_model_use import INPUT_FORMAT as USE_INPUT,materialize_current_model_use
                         stage="model_use"
                         use_input=inputs/"model_use.json"
-                        write(use_input,{"format":USE_INPUT,"models":resolved["models"]})
+                        use_payload={"format":USE_INPUT,"models":resolved["models"]}
+                        if "patient_identity_crosswalk" in resolved:
+                            use_payload["patient_identity_crosswalk"]=resolved["patient_identity_crosswalk"]
+                        write(use_input,use_payload)
                         sources[str(use_input)]=record(use_input)
                         use_result=materialize_current_model_use(use_input,output/"model_use")
                         refs["model_use"]=record(Path(use_result["binding_path"]))

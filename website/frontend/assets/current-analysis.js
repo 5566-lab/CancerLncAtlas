@@ -17,6 +17,12 @@
     dose_context_coverage:"剂量分析覆盖",summary:"规则证据汇总",source_events:"来源事件",source_coverage:"来源覆盖",
     events:"候选证据事件",contexts:"实验背景",metrics:"评价指标",coverage:"评价覆盖",details:"逐项评价",isolation:"来源隔离",model_use:"模型使用来源与输入实体",
     model_dependencies:"模型输入文件核对",model_dependency_gaps:"尚未追溯的来源",
+    patient_mapping:"患者身份映射覆盖",patient_context_overlap:"模块间患者重叠",
+    patient_overlap:"患者身份重叠",overlapping_patient_count:"重叠患者数",
+    external_patient_identity_complete:"外部身份映射完整",registered_patient_mapping_complete:"已记录身份映射完整",
+    patient_identity_status:"患者核对状态",observed_identity_count:"已记录身份数",mapped_identity_count:"已映射身份数",
+    unmapped_identity_count:"未映射身份数",shared_patient_count:"已确认共同患者数",source_role:"来源用途",exposure_scope:"使用范围",
+    left_model_id:"模型 A",right_model_id:"模型 B",left_dependency_context:"模块 A",right_dependency_context:"模块 B",interpretation:"解释范围",
     phase:"使用阶段",use_view:"原生输入用途",candidate_rows:"候选记录数",entity_scope:"实体排除范围",role:"依赖用途",reason:"未解析原因",status:"核对状态",
     study_tokens_json:"研究来源标识",study_id:"关联研究组",study_overlap:"研究来源重叠",
     dependency_context:"评分、比较或辅助模型",
@@ -90,7 +96,9 @@
     "mean_oof_slope","oof_rows","oof_folds_pass","oof_rmse","oof_baseline_rmse","oof_delta_mse","oof_r2","oof_prediction_correlation",
     "distal_regulatory_mutation_pathway_available","distal_regulatory_mutation_pathway_unavailable_reason","positive_slope_members","negative_slope_members",
     "member_coverage","selected_weight_coverage","summary_available","availability","available","availability_reason","unavailable_reason","failure_reason","metric","value","estimate",
-    "model_id","source_id","phase","use_view","candidate_rows","entity_scope","role","reason","status","study_tokens_json","study_overlap","dependency_context"];
+    "model_id","source_id","phase","use_view","candidate_rows","entity_scope","role","reason","status","study_tokens_json","study_overlap","dependency_context",
+    "patient_overlap","overlapping_patient_count","patient_identity_status","observed_identity_count","mapped_identity_count","unmapped_identity_count",
+    "left_model_id","left_dependency_context","right_model_id","right_dependency_context","shared_patient_count"];
   const statusLabels = {AVAILABLE:"可查询",NOT_PRODUCED:"尚未生成",SOURCE_UNAVAILABLE:"来源不可用",NOT_APPLICABLE:"不适用"};
   let catalog, active, selectedTable, offset = 0, rows = [], requestId = 0, controller;
   let drugOffset = 0, drugRequest = 0;
@@ -106,6 +114,10 @@
   function display(value) {
     if(value===null||value===undefined)return "不可用";
     if(typeof value==="boolean")return value?"是":"否";
+    const patientStatus={MAPPED:"身份已映射",NO_IDENTITY_COLUMNS:"来源未记录患者身份",IDENTITY_MAPPING_INCOMPLETE:"身份映射未完成",
+      NO_RECORDED_IDENTITIES:"未记录患者身份",MAPPING_INCOMPLETE:"身份映射未完成",
+      LOWER_BOUND_FROM_MAPPED_IDENTITIES_NOT_A_FOLD_LEAKAGE_ATTESTATION:"已映射身份中的重叠下限；不代表折泄漏判定"};
+    if(typeof value==="string"&&patientStatus[value])return patientStatus[value];
     if(typeof value==="number")return value===0?"0":Number.isInteger(value)?value.toLocaleString():Math.abs(value)<.0001?value.toExponential(3):Number(value.toPrecision(6)).toString();
     return typeof value==="object"?JSON.stringify(value):String(value);
   }

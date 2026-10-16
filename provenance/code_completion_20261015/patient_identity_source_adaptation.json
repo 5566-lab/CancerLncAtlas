@@ -1,0 +1,66 @@
+{
+  "method": "FILE_SCOPED_PATIENT_IDENTITY_NATIVE_EXPOSURE_AND_EXTERNAL_EXCLUSION",
+  "successful_validation_receipts": [
+    "patient_identity_r4",
+    "patient_identity_regression_r1",
+    "patient_identity_core_r1",
+    "patient_identity_web_r1"
+  ],
+  "historical_intermediate_receipts": [
+    "patient_identity_r1",
+    "patient_identity_r2",
+    "patient_identity_r3"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_analysis_web.py",
+    "cc_hhgt/v32/current_analysis_workflow.py",
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_cnv_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/current_single_cell_model_use.py",
+    "cc_hhgt/v32/external_validation_current.py",
+    "cc_hhgt/v32/external_validation_sources.py",
+    "cc_hhgt/v32/patient_source_identity.py",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_patient_source_identity.py",
+    "website/frontend/assets/current-analysis.js"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "fixture_frozen_core_export_forwards_executed": true,
+  "inventory_model_forwards_executed": false,
+  "raw_study_provenance_reconstructed": false,
+  "model_use_inventory_completeness_verified": false,
+  "patient_identity_scope": "EXPLICIT_FILE_SHA256_COLUMN_RAW_ID_WITH_SHARED_NAMESPACE",
+  "public_alias_count_unit": "DISTINCT_IDENTITY_COLUMN_AND_RAW_ID",
+  "public_patient_overlap_unit": "UNIQUE_MAPPED_PATIENTS_LOWER_BOUND",
+  "cross_module_fold_leakage_attested": false,
+  "full_patient_coverage_attested": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "initial_test_failures": [
+    "External-only patient annotations became all-null columns in native model-use records; replay saw None versus NaN. These annotations are now confined to external observations.",
+    "The synthetic compact CNV fixture used noncanonical lowercase patient IDs while actual native fold lookup used uppercase. The fixture now follows the native canonicalization; production row matching was not weakened."
+  ],
+  "captured_browser_receipt": {
+    "path": "patient_identity_web_browser_receipt.json",
+    "sha256": "a3730f6746c32b4014be9e09b0fd8906b23181766d45eee61e62492f4c2466c2"
+  },
+  "captured_screenshots": [
+    {
+      "path": "patient_identity_web_desktop.png",
+      "sha256": "32dca7509c61cb71ba126c9799b849c00cfdc07f3cb4d9acedf1d9f70f935e92"
+    },
+    {
+      "path": "patient_identity_web_mobile.png",
+      "sha256": "a31e575fb43abe93fe24522bd60ef1f6a00f25a9d88a63222870721fad71e21b"
+    }
+  ]
+}

@@ -49,6 +49,7 @@ def implementations():
         "cc_hhgt/v32/multimodal_fusion.py",
         "cc_hhgt/v32/current_single_cell_model_use.py","cc_hhgt/v32/single_cell_signed_fusion.py",
         "cc_hhgt/v32/current_core_model_use.py","cc_hhgt/v32/integrated_model.py",
+        "cc_hhgt/v32/patient_source_identity.py",
         "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
         "cc_hhgt/v32/cnv_only_training.py","cc_hhgt/v32/cnv_only_training_v2.py",
         "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py",
@@ -70,9 +71,14 @@ def model_identities(models,root):
 
 
 class Inventory:
-    def __init__(self,locations,root):
+    def __init__(self,locations,root,patient_crosswalk=None):
         self.sources={};self.dependencies=[];self.gaps=[];self.usage=[];self.visited=set();self.locations={};self.used_locations=set()
         self.context_id="SELECTED_SCORE"
+        from .patient_source_identity import IdentityMap,PatientUse
+        self.patient_use=PatientUse(IdentityMap(patient_crosswalk,root))
+        if patient_crosswalk is not None:
+            path=self.patient_use.mapper.path
+            self.sources[str(path)]={"path":str(path),"sha256":patient_crosswalk["sha256"]}
         for item in locations:
             path=verified_source(item,root);digest=item["sha256"]
             if digest in self.locations:raise ValueError("Duplicate model-use artifact location")
@@ -161,6 +167,9 @@ class Inventory:
                 self.bind(member,path.parent,model,label+".consumed_file",fold)
                 tokens=member["study_tokens"]
                 if item["kind"]=="control":continue
+                self.patient_use.table(member["path"],digest=member["sha256"],model=model,context=self.context_id,
+                    role=label,fold=fold,phase="MODEL_SELECTION" if role=="validation_associations" else "FEATURE_CONSTRUCTION",
+                    scope="WHOLE_CONSUMED_FILE_NOT_ALL_ROWS_FITTED")
                 if not tokens:self.gap(model,label,"SOURCE_STUDY_METADATA_ABSENT",fold,member["sha256"])
                 phases=["MODEL_SELECTION"] if role=="validation_associations" else ["FEATURE_CONSTRUCTION"]
                 if role in {"train_associations","expression","activity"}:phases.append("TRAINING")
@@ -349,16 +358,17 @@ class Inventory:
 
 def derive_manifest(path):
     path=Path(path).resolve();manifest=read(path)
-    if set(manifest)-{"format","models","artifact_locations"} or manifest.get("format")!=INPUT_FORMAT:
+    if set(manifest)-{"format","models","artifact_locations","patient_identity_crosswalk"} or manifest.get("format")!=INPUT_FORMAT:
         raise ValueError("Invalid native model-use input")
     identities=model_identities(manifest["models"],path.parent)
-    inventory=Inventory(manifest.get("artifact_locations",[]),path.parent)
+    inventory=Inventory(manifest.get("artifact_locations",[]),path.parent,manifest.get("patient_identity_crosswalk"))
     inventory.sources[str(path)]=record(path)
     for spec in manifest["models"]:inventory.producer(spec,path.parent,spec["model_id"])
     if set(inventory.locations)!=inventory.used_locations:raise ValueError("Unused model-use artifact locator is not a proven dependency")
     tables={"usage":pd.DataFrame(inventory.usage,columns=SOURCE_COLUMNS+EXTRA),
         "dependencies":pd.DataFrame(inventory.dependencies,columns=DEPENDENCIES).drop_duplicates().reset_index(drop=True),
         "gaps":pd.DataFrame(inventory.gaps,columns=GAPS).drop_duplicates().reset_index(drop=True)}
+    tables.update(inventory.patient_use.tables())
     for field in ("mapped","is_experimental","is_predicted"):tables["usage"][field]=tables["usage"][field].astype(bool)
     tables["usage"]["label"]=tables["usage"]["label"].astype(float)
     for source in inventory.sources.values():verified_source(source,path.parent)
@@ -369,13 +379,15 @@ def materialize_current_model_use(manifest_path,output):
     if socket.gethostname()!="149":raise RuntimeError("Model-use preparation requires host 149")
     source=Path(manifest_path).resolve();output=Path(output).resolve();output.mkdir(parents=True,exist_ok=False)
     write(output/"LAUNCH_PREFLIGHT.json",{"target_host":"149","training_started":False,"input_manifest":record(source)})
-    _,models,tables,sources=derive_manifest(source);outputs={}
+    manifest,models,tables,sources=derive_manifest(source);outputs={}
     for name,frame in tables.items():
-        path=output/(name.upper()+".parquet");frame.to_parquet(path,index=False);outputs[name]={**record(path),"rows":len(frame)}
+        path=output/(name.upper()+".parquet");frame.to_parquet(path,index=False);outputs[name]={**record(path),"rows":len(frame),
+            "private":name=="patient_usage_private"}
     binding={"format":FORMAT,"status":"PASS_DERIVED_INVENTORY","target_host":"149","input_manifest":record(source),
         "models":models,"outputs":outputs,"source_inputs":sources,"implementation_sha256":implementations(),
         "isolation_scope":SCOPE,"model_use_inventory_completeness_verified":False,"independent_external_validation_attested":False,
         "raw_study_provenance_reconstructed":False,"model_forwards_executed":False,"training_started":False}
+    binding["patient_identity_namespace"]=manifest.get("patient_identity_crosswalk",{}).get("namespace")
     path=output/"MODEL_USE_BINDING.json";write(path,binding)
     audit=audit_current_model_use(path,expected_sha=sha256(path));ap=output/"RECOMPUTATION_AUDIT.json";write(ap,audit)
     result={"status":"PASS_DERIVED_INVENTORY","binding_path":str(path),"binding_sha256":sha256(path),
@@ -390,6 +402,8 @@ def load_current_model_use(path,*,expected_sha,models=None,root=None,replay=True
         if binding.get(name) is not False:raise ValueError("Native model-use inventory makes an unsupported completeness claim")
     if models is not None and binding["models"]!=model_identities(models,root or path.parent):raise ValueError("Model-use inventory belongs to different evaluated models")
     if binding["implementation_sha256"]!=implementations():raise ValueError("Model-use implementation changed")
+    if binding["outputs"].get("patient_usage_private",{}).get("private") is not True:
+        raise ValueError("Patient identity usage must remain private")
     for source in binding["source_inputs"]:verified_source(source,path.parent)
     tables={name:pd.read_parquet(verified_path(item,path.parent)) for name,item in binding["outputs"].items()}
     if replay:
@@ -402,7 +416,9 @@ def load_current_model_use(path,*,expected_sha,models=None,root=None,replay=True
 def audit_current_model_use(path,*,expected_sha):
     if socket.gethostname()!="149":raise RuntimeError("Model-use replay requires host 149")
     path=Path(path).resolve();binding,tables=load_current_model_use(path,expected_sha=expected_sha,replay=False)
-    _,models,expected,sources=derive_manifest(verified_path(binding["input_manifest"],path.parent))
+    manifest,models,expected,sources=derive_manifest(verified_path(binding["input_manifest"],path.parent))
+    if binding.get("patient_identity_namespace")!=manifest.get("patient_identity_crosswalk",{}).get("namespace"):
+        raise ValueError("Native patient identity namespace differs from input")
     if models!=binding["models"] or sources!=binding["source_inputs"] or set(tables)!=set(expected):raise ValueError("Native model-use provenance drift")
     for name,frame in expected.items():
         try:pd.testing.assert_frame_equal(tables[name],frame,check_dtype=False,check_exact=True)

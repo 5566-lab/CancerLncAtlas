@@ -1,0 +1,35 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T01:29:12.984271+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/patient_source_identity.py": "b1d2c48e351f2881fd95ab81f8c9bdff6c9c3ad69ce7980aa43549abd5602766",
+    "cc_hhgt/v32/current_model_use.py": "9db1cf0601f86f52329aecd18381f596fd783d526e96dd25d8942a82626a82fd",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "0d3382d95f9742d1776a2fb89df7f8b78c850ee29202a6fc2322bd03d2e1a4c5",
+    "cc_hhgt/v32/current_cnv_model_use.py": "9ab70e792cda98c4ebff3bd25e123637b2055d16617556d7be0326ae8f1551ea",
+    "cc_hhgt/v32/current_single_cell_model_use.py": "4f6defa9b953de9fc003448a0192b040725e014db85486581da81c9546a3a899",
+    "cc_hhgt/v32/external_validation_sources.py": "52a7aa35506c6f4c5d94177797618cc97bd98ded0322140be9bfcbc2a79c1535",
+    "cc_hhgt/v32/external_validation_current.py": "dadf124476efdcf88c86fb46266f46aaefab27c8b3e5977061e37543fdaac4df",
+    "cc_hhgt/v32/current_analysis_workflow.py": "1ea88912d0a66bd31443d35b36e336f0ca1214701a1990ce0a929197690c569c",
+    "cc_hhgt/v32/current_analysis_web.py": "999bf22071f14b5e9b9d8db4f0425fa8555ebd31777b31da7d3b97204d9f2b9d",
+    "website/frontend/assets/current-analysis.js": "e92eb7f48c4df9f365d314153f55eb4ec9f40ee3ed3201a0a6684f2dcf67b563",
+    "tests/test_v32_patient_source_identity.py": "ff3e4a0d6095c5cbcfb346ad79ca95c3faca5c29448fed1ec35098ed80270c47",
+    "tests/test_v32_cnv_input_sources.py": "90c9c819eaab078ab0400e9f1fbd00a05def90408b19fa1add9b149478626bd0",
+    "tests/test_v32_current_analysis_web.py": "f015f8a176b439a66864f2a9a599f2bd91f073e278a0e3a805dd249281a4b39c"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_patient_source_identity.py",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_current_external_validation.py",
+    "--junitxml=provenance/code_completion_20261015/patient_identity_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T01:30:19.788482+00:00"
+}

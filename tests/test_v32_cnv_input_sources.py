@@ -9,7 +9,7 @@ import pytest
 import torch
 
 from cc_hhgt.v32.cnv_input_sources import SourceCapture, ARRAYS, validate_consumed_sources
-from cc_hhgt.v32.cnv_only_training import CompactCNV, write_cnv_event_oof_manifest
+from cc_hhgt.v32.cnv_only_training import CompactCNV, write_cnv_event_oof_manifest, _canonical_patient
 from cc_hhgt.v32.cnv_only_training_v2 import DirectionalCompactCNV, _formal_labels, EXPECTED_ASSOCIATION_RUN_ID
 from cc_hhgt.v32.current_model_use import read, write, record, derive_manifest, materialize_current_model_use
 from cc_hhgt.v32.native_auxiliary_fusion import Sources, native_sources
@@ -44,7 +44,7 @@ def attach_consumed(path):
     aggregate={"status":"SUCCESS","cancers":{}}
     for cancer,local in candidates.groupby("cancer_id"):
         partition=root/f"compact_{cancer}";partition.mkdir()
-        ids={"patient_ids":folds.loc[folds.cancer_id.eq(cancer),"patient_id"].tolist(),
+        ids={"patient_ids":folds.loc[folds.cancer_id.eq(cancer),"patient_id"].map(_canonical_patient).tolist(),
              "lncrna_ids":local.lncrna_id.unique().tolist(),"pathway_ids":local.pathway_id.unique().tolist()}
         for name,value in ids.items():write(partition/(name+".json"),value)
         for name in ARRAYS[kind]:

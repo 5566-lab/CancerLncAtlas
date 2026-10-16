@@ -100,6 +100,13 @@ def web_release(tmp_path_factory,current_sources):
         template=external_fixture(source_root/"external",current_sources[1],input_only=True);data=read_json(template)
         data["models"][0]["producer_binding"]={"workflow_ref":"selected_score"}
         data["format"]="CURRENT_EXTERNAL_VALIDATION_INPUT_V2"
+        observed=Path(data["external_sources"][0]["table"]["path"])
+        pd.read_parquet(observed).assign(patient_id="WEB_PRIVATE_PATIENT").to_parquet(observed,index=False)
+        data["external_sources"][0]["table"]=record(observed)
+        identities=source_root/"external/patient_identity.parquet"
+        pd.DataFrame({"source_file_sha256":[sha256(observed)],"identity_column":["patient_id"],
+            "raw_id":["WEB_PRIVATE_PATIENT"],"canonical_patient_id":["WEB_PRIVATE_CANONICAL"]}).to_parquet(identities,index=False)
+        data["patient_identity_crosswalk"]={**record(identities),"namespace":"SYNTHETIC_WEB_PATIENTS"}
         data["model_use_inventory"]={"derive_from_native_models":True};write(template,data)
         components["external"]={"status":"BUILD","input_manifest":record(template)}
         selected_input=read_json(Path(read_json(current_sources[1])["input_manifest"]["path"]))
@@ -160,6 +167,12 @@ def test_workflow_builds_native_contexts_and_records_actual_public_schemas(web_r
     rows=store.query("external.isolation",version=store.sha)["rows"]
     assert rows[0]["lncrna_overlap"] and not rows[0]["provenance_held_out"]
     assert "external.model_dependency_gaps" in store.binding["tables"]
+    assert "external.patient_mapping" in store.binding["tables"] and "external.patient_context_overlap" in store.binding["tables"]
+    assert not any("patient_usage_private" in name for name in store.binding["tables"])
+    native_use=read_json(root/"model_use/MODEL_USE_BINDING.json")
+    assert native_use["patient_identity_namespace"]=="SYNTHETIC_WEB_PATIENTS"
+    assert rows[0]["external_patient_identity_complete"] and rows[0]["patient_identity_status"]=="MAPPED"
+    assert all(secret not in json.dumps(rows) for secret in ("WEB_PRIVATE_PATIENT","WEB_PRIVATE_CANONICAL","patient_token"))
     catalog=read_json(root/"PUBLIC_TABLE_CATALOG.json")
     assert catalog["web_binding_sha256"]==store.sha and "path\"" not in json.dumps(catalog)
     assert {t["table_id"] for t in catalog["tables"]}==set(store.binding["tables"])
@@ -364,6 +377,10 @@ def test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout(live_si
             page.locator("button[data-component='external']").click();expect(page.locator("#row-status")).not_to_have_text("正在查询…")
             page.locator("#table-select").select_option("external.model_use")
             expect(page.locator("#table-container")).to_contain_text("PMID:99999999")
+            page.locator("#table-select").select_option("external.isolation")
+            expect(page.locator("#table-container")).to_contain_text("患者身份重叠")
+            expect(page.locator("#table-container")).to_contain_text("身份已映射")
+            expect(page.locator("#table-container")).not_to_contain_text("WEB_PRIVATE_PATIENT")
             page.locator("#table-select").select_option("external.model_dependency_gaps")
             page.locator("#extra-filters summary").click()
             page.locator("#filters-form input[name='role']").fill("prepared.feature_and_label_construction")

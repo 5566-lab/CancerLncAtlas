@@ -1,6 +1,7 @@
 """Follow verified native CNV reads and hash-bound materialization ancestry."""
 from pathlib import Path
 import json
+import pandas as pd
 
 
 def inspect_consumed_sources(inventory, context, model, role):
@@ -66,4 +67,13 @@ def inspect_consumed_sources(inventory, context, model, role):
         if item["role"] in {"folds", "core", "candidates"}:
             continue  # Already bound by native_sources; not biological metadata.
         walk(item, receipt_path.parent, ".consumed."+str(i))
+        if item["role"]=="compact" and Path(item["path"]).name=="patient_ids.json":
+            path=Path(item["path"]);path=path if path.is_absolute() else receipt_path.parent/path
+            patients=json.loads(path.read_text(encoding="utf-8"))
+            folds=context["patients"]
+            referenced=set(folds.loc[folds.cancer_id.eq(item["cancer"]),"patient_id"])
+            values=[str(v) for v in patients if str(v) in referenced]
+            inventory.patient_use.observe([pd.DataFrame({"patient_ids":values})],digest=item["sha256"],
+                model=model,context=inventory.context_id,role="CNV_COMPACT_REFERENCED_PATIENT_ROWS",
+                scope="NATIVE_COMPACT_ROWS_REFERENCED_BY_FOLDS_NOT_ALL_ROWS_FITTED")
     inventory.gap(model, role, "CNV_RAW_TRANSFORMATION_AND_CROSS_MODULE_PATIENT_CLOSURE_NOT_VERIFIED")

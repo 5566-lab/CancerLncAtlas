@@ -2296,3 +2296,75 @@ ancestry, missing historical bindings, cross-module patient closure and final
 C01/C13/C16 acceptance remain open. Source integrity is not a biological
 independence attestation, and exported embedding values are not recomputed by
 the source inspector.
+
+File-scoped patient identity and cross-module exposure
+----------------------------------------------------
+
+Native model-use inputs and external V2 inputs now accept an optional explicit
+patient identity crosswalk. The unified workflow passes the same declaration
+into its derived native inventory. A declaration has the following shape::
+
+    "patient_identity_crosswalk": {
+      "path": "patient_identity.parquet",
+      "sha256": "<SHA256 of that crosswalk file>",
+      "namespace": "<shared patient identity authority>"
+    }
+
+The crosswalk has four string columns: source_file_sha256, identity_column,
+raw_id and canonical_patient_id. Each source hash identifies the actual consumed
+file, not its directory or cohort name. Two aliases identify the same patient
+only when explicitly mapped to the same canonical identity in the same namespace.
+Identical raw IDs from different files do not automatically identify one person.
+Conflicting mappings of one file/column/raw-ID tuple and external/native namespace
+disagreement are rejected. The crosswalk is an asserted authority, not an inferred
+biological identity check. Its own digest is retained in the private provenance.
+
+Actual formal-preparation and auxiliary input-table reads contribute patient_id,
+sample_id, donor_id, query_donor_id and canonical_donor_id when present. Readers
+load only these columns in bounded batches. CSV/TSV identity and crosswalk readers
+retain textual leading zeros. For native CNV compact inputs, identity_column is
+patient_ids and source_file_sha256 is the actual patient_ids.json hash; only IDs
+referenced by the native fold authority and matched by its row lookup are included.
+For SC-HHGT episode inputs, identity_column is source_donors or query_donor_id and
+the hash identifies the actual episode file. Actual loaded feature donors and
+target rows are recorded; unused excluded-donor declarations are not exposures.
+
+The private patient_usage_private table stores namespaced patient tokens with
+model/context, source hash/role, native fold, phase and exposure scope. It does not
+store raw or canonical identifiers. Public patient_mapping rows report counts of
+distinct observed, mapped and unmapped aliases (column plus raw ID), not counts of
+people. Public patient_context_overlap reports unique mapped people shared between
+model/context pairs. These are lower bounds under the supplied mapping; zero does
+not prove disjointness. Numeric fold IDs from different split schemes are not
+assumed comparable, so this table does not certify cross-module fold leakage or
+its absence. Whole-file exposure is conservative and does not mean every row was
+used in an optimizer update.
+
+External V2 compares observation identities against the union of all mapped
+native model/context identities. Known patient overlap and incomplete external or
+registered mappings receive explicit isolation reasons and cannot qualify as
+held out. Registered mapping completeness covers only observed registered IDs;
+files without identity columns and missing ancestors remain outside that claim.
+Full model-use completeness and independent biological validation remain false.
+Legacy V1 external behavior is unchanged and cannot accept a patient crosswalk.
+
+Only aggregate mapping and overlap tables reach the public query/download and
+Chinese frontend. Native patient usage must remain marked private. External
+loaders reject unapproved table names, private output declarations and patient
+identity columns even if a private table is renamed to an allowed public name.
+Public source roles continue to use structural names, without raw mapping keys.
+
+Synthetic checks exercise the actual formal preparation reader, native genomic
+and signed-SC consumers, compact CNV source inspection, fusion, external evaluation
+and unified web workflow. They distinguish matching aliases, unrelated identical
+raw IDs, unmapped identities and textual leading zeros. The initial failures
+exposed external-only all-null annotations in model-use replay and a synthetic
+CNV fixture whose IDs disagreed with the native canonical row lookup; serialization
+and the fixture were corrected without relaxing source validation. No optimizer,
+real cohort analysis, paid compute or deployment was started.
+
+Explicit cross-module identity inspection is implemented for present bound
+sources. Complete raw transformations, row-level usage and patient coverage,
+missing historical source bindings, upstream command records and final C01/C13/C16
+acceptance remain open. Existing preparation-only datasets have not been analysed
+by this code change.
