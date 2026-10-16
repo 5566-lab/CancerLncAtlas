@@ -69,9 +69,12 @@ class CNVCandidateStatistics:
 class DirectionalCompactCNV:
     """Read-only compact directional CNV matrices for one cancer."""
 
-    def __init__(self, root: str | Path) -> None:
+    def __init__(self, root: str | Path, *, capture=None, cancer="") -> None:
+        from .cnv_input_sources import SourceCapture
+        self.capture = capture if capture is not None else SourceCapture()
         self.root = Path(root).resolve()
-        receipt = json.loads((self.root / "SUCCESS.json").read_text(encoding="utf-8"))
+        context = dict(role="compact", cancer=cancer)
+        receipt = self.capture.json(self.root / "SUCCESS.json", **context)
         if (
             receipt.get("status") != "SUCCESS"
             or receipt.get("signed_values_preserved") is not True
@@ -79,20 +82,21 @@ class DirectionalCompactCNV:
             or receipt.get("absolute_burden_used_as_continuous") is not False
         ):
             raise RuntimeError(f"directional CNV receipt contract drift: {self.root}")
-        self.patient_ids = tuple(json.loads((self.root / "patient_ids.json").read_text()))
-        self.lncrna_ids = tuple(json.loads((self.root / "lncrna_ids.json").read_text()))
-        self.pathway_ids = tuple(json.loads((self.root / "pathway_ids.json").read_text()))
+        self.patient_ids = tuple(self.capture.json(self.root / "patient_ids.json", **context))
+        self.lncrna_ids = tuple(self.capture.json(self.root / "lncrna_ids.json", **context))
+        self.pathway_ids = tuple(self.capture.json(self.root / "pathway_ids.json", **context))
         self.patient_index = {value: index for index, value in enumerate(self.patient_ids)}
         self.lncrna_index = {value: index for index, value in enumerate(self.lncrna_ids)}
         self.pathway_index = {value: index for index, value in enumerate(self.pathway_ids)}
-        self.ls = np.load(self.root / "lncrna_signed_mean.npy", mmap_mode="r")
-        self.lc = np.load(self.root / "lncrna_callable.npy", mmap_mode="r")
-        self.la = np.load(self.root / "lncrna_amplification.npy", mmap_mode="r")
-        self.ld = np.load(self.root / "lncrna_deletion.npy", mmap_mode="r")
-        self.ps = np.load(self.root / "pathway_signed_mean.npy", mmap_mode="r")
-        self.pc = np.load(self.root / "pathway_callable.npy", mmap_mode="r")
-        self.pa = np.load(self.root / "pathway_amplification.npy", mmap_mode="r")
-        self.pd = np.load(self.root / "pathway_deletion.npy", mmap_mode="r")
+        self.ls = self.capture.array(self.root / "lncrna_signed_mean.npy", **context)
+        self.lc = self.capture.array(self.root / "lncrna_callable.npy", **context)
+        self.la = self.capture.array(self.root / "lncrna_amplification.npy", **context)
+        self.ld = self.capture.array(self.root / "lncrna_deletion.npy", **context)
+        self.ps = self.capture.array(self.root / "pathway_signed_mean.npy", **context)
+        self.pc = self.capture.array(self.root / "pathway_callable.npy", **context)
+        self.pa = self.capture.array(self.root / "pathway_amplification.npy", **context)
+        self.pd = self.capture.array(self.root / "pathway_deletion.npy", **context)
+        self.capture.check_partition(self.root, receipt)
 
     def candidate_statistics(
         self,
@@ -209,10 +213,18 @@ def _formal_labels(
     fold: int,
     candidates: pd.DataFrame,
     split: str,
+    capture=None,
 ) -> np.ndarray:
+    if split not in {"train", "validation"}:
+        raise ValueError("CNV formal labels permit only train/validation reads")
     column = "label_A0_full" if split == "train" else "label_A0_validation"
     source = association_root / "pair_level" / f"cancer={cancer}" / f"fold={fold}" / "part.parquet"
-    frame = pd.read_parquet(source, columns=["lncrna_id", "pathway_id", column, "run_id"])
+    columns = ["lncrna_id", "pathway_id", column, "run_id"]
+    if capture is None:
+        frame = pd.read_parquet(source, columns=columns)
+    else:
+        frame = capture.read(source, lambda p: pd.read_parquet(p, columns=columns),
+                             role="formal_labels", cancer=cancer, fold=fold, split=split, columns=columns)
     if len(frame) != len(candidates) or set(frame.run_id.astype(str)) != {EXPECTED_ASSOCIATION_RUN_ID}:
         raise RuntimeError(f"formal association label authority drift: {cancer}/{fold}/{split}")
     keys = ["lncrna_id", "pathway_id"]
@@ -263,6 +275,9 @@ def run_directional_cnv_only_oof(
     core_manifest_path: str | Path, output_root: str | Path,
     training_run_id: str, config: GenomicTrainingConfig | None = None,
 ) -> dict[str, Any]:
+    from .cnv_input_sources import SourceCapture, require_host
+    require_host()
+    capture = SourceCapture()
     settings = config or GenomicTrainingConfig()
     settings.validate()
     output = Path(output_root).resolve()
@@ -281,14 +296,14 @@ def run_directional_cnv_only_oof(
     for label, path in required_success.items():
         if not path.is_file():
             raise RuntimeError(f"{label} SUCCESS missing: {path}")
-    association_success = json.loads(required_success["association_audit"].read_text())
+    association_success = capture.json(required_success["association_audit"], role="association_success")
     if association_success.get("status") != "SUCCESS":
         raise RuntimeError("association audit is not formal SUCCESS")
-    directional_success = json.loads(required_success["directional_cnv"].read_text())
+    directional_success = capture.json(required_success["directional_cnv"], role="materialization_success")
     if directional_success.get("status") != "SUCCESS" or int(directional_success.get("cancer_count", -1)) != 33:
         raise RuntimeError("directional CNV aggregate contract drift")
 
-    folds_raw = _read_table(folds_path)
+    folds_raw = capture.read(folds_path, _read_table, role="folds")
     patient_column = "patient_id" if "patient_id" in folds_raw else "sample_id"
     folds = folds_raw[["cancer_id", patient_column, "patient_fold_id"]].copy()
     folds.columns = ["cancer_id", "patient_id", "patient_fold_id"]
@@ -298,13 +313,15 @@ def run_directional_cnv_only_oof(
     folds = folds.drop_duplicates(["cancer_id", "patient_id"])
     if set(folds.patient_fold_id) != set(range(5)):
         raise RuntimeError("patient fold authority is not five-fold")
-    candidates = pd.read_parquet(candidates_path, columns=["cancer_id", "lncrna_id", "pathway_id"])
+    candidates = capture.read(candidates_path,
+        lambda p: pd.read_parquet(p, columns=["cancer_id", "lncrna_id", "pathway_id"]), role="candidates",
+        columns=["cancer_id", "lncrna_id", "pathway_id"])
     candidates = candidates.astype(str)
     if len(candidates) != 3_300_000 or candidates.duplicated().any():
         raise RuntimeError("formal exact candidate closure drift")
-    manifest, core_manifest_sha, core_composite = _validate_core_manifest(core_manifest_path)
+    manifest, core_manifest_sha, core_composite = capture.read(core_manifest_path, _validate_core_manifest, role="core")
     compacts = {
-        cancer: DirectionalCompactCNV(directional_root / f"cancer={cancer}")
+        cancer: DirectionalCompactCNV(directional_root / f"cancer={cancer}", capture=capture, cancer=cancer)
         for cancer in TCGA_CANCERS
     }
     input_hashes = {
@@ -346,7 +363,7 @@ def run_directional_cnv_only_oof(
                 stats = compacts[cancer].candidate_statistics(
                     local, split_patients[split].get(cancer, ()), settings.min_pair_callable
                 )
-                target = _formal_labels(association_root, cancer, fold, local, split)
+                target = _formal_labels(association_root, cancer, fold, local, split, capture=capture)
                 core_values, core_available = _candidate_core(local, core)
                 eligible = np.flatnonzero(stats.cnv_available & core_available & np.isfinite(target))
                 if not len(eligible):
@@ -453,7 +470,7 @@ def run_directional_cnv_only_oof(
             validation_stats = compacts[cancer].candidate_statistics(
                 local, split_patients["validation"].get(cancer, ()), settings.min_pair_callable
             )
-            validation_labels = _formal_labels(association_root, cancer, fold, local, "validation")
+            validation_labels = _formal_labels(association_root, cancer, fold, local, "validation", capture=capture)
             validation_mask = validation_stats.cnv_available & core_available & np.isfinite(validation_labels)
             validation_probability = np.full(len(local), np.nan, dtype=np.float32)
             if validation_mask.any():
@@ -483,6 +500,7 @@ def run_directional_cnv_only_oof(
             "unavailable_rows": sum(row["unavailable"] for row in records),
         })
     pd.DataFrame(availability_rows).to_csv(output / "cnv_availability_33c.tsv", sep="\t", index=False)
+    consumed_sources = capture.write(output / "CONSUMED_SOURCES.json", kind="cnv", run_id=training_run_id)
     manifest_payload = {
         "format": "CC_HHGT_V3_2_DIRECTIONAL_CNV_HEAD_OOF_V2", "status": "READY_FOR_INDEPENDENT_AUDIT",
         "training_run_id": str(training_run_id), "cnv_only": True,
@@ -497,6 +515,7 @@ def run_directional_cnv_only_oof(
         "mutation_features_used": False, "sealed_test_read": False,
         "old_checkpoint_loaded": False, "old_predictions_used": False,
         "validation_metrics_path": str(private_root / "validation_metrics.tsv"),
+        "consumed_sources": consumed_sources,
         **input_hashes,
     }
     _atomic_json(output / "OOF_MANIFEST.json", manifest_payload)

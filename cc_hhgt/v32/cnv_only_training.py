@@ -54,20 +54,27 @@ def _atomic_json(path: Path, payload: Mapping[str, Any]) -> None:
 class CompactCNV:
     """Memory-mapped compact CNV matrices; no mutation feature path exists."""
 
-    def __init__(self, root: Path) -> None:
-        self.root = root
-        self.patient_ids = tuple(json.loads((root / "patient_ids.json").read_text(encoding="utf-8")))
-        self.lncrna_ids = tuple(json.loads((root / "lncrna_ids.json").read_text(encoding="utf-8")))
-        self.pathway_ids = tuple(json.loads((root / "pathway_ids.json").read_text(encoding="utf-8")))
+    def __init__(self, root: Path, *, capture=None, cancer="") -> None:
+        from .cnv_input_sources import SourceCapture
+        self.capture = capture if capture is not None else SourceCapture()
+        self.root = root = Path(root).resolve()
+        context = dict(role="compact", cancer=cancer)
+        receipt = self.capture.json(root / "SUCCESS.json", **context)
+        if receipt.get("status") != "SUCCESS":
+            raise ValueError("CNV compact materialization is incomplete")
+        self.patient_ids = tuple(self.capture.json(root / "patient_ids.json", **context))
+        self.lncrna_ids = tuple(self.capture.json(root / "lncrna_ids.json", **context))
+        self.pathway_ids = tuple(self.capture.json(root / "pathway_ids.json", **context))
         self.patient_index = {v: i for i, v in enumerate(self.patient_ids)}
         self.lncrna_index = {v: i for i, v in enumerate(self.lncrna_ids)}
         self.pathway_index = {v: i for i, v in enumerate(self.pathway_ids)}
-        self.le = np.load(root / "lncrna_event.npy", mmap_mode="r", allow_pickle=False)
-        self.lc = np.load(root / "lncrna_callable.npy", mmap_mode="r", allow_pickle=False)
-        self.lb = np.load(root / "lncrna_burden.npy", mmap_mode="r", allow_pickle=False)
-        self.pe = np.load(root / "pathway_event.npy", mmap_mode="r", allow_pickle=False)
-        self.pc = np.load(root / "pathway_callable.npy", mmap_mode="r", allow_pickle=False)
-        self.pb = np.load(root / "pathway_burden.npy", mmap_mode="r", allow_pickle=False)
+        self.le = self.capture.array(root / "lncrna_event.npy", **context)
+        self.lc = self.capture.array(root / "lncrna_callable.npy", **context)
+        self.lb = self.capture.array(root / "lncrna_burden.npy", **context)
+        self.pe = self.capture.array(root / "pathway_event.npy", **context)
+        self.pc = self.capture.array(root / "pathway_callable.npy", **context)
+        self.pb = self.capture.array(root / "pathway_burden.npy", **context)
+        self.capture.check_partition(root, receipt)
 
     def candidate_statistics_arrays(self, candidates: pd.DataFrame, patients: Sequence[str], min_pair_callable: int):
         size = len(candidates)
@@ -123,7 +130,7 @@ def _canonical_patient(value: Any) -> str:
 
 def write_cnv_event_oof_manifest(output: Path, *, training_run_id: str, checkpoints: list,
                                  predictions: list, core_manifest_sha: str, core_composite: str,
-                                 core_hashes_before: dict, core_hashes_after: dict) -> dict:
+                                 core_hashes_before: dict, core_hashes_after: dict, consumed_sources=None) -> dict:
     """Bind the native event-phi producer's actual partitions; never change its target."""
     output = Path(output).resolve()
     if (output/"OOF_MANIFEST.json").exists():
@@ -148,6 +155,13 @@ def write_cnv_event_oof_manifest(output: Path, *, training_run_id: str, checkpoi
         "input_precheck":{"path":str(precheck),"sha256":_file_sha256(precheck)},
         "core_parameters_before_sha256":core_hashes_before,"core_parameters_after_sha256":core_hashes_after,
         "old_checkpoint_loaded":False,"old_predictions_used":False,"metrics_path":str(output/"METRICS.json")}
+    if consumed_sources is not None:
+        from .native_auxiliary_fusion import Sources
+        from .cnv_input_sources import validate_consumed_sources
+        validate_consumed_sources(Sources(), consumed_sources, output, kind="cnv_event", run_id=training_run_id,
+            candidates={"sha256":inputs["candidates_sha256"]}, folds={"sha256":inputs["folds_sha256"]},
+            core={"sha256":core_manifest_sha})
+        payload["consumed_sources"] = consumed_sources
     _atomic_json(output/"OOF_MANIFEST.json",payload)
     return payload
 
@@ -157,13 +171,16 @@ def run_cnv_only_oof(*, candidates_path: str | Path, folds_path: str | Path,
                      output_root: str | Path, training_run_id: str,
                      config: GenomicTrainingConfig | None = None) -> dict[str, Any]:
     """Train fresh CNV heads only, or emit a typed BLOCKED receipt."""
+    from .cnv_input_sources import SourceCapture, require_host
+    require_host()
+    capture = SourceCapture()
     settings = config or GenomicTrainingConfig()
     settings.validate()
     output = Path(output_root).resolve()
     if output.exists() and any(output.iterdir()):
         raise RuntimeError(f"CNV-only output reuse refused: {output}")
     output.mkdir(parents=True, exist_ok=True)
-    folds_raw = _read_table(folds_path)
+    folds_raw = capture.read(folds_path, _read_table, role="folds")
     patient_col = "patient_id" if "patient_id" in folds_raw.columns else "sample_id"
     folds = folds_raw[["cancer_id", patient_col, "patient_fold_id"]].copy()
     folds.columns = ["cancer_id", "patient_id", "patient_fold_id"]
@@ -191,7 +208,7 @@ def run_cnv_only_oof(*, candidates_path: str | Path, folds_path: str | Path,
     # embeddings are a typed, non-success state; no fabricated OOF is emitted.
     missing_core: list[str] = []
     try:
-        manifest, manifest_sha, core_composite = _validate_core_manifest(core_manifest_path)
+        manifest, manifest_sha, core_composite = capture.read(core_manifest_path, _validate_core_manifest, role="core")
         for fold in range(N_FOLDS):
             exports = manifest["folds"][str(fold)]["exports"]
             for node_type in ("lncRNA", "pathway"):
@@ -224,7 +241,9 @@ def run_cnv_only_oof(*, candidates_path: str | Path, folds_path: str | Path,
 
     # Only after the irreplaceable-core gate passes do we materialize the
     # 3.3-million-row candidate authority.
-    raw_candidates = pd.read_parquet(candidates_path, columns=["cancer_id", "lncrna_id", "pathway_id"])
+    raw_candidates = capture.read(candidates_path,
+        lambda p: pd.read_parquet(p, columns=["cancer_id", "lncrna_id", "pathway_id"]), role="candidates",
+        columns=["cancer_id", "lncrna_id", "pathway_id"])
     raw_candidates["cancer_id"] = raw_candidates["cancer_id"].astype(str).str.upper()
     # The FORMAL_CANDIDATE_UNIVERSE authority is already deduplicated and
     # canonically cancer-partitioned; avoid a second 3.3M-row global sort.
@@ -234,9 +253,9 @@ def run_cnv_only_oof(*, candidates_path: str | Path, folds_path: str | Path,
 
     # This path is reached only when all frozen exports are present.  Load the
     # compact arrays directly; the runner has no mutation-table arguments.
-    success_payload = json.loads(stream_success.read_text(encoding="utf-8"))
-    compacts = {c: CompactCNV(Path(v["path"]).resolve()) for c, v in success_payload["cancers"].items()}
-    core_manifest, core_manifest_sha, core_composite = _validate_core_manifest(core_manifest_path)
+    success_payload = capture.json(stream_success, role="materialization_success")
+    compacts = {c: CompactCNV(Path(v["path"]).resolve(), capture=capture, cancer=c) for c, v in success_payload["cancers"].items()}
+    core_manifest, core_manifest_sha, core_composite = capture.read(core_manifest_path, _validate_core_manifest, role="core")
     checkpoint_root = output / "checkpoints"; checkpoint_root.mkdir()
     pred_root = output / "predictions"; pred_root.mkdir()
     checkpoint_records: list[dict[str, Any]] = []
@@ -303,7 +322,8 @@ def run_cnv_only_oof(*, candidates_path: str | Path, folds_path: str | Path,
     if core_hashes_after != core_hashes_before or _file_sha256(core_manifest_path) != manifest_sha:
         raise RuntimeError("Frozen core embedding or manifest changed during CNV-only OOF")
     _atomic_json(output / "METRICS.json", {"format":"CC_HHGT_V3_2_CNV_HEAD_OOF_METRICS_V1","records":metric_records,"global":{"n":int(sum(x["n"] for x in metric_records)),"brier":float(np.average([x["brier"] for x in metric_records],weights=[x["n"] for x in metric_records])) if metric_records else None,"logloss":float(np.average([x["logloss"] for x in metric_records],weights=[x["n"] for x in metric_records])) if metric_records else None}})
+    consumed_sources = capture.write(output / "CONSUMED_SOURCES.json", kind="cnv_event", run_id=training_run_id)
     write_cnv_event_oof_manifest(output,training_run_id=training_run_id,checkpoints=checkpoint_records,
         predictions=prediction_records,core_manifest_sha=manifest_sha,core_composite=core_composite,
-        core_hashes_before=core_hashes_before,core_hashes_after=core_hashes_after)
+        core_hashes_before=core_hashes_before,core_hashes_after=core_hashes_after,consumed_sources=consumed_sources)
     return {"status":"SUCCESS","checkpoint_count":5,"prediction_files":len(prediction_records)}

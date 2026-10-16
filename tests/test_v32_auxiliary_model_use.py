@@ -24,7 +24,7 @@ def forbid_fit(monkeypatch):
     monkeypatch.setattr(exporter,"_build_model",forbidden)
 
 
-def setup(root,kind):
+def setup(root,kind,prepare_native=None):
     import cc_hhgt.v32.multimodal_fusion as fusion
     from cc_hhgt.v32.native_auxiliary_fusion import materialize_native_auxiliary
     from scripts.run_v32_current_multimodal_fusion import main
@@ -40,6 +40,7 @@ def setup(root,kind):
             inputs["materialization_raw_input_artifacts"]=[{**record(raw),"role":"raw_atac"}]
             write(ip,inputs);lineage["input_lineage_audit_sha256"]=sha256(ip)
         write(lp,lineage);repin_native(path)
+    if prepare_native is not None:prepare_native(path)
     adapter=materialize_native_auxiliary(path,root/"adapter",expected_core_run_id="current-G2")
     primary=root/"primary.parquet"
     keys.assign(**{fusion.PRIMARY_COLUMN:.25,"analysis_version":fusion.ANALYSIS_VERSION}).to_parquet(primary,index=False)

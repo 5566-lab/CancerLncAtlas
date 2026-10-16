@@ -1,0 +1,59 @@
+{
+  "method": "NATIVE_CNV_READ_CAPTURE_TO_MATERIALIZER_STUDY_ANCESTRY_AND_EXTERNAL_ISOLATION",
+  "successful_validation_receipts": [
+    "cnv_sources_inventory_r1",
+    "cnv_sources_r3",
+    "cnv_sources_web_r1",
+    "cnv_sources_materialization_r2"
+  ],
+  "historical_intermediate_receipts": [
+    "cnv_sources_r1",
+    "cnv_sources_r2",
+    "cnv_sources_materialization_r1"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/cnv_input_sources.py",
+    "cc_hhgt/v32/cnv_only_training.py",
+    "cc_hhgt/v32/cnv_only_training_v2.py",
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_cnv_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/native_auxiliary_fusion.py",
+    "cc_hhgt/v32/segment_cnv_streaming.py",
+    "scripts/materialize_v32_directional_cnv.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_cnv_materialization_sources.py",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "tests/test_v32_segment_cnv_streaming.py"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "native_inventory_model_forwards_executed": false,
+  "raw_study_provenance_reconstructed": false,
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "fixture_scope": "Actual readers, serializers, native adapters, fusion/inventory/external consumers and tiny raw segment materialization. Fixed synthetic model parameters; no optimizer or real cohort analysis.",
+  "initial_test_failures": "Legacy test repin helper misclassified cnv_event; fixed its format branch. Combined torch suite raised process memory above a preexisting row-gate test default; memory tests passed separately with the original gate.",
+  "captured_browser_receipt": {
+    "path": "cnv_sources_web_browser_receipt.json",
+    "sha256": "ef6e4be3899b8aae40a0755d7ba983848e9750f94d28d1b26bfabff8ea9b2711"
+  },
+  "captured_screenshots": [
+    {
+      "path": "cnv_sources_web_desktop.png",
+      "sha256": "514fb60ce80a473d1caeac0452617992b1614f66796d45c6b50274fe325836cf"
+    },
+    {
+      "path": "cnv_sources_web_mobile.png",
+      "sha256": "b545970c1e6b5338d3b4ac12de81b29865279dc52f2a8c54e66d08b5392fdb51"
+    }
+  ]
+}

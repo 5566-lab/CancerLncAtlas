@@ -70,6 +70,11 @@ def test_compact_partition_is_fold_resumable_and_never_materializes_long_rows(tm
     )
     assert payload["max_materialized_long_rows"] == 0
     assert payload["typed_unavailable_patients"] == 1
+    sources = output / "cancer=BRCA" / "SOURCE_FILES.json"
+    assert streaming.sha256_file(sources) == payload["files"]["SOURCE_FILES.json"]
+    consumed = json.loads(sources.read_text())["records"]
+    assert len(consumed) == 9
+    assert all(streaming.sha256_file(Path(r["path"])) == r["sha256"] for r in consumed)
     assert {item["patient_fold"] for item in payload["folds"]} == set(range(5))
     for fold in range(5):
         assert (output / "cancer=BRCA" / f"fold={fold}" / "SUCCESS.json").is_file()

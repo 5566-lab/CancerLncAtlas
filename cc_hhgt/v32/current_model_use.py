@@ -48,6 +48,9 @@ def implementations():
         "scripts/run_v32_current_multimodal_fusion.py",
         "cc_hhgt/v32/multimodal_fusion.py",
         "cc_hhgt/v32/current_single_cell_model_use.py","cc_hhgt/v32/single_cell_signed_fusion.py",
+        "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
+        "cc_hhgt/v32/cnv_only_training.py","cc_hhgt/v32/cnv_only_training_v2.py",
+        "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py",
         "scripts/train_single_cell_hhgt_149.py","cc_hhgt/v32/single_cell_hhgt.py",
         "cc_hhgt/v32/external_validation_current.py"]
     return {name:sha256(root/name) for name in names}

@@ -35,7 +35,7 @@ def input_source(inventory,item,root,model,role):
     if item.get("source_role") in {"split_manifest","v32_core_checkpoint"} or item.get("role") in {"folds","materialization_success"}:
         return
     suffixes=set(path.suffixes)
-    is_table=bool(suffixes & {".parquet",".tsv",".csv",".maf"})
+    is_table=bool(suffixes & {".parquet",".tsv",".csv",".maf"}) or item.get("source_kind")=="table"
     if path.is_dir():
         files=[p for p in path.rglob("*") if p.is_file()]
         is_table=bool(files) and all(p.suffix==".parquet" for p in files)
@@ -126,6 +126,9 @@ def inspect_fusion_expert(inventory,path,binding,audit,frame,expert,model,endpoi
             "sha256":lineage["input_lineage_audit_sha256"]},native_root,model,role+".input_audit")
         source_audit=read(input_path)
         inputs=source_audit["input_artifacts"]+source_audit.get("materialization_raw_input_artifacts",[])
+    elif context.get("consumed") is not None:
+        from .current_cnv_model_use import inspect_consumed_sources
+        inspect_consumed_sources(inventory,context,model,role)
     else:
         # Old CNV receipts retain some input digests but not consumed partitions.
         # Resolve exact hashes when supplied; never treat a SUCCESS as its matrix.

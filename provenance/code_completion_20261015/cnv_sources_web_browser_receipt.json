@@ -1,0 +1,1 @@
+{"target_host": "149", "status": "PASS", "training_started": false, "real_browser": "Chromium via Playwright 1.52.0", "version": "2b601ac99a8b064e8d8d4c3694ba8a7604f5465953f48fbeb69c16c4613d0d1b", "page_errors": [], "screenshots": ["current_web_desktop.png", "current_web_mobile.png"], "production_deployed": false}

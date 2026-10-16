@@ -28,7 +28,7 @@ FILES = (
     "lncrna_deletion.npy", "lncrna_neutral.npy", "pathway_signed_mean.npy",
     "pathway_callable.npy", "pathway_amplification.npy", "pathway_deletion.npy",
     "pathway_neutral.npy", "pathway_amplification_fraction.npy",
-    "pathway_deletion_fraction.npy",
+    "pathway_deletion_fraction.npy", "SOURCE_FILES.json",
 )
 
 
@@ -161,15 +161,20 @@ def materialize_cancer(args: argparse.Namespace) -> dict[str, Any]:
                 if bool(np.asarray(old_lc[row], dtype=bool).any()) or bool(np.asarray(old_pc[row], dtype=bool).any()):
                     raise RuntimeError(f"old store callable but staged source missing: {cancer}/{patient}")
                 continue
+            source_sha = sha256(source)
             raw = pd.read_csv(source, sep="\t")
+            if sha256(source) != source_sha:
+                raise RuntimeError("Directional CNV segment changed while reading")
             columns = {str(column).lower(): column for column in raw.columns}
             required = ("chromosome", "start", "end", "segment_mean")
             if any(column not in columns for column in required):
                 raise RuntimeError(f"malformed segment source: {source}")
             segment = raw[[columns[column] for column in required]].copy()
             segment.columns = ["chromosome", "start", "end", "value"]
-            lnc = map_segments_directional(segment, lnc_intervals, lncrna_ids)
-            genes_result = map_segments_directional(segment, gene_intervals, genes)
+            lnc = map_segments_directional(segment, lnc_intervals, lncrna_ids,
+                                          event_threshold=float(args.event_threshold))
+            genes_result = map_segments_directional(segment, gene_intervals, genes,
+                                                   event_threshold=float(args.event_threshold))
             canonical_lc = np.asarray(old_lc[row], dtype=bool)
             mismatch = int(np.sum(lnc.callable != canonical_lc))
             local_callable_mismatch += mismatch
@@ -194,7 +199,7 @@ def materialize_cancer(args: argparse.Namespace) -> dict[str, Any]:
             processed += 1
             source_records.append({
                 "patient_id": patient, "path": str(source), "bytes": source.stat().st_size,
-                "mtime_ns": source.stat().st_mtime_ns,
+                "mtime_ns": source.stat().st_mtime_ns, "sha256": source_sha,
             })
         for value in arrays.values():
             value.flush()
@@ -215,6 +220,7 @@ def materialize_cancer(args: argparse.Namespace) -> dict[str, Any]:
             "signed_values_preserved": True, "absolute_burden_used_as_continuous": False,
             "amplification_deletion_separate": True,
             "old_partition": str(old), "old_success_sha256": sha256(old / "SUCCESS.json"),
+            "old_success_path": str(old / "SUCCESS.json"),
             "intervals_path": str(Path(args.intervals).resolve()),
             "intervals_sha256": sha256(Path(args.intervals)),
             "membership_path": str(Path(args.membership).resolve()),

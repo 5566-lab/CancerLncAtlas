@@ -2203,3 +2203,54 @@ C13/C16 still require complete raw transformations/study ancestry, CNV consumed
 partitions, full core ancestry and cross-module patient closure. Signed SC native
 producer traversal is now implemented; complete biological independence and final
 C01/C13/C16 acceptance remain unproven.
+
+Native CNV consumed matrices, labels and segment sources
+------------------------------------------------------
+
+Both existing CNV runners now capture hashes at their actual reads and check
+them again before publishing CONSUMED_SOURCES.json. Event CNV records its six
+matrices, identifiers and materialization receipts. Directional CNV records its
+eight matrices plus every cancer/fold train and validation association-label
+partition and the exact columns read. Repeated reads must retain the same hash.
+The compact readers reject disagreement with recorded materializer file hashes
+before fitting; this change does not start any fitting. Runner execution requires
+host 149. The event OOF serializer and both downstream native adapters consume
+the new receipt. Historical receipts without it retain the explicit missing-
+partition gap and are not retroactively certified.
+
+Native source verification checks candidate/fold/core identities, complete
+matrix and label partitions, matrix shapes against unique identifier arrays,
+materializer-to-partition hashes, label roots, source run and label values.
+Existing aggregation and fusion-snapshot replay remains in place; no neural
+forward is added. A consumed-file receipt describes file exposure, not that all
+rows or patients were used in optimizer updates.
+
+The model-use inventory follows these verified reads into hash-bound JSON
+records, materialized member maps and explicitly bound upstream tables. The two
+segment materializers now hash each raw segment before and after its read and
+bind SOURCE_FILES.json into the partition SUCCESS. Directional receipts also
+record the path accompanying their existing old-partition SUCCESS hash. Public
+dependency roles use structural indices rather than arbitrary upstream keys;
+public dependency results omit filesystem paths. Explicit study metadata from
+CNV upstream sources reaches external V2 isolation, including when the external
+lncRNA is unseen and the fusion coefficient is zero.
+
+Review also found that directional materialization recorded the configured event
+threshold but did not pass it into either segment mapping call. Both lncRNA and
+gene mappings now use that threshold. Synthetic segment values of 0.5 produce an
+amplification event at threshold 0.30 and no event at 0.70, matching the receipt;
+the default behavior is preserved.
+
+Synthetic verification exercises actual compact/label readers, both native CNV
+adapters, fusion and external consumers, plus tiny actual segment materialization.
+It rejects changed reads, changed arrays, missing or misassigned partitions,
+repinned wrong array shapes, and upstream source changes. Native-shaped model
+fixtures use fixed parameters; no optimizer, real-cohort analysis, paid compute
+or deployment is performed. The initial combined run exposed a legacy test
+helper's event-format branch and a process-memory-sensitive test; the helper was
+corrected and memory-gate tests were run separately without relaxing their gate.
+
+CNV consumed-partition tracing is implemented for newly generated receipts.
+Complete raw transformation ancestry, absent historical source bindings, full
+frozen-core ancestry and cross-module patient closure remain C13/C16 work.
+Scientific independence and final C01/C13/C16 acceptance are still unverified.

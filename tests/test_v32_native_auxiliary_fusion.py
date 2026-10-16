@@ -174,7 +174,7 @@ def materialize(path,output):return materialize_native_auxiliary(path,output,exp
 
 def repin_native(path):
     manifest=read(path);native_path=Path(manifest['native_receipt']['path']);native=read(native_path)
-    if manifest['producer_kind']!='cnv':
+    if manifest['producer_kind'] not in {'cnv','cnv_event'}:
         lp=Path(native['lineage_path']);lineage=read(lp)
         lineage['checkpoint_manifest_sha256']=sha256(Path(lineage['checkpoint_manifest_path']))
         lineage['prediction_sha256']=lineage['predictions_sha256']=sha256(Path(native['prediction_path']))

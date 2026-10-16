@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T00:50:05.832915+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/cnv_input_sources.py": "76ffc0c69ffcac3a830a28e4cf93eb8888c4914fcf2fa8be077c387149213002",
+    "cc_hhgt/v32/cnv_only_training.py": "113302a4ef55d310fa357b01c7930fb40beafb8f343bcd68fc46bd2603505bd0",
+    "cc_hhgt/v32/cnv_only_training_v2.py": "3f0bb687bda8f2ad2f2c6ba2460b7b633f91cfb7ea277487cbfadd8b6e759f47",
+    "tests/test_v32_cnv_input_sources.py": "e948f08b2e977853608a7713db6576706775fd9e6c9a4f3ccae7bc087b135b25"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_directional_cnv_head.py",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T00:51:09.624637+00:00"
+}

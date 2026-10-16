@@ -295,6 +295,7 @@ def materialize_cancer_partition(
         max_observed_rows = 0
         processed = 0
         typed_unavailable = 0
+        consumed_segments = []
         for patient_row, patient_id in enumerate(patient_ids):
             rss, hwm = _enforce_observed_memory(
                 max_memory_bytes, stage=f"{cancer}:patient={patient_id}:before_read"
@@ -313,7 +314,11 @@ def materialize_cancer_partition(
             path = selected_segment_target(manifest_row, staging_root)
             if not path.is_file():
                 raise StreamingCNVError(f"Staged segment disappeared: {path}")
+            source_sha = sha256_file(path)
             segment = pd.read_csv(path, sep="\t")
+            if sha256_file(path) != source_sha:
+                raise StreamingCNVError("CNV segment changed while reading")
+            consumed_segments.append({"path":str(path.resolve()), "sha256":source_sha})
             max_observed_rows = max(max_observed_rows, len(segment))
             if len(segment) > int(max_segment_rows):
                 raise StreamingCNVError(
@@ -377,6 +382,8 @@ def materialize_cancer_partition(
                 json.dumps(fold_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
             )
             fold_records.append(fold_payload)
+        (building / "SOURCE_FILES.json").write_text(
+            json.dumps({"records":consumed_segments}, indent=2)+"\n", encoding="utf-8")
         files = {}
         for path in sorted(building.rglob("*")):
             if path.is_file() and path.name not in {"INCOMPLETE.json", "SUCCESS.json"}:

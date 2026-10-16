@@ -1,0 +1,34 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T00:48:47.848057+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/cnv_input_sources.py": "ee5463d5acdba1b6529cb9c4e972465799f52408e5347ec6fc0a8638fb97d204",
+    "cc_hhgt/v32/current_cnv_model_use.py": "e54991fe8c6ddb03800e1ebf92f177594309b913cbe9c5de24049053162652bc",
+    "cc_hhgt/v32/cnv_only_training.py": "a2ae266a0d562a69a0f403922c1506936ca40875e40c2cde79e56116c97b900c",
+    "cc_hhgt/v32/cnv_only_training_v2.py": "eea6b7a81983216be15fa183df0e96cfc6ecb6602ad22f37e047ae7a274c76c7",
+    "cc_hhgt/v32/native_auxiliary_fusion.py": "47bdeade93bfd75048520e12819837f3ffdd832289fd994e7b6a40b5386937c6",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "254670201b36464526654cb96c51bf86cb3458c3dbaee8c71261dada6227e6c1",
+    "cc_hhgt/v32/current_model_use.py": "f300de57245cea1305273329509f72d3c5756c6f671d54c7ed681c7e920ffade",
+    "scripts/materialize_v32_directional_cnv.py": "126aa90ebba59bc87a385e5177189d8525e8eda904a0cf707d27ab4b3ee8aec5",
+    "cc_hhgt/v32/segment_cnv_streaming.py": "0eda55d497adf081ac104635b6bba362d89373ea24b62069223ebaaf14202027",
+    "tests/test_v32_auxiliary_model_use.py": "8244ff94941deeefb9d0aaddc9c18aea9087af743f0e1ec0453a158388a8fe3c",
+    "tests/test_v32_native_auxiliary_fusion.py": "ccfafc769f951f1023134ec875b988934b1ba920ae7120305f6da365a37c981c",
+    "tests/test_v32_cnv_input_sources.py": "d38a7622be634cbb62097fbf0c72f6b964f96ff4c69ad7f9fec92415e30e2e38",
+    "tests/test_v32_cnv_materialization_sources.py": "4da9e6578fe94e0769920e7dbcb8822d49488d73f08cca1ce77dc189bdd21c9f",
+    "tests/test_v32_segment_cnv_streaming.py": "b07749b8a450e95d6136c00fd4f75c044427e8a112778ac70fecc8682edbe1cb"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_single_cell_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T00:49:46.310785+00:00"
+}

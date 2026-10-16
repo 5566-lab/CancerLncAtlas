@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 612,
+  "unique_test_cases_passed": 644,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -102,10 +102,10 @@
     "scripts/infer_v32_release_fold.py": "ba33d64376cc5d4d62d4b6bc7e8a8a6be4f46a0108bc0e2a67383eec43a3efad",
     "scripts/audit_v32_current_candidates.py": "b08befd195a533709e3952ab92108c82eaf16b2147403b63af92c525a06114e8",
     "tests/test_v32_current_core_prediction.py": "4dc945bfe157bb9fc512dc824f13ff0b38d1c5598e84945f53b22f3db9212306",
-    "cc_hhgt/v32/native_auxiliary_fusion.py": "1bf7f39cb9af88c1e9755ee9020e435f9d559412c6bf232d86d19fc63a0a7532",
-    "cc_hhgt/v32/cnv_only_training.py": "b160ff744b41a82896d9a48be2d13274151af3064c48bc9314cbc51676ea5507",
+    "cc_hhgt/v32/native_auxiliary_fusion.py": "47bdeade93bfd75048520e12819837f3ffdd832289fd994e7b6a40b5386937c6",
+    "cc_hhgt/v32/cnv_only_training.py": "113302a4ef55d310fa357b01c7930fb40beafb8f343bcd68fc46bd2603505bd0",
     "scripts/materialize_v32_native_auxiliary_fusion.py": "9320612a5d10eb35207ed409a2b48aca953d0e2008905019679ba30f9284f971",
-    "tests/test_v32_native_auxiliary_fusion.py": "7fc3db0f7beb02d89cb2c00add4395872ffcf681d73a3859382d9d642ae646a1",
+    "tests/test_v32_native_auxiliary_fusion.py": "ccfafc769f951f1023134ec875b988934b1ba920ae7120305f6da365a37c981c",
     "cc_hhgt/v32/current_state_context.py": "16aea238d32ff49e02295964d7e345ff7268acf7aea6a062a6cc2fd6e9bf5045",
     "scripts/materialize_v32_state_gene_sets.py": "4fd6948aa7e374e5fb3fa5110e268485bef02c61453e7f2ccd45f78df4d1c3eb",
     "tests/test_v32_current_state_context.py": "4d44b84477bc51a5591107ab1caf5b736098cfb2d9b2207c31fecef4e7c2b687",
@@ -161,7 +161,7 @@
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "a22a6aeeb94fe9d5122afcd3fdbb6b229c38cddd7528ccb1950051a022ea24c0",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
-    "cc_hhgt/v32/current_model_use.py": "14a95b5d12c0fa776251da5f6136cf37996d72e938e384e35d4059271e351391",
+    "cc_hhgt/v32/current_model_use.py": "f300de57245cea1305273329509f72d3c5756c6f671d54c7ed681c7e920ffade",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "75c340c6e0bac50d2aff0840ec4cfc4ef5b972b37fa3c28da0d8536f39732323",
     "cc_hhgt/v32/preparation_sources.py": "d6e3497bed67b3b0e23bab458952d82e47ee664fea5aab532f9a95077fda3012",
@@ -173,10 +173,18 @@
     "artifacts/v32_patient_fold_authority_20260829_r1/PATIENT_FOLD_AUTHORITY_RECEIPT.json": "1ef32bda9d14d87997f3b81c34b8aacce172de390db5c29aee011ca73ba317e0",
     "cc_hhgt/v32/g012_winner_lock.py": "9e7cc87dd5b59d9614ab30333bf2068b12ad4d817b0d6625f3bb2a4019feb12e",
     "tests/test_v32_current_comparison_sources.py": "03cb8099a762d5940d7abd2b7bf220bef3b9afa8266d503a8c00b52fab36056f",
-    "cc_hhgt/v32/current_auxiliary_model_use.py": "606852ca043c325bcc1ffe5d90b6d85af459f5b29e20cde33900b00ca1eee76d",
-    "tests/test_v32_auxiliary_model_use.py": "e71fa80cc4b8b2d5cafa4f4eef1a3d46258f131e7d0d518fefda08f8f0f25f3b",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "254670201b36464526654cb96c51bf86cb3458c3dbaee8c71261dada6227e6c1",
+    "tests/test_v32_auxiliary_model_use.py": "8244ff94941deeefb9d0aaddc9c18aea9087af743f0e1ec0453a158388a8fe3c",
     "cc_hhgt/v32/current_single_cell_model_use.py": "91779c2cf175cf7ec0b0a2d8f24006e43650987c2ac1ef2dccf08d8759175da7",
-    "tests/test_v32_single_cell_model_use.py": "be1988feea5f055ef18988cc091871322bc1c36038a57c504e2ed326d704d3f3"
+    "tests/test_v32_single_cell_model_use.py": "be1988feea5f055ef18988cc091871322bc1c36038a57c504e2ed326d704d3f3",
+    "cc_hhgt/v32/cnv_input_sources.py": "76ffc0c69ffcac3a830a28e4cf93eb8888c4914fcf2fa8be077c387149213002",
+    "cc_hhgt/v32/current_cnv_model_use.py": "e54991fe8c6ddb03800e1ebf92f177594309b913cbe9c5de24049053162652bc",
+    "cc_hhgt/v32/cnv_only_training_v2.py": "3f0bb687bda8f2ad2f2c6ba2460b7b633f91cfb7ea277487cbfadd8b6e759f47",
+    "scripts/materialize_v32_directional_cnv.py": "40a075f2775508b90eb1c61c3d71ca1d250578e0aa2a0a6cd7964c661a8ca344",
+    "cc_hhgt/v32/segment_cnv_streaming.py": "0eda55d497adf081ac104635b6bba362d89373ea24b62069223ebaaf14202027",
+    "tests/test_v32_cnv_input_sources.py": "e948f08b2e977853608a7713db6576706775fd9e6c9a4f3ccae7bc087b135b25",
+    "tests/test_v32_cnv_materialization_sources.py": "b45e120fa77675d8cfa420fa6012161c716eb233b0ccd275d76f48e213e09260",
+    "tests/test_v32_segment_cnv_streaming.py": "b07749b8a450e95d6136c00fd4f75c044427e8a112778ac70fecc8682edbe1cb"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -272,7 +280,11 @@
     "Activated OOF rows are reconciled with every native model output; query identities/observed targets must match consumed episodes. Fit/model-selection/feature exposure, graph node identities and explicit source-study tokens reach FUSION_EXPERT:single_cell_positive/negative contexts and external V2 isolation even when fusion coefficients are zero.",
     "Donor aliases are privately reconciled against native source/excluded/outer sets. Alias leakage is rejected; absent or ambiguous mappings remain gaps. Public roles use structural indices rather than arbitrary upstream JSON keys, and public dependency tables omit paths. This does not complete cross-module patient linkage or biological independence.",
     "Synthetic checks initialize the actual native architecture with fixed parameters and use prebuilt episode tensors. No training/optimizer/LASSO fit or real cohort analysis is run. Native-shaped fixture training receipts are explicitly synthetic; replay proves serialization/consumption checks, not that those fixtures trained or predict biology.",
-    "Rehashed native checkpoint state, omitted ablation-arm episodes and query donor drift are rejected. An unseen external entity from a study appearing only in upstream SC source metadata is excluded. Unsupported raw transformations, unbound ancestors, CNV partitions, full core ancestry and cross-module patient closure remain C13/C16 work. Cumulative counts are historical versioned evidence, not one complete current-code suite."
+    "Rehashed native checkpoint state, omitted ablation-arm episodes and query donor drift are rejected. An unseen external entity from a study appearing only in upstream SC source metadata is excluded. Unsupported raw transformations, unbound ancestors, CNV partitions, full core ancestry and cross-module patient closure remain C13/C16 work. Cumulative counts are historical versioned evidence, not one complete current-code suite.",
+    "Native event and directional CNV readers capture actual compact matrices/identifiers and control authorities. Directional readers additionally capture exact fold-local train/validation label columns and partitions. Before-fit materializer hash disagreement, during-read drift and pre-receipt drift are rejected; no training was executed.",
+    "Native adapters validate complete consumed partition sets, authority identities, array shapes, root/materializer hashes and label semantics. Native fusion snapshots and predictions remain replayed at the aggregation level, not by neural forwards. Whole-file exposure does not assert every row was fitted.",
+    "Both segment materializers now bind actual segment-read hashes and SOURCE_FILES.json. Directional materialization now passes the declared event threshold to both lncRNA and gene mappings; previously only the receipt recorded it while calculations used the default 0.30. Synthetic 0.30/0.70 thresholds check the actual outputs. The inventory follows explicit hash-bound ancestor graphs and study metadata with public structural role indices and path-free dependency tables. CNV-only study exposure excludes an unseen external entity in actual external V2 checks.",
+    "Historical missing receipts stay explicitly incomplete. Complete transformations/raw study provenance, full frozen-core ancestry and cross-module patient closure still require work; C01/C13/C16 are not accepted. Synthetic fixtures do not establish optimization or scientific validity. Cumulative counts are historical versioned checks, not one current full-suite pass."
   ],
   "test_suites": [
     {
@@ -484,6 +496,26 @@
       "path": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml",
       "passed": 11,
       "sha256": "e925aba0d546e707f1a41f4dcd2916ccb3726c0442755610bb6479d9a40ec1bd"
+    },
+    {
+      "path": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml",
+      "passed": 17,
+      "sha256": "942acbb2e6072d56b6a14437a5ccdddcf697e11d10019eb99e21f40562cac664"
+    },
+    {
+      "path": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml",
+      "passed": 50,
+      "sha256": "ec0c69d4838154f9735551032143ab0f025b837fed028c5cf73010b2fa6e4367"
+    },
+    {
+      "path": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml",
+      "passed": 11,
+      "sha256": "a017e91a7e4a138739566d20dd1f2e7464d13e1d87408942628e1c39f39b5843"
+    },
+    {
+      "path": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml",
+      "passed": 19,
+      "sha256": "d8cbebb2df867c466e179a922c62438749cc6de943c061fb2e098e72ad88da61"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -512,47 +544,47 @@
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_auxiliary_only_study_excludes_unseen_external_entity",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[atac]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv_event]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[genomic]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[run_identity]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[snapshot_change]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[unconsumed_binding]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
@@ -640,59 +672,139 @@
       "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
     },
     {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_capture_detects_changes_during_read_and_before_sealing",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv_event]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_drift_and_repinned_incomplete_receipts_rejected[matrix_change]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_array]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_label]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_drift_and_repinned_incomplete_receipts_rejected[source_change]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_shape]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_split]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_input_sources",
+      "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv_event]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_materialization_sources",
+      "case": "test_directional_materializer_binds_actual_raw_segments[0.3-False]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_materialization_sources",
+      "case": "test_directional_materializer_binds_actual_raw_segments[0.3-True]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_materialization_sources",
+      "case": "test_directional_materializer_binds_actual_raw_segments[0.7-False]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_materialization_sources",
+      "case": "test_directional_materializer_binds_actual_raw_segments[0.7-True]",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_cnv_materialization_sources",
+      "case": "test_event_materializer_rejects_raw_drift",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -1277,42 +1389,42 @@
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_actual_fusion_inputs_include_zero_coefficient_experts_and_explicit_missing_ancestry",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_directory_authority_uses_native_tree_hash_and_cannot_hide_a_changed_partition",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenance",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_inventory_cannot_be_relabelled_for_another_score_or_claim_complete",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_training_selection_and_graph_inputs_are_derived_with_masks",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_rehashed_native_use_omission_fails_actual_input_replay",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inventory",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
@@ -1728,6 +1840,26 @@
       "module": "tests.test_v32_current_state_context",
       "case": "test_selected_scores_change_profiles_and_missing_weight_is_not_a_zero_effect",
       "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_directional_cnv",
+      "case": "test_direction_is_preserved_and_unavailable_is_nan",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_directional_cnv",
+      "case": "test_pathway_aggregation_keeps_amp_and_deletion_separate",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_directional_cnv_head",
+      "case": "test_directional_features_keep_amp_and_deletion_separate",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_directional_cnv_head",
+      "case": "test_unavailable_is_not_imputed_to_available",
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_head_input",
@@ -2772,142 +2904,142 @@
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[averaged_score]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[boolean_string]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[checkpoint_parent]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[duplicate]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[invalid_probability]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[missing_candidate]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[missing_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[native_run]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[old_core]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[split_authority]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[unavailable_zero]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[wrong_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[atac]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[cnv]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[cnv_event]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[genomic]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[atac-checkpoint_split]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[atac-upstream_fit]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-duplicate_partition]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-patient_count]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-row_source]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_partial_native_training_or_coverage_does_not_invent_folds_or_uncertainty[one_available_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_partial_native_training_or_coverage_does_not_invent_folds_or_uncertainty[untrained_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[coverage]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[fold_context]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[fusion]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_same_canonical_patient_cannot_be_assigned_to_multiple_folds",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_two_cnv_estimands_remain_distinct_and_can_both_reach_frozen_fusion",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_orchestration",
@@ -3235,6 +3367,31 @@
       "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
+      "module": "tests.test_v32_segment_cnv_streaming",
+      "case": "test_candidate_reader_filters_before_pandas_materialization",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_segment_cnv_streaming",
+      "case": "test_compact_partition_is_fold_resumable_and_never_materializes_long_rows",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_segment_cnv_streaming",
+      "case": "test_large_synthetic_memory_gate_blocks_before_publish",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_segment_cnv_streaming",
+      "case": "test_observed_process_memory_gate_blocks_before_publish",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_segment_cnv_streaming",
+      "case": "test_row_gate_failure_retains_incomplete_but_never_publishes",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_actual_frozen_fusion_drives_gene_sets_and_preserves_missing_fold_support[discovery_adjusted_probability]",
       "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
@@ -3417,52 +3574,87 @@
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_canonical_donor_alias_leak_is_rejected",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_native_checkpoint_episode_source_and_external_isolation",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[ablation_report_omission]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[checkpoint_state]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[query_identity]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[checkpoint]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[episode]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[missing_training_binding]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[upstream_file]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/cnv_sources_inventory_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_state_training",
       "case": "test_core_loader_reads_only_fresh_v32_embedding_tables",
       "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_streaming_cnv_independent_audit",
+      "case": "test_independent_audit_rehashes_arrays_folds_context_and_supervisor",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_streaming_cnv_independent_audit",
+      "case": "test_independent_audit_rejects_aggregate_partition_path_swap",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_streaming_cnv_independent_audit",
+      "case": "test_independent_audit_rejects_fold_success_in_declared_file_map",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_streaming_cnv_independent_audit",
+      "case": "test_independent_audit_rejects_fold_success_semantic_drift",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_streaming_cnv_independent_audit",
+      "case": "test_independent_audit_rejects_missing_fold_success_receipt",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_streaming_cnv_independent_audit",
+      "case": "test_independent_audit_rejects_nonnull_burden_for_uncallable_value",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_streaming_cnv_independent_audit",
+      "case": "test_independent_audit_rejects_unexpected_partition_file",
+      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_subtypes",
@@ -3557,10 +3749,12 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "single_cell_sources_r5",
-      "single_cell_sources_web_r1"
+      "cnv_sources_inventory_r1",
+      "cnv_sources_r3",
+      "cnv_sources_web_r1",
+      "cnv_sources_materialization_r2"
     ],
-    "passed": 56,
+    "passed": 97,
     "target_host": "149",
     "training_started": false
   },

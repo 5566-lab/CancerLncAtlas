@@ -88,7 +88,7 @@ def native_sources(manifest_path, *, expected_core_run_id):
     native_path, native = sources.document(manifest["native_receipt"], root)
     if not manifest.get("native_run_id") or native.get("training_run_id") != manifest["native_run_id"]:
         raise ValueError("Native auxiliary run identity differs")
-    lineage = native; typed_path = None; core = None; core_path = None
+    lineage = native; typed_path = None; core = None; core_path = None; consumed = None
     if kind in {"genomic", "atac"}:
         if native.get("status") != "SUCCESS": raise ValueError("Native auxiliary training is incomplete")
         lineage_path, lineage = sources.document({"path": native["lineage_path"], "sha256": native["lineage_sha256"]}, native_path.parent)
@@ -131,6 +131,11 @@ def native_sources(manifest_path, *, expected_core_run_id):
             raise ValueError("CNV candidate/patient authority mismatch")
         if native.get("core_parameters_before_sha256") != native.get("core_parameters_after_sha256"):
             raise ValueError("Native CNV core was changed")
+        if "consumed_sources" in native:
+            from .cnv_input_sources import validate_consumed_sources
+            consumed = validate_consumed_sources(sources, native["consumed_sources"], native_path.parent,
+                kind=kind, run_id=manifest["native_run_id"], candidates=manifest["candidate_authority"],
+                folds=manifest["patient_folds"], core=manifest["core_manifest"])
         checkpoints = {"records": native["checkpoints"]}
         fold_records = [{**r, "patient_fold_id": r["fold"]} for r in native["predictions"]]
         if len(fold_records) != native["prediction_file_count"]: raise ValueError("CNV partition count mismatch")
@@ -200,7 +205,7 @@ def native_sources(manifest_path, *, expected_core_run_id):
         "patient", source_role="current_v32_oof_prediction") for m in modalities]
     return dict(manifest=manifest, sources=sources, candidates_path=candidates_path, patients=patients,
         native=native, lineage=lineage, kind=kind, modalities=modalities, fold_records=bound_folds,
-        typed_path=typed_path, core_path=core_path, checkpoint_map=checkpoint_map, specs=specs)
+        typed_path=typed_path, core_path=core_path, checkpoint_map=checkpoint_map, specs=specs, consumed=consumed)
 
 
 def _analyse(context, output=None, verify_fold_path=None):
