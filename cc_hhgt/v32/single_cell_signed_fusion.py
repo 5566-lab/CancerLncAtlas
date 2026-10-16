@@ -15,6 +15,8 @@ import duckdb
 
 from .multimodal_fusion import ANALYSIS_VERSION, ExpertSpec, artifact_sha256
 
+FORMAT = "SC_HHGT_SIGNED_FUSION_BINDING_V1"
+
 
 SIGNED_SC_EXPERTS = tuple(ExpertSpec(
     expert_id=f"single_cell_{direction}", probability_column=f"single_cell_{direction}_strength",
@@ -159,7 +161,7 @@ def materialize_signed_sc_fusion(pointer_path: Path, candidates_path: Path, dono
     import hashlib
     identity={"inputs":inputs,"arm":selected_arm,"min_donors":min_donors}
     run_id="SC_SIGNED_"+hashlib.sha256(json.dumps(identity,sort_keys=True).encode()).hexdigest()[:24]
-    audit={"format":"SC_HHGT_SIGNED_FUSION_BINDING_V1","status":"PASS","target_host":"149",
+    audit={"format":FORMAT,"status":"PASS","target_host":"149",
         "run_id":run_id,"source_model_run_id":pointer.get("run_id"),
         "estimand":"DONOR_BALANCED_SIGNED_ASSOCIATION_STRENGTH","core_dependency":"INDEPENDENT_MODEL",
         "training_started":False,"inputs":inputs,"outputs":artifacts,"arm":selected_arm,
@@ -171,3 +173,43 @@ def materialize_signed_sc_fusion(pointer_path: Path, candidates_path: Path, dono
     (output/"AUDIT.json").write_text(json.dumps(audit,indent=2)+"\n",encoding="utf-8")
     (output/"SUCCESS.json").write_text(json.dumps({"status":"PASS","audit_sha256":artifact_sha256(output/"AUDIT.json")}))
     return audit
+
+
+def load_signed_sc_fusion(binding_path, *, expected_sha, replay=True):
+    """Replay native signed aggregation, without fitting or model inference."""
+    import tempfile
+    from .current_core_export import verified_path
+    from .context_table_replay import compare_tables
+    from .evidence_rule_summary import KEYS
+    path=verified_path({"path":str(binding_path),"sha256":expected_sha},Path.cwd())
+    native=json.loads(path.read_text(encoding="utf-8"));sources={}
+    def bind(item,root=path.parent):
+        result=verified_path(item,root);sources[str(result)]=_record(result);return result
+    success_path=path.parent/"SUCCESS.json"
+    success=json.loads(bind(_record(success_path)).read_text(encoding="utf-8"))
+    if (native.get("format")!=FORMAT or native.get("status")!="PASS"
+            or native.get("target_host")!="149" or native.get("training_started") is not False
+            or native.get("core_dependency")!="INDEPENDENT_MODEL" or native.get("direction_preserved") is not True
+            or native.get("raw_rho_treated_as_probability") is not False or native.get("observed_rho_used_as_feature") is not False
+            or success.get("status")!="PASS" or success.get("audit_sha256")!=expected_sha):
+        raise ValueError("Incomplete native signed single-cell binding")
+    inputs={k:bind(v) for k,v in native["inputs"].items()}
+    outputs={k:bind(v) for k,v in native["outputs"].items()}
+    if set(inputs)!={"pointer","predictions","candidates","donor_crosswalk"} or set(outputs)!={"donor_cell_context","cell_context_summary","single_cell_signed_fusion"}:
+        raise ValueError("Unknown native signed single-cell artifact inventory")
+    pointer=json.loads(inputs["pointer"].read_text(encoding="utf-8"))
+    for key in ("oof_predictions","independent_validation"):bind(pointer[key],inputs["pointer"].parent)
+    if native["inputs"]["predictions"]["sha256"]!=pointer["oof_predictions"]["sha256"]:
+        raise ValueError("Signed single-cell prediction alias differs from pointer")
+    if replay:
+        with tempfile.TemporaryDirectory(prefix="signed_sc_replay_") as tmp:
+            expected=materialize_signed_sc_fusion(inputs["pointer"],inputs["candidates"],inputs["donor_crosswalk"],
+                Path(tmp)/"native",min_donors=native["min_donors"],arm=native["arm"])
+            expected=json.loads(json.dumps(expected))
+            for key,value in expected.items():
+                if key!="outputs" and native.get(key)!=value:
+                    raise ValueError("Single-cell native policy or lineage differs: "+key)
+            for name,keys in (("donor_cell_context",KEYS+["dataset_id","cell_key","query_donor_id"]),
+                              ("cell_context_summary",KEYS+["cell_key"]),("single_cell_signed_fusion",KEYS)):
+                compare_tables(outputs[name],expected["outputs"][name]["path"],keys)
+    return native,inputs,outputs,list(sources.values())

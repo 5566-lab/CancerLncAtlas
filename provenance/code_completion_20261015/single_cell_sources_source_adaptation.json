@@ -1,0 +1,50 @@
+{
+  "method": "SIGNED_SC_ADAPTER_TO_NATIVE_CHECKPOINT_EPISODE_AND_UPSTREAM_STUDY_INSPECTION",
+  "successful_validation_receipts": [
+    "single_cell_sources_r5",
+    "single_cell_sources_web_r1"
+  ],
+  "historical_intermediate_receipts": [
+    "single_cell_sources_r1",
+    "single_cell_sources_r2",
+    "single_cell_sources_r3",
+    "single_cell_sources_r4"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/current_single_cell_model_use.py",
+    "cc_hhgt/v32/single_cell_signed_fusion.py",
+    "scripts/run_v32_current_multimodal_fusion.py",
+    "tests/test_v32_single_cell_model_use.py"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "native_inventory_model_forwards_executed": false,
+  "raw_study_provenance_reconstructed": false,
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "fixture_scope": "Actual native architecture initialization with fixed parameters and native prebuilt episode tensors; actual loaders/adapters/fusion/inventory/external consumers, no optimization. Synthetic native-format training receipts are not a training attestation.",
+  "ssh_incident": "Initial SCP banner exchange failed before tests started. The authorized iOA skill read-only probe returned hostname 149; no login or reconnect was needed. Remote absence of the check receipt was confirmed before resuming.",
+  "captured_browser_receipt": {
+    "path": "single_cell_sources_web_browser_receipt.json",
+    "sha256": "20849e3a73edc46fa0324834dd47cb72cbf090b4d183eba6af48308d0cef7b5b"
+  },
+  "captured_screenshots": [
+    {
+      "path": "single_cell_sources_web_desktop.png",
+      "sha256": "fc49b6435a9c1f06d886492884c6dddf36f29ce3413bd62425829ccc6d67f9f2"
+    },
+    {
+      "path": "single_cell_sources_web_mobile.png",
+      "sha256": "2b8aaf7263805095873356448db7eb156cab7b985382d7c8851b2d904a2d509e"
+    }
+  ]
+}

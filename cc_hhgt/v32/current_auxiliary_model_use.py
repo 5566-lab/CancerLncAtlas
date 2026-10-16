@@ -80,17 +80,29 @@ def inspect_fusion_expert(inventory,path,binding,audit,frame,expert,model,endpoi
         raise ValueError("Fusion expert run or estimand differs from native producer")
     if json.loads(json.dumps(asdict(spec))) not in native.get("expert_specs",[]):
         raise ValueError("Fusion expert specification differs from native producer")
+    def compare_snapshot(observed):
+        left=frame[KEYS+[expert+"_probability",expert+"_available"]].sort_values(KEYS).reset_index(drop=True)
+        right=observed[KEYS+[spec.probability_column,spec.availability_column]].sort_values(KEYS).reset_index(drop=True)
+        right.columns=left.columns
+        try:pd.testing.assert_frame_equal(left,right,check_dtype=False,rtol=0,atol=1e-12)
+        except AssertionError as error:raise ValueError("Fusion snapshot differs from the declared native expert input") from error
+    from .single_cell_signed_fusion import FORMAT as SIGNED_FORMAT,load_signed_sc_fusion
+    if native.get("format")==SIGNED_FORMAT:
+        native,inputs,outputs,sources=load_signed_sc_fusion(audit_path,expected_sha=sha256(audit_path))
+        if sha256(outputs["single_cell_signed_fusion"])!=sha256(prediction):
+            raise ValueError("Fusion expert consumed prediction differs from signed SC aggregate")
+        compare_snapshot(pd.read_parquet(outputs["single_cell_signed_fusion"]))
+        for i,item in enumerate(sources):inventory.bind(item,audit_path.parent,model,role+".signed_source."+str(i))
+        from .current_single_cell_model_use import inspect_signed_sources
+        inspect_signed_sources(inventory,native,inputs,outputs,model,role)
+        return
     from .native_auxiliary_fusion import FORMAT,load_native_auxiliary,native_sources
     if native.get("format")!=FORMAT:
         inventory.gap(model,role,"UNSUPPORTED_AUXILIARY_NATIVE_BINDING",digest=sha256(audit_path));return
     observed,native=load_native_auxiliary(audit_path,expected_sha=sha256(audit_path),expected_core_run_id=audit["core_run_id"])
     if native["outputs"]["fusion"]["sha256"]!=sha256(prediction):
         raise ValueError("Fusion expert consumed prediction differs from native aggregate")
-    left=frame[KEYS+[expert+"_probability",expert+"_available"]].sort_values(KEYS).reset_index(drop=True)
-    right=observed[KEYS+[spec.probability_column,spec.availability_column]].sort_values(KEYS).reset_index(drop=True)
-    right.columns=left.columns
-    try:pd.testing.assert_frame_equal(left,right,check_dtype=False,rtol=0,atol=1e-12)
-    except AssertionError as error:raise ValueError("Fusion snapshot differs from the declared native expert input") from error
+    compare_snapshot(observed)
     manifest_path=inventory.bind(native["input_manifest"],audit_path.parent,model,role+".manifest")
     context=native_sources(manifest_path,expected_core_run_id=audit["core_run_id"])
     for i,item in enumerate(context["sources"].records.values()):

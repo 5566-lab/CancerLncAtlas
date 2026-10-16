@@ -47,6 +47,8 @@ def implementations():
         "cc_hhgt/v32/current_auxiliary_model_use.py","cc_hhgt/v32/native_auxiliary_fusion.py",
         "scripts/run_v32_current_multimodal_fusion.py",
         "cc_hhgt/v32/multimodal_fusion.py",
+        "cc_hhgt/v32/current_single_cell_model_use.py","cc_hhgt/v32/single_cell_signed_fusion.py",
+        "scripts/train_single_cell_hhgt_149.py","cc_hhgt/v32/single_cell_hhgt.py",
         "cc_hhgt/v32/external_validation_current.py"]
     return {name:sha256(root/name) for name in names}
 

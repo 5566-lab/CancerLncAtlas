@@ -2156,3 +2156,50 @@ exercised. Bare legacy primary-label lists remain ineligible for current fitting
 the fixed-parameter fixtures do not claim training readiness. Signed SC auxiliary
 ancestry, complete native core/raw ancestry, CNV partition lineage and cross-module
 patient usage remain open under C13/C16. No real data analysis or training is run.
+
+Signed SC-HHGT training inputs and upstream sources
+--------------------------------------------------
+
+The current fusion runner now replays the native signed SC adapter rather than
+accepting its PASS marker alone. The shared loader checks the activated OOF
+prediction alias, aggregation policy, all donor/cell-context tables and full
+candidate summaries. The model-use consumer also compares each consumed signed
+feature against the actual private fusion snapshot before following its source.
+
+When a native training SUCCESS is bound, the inspector opens both five-fold
+SC-HHGT arms, native checkpoint tensors and digests, reports, source implementation
+bindings, input lineage and episode manifests. It reconciles the activated OOF
+table with all per-model prediction files. Actual native load_episode calls then
+rebuild each arm's graph/features and enforce its donor isolation contract;
+their audits must equal the bound training reports. Query identities and observed
+targets must match the consumed query episode. No model is constructed and no
+model prediction, optimizer or LASSO fit occurs during this inspection.
+
+Explicit episode/static/matrix/source receipts are followed recursively through
+bound JSON records and paired path/hash fields. Source tables contribute only
+explicit study metadata. Native lncRNA node identities and fit/validation/query
+exposure reach the current inventory, including data absent from the fusion
+candidate summary. Usage identifiers bind graph exposure to each actual episode,
+not only a shared static graph. Unbound paths, unsupported array ancestry and
+missing historical training bindings retain explicit gaps.
+
+The adapter's donor crosswalk is also applied privately to native source and
+excluded donor sets. Canonical aliases crossing a native training/query partition
+or outer folds are rejected. Missing or ambiguous mappings remain gaps; this does
+not establish cross-module patient independence. No raw donor identifiers, raw
+receipt mapping keys or filesystem paths enter public dependency tables. Dynamic
+upstream mapping keys use structural indices in public role labels.
+
+FUSION_EXPERT:single_cell_positive and FUSION_EXPERT:single_cell_negative preserve
+the evaluated model identity even for final zero coefficients. Synthetic tests
+verify exclusion of an otherwise unseen external entity whose study appears only
+in SC upstream sources. They also reject changed files, repinned checkpoint state,
+omitted ablation-arm episodes, changed query donors and canonical-alias leakage.
+Fixtures initialize the actual native architecture with fixed parameters and
+prebuilt episode tensors; their native-shaped receipts are explicitly synthetic,
+not evidence of optimization or scientifically validated predictions.
+
+C13/C16 still require complete raw transformations/study ancestry, CNV consumed
+partitions, full core ancestry and cross-module patient closure. Signed SC native
+producer traversal is now implemented; complete biological independence and final
+C01/C13/C16 acceptance remain unproven.

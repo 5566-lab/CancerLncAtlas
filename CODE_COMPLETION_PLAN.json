@@ -95,8 +95,8 @@
       "task": "独立外部验证入口、来源/实体隔离及真实指标",
       "status": "in_progress",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
-      "implementation": "Native external readers, study/entity isolation, measured metrics, uncertainty and score replay are implemented. External V2 now consumes an independently replayed inventory derived from actual five-fold V4 prepared/checkpoint/graph inputs and masks, chosen selected-score producers and fusion inputs. Actual omitted lncRNA exposure, unresolved dependencies, L1 separation and source-file overlap reach the public API/browser without optimization. Formal preparation now preserves actual consumed legacy and adjusted association files, explicit study metadata and native authority hashes through current core/L1 inventory and external V2. Actual study-overlap exclusion is verified for an unseen lncRNA; raw ancestry remains incomplete. Native G012 selection now retains/replays all fifteen comparison receipts and traverses every V4 comparator input, with explicit SELECTED_SCORE versus G012_COMPARISON contexts. Actual external V2 excludes studies seen only by losing models, and native/public/browser queries retain comparison provenance. Fusion expert-to-producer bindings now drive actual native genomic/CNV/ATAC checkpoint, input and explicit-study traversal, with private snapshot comparison and FUSION_EXPERT contexts. External V2 excludes studies seen only by zero-weight auxiliary experts; native dependency queries preserve context without paths.",
-      "remaining": "Complete raw-study and upstream feature/label ancestry, signed single-cell auxiliary dependencies, CNV consumed partitions, complete frozen-core ancestry, cross-module patient/source closure, and unsupported historical comparison inputs. Native genomic/CNV/ATAC fusion producer traversal is implemented but does not attest complete biological independence."
+      "implementation": "Native external readers, study/entity isolation, measured metrics, uncertainty and score replay are implemented. External V2 now consumes an independently replayed inventory derived from actual five-fold V4 prepared/checkpoint/graph inputs and masks, chosen selected-score producers and fusion inputs. Actual omitted lncRNA exposure, unresolved dependencies, L1 separation and source-file overlap reach the public API/browser without optimization. Formal preparation now preserves actual consumed legacy and adjusted association files, explicit study metadata and native authority hashes through current core/L1 inventory and external V2. Actual study-overlap exclusion is verified for an unseen lncRNA; raw ancestry remains incomplete. Native G012 selection now retains/replays all fifteen comparison receipts and traverses every V4 comparator input, with explicit SELECTED_SCORE versus G012_COMPARISON contexts. Actual external V2 excludes studies seen only by losing models, and native/public/browser queries retain comparison provenance. Fusion expert-to-producer bindings now drive actual native genomic/CNV/ATAC checkpoint, input and explicit-study traversal, with private snapshot comparison and FUSION_EXPERT contexts. External V2 excludes studies seen only by zero-weight auxiliary experts; native dependency queries preserve context without paths. Signed SC-HHGT native producer traversal now verifies all ten checkpoint/report sources, actual both-arm episode audits, query identities, explicit upstream study receipts and canonical donor partitions. Zero-weight signed experts retain these dependencies and exclude SC-only source studies in external V2. Arbitrary upstream mapping keys stay out of public dependency roles.",
+      "remaining": "Complete raw-study/upstream transformation ancestry, CNV consumed partitions, full frozen-core ancestry, cross-module patient/source closure, and unsupported historical comparison inputs. Native signed-SC/genomic/CNV/ATAC fusion traversal is implemented; unbound SC ancestors or ambiguous donor mappings remain explicit gaps, not biological-independence attestations."
     },
     {
       "id": "C14",
@@ -120,12 +120,12 @@
       "status": "in_progress",
       "real_data_execution": "NOT_RUN_AS_REQUESTED",
       "implementation": "A unified current publication CLI now invokes actual rule evidence, selected score/GeneSet, all seven native context, external-evaluation and web publishers. It resolves earlier-stage binding references, preserves pinned reuse and explicit absence, records per-stage failures and generates actual public Arrow schemas/table semantics. All-stage synthetic BUILD, REUSE, missing-stage and failure workflows reach the real API/browser without optimization. External V2 workflow templates can now derive native model-use inputs automatically before evaluation, with an explicit model_use stage and public path-free dependency/gap tables.",
-      "remaining": "Finish raw biological-source and cross-module patient closure, signed single-cell/CNV partition/complete core ancestry, unsupported historical comparison ancestry, upstream preparation/training command records without starting training, scientific field definitions/units and final per-requirement acceptance."
+      "remaining": "Finish raw biological-source and cross-module patient closure, CNV partition/full core ancestry, unsupported historical ancestry, upstream preparation/training command records without starting training, scientific field definitions/units and final per-requirement acceptance."
     }
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 603,
+    "unique_fixture_tests_passed": 612,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -135,6 +135,6 @@
       "C13",
       "C16"
     ],
-    "latest_change_tests_passed": 98
+    "latest_change_tests_passed": 56
   }
 }

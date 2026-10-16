@@ -97,6 +97,11 @@ def main(argv=None):
                 _,native_audits[audit_path]=load_native_auxiliary(audit_path,
                     expected_sha=verified[audit_path],expected_core_run_id=args.expected_core_run_id)
             audit=native_audits[audit_path]
+        elif audit.get("format")=="SC_HHGT_SIGNED_FUSION_BINDING_V1":
+            from cc_hhgt.v32.single_cell_signed_fusion import load_signed_sc_fusion
+            if audit_path not in native_audits:
+                native_audits[audit_path]=load_signed_sc_fusion(audit_path,expected_sha=verified[audit_path])[0]
+            audit=native_audits[audit_path]
         if audit.get("run_id")!=item["run_id"] or audit.get("estimand")!=item["estimand"]:
             raise ValueError(f"{spec.expert_id} run identity or estimand differs from its producer audit")
         dependency=audit.get("core_dependency")

@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T00:28:28.258680+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_single_cell_model_use.py": "dc102d0a8c61d7444e774e7d490b0bc486befdae1350f2bd205146b734bfa56e",
+    "cc_hhgt/v32/single_cell_signed_fusion.py": "3314810e1a9885fe504aec365ec0cf6a2f308337282d2627f5c44ce8fadcaac7",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "606852ca043c325bcc1ffe5d90b6d85af459f5b29e20cde33900b00ca1eee76d",
+    "cc_hhgt/v32/current_model_use.py": "14a95b5d12c0fa776251da5f6136cf37996d72e938e384e35d4059271e351391",
+    "scripts/run_v32_current_multimodal_fusion.py": "8358224af6f01fb1a50adcc53115ce6558511a45f58aaa543f7ef1a1b4af9f56",
+    "tests/test_v32_single_cell_model_use.py": "6436605318b1a3f0f9533e9ddb3916ecf9e4d93f71f5560243a954ec249c1feb"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_single_cell_model_use.py",
+    "tests/test_v32_signed_single_cell_fusion.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/single_cell_sources_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-16T00:29:34.506859+00:00"
+}
