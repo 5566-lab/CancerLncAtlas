@@ -44,6 +44,9 @@ def implementations():
         "scripts/export_v32_current_core_embeddings.py","cc_hhgt/v32/training.py",
         "cc_hhgt/v32/preparation_sources.py","scripts/prepare_v32_formal.py",
         "cc_hhgt/v32/g012_winner_lock.py","cc_hhgt/v32/selected_score.py",
+        "cc_hhgt/v32/current_auxiliary_model_use.py","cc_hhgt/v32/native_auxiliary_fusion.py",
+        "scripts/run_v32_current_multimodal_fusion.py",
+        "cc_hhgt/v32/multimodal_fusion.py",
         "cc_hhgt/v32/external_validation_current.py"]
     return {name:sha256(root/name) for name in names}
 
@@ -329,8 +332,10 @@ class Inventory:
             for i,item in enumerate(binding["source_inputs"]):self.bind(item,path.parent,model,"fusion.source."+str(i))
             parameters=read(artifacts["checkpoint"])
             endpoint="confidence" if spec["score_column"]=="fused_confidence_probability" else "discovery"
+            from .current_auxiliary_model_use import inspect_fusion_expert
             for expert in parameters[endpoint]["expert_ids"]:
-                self.gap(model,"fusion.expert."+expert,"AUXILIARY_RAW_TRAINING_DEPENDENCIES_NOT_RECONSTRUCTED")
+                with self.context("FUSION_EXPERT:"+expert):
+                    inspect_fusion_expert(self,path,binding,audit,frame,expert,model,endpoint)
         else:
             self.gap(model,"producer."+kind,"LEGACY_NATIVE_INPUT_DEPENDENCIES_NOT_RECONSTRUCTED")
 

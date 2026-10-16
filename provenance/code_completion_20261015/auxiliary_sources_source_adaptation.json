@@ -1,0 +1,48 @@
+{
+  "method": "ACTUAL_FUSION_EXPERT_BINDINGS_TO_NATIVE_AUXILIARY_SOURCES_AND_EXTERNAL_ISOLATION",
+  "successful_validation_receipts": [
+    "auxiliary_sources_r4",
+    "auxiliary_sources_web_r1"
+  ],
+  "preserved_failed_receipts": [
+    "auxiliary_sources_r1",
+    "auxiliary_sources_r2",
+    "auxiliary_sources_r3"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/multimodal_fusion.py",
+    "scripts/run_v32_current_multimodal_fusion.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "website/frontend/assets/current-analysis.js"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "native_inventory_model_forwards_executed": false,
+  "raw_study_provenance_reconstructed": false,
+  "model_use_inventory_completeness_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "fixture_scope": "Actual prepare-only runner/native adapters/fusion serializer/inventory/external consumers with synthetic sources, fixed auxiliary checkpoints and fixed zero-weight fusion parameters; no fitting or scientific performance claim.",
+  "captured_browser_receipt": {
+    "path": "auxiliary_sources_web_browser_receipt.json",
+    "sha256": "7ddcb70f3f6d62706c4890bbc77b240e78905506e5d26948a1c3645485bc1667"
+  },
+  "captured_screenshots": [
+    {
+      "path": "auxiliary_sources_web_desktop.png",
+      "sha256": "5a40c03125a9350b2f7eaf989d789676213ac75f0475c2a3833c50b860a95678"
+    },
+    {
+      "path": "auxiliary_sources_web_mobile.png",
+      "sha256": "23d300d0b7ad79b2a0494691cda0aed590abc6682ad03e5c2e8d5690398e2685"
+    }
+  ]
+}

@@ -1583,12 +1583,13 @@ def materialize_multimodal_fusion_release(
         "confidence_oof_private": _artifact_declaration(confidence_oof_path, public=False),
         "fusion_input_private": _artifact_declaration(fusion_input_path, public=False),
         "checkpoint": _artifact_declaration(checkpoint_path, public=False),
-        "source_inputs": _artifact_declaration(sources_path, public=True),
-        "module_lineage": _artifact_declaration(lineage_path, public=True),
+        # Native records contain filesystem locations and private bindings.
+        "source_inputs": _artifact_declaration(sources_path, public=False),
+        "module_lineage": _artifact_declaration(lineage_path, public=False),
     }
     if input_audit is not None:
         artifacts["fusion_input_audit"] = _artifact_declaration(
-            input_audit_path, public=True
+            input_audit_path, public=False
         )
     binding_path = output / "MULTIMODAL_FUSION_BINDING.json"
     binding = {

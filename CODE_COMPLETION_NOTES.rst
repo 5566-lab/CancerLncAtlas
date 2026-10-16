@@ -2119,3 +2119,40 @@ C13 still requires raw biological ancestry, auxiliary-model dependencies,
 cross-module patient closure and handling historical comparison gaps. The
 current V4 all-arm traversal is implemented; C01/C13/C16 final acceptance is
 not complete.
+
+Native auxiliary dependencies consumed by fusion
+------------------------------------------------
+
+The current fusion preparation command retains each expert's exact specification,
+run, estimand, native binding and consumed prediction in INPUT_AUDIT.json. The
+model-use inspector follows these records for every expert used by the evaluated
+endpoint, including experts with a final zero coefficient. It first replays the
+native aggregation and compares the exact candidate keys, values and availability
+against the private fusion snapshot. Unconsumed source declarations, changed
+run identities, specifications or snapshot values are rejected.
+
+Mutation/CNV-event, directional CNV and ATAC native bindings now contribute their
+actual checkpoints, receipts, patient-fold authorities and candidate exposure.
+Genomic lineage input_artifacts and ATAC input-audit/materialization sources are
+hash-verified and inspected for explicit study metadata. Native genomic/CNV heads'
+two consumed lncRNA/pathway embedding exports are retained, together with core
+training receipts and any recorded source authorities. Whole input-file metadata
+is exposure evidence, not a claim that each row fitted a model. Patient IDs are
+not exported. Non-table inputs, unlocated authorities and unrecorded ancestors
+remain explicit gaps. Historical CNV hashes do not reconstruct their consumed
+matrix partitions; old fusion audits without expert mappings remain incomplete.
+
+These rows carry dependency_context=FUSION_EXPERT:<expert_id>. External V2 uses
+their file/study exposure in isolation and supports the same context filter in
+public dependency queries, with paths removed. Native fusion audit/source/lineage
+artifacts containing filesystem references are private; public scores and metrics
+remain public. Source replay and numeric aggregation are not neural forward
+validation or an assertion of complete patient-level training/selection isolation.
+
+Synthetic verification uses fixed auxiliary checkpoints and fixed zero-weight
+fusion parameters with optimization forbidden. The actual prepare-only runner,
+native adapter, fusion serializer, model-use replay and external V2 consumer are
+exercised. Bare legacy primary-label lists remain ineligible for current fitting;
+the fixed-parameter fixtures do not claim training readiness. Signed SC auxiliary
+ancestry, complete native core/raw ancestry, CNV partition lineage and cross-module
+patient usage remain open under C13/C16. No real data analysis or training is run.

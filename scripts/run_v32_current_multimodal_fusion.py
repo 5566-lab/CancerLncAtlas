@@ -76,6 +76,7 @@ def main(argv=None):
     folds=[bound(item["artifact"],"task_definition" if native_labels else "current_v32_oof_prediction")
            for item in sorted(fold_records,key=lambda item:item["fold_id"])]
     experts={}
+    expert_bindings={}
     native_audits={}
     for item in manifest["experts"]:
         definition=dict(item["spec"])
@@ -122,6 +123,10 @@ def main(argv=None):
         if spec in experts or any(existing.expert_id==spec.expert_id for existing in experts):
             raise ValueError("Duplicate current fusion expert")
         experts[spec]=bound(record)
+        expert_bindings[spec.expert_id]={"spec":json.loads(json.dumps(asdict(spec))),
+            "run_id":item["run_id"],"estimand":item["estimand"],
+            "prediction":{"path":str(experts[spec]),"sha256":verified[experts[spec]]},
+            "binding_audit":{"path":str(audit_path),"sha256":verified[audit_path]}}
     frame,audit=build_pair_aggregated_fusion_frame_from_parquet(primary,folds,experts,
         temp_directory=args.output/"duckdb_tmp",native_validation_labels=native_labels)
     available_pair_folds=(set(frame.loc[frame.fusion_target_available,"fusion_pair_fold"])
@@ -140,7 +145,8 @@ def main(argv=None):
     frame_path=args.output/"PRIVATE_FUSION_INPUT.parquet"
     frame.to_parquet(frame_path,index=False)
     audit.update(core_run_id=args.expected_core_run_id,manifest_sha256=artifact_sha256(args.manifest),
-                 training_started=False,primary_source_sha256=verified[primary])
+                 training_started=False,primary_source_sha256=verified[primary],
+                 expert_bindings=expert_bindings)
     (args.output/"INPUT_AUDIT.json").write_text(json.dumps(audit,indent=2)+"\n")
     if not args.fit:
         receipt={"status":"PREPARED_NOT_TRAINED","target_host":"149","training_started":False,

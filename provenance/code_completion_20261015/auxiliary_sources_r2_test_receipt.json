@@ -1,0 +1,25 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-16T00:06:25.785398+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "40ffd51256d4afe0df9a352a1d121dac32c4c370d40b4c5fdc5944d5ef680b6e",
+    "cc_hhgt/v32/current_model_use.py": "f1481f97fc879d6f1b5ca68688d1596dc32b594bfd16901cd2618aea7713d986",
+    "scripts/run_v32_current_multimodal_fusion.py": "2d25072d75264d2aca8c77da05ae043cc7f91e1cbf955c71957290744f6733f5",
+    "tests/test_v32_auxiliary_model_use.py": "bb6cb11ff82df1cf10e8473872bb45d22326767fd2a2023ea0fa5dc872865bfe"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "tests/test_v32_current_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/auxiliary_sources_r2_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-16T00:07:24.590377+00:00"
+}

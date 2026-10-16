@@ -19,7 +19,7 @@
     model_dependencies:"模型输入文件核对",model_dependency_gaps:"尚未追溯的来源",
     phase:"使用阶段",use_view:"原生输入用途",candidate_rows:"候选记录数",entity_scope:"实体排除范围",role:"依赖用途",reason:"未解析原因",status:"核对状态",
     study_tokens_json:"研究来源标识",study_id:"关联研究组",study_overlap:"研究来源重叠",
-    dependency_context:"评分或比较模型",
+    dependency_context:"评分、比较或辅助模型",
     native_pooled_support:"供者平衡的正负关联",native_cell_context:"细胞背景关联",native_dataset_context:"数据集与细胞背景",
     selected_member_support:"成员单细胞支持",selected_member_context:"成员细胞背景",selected_geneset_context:"基因集细胞背景概况",
     cell_key:"细胞背景",dataset_id:"数据集",donors:"独立供者数",donor_folds:"供者折数",
