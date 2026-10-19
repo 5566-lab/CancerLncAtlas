@@ -3055,3 +3055,79 @@ fixture has zero E1 edges in folds 0 and 4 and positive edge counts in folds
 consumer run passed but its initial SCP receipt transfer failed during SSH
 banner exchange. A read-only probe returned host 149 and the existing completed
 receipts were downloaded without rerunning the tests or changing the VPN login.
+
+Fresh typed global graph authority and formal preparation (2026-10-19)
+--------------------------------------------------------------------
+
+The formal preparation CLI previously always requested GENERIC_GLOBAL and
+called the flat binding materializer. The older phase7 typed-authority script
+depends on historical absolute directories and existing prepared files. A new
+explicit command now creates the typed authority from a pinned source receipt
+without needing historical prepared payloads::
+
+    python -m scripts.prepare_v32_typed_graph_authority \
+      --manifest /absolute/typed_inputs.json --output /absolute/new_typed_authority
+
+The input format is TYPED_GLOBAL_GRAPH_AUTHORITY_INPUT_V1. source_receipt,
+patient_map and patient_receipt are path/SHA256 records. binding_declaration
+contains path, sha256, source_role=static_annotation, outcome_derived=false,
+historical_model_output=false and toy_or_synthetic=false. These are explicit
+input lineage declarations, not independently established biological facts.
+fold_expression_pattern and fold_coexpression_pattern are absolute paths with
+one literal {fold} placeholder each. The existing strict authority loader
+validates every static input and all five fold declarations before publication.
+
+The command runs only on host 149, records its target in LAUNCH_PREFLIGHT.json,
+refuses output-directory reuse, preserves the source receipt and publishes
+GRAPH_INPUT_AUTHORITY_RECEIPT_TYPED.json plus SUCCESS.json. The new receipt
+retains the original fold-local E1 ancestry and uses TYPED_ASSAY_CLASS_V1 with
+binding_context_policy=GLOBAL_PHYSICAL_BINDING. Its preparation record pins
+the source receipt, manifest and binding file. Old receipt counts are retained
+as source_receipt_counts rather than presented as new graph totals.
+
+Run the existing scripts.prepare_v32_formal command with all its explicit
+patient, candidate, adjusted-association and graph arguments, adding
+--graph-relation-schema-generation TYPED_ASSAY_CLASS_V1. Point the graph receipt
+and its SHA256 at the new receipt, and use its binding artifact path/SHA256.
+Continue supplying --fold-local-scope and its hash for the native training-only
+detection/normalization path. Selecting a typed receipt without the explicit
+generation fails. Typed preparation requires the global physical-binding
+policy; it never silently globalizes cancer-restricted input rows.
+
+Fresh typed G0/G1/G2 payloads use one common node inventory and full registered
+relation schema. G0 has the base graph, G1 adds typed binding and protein-gene
+encoding, and G2 additionally includes PPI. All arms use the existing feature,
+candidate, label and source writers. Predicted binding is excluded, retaining
+its source-row count in the preparation record. Unknown assay evidence, empty
+identifiers, nonpositive/nonfinite weights and cancer/context restrictions are
+rejected. Existing generic and historical typed materializers remain available
+under their prior contracts. Portable validation also checks a fresh global
+payload for flat, predicted, unknown or contextual binding edges.
+
+The authority command never fits a model. Formal preparation retains its
+existing L1 baseline fitting step when executed normally; code-only verification
+substitutes fixed zero L1 logits and forbids optimizers and LogisticRegression
+fitting. No real cohort preparation or training was launched for this change.
+
+This closes fresh typed authority creation and direct formal payload writing.
+The historical C-overlay/current-C comparison launcher still uses its existing
+sidecar contract; it has not been replaced by the new direct payload route.
+Native full-cohort closeout, complete acquisition/patient ancestry and final
+orchestration/acceptance remain open. Existing historical checkpoints must not
+be relabeled as trained on these new inputs.
+
+Verification: typed_graph_preparation_r2 records 38 passing checks, including
+26 fresh typed-preparation cases and the existing formal-authority/C-overlay
+regressions. Each of the fifteen written payloads passes the actual prepared
+validator and frozen encoder plus residual/direction heads with unchanged model
+parameters. typed_graph_consumers_r1 records 52 passing binding-expansion,
+native corrected-graph and current-prediction checks, including existing
+GeneSet/GMT, source inventory, HTTP and browser consumers. These are 90 distinct
+scoped checks on 149, not a full-suite or real-cohort run.
+
+The first run's five G1 failures were incorrect test expectations: it expected
+binding edges only in G2. The assertions now preserve the existing G1 binding
+and encoding edges, with PPI added only in G2. Production arm semantics were
+not changed. The initial failed receipt is retained alongside the passing
+rerun. Unknown assays, invalid identifiers and invalid weights were also added
+to the fresh global policy checks before the passing verification.

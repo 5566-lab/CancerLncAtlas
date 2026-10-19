@@ -1,0 +1,61 @@
+{
+  "method": "FRESH_TYPED_GLOBAL_AUTHORITY_AND_FORMAL_PREPARATION",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "typed_graph_preparation_r2",
+    "typed_graph_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "typed_graph_preparation_r1"
+  ],
+  "intermediate_failure_causes": [
+    "five G1 cases incorrectly expected binding edges only in G2; corrected the test to the existing G1 binding/encoding and G2 additional-PPI contract"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/formal_graph.py",
+    "cc_hhgt/v32/formal_graph_authority.py",
+    "scripts/prepare_v32_formal.py",
+    "scripts/prepare_v32_typed_graph_authority.py",
+    "tests/test_v32_typed_graph_preparation.py"
+  ],
+  "fresh_authority_cli_verified": true,
+  "strict_all_five_fold_loader_executed": true,
+  "actual_prepared_artifacts": 15,
+  "actual_preparation_graph_arms": [
+    "G0",
+    "G1",
+    "G2"
+  ],
+  "actual_frozen_encoder_and_residual_direction_forward_folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "model_state_unchanged_verified": true,
+  "historical_source_receipt_unchanged_verified": true,
+  "predicted_source_rows_in_fixture": 1,
+  "predicted_rows_in_graphs": 0,
+  "test_substitutes": [
+    "synthetic frozen-cohort control metadata and hash constants",
+    "reduced candidate/cancer dimensions and closeout controls",
+    "fixed zero L1 logits",
+    "synthetic pathway activity"
+  ],
+  "fresh_typed_authority_direct_preparation_complete": true,
+  "historical_c_sidecar_launcher_migrated": false,
+  "full_cohort_closeout_complete": false,
+  "biological_independence_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Fresh typed global graph authority production and explicit formal-preparation generation selection are now implemented. A new pinned manifest validates all five folds and six static inputs, replaces only the binding artifact and preserves native corrected-E1 ancestry. Actual synthetic formal preparation writes fifteen G0/G1/G2 payloads; the real prepared validator, encoder and residual/direction heads consume each without fitting. Fixed zero L1 logits and frozen cohort/closeout control metadata remain explicit substitutes. The historical C sidecar/comparison launcher has not been migrated to direct native payloads. Full native closeout, complete source/patient ancestry and final acceptance remain open."
+}

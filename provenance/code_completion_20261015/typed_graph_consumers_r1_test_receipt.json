@@ -1,0 +1,47 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T05:00:13.817771+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/formal_graph.py": "c443fa2181da4abce4803106c1544de76198270d944b33cf7d315f8ecf3b015d",
+    "cc_hhgt/v32/formal_graph_authority.py": "34fa8a19fa230228aee2dea7e81b4df86574d60eb7d66d4855273ba212b5f138",
+    "scripts/prepare_v32_formal.py": "126f55882871660af819f05d4bb10c2a0da9ae65e6ea86dcb65bf2367742a51c",
+    "scripts/prepare_v32_typed_graph_authority.py": "e59074e41d6efeac97be07f53e6877dfd99d1b876ab54b3b1c5ca47951d0a888",
+    "tests/test_v32_typed_graph_preparation.py": "06baf0d64e43ee720abde9055a069a6e4d3ec80476021d7d143935bff83f8d82"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_binding_expansion.py",
+    "tests/test_v32_fold_local_graph.py",
+    "tests/test_v32_prediction_scope.py",
+    "--junitxml=provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T05:02:18.839942+00:00"
+}

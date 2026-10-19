@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 797,
+  "unique_test_cases_passed": 823,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -64,8 +64,8 @@
     "cc_hhgt/v32/current_binding_graph.py": "a290a3f948c1c58d51eced276b1bde62822db59c521bf33aa36225ca310fc57f",
     "cc_hhgt/v32/current_binding_overlay.py": "eb1cf4f7b474031a4e1ebd575c6c12e9dace6ed2d5fa60cdfbc9918a4409f1d8",
     "cc_hhgt/v32/training_device.py": "2aa45e08f60e25fd52ac05eb491e021a4fdcbbb7fe249e7bc67a0b2fa37c6cd7",
-    "cc_hhgt/v32/formal_graph.py": "79157f86d36bd9e545a8a31d33ec0554efad6daa5d4adfb68ea40bd60568129e",
-    "cc_hhgt/v32/formal_graph_authority.py": "0ffe38da9d2d16c4d0a66e8ecea1264f58689b8480404f3f6296be46290c3398",
+    "cc_hhgt/v32/formal_graph.py": "c443fa2181da4abce4803106c1544de76198270d944b33cf7d315f8ecf3b015d",
+    "cc_hhgt/v32/formal_graph_authority.py": "34fa8a19fa230228aee2dea7e81b4df86574d60eb7d66d4855273ba212b5f138",
     "cc_hhgt/v32/safe_graph.py": "00974657223b7ad141140eb556833b721cdb4f821276e3586e940b28e1d98985",
     "cc_hhgt/v32/orchestration.py": "a759ee75972d3f41797a081529d25878c6aecdebdc7b0b3cc000eae8ee34b8e2",
     "scripts/prepare_v32_current_binding_comparison.py": "06d43f85a2e200d89a488c6d1067b5963c865cff9e3e93257a1f8cf6dfc894b6",
@@ -165,7 +165,7 @@
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "75c340c6e0bac50d2aff0840ec4cfc4ef5b972b37fa3c28da0d8536f39732323",
     "cc_hhgt/v32/preparation_sources.py": "0bb6b8f4596963ae7a941ca3311bb294881a36cc94f2cac8bb9effdfa6ef9a2e",
-    "scripts/prepare_v32_formal.py": "1ab6296915385f7771cc7e18806d28949c823188b4686e26dd8678c6eaf47c5a",
+    "scripts/prepare_v32_formal.py": "126f55882871660af819f05d4bb10c2a0da9ae65e6ea86dcb65bf2367742a51c",
     "tests/test_v32_preparation_sources.py": "967573cc29359b8a19a2a7240ae2d15a429f1b568ffa4c34b2fb476e0baaed8b",
     "tests/test_v32_formal_preparation_firewall.py": "3ca2520cc107b2e7019fc4e8db17b33c6341288549be3373737144098fbd7e3c",
     "scripts/server_prepare_v32_g012_patient_first_r2.sh": "6af76a4c20de354b52347d761099baba415bacebd194d2628fa22c4433fc4601",
@@ -225,7 +225,9 @@
     "cc_hhgt/v32/prediction_scope.py": "3d7ef05ec49f92491f1b42757d4311a82ec8f3a6e150da243648b09b1fecf23e",
     "tests/test_v32_prediction_scope.py": "65ce49143888d06b9fc86fd8f729815ce252841de992d505966c70df67918173",
     "cc_hhgt/v32/fold_local_graph.py": "d7be9968b36b55de48c62bd6d82900b15c2e899e83d564a5e992310f97b51ea8",
-    "tests/test_v32_fold_local_graph.py": "bc73d7b51a3ad13ca805d18ccb40ee78821d037c48e41f5b1790d69cd97a2c77"
+    "tests/test_v32_fold_local_graph.py": "bc73d7b51a3ad13ca805d18ccb40ee78821d037c48e41f5b1790d69cd97a2c77",
+    "scripts/prepare_v32_typed_graph_authority.py": "e59074e41d6efeac97be07f53e6877dfd99d1b876ab54b3b1c5ca47951d0a888",
+    "tests/test_v32_typed_graph_preparation.py": "06baf0d64e43ee720abde9055a069a6e4d3ec80476021d7d143935bff83f8d82"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -347,7 +349,8 @@
     "Training-fitted native ssGSEA on the frozen expression path: actual GSVA, coding-gene CPM detection, native symbol averaging, training-only score-range normalization, full pathway closure and typed missingness reach native five-fold local-CNV/adjusted core and external study exclusion. Conversion inspection replays filtering/scaling/serialization, not GSVA. Global candidate selection, legacy direct preparation, pre-RDS acquisition and full row/patient ancestry remain open. No real cohort, optimizer, paid compute or deployment.",
     "Annotation/GMT-only candidates and training-patient detection now reach native adjusted association inputs, per-fold model features and expressed_in edges with actual source capture. Candidate and scope values replay from native inputs; association normalization must match. Synthetic actual preparation writes G0/G1/G2 for one fold with explicit frozen-cohort control and L1-fit substitutes. Final current inference still requires global shared/local scope; subset/candidate-budget closeout and matching coexpression-normalization enforcement remain open. No real cohort analysis, optimizer, paid compute or deployment.",
     "Supersedes the earlier downstream-global-scope limitation: actual five training-fold scopes now reach current frozen-model inference, selected scores, explicit expression-fold GeneSet selection, GMT, model-use inventory, current HTTP tables and browser. Fold disagreement and all-ineligible states are preserved; numeric five-fold score means are unchanged. Native subtypes use unanimously shared members. Tests use synthetic count/statistical inputs, frozen-control serialization substitutes and no optimizer. Native full-size/budget closeout, matching corrected-coexpression normalization, pre-RDS acquisition, patient exposure completeness and final orchestration remain open. No real cohort run or deployment.",
-    "Supersedes the earlier missing corrected-graph normalization check: native scoped graph construction now replays E1 selection and both actual lncRNA/gene conversions, checks their shared fold normalization and patient map against detection, and preserves empty cancer partitions. Payload validation, current prediction and model-use inventory consume the bound consistency evidence. Actual synthetic native statistics, all three graph arms, five frozen model forwards/replay and downstream publication are verified without optimization. Native full-size/budget closeout, fresh typed-authority/sidecar command orchestration, pre-count acquisition and complete patient/source ancestry remain open."
+    "Supersedes the earlier missing corrected-graph normalization check: native scoped graph construction now replays E1 selection and both actual lncRNA/gene conversions, checks their shared fold normalization and patient map against detection, and preserves empty cancer partitions. Payload validation, current prediction and model-use inventory consume the bound consistency evidence. Actual synthetic native statistics, all three graph arms, five frozen model forwards/replay and downstream publication are verified without optimization. Native full-size/budget closeout, fresh typed-authority/sidecar command orchestration, pre-count acquisition and complete patient/source ancestry remain open.",
+    "Fresh typed global graph authority production and explicit formal-preparation generation selection are now implemented. A new pinned manifest validates all five folds and six static inputs, replaces only the binding artifact and preserves native corrected-E1 ancestry. Actual synthetic formal preparation writes fifteen G0/G1/G2 payloads; the real prepared validator, encoder and residual/direction heads consume each without fitting. Fixed zero L1 logits and frozen cohort/closeout control metadata remain explicit substitutes. The historical C sidecar/comparison launcher has not been migrated to direct native payloads. Full native closeout, complete source/patient ancestry and final acceptance remain open."
   ],
   "test_suites": [
     {
@@ -719,6 +722,16 @@
       "path": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml",
       "passed": 38,
       "sha256": "d555a21fbf537be248156de402bcc1077f880fd34072238395b826f6cadab258"
+    },
+    {
+      "path": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml",
+      "passed": 38,
+      "sha256": "a03153c61e2e543d7aebfe8093b6d6d3d61930cf3ff148b054b00bc676c41ba8"
+    },
+    {
+      "path": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml",
+      "passed": 52,
+      "sha256": "7435238e6369c92cfbf0f99eae7be04034b9a8049def326a7ef73562114e3a24"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -867,42 +880,42 @@
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_c_graph_overlay_rejects_wrong_graph[missing_eclip]",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_c_graph_overlay_rejects_wrong_graph[node_map]",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_c_graph_overlay_rejects_wrong_graph[predicted]",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_c_graph_overlay_rejects_wrong_graph[receipt]",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_c_graph_overlay_reuses_batches_and_binds_lineage",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_global_binding_overlay_uses_size_and_graph_semantics_without_file_hash",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_manifest_binds_sidecar_and_parent_before_substitution",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
       "case": "test_user_directed_no_rehash_reuses_manifest_digest_and_checks_bytes",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_entity_training",
@@ -1172,112 +1185,112 @@
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_each_arm_has_identical_model_state_schema_and_real_candidate_forward",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[arm]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[budget]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[candidate]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[dropout]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[edge]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[label]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[new_input]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[parent]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_sidecar_uses_actual_training_validator_and_reuses_all_candidate_tensors",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_fivefold_prepare_to_training_loader_and_frozen_export_entry_without_optimizer",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_adapter_preserves_experimental_assay_and_provenance",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[endpoint]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[event_hash]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[family]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[flag]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[functional]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[mapping]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_predictions_are_unobserved_and_cannot_impersonate_experimental_edges",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_server149_cpu_device_is_explicit_and_has_no_cuda_calls",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_three_arm_builder_rejects_vacuous_comparison_and_changed_current_features",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_three_arms_preserve_old_indices_features_edges_and_rotating_chunks",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
@@ -3172,82 +3185,82 @@
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[0]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[1]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[2]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[3]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[4]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_graph_builder_rejects_other_normalization_before_materializing",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_bound_graph_replays_sources_and_cannot_drop_or_forge_match",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[changed_edge-actual native E1 selection]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[conversion_values-native conversion]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[duplicate_cancer-cancer declaration]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[gene_normalization-normalization sources differ]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[legacy-requires native fold-local]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[lncrna_normalization-normalization sources differ]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[missing_partition-explicit partitions]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[no_ancestry-lacks native transformation]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[patient_map-patient maps differ]",
-      "suite": "provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
@@ -3367,22 +3380,22 @@
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_fold_expression_leakage_or_sha_drift_fails_closed",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_legacy_build_call_and_unbound_old_payload_are_rejected",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_safe_minimal_authority_builds_three_true_masks",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_server_launcher_requires_every_fresh_authority_and_variant_roots",
-      "suite": "provenance/code_completion_20261015/fold_graph_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_fusion_expert_policy",
@@ -4077,72 +4090,72 @@
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_agreement_preserves_mixed_and_all_ineligible_states_and_explicit_policy",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_native_annotations_must_match_actual_prepared_inputs[feature]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_native_annotations_must_match_actual_prepared_inputs[fold]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_native_annotations_must_match_actual_prepared_inputs[hierarchy]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_native_annotations_must_match_actual_prepared_inputs[legacy]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_native_annotations_must_match_actual_prepared_inputs[patient_map]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_native_five_fold_forward_preserves_all_candidates_and_score_estimand",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_native_selected_genesets_query_gmt_scope_policy_and_model_use",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_scope_annotation_corruption_rejected[counts]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_scope_annotation_corruption_rejected[different_grid]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_scope_annotation_corruption_rejected[heldout]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_scope_annotation_corruption_rejected[missing_fold]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_scope_annotation_corruption_rejected[partial]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_prediction_scope",
       "case": "test_scope_annotation_corruption_rejected[relabel]",
-      "suite": "provenance/code_completion_20261015/fold_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
@@ -4713,15 +4726,144 @@
       "module": "tests.test_v32_training_guard",
       "case": "test_production_guard_modules_do_not_import_torch",
       "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G0-0]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G0-1]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G0-2]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G0-3]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G0-4]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G1-0]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G1-1]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G1-2]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G1-3]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G1-4]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G2-0]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G2-1]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G2-2]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G2-3]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_actual_typed_prepared_load_and_model_forward[G2-4]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_old_generation_loader_rejects_new_typed_receipt",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_is_immutable_and_host_guarded",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[cancer-must be global]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[class-closed vocabulary]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[context-must be global]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[fold-all five outer folds]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[hash-SHA256]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[identifier-nonempty]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[outcome-unsafe]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[unknown-Unknown assay]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_typed_graph_preparation",
+      "case": "test_typed_authority_rejects_repinned_invalid_inputs[weight-finite positive]",
+      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
     }
   ],
   "latest_change_validation": {
     "tags": [
-      "fold_graph_normalization_r2",
-      "fold_graph_consumers_r1",
-      "fold_graph_regression_r1"
+      "typed_graph_preparation_r2",
+      "typed_graph_consumers_r1"
     ],
-    "passed": 80,
+    "passed": 90,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

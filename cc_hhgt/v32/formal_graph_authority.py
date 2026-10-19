@@ -600,6 +600,11 @@ def build_bound_formal_graph(
             >= set(FOLD_ARTIFACT_IDS),
         },
     }
+    if inputs.receipt.get("binding_context_policy") == "GLOBAL_PHYSICAL_BINDING":
+        if binding_generation != RELATION_SCHEMA_TYPED_ASSAY_CLASS_V1:
+            raise FormalGraphAuthorityError("Global physical binding requires the typed generation")
+        binding["binding_context_policy"] = "GLOBAL_PHYSICAL_BINDING"
+        binding["typed_binding_preparation"] = inputs.receipt.get("typed_binding_preparation")
     if normalization_match is not None:
         binding["fold_normalization_match"] = normalization_match
         binding["gates"]["matching_fold_expression_normalization"] = True
@@ -679,6 +684,14 @@ def validate_formal_graph_payload_binding(
         edges = getattr(bundle, "edges", None)
         if not isinstance(nodes, pd.DataFrame) or not isinstance(edges, pd.DataFrame):
             raise FormalGraphAuthorityError("Prepared graph bundle lacks typed node/edge tables")
+        if binding.get("binding_context_policy") == "GLOBAL_PHYSICAL_BINDING":
+            from .formal_graph import TYPED_BINDING_ROLES
+            selected = edges.loc[edges.edge_role.isin(TYPED_BINDING_ROLES)]
+            if (binding.get("binding_generation") != RELATION_SCHEMA_TYPED_ASSAY_CLASS_V1
+                    or selected.relation_type.isin(["binds_protein", "binds_protein_predicted", "binds_protein_unknown"]).any()
+                    or selected.cancer_id.notna().any() or selected.is_context_specific.any()
+                    or not selected.observed.all()):
+                raise FormalGraphAuthorityError("Prepared graph violates global experimental binding policy")
         observed_node_sha = dataframe_sha256(nodes, ["node_type", "canonical_id"])
         observed_edge_sha = dataframe_sha256(edges, list(EDGE_KEYS))
         if (

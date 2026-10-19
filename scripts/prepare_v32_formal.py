@@ -369,7 +369,14 @@ def build_graph(
 ):
     """Build one hash-bound fold authority; no implicit graph source exists."""
 
-    from cc_hhgt.v32.formal_graph_authority import build_bound_formal_graph
+    from cc_hhgt.v32.formal_graph_authority import (
+        build_bound_formal_graph, RELATION_SCHEMA_GENERIC_GLOBAL, RELATION_SCHEMA_TYPED_ASSAY_CLASS_V1,
+    )
+    generation = graph_inputs.receipt.get("relation_schema_generation", RELATION_SCHEMA_GENERIC_GLOBAL)
+    typed = generation == RELATION_SCHEMA_TYPED_ASSAY_CLASS_V1
+    if typed and graph_inputs.receipt.get("binding_context_policy") != "GLOBAL_PHYSICAL_BINDING":
+        raise ValueError("Fresh typed preparation requires an explicit global physical-binding receipt")
+    from cc_hhgt.v32.formal_graph import materialize_global_typed_lnc_protein_binding
 
     return build_bound_formal_graph(
         graph_inputs,
@@ -377,6 +384,8 @@ def build_graph(
         split_manifest=split_manifest,
         candidate_pairs=candidate_pairs,
         detection_override=detection_override,
+        binding_materializer=materialize_global_typed_lnc_protein_binding if typed else None,
+        binding_generation=generation,
     )
 
 
@@ -446,6 +455,9 @@ def main() -> int:
     parser.add_argument("--patient-fold-authority-receipt", required=True)
     parser.add_argument("--graph-authority-receipt", required=True)
     parser.add_argument("--graph-authority-receipt-sha256", required=True)
+    parser.add_argument("--graph-relation-schema-generation",
+        choices=("GENERIC_GLOBAL", "TYPED_ASSAY_CLASS_V1"), default="GENERIC_GLOBAL",
+        help="Typed preparation requires a new global physical-binding authority receipt")
     parser.add_argument("--graph-detection", required=True)
     parser.add_argument("--graph-detection-sha256", required=True)
     parser.add_argument("--graph-signed-membership", required=True)
@@ -570,6 +582,7 @@ def main() -> int:
         },
         fold_expression_pattern=args.graph_fold_expression_pattern,
         fold_coexpression_pattern=args.graph_fold_coexpression_pattern,
+        relation_schema_generation=args.graph_relation_schema_generation,
     )
     adjusted_mode = args.association_mode == "local-cnv-adjusted"
     local_scope = None
@@ -858,6 +871,8 @@ def main() -> int:
         "candidate_sampler": "pinned_formal_candidate_authority" if adjusted_mode else CANDIDATE_SAMPLER,
         "association_mode": args.association_mode, "patient_fold_authority": patient_authority_audit,
         "formal_graph_authority_receipt_sha256": graph_inputs.receipt_sha256,
+        "relation_schema_generation": args.graph_relation_schema_generation,
+        "binding_context_policy": graph_inputs.receipt.get("binding_context_policy"),
         "graph_variants": ["G0", "G1", "G2"], "prepared_layout": "{G0,G1,G2}/PATIENT_FOLD_{fold}.pt",
         "legacy_root_fold_payloads_written": False,
         **({"local_cnv_audit": local_cnv_authority, "validation_a1_authority": validation_a1_authority} if adjusted_mode else {})}

@@ -550,6 +550,23 @@ def materialize_typed_lnc_protein_binding(
         combined = pd.concat(frames, ignore_index=True, sort=False)
     return _max_magnitude(combined).reset_index(drop=True)
 
+def materialize_global_typed_lnc_protein_binding(
+    binding: pd.DataFrame, *, candidate_lncrnas: Iterable[str] | None = None,
+) -> pd.DataFrame:
+    """Current physical-binding policy, shared by fresh authority and preparation."""
+    for key in ("lncrna_id", "protein_id"):
+        if key not in binding or binding[key].isna().any() or binding[key].astype(str).str.strip().eq("").any():
+            raise ValueError("Global typed binding requires nonempty lncRNA/protein identifiers")
+    if "graph_assay_class" in binding and binding.graph_assay_class.astype(str).str.strip().eq("unknown").any():
+        raise ValueError("Unknown assay evidence cannot establish experimental physical binding")
+    weights = pd.to_numeric(binding.get("weight"), errors="coerce")
+    if weights is None or not np.isfinite(weights).all() or (weights <= 0).any():
+        raise ValueError("Global typed binding requires finite positive weights")
+    return materialize_typed_lnc_protein_binding(binding, include_predicted=False,
+        include_context_eclip=False, require_global_binding=True,
+        candidate_lncrnas=candidate_lncrnas)
+
+
 def materialize_protein_gene_encoding(protein_gene: pd.DataFrame) -> pd.DataFrame:
     required = {"protein_id", "gene_id", "weight"}
     if missing := sorted(required - set(protein_gene)):
