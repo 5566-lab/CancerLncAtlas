@@ -203,7 +203,7 @@ def test_actual_corrected_graph_closes_declared_cancers_without_constant_patch(c
     assert all(len(list((settings.output_root / f"folds/fold_{f}/train_coexpression").glob("part_*.parquet"))) == 2 for f in range(5))
 
 
-@pytest.mark.parametrize("fault", ["cancer", "counts", "budget", "folds", "missing_patient_fold"])
+@pytest.mark.parametrize("fault", ["cancer", "counts", "budget", "folds", "missing_patient_fold", "cross_cancer_patient"])
 def test_cohort_replay_rejects_repinned_wrong_coverage(completed, tmp_path, fault):
     args = completed["confounded"]; cohort = copy.deepcopy(read(args.output_root / "SUCCESS.json")["cohort"])
     if fault == "cancer": cohort["cancers"].pop()
@@ -212,7 +212,10 @@ def test_cohort_replay_rejects_repinned_wrong_coverage(completed, tmp_path, faul
     elif fault == "folds": cohort["folds"] = 4
     else:
         frame = pd.read_csv(args.patient_map, sep="\t")
-        frame = frame.loc[~(frame.cancer_id.eq("LUAD") & frame.patient_fold_id.eq(4))]
+        if fault == "cross_cancer_patient":
+            frame.loc[frame.cancer_id.eq("LUAD").idxmax(), "patient_id"] = frame.loc[frame.cancer_id.eq("BRCA"), "patient_id"].iloc[0]
+        else:
+            frame = frame.loc[~(frame.cancer_id.eq("LUAD") & frame.patient_fold_id.eq(4))]
         path = tmp_path / "patients.tsv"; frame.to_csv(path, sep="\t", index=False); cohort["patient_map"] = record(path)
     with pytest.raises(ValueError, match="cohort|folds"):
         replay(cohort, tmp_path)

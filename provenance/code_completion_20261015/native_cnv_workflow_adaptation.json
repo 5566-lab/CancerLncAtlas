@@ -1,0 +1,58 @@
+{
+  "method": "ACTUAL_NATIVE_CNV_COMMAND_WORKFLOW_AND_GDC_PREPROCESSING_HANDOFF",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "live_assay_download_performed": false,
+  "successful_validation_receipts": [
+    "native_cnv_workflow_r2"
+  ],
+  "intermediate_successful_receipts": [
+    "native_cnv_workflow_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "native_cnv_workflow_integration_r1"
+  ],
+  "intermediate_failure_causes": [
+    "The GDC integration test wrongly expected all associations unavailable. The native threshold is twelve matched training patients, exactly reached by twenty patients per cancer under five-fold partitioning. Corrected the test to retain estimable variable outcomes and unavailable constant expression; scientific thresholds and calculations were unchanged."
+  ],
+  "actual_cli_plan_build_verified": true,
+  "actual_synthetic_cancers": [
+    "BRCA",
+    "LUAD"
+  ],
+  "statistical_fixture_patients_per_cancer": 120,
+  "statistical_decision_scenarios": [
+    "LOCAL_CNV_CORE_RETRAIN_REQUIRED",
+    "LOCAL_CNV_IMPACT_SMALL",
+    "LOCAL_CNV_SENSITIVITY_ONLY_REVIEW"
+  ],
+  "actual_gdc_preprocessing_patients_per_cancer": 20,
+  "actual_gdc_raw_files_followed": 40,
+  "actual_association_partitions_per_scenario": 10,
+  "actual_pair_rows_per_scenario": 30,
+  "native_validation_and_corrected_graph_commands_executed": true,
+  "actual_worker_failure_stage_verified": true,
+  "changed_original_gdc_source_rejected": true,
+  "cross_cancer_patient_reuse_rejected": true,
+  "scientific_decision_thresholds_changed": false,
+  "test_substitutes": [
+    "generated raw STAR files/API metadata and biospecimen IDs",
+    "synthetic patient/covariate/CNV matrices",
+    "synthetic annotation/GMT and static graph control receipt; not a fully audited frozen core graph authority"
+  ],
+  "l1_core_preparation_executed": false,
+  "typed_binding_preparation_executed": false,
+  "comparison_preparation_executed": false,
+  "full_raw_to_final_release_run": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "A host-149 declared-cohort CNV command workflow now executes native association workers, independent closeout, decision-gated validation and corrected-E1 graph production. Actual two-cancer statistical fixtures preserve correction-required, small-impact and scientific-review outcomes. Actual cached-GDC preprocessing feeds native workers/closeout and source inspection reaches all forty original synthetic STAR files. Canonical patients cannot recur across declared cancers. Core preparation includes L1 fitting and was not run; typed binding, formal preparation/comparison/training orchestration, complete patient/source coverage and overall C01/C13/C16 acceptance remain open."
+}

@@ -36,7 +36,8 @@ def sha256_file(path: str | Path) -> str:
 
 
 def validate_local_cnv_audit(
-    root: str | Path, *, expected_success_sha256: str | None = None
+    root: str | Path, *, expected_success_sha256: str | None = None,
+    require_correction: bool = True,
 ) -> dict[str, Any]:
     audit_root = Path(root).resolve()
     success_path = audit_root / "SUCCESS.json"
@@ -57,7 +58,11 @@ def validate_local_cnv_audit(
         raise RuntimeError("Local-CNV independent audit did not pass")
     if decision.get("status") != "PASS":
         raise RuntimeError("Local-CNV decision receipt did not pass")
-    if decision.get("decision") != "LOCAL_CNV_CORE_RETRAIN_REQUIRED":
+    if decision.get("decision") not in {
+        "LOCAL_CNV_CORE_RETRAIN_REQUIRED", "LOCAL_CNV_IMPACT_SMALL", "LOCAL_CNV_SENSITIVITY_ONLY_REVIEW"
+    }:
+        raise RuntimeError("Unknown local-CNV audit decision")
+    if require_correction and decision.get("decision") != "LOCAL_CNV_CORE_RETRAIN_REQUIRED":
         raise RuntimeError("Local-CNV authority does not require corrected core inputs")
     if success.get("covariate_contract_version") != COVARIATE_CONTRACT_VERSION:
         raise RuntimeError("Local-CNV SUCCESS lacks the shared covariate contract")

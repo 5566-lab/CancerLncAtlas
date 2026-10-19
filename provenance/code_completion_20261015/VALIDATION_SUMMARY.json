@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 916,
+  "unique_test_cases_passed": 933,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -193,7 +193,7 @@
     "cc_hhgt/v32/bulk_coexpression_release.py": "881d8fed7e2cace95c45f39731fedad8f72a61d57711d02f647a1698d26b5f47",
     "cc_hhgt/v32/directional_cnv.py": "748f5db244e189f5a81ffa722ba075a1ddea19e9e30e5c165abd149e8d747402",
     "cc_hhgt/v32/local_cnv_confounding.py": "13422fe645321d6f6506a4bc68726452f4acf57c77c803cae11a3ac6e56076f5",
-    "cc_hhgt/v32/local_cnv_core_preparation.py": "43aebe81a20022a52ff2c763806e269efadc11bd15aa2f2819535287a0d329d7",
+    "cc_hhgt/v32/local_cnv_core_preparation.py": "44d2fd70e9d196a817d1ff8cbe3c90bbc505e5bab27bf455872ae5b97cf1a34d",
     "cc_hhgt/v32/local_cnv_sources.py": "26fa4c4bc6d40661f5985938da399969b81005f5c019b1092e17699d60cc034c",
     "scripts/audit_v32_local_cnv_validation_associations.py": "4345d4f4914fcd1da3413ffa502604e11adf129b26873e7a5701bc1cc528878b",
     "scripts/finalize_and_audit_v32_local_cnv_r3.py": "491aab81f5bb348fcc8c9350f761bacc0a051c400c52c3cddfb82425d75f30ed",
@@ -230,8 +230,8 @@
     "tests/test_v32_typed_graph_preparation.py": "448819ecc6b356d0a073475e2534fb4496fc493141293a54ea56c3d26956371a",
     "cc_hhgt/v32/native_graph_input.py": "27374a271ac99ada6aaafe0c86371ba40e71e26587cdc6486d94f05458700b1b",
     "tests/test_v32_native_binding_comparison.py": "83532c82e9364c6559db4baf28d9b665ffc803c5a6dc4bd099e211646ab0311e",
-    "cc_hhgt/v32/local_cnv_cohort.py": "f52697d756b2d9e86349f736774261abfc89679fbfa5ba4cc8caeab6174638cd",
-    "tests/test_v32_local_cnv_cohort.py": "6a9e729d8f5f46946c051a42b6ed416f8cd4359e510522b9e7b38b97279e95aa",
+    "cc_hhgt/v32/local_cnv_cohort.py": "d8b15cd39b0b5c2f7acce0ee60b433be99dcc3e8d907a6773823e4e8a5c518b0",
+    "tests/test_v32_local_cnv_cohort.py": "64e366a9da6a92a0691a20e9174ec7809f6e4ee707e262bba0e7debd74958cb7",
     "tests/test_v32_local_cnv_confounding_core.py": "8c9780c42456eb69c8363bf852d0339ee10058055d1a491134ff8dfac4ee7cf9",
     "cc_hhgt/v32/gdc_star_counts.py": "e8bdbd4395cb43ea5a7090c48817cb2a824e7f69906d91a1ef02f8c4de6a0c36",
     "scripts/assemble_gdc_star_counts.R": "186ba07ec4448e3897570372c9a3967ced113687e354eac2cc0f492fa6c9f3a1",
@@ -241,7 +241,11 @@
     "tests/test_v32_gdc_star_transforms.py": "9670de263c6c2d98ccc1e8972d1a11f767b2f87a505b068a4b3ca93459a2cb04",
     "cc_hhgt/v32/native_expression_workflow.py": "2a53c1ed93e7c8781cd0a1ce80100378b754b40a600bf46cbb70e743dd3736a9",
     "scripts/run_native_expression_workflow.py": "47f67766474fb4fc86cacd367e92569d89aaa8f9f70fb774a9cde67b3a638547",
-    "tests/test_v32_native_expression_workflow.py": "9f1abb34b6e358f3c9c79b14001d42756b26f98dd3880eb6ef916dcc3cb17e6a"
+    "tests/test_v32_native_expression_workflow.py": "9f1abb34b6e358f3c9c79b14001d42756b26f98dd3880eb6ef916dcc3cb17e6a",
+    "cc_hhgt/v32/native_cnv_workflow.py": "973fff0f90118fdedcd0d38fa627049cf7adfc2b7c4b41500b8027e98660dafc",
+    "scripts/run_native_cnv_workflow.py": "8cfeb216ef83d4b5b7870937ec38bed9b72bc40696d86854045589363ac5f344",
+    "tests/test_v32_native_cnv_workflow.py": "0442e06d625cbf33e5526016712a17dda712c8fa4ee5f13db1b641b8fce0e87c",
+    "tests/test_v32_native_cnv_workflow_gdc.py": "61324683a60328feb290b7c28e657202d3caae48be0cd4ba800740512ceff85d"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -368,7 +372,8 @@
     "The earlier direct-native-to-current-comparison boundary is now closed for the verified native typed G2 route. Actual formal preparation writes pinned per-arm input manifests; explicit native mode reaches the actual three-arm comparison writer, the trainer graph-loading stage, portable prepared validation and frozen export/model restoration. All fifteen expansion payloads preserve candidate tensors, labels, non-graph input hashes, original node indices and training-patient expression scope. Original source hashes are retained when native inputs initially use artifact_hashes. All generated training commands remain blocked code-only records; no optimizer ran. Frozen full-cohort control metadata, reduced dimensions, synthetic pathway/expansion sources and fixed L1 logits remain explicit substitutes. Fixed native cohort/budget closeout, complete acquisition/patient provenance and overall consolidation/final acceptance remain open.",
     "The fixed-size local-CNV closeout boundary is now closed for an explicitly pinned annotation/GMT candidate definition. Actual two-cancer five-fold workers, independent train and validation finalizers, authority validators and corrected-E1 materialization run without patched cancer/budget constants or fabricated aggregate success/decision receipts. Actual core-required, small-effect and insufficient-rank-review outcomes retain the existing scientific thresholds. Constant or fully projected outcomes now remain unestimable under the existing effective-variance tolerance; constant CNV remains a noop for variable outcomes. Expression/activity tables, compact CNV inputs and minimal parent graph metadata are synthetic. Existing native full formal preparation and downstream regressions still use their documented reduced frozen controls. This is not one full raw acquisition-to-final-release run. Complete source/patient ancestry, orchestration and overall C01/C13/C16 acceptance remain open; no real data or fitting ran.",
     "The new explicit GDC STAR route now has archived metadata query/pagination replay, aliquot/sample/patient reconciliation, optional verified acquisition, actual three-assay SummarizedExperiment assembly and raw-to-RDS replay. Completed source bindings propagate through actual native expression, training detection, ssGSEA, retained legacy normalization, core preparation and external model-use inspection. Explicit TCGA project identifiers now support conservative cohort-overlap exclusion. Tests use synthetic API responses, raw STAR files, patient identities, frozen controls and untrained checkpoint serialization. No live assay acquisition or real cohorts were run. GDC upstream alignment/biological identity truth, unbound historical count provenance, full patient identity coverage and overall command orchestration/final C01/C13/C16 acceptance remain unresolved.",
-    "A bounded host-149 native expression workflow now calls actual cached GDC STAR assembly, five-fold TMM, five-fold ssGSEA, native conversions and annotation/detection scope producers. Actual plan/build CLI and downstream native readers were exercised with two synthetic cancer cohorts and forty synthetic raw files. It ends before association analysis, model fitting and publication. Remaining native CNV/graph/comparison/training command consolidation, complete source/patient identity coverage and final C01/C13/C16 acceptance remain open."
+    "A bounded host-149 native expression workflow now calls actual cached GDC STAR assembly, five-fold TMM, five-fold ssGSEA, native conversions and annotation/detection scope producers. Actual plan/build CLI and downstream native readers were exercised with two synthetic cancer cohorts and forty synthetic raw files. It ends before association analysis, model fitting and publication. Remaining native CNV/graph/comparison/training command consolidation, complete source/patient identity coverage and final C01/C13/C16 acceptance remain open.",
+    "A host-149 declared-cohort CNV command workflow now executes native association workers, independent closeout, decision-gated validation and corrected-E1 graph production. Actual two-cancer statistical fixtures preserve correction-required, small-impact and scientific-review outcomes. Actual cached-GDC preprocessing feeds native workers/closeout and source inspection reaches all forty original synthetic STAR files. Canonical patients cannot recur across declared cancers. Core preparation includes L1 fitting and was not run; typed binding, formal preparation/comparison/training orchestration, complete patient/source coverage and overall C01/C13/C16 acceptance remain open."
   ],
   "test_suites": [
     {
@@ -805,6 +810,11 @@
       "path": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml",
       "passed": 10,
       "sha256": "5b601351ec70cc3fa7d32cba40521830257f6a85de5062e1d9986af6a577a884"
+    },
+    {
+      "path": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml",
+      "passed": 37,
+      "sha256": "662abbf3ee33c4c69af7175d57650f6b526e33e7d09fbe1d160f1bb7c220b9db"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -3673,102 +3683,107 @@
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_actual_corrected_graph_closes_declared_cancers_without_constant_patch",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_actual_small_effect_decision_is_preserved_and_does_not_authorize_correction",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_actual_two_cancer_five_fold_closeout_and_validation",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_closeout_rejects_incomplete_or_mixed_partitions[extra]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_closeout_rejects_incomplete_or_mixed_partitions[missing]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_closeout_rejects_incomplete_or_mixed_partitions[worker_cohort]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_closeout_rejects_incomplete_or_mixed_partitions[worker_run_id]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_cohort_replay_rejects_repinned_wrong_coverage[budget]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_cohort_replay_rejects_repinned_wrong_coverage[cancer]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_cohort_replay_rejects_repinned_wrong_coverage[counts]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_local_cnv_cohort",
+      "case": "test_cohort_replay_rejects_repinned_wrong_coverage[cross_cancer_patient]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_cohort_replay_rejects_repinned_wrong_coverage[folds]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_cohort_replay_rejects_repinned_wrong_coverage[missing_patient_fold]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_insufficient_rank_comparison_remains_review_not_small",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_legacy_candidate_budget_is_not_inferred_from_small_observed_inputs",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_native_closeout_binding_cannot_be_downgraded[audit_cohort-train]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_native_closeout_binding_cannot_be_downgraded[audit_cohort-validation]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_native_closeout_binding_cannot_be_downgraded[audit_hash-train]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_native_closeout_binding_cannot_be_downgraded[audit_hash-validation]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_native_closeout_binding_cannot_be_downgraded[removed_cohort-train]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
       "case": "test_native_closeout_binding_cannot_be_downgraded[removed_cohort-validation]",
-      "suite": "provenance/code_completion_20261015/local_cnv_cohort_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_confounding_core",
@@ -4354,6 +4369,86 @@
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_runtime_rejects_undeclared_mode_and_overlay_pattern",
       "suite": "provenance/code_completion_20261015/local_cnv_cohort_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_actual_cli_decision_and_scientific_outputs[correction-LOCAL_CNV_CORE_RETRAIN_REQUIRED]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_actual_cli_decision_and_scientific_outputs[review-LOCAL_CNV_SENSITIVITY_ONLY_REVIEW]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_actual_cli_decision_and_scientific_outputs[small-LOCAL_CNV_IMPACT_SMALL]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_actual_worker_failure_leaves_stage_diagnostics",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_bad_inputs_stop_before_output[cancer]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_bad_inputs_stop_before_output[candidate_definition]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_bad_inputs_stop_before_output[covariate_path]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_bad_inputs_stop_before_output[directional_failed]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_bad_inputs_stop_before_output[extra_command]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_bad_inputs_stop_before_output[static_hash]",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_changed_input_rejected_after_completion",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_repinned_skipped_stage_cannot_claim_execution",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_wrong_host_rejected",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow_gdc",
+      "case": "test_actual_gdc_workflow_consumption_and_raw_inventory",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow_gdc",
+      "case": "test_changed_original_gdc_file_invalidates_completed_cnv_workflow",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow_gdc",
+      "case": "test_expression_binding_does_not_allow_a_different_patient_map",
+      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
@@ -5398,9 +5493,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "native_expression_workflow_r1"
+      "native_cnv_workflow_r2"
     ],
-    "passed": 10,
+    "passed": 37,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

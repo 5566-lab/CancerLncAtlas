@@ -3457,3 +3457,104 @@ fail before output. A malformed raw count reaches the real R parser and leaves
 a failed counts stage with no success receipt or later normalization stage.
 Changed original bytes invalidate the completed workflow. No real cohort or
 optimizer ran, and no source acquisition or production deployment occurred.
+
+Native local-CNV command workflow and preprocessing handoff (2026-10-19)
+------------------------------------------------------------------------
+
+scripts.run_native_cnv_workflow now executes the existing cancer workers,
+independent association closeout, validation-A1 workers/audit and corrected-E1
+graph phases in their required order. It requires an explicit annotation/GMT
+candidate_definition and all five patient folds. It never fits an L1 baseline
+or neural model. Formal core preparation includes L1 fitting and remains a
+separate, unexecuted stage; typed binding preparation and the three-arm
+comparison are also explicitly outside this workflow's completion claim.
+
+The input JSON fields are::
+
+  {
+    "format": "NATIVE_LOCAL_CNV_WORKFLOW_INPUT_V1",
+    "run_id": "<new explicit run identity>",
+    "candidates": {"path": "/input/candidates.parquet", "sha256": "<actual hash>"},
+    "patient_map": {"path": "/input/patients.tsv", "sha256": "<actual hash>"},
+    "source_config": {"path": "/input/sources.json", "sha256": "<actual hash>"},
+    "directional_success": {"path": "/input/cnv/SUCCESS.json", "sha256": "<actual hash>"},
+    "graph_root": "/input/graph",
+    "graph_receipt": {"path": "/input/graph_authority.json", "sha256": "<actual hash>"},
+    "expression_workflow": {"path": "/input/preprocessing/NATIVE_EXPRESSION_BINDING.json", "sha256": "<actual hash>"}
+  }
+
+expression_workflow is optional for independently prepared native source
+configs. When supplied, candidates, patient map, candidate_definition and all
+three expression/activity source roots must exactly match that completed
+workflow. Start with its SOURCE_CONFIG_FRAGMENT.json and add the independently
+prepared covariates source to construct the complete source config. The input
+config is never silently rewritten. All native source paths must be absolute.
+The directional aggregate must have passed and cover exactly the declared
+cancers. The two static tables actually read by CNV statistics must match the
+source graph receipt. Other formal graph requirements remain enforced by the
+existing downstream typed/formal graph loader.
+
+Commands on server 149::
+
+  python -m scripts.run_native_cnv_workflow --manifest /input/cnv_workflow.json --output /new/cnv-analysis --plan
+  python -m scripts.run_native_cnv_workflow --manifest /input/cnv_workflow.json --output /new/cnv-analysis
+
+--plan checks actual inputs and prints command argument arrays without creating
+the destination or running producers. A later-stage SHA256 dependency is an
+explicit sha256_of=association_success reference; execution resolves it only
+after successful independent association closeout. Every worker and finalizer
+receives the declared run ID, candidates, patient map, config and relevant
+source paths. No historical path defaults or arbitrary commands are accepted.
+
+The original decision gates control execution:
+
+* LOCAL_CNV_CORE_RETRAIN_REQUIRED runs validation workers, their independent
+  audit, corrected graph initialization, per-cancer materialization and final
+  graph closeout.
+* LOCAL_CNV_IMPACT_SMALL records subsequent stages as NOT_RUN_BY_DECISION and
+  does not produce corrected validation/graph outputs.
+* LOCAL_CNV_SENSITIVITY_ONLY_REVIEW likewise stops corrected production and
+  retains the need for scientific review. It is not relabelled as small impact.
+
+validate_local_cnv_audit keeps require_correction=True by default for existing
+corrected-core consumers. The workflow's explicit require_correction=False
+accepts only the three known, independently audited decisions, preserving
+their cohort/hash/covariate checks. Declared patient identity is now unique
+across cancers as well as within each cancer; duplicated canonical patients
+cannot enter a second cancer under a different fold assignment.
+
+The workflow records preflight hashes, resolved per-stage commands, logs and
+failure stages. SUCCESS pins NATIVE_CNV_BINDING.json. That binding distinguishes
+audit completion from corrected_inputs_available and explicitly records that
+core preparation, typed binding preparation, comparison and training did not
+run. An actual producer failure preserves diagnostics and leaves no workflow
+SUCCESS. A new destination is required for each execution.
+
+Completion validation checks original sources, implementations, every worker's
+consumed-source receipt, native independent audits and corrected graph hashes.
+When an expression workflow is supplied, it is revalidated at closeout and on
+subsequent validation, including its original cached GDC files. The resulting
+association and graph receipts retain their existing native source paths so
+model-use inspection can continue through normalization to original raw files.
+This does not resolve missing historical ancestry, full per-row patient use,
+the remaining typed/formal/comparison command orchestration or final acceptance.
+
+Verification: native_cnv_workflow_r2 records 37 passing checks on 149: thirteen
+workflow/decision/error checks, three actual GDC-to-CNV source-consumption checks
+and twenty-one declared-cohort/closeout regressions. Two-cancer fixtures with
+120 synthetic patients per cancer execute all three original decision paths;
+the correction-required path runs all ten commands, creates thirty validation
+rows and ten cancer/fold corrected graph partitions. A separate actual GDC
+preprocessing workflow uses forty synthetic STAR files and twenty patients per
+cancer, then feeds the real association workers and independent closeout.
+Native model-use inspection reaches all forty original raw files.
+
+The intermediate integration-r1 failure was an incorrect test assumption:
+twenty patients per cancer leave twelve training patients in each outer fold,
+which meets the existing MIN_MATCHED_PATIENTS=12 threshold. The final test
+checks finite estimable effects for variable expression and typed unavailable
+rows for constant expression. No scientific threshold or calculation was
+changed to satisfy that assertion. The failed receipt remains available.
+The synthetic static graph receipt is a limited source control, not a fully
+audited frozen core graph authority. No L1 fitting, neural optimization, real
+cohort analysis, source download or production publication was executed.

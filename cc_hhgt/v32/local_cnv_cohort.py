@@ -27,7 +27,7 @@ def from_definition(item, root, candidates, patient_map):
         raise ValueError("Local-CNV patient map lacks patient-first fold identities")
     selected = patients.loc[patients.cancer_id.isin(cancers)]
     if (selected[["cancer_id", "patient_id", "patient_fold_id"]].isna().any().any()
-            or selected.duplicated(["cancer_id", "patient_id"]).any()
+            or selected.patient_id.duplicated().any()
             or any(set(selected.loc[selected.cancer_id.eq(c), "patient_fold_id"]) != set(range(5)) for c in cancers)):
         raise ValueError("Local-CNV cohort requires distinct patients and all five folds per cancer")
     return {"format": FORMAT, "candidate_definition": record(path),

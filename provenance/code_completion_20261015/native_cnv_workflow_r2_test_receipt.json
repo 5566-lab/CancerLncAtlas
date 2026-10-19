@@ -1,0 +1,49 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T06:49:32.175206+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/local_cnv_cohort.py": "d8b15cd39b0b5c2f7acce0ee60b433be99dcc3e8d907a6773823e4e8a5c518b0",
+    "cc_hhgt/v32/local_cnv_core_preparation.py": "44d2fd70e9d196a817d1ff8cbe3c90bbc505e5bab27bf455872ae5b97cf1a34d",
+    "cc_hhgt/v32/native_cnv_workflow.py": "973fff0f90118fdedcd0d38fa627049cf7adfc2b7c4b41500b8027e98660dafc",
+    "scripts/run_native_cnv_workflow.py": "8cfeb216ef83d4b5b7870937ec38bed9b72bc40696d86854045589363ac5f344",
+    "tests/test_v32_local_cnv_cohort.py": "64e366a9da6a92a0691a20e9174ec7809f6e4ee707e262bba0e7debd74958cb7",
+    "tests/test_v32_native_cnv_workflow.py": "0442e06d625cbf33e5526016712a17dda712c8fa4ee5f13db1b641b8fce0e87c",
+    "tests/test_v32_native_cnv_workflow_gdc.py": "61324683a60328feb290b7c28e657202d3caae48be0cd4ba800740512ceff85d"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_cnv_workflow.py",
+    "tests/test_v32_native_cnv_workflow_gdc.py",
+    "tests/test_v32_local_cnv_cohort.py",
+    "--junitxml=provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T06:53:03.143534+00:00"
+}
