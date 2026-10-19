@@ -1,0 +1,30 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T02:55:23.572170+00:00",
+  "source_sha256": {
+    "scripts/frozen_tmm.R": "6b2dbc61dad0550b9afa97f5e1bb5bf29632fd5bbcf765538124d41fa3cc6b9b",
+    "scripts/materialize_fold_local_expression.R": "54395ab06efb5e80ee0f2869a2596cc0768094107f7b9f08090a36457b3936dc",
+    "scripts/convert_fold_local_expression.py": "c039d20063f991b7a676be9fed7859eedc7077718b216ea9ae365c9d18927b54",
+    "cc_hhgt/v32/fold_local_expression.py": "a57fc43a74a077c463259d70de9a835d5fc22c2cc7564a01d2be852c52938cb3",
+    "cc_hhgt/v32/formal_expression_sources.py": "ee9ae7bd2fa9d6854f521813a104023ff33f54747aaf62bf0e50ec31a255b587",
+    "cc_hhgt/v32/local_cnv_sources.py": "5e7e659ba3d5fcc6d59eb60b6e504e079edc0346f641a7c0215769dc60f9b23a",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "6393f0af0e50cb979e4e2ef2f70816d0d3ad77f8da94c17802c61f06c937135a",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "953cde96381c860fbc0c96e983aa1619bcb7813aa73b137d006ad15defad565f",
+    "tests/test_v32_fold_local_expression.py": "0b07d3f73cfed6742eb31503bb173a32c6fd9252a4aeddee98aa74c8627eeed1",
+    "tests/test_v32_local_cnv_source_ancestry.py": "43bb2533f8e2ec5d2feeb0efff289ecc42529febc2414335709372688961186e"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_fold_local_expression.py",
+    "tests/test_v32_local_cnv_source_ancestry.py",
+    "--junitxml=provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T02:56:59.399594+00:00"
+}

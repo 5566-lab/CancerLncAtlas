@@ -67,10 +67,17 @@ def validate(item,root,*,expected_inputs=None,compact_root=None):
     if {r["role"] for r in records}!=ROLES[producer]:raise ValueError("Local-CNV consumed input roles are incomplete")
     seen=set();compact={}
     for source in records:
-        actual=verified_path(source,path.parent);key=(str(actual),source["role"])
+        actual=verified_path(source,path.parent);scope=source.get("fold",-1)
+        key=(str(actual),source["role"],scope)
+        if scope not in range(-1,5):raise ValueError("Invalid local-CNV input fold")
         if source.get("upstream_expression"):
             from .formal_expression_sources import validate as validate_expression
-            validate_expression(source["upstream_expression"],path.parent,actual)
+            _,expression=validate_expression(source["upstream_expression"],path.parent,actual)
+            if expression.get("format")=="FOLD_LOCAL_EXPRESSION_CONVERSION_V1":
+                expected_kind={"lncrna_expression":"lncrna","gene_expression":"gene"}.get(source["role"])
+                if (expression["fold"]!=scope or expression["cancer_id"]!=value["cancer_id"]
+                        or expression["kind"]!=expected_kind):
+                    raise ValueError("Local-CNV consumed fold-local expression scope differs")
         if key in seen:raise ValueError("Duplicate local-CNV input role/file")
         seen.add(key)
         if source["role"]=="compact":compact[actual.name]=actual
@@ -97,6 +104,9 @@ def validate(item,root,*,expected_inputs=None,compact_root=None):
         if output.get("consumed_roles")!=sorted(OUTPUT_ROLES[output["output_kind"]]):
             raise ValueError("Local-CNV output input roles differ from native transformation")
         verified_path(output,path.parent)
+        for role in set(output["consumed_roles"]) & {"lncrna_expression","gene_expression","pathway_activity"}:
+            selected=[r for r in records if r["role"]==role and r.get("fold",-1) in {-1,output["fold"]}]
+            if len(selected)!=1:raise ValueError("Local-CNV output expression/activity fold coverage differs")
     if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
     for implementation in value["implementations"]:verified_path(implementation,path.parent)
     return path,value
@@ -129,7 +139,8 @@ def inspect(inventory,binding,root,model,role,fold):
     inventory.bind(binding["sources"],root,model,role+".source_receipt",fold)
     for index,item in enumerate(value["implementations"]):inventory.bind(item,path.parent,model,role+".implementation."+str(index),fold)
     from .current_cnv_model_use import inspect_bound_sources
-    consumed=[r for r in value["records"] if r["role"] in matches[0]["consumed_roles"]]
+    if matches[0]["fold"]!=fold:raise ValueError("Local-CNV consumed output model fold differs")
+    consumed=[r for r in value["records"] if r["role"] in matches[0]["consumed_roles"] and r.get("fold",-1) in {-1,fold}]
     biological=[r for r in consumed if r["role"] not in {"source_config","patient_map","candidates"}]
     for r in consumed:inventory.bind(r,path.parent,model,role+".input."+r["role"],fold)
     phase="MODEL_SELECTION" if matches[0]["output_kind"]=="validation" else "FEATURE_CONSTRUCTION"

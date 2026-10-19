@@ -1,12 +1,12 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 728,
+  "unique_test_cases_passed": 741,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
   "production_changed": false,
-  "r_validation": "SYNTAX_PARSE_ONLY",
+  "r_validation": "SCOPED_SYNTHETIC_EXECUTION",
   "source_sha256": {
     "cc_hhgt/v32/distal_regulatory_mutation_head.py": "670b298627b737733dad5663418216b87dfc792fc13bfd85bd1b3163891ff1d9",
     "cc_hhgt/v32/distal_topology.py": "c6b5087de805351d0baf3819fa82490b15b7ddb87f0349e54d6c9c982b75d420",
@@ -194,21 +194,26 @@
     "cc_hhgt/v32/directional_cnv.py": "748f5db244e189f5a81ffa722ba075a1ddea19e9e30e5c165abd149e8d747402",
     "cc_hhgt/v32/local_cnv_confounding.py": "878a21ca7146bea8af0077ea41d64c552cc9cf94c705dd081599399aa5c74bec",
     "cc_hhgt/v32/local_cnv_core_preparation.py": "93ab20530d3dcc38f1029aeff7f923593c98abf9850a79954ecd75908ab5c8a6",
-    "cc_hhgt/v32/local_cnv_sources.py": "96283b1aa2e897935fec46675928037afa168ec93096a322c1de812c7378f0fd",
+    "cc_hhgt/v32/local_cnv_sources.py": "5e7e659ba3d5fcc6d59eb60b6e504e079edc0346f641a7c0215769dc60f9b23a",
     "scripts/audit_v32_local_cnv_validation_associations.py": "740d51e169f0a639e4b3b28d0543d73d1b7ee909f78dcb5b513000ecc01f16d7",
     "scripts/finalize_and_audit_v32_local_cnv_r3.py": "0de64188a4ec782f026cb66fa078f557a5d71edca2d6ae3b4dffd5dd59a3378b",
     "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "94c9b24f453008497d8d01ad15bb5c7c9ac01e42e56ba659c54ed619291e21da",
-    "scripts/materialize_v32_local_cnv_validation_associations.py": "eae8de295abbe8be9e44a9e6a8cceb99585c1b8d5c2372c4b2619793a87f66cc",
-    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "e2c16381b46e27712733bf8f2aaea47228fa33a16861ba52244df8a183a5f8fc",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "953cde96381c860fbc0c96e983aa1619bcb7813aa73b137d006ad15defad565f",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "6393f0af0e50cb979e4e2ef2f70816d0d3ad77f8da94c17802c61f06c937135a",
     "tests/test_local_cnv_residualization.py": "88da7b9767ed16af5d01392a7100fb1900ceb042623a21d3cccae770ba01d841",
     "tests/test_v32_bulk_coexpression.py": "b2a51a81e42dc533aac54d616bab7fa147da966386b31511d478e143cc6ad14b",
     "tests/test_v32_covariate_contract.py": "0f39433b2d533108d4453769a13b291413a6aed990197880055e12386d28c3f6",
     "tests/test_v32_local_cnv_core_preparation.py": "2d613a4e6b9419055a2968ee231cef6876d359516816d9502e4489e518fc9168",
-    "tests/test_v32_local_cnv_source_ancestry.py": "a97591ef53a9d42db5e31380c6f3fe4c27058eeb3a2c53a85f6a2a787cea99ae",
+    "tests/test_v32_local_cnv_source_ancestry.py": "43bb2533f8e2ec5d2feeb0efff289ecc42529febc2414335709372688961186e",
     "scripts/materialize_formal_lncrna_logcpm.R": "daaf1bc259a2c965c772d1c3d82895f7d694bcc55eeaae63081ef1a9cee6a224",
     "scripts/convert_formal_lncrna_rds.py": "82f78ab5b6729de08c222e400d3822c72655e3cda2bf68f9a95840cb7e7441b8",
-    "cc_hhgt/v32/formal_expression_sources.py": "ce289787df9d1b5d827daa9050e9df0176eae31d6c596ad76595a28f2cab0505",
-    "tests/test_v32_expression_source_ancestry.py": "021bf0fb4b606baeea1c5fad1bd0dee169caf75064f428f7634ef54d80e677be"
+    "cc_hhgt/v32/formal_expression_sources.py": "ee9ae7bd2fa9d6854f521813a104023ff33f54747aaf62bf0e50ec31a255b587",
+    "tests/test_v32_expression_source_ancestry.py": "021bf0fb4b606baeea1c5fad1bd0dee169caf75064f428f7634ef54d80e677be",
+    "scripts/frozen_tmm.R": "6b2dbc61dad0550b9afa97f5e1bb5bf29632fd5bbcf765538124d41fa3cc6b9b",
+    "scripts/materialize_fold_local_expression.R": "54395ab06efb5e80ee0f2869a2596cc0768094107f7b9f08090a36457b3936dc",
+    "scripts/convert_fold_local_expression.py": "c039d20063f991b7a676be9fed7859eedc7077718b216ea9ae365c9d18927b54",
+    "cc_hhgt/v32/fold_local_expression.py": "a57fc43a74a077c463259d70de9a835d5fc22c2cc7564a01d2be852c52938cb3",
+    "tests/test_v32_fold_local_expression.py": "0b07d3f73cfed6742eb31503bb173a32c6fd9252a4aeddee98aa74c8627eeed1"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -325,7 +330,8 @@
     "Recovered the actual standalone TMM normalizer with original source SHA256. Its historical all-gene edgeR TMM on selected tumor and normal samples is retained; only tumor/eligible-lncRNA rows are exported. Actual count RDS, threshold table, sample selection, normalization factors, explicit source study metadata and implementation/version records are preserved.",
     "Native RDS conversion has explicit paths/cancer scope, host149 preflight, new-output-only semantics, exact value and identifier validation, and pinned normalization ancestry. Actual formal/local-CNV reads bind the conversion receipt; model-use inspection replays RDS-to-Parquet values before traversing normalization inputs. Legacy missing normalization receipts remain unresolved.",
     "Real edgeR calculations on 80 count rows and 123 synthetic aliquots select 121 normalization samples and export 120 tumor samples. Independent expected sample/row selection and direct edgeR reference values, actual local-CNV/core/external consumers and drift rejection are verified without optimization or real cohort analysis. Website regression is also verified.",
-    "Cohort-level TMM is explicitly not fold-local. GDC acquisition before count RDS, pathway/gene preprocessing, complete per-row exposure, unsupported historical bindings and final C01/C13/C16 acceptance remain open. No raw-normalization statistical replay is claimed by inventory inspection; it replays only RDS conversion and verifies native upstream bindings. Cumulative tests are versioned history, not a single current-code full-suite run."
+    "Cohort-level TMM is explicitly not fold-local. GDC acquisition before count RDS, pathway/gene preprocessing, complete per-row exposure, unsupported historical bindings and final C01/C13/C16 acceptance remain open. No raw-normalization statistical replay is claimed by inventory inspection; it replays only RDS conversion and verifies native upstream bindings. Cumulative tests are versioned history, not a single current-code full-suite run.",
+    "Frozen fold-local TMM expression: actual training-only reference, factor centering, logCPM prior and tumor detection are implemented; lncRNA and coding-gene outputs reach native five-fold CNV/adjusted-core preparation and actual external exclusion. Raw count RDS is still read as a whole. Direct legacy preparation, global candidate selection, pathway activity, GDC acquisition and complete per-row exposure are not declared independent. Synthetic edgeR and frozen model forwards only; real cohorts/optimization/deployment were not run."
   ],
   "test_suites": [
     {
@@ -632,6 +638,16 @@
       "path": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml",
       "passed": 11,
       "sha256": "3d6ac7953e5f266ced4a6a46da3bbc921c6daae299a637f968d8e92ee78bce68"
+    },
+    {
+      "path": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml",
+      "passed": 40,
+      "sha256": "e745fdd74c94c3671cd15223f9b938502ce3d1aa74ad1846ca091f0d1fe19a25"
+    },
+    {
+      "path": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml",
+      "passed": 31,
+      "sha256": "320c95c9f51c07b04b2f45d3afed527b292899addec3bb90990b422136346fc7"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -865,57 +881,57 @@
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_capture_detects_changes_during_read_and_before_sealing",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv_event]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[matrix_change]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_array]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_label]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_shape]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_split]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv_event]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_materialization_sources",
@@ -2875,77 +2891,142 @@
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_actual_edgeR_normalization_and_conversion_preserve_expected_values",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_actual_legacy_formal_reader_follows_conversion_sources",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_actual_raw_counts_reach_local_cnv_core_and_external_isolation",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_actual_reads_bind_expression_receipt_and_detect_later_change",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_changed_expression_or_ancestor_is_rejected[normalization]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_changed_expression_or_ancestor_is_rejected[output]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_changed_expression_or_ancestor_is_rejected[raw_counts]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_changed_expression_or_ancestor_is_rejected[repinned_output]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[duplicate_lnc]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[duplicate_sample]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[invalid_sample]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[nonfinite]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_legacy_rds_keeps_missing_normalization_explicit",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_normalizer_host_guard_and_converter_full_scope",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_expression_source_ancestry",
       "case": "test_wrong_host_and_existing_output_rejected",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_actual_fold_local_expression_reaches_core_forward_and_external_isolation",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_actual_native_statistics_preserve_excluded_candidates_and_fold_dependencies",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_all_folds_export_only_train_validation_and_record_normal_training_patients",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_fold_expression_mismatch_rejected[fold]",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_fold_expression_mismatch_rejected[output_repin]",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_fold_expression_mismatch_rejected[patient_map]",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_frozen_application_is_independent_of_query_batch_and_order",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_host_guard_and_existing_output",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_invalid_fold_authority_stops_before_normalization[duplicate_patient]",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_invalid_fold_authority_stops_before_normalization[invalid_fold]",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_no_eligible_cnv_lncrnas_preserves_empty_graph_schema",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_training_detection_never_uses_validation_only_expression",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_fold_local_expression",
+      "case": "test_training_transform_matches_independent_edgeR_and_heldout_changes_do_not_refit",
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_graph_contract",
@@ -3165,17 +3246,17 @@
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_five_fold_statistics_and_actual_preparation_preserve_sources",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
@@ -3185,77 +3266,77 @@
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[candidates]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[compact]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[run_id]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[array]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[missing_array]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[output]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[raw_table]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[wrong_partition]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[audit_v32_local_cnv_validation_associations-main]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[finalize_and_audit_v32_local_cnv_r3-main]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-finalize]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-initialize]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-materialize_cancer]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_validation_associations-main]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[run_v32_local_cnv_confounding_audit_r2-main]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_main_app_feature_flag",
@@ -3715,72 +3796,72 @@
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_adjusted_reader_preserves_used_files_and_separate_study_sources",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_external_v2_excludes_shared_study_even_for_an_unseen_entity",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_during_read_and_extra_directory_partition_fail",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_partition_with_unchanged_success_receipt_is_detected",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_formal_entrypoint_serializes_consumed_legacy_sources_in_all_arms_without_fitting",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_metadata_is_explicit_and_retains_multiple_accession_columns",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[cancer]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[fold]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[invented_metadata]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_receipt]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_role]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[receipt_hash]",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_real_current_producer_propagates_train_sources_and_keeps_l1_validation_diagnostic",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_relocated_native_source_keeps_hash_and_explicit_missing_metadata",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/fold_local_expression_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_rbns_sequence",
@@ -4285,11 +4366,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "expression_ancestry_r2",
-      "expression_ancestry_regression_r1",
-      "expression_ancestry_web_r1"
+      "fold_local_expression_regression_r1",
+      "fold_local_expression_r3"
     ],
-    "passed": 95,
+    "passed": 71,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

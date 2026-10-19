@@ -101,6 +101,9 @@ def convert(source_root, output_root, *, cancers=None, runner):
 
 def validate(item, root, output, *, replay=False):
     path = verified_path(item, root); value = read(path)
+    if value.get("format") == "FOLD_LOCAL_EXPRESSION_CONVERSION_V1":
+        from .fold_local_expression import validate as validate_fold_local
+        return validate_fold_local(item, root, output, replay=replay)
     if (value.get("format") != FORMAT or value.get("target_host") != "149" or value.get("training_started") is not False
             or value.get("raw_source_ancestry_complete") is not False or len(value.get("implementations", [])) != 2):
         raise ValueError("Invalid expression conversion source receipt")
@@ -125,6 +128,9 @@ def binding(output):
 
 
 def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_CONSTRUCTION"):
+    if read(verified_path(item, root)).get("format") == "FOLD_LOCAL_EXPRESSION_CONVERSION_V1":
+        from .fold_local_expression import inspect as inspect_fold_local
+        return inspect_fold_local(inventory, item, root, output, model, role, fold, phase=phase)
     key = ("expression_conversion", item["sha256"], sha256(output))
     path, value = validate(item, root, output, replay=key not in inventory.visited)
     inventory.visited.add(key)

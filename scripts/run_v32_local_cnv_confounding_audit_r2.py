@@ -158,12 +158,16 @@ def canonical_patient(value: Any) -> str:
 
 def patient_matrix(
     path: Path, cancer: str, entity_column: str, value_column: str,
-    *, capture=None, role="",
+    *, capture=None, role="", fold=-1,
 ) -> tuple[pd.DataFrame, int]:
     columns = ["cancer_id", "sample_id", "patient_id", entity_column, value_column]
-    frame = (pd.read_parquet(path,columns=columns) if capture is None else
-             capture.read(path,lambda p:pd.read_parquet(p,columns=columns),role=role,cancer=cancer,columns=columns))
-    if set(frame.cancer_id.astype(str)) != {cancer}:
+    from cc_hhgt.v32.fold_local_expression import read_analysis_frame, analysis_columns
+    columns = analysis_columns(path, columns)
+    reader = lambda p: read_analysis_frame(p, columns)
+    frame = (reader(path) if capture is None else
+             capture.read(path,reader,role=role,cancer=cancer,fold=fold,columns=columns))
+    exclusions = frame.attrs.get("expression_exclusions", {})
+    if not frame.empty and set(frame.cancer_id.astype(str)) != {cancer}:
         raise RuntimeError(f"cancer drift in {path}")
     frame["patient_id"] = frame.patient_id.map(canonical_patient)
     frame[value_column] = pd.to_numeric(frame[value_column], errors="coerce")
@@ -175,7 +179,9 @@ def patient_matrix(
     )
     matrix.index = matrix.index.astype(str)
     matrix.columns = matrix.columns.astype(str)
-    return matrix.sort_index().sort_index(axis=1).astype(np.float32), duplicate
+    matrix = matrix.sort_index().sort_index(axis=1).astype(np.float32)
+    matrix.attrs["expression_exclusions"] = exclusions
+    return matrix, duplicate
 
 
 def split_patients(patient_map: pd.DataFrame, cancer: str, fold: int) -> list[str]:
@@ -229,6 +235,10 @@ def a0_full(
             "ij,ij->j", xv[:, li[start:stop]], yv[:, pi[start:stop]]
         )
     rho = np.clip(rho, -0.999999, 0.999999)
+    # Entirely absent/filtered features cannot become measured zero effects
+    # through the historical missing-value imputation above.
+    measured = pairs.lncrna_id.isin(lnc.columns) & pairs.pathway_id.isin(pathway.columns)
+    rho[~measured.to_numpy()] = np.nan
     residual_rank = design_rank(design)
     p = correlation_p_values(rho, len(common), residual_design_rank=residual_rank)
     return rho, p, len(common), residual_rank
@@ -414,7 +424,8 @@ def association_fold(
     out.attrs["validation_base_design_rank"] = (
         int(np.linalg.matrix_rank(validation_design)) if len(validation_design) else 0
     )
-    return out
+    from cc_hhgt.v32.fold_local_expression import mark_excluded
+    return mark_excluded(out, lnc)
 
 
 def edge_candidate_frame(
@@ -491,7 +502,7 @@ def g0_fold(
     lnc_ids = sorted(set(lnc.columns.astype(str)) & set(cnv.lncrna_ids))
     gene_ids = sorted(set(gene.columns.astype(str)) & allowed_genes)
     if not common or not lnc_ids or not gene_ids:
-        return pd.DataFrame(columns=["cancer_id", "fold_id", "lncrna_id", "gene_id"])
+        return merge_edge_models(cancer,fold,select_edges(pd.DataFrame(),0,"E0"),select_edges(pd.DataFrame(),0,"E1"))
     lnc_local = lnc.reindex(index=common, columns=lnc_ids)
     gene_local = gene.reindex(index=common, columns=gene_ids)
     rows = np.asarray([cnv.patient_index[p] for p in common], dtype=int)
@@ -545,13 +556,18 @@ def g0_fold(
         e0_parts.append(e0); e1_parts.append(e1); total_tests += tests
     e0 = select_edges(pd.concat(e0_parts, ignore_index=True) if e0_parts else pd.DataFrame(), total_tests, "E0")
     e1 = select_edges(pd.concat(e1_parts, ignore_index=True) if e1_parts else pd.DataFrame(), total_tests, "E1")
+    return merge_edge_models(cancer,fold,e0,e1)
+
+
+def merge_edge_models(cancer: str, fold: int, e0: pd.DataFrame, e1: pd.DataFrame) -> pd.DataFrame:
+    """Keep the complete E0/E1 schema even when no expression features qualify."""
     keys = ["lncrna_id", "gene_id"]
     merged = e0.merge(e1, on=keys, how="outer", validate="one_to_one")
     merged.insert(0, "fold_id", int(fold)); merged.insert(0, "cancer_id", cancer)
     for column in ("rho_E0", "rho_E1"):
         if column not in merged:
             merged[column] = np.nan
-        merged[column] = pd.to_numeric(merged[column], errors="coerce")
+        merged[column] = pd.to_numeric(merged[column], errors="coerce").astype(float)
     merged["present_E0"] = np.isfinite(merged["rho_E0"].to_numpy(float))
     merged["present_E1"] = np.isfinite(merged["rho_E1"].to_numpy(float))
     merged["edge_removed"] = merged.present_E0 & ~merged.present_E1
@@ -614,12 +630,8 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
         receipt = dict(receipt)
         receipt["reused_after_sha_verification"] = True
         return receipt
-    lnc_path = Path(sources["lnc_expression_root"]["path"]) / f"cancer_id={cancer}" / "part-0.parquet"
     pathway_path = Path(sources["pathway_activity_root"]["path"]) / f"cancer_id={cancer}" / "part-0.parquet"
-    gene_path = Path(sources["gene_expression_root"]["path"]) / f"cancer_id={cancer}" / "part-0.parquet"
-    lnc, lnc_duplicates = patient_matrix(lnc_path, cancer, "lncrna_id", "logcpm",capture=capture,role="lncrna_expression")
     pathway, pathway_duplicates = patient_matrix(pathway_path, cancer, "pathway_id", "activity_score",capture=capture,role="pathway_activity")
-    gene, gene_duplicates = patient_matrix(gene_path, cancer, "gene_id", "logcpm",capture=capture,role="gene_expression")
     columns=["cancer_id","lncrna_id","pathway_id"]
     candidates = capture.read(args.candidates,lambda p:pd.read_parquet(p,columns=columns,
         filters=[("cancer_id","==",cancer)]),role="candidates",cancer=cancer,columns=columns).astype(str)
@@ -639,7 +651,23 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
         lambda p:pd.read_parquet(p,columns=["gene_id"]),role="protein_gene_encoding",columns=["gene_id"])
     allowed_genes = set(signed_membership.gene_id.astype(str)) | set(encoding.gene_id.astype(str))
     pair_records, edge_records = [], []
+    from cc_hhgt.v32.fold_local_expression import expression_path
+    expression_cache, duplicate_by_fold = {}, {}
     for fold in range(5):
+        matrices = {}
+        for key, entity, role in (("lnc_expression_root","lncrna_id","lncrna_expression"),
+                                  ("gene_expression_root","gene_id","gene_expression")):
+            path = expression_path(sources,key,cancer,fold,args.patient_map)
+            scope = fold if sources[key].get("layout") == "fold_local" else -1
+            if scope >= 0:
+                matrices[key] = patient_matrix(path,cancer,entity,"logcpm",capture=capture,role=role,fold=scope)
+                continue
+            if path not in expression_cache:
+                expression_cache[path] = patient_matrix(path,cancer,entity,"logcpm",capture=capture,role=role,fold=scope)
+            matrices[key] = expression_cache[path]
+        lnc, lnc_duplicates = matrices["lnc_expression_root"]
+        gene, gene_duplicates = matrices["gene_expression_root"]
+        duplicate_by_fold[str(fold)] = {"lncrna":lnc_duplicates,"gene":gene_duplicates}
         pair = association_fold(
             cancer, fold, candidates, lnc, pathway, patient_map, cnv, covariates
         )
@@ -693,7 +721,7 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
         },
         "pair_outputs": pair_records, "g0_outputs": edge_records,
         "duplicate_patient_feature_rows_averaged": {
-            "lncrna": lnc_duplicates, "pathway": pathway_duplicates, "gene": gene_duplicates,
+            "expression_by_fold": duplicate_by_fold, "pathway": pathway_duplicates,
         },
         "association_C0": "shared_covariate_current_v32_formal_association",
         "association_A1_A2_covariates": list(DEFAULT_COVARIATES),

@@ -42,17 +42,21 @@ def test_recovered_producers_reject_wrong_host_before_execution(monkeypatch,modu
         entry() if function=="main" else entry(None)
 
 
-def native_inputs(root,monkeypatch,*,expression_source=None):
+def native_inputs(root,monkeypatch,*,expression_source=None,fold_expression_root=None,patient_map_source=None,candidate_ids=None):
     import scripts.run_v32_local_cnv_confounding_audit_r2 as association
     import scripts.materialize_v32_local_cnv_validation_associations as validation
     root.mkdir(parents=True)
     # Only fixture size is reduced. Native matrix reads, five folds, all
     # covariates, statistical calculations and source writers are unchanged.
-    monkeypatch.setattr(association,"CANDIDATES_PER_CANCER",1)
-    monkeypatch.setattr(validation,"CANDIDATES_PER_CANCER",1)
+    candidate_ids = candidate_ids or ["LNC:Z"]
+    monkeypatch.setattr(association,"CANDIDATES_PER_CANCER",len(candidate_ids))
+    monkeypatch.setattr(validation,"CANDIDATES_PER_CANCER",len(candidate_ids))
     n=120;t=np.arange(n,dtype=float);patients=[f"PRIVATE_LOCAL_PATIENT_{i:03}" for i in range(n)]
     if expression_source is not None:
         patients=pd.read_parquet(expression_source).patient_id.drop_duplicates().tolist()
+        assert len(patients)==n
+    if patient_map_source is not None:
+        patients=pd.read_csv(patient_map_source,sep="\t").patient_id.tolist()
         assert len(patients)==n
     values=np.sin(t*.63)+np.cos(t*.27)
     sources={}
@@ -62,6 +66,9 @@ def native_inputs(root,monkeypatch,*,expression_source=None):
         ("gene_expression_root","gene_id","logcpm",["G1"],values+np.cos(t*.1)*.1,"77665544")):
         if name=="lnc_expression_root" and expression_source is not None:
             sources[name]={"path":str(Path(expression_source).parent.parent)};continue
+        if fold_expression_root is not None and name in {"lnc_expression_root","gene_expression_root"}:
+            kind="lncrna" if name=="lnc_expression_root" else "gene"
+            sources[name]={"path":str(Path(fold_expression_root)/kind),"layout":"fold_local"};continue
         directory=root/name;file=directory/"cancer_id=BRCA/part-0.parquet";file.parent.mkdir(parents=True)
         pd.DataFrame({"cancer_id":"BRCA","patient_id":patients,"sample_id":patients,
                       entity:ids[0],column:signal,"pmid":pmid}).to_parquet(file,index=False)
@@ -73,14 +80,16 @@ def native_inputs(root,monkeypatch,*,expression_source=None):
     cov=root/"covariates.parquet";covariates.to_parquet(cov,index=False);sources["covariates"]=record(cov)
     config=root/"source_config.json";write(config,{"sources":sources})
     candidates=root/"candidates.parquet"
-    pd.DataFrame({"cancer_id":["BRCA"],"lncrna_id":["LNC:Z"],"pathway_id":["P1"]}).to_parquet(candidates,index=False)
-    folds=root/"patient_map.tsv"
-    pd.DataFrame({"cancer_id":"BRCA","patient_id":patients,"patient_fold_id":np.arange(n)%5}).to_csv(folds,sep="\t",index=False)
+    pd.DataFrame({"cancer_id":"BRCA","lncrna_id":candidate_ids,"pathway_id":"P1"}).to_parquet(candidates,index=False)
+    folds=Path(patient_map_source) if patient_map_source is not None else root/"patient_map.tsv"
+    if patient_map_source is None:
+        pd.DataFrame({"cancer_id":"BRCA","patient_id":patients,"patient_fold_id":np.arange(n)%5}).to_csv(folds,sep="\t",index=False)
     partition=root/"directional/cancer=BRCA";partition.mkdir(parents=True)
-    for name,ids in (("patient_ids",patients),("lncrna_ids",["LNC:Z"]),("pathway_ids",["P1"])):write(partition/(name+".json"),ids)
+    for name,ids in (("patient_ids",patients),("lncrna_ids",candidate_ids),("pathway_ids",["P1"])):write(partition/(name+".json"),ids)
     for entity in ("lncrna","pathway"):
         for feature in ("signed_mean","callable","amplification","deletion"):
-            array=np.ones((n,1),dtype=bool) if feature=="callable" else np.zeros((n,1),dtype=np.float32)
+            shape=(n,len(candidate_ids) if entity=="lncrna" else 1)
+            array=np.ones(shape,dtype=bool) if feature=="callable" else np.zeros(shape,dtype=np.float32)
             np.save(partition/(entity+"_"+feature+".npy"),array)
     raw=root/"raw_segments.tsv"
     pd.DataFrame({"patient_id":[patients[0]],"pmid":["11224488"],"value":[0.]}).to_csv(raw,sep="\t",index=False)
@@ -89,7 +98,7 @@ def native_inputs(root,monkeypatch,*,expression_source=None):
     write(root/"directional/SUCCESS.json",{"status":"SUCCESS"})
     graph=root/"graph/static";graph.mkdir(parents=True)
     for name in ("signed_membership","protein_gene_encoding"):
-        pd.DataFrame({"gene_id":["G1"]}).to_parquet(graph/(name+".parquet"),index=False)
+        pd.DataFrame({"gene_id":["GENE:G1" if fold_expression_root is not None else "G1"]}).to_parquet(graph/(name+".parquet"),index=False)
     args=SimpleNamespace(cancer="BRCA",source_config=config,covariates=cov,candidates=candidates,patient_map=folds,
                          graph_root=graph.parent,directional_root=partition.parent,output_root=root/"train")
     train=association.run_cancer(args)

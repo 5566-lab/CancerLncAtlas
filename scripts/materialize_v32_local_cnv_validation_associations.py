@@ -126,16 +126,22 @@ def _bind_covariate_authority(
     return path, binding
 
 
-def _matrix(path: Path, cancer: str, entity: str, value: str, *,capture=None,role="") -> pd.DataFrame:
+def _matrix(path: Path, cancer: str, entity: str, value: str, *,capture=None,role="",fold=-1) -> pd.DataFrame:
     columns = ["cancer_id", "patient_id", entity, value]
-    frame = (pd.read_parquet(path,columns=columns) if capture is None else
-             capture.read(path,lambda p:pd.read_parquet(p,columns=columns),role=role,cancer=cancer,columns=columns))
-    if set(frame.cancer_id.astype(str)) != {cancer}:
+    from cc_hhgt.v32.fold_local_expression import read_analysis_frame, analysis_columns
+    columns = analysis_columns(path, columns)
+    reader = lambda p: read_analysis_frame(p, columns)
+    frame = (reader(path) if capture is None else
+             capture.read(path,reader,role=role,cancer=cancer,fold=fold,columns=columns))
+    exclusions = frame.attrs.get("expression_exclusions", {})
+    if not frame.empty and set(frame.cancer_id.astype(str)) != {cancer}:
         raise RuntimeError(f"Cancer identity drift in {path}")
     matrix, _ = patient_first_matrix(
         frame, feature_column=entity, value_column=value
     )
-    return matrix.astype(np.float32)
+    matrix = matrix.astype(np.float32)
+    matrix.attrs["expression_exclusions"] = exclusions
+    return matrix
 
 
 def _validation_a1(
@@ -224,7 +230,8 @@ def _validation_a1(
         np.where(~available, "ASSOCIATION_NOT_ESTIMABLE", ""),
     )
     out["validation_patient_n"] = len(common)
-    return out
+    from cc_hhgt.v32.fold_local_expression import mark_excluded
+    return mark_excluded(out, lnc)
 
 
 def _run(args: argparse.Namespace) -> dict[str, Any]:
@@ -277,9 +284,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("Covariates authority lacks cancer_id/patient_id")
     covariates["cancer_id"] = covariates.cancer_id.astype(str).str.upper()
     covariates["patient_id"] = covariates.patient_id.map(canonical_patient)
-    lnc_path = Path(sources["lnc_expression_root"]["path"]) / f"cancer_id={cancer}" / "part-0.parquet"
     pathway_path = Path(sources["pathway_activity_root"]["path"]) / f"cancer_id={cancer}" / "part-0.parquet"
-    lnc = _matrix(lnc_path, cancer, "lncrna_id", "logcpm",capture=capture,role="lncrna_expression")
     pathway = _matrix(pathway_path, cancer, "pathway_id", "activity_score",capture=capture,role="pathway_activity")
     columns=["cancer_id","lncrna_id","pathway_id"]
     pairs = capture.read(args.candidates,lambda p:pd.read_parquet(p,columns=columns,
@@ -294,7 +299,17 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     ).astype(int)
     cnv = DirectionalCNVStore(args.directional_root / f"cancer={cancer}",source_capture=capture,cancer=cancer)
     records = []
+    from cc_hhgt.v32.fold_local_expression import expression_path
+    expression_cache = {}
     for fold in range(5):
+        lnc_path = expression_path(sources,"lnc_expression_root",cancer,fold,args.patient_map)
+        scope = fold if sources["lnc_expression_root"].get("layout") == "fold_local" else -1
+        if scope >= 0:
+            lnc = _matrix(lnc_path,cancer,"lncrna_id","logcpm",capture=capture,role="lncrna_expression",fold=scope)
+        else:
+            if lnc_path not in expression_cache:
+                expression_cache[lnc_path] = _matrix(lnc_path,cancer,"lncrna_id","logcpm",capture=capture,role="lncrna_expression",fold=scope)
+            lnc = expression_cache[lnc_path]
         validation_fold = (fold + 1) % 5
         patients = sorted(
             patient_map.loc[

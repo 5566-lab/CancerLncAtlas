@@ -1,0 +1,45 @@
+{
+  "method": "TRAIN_FITTED_TMM_AND_DETECTION_WITH_ACTUAL_FOLD_LOCAL_CONSUMERS",
+  "successful_validation_receipts": [
+    "fold_local_expression_regression_r1",
+    "fold_local_expression_r3"
+  ],
+  "intermediate_successful_receipts": [
+    "fold_local_expression_r1",
+    "fold_local_expression_r2"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/fold_local_expression.py",
+    "cc_hhgt/v32/formal_expression_sources.py",
+    "cc_hhgt/v32/local_cnv_sources.py",
+    "scripts/convert_fold_local_expression.py",
+    "scripts/frozen_tmm.R",
+    "scripts/materialize_fold_local_expression.R",
+    "scripts/materialize_v32_local_cnv_validation_associations.py",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py",
+    "tests/test_v32_fold_local_expression.py",
+    "tests/test_v32_local_cnv_source_ancestry.py"
+  ],
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "actual_edgeR_on_synthetic_counts": true,
+  "independent_training_oracle": true,
+  "heldout_perturbation_does_not_change_training_state": true,
+  "application_batch_invariance": true,
+  "actual_native_CNV_statistics_and_core_forward": true,
+  "outer_test_tumors_emitted": false,
+  "whole_raw_count_RDS_read": true,
+  "inventory_replays_RDS_conversion": true,
+  "inventory_replays_TMM_calculation": false,
+  "biological_independence_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "No new real cohort run. Pathway activity, candidate-universe selection, direct legacy preprocessing and complete upstream/patient ancestry remain open."
+}

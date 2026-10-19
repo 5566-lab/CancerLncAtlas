@@ -2560,3 +2560,104 @@ The ledger now distinguishes actual synthetic edgeR execution for this recovered
 R producer from the unchanged parse-only scope of other R scripts. Passing these
 checks does not close the outstanding normalization, provenance or overall
 acceptance requirements above.
+
+Frozen training-patient expression normalization
+------------------------------------------------
+
+The new scripts/materialize_fold_local_expression.R fits a separate TMM state
+for each outer patient fold. Fold f is held out, fold (f+1) modulo 5 is validation,
+and the other three folds supply training patients. The original aliquot priority
+is retained. Selected tumor AND normal aliquots belonging to training patients
+determine the reference library, centered normalization factors and mean
+effective library size. Unassigned patients do not contribute to fitting.
+
+scripts/frozen_tmm.R provides fit_frozen_tmm and apply_frozen_tmm. Fitting follows
+edgeR's default training-only upper-quartile reference rule, with its sparse
+fallback. Applying uses public edgeR reference/sample pair factors: their ratio
+recovers the relative factor, which is multiplied by the frozen reference
+factor. Applied samples are never recentered together. The logCPM prior is also
+frozen to the training mean effective library size. For a sample with effective
+library E and frozen training mean M, the added count is a=0.25*E/M and the value
+is log2((count+a)/(E+2*a)*1e6). Fixing only the TMM reference would leave the
+usual all-input factor centering and logCPM prior dependent on held-out samples.
+The edgeR definitions are documented in the official manual:
+https://bioconductor.org/packages/release/bioc/manuals/edgeR/man/edgeR.pdf
+
+The producer writes five separate normalization states, full read-sample tables,
+training-tumor detection tables, lncRNA matrices and protein-coding gene matrices.
+The latter use GENE: stable identifiers; lncRNAs use LNC: stable identifiers.
+Duplicate stable identifiers keep the first source row and PAR_Y rows are
+excluded from export, while all count rows remain in library normalization.
+Each matrix emits selected training and validation tumors only. Outer-test
+tumors are not emitted. The original count RDS is nevertheless read as a whole;
+the receipt explicitly records that raw-file exposure, rather than claiming
+test patients were never read anywhere upstream.
+
+lncRNA eligibility is computed as the fraction of selected TRAINING TUMORS
+whose frozen logCPM exceeds zero, with threshold 0.10. Validation expression
+cannot change eligibility. All exported lncRNA measurements remain in the
+Parquet output, with analysis_eligible and unavailable_reason columns. Native
+association readers exclude ineligible measurements from statistical fitting,
+but retain their candidate rows as typed_unavailable with reason
+BELOW_TRAIN_DETECTION_THRESHOLD. A0 statistics no longer turn an entirely absent
+feature into a measured zero association through imputation. Gene measurements
+are exported without this lncRNA detection filter; the existing training-only
+G0 variance filter remains responsible for usable graph features.
+
+Run the following only on 149, with new output directories:
+
+* Rscript scripts/materialize_fold_local_expression.R COUNT_RDS PATIENT_MAP_TSV
+  CANCER NEW_CANCER_NORMALIZATION_DIRECTORY
+* python scripts/convert_fold_local_expression.py
+  --source NEW_CANCER_NORMALIZATION_DIRECTORY --output NEW_EXPRESSION_DIRECTORY
+  (repeat --source for additional explicit cancer directories)
+* Merge the generated SOURCE_CONFIG_FRAGMENT.json sources into a new local-CNV
+  source config, retaining the actual covariate and pathway-activity authorities.
+  Both lnc_expression_root and gene_expression_root use layout=fold_local.
+* Run the previously documented native local-CNV association, validation,
+  independent closeout and corrected graph materialization commands with the
+  SAME patient-map path. Then use their actual partitions in adjusted formal
+  preparation. These instructions do not launch a trainer or replay real data.
+
+The converter requires all five folds for each explicitly supplied cancer,
+preserves finite RDS values, checks emitted patient roles and replays detection
+against training-tumor values. Counts, patient map, fit state, reference sample,
+sample roles/factors, detection, matrices and implementations are bound in native
+receipts. Source layouts are explicit: missing fold-local data never silently
+fall back to cohort files. The association and validation producers read the
+correct fold partition; the association graph also reads the corresponding
+coding-gene partition. Whole-cohort legacy files are cached, but fold matrices
+are released between folds rather than retaining five full copies in memory.
+
+Local-CNV source receipts now distinguish fold-specific input reads, record
+consumed eligibility columns and check per-output expression coverage. Core
+inventory traversal follows only the expression partitions used by that output's
+fold. Converted values are replayed from RDS before normalization sources are
+followed. The complete raw-read sample table still participates conservatively
+in external study/patient exclusion; this is not a fitted-row independence claim.
+
+Synthetic verification executes actual edgeR calculations on 83 count rows and
+123 aliquots. Independent direct edgeR training values, drastic held-out count
+perturbations, training-state invariance, query-batch invariance, training-only
+detection, five-fold native statistics with excluded-candidate closure, adjusted
+preparation, frozen core forwards and actual external study exclusion are checked.
+Only fixture dimensions are reduced. Full 33-cancer closeout is not executed.
+
+This new path addresses lncRNA and coding-gene count normalization for native
+local-CNV/adjusted preparation. Historical cohort-normalized outputs remain
+historical; legacy direct preparation still uses its declared cohort input.
+Candidate-universe selection and pathway-activity preprocessing can still carry
+whole-cohort dependencies. GDC acquisition before count RDS, complete per-row
+patient exposure and unsupported historical ancestry also remain unresolved.
+No real cohort analysis, optimizer, paid compute or deployment was started.
+Overall C01/C13/C16 acceptance remains open.
+
+The fold_local_expression_r3 receipt records 31 passing cases, including the
+new no-eligible-lncRNA case: candidate rows remain unavailable and empty G0/E1
+outputs retain the complete downstream schema with a floating-point rho column.
+The fold_local_expression_regression_r1 receipt records 40 passing historical
+expression/preparation/CNV-source cases. These 71 distinct scoped checks ran on
+149 without optimization. Earlier r1/r2 receipts are retained as intermediate
+verification, not added again to the distinct latest count. The summary's old
+top-level R parse-only label is corrected to scoped synthetic execution; the
+scope for other, unexecuted R scripts is unchanged.

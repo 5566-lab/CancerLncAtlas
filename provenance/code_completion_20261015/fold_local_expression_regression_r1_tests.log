@@ -1,0 +1,9 @@
+........................................                                 [100%]
+=============================== warnings summary ===============================
+tests/test_v32_expression_source_ancestry.py::test_actual_raw_counts_reach_local_cnv_core_and_external_isolation
+tests/test_v32_expression_source_ancestry.py::test_actual_raw_counts_reach_local_cnv_core_and_external_isolation
+  /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+40 passed, 2 warnings in 56.99s
