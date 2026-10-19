@@ -1,0 +1,33 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T02:23:15.793330+00:00",
+  "source_sha256": {
+    "scripts/materialize_formal_lncrna_logcpm.R": "daaf1bc259a2c965c772d1c3d82895f7d694bcc55eeaae63081ef1a9cee6a224",
+    "scripts/convert_formal_lncrna_rds.py": "82f78ab5b6729de08c222e400d3822c72655e3cda2bf68f9a95840cb7e7441b8",
+    "cc_hhgt/v32/formal_expression_sources.py": "ce289787df9d1b5d827daa9050e9df0176eae31d6c596ad76595a28f2cab0505",
+    "cc_hhgt/v32/cnv_input_sources.py": "06ff2a812679ad5c9aa2ec8935cb1b4a3d8c6c9a67154bdb0819c3a33cb36111",
+    "cc_hhgt/v32/local_cnv_sources.py": "96283b1aa2e897935fec46675928037afa168ec93096a322c1de812c7378f0fd",
+    "cc_hhgt/v32/preparation_sources.py": "004a7608bef0a686351f6833dff06671574a7d547fa88558759db4d1da2b223c",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "185af61ab634e9ac648f73d1f542016d82cfbfe1457c0a01e66fc50c61e148df",
+    "cc_hhgt/v32/current_cnv_model_use.py": "9585c5d4b67252eefe1a473f7221ea1553649d14900ef708999bd5ede804f204",
+    "cc_hhgt/v32/current_model_use.py": "72f281c644122db3a975c812a2dc0cfbb30d4fe0d0a6b2cd92e5c4491bf31598",
+    "tests/test_v32_expression_source_ancestry.py": "021bf0fb4b606baeea1c5fad1bd0dee169caf75064f428f7634ef54d80e677be",
+    "tests/test_v32_local_cnv_source_ancestry.py": "a97591ef53a9d42db5e31380c6f3fe4c27058eeb3a2c53a85f6a2a787cea99ae"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_patient_source_identity.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_local_cnv_source_ancestry.py",
+    "--junitxml=provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T02:24:57.711604+00:00"
+}

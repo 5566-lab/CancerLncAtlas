@@ -129,19 +129,19 @@
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
-    "r_validation": "PARSE_ONLY",
+    "r_validation": "SCOPED_SYNTHETIC_EXECUTION",
     "remaining_requirements_not_complete": [
       "C01",
       "C13",
       "C16"
     ],
-    "latest_change_tests_passed": 40,
-    "pending_validation": [
-      "tests/test_v32_current_model_use.py",
-      "tests/test_v32_patient_source_identity.py",
-      "tests/test_v32_auxiliary_model_use.py",
-      "tests/test_v32_local_cnv_source_ancestry.py",
-      "tests/test_v32_current_analysis_web.py"
-    ]
+    "latest_change_tests_passed": 95,
+    "pending_validation": [],
+    "r_validation_scope": {
+      "executed_script": "scripts/materialize_formal_lncrna_logcpm.R",
+      "verification": "Actual edgeR TMM on synthetic count RDS, compared with an independently selected direct edgeR reference",
+      "real_cohort_execution": false,
+      "other_R_scripts": "No expanded execution claim; their previously recorded parse-only scope is unchanged"
+    }
   }
 }

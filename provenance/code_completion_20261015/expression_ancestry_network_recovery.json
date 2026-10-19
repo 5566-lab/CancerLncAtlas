@@ -1,0 +1,37 @@
+{
+  "status": "REMOTE_VALIDATION_RESOLVED",
+  "recorded_utc": "2026-10-19T02:29:05.216444+00:00",
+  "original_incident": {
+    "path": "expression_ancestry_network_pending.json",
+    "sha256": "4e295f1f1e82beb03ff331160f8c2a478f52177616925494a5e67017d13f9b97"
+  },
+  "verified_remote_hostname": "149",
+  "recovery_mechanism": "NOT_OBSERVED",
+  "credential_submissions": 0,
+  "regression_resumption": "Read-only remote inspection found no matching pytest process and no existing receipt before launch",
+  "web_launch_transient": "Source upload succeeded but SSH handshake failed before execution; a host probe returned 149 and no matching process/receipt existed before retry",
+  "completed_receipts": [
+    {
+      "path": "expression_ancestry_regression_r1_test_receipt.json",
+      "sha256": "697950b30434f30f4c4e4bb6910d2891fe5f8c3b3b052a1eef96b1c91eeac320"
+    },
+    {
+      "path": "expression_ancestry_web_r1_test_receipt.json",
+      "sha256": "aeb6d0788ec02580cdc39f5910cf9e113fe35cef57a4edef95f641b53a70eb0d"
+    }
+  ],
+  "new_browser_receipt": {
+    "path": "expression_ancestry_web_browser_receipt.json",
+    "sha256": "de97d94d6716598a19e399002e6012eb6762f2915613f5bdd19d4e9c481aecae"
+  },
+  "latest_unique_passed": 95,
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "production_deployed": false,
+  "test_web_server_cleanup": "NO_CURRENT_WEB_TEST_SERVER",
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ]
+}

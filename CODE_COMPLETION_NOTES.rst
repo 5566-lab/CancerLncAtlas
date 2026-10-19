@@ -2544,10 +2544,19 @@ pathway-activity/gene-expression preprocessing, complete per-row exposure,
 missing historical bindings and final C01/C13/C16 acceptance remain open.
 
 The expression_ancestry_r2 receipt records 40 passing synthetic cases on 149.
-Subsequent broader regression was not started: the coordinator failed during its
-initial SCP upload, before sending the remote test command. A later SSH probe
-returned an invalid banner, and iOA could not be made readable through the
-available desktop controls. No credentials were submitted. As recorded in
-expression_ancestry_network_pending.json, broader regression, browser verification
-and final handoff synchronization remain pending. Previous browser screenshots
-are not reused as evidence for this change.
+Broader regression initially failed during SCP upload before the remote test
+command was sent. A subsequent SSH probe returned an invalid banner, and iOA
+could not be made readable through the available desktop controls. That incident
+is preserved in expression_ancestry_network_pending.json; no credentials were
+submitted. A later read-only probe returned 149 without an observed recovery
+mechanism. Remote inspection confirmed no matching test process or receipt before
+resumption. The 44-case regression and 11-case browser suite subsequently passed,
+bringing this change's current scoped validation to 95 distinct cases. A separate
+transient web-launch handshake failure was also checked for an absent process and
+receipt before retry. New desktop/mobile screenshots and the new browser receipt
+are retained; historical screenshots are not reused as current evidence.
+
+The ledger now distinguishes actual synthetic edgeR execution for this recovered
+R producer from the unchanged parse-only scope of other R scripts. Passing these
+checks does not close the outstanding normalization, provenance or overall
+acceptance requirements above.

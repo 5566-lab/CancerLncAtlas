@@ -324,9 +324,8 @@
     "Earlier raw expression/activity normalization, complete per-row patient usage, absent historical bindings and final acceptance remain open. No real cohort analysis, optimizer, paid compute or deployment occurred. Cumulative tests are versioned history, not one current-code full-suite run.",
     "Recovered the actual standalone TMM normalizer with original source SHA256. Its historical all-gene edgeR TMM on selected tumor and normal samples is retained; only tumor/eligible-lncRNA rows are exported. Actual count RDS, threshold table, sample selection, normalization factors, explicit source study metadata and implementation/version records are preserved.",
     "Native RDS conversion has explicit paths/cancer scope, host149 preflight, new-output-only semantics, exact value and identifier validation, and pinned normalization ancestry. Actual formal/local-CNV reads bind the conversion receipt; model-use inspection replays RDS-to-Parquet values before traversing normalization inputs. Legacy missing normalization receipts remain unresolved.",
-    "Real edgeR calculations on 80 count rows and 123 synthetic aliquots select 121 normalization samples and export 120 tumor samples. Independent expected sample/row selection and direct edgeR reference values, actual local-CNV/core/external consumers and drift rejection are verified without optimization or real cohort analysis.",
-    "Cohort-level TMM is explicitly not fold-local. GDC acquisition before count RDS, pathway/gene preprocessing, complete per-row exposure, unsupported historical bindings and final C01/C13/C16 acceptance remain open. No raw-normalization statistical replay is claimed by inventory inspection; it replays only RDS conversion and verifies native upstream bindings. Cumulative tests are versioned history, not a single current-code full-suite run.",
-    "Expression ancestry regression and browser verification remain pending after initial SCP upload failure. The interrupted regression coordinator exited before launching remote tests. No remote result is inferred from that failed transfer; the previous successful 40-case receipt is preserved."
+    "Real edgeR calculations on 80 count rows and 123 synthetic aliquots select 121 normalization samples and export 120 tumor samples. Independent expected sample/row selection and direct edgeR reference values, actual local-CNV/core/external consumers and drift rejection are verified without optimization or real cohort analysis. Website regression is also verified.",
+    "Cohort-level TMM is explicitly not fold-local. GDC acquisition before count RDS, pathway/gene preprocessing, complete per-row exposure, unsupported historical bindings and final C01/C13/C16 acceptance remain open. No raw-normalization statistical replay is claimed by inventory inspection; it replays only RDS conversion and verifies native upstream bindings. Cumulative tests are versioned history, not a single current-code full-suite run."
   ],
   "test_suites": [
     {
@@ -623,6 +622,16 @@
       "path": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml",
       "passed": 40,
       "sha256": "fdce22c654e21d19cf8f234ae9987d14c41bc4804411eff6120d50d4ff0ba118"
+    },
+    {
+      "path": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml",
+      "passed": 44,
+      "sha256": "f1240940bfe09c53664068b814db6efb83743edd80e1d2a0e4e977fa8f9f29ed"
+    },
+    {
+      "path": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml",
+      "passed": 11,
+      "sha256": "3d6ac7953e5f266ced4a6a46da3bbc921c6daae299a637f968d8e92ee78bce68"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -726,47 +735,47 @@
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_auxiliary_only_study_excludes_unseen_external_entity",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[atac]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv_event]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[genomic]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[run_identity]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[snapshot_change]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[unconsumed_binding]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
@@ -1021,57 +1030,57 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -1656,42 +1665,42 @@
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_actual_fusion_inputs_include_zero_coefficient_experts_and_explicit_missing_ancestry",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_directory_authority_uses_native_tree_hash_and_cannot_hide_a_changed_partition",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenance",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_inventory_cannot_be_relabelled_for_another_score_or_claim_complete",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_training_selection_and_graph_inputs_are_derived_with_masks",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_rehashed_native_use_omission_fails_actual_input_replay",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inventory",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
@@ -3156,17 +3165,17 @@
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_five_fold_statistics_and_actual_preparation_preserve_sources",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
@@ -3176,77 +3185,77 @@
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[candidates]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[compact]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[run_id]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[array]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[missing_array]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[output]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[raw_table]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[wrong_partition]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[audit_v32_local_cnv_validation_associations-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[finalize_and_audit_v32_local_cnv_r3-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-finalize]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-initialize]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-materialize_cancer]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_validation_associations-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[run_v32_local_cnv_confounding_audit_r2-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_main_app_feature_flag",
@@ -3626,47 +3635,47 @@
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_actual_cnv_compact_referenced_patients_are_collected",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_core_preparation_read_uses_file_scoped_patient_mapping",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_file_scopes_aliases_and_public_overlap_counts",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[ambiguous]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[digest]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[namespace]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_native_genomic_alias_overlap_reaches_external_query_without_identifiers",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_native_sc_actual_episode_donors_are_mapped",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_numeric_looking_csv_ids_keep_leading_zeroes",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_regression_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_predicted_binding_runtime",
@@ -4276,19 +4285,15 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "expression_ancestry_r2"
+      "expression_ancestry_r2",
+      "expression_ancestry_regression_r1",
+      "expression_ancestry_web_r1"
     ],
-    "passed": 40,
+    "passed": 95,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,
-    "pending_validation": [
-      "tests/test_v32_current_model_use.py",
-      "tests/test_v32_patient_source_identity.py",
-      "tests/test_v32_auxiliary_model_use.py",
-      "tests/test_v32_local_cnv_source_ancestry.py",
-      "tests/test_v32_current_analysis_web.py"
-    ]
+    "pending_validation": []
   },
   "validation_count_scope": "CUMULATIVE_UNIQUE_CASES_WITH_VERSIONED_SUITE_RECEIPTS_NOT_ONE_FULL_CURRENT_SUITE_RUN"
 }
