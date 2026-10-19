@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 906,
+  "unique_test_cases_passed": 916,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -238,7 +238,10 @@
     "scripts/materialize_gdc_star_counts.py": "3eba594d051fe14f489807adabc1ff278f0a1a5b300feb5237022b5ee6ccda81",
     "tests/test_v32_gdc_star_counts.py": "444626826f41c65f38b8d22a802ef965afefedb38f986dc0168ca35a92972472",
     "tests/test_v32_gdc_star_consumers.py": "68280c51b81961764e11e3acdb9c1882e59e376c90295b16f912a9d6652eb822",
-    "tests/test_v32_gdc_star_transforms.py": "9670de263c6c2d98ccc1e8972d1a11f767b2f87a505b068a4b3ca93459a2cb04"
+    "tests/test_v32_gdc_star_transforms.py": "9670de263c6c2d98ccc1e8972d1a11f767b2f87a505b068a4b3ca93459a2cb04",
+    "cc_hhgt/v32/native_expression_workflow.py": "2a53c1ed93e7c8781cd0a1ce80100378b754b40a600bf46cbb70e743dd3736a9",
+    "scripts/run_native_expression_workflow.py": "47f67766474fb4fc86cacd367e92569d89aaa8f9f70fb774a9cde67b3a638547",
+    "tests/test_v32_native_expression_workflow.py": "9f1abb34b6e358f3c9c79b14001d42756b26f98dd3880eb6ef916dcc3cb17e6a"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -364,7 +367,8 @@
     "Fresh typed global graph authority production and explicit formal-preparation generation selection are now implemented. A new pinned manifest validates all five folds and six static inputs, replaces only the binding artifact and preserves native corrected-E1 ancestry. Actual synthetic formal preparation writes fifteen G0/G1/G2 payloads; the real prepared validator, encoder and residual/direction heads consume each without fitting. Fixed zero L1 logits and frozen cohort/closeout control metadata remain explicit substitutes. The historical C sidecar/comparison launcher has not been migrated to direct native payloads. Full native closeout, complete source/patient ancestry and final acceptance remain open.",
     "The earlier direct-native-to-current-comparison boundary is now closed for the verified native typed G2 route. Actual formal preparation writes pinned per-arm input manifests; explicit native mode reaches the actual three-arm comparison writer, the trainer graph-loading stage, portable prepared validation and frozen export/model restoration. All fifteen expansion payloads preserve candidate tensors, labels, non-graph input hashes, original node indices and training-patient expression scope. Original source hashes are retained when native inputs initially use artifact_hashes. All generated training commands remain blocked code-only records; no optimizer ran. Frozen full-cohort control metadata, reduced dimensions, synthetic pathway/expansion sources and fixed L1 logits remain explicit substitutes. Fixed native cohort/budget closeout, complete acquisition/patient provenance and overall consolidation/final acceptance remain open.",
     "The fixed-size local-CNV closeout boundary is now closed for an explicitly pinned annotation/GMT candidate definition. Actual two-cancer five-fold workers, independent train and validation finalizers, authority validators and corrected-E1 materialization run without patched cancer/budget constants or fabricated aggregate success/decision receipts. Actual core-required, small-effect and insufficient-rank-review outcomes retain the existing scientific thresholds. Constant or fully projected outcomes now remain unestimable under the existing effective-variance tolerance; constant CNV remains a noop for variable outcomes. Expression/activity tables, compact CNV inputs and minimal parent graph metadata are synthetic. Existing native full formal preparation and downstream regressions still use their documented reduced frozen controls. This is not one full raw acquisition-to-final-release run. Complete source/patient ancestry, orchestration and overall C01/C13/C16 acceptance remain open; no real data or fitting ran.",
-    "The new explicit GDC STAR route now has archived metadata query/pagination replay, aliquot/sample/patient reconciliation, optional verified acquisition, actual three-assay SummarizedExperiment assembly and raw-to-RDS replay. Completed source bindings propagate through actual native expression, training detection, ssGSEA, retained legacy normalization, core preparation and external model-use inspection. Explicit TCGA project identifiers now support conservative cohort-overlap exclusion. Tests use synthetic API responses, raw STAR files, patient identities, frozen controls and untrained checkpoint serialization. No live assay acquisition or real cohorts were run. GDC upstream alignment/biological identity truth, unbound historical count provenance, full patient identity coverage and overall command orchestration/final C01/C13/C16 acceptance remain unresolved."
+    "The new explicit GDC STAR route now has archived metadata query/pagination replay, aliquot/sample/patient reconciliation, optional verified acquisition, actual three-assay SummarizedExperiment assembly and raw-to-RDS replay. Completed source bindings propagate through actual native expression, training detection, ssGSEA, retained legacy normalization, core preparation and external model-use inspection. Explicit TCGA project identifiers now support conservative cohort-overlap exclusion. Tests use synthetic API responses, raw STAR files, patient identities, frozen controls and untrained checkpoint serialization. No live assay acquisition or real cohorts were run. GDC upstream alignment/biological identity truth, unbound historical count provenance, full patient identity coverage and overall command orchestration/final C01/C13/C16 acceptance remain unresolved.",
+    "A bounded host-149 native expression workflow now calls actual cached GDC STAR assembly, five-fold TMM, five-fold ssGSEA, native conversions and annotation/detection scope producers. Actual plan/build CLI and downstream native readers were exercised with two synthetic cancer cohorts and forty synthetic raw files. It ends before association analysis, model fitting and publication. Remaining native CNV/graph/comparison/training command consolidation, complete source/patient identity coverage and final C01/C13/C16 acceptance remain open."
   ],
   "test_suites": [
     {
@@ -796,6 +800,11 @@
       "path": "provenance/code_completion_20261015/gdc_star_regression_r1_tests.xml",
       "passed": 28,
       "sha256": "abf096cf3571a3bee0358fbca037f5e53faa754f9ec56026b7a645e7502c1db9"
+    },
+    {
+      "path": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml",
+      "passed": 10,
+      "sha256": "5b601351ec70cc3fa7d32cba40521830257f6a85de5062e1d9986af6a577a884"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -4347,6 +4356,56 @@
       "suite": "provenance/code_completion_20261015/local_cnv_cohort_consumers_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_actual_two_cancer_cli_reaches_same_normalization_consumers",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_completed_receipt_rejects_changed_original_raw_source",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_invalid_inputs_fail_before_any_output[budget]",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_invalid_inputs_fail_before_any_output[cache]",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_invalid_inputs_fail_before_any_output[cancers]",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_invalid_inputs_fail_before_any_output[gmt_relative]",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_invalid_inputs_fail_before_any_output[patient]",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_invalid_inputs_fail_before_any_output[unknown_stage]",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_real_count_parser_failure_records_stage_without_success",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_expression_workflow",
+      "case": "test_wrong_host_is_rejected_before_reading_inputs",
+      "suite": "provenance/code_completion_20261015/native_expression_workflow_r1_tests.xml"
+    },
+    {
       "module": "tests.test_v32_orchestration",
       "case": "test_default_policy_creates_exactly_five_blocked_local_tasks",
       "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
@@ -5339,12 +5398,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "gdc_star_counts_r3",
-      "gdc_star_transforms_r1",
-      "gdc_star_consumers_r3",
-      "gdc_star_regression_r1"
+      "native_expression_workflow_r1"
     ],
-    "passed": 84,
+    "passed": 10,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

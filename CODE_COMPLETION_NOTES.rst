@@ -3381,3 +3381,79 @@ Two transient SSH interruptions affected receipt return. Read-only probes
 confirmed hostname 149, completed original receipts were recovered, and the
 running regression check was not duplicated. No iOA login or reconnection was
 performed. Remaining C01/C13/C16 consolidation and acceptance are still open.
+
+Native expression preprocessing workflow (2026-10-19)
+----------------------------------------------------
+
+scripts.run_native_expression_workflow joins existing cached-STAR assembly,
+five-fold TMM, five-fold ssGSEA, both native conversions and annotation-defined
+candidate/detection scope. It runs on 149 and ends before CNV associations,
+model fitting, frozen prediction and publication. It does not download files.
+The existing GDC metadata/acquisition entry remains a separate prerequisite.
+
+The input JSON has exactly these fields::
+
+  {
+    "format": "NATIVE_EXPRESSION_WORKFLOW_INPUT_V1",
+    "cancers": ["BRCA", "LUAD"],
+    "gdc_query": {"path": "/input/query/QUERY.json", "sha256": "<actual hash>"},
+    "download_root": "/input/gdc-cache",
+    "patient_map": {"path": "/input/patients.tsv", "sha256": "<actual hash>"},
+    "annotation": {"path": "/input/annotation.tsv", "sha256": "<actual hash>"},
+    "gmt_manifest": {"path": "/input/gmt.json", "sha256": "<actual hash>"},
+    "budget_per_cancer": 100000,
+    "seed": 20260726
+  }
+
+Cancer coverage must exactly match the archived query and patient map. Patient
+IDs are canonical TCGA case barcodes; every cancer must have all five folds,
+and every declared patient needs a primary-tumor aliquot. Patient IDs cannot
+appear in two cancer rows. The annotation/GMT formats are the existing native
+formats documented above. GMT collection files use absolute pinned paths,
+as required by the current native R readers. Candidate budgets remain bounded
+by the existing annotation-only sampler and are checked before assembly.
+
+Commands, to execute on 149 with a new output directory::
+
+  python -m scripts.run_native_expression_workflow --manifest /input/workflow.json --output /new/preprocessing --plan
+  python -m scripts.run_native_expression_workflow --manifest /input/workflow.json --output /new/preprocessing
+
+--plan verifies the archived query, actual cached byte hashes, patient map and
+annotation/GMT candidate declaration, then prints exact argument arrays. It
+does not create the output directory or invoke scientific producers. Planning
+reads the declared input files and performs candidate validation; it is still
+a server-149 operation. The execution path invokes only the listed existing
+preprocessing commands; arbitrary commands and training stages are not inputs.
+
+LAUNCH_PREFLIGHT.json pins the manifest, actual raw files, external metadata,
+implementation files and command arguments. STAGE_STATUS.json records each
+running/passed/failed stage and its output log. A failed producer stops the
+workflow, preserves earlier results for inspection and leaves no workflow
+SUCCESS. Existing output directories are never reused or overwritten.
+
+Native reader acceptance checks every cancer and all five folds using the same
+expression_path, activity_path and scope.release readers as downstream native
+analysis. This reconciles fold identities, the patient map, common expression
+normalization, candidates and source bindings. NATIVE_EXPRESSION_BINDING.json
+records the resulting partitions and scope. SOURCE_CONFIG_FRAGMENT.json merges
+the three fold-local source roots and candidate_definition for the existing
+local-CNV source config. It is a fragment: compact CNV, covariates and other
+required inputs must still be supplied to the downstream command. The binding
+also supplies candidate and scope paths for formal preparation.
+
+The workflow validator rechecks recorded inputs, command-stage closure, logs
+and actual native output readers. A workflow PASS means only preprocessing
+completed for its declared data. It does not certify complete biological
+ancestry, independent validation, training, CNV analysis or final publication.
+
+Verification: native_expression_workflow_r1 records ten passing checks on 149.
+The actual CLI --plan leaves its destination absent. The actual execution then
+processes 40 synthetic raw STAR files for BRCA/LUAD, 20 synthetic patients per
+cancer, all five folds and 30 expression/activity partitions. Native consumers
+retain unavailable candidates, matching normalization, scope and original raw
+file dependencies. Missing primary-tumor patients, corrupt caches, wrong cancer
+scope, invalid budgets, relative GMT members and extra command instructions
+fail before output. A malformed raw count reaches the real R parser and leaves
+a failed counts stage with no success receipt or later normalization stage.
+Changed original bytes invalidate the completed workflow. No real cohort or
+optimizer ran, and no source acquisition or production deployment occurred.
