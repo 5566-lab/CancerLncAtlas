@@ -116,6 +116,9 @@ def validate_consumed_sources(sources, item, root, *, kind, run_id, candidates, 
     expected_roles = {"candidates", "folds", "core", "compact", "materialization_success"}
     if kind == "cnv":
         expected_roles |= {"association_success", "formal_labels"}
+        association_rows = grouped.get("association_success", [])
+        if len(association_rows) == 1 and json.loads(association_rows[0][1].read_text()).get("cohort") is not None:
+            expected_roles.add("association_control")
     if set(grouped) != expected_roles:
         raise ValueError("CNV consumed-source roles are incomplete or unexpected")
     for role, expected in (("candidates", candidates), ("folds", folds), ("core", core)):
@@ -172,7 +175,14 @@ def validate_consumed_sources(sources, item, root, *, kind, run_id, candidates, 
             raise ValueError("CNV aggregate and consumed compact partition differ")
     if kind == "cnv":
         from .cnv_only_training_v2 import _formal_labels
+        from .cnv_head_association import association_contract
         association_root = grouped["association_success"][0][1].parent
+        authority = association_contract(association_root, candidates=candidate_path,
+            patient_map=grouped["folds"][0][1])
+        actual_controls = {(str(p), r["sha256"]) for r,p in grouped.get("association_control", [])}
+        expected_controls = {(r["path"], r["sha256"]) for r in authority["control_sources"]}
+        if actual_controls != expected_controls:
+            raise ValueError("CNV consumed native association controls differ")
         labels = {}
         for record, path in grouped["formal_labels"]:
             key = (record["cancer"], record["fold"], record["split"])
@@ -189,7 +199,7 @@ def validate_consumed_sources(sources, item, root, *, kind, run_id, candidates, 
             if path.parents[3] != association_root:
                 raise ValueError("CNV consumed label association root differs")
             local = candidate_frame.loc[candidate_frame.cancer_id.eq(cancer)]
-            _formal_labels(path.parents[3], cancer, fold, local, split)
+            _formal_labels(path.parents[3], cancer, fold, local, split, authority=authority)
         if set(labels) != {(c, f, s) for c in cancers for f in range(5) for s in ("train", "validation")}:
             raise ValueError("CNV consumed fold-local labels are incomplete")
     return receipt_path, receipt

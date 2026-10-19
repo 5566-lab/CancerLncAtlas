@@ -140,6 +140,16 @@ def native_sources(manifest_path, *, expected_core_run_id):
             consumed = validate_consumed_sources(sources, native["consumed_sources"], native_path.parent,
                 kind=kind, run_id=manifest["native_run_id"], candidates=manifest["candidate_authority"],
                 folds=manifest["patient_folds"], core=manifest["core_manifest"])
+            if kind == "cnv":
+                item = next(r for r in consumed[1]["records"] if r["role"] == "association_success")
+                association = _json(sources.bind(item, consumed[0].parent))
+                if (native.get("cohort") != association.get("cohort") or
+                        (association.get("cohort") is not None and
+                         (native.get("association_run_id") != association.get("run_id")
+                          or native.get("cancers") != association["cohort"]["cancers"]))):
+                    raise ValueError("Native CNV completion differs from its consumed association cohort")
+        elif native.get("cohort") is not None:
+            raise ValueError("Native CNV cohort requires actual consumed source records")
         checkpoints = {"records": native["checkpoints"]}
         fold_records = [{**r, "patient_fold_id": r["fold"]} for r in native["predictions"]]
         if len(fold_records) != native["prediction_file_count"]: raise ValueError("CNV partition count mismatch")

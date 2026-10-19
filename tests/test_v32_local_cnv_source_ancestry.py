@@ -190,6 +190,7 @@ def test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges(t
     receipt=settings.output_root/"GRAPH_INPUT_AUTHORITY_RECEIPT.json";value=read(receipt)
     bound={"receipt":record(receipt),"fold_artifacts":value["fold_artifacts"]["0"]}
     inventory=Inventory([],tmp_path);graph_sources(inventory,bound,tmp_path,"core",0)
+    assert "GRAPH_CONTROL_CONSUMED_BINDING_INCOMPLETE" in {r["reason"] for r in inventory.gaps}
     usage=pd.DataFrame(inventory.usage)
     assert usage.study_tokens_json.str.contains("77665544").any()  # actual G0 gene input
     assert not usage.study_tokens_json.str.contains("66778899").any()  # pathway activity did not construct G0

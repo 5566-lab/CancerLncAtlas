@@ -44,6 +44,16 @@ def inspect_graph_receipt(inventory,binding,root,model,role,fold):
     if value.get("format")!=GRAPH_INPUT_RECEIPT_FORMAT:
         inventory.gap(model,role,"UNSUPPORTED_GRAPH_CONTROL_RECEIPT",fold,item["sha256"])
         return path
+    # A source-only E1 inspection may carry a real graph receipt without the
+    # complete consumed training binding. Retain its sources and a blocking
+    # gap; the strict prepared-input loaders still require the full contract.
+    sections = {"patient_fold_authority": (), "static_artifacts": STATIC_ARTIFACT_IDS,
+                "fold_artifacts": FOLD_ARTIFACT_IDS,
+                "train_identity": ("train_sample_patient_sha256", "train_patient_sha256")}
+    if ("outer_fold" not in binding or any(not isinstance(binding.get(name),dict)
+            or not binding[name] or not set(keys)<=set(binding[name]) for name,keys in sections.items())):
+        inventory.gap(model,role,"GRAPH_CONTROL_CONSUMED_BINDING_INCOMPLETE",fold,item["sha256"])
+        return path
     # The frozen payload validator also checks these patient hashes. Actual
     # patient files are checked independently by inspect_patients.
     patient=binding["patient_fold_authority"]

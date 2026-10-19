@@ -115,42 +115,72 @@ def calibration_rows(scope: str, scope_id: str, y: np.ndarray, p: np.ndarray) ->
 
 
 def load_oof_labels(association_root: Path, prediction_fold: int, cancer: str,
-                    keys: pd.DataFrame) -> np.ndarray:
+                    keys: pd.DataFrame, authority=None) -> np.ndarray:
     # Audit fold j validation patients are (j+1)%5. Therefore validation from
     # j=(prediction_fold-1)%5 is precisely this checkpoint's unseen OOF fold.
     source_fold = (prediction_fold - 1) % 5
     source = association_root / "pair_level" / f"cancer={cancer}" / f"fold={source_fold}" / "part.parquet"
-    frame = pd.read_parquet(source, columns=["lncrna_id", "pathway_id", "label_A0_validation"])
+    from cc_hhgt.v32.cnv_head_association import association_contract
+    authority = association_contract(association_root) if authority is None else authority
+    if authority["cohort"] is not None:
+        item = authority["label_sources"].get((cancer, source_fold))
+        if item is None or Path(item["path"]) != source or sha256(source) != item["sha256"]:
+            raise RuntimeError("OOF label source differs from completed association authority")
+    frame = pd.read_parquet(source, columns=["lncrna_id", "pathway_id", "label_A0_validation", "run_id"])
+    if (len(frame) != len(keys) or frame[["lncrna_id", "pathway_id"]].duplicated().any()
+            or set(frame.run_id.astype(str)) != {authority["run_id"]}):
+        raise RuntimeError("OOF label key or run identity differs")
     frame[["lncrna_id", "pathway_id"]] = frame[["lncrna_id", "pathway_id"]].astype(str)
     if not keys.equals(frame[["lncrna_id", "pathway_id"]]):
         frame = keys.merge(frame, on=["lncrna_id", "pathway_id"], how="left", validate="one_to_one")
     value = frame.label_A0_validation.astype(str)
+    if not set(value) <= POSITIVE | {"unlabeled", "unavailable"}:
+        raise RuntimeError("OOF labels contain missing or unknown classes")
     out = np.where(value.isin(POSITIVE), 1.0, 0.0).astype(float)
     out[value.eq("unavailable").to_numpy()] = np.nan
     return out
 
 
-def main() -> None:
+def main(argv=None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", required=True, type=Path)
     parser.add_argument("--candidates", required=True, type=Path)
     parser.add_argument("--patient-folds", required=True, type=Path)
     parser.add_argument("--association-root", required=True, type=Path)
-    args = parser.parse_args()
+    parser.add_argument("--expected-training-run-id")
+    args = parser.parse_args(argv)
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    from cc_hhgt.v32.cnv_head_association import association_contract
+    require_host()
     root = args.root.resolve()
     if (root / "SUCCESS.json").exists():
         raise RuntimeError("immutable CNV head SUCCESS already exists")
+    write_json(root/"AUDIT_PREFLIGHT.json", {"target_host": "149", "training_started": False,
+        "expected_training_run_id": args.expected_training_run_id})
+    association_authority = association_contract(args.association_root,
+        candidates=args.candidates, patient_map=args.patient_folds)
+    cohort = association_authority["cohort"]
+    cancers = tuple(cohort["cancers"]) if cohort is not None else CANCERS
+    counts = cohort["candidate_rows_by_cancer"] if cohort is not None else {c: 100_000 for c in cancers}
+    expected_run = args.expected_training_run_id or EXPECTED_RUN
+    if cohort is not None and not args.expected_training_run_id:
+        raise ValueError("Native CNV audit requires --expected-training-run-id")
     ready = json.loads((root / "PACKAGE_READY.json").read_text(encoding="utf-8"))
     manifest_path = root / "OOF_MANIFEST.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if ready.get("status") != "READY_FOR_INDEPENDENT_AUDIT" or manifest.get("status") != "READY_FOR_INDEPENDENT_AUDIT":
         raise RuntimeError("generator package is not ready for independent audit")
-    if ready.get("training_run_id") != EXPECTED_RUN or manifest.get("training_run_id") != EXPECTED_RUN:
+    if ready.get("training_run_id") != expected_run or manifest.get("training_run_id") != expected_run:
         raise RuntimeError("training run id drift")
+    if (ready.get("oof_manifest_sha256") != sha256(manifest_path)
+            or ready.get("cohort") != cohort or manifest.get("cohort") != cohort
+            or (cohort is not None and (manifest.get("association_run_id") != association_authority["run_id"]
+                or manifest.get("cancers") != list(cancers)))):
+        raise ValueError("CNV audit package and declared association scope differ")
     if manifest.get("mutation_features_used") or manifest.get("sealed_test_read") or manifest.get("old_checkpoint_loaded"):
         raise RuntimeError("forbidden training provenance flag")
-    if len(manifest.get("checkpoints", [])) != 5 or len(manifest.get("predictions", [])) != 165:
-        raise RuntimeError("5-fold/165-partition closure drift")
+    if len(manifest.get("checkpoints", [])) != 5 or len(manifest.get("predictions", [])) != 5*len(cancers):
+        raise RuntimeError("CNV five-fold declared partition closure drift")
     if manifest.get("core_parameters_before_sha256") != manifest.get("core_parameters_after_sha256"):
         raise RuntimeError("frozen core changed")
 
@@ -160,7 +190,7 @@ def main() -> None:
         raise RuntimeError("patient fold authority drift")
     for fold in range(5):
         validation = (fold + 1) % 5
-        for cancer in CANCERS:
+        for cancer in cancers:
             local = folds.loc[folds.cancer_id.astype(str).eq(cancer)]
             train_ids = set(local.loc[~local.patient_fold_id.isin([fold, validation]), "patient_id"].astype(str))
             validation_ids = set(local.loc[local.patient_fold_id.eq(validation), "patient_id"].astype(str))
@@ -169,7 +199,7 @@ def main() -> None:
                 raise RuntimeError(f"patient overlap: {cancer}/{fold}")
 
     candidates = pd.read_parquet(args.candidates, columns=["cancer_id", "lncrna_id", "pathway_id"]).astype(str)
-    if len(candidates) != 3_300_000 or candidates.duplicated().any() or set(candidates.cancer_id) != set(CANCERS):
+    if candidates.duplicated().any() or candidates.groupby("cancer_id").size().to_dict() != counts:
         raise RuntimeError("formal candidate closure drift")
     candidate_sha = sha256(args.candidates.resolve())
 
@@ -196,13 +226,13 @@ def main() -> None:
     partition_metrics: list[dict[str, Any]] = []
     calibration: list[dict[str, Any]] = []
     values_by_fold: dict[int, list[tuple[np.ndarray, np.ndarray]]] = {fold: [] for fold in range(5)}
-    values_by_cancer: dict[str, list[tuple[np.ndarray, np.ndarray]]] = {cancer: [] for cancer in CANCERS}
+    values_by_cancer: dict[str, list[tuple[np.ndarray, np.ndarray]]] = {cancer: [] for cancer in cancers}
     availability: list[dict[str, Any]] = []
     interpretation: list[dict[str, Any]] = []
     seen: set[tuple[int, str]] = set()
     for record in manifest["predictions"]:
         fold, cancer = int(record["fold"]), str(record["cancer"])
-        if (fold, cancer) in seen or cancer not in CANCERS:
+        if (fold, cancer) in seen or cancer not in cancers or fold not in range(5):
             raise RuntimeError(f"prediction identity duplication/drift: {fold}/{cancer}")
         seen.add((fold, cancer))
         path = Path(record["path"]).resolve()
@@ -210,7 +240,7 @@ def main() -> None:
             raise RuntimeError(f"prediction SHA drift: {fold}/{cancer}")
         frame = pd.read_parquet(path)
         missing = REQUIRED_COLUMNS - set(frame.columns)
-        if missing or len(frame) != 100_000:
+        if missing or len(frame) != counts[cancer]:
             raise RuntimeError(f"prediction schema/row drift {fold}/{cancer}: {sorted(missing)}")
         if set(frame.cancer_id.astype(str)) != {cancer} or set(frame.fold_id.astype(int)) != {fold}:
             raise RuntimeError(f"prediction partition identity drift: {fold}/{cancer}")
@@ -228,7 +258,7 @@ def main() -> None:
         expected_logit = np.log(np.clip(probability[available], 1e-7, 1 - 1e-7) / (1 - np.clip(probability[available], 1e-7, 1 - 1e-7)))
         if not np.allclose(logit[available], expected_logit, atol=2e-5, rtol=2e-5):
             raise RuntimeError(f"probability/logit mismatch: {fold}/{cancer}")
-        if set(frame.run_id.astype(str)) != {EXPECTED_RUN} or set(frame.checkpoint_id.astype(str)) != {f"cnv_patient_fold_{fold}"}:
+        if set(frame.run_id.astype(str)) != {expected_run} or set(frame.checkpoint_id.astype(str)) != {f"cnv_patient_fold_{fold}"}:
             raise RuntimeError(f"prediction model lineage drift: {fold}/{cancer}")
         if set(frame.checkpoint_sha256.astype(str)) != {checkpoint_by_fold[fold]["sha256"]}:
             raise RuntimeError(f"prediction checkpoint SHA drift: {fold}/{cancer}")
@@ -248,7 +278,7 @@ def main() -> None:
         if forbidden:
             raise RuntimeError(f"forbidden prediction fields: {forbidden}")
 
-        labels = load_oof_labels(args.association_root.resolve(), fold, cancer, keys)
+        labels = load_oof_labels(args.association_root.resolve(), fold, cancer, keys, authority=association_authority)
         observed = available & np.isfinite(labels)
         score = metrics(labels[observed], probability[observed])
         partition_metrics.append({
@@ -292,7 +322,7 @@ def main() -> None:
                                    "rows": int(selected.sum()), "finite_predictions": int(finite.sum()),
                                    "mean_probability": float(np.mean(probability[finite])) if finite.any() else np.nan})
 
-    if seen != {(fold, cancer) for fold in range(5) for cancer in CANCERS}:
+    if seen != {(fold, cancer) for fold in range(5) for cancer in cancers}:
         raise RuntimeError("prediction cancer/fold closure drift")
 
     part = pd.DataFrame(partition_metrics)
@@ -326,8 +356,9 @@ def main() -> None:
     audit = {
         "format": "CC_HHGT_V3_2_CNV_OOF_INDEPENDENT_AUDIT_V1", "status": "PASS",
         "audited_at_utc": datetime.now(timezone.utc).isoformat(),
-        "checks": {"folds": 5, "fresh_checkpoints": 5, "prediction_partitions": 165,
-                   "candidate_rows": 16_500_000, "candidate_closure": True,
+        **({"cohort": cohort} if cohort is not None else {}),
+        "checks": {"folds": 5, "fresh_checkpoints": 5, "prediction_partitions": 5*len(cancers),
+                   "candidate_rows": 5*len(candidates), "candidate_closure": True,
                    "patient_split_overlap": False, "checkpoint_parameters_changed": True,
                    "old_checkpoint_loaded": False, "core_hash_unchanged": True,
                    "cnv_only_features": True, "typed_null": True, "probability_range": True,
@@ -340,7 +371,7 @@ def main() -> None:
     report = (
         "# CancerLncAtlas V3.2 directional CNV head\n\n"
         "Status: **PASS** (independently audited)\n\n"
-        f"Five fresh checkpoints produced 165 typed OOF partitions. Global OOF AUCPR: {global_metrics['auprc']:.6g}; "
+        f"Five fresh checkpoints produced {5*len(cancers)} typed OOF partitions. Global OOF AUCPR: {global_metrics['auprc']:.6g}; "
         f"AUROC: {global_metrics['auroc']:.6g}; log loss: {global_metrics['logloss']:.6g}; "
         f"coverage: {global_metrics['prediction_coverage']:.3%}.\n\n"
         "- CNV_HEAD_OOF_COMPLETE\n- CNV_ROUTER_INCREMENT_NOT_TESTED\n"
@@ -350,13 +381,14 @@ def main() -> None:
     (root / "CNV_HEAD_REPORT.md").write_text(report, encoding="utf-8")
     write_json(root / "SUCCESS.json", {
         "format": "CC_HHGT_V3_2_DIRECTIONAL_CNV_HEAD_OOF_FINAL_V1", "status": "SUCCESS",
-        "training_run_id": EXPECTED_RUN, "checkpoint_count": 5, "prediction_file_count": 165,
+        "training_run_id": expected_run, "checkpoint_count": 5, "prediction_file_count": 5*len(cancers),
+        **({"cohort": cohort} if cohort is not None else {}),
         "CNV_HEAD_OOF_COMPLETE": True, "CNV_ROUTER_INCREMENT_NOT_TESTED": True,
         "CNV_NOT_IN_PRIMARY_HHGT": True, "CNV_NOT_USED_TO_REDEFINE_TARGET": True,
         "independent_audit_sha256": sha256(root / "CNV_OOF_INDEPENDENT_AUDIT.json"),
         "metrics_sha256": sha256(root / "cnv_oof_metrics_global.json"),
     })
-    print(json.dumps({"status": "SUCCESS", "folds": 5, "partitions": 165}, sort_keys=True))
+    print(json.dumps({"status": "SUCCESS", "folds": 5, "partitions": 5*len(cancers)}, sort_keys=True))
 
 
 if __name__ == "__main__":

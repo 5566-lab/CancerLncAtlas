@@ -1,0 +1,57 @@
+{
+  "method": "NATIVE_ANNOTATION_COHORT_THROUGH_DIRECTIONAL_CNV_HEAD",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "auxiliary_forward_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "native_cnv_head_scope_r4",
+    "native_cnv_head_consumers_r2",
+    "native_cnv_head_upstream_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "native_cnv_head_upstream_r1"
+  ],
+  "intermediate_failure_causes": [
+    "earlier typed graph-control inspector assumed source-only E1 bindings always contained a full patient authority; now retains a blocking incomplete-binding gap and still replays available E1 sources"
+  ],
+  "superseded_passed_receipts": [
+    "native_cnv_head_scope_r1",
+    "native_cnv_head_scope_r2",
+    "native_cnv_head_scope_r3",
+    "native_cnv_head_consumers_r1"
+  ],
+  "actual_synthetic_association_workers_and_independent_closeout": true,
+  "actual_native_cancer_count": 2,
+  "actual_annotation_candidate_count": 6,
+  "actual_synthetic_patient_count": 240,
+  "actual_head_input_sample_folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "original_sampling_and_target_semantics_preserved": true,
+  "actual_native_adapter_and_independent_head_audit_executed": true,
+  "independent_audit_partition_count": 10,
+  "independent_audit_candidate_rows": 30,
+  "native_expected_run_explicit_not_inferred": true,
+  "unknown_oof_labels_rejected": true,
+  "missing_graph_controls_remain_blocking": true,
+  "test_substitutes": [
+    "synthetic compact directional matrices with native directional semantics",
+    "frozen core/head serialization fixtures with explicitly synthetic optimizer telemetry; no optimizer or auxiliary prediction forward",
+    "independent metrics recomputed only on synthetic serialized predictions"
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Directional CNV-head preparation, training input collection, native consumed-source validation and independent audit now consume the actual annotation-defined association cohort and explicit run identities. All five input/sample collectors execute against real synthetic association closeout; outputs use declared counts rather than legacy 33/100k/165 constants. Legacy inputs retain their original contract. Native audit requires an explicit expected training run and rejects missing/unknown OOF labels. A regression in graph-control inspection now reports an explicit blocking incomplete-binding gap for source-only graph records while retaining their actual E1 source replay. Synthetic checkpoint tensors and optimizer telemetry remain serialization fixtures. No head fitting, auxiliary prediction forward, real cohort analysis, paid compute or deployment ran. Complete raw ancestry, cross-module patient closure and remaining auxiliary lifecycle integration remain open."
+}

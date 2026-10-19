@@ -1,0 +1,53 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T10:48:45.339915+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/cnv_head_association.py": "a485b229e354ad91e05e9823fe51a7dc004ca8027dd5bc06359d63417d2daece",
+    "cc_hhgt/v32/cnv_input_sources.py": "07fc181fe4477d4bf2b1f43f0fbb47bf8f721c0854175f34ac601b7b251c76ec",
+    "cc_hhgt/v32/cnv_only_training_v2.py": "5f638afaa6e489cca9ae90da3d6fe661c6136f8f3fce6209693737f60933f24b",
+    "cc_hhgt/v32/current_model_use.py": "2cc25b771952e999c21298341cae5da768b12a1ca6d3c2308c42f135ca8987a1",
+    "cc_hhgt/v32/model_control_sources.py": "d7929664a17bfe7f311c58fdd75e9f7445ef4b5e4be1fabba57031cad0431408",
+    "cc_hhgt/v32/native_auxiliary_fusion.py": "ac80f14a515e689385456308bdbf88ad85d0cef92475d97c7391b4ddce5d7a85",
+    "scripts/audit_v32_directional_cnv_head_oof.py": "db253849b81d5610967845f006f0c6c3346d19310b34f0be695d027ad8c48297",
+    "scripts/preflight_v32_directional_cnv_head.py": "0d3567d983d5e1aabcfb6476bcd49967fc0c46121d83c1205b0685784043d2d0",
+    "tests/test_v32_local_cnv_source_ancestry.py": "578e0b9d0cc9a0a2984487df6453dbb89570850821a004e9e87dfe12d6e837dc",
+    "tests/test_v32_native_cnv_head_scope.py": "327ac1482eb6f44e9e2538d409313d70039108c9ad16f9c98b98d53885026c39"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_cnv_head_scope.py",
+    "tests/test_v32_directional_cnv_head.py",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_model_control_sources.py",
+    "--junitxml=provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T10:49:51.290854+00:00"
+}

@@ -4159,3 +4159,80 @@ source. The bridge covers absolute and manifest-relative input records. Earlier
 passed receipts predate the relative-path correction and are retained only as
 development history. The failing r1 receipt is also retained. Remaining warnings
 are Torch deprecations. No optimizer, real cohort run or paid compute started.
+
+Native candidate scope through the directional CNV head
+------------------------------------------------------
+
+The directional CNV private-head trainer and independent auditor previously
+required 33 cancers, 100,000 candidates per cancer and historical run IDs. The
+upstream native association workflow already produced annotation-defined
+candidate sets and explicit new run IDs, so its completed outputs were rejected
+before head fitting. This mismatch is now removed for native cohort receipts.
+Inputs without a native declaration retain the legacy fixed coverage contract.
+
+cnv_head_association.py verifies the completed local-CNV SUCCESS, independent
+audit, decision, lineage and cancer worker receipts. The candidate definition
+is replayed from its original annotation/GMT; the candidate and patient inputs
+must match that authority. Each of the five label partitions is bound through
+the completed worker receipt. The head uses that verified run ID, cancer order
+and candidate counts. Removing the native cohort, repinning a different worker
+run or replacing labels does not silently select the legacy route.
+
+prepare_directional_inputs and collect_directional_examples are the actual
+functions used by the trainer. They can also run without fitting: they load
+directional matrices, frozen core representations and fold-local train and
+validation labels, apply the original availability masks, and perform the
+original per-cancer sampling and class balancing. Cancer quotas use the declared
+cancer count; legacy cancer ordering and RNG offsets remain unchanged. Repeated
+canonical patient IDs, nonintegral fold IDs and missing per-cancer folds are
+rejected instead of silently collapsing conflicting assignments. Unavailable
+association labels remain NaN and do not become negative training examples.
+
+The existing preflight_v32_directional_cnv_head.py now calls those same functions
+for all five folds. Supply --candidates, --patient-folds, --directional-root,
+--association-root, --core-manifest and a new --output. Its --seed,
+--min-pair-callable, --max-train-rows and --max-validation-rows options mirror
+the trainer's sampling controls and are recorded in sampling_config. A
+CHECKING_INPUTS receipt names host 149 before work; completion writes PASS_READY
+with actual sample/class counts, while failure writes FAILED. This command
+does not construct or optimize a private head. Missing association completion
+no longer produces a misleading static-ready status.
+
+Future fitting still uses run_v32_directional_cnv_head_oof.py as a separate
+training command. Native OOF_MANIFEST/LINEAGE/PACKAGE_READY records carry the
+cohort, association run and actual partition count. Native availability is
+written to cnv_availability.tsv; the historical route retains its 33c filename.
+The native auxiliary consumer verifies those declarations against consumed
+association controls rather than accepting a caller-supplied smaller scope.
+
+The independent auditor now accepts the same declared cohort. For native input,
+--expected-training-run-id is mandatory; it is not inferred from the observed
+head output. The auditor verifies PACKAGE_READY's manifest hash, requires all
+declared cancer/fold partitions, and uses their actual sizes in coverage and
+completion receipts. OOF targets still come from validation labels of
+(prediction_fold-1) mod 5, after checkpoint selection. Unknown or missing label
+classes now fail instead of silently becoming negative observations. Neither
+this evaluation nor the CNV head changes primary-HHGT rankings or claims a
+causal CNV effect or incremental fusion gain.
+
+Synthetic verification executes the actual two-cancer/five-fold local-CNV
+workers and independent closeout with a new run ID, then reaches all five CNV
+input/sample collectors, the preparation CLI, consumed-source validator, native
+auxiliary adapter and independent head audit. It uses six annotation-defined
+candidates and 240 synthetic patients. Checkpoint tensors and optimizer telemetry
+in the audit check are explicitly marked serialization fixtures; no head fitting
+or auxiliary prediction forward is invoked. Metrics are recomputed on those
+synthetic predictions only. Raw-study ancestry and complete cross-module patient
+closure remain separate open requirements. No real cohort was recomputed.
+
+Final verification on 149: native_cnv_head_scope_r4 (41 checks),
+native_cnv_head_consumers_r2 (72 checks) and native_cnv_head_upstream_r2
+(54 checks), for 167 related checks. The earlier upstream_r1 failure is retained:
+a source-only E1 binding lacks a full consumed patient/graph contract, and the
+previous control inspector raised KeyError before replaying its available
+sources. It now records GRAPH_CONTROL_CONSUMED_BINDING_INCOMPLETE, which remains
+blocking under the existing completeness policy, while continuing the actual
+E1/source checks. Full native graph controls still undergo strict validation.
+The original edge-replay assertions remain, with an additional explicit gap
+assertion. Earlier passing development receipts are superseded. Only Torch
+deprecation warnings remain; no training or real-data execution occurred.

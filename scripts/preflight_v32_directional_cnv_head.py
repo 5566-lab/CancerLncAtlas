@@ -1,69 +1,64 @@
 #!/usr/bin/env python3
-"""Read-only preflight for the directional CNV head before formal training."""
+"""Exercise actual CNV-head input/feature/label preparation on 149 without fit."""
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 
-import pandas as pd
+import numpy as np
 
-from cc_hhgt.v32.genomic_training import _validate_core_manifest, load_fold_core_embeddings
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(8 * 1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
+from cc_hhgt.v32.cnv_input_sources import require_host
+from cc_hhgt.v32.cnv_only_training_v2 import prepare_directional_inputs, collect_directional_examples
+from cc_hhgt.v32.genomic_training import GenomicTrainingConfig, load_fold_core_embeddings
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--candidates", required=True, type=Path)
-    parser.add_argument("--patient-folds", required=True, type=Path)
-    parser.add_argument("--directional-root", required=True, type=Path)
-    parser.add_argument("--association-root", required=True, type=Path)
-    parser.add_argument("--core-manifest", required=True, type=Path)
-    parser.add_argument("--output", required=True, type=Path)
-    args = parser.parse_args()
-    candidates = pd.read_parquet(args.candidates, columns=["cancer_id", "lncrna_id", "pathway_id"])
-    folds = pd.read_csv(args.patient_folds, sep="\t")
-    if len(candidates) != 3_300_000 or candidates[["cancer_id", "lncrna_id", "pathway_id"]].duplicated().any():
-        raise RuntimeError("candidate closure drift")
-    if folds[["cancer_id", "patient_id"]].duplicated().any() or set(pd.to_numeric(folds.patient_fold_id)) != set(range(5)):
-        raise RuntimeError("patient fold closure drift")
-    directional = json.loads((args.directional_root / "SUCCESS.json").read_text())
-    if directional.get("status") != "SUCCESS" or int(directional.get("cancer_count", -1)) != 33:
-        raise RuntimeError("directional CNV closure drift")
-    manifest, manifest_sha, composite = _validate_core_manifest(args.core_manifest)
-    fold_rows = []
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ("candidates", "patient-folds", "directional-root", "association-root", "core-manifest", "output"):
+        parser.add_argument("--"+name, required=True, type=Path)
+    defaults = GenomicTrainingConfig()
+    for name in ("seed", "min_pair_callable", "max_train_rows", "max_validation_rows"):
+        parser.add_argument("--"+name.replace("_", "-"), type=int, default=getattr(defaults, name))
+    args = parser.parse_args(argv)
+    require_host()
+    if args.output.exists(): raise FileExistsError("Use a new CNV-head preflight output")
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps({"target_host": "149", "status": "CHECKING_INPUTS", "training_started": False})+"\n")
+    try:
+        return prepare(args)
+    except Exception as error:
+        args.output.write_text(json.dumps({"target_host": "149", "status": "FAILED", "training_started": False,
+            "error_type": type(error).__name__, "error": str(error)})+"\n")
+        raise
+
+
+def prepare(args):
+    sampling = {name: getattr(args, name) for name in ("seed", "min_pair_callable", "max_train_rows", "max_validation_rows")}
+    settings = GenomicTrainingConfig(**sampling); settings.validate()
+    prepared = prepare_directional_inputs(candidates_path=args.candidates, folds_path=args.patient_folds,
+        directional_root=args.directional_root, association_root=args.association_root, core_manifest_path=args.core_manifest)
+    rows = []
     for fold in range(5):
-        core = load_fold_core_embeddings(args.core_manifest, manifest, fold)
-        fold_rows.append({
-            "fold_id": fold, "lncrna_rows": len(core.lncrna.ids),
-            "pathway_rows": len(core.pathway.ids), "embedding_width": core.lncrna.values.shape[1],
-            "core_parameter_sha256": core.core_parameter_sha256,
-            "checkpoint_sha256": core.checkpoint_sha256, "input_hashes": dict(core.input_hashes),
-        })
-    association_ready = (args.association_root / "SUCCESS.json").is_file()
-    payload = {
-        "format": "CC_HHGT_V3_2_DIRECTIONAL_CNV_HEAD_PREFLIGHT_V1",
-        "status": "PASS_READY" if association_ready else "PASS_STATIC_INPUTS_WAITING_LOCAL_CNV_AUDIT",
-        "candidate_rows": len(candidates), "cancers": candidates.cancer_id.nunique(),
-        "patient_rows": len(folds), "patient_folds": 5,
-        "candidate_sha256": sha256(args.candidates), "patient_fold_sha256": sha256(args.patient_folds),
-        "directional_success_sha256": sha256(args.directional_root / "SUCCESS.json"),
-        "core_manifest_sha256": manifest_sha, "core_parameter_composite_sha256": composite,
-        "core_folds": fold_rows, "association_audit_ready": association_ready,
+        core = load_fold_core_embeddings(args.core_manifest, prepared["manifest"], fold)
+        values = collect_directional_examples(prepared, core, fold, settings)
+        rows.append({"fold_id": fold, "train_rows": len(values[2]), "validation_rows": len(values[5]),
+            "train_classes": np.unique(values[2]).tolist(), "validation_classes": np.unique(values[5]).tolist(),
+            "core_parameter_sha256": core.core_parameter_sha256, "checkpoint_sha256": core.checkpoint_sha256,
+            "input_hashes": dict(core.input_hashes)})
+    result = {"format": "CC_HHGT_V3_2_DIRECTIONAL_CNV_HEAD_PREFLIGHT_V1", "status": "PASS_READY",
+        "target_host": "149", "training_started": False, "candidate_rows": len(prepared["candidates"]),
+        "cancers": list(prepared["cancers"]), "cohort": prepared["cohort"],
+        "association_run_id": prepared["authority"]["run_id"], "patient_folds": 5,
+        "sampling_config": sampling,
+        "core_folds": rows, "input_hashes": prepared["input_hashes"],
+        "consumed_inputs": list(prepared["capture"].records.values()),
         "fresh_head_required": True, "old_checkpoint_allowed": False,
-        "mutation_features_allowed": False, "router_used": False, "sealed_test_read": False,
-    }
-    args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(json.dumps({"status": payload["status"], "core_folds": 5}, sort_keys=True))
+        "mutation_features_allowed": False, "sealed_test_read": False}
+    args.output.write_text(json.dumps(result, indent=2)+"\n", encoding="utf-8")
+    print(json.dumps({"status": result["status"], "core_folds": 5, "training_started": False}))
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
