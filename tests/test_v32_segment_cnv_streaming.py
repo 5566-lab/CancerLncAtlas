@@ -160,6 +160,9 @@ def test_row_gate_failure_retains_incomplete_but_never_publishes(tmp_path: Path)
             cancer_id="BRCA", staging_root=staging, output_root=output,
             candidates=candidates, folds=folds, intervals=intervals, membership=membership,
             selected_rows=selected, context_sha256="c" * 64, max_segment_rows=1,
+            # Isolate the row limit from libraries retained by other tests.
+            # Separate cases above verify both actual memory gates.
+            max_memory_bytes=1_000_000_000,
         )
     assert not (output / "cancer=BRCA").exists()
     evidence = list(output.glob(".cancer=BRCA.building.*/INCOMPLETE.json"))

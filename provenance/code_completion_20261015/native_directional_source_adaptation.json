@@ -1,0 +1,59 @@
+{
+  "method": "NATIVE_SEGMENT_TO_DIRECTIONAL_CNV_AND_NUMERIC_RECONSTRUCTION",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "auxiliary_forward_started": false,
+  "real_data_analysis_started": false,
+  "synthetic_frozen_core_prediction_in_regressions": true,
+  "neural_construction_in_directional_materialization_or_replay": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "native_directional_r3",
+    "native_directional_consumers_r1",
+    "native_directional_upstream_r1",
+    "native_directional_publication_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "native_directional_r1",
+    "native_directional_r2"
+  ],
+  "intermediate_failure_causes": [
+    "Generic JSON source traversal encountered a patient-ID list; fixed native contract detection to require a dictionary.",
+    "Fixture expected an arbitrary dataset label to become a study token; used an explicit synthetic PMID supported by the unchanged parser.",
+    "An existing row-limit test hit the unrelated default memory gate after other tests loaded scientific libraries; set only that test memory allowance to 1 GB. Production and explicit memory-gate tests are unchanged."
+  ],
+  "cancer_ids": [
+    "BRCA",
+    "LUAD"
+  ],
+  "declared_patients": 240,
+  "raw_segment_files": 238,
+  "typed_unavailable_patients": 2,
+  "arrays_per_cancer": 12,
+  "actual_arrays_compared": 24,
+  "cnv_head_collection_folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "actual_original_signed_and_streaming_mapping": true,
+  "actual_native_association_validation_and_corrected_graph": true,
+  "actual_cnv_head_consumed_source_inspection": true,
+  "explicit_no_fit_and_no_auxiliary_forward_guards": true,
+  "old_compact_matrix_required": false,
+  "fixed_33_cancer_native_scope": false,
+  "independent_selected_scalar_oracle": true,
+  "all_array_rehashed_corruption_rejected": true,
+  "biological_ancestry_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native declared-cohort directional CNV now materializes directly from bound patient segment files using the actual original signed mapping and canonical callability algorithms, without an old compact matrix or a fixed 33-cancer universe. Numerical reconstruction compares every row of all twelve arrays per cancer, including unavailable values; actual association and CNV-head source consumers execute it. The raw-derived synthetic store reaches native association/validation/E1 production and all five CNV-head input collectors. Explicit study metadata and private file-patient declarations are retained. Acquisition, genome-build/reference ancestry and per-pair/cross-module patient closure remain blocking. No real cohort analysis, learned-model fitting, auxiliary prediction, paid compute or deployment ran. Separate downstream regression checks use frozen core forwards only."
+}

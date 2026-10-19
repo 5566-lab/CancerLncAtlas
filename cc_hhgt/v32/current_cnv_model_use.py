@@ -6,7 +6,7 @@ import pandas as pd
 
 def inspect_bound_sources(inventory, records, root, model, role, fold=-1,*,phase="FEATURE_CONSTRUCTION"):
     from .current_auxiliary_model_use import input_source
-    visited = set()
+    visited = set(); reconstructed = set()
 
     def walk(item, base, label, depth=0):
         if depth > 80:
@@ -30,6 +30,11 @@ def inspect_bound_sources(inventory, records, root, model, role, fold=-1,*,phase
         visited.add(identity)
         if path.suffix == ".json":
             document = json.loads(path.read_text(encoding="utf-8"))
+            from .native_directional_cnv import PARTITION, inspect
+            if isinstance(document, dict) and document.get("format") == PARTITION:
+                inspect(inventory, resolved, base, model, role+label+".directional", fold, phase=phase)
+                reconstructed.add(digest)
+                return
 
             def visit(value, prefix):
                 if isinstance(value, dict):
@@ -63,12 +68,13 @@ def inspect_bound_sources(inventory, records, root, model, role, fold=-1,*,phase
             input_source(inventory, {**item, **resolved, "source_kind":"table"}, base, model, role+label,fold=fold,phase=phase)
 
     for i,item in enumerate(records):walk(item,root,".consumed."+str(i))
+    return reconstructed
 
 
 def inspect_consumed_sources(inventory, context, model, role):
     receipt_path, receipt = context["consumed"]
     biological=[r for r in receipt["records"] if r["role"] not in {"folds","core","candidates"}]
-    inspect_bound_sources(inventory,biological,receipt_path.parent,model,role)
+    reconstructed = inspect_bound_sources(inventory,biological,receipt_path.parent,model,role)
 
     for i, item in enumerate(receipt["records"]):
         if item["role"] in {"folds", "core", "candidates"}:
@@ -82,4 +88,8 @@ def inspect_consumed_sources(inventory, context, model, role):
             inventory.patient_use.observe([pd.DataFrame({"patient_ids":values})],digest=item["sha256"],
                 model=model,context=inventory.context_id,role="CNV_COMPACT_REFERENCED_PATIENT_ROWS",
                 scope="NATIVE_COMPACT_ROWS_REFERENCED_BY_FOLDS_NOT_ALL_ROWS_FITTED")
-    inventory.gap(model, role, "CNV_RAW_TRANSFORMATION_AND_CROSS_MODULE_PATIENT_CLOSURE_NOT_VERIFIED")
+    compact_receipts = {r["sha256"] for r in biological if r["role"]=="compact" and Path(r["path"]).name=="SUCCESS.json"}
+    reason = ("CNV_SEGMENT_ACQUISITION_AND_CROSS_MODULE_PATIENT_CLOSURE_UNVERIFIED"
+              if compact_receipts and compact_receipts <= reconstructed else
+              "CNV_RAW_TRANSFORMATION_AND_CROSS_MODULE_PATIENT_CLOSURE_NOT_VERIFIED")
+    inventory.gap(model, role, reason)

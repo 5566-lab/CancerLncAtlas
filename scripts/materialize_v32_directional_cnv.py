@@ -94,10 +94,23 @@ def open_array(root: Path, name: str, shape: tuple[int, int], dtype: Any) -> np.
     return np.lib.format.open_memmap(root / name, mode="w+", dtype=dtype, shape=shape)
 
 
+def legacy_preflight(args, phase):
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
+    root = Path(args.output_root).resolve(); root.mkdir(parents=True, exist_ok=True)
+    payload = {"target_host":"149", "training_started":False, "operation":FORMAT, "phase":phase}
+    path = root/("LAUNCH_PREFLIGHT_"+phase+".json")
+    if path.exists() and load_json(path) != payload: raise ValueError("Directional preflight differs")
+    if not path.exists(): atomic_json(path, payload)
+
+
 def materialize_cancer(args: argparse.Namespace) -> dict[str, Any]:
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
     cancer = args.cancer.upper()
     if cancer not in TCGA_CANCERS:
         raise RuntimeError(f"unknown cancer: {cancer}")
+    legacy_preflight(args, "cancer_"+cancer)
     output = Path(args.output_root).resolve()
     final = output / f"cancer={cancer}"
     if final.exists():
@@ -236,6 +249,9 @@ def materialize_cancer(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def finalize(args: argparse.Namespace) -> dict[str, Any]:
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
+    legacy_preflight(args, "finalize")
     root = Path(args.output_root).resolve()
     success_path = root / "SUCCESS.json"
     if success_path.exists():
@@ -265,17 +281,41 @@ def finalize(args: argparse.Namespace) -> dict[str, Any]:
     return payload
 
 
-def main() -> None:
+def main(argv=None) -> None:
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=("cancer", "finalize"), required=True)
-    parser.add_argument("--old-root", required=True)
-    parser.add_argument("--staging-root", required=True)
-    parser.add_argument("--intervals", required=True)
-    parser.add_argument("--membership", required=True)
+    parser.add_argument("--phase", choices=("cancer", "finalize", "all"), required=True)
+    parser.add_argument("--native-manifest", type=Path)
+    parser.add_argument("--old-root")
+    parser.add_argument("--staging-root")
+    parser.add_argument("--intervals")
+    parser.add_argument("--membership")
     parser.add_argument("--output-root", required=True)
     parser.add_argument("--cancer")
-    parser.add_argument("--event-threshold", type=float, default=0.30)
-    args = parser.parse_args()
+    parser.add_argument("--event-threshold", type=float)
+    args = parser.parse_args(argv)
+    if args.native_manifest is not None:
+        if args.event_threshold is not None: parser.error("Native event threshold must be declared in the manifest")
+        if any(getattr(args, name) is not None for name in ("old_root", "staging_root", "intervals", "membership")):
+            parser.error("Native manifest inputs cannot be mixed with legacy inputs")
+        from cc_hhgt.v32 import native_directional_cnv as native
+        from cc_hhgt.v32.formal_expression_sources import record, read
+        item = record(args.native_manifest)
+        native.preflight(item, args.native_manifest.parent, args.output_root)
+        if args.phase == "cancer":
+            if not args.cancer: parser.error("--cancer is required for phase=cancer")
+            path = native.materialize(item, args.native_manifest.parent, args.output_root, args.cancer.upper())
+        else:
+            if args.cancer: parser.error("--cancer is only valid for phase=cancer")
+            if args.phase == "all":
+                loaded = native.load_manifest(item, args.native_manifest.parent)
+                for cancer in loaded[3]["cancers"]: native.materialize(item, args.native_manifest.parent, args.output_root, cancer)
+            path = native.finalize(item, args.native_manifest.parent, args.output_root)
+        print(json.dumps({"status":read(path)["status"], "phase":args.phase, "binding":str(path)})); return
+    if args.phase == "all" or any(getattr(args, name) is None for name in ("old_root", "staging_root", "intervals", "membership")):
+        parser.error("Legacy preparation requires old-root, staging-root, intervals and membership")
+    if args.event_threshold is None: args.event_threshold = .30
     if args.phase == "cancer":
         if not args.cancer:
             parser.error("--cancer is required for phase=cancer")

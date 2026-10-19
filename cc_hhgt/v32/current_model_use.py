@@ -72,7 +72,7 @@ def implementations():
         "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/stats.py","cc_hhgt/v32/directional_cnv.py",
         "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
         "cc_hhgt/v32/cnv_only_training.py","cc_hhgt/v32/cnv_only_training_v2.py",
-        "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py",
+        "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py","cc_hhgt/v32/native_directional_cnv.py",
         "scripts/train_single_cell_hhgt_149.py","cc_hhgt/v32/single_cell_hhgt.py",
         "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/external_validation_sources.py",
         "cc_hhgt/v32/model_use_completeness.py","cc_hhgt/v32/normalization_source_replay.py",

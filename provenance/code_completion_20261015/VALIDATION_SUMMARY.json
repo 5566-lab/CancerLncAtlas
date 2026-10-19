@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1139,
+  "unique_test_cases_passed": 1175,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -161,7 +161,7 @@
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "d7bff1a7b3e5e37c5d78a3e66c20ebefa70d5301c0239073a19b86248aa555f7",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
-    "cc_hhgt/v32/current_model_use.py": "9fb4a9e603b64f5ec1d4b601a80847831b592917d136e8f013eb6f5955899706",
+    "cc_hhgt/v32/current_model_use.py": "ff632342c87e45fa331b11d7bde4b4fc848747fa2acc5cad4e15d3126dc18cfd",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "3589c7691f5baf782a594bb7185eb3fe2754af0620a851ea25e5c7cae120e454",
     "cc_hhgt/v32/preparation_sources.py": "3297f61c5f0ec8c9cb450e027993a815618658d8b2953b2095e41bc0f4897be2",
@@ -178,13 +178,13 @@
     "cc_hhgt/v32/current_single_cell_model_use.py": "4f6defa9b953de9fc003448a0192b040725e014db85486581da81c9546a3a899",
     "tests/test_v32_single_cell_model_use.py": "be1988feea5f055ef18988cc091871322bc1c36038a57c504e2ed326d704d3f3",
     "cc_hhgt/v32/cnv_input_sources.py": "07fc181fe4477d4bf2b1f43f0fbb47bf8f721c0854175f34ac601b7b251c76ec",
-    "cc_hhgt/v32/current_cnv_model_use.py": "9585c5d4b67252eefe1a473f7221ea1553649d14900ef708999bd5ede804f204",
+    "cc_hhgt/v32/current_cnv_model_use.py": "a7ee79d9bdd31d40bf6281483985db4b94ae99b910d24113b0644bc7b30591d6",
     "cc_hhgt/v32/cnv_only_training_v2.py": "5f638afaa6e489cca9ae90da3d6fe661c6136f8f3fce6209693737f60933f24b",
-    "scripts/materialize_v32_directional_cnv.py": "40a075f2775508b90eb1c61c3d71ca1d250578e0aa2a0a6cd7964c661a8ca344",
+    "scripts/materialize_v32_directional_cnv.py": "fc63e3690b3a2a792fa943e83a074d49ead5e5d237b134810afa15cfd2e6773a",
     "cc_hhgt/v32/segment_cnv_streaming.py": "0eda55d497adf081ac104635b6bba362d89373ea24b62069223ebaaf14202027",
     "tests/test_v32_cnv_input_sources.py": "90c9c819eaab078ab0400e9f1fbd00a05def90408b19fa1add9b149478626bd0",
     "tests/test_v32_cnv_materialization_sources.py": "b45e120fa77675d8cfa420fa6012161c716eb233b0ccd275d76f48e213e09260",
-    "tests/test_v32_segment_cnv_streaming.py": "b07749b8a450e95d6136c00fd4f75c044427e8a112778ac70fecc8682edbe1cb",
+    "tests/test_v32_segment_cnv_streaming.py": "5cc6d1fbf59e3f4595514c8f140c533f097a929aeae5407a44a31c1d3482aa9c",
     "tests/test_v32_core_export_model_use.py": "cf51dd3f1dfe25ab7d8db2232e6ccd3881ffb48e2828988c1cb6ae9f0ae22276",
     "cc_hhgt/v32/current_core_model_use.py": "361ab843edfd2afff73e9eb8dca795146309ac28d70b1e6027b8f8aef82a7f1d",
     "cc_hhgt/v32/patient_source_identity.py": "b1d2c48e351f2881fd95ab81f8c9bdff6c9c3ad69ce7980aa43549abd5602766",
@@ -242,7 +242,7 @@
     "cc_hhgt/v32/native_expression_workflow.py": "2a53c1ed93e7c8781cd0a1ce80100378b754b40a600bf46cbb70e743dd3736a9",
     "scripts/run_native_expression_workflow.py": "47f67766474fb4fc86cacd367e92569d89aaa8f9f70fb774a9cde67b3a638547",
     "tests/test_v32_native_expression_workflow.py": "9f1abb34b6e358f3c9c79b14001d42756b26f98dd3880eb6ef916dcc3cb17e6a",
-    "cc_hhgt/v32/native_cnv_workflow.py": "bac6843859c3f32c45502e5b8efb3dcd7c6b734f8afdaae28875fac65a799d30",
+    "cc_hhgt/v32/native_cnv_workflow.py": "a1bd46f777dc5f2e900789f756715b73bd88c92ddbba4b2eb92f1269c31914c1",
     "scripts/run_native_cnv_workflow.py": "8cfeb216ef83d4b5b7870937ec38bed9b72bc40696d86854045589363ac5f344",
     "tests/test_v32_native_cnv_workflow.py": "5eb2e95472773f22287fda604ff4230297743b7f9ac0239bd7fcbf69bfe5b449",
     "tests/test_v32_native_cnv_workflow_gdc.py": "61324683a60328feb290b7c28e657202d3caae48be0cd4ba800740512ceff85d",
@@ -284,7 +284,10 @@
     "tests/test_v32_prepared_construction.py": "f65f60addfb37771d1f465e25298eb54bf21215e1e6e4b5a86e26b75a1c9ca74",
     "cc_hhgt/v32/local_cnv_source_replay.py": "21aa68ca636b746aa46dd3c19887b4d1913fe6524c4bac1741d419083093b417",
     "scripts/audit_local_cnv_source_replay.py": "c0e129e43a0e78943af513bd55d5ba4c3df2deeb773c3eff754e473e0d61b33d",
-    "tests/test_v32_local_cnv_source_replay.py": "22764be93e9107d734b257c22241846f0df8fbc97390ed3159ffb5108abd09bc"
+    "tests/test_v32_local_cnv_source_replay.py": "22764be93e9107d734b257c22241846f0df8fbc97390ed3159ffb5108abd09bc",
+    "cc_hhgt/v32/native_directional_cnv.py": "723f3d407ba85fdac6b7d76e445e374ce82043cfa8a33df1a1f88d99c52a8bae",
+    "scripts/audit_native_directional_cnv.py": "c7a6123037ff0de1926bb6968d75b46de34fa8dd8dafc3c8058af017f8eecda2",
+    "tests/test_v32_native_directional_cnv.py": "7cbc457baa3f1a6fcbc3dd1beabbb84d2562aed18b8c973c5762804cd0ac6edf"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -423,7 +426,8 @@
     "Directional CNV-head preparation, training input collection, native consumed-source validation and independent audit now consume the actual annotation-defined association cohort and explicit run identities. All five input/sample collectors execute against real synthetic association closeout; outputs use declared counts rather than legacy 33/100k/165 constants. Legacy inputs retain their original contract. Native audit requires an explicit expected training run and rejects missing/unknown OOF labels. A regression in graph-control inspection now reports an explicit blocking incomplete-binding gap for source-only graph records while retaining their actual E1 source replay. Synthetic checkpoint tensors and optimizer telemetry remain serialization fixtures. No head fitting, auxiliary prediction forward, real cohort analysis, paid compute or deployment ran. Complete raw ancestry, cross-module patient closure and remaining auxiliary lifecycle integration remain open.",
     "ATAC annotation-defined candidate scope now passes through the actual R promoter materializer, real trainer input/feature/target collectors, no-fit preflight, readiness CLI, independent result auditor and native fusion adapter. The official full raw matrix/23-cancer mapping gates are preserved; only the explicit candidate cohort determines output coverage. All five synthetic feature collections execute without fit. Frozen probability/checkpoint fixtures test result reconciliation and native consumption, not actual model training. No optimizer, auxiliary prediction forward, real cohort analysis, paid compute or deployment ran. Original ATAC normalization/source truth, complete cross-module patient ancestry, incremental fusion efficacy and final unified command handoffs remain unproven/open.",
     "Native annotation-defined adjusted preparation now binds an external per-fold L1 coefficient/fit-input construction record. Actual source joins, hashed designs, labels, weights and all batch tensors are reconstructed through core model-use, G012 comparisons and current publication/external consumption. Frozen linear scores are recomputed and explicitly reported as model forwards; no neural model is constructed by inspection. Only the construction-specific gap is removed after positive reconstruction. Original study/reference, association, auxiliary and cross-module patient ancestry gaps remain blocking. No optimizer, L1 fitting, real cohort analysis, paid compute or deployment ran. Complete native external positive-metric coverage and unified auxiliary handoffs remain open.",
-    "Native local-CNV captured partitions now numerically reconstruct the original A0/A1/A2 training statistics, validation-only A1 targets and E0/E1 graph comparison using consumed expression/activity, covariate, patient-map and compact CNV inputs. All columns and statistical metadata are compared, including unavailable values and empty graphs. Actual G012/current publication source consumers execute the replay. Cached validation proof rechecks its upstream audit and records all three parent files as dependencies. Earlier raw segment materialization/acquisition and per-pair/cross-module patient ancestry remain blocking; no gap was waived. Numerical inspection constructs no neural model. Downstream synthetic fixtures execute frozen core prediction, not learned-model fitting. No real cohort analysis, paid compute or deployment ran."
+    "Native local-CNV captured partitions now numerically reconstruct the original A0/A1/A2 training statistics, validation-only A1 targets and E0/E1 graph comparison using consumed expression/activity, covariate, patient-map and compact CNV inputs. All columns and statistical metadata are compared, including unavailable values and empty graphs. Actual G012/current publication source consumers execute the replay. Cached validation proof rechecks its upstream audit and records all three parent files as dependencies. Earlier raw segment materialization/acquisition and per-pair/cross-module patient ancestry remain blocking; no gap was waived. Numerical inspection constructs no neural model. Downstream synthetic fixtures execute frozen core prediction, not learned-model fitting. No real cohort analysis, paid compute or deployment ran.",
+    "Native declared-cohort directional CNV now materializes directly from bound patient segment files using the actual original signed mapping and canonical callability algorithms, without an old compact matrix or a fixed 33-cancer universe. Numerical reconstruction compares every row of all twelve arrays per cancer, including unavailable values; actual association and CNV-head source consumers execute it. The raw-derived synthetic store reaches native association/validation/E1 production and all five CNV-head input collectors. Explicit study metadata and private file-patient declarations are retained. Acquisition, genome-build/reference ancestry and per-pair/cross-module patient closure remain blocking. No real cohort analysis, learned-model fitting, auxiliary prediction, paid compute or deployment ran. Separate downstream regression checks use frozen core forwards only."
   ],
   "test_suites": [
     {
@@ -1020,6 +1024,26 @@
       "path": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml",
       "passed": 9,
       "sha256": "30d799636bbffe4607d582c3a58e05f2b1a9377fc7bb668d6d5061dc1a77c3d7"
+    },
+    {
+      "path": "provenance/code_completion_20261015/native_directional_r3_tests.xml",
+      "passed": 43,
+      "sha256": "c0ad6a93f05db984b103b3b62764045521fb69cb7971ac6f1ce0c1de7862f9bc"
+    },
+    {
+      "path": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml",
+      "passed": 69,
+      "sha256": "ce8510e0b99c29ae7e51e3940047a3bb973435e4152fd79f277d67da13f98540"
+    },
+    {
+      "path": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml",
+      "passed": 65,
+      "sha256": "9ef1a48d861cb26ff7c9c588709fb19fd841790ff8d74782c9429a898eae918e"
+    },
+    {
+      "path": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml",
+      "passed": 9,
+      "sha256": "3f0a2a35ca84a21fed7d9fd6d6d3a244a23fe59ed7633b4dcc0477c32a5a0dc4"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1313,57 +1337,57 @@
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_capture_detects_changes_during_read_and_before_sealing",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv_event]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[matrix_change]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_array]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_label]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_shape]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_split]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv_event]",
-      "suite": "provenance/code_completion_20261015/native_cnv_head_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_materialization_sources",
@@ -1748,52 +1772,52 @@
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_all_native_competitors_and_their_losing_study_are_retained",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[checkpoint_alias]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[loss]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_arm]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_fold]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_content]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_hash]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_external_v2_excludes_a_study_seen_only_by_the_losing_model",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_historical_winner_only_lock_remains_explicitly_incomplete",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_selected_consumer_replays_losing_model_receipts",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
@@ -2113,42 +2137,42 @@
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_actual_fusion_inputs_include_zero_coefficient_experts_and_explicit_missing_ancestry",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_directory_authority_uses_native_tree_hash_and_cannot_hide_a_changed_partition",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenance",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_inventory_cannot_be_relabelled_for_another_score_or_claim_complete",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_training_selection_and_graph_inputs_are_derived_with_masks",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_rehashed_native_use_omission_fails_actual_input_replay",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inventory",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
@@ -2568,12 +2592,12 @@
     {
       "module": "tests.test_v32_directional_cnv",
       "case": "test_direction_is_preserved_and_unavailable_is_nan",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_directional_cnv",
       "case": "test_pathway_aggregation_keeps_amp_and_deletion_separate",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_directional_cnv_head",
@@ -4148,17 +4172,17 @@
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_five_fold_statistics_and_actual_preparation_preserve_sources",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
@@ -4168,237 +4192,237 @@
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[candidates]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[compact]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_reuse_rejects_different_requested_inputs[run_id]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[array]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[missing_array]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[output]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[raw_table]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_native_transformation_drift_rejected[wrong_partition]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[audit_v32_local_cnv_validation_associations-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[finalize_and_audit_v32_local_cnv_r3-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-finalize]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-initialize]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-materialize_cancer]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_validation_associations-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_ancestry",
       "case": "test_recovered_producers_reject_wrong_host_before_execution[run_v32_local_cnv_confounding_audit_r2-main]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_all_native_partitions_replay_after_actual_workers_and_closeout[correction]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_all_native_partitions_replay_after_actual_workers_and_closeout[review]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_all_native_partitions_replay_after_actual_workers_and_closeout[small]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_cache_rechecks_actual_bytes_and_command_reports_pass",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_cached_validation_proof_rechecks_parent_closeout",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_contract_and_full_output_coverage_fail_closed[column]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_contract_and_full_output_coverage_fail_closed[fold]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_contract_and_full_output_coverage_fail_closed[implementation]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_contract_and_full_output_coverage_fail_closed[metadata]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_contract_and_full_output_coverage_fail_closed[missing_metadata]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_contract_and_full_output_coverage_fail_closed[missing_replay]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_contract_and_full_output_coverage_fail_closed[row]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_failed_command_records_numerical_difference",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_historical_eight_implementation_receipt_keeps_explicit_gap",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_independent_one_sided_rank_projection_and_t_distribution_oracle",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_inventory_replays_and_preserves_earlier_ancestry_gap",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_replay_only_reads_tables_for_the_consumed_output_kind[graph]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_replay_only_reads_tables_for_the_consumed_output_kind[pair]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_replay_only_reads_tables_for_the_consumed_output_kind[validation]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[graph-present_E1]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[graph-rho_E1]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[pair-availability]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[pair-label_A1_local]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[pair-n_A1_local]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[pair-p_A1_local]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[pair-rho_A0_validation]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[pair-rho_A1_local]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[pair-rho_A2_local_pathway]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[validation-rho_A1_validation]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[validation-validation_patient_n]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_simultaneously_repinned_output_and_receipts_still_fail[validation-validation_patient_sha256]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_source_replay",
       "case": "test_wrong_host_stops_before_reading_inputs",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_main_app_feature_flag",
@@ -4793,142 +4817,142 @@
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[averaged_score]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[boolean_string]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[checkpoint_parent]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[duplicate]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[invalid_probability]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[missing_candidate]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[missing_fold]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[native_run]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[old_core]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[split_authority]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[unavailable_zero]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[wrong_fold]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[atac]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[cnv]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[cnv_event]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[genomic]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[atac-checkpoint_split]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[atac-upstream_fit]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-duplicate_partition]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-patient_count]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-row_source]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_partial_native_training_or_coverage_does_not_invent_folds_or_uncertainty[one_available_fold]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_partial_native_training_or_coverage_does_not_invent_folds_or_uncertainty[untrained_fold]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[coverage]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[fold_context]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[fusion]",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_same_canonical_patient_cannot_be_assigned_to_multiple_folds",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_two_cnv_estimands_remain_distinct_and_can_both_reach_frozen_fusion",
-      "suite": "provenance/code_completion_20261015/native_atac_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
@@ -5058,117 +5082,117 @@
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_actual_native_scope_consumed_by_frozen_auxiliary_adapter",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_actual_native_scope_preflight_and_all_five_fold_samples",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_independent_auditor_uses_same_declared_scope_and_explicit_run",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_independent_oof_labels_use_adjacent_validation_and_reject_unknowns",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_legacy_run_identity_is_not_inferred_from_arbitrary_success",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_native_scope_cannot_be_inferred_or_relabelled[changed_label]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_native_scope_cannot_be_inferred_or_relabelled[directional_scope]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_native_scope_cannot_be_inferred_or_relabelled[missing_control]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_native_scope_cannot_be_inferred_or_relabelled[removed_scope]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_native_scope_cannot_be_inferred_or_relabelled[worker_run]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_native_scope_cannot_be_inferred_or_relabelled[wrong_candidates]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_head_scope",
       "case": "test_native_scope_cannot_be_inferred_or_relabelled[wrong_patients]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_cli_decision_and_scientific_outputs[correction-LOCAL_CNV_CORE_RETRAIN_REQUIRED]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_cli_decision_and_scientific_outputs[review-LOCAL_CNV_SENSITIVITY_ONLY_REVIEW]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_cli_decision_and_scientific_outputs[small-LOCAL_CNV_IMPACT_SMALL]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_worker_failure_leaves_stage_diagnostics",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[cancer]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[candidate_definition]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[covariate_path]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[directional_failed]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[extra_command]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[raw_corrupt]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[static_hash]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
@@ -5178,22 +5202,22 @@
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_changed_input_rejected_after_completion[covariates]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_changed_input_rejected_after_completion[raw_segments]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_repinned_skipped_stage_cannot_claim_execution",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_wrong_host_rejected",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_upstream_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow_gdc",
@@ -5426,6 +5450,186 @@
       "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_actual_cli_signed_mapping_callability_and_missing_patients",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_actual_native_cnv_workflow_consumes_raw_derived_arrays",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_cache_rechecks_raw_files_and_reference_inputs",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_immutable_outputs_and_failed_audit_receipt",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[duplicate_file]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[duplicate_patient]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[fractional_interval]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[missing_patient]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[missing_reason]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[raw_hash]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[row_limit]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[threshold]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[unknown_patient]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_invalid_input_contract_cannot_publish[wrong_content_patient]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_native_partition_replay_enters_actual_source_inventory",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_rehashed_partition_contract_cannot_hide_mismatched_inputs[counts]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_rehashed_partition_contract_cannot_hide_mismatched_inputs[dtype]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_rehashed_partition_contract_cannot_hide_mismatched_inputs[identity]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_rehashed_partition_contract_cannot_hide_mismatched_inputs[missing_array]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_rehashed_partition_contract_cannot_hide_mismatched_inputs[source_files]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_release_rejects_scope_drift[cancer_coverage]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_release_rejects_scope_drift[missing_file_record]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_release_rejects_scope_drift[partition_path]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[lncrna_amplification.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[lncrna_callable.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[lncrna_deletion.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[lncrna_neutral.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[lncrna_signed_mean.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[pathway_amplification.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[pathway_amplification_fraction.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[pathway_callable.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[pathway_deletion.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[pathway_deletion_fraction.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[pathway_neutral.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_repinned_array_values_fail_numerical_reconstruction[pathway_signed_mean.npy]",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_directional_cnv",
+      "case": "test_wrong_host_rejected_before_preparation_and_legacy_execution",
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
+    },
+    {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_actual_two_cancer_cli_reaches_same_normalization_consumers",
       "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
@@ -5548,47 +5752,47 @@
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_actual_native_selection_predictions_export_labels_and_web",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_actual_prediction_failure_preserves_failed_stage",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_changed_losing_arm_checkpoint_invalidates_release",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_mixed_or_incomplete_completed_runs_fail_before_outputs[checkpoint]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_mixed_or_incomplete_completed_runs_fail_before_outputs[duplicate_fold]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_mixed_or_incomplete_completed_runs_fail_before_outputs[missing_group]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_mixed_or_incomplete_completed_runs_fail_before_outputs[receipt]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_mixed_or_incomplete_completed_runs_fail_before_outputs[science_config]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
       "case": "test_mixed_or_incomplete_completed_runs_fail_before_outputs[task]",
-      "suite": "provenance/code_completion_20261015/local_cnv_replay_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
@@ -6178,27 +6382,27 @@
     {
       "module": "tests.test_v32_segment_cnv_streaming",
       "case": "test_candidate_reader_filters_before_pandas_materialization",
-      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_segment_cnv_streaming",
       "case": "test_compact_partition_is_fold_resumable_and_never_materializes_long_rows",
-      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_segment_cnv_streaming",
       "case": "test_large_synthetic_memory_gate_blocks_before_publish",
-      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_segment_cnv_streaming",
       "case": "test_observed_process_memory_gate_blocks_before_publish",
-      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_segment_cnv_streaming",
       "case": "test_row_gate_failure_retains_incomplete_but_never_publishes",
-      "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_directional_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
@@ -6728,12 +6932,12 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "local_cnv_replay_upstream_r1",
-      "local_cnv_replay_consumers_r1",
-      "local_cnv_replay_r3",
-      "local_cnv_replay_consumers_r2"
+      "native_directional_r3",
+      "native_directional_consumers_r1",
+      "native_directional_upstream_r1",
+      "native_directional_publication_r1"
     ],
-    "passed": 198,
+    "passed": 186,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

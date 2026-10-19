@@ -26,6 +26,7 @@ GRAPH = "scripts.materialize_v32_local_cnv_corrected_graph_authority"
 CODE = ["cc_hhgt/v32/native_cnv_workflow.py", "scripts/run_native_cnv_workflow.py",
     "cc_hhgt/v32/local_cnv_cohort.py", "cc_hhgt/v32/local_cnv_core_preparation.py",
     "cc_hhgt/v32/local_cnv_sources.py", "cc_hhgt/v32/local_cnv_source_replay.py", "cc_hhgt/v32/local_cnv_confounding.py",
+    "cc_hhgt/v32/native_directional_cnv.py",
     *[name.replace(".", "/")+".py" for name in (ASSOCIATION, FINALIZER, VALIDATION, VALIDATION_AUDIT, GRAPH)]]
 
 
@@ -75,6 +76,12 @@ def preflight(manifest, output):
     if (directional.name != "SUCCESS.json" or directional_status.get("status") not in {"PASS", "SUCCESS"}
             or set(directional_status.get("cancers", {})) != set(cohort["cancers"])):
         raise ValueError("Directional CNV cancer coverage differs")
+    from .native_directional_cnv import FORMAT as DIRECTIONAL_FORMAT, validate_release
+    directional_materialization = None
+    if directional_status.get("format") == DIRECTIONAL_FORMAT:
+        _, native = validate_release(files["directional_success"], manifest.parent, replay=True)
+        if native["cohort"] != cohort: raise ValueError("Native directional and association cohort declarations differ")
+        directional_materialization = files["directional_success"]
     from .fold_local_expression import expression_path
     from .fold_local_activity import activity_path
     biological = []
@@ -120,7 +127,8 @@ def preflight(manifest, output):
     return {"target_host":"149","training_started":False,"baseline_fitting_started":False,"input":record(manifest),
         "cohort":cohort,"sources":list({i["path"]:i for i in pins}.values()),
         "implementations":[record(ROOT/name) for name in CODE], "commands":commands,
-        "files":files,"run_id":spec["run_id"],"expression_workflow":expression_binding}
+        "files":files,"run_id":spec["run_id"],"expression_workflow":expression_binding,
+        "directional_materialization":directional_materialization}
 
 
 def resolved_command(item, output):
@@ -135,6 +143,10 @@ def resolved_command(item, output):
 
 def collect(output, plan):
     output = Path(output)
+    if plan.get("directional_materialization") is not None:
+        from .native_directional_cnv import validate_release
+        _, directional = validate_release(plan["directional_materialization"], output)
+        if directional["cohort"] != plan["cohort"]: raise ValueError("CNV workflow directional cohort changed")
     if plan.get("expression_workflow") is not None:
         from .native_expression_workflow import validate as validate_expression_workflow
         validate_expression_workflow(plan["expression_workflow"], output)

@@ -4457,3 +4457,122 @@ again). Unchanged upstream/legacy regression results precede that last hardening
 The native workflow reaches PASS through source_recheck with numerical replay
 for every fold and all G012 comparison contexts; the remaining ancestry gaps
 continue to prevent a completeness claim. Only Torch/Starlette deprecations remain.
+
+Native signed CNV materialization from declared segment files (2026-10-19)
+-------------------------------------------------------------------------
+
+The existing ``scripts.materialize_v32_directional_cnv`` now accepts a native
+manifest as an alternative to the historical old-matrix/staging route. The
+native route derives its cancer, patient and candidate scope from the actual
+annotation-defined cohort. It needs neither an old compact matrix nor a fixed
+33-cancer universe. Both routes require host 149 and record a preflight before
+materialization. No model is constructed, fitted or predicted by this producer.
+
+The JSON manifest has ``format: NATIVE_DIRECTIONAL_CNV_INPUT_V1`` and these
+required fields: ``candidate_definition``, ``candidates``, ``patient_map``,
+``intervals``, ``membership`` and ``segments``. The first five are explicit
+``{path, sha256}`` file bindings. Candidate and patient contracts are those of
+the native local-CNV workflow; interval and membership tables use the existing
+streaming materializer schema. Interval columns are ``entity_type`` (``lncrna``
+or ``gene``), ``entity_id``, ``chromosome``, ``start`` and ``end``. Membership
+columns are ``pathway_id`` and ``gene_id``. Coordinates must be finite integers,
+nonnegative and ordered; this check occurs before integer conversion.
+
+Every declared patient requires exactly one segment record. An available row
+contains ``cancer_id``, canonical ``patient_id``, ``status: available`` and
+``file: {path, sha256}``. Optional ``study_metadata`` is an explicit metadata
+object; filenames are not used to invent study identifiers. An unavailable row
+has ``status: typed_unavailable`` and exactly
+``unavailable_reason: NO_SELECTED_SEGMENT_FILE`` instead of a file. Missing,
+duplicate and out-of-cohort patient records are rejected. The same path cannot
+represent two patients. A segment file is tab-delimited with case-insensitive
+``Chromosome``, ``Start``, ``End`` and ``Segment_Mean`` columns. If a Sample,
+sample_id, patient_id or case_submitter_id column exists, every value must
+canonicalize to the declared patient. Overlapping segments within a chromosome
+are rejected. Chromosome prefixes and interval mapping follow the existing
+mapping implementation; the manifest does not certify genome-build compatibility.
+
+Optional ``event_threshold`` defaults to 0.30 in the input segment-mean units;
+it must be positive and finite. ``max_segment_rows`` defaults to 2,000,000 and
+is a positive integer. Each file read is bounded to this limit plus one row;
+exceeding the limit fails rather than truncating. Patients are processed one
+at a time into memory-mapped output arrays. Shared annotation/membership tables
+are loaded in memory; this is not a universal memory-budget guarantee.
+
+Run on 149, using new output paths::
+
+  python -m scripts.materialize_v32_directional_cnv --phase all \
+    --native-manifest /absolute/path/native_directional.json \
+    --output-root /absolute/path/new_directional_release
+
+For partitioned execution, use ``--phase cancer --cancer BRCA`` and then
+``--phase finalize`` with the same manifest/root. The all-phase command requires
+new partitions; it does not overwrite or silently resume completed partitions.
+Native and legacy CLI inputs cannot be mixed. Set the native event threshold
+in the manifest, not via the legacy CLI override.
+
+Each ``cancer=<id>`` contains three ordered identity JSON files, SOURCE_FILES.json
+and twelve arrays. lncRNA and pathway each have signed_mean (float32), callable,
+amplification, deletion and neutral (uint8 flags); pathway additionally has
+amplification_fraction and deletion_fraction (float32). Rows are sorted patient
+IDs, columns are sorted corresponding candidate entity IDs. Signed means retain
+the input segment units, while fractions are dimensionless. Mapping uses the
+actual existing ``map_segments_directional``, ``aggregate_pathway_directional``
+and streaming ``_mapped_entities`` functions. In particular, the canonical
+pathway callability rule is an observed event OR all members observed. Partial
+neutral coverage stays unavailable. Opposite amplified/deleted intervals may
+cancel in signed mean while both direction flags remain true. Missing patients
+have NaN continuous values and zero flags; they are not neutral observations.
+
+Partition success binds the original manifest, cohort, seven implementation
+files, all sixteen output files, identities, threshold and counts. Construction
+uses a temporary directory and immutable publication; failures retain diagnostic
+records without publishing a completed partition. Aggregate success checks all
+declared physical cancer directories, child hashes, input identity and counts.
+
+Independent reconstruction is callable on a partition or aggregate::
+
+  python -m scripts.audit_native_directional_cnv \
+    --success /absolute/path/new_directional_release/SUCCESS.json \
+    --expected-sha256 <actual-receipt-sha256> \
+    --output /absolute/path/new_audit.json
+
+The audit records host149 and PASS/FAILED, re-reads the bound raw segments and
+compares every output array row exactly, including NaNs. Changing an array and
+recomputing its receipt hash cannot bypass reconstruction. Input, code and output
+hashes are checked again after replay. A cached source-inspection replay still
+checks the current raw/reference files and all output bindings. This is
+same-implementation reproducibility; selected scalar examples have a separate
+direct arithmetic oracle, not an independent biological validation.
+
+The existing native CNV workflow accepts this aggregate as directional_success,
+replays it before association and rechecks its files on completion/validation.
+Actual local-CNV and CNV-head source consumers recognize native partition
+contracts and run reconstruction. Verified head inputs narrow the old combined
+raw-transformation gap to the remaining acquisition/patient-closure gap. They
+also retain SEGMENT_ACQUISITION_AND_REFERENCE_ANCESTRY_UNVERIFIED. Explicit raw
+patient mapping is recorded privately as declared file ownership, not proof of
+per-pair fitted patient usage. No original acquisition, genome-build/reference
+ancestry, or cross-module patient closure is inferred from a successful replay.
+
+Direct verification uses BRCA/LUAD synthetic inputs with 240 declared patients,
+238 segment files and two explicitly unavailable patients. It reconstructs all
+24 cancer/array combinations, exercises cancellation/missingness, rejects
+repinned numerical and contract corruption, checks cached-input changes and
+immutable/failure behavior, then runs the actual native association/validation/E1
+workflow and all five CNV-head input collectors. Core embeddings are frozen
+serialization fixtures; auxiliary fitting and prediction are forbidden. The
+direct and original mapping/streaming modules pass 43 tests. An old streaming
+row-limit test now uses an explicit 1 GB test memory allowance so previously
+loaded libraries do not trip its unrelated default memory gate; production
+limits and the separate memory-gate tests are unchanged. No real cohort,
+learned-model fitting, paid compute or production deployment was executed.
+
+Related regression suites also pass on 149: 69 CNV/current-source/auxiliary
+consumer checks, 65 local-CNV ancestry/reconstruction/workflow checks and nine
+actual native result-publication checks. Together with the 43 direct/mapping
+checks these are 186 distinct tests on the synchronized source revision. The
+publication fixture uses frozen synthetic checkpoint containers and declared
+synthetic optimizer telemetry; it does not execute an optimizer or establish
+performance. Its unchanged biological ancestry gaps remain visible. Only the
+existing Torch/Starlette deprecation warnings remain.
