@@ -1,0 +1,53 @@
+{
+  "method": "NATIVE_COMPLETED_RUNS_TO_FROZEN_PREDICTION_SELECTION_AND_PUBLICATION",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "native_results_workflow_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "native_results_workflow_r1"
+  ],
+  "intermediate_failure_causes": [
+    "The first integration assertion assumed exactly one available validation label in every fold. Native fold-local eligibility may differ across folds. Replaced the assumed count with exact independent alignment to the actual prepared masks, keeping unavailable labels NaN. No scientific calculation or threshold changed."
+  ],
+  "actual_registered_groups": [
+    "G0",
+    "G1",
+    "G2",
+    "current_c",
+    "experimental",
+    "experimental_predicted"
+  ],
+  "actual_registered_checkpoint_containers": 30,
+  "actual_frozen_prediction_folds": 30,
+  "actual_selected_embedding_export_folds": 5,
+  "actual_native_fusion_label_views": 5,
+  "actual_g012_selector_and_comparison_source_replay": true,
+  "actual_current_publication_and_http_query": true,
+  "actual_selected_model_use_and_external_isolation": true,
+  "losing_comparator_context_preserved": true,
+  "relative_publication_template_inputs_and_result_refs_verified": true,
+  "actual_prediction_failure_records_failed_stage": true,
+  "changed_losing_checkpoint_rejected": true,
+  "test_substitutes": [
+    "synthetic count/expression/activity/CNV/candidate/binding inputs",
+    "synthetic frozen full-cohort authority identity controls",
+    "fixed no-fit L1 logits in upstream preparation",
+    "serialized untrained random V4 parameter containers and explicitly synthetic optimizer-success metadata"
+  ],
+  "test_checkpoint_optimizer_metadata_is_not_training_evidence": true,
+  "independent_biological_validation_performed": false,
+  "full_raw_to_final_release_run": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Completed native core registration now binds all six groups and thirty checkpoints to the original prepared files, scientific configuration, tasks, input authorities and current code. Actual frozen prediction, G012 validation selection, selected core export, native fusion label preparation and selected/publication producers execute without fitting. The external V2 publication template derives actual selected-score model-use inventory, retaining losing G012 sources. Test checkpoint containers and optimizer telemetry are explicitly synthetic; no actual optimizer work is established or claimed. Auxiliary/fusion fitting, real biological results and complete source/patient coverage remain outside this scoped validation. Final C01/C13/C16 acceptance remains open."
+}

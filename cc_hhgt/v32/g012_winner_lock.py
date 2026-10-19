@@ -152,22 +152,30 @@ def lock_g012_validation_winner(
     *,
     repo_root: str | Path | None = None,
     prepared_parent: str | Path,
-    run_parent: str | Path,
+    run_parent: str | Path | None,
     candidate_authority_path: str | Path,
     output_root: str | Path,
     pair_fold_seed: int,
+    run_declarations: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Select one graph arm from five-fold validation loss without test access.
 
-    ``run_parent/<variant>`` must contain ``config.yaml``, ``authorization``
-    and ``training``.  Every physical hash is re-derived before the immutable
-    declaration is written.
+    The legacy ``run_parent/<variant>`` layout contains ``config.yaml``,
+    ``authorization`` and ``training``. Alternatively, ``run_declarations``
+    supplies explicit pinned config/input/task files and five checkpoint/
+    training-receipt pairs per variant, with ``run_parent=None``. Every
+    physical hash is re-derived before the immutable declaration is written.
     """
 
     import socket
     if socket.gethostname() != "149": raise G012WinnerLockError("G012 winner selection requires host 149")
     prepared_parent = Path(prepared_parent).resolve()
-    run_parent = Path(run_parent).resolve()
+    if run_declarations is not None:
+        if run_parent is not None or set(run_declarations) != set(GRAPH_VARIANTS):
+            raise G012WinnerLockError("Explicit runs require exactly G0/G1/G2 and no historical run parent")
+    elif run_parent is None:
+        raise G012WinnerLockError("A run parent or explicit runs are required")
+    run_parent = Path(run_parent).resolve() if run_parent is not None else None
     candidate = Path(candidate_authority_path).resolve()
     output = Path(output_root).resolve()
     if output.exists():
@@ -193,11 +201,24 @@ def lock_g012_validation_winner(
         if marker.get("variant") != variant:
             raise G012WinnerLockError(f"Prepared root variant drift: {variant}")
 
-        run = run_parent / variant
-        config = run / "config.yaml"
-        authorization = run / "authorization"
-        input_manifest_path = authorization / "INPUT_MANIFEST.json"
-        task_manifest_path = authorization / "TASK_MANIFEST.tsv"
+        explicit = None if run_declarations is None else run_declarations[variant]
+        if explicit is None:
+            run = run_parent / variant
+            config = run / "config.yaml"
+            authorization = run / "authorization"
+            input_manifest_path = authorization / "INPUT_MANIFEST.json"
+            task_manifest_path = authorization / "TASK_MANIFEST.tsv"
+        else:
+            from .current_core_export import verified_path
+            if set(explicit) != {"config", "input_manifest", "task_manifest", "folds"}:
+                raise G012WinnerLockError("Explicit run fields differ")
+            config, input_manifest_path, task_manifest_path = [verified_path(explicit[k],Path.cwd())
+                for k in ("config", "input_manifest", "task_manifest")]
+            folds = explicit["folds"]
+            if (len(folds)!=5 or any(type(r.get("fold")) is not int for r in folds)
+                    or {r["fold"] for r in folds}!=set(range(5))):
+                raise G012WinnerLockError("Explicit run needs five unique integer folds")
+            explicit_folds = {r["fold"]:r for r in folds}
         for label, path in (
             ("config", config),
             ("input manifest", input_manifest_path),
@@ -226,9 +247,14 @@ def lock_g012_validation_winner(
             ):
                 raise G012WinnerLockError(f"{variant} fold {fold} input-manifest drift")
             task_id = tasks[fold]
-            task_dir = run / "training" / task_id.replace("|", "__")
-            success = _json(task_dir / "SUCCESS.json", f"{variant} fold {fold} SUCCESS")
-            checkpoint_path = task_dir / "best_model_state.pt"
+            if explicit is None:
+                task_dir = run / "training" / task_id.replace("|", "__")
+                success_path = task_dir / "SUCCESS.json"
+                checkpoint_path = task_dir / "best_model_state.pt"
+            else:
+                success_path = verified_path(explicit_folds[fold]["training_receipt"],Path.cwd())
+                checkpoint_path = verified_path(explicit_folds[fold]["checkpoint"],Path.cwd())
+            success = _json(success_path, f"{variant} fold {fold} SUCCESS")
             if not checkpoint_path.is_file() or checkpoint_path.stat().st_size <= 0:
                 raise G012WinnerLockError(f"Missing {variant} fold {fold} checkpoint")
             expected_hashes = {
@@ -285,8 +311,8 @@ def lock_g012_validation_winner(
                     "selected_using": "VALIDATION_ONLY",
                     "heldout_test_metrics_used": False,
                     "training_artifact_hashes": expected_hashes,
-                    "training_receipt": {"path": str((task_dir / "SUCCESS.json").resolve()),
-                                         "sha256": sha256_file(task_dir / "SUCCESS.json")},
+                    "training_receipt": {"path": str(success_path.resolve()),
+                                         "sha256": sha256_file(success_path)},
                 }
             )
         mean_loss = float(sum(losses) / len(losses))

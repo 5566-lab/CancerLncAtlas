@@ -3684,3 +3684,157 @@ No native CNV decision/aggregate audit is replaced in this workflow fixture.
 Actual L1 fitting, real cohorts, paid compute and production deployment were
 not executed. The failed r1/r2 receipts remain recorded: r1 exposed missing
 optional graph counts, and r2 exposed missing original segment-byte pins.
+
+Completed native runs to frozen results and publication (2026-10-19)
+-------------------------------------------------------------------
+
+scripts.run_native_results_workflow consumes completed runs from the preceding
+native core preparation. It never invokes training, auxiliary-head fitting or
+fusion fitting. A single explicit request validates all six groups, locks the
+existing G0/G1/G2 validation winner, produces six full-candidate prediction
+releases, exports the selected core, prepares its private fusion labels, and
+calls the existing selected-analysis/context/publication workflow. Production
+deployment is not performed.
+
+The required JSON fields are format=NATIVE_CORE_RESULTS_INPUT_V1, release,
+core_preparation, runs, geneset, subtype and publication_components. release
+is a lowercase token. core_preparation pins NATIVE_CORE_BINDING.json. runs
+must contain exactly G0, G1, G2, current_c, experimental and
+experimental_predicted. Each group has this schema, with five distinct fold
+records for fold values 0 through 4::
+
+  {
+    "config": {"path": "/completed/G0/config.yaml", "sha256": "<hash>"},
+    "input_manifest": {"path": "/completed/G0/INPUT_MANIFEST.json", "sha256": "<hash>"},
+    "task_manifest": {"path": "/completed/G0/TASK_MANIFEST.tsv", "sha256": "<hash>"},
+    "folds": [
+      {"fold": 0,
+       "checkpoint": {"path": "/completed/G0/fold0/best_model_state.pt", "sha256": "<hash>"},
+       "training_receipt": {"path": "/completed/G0/fold0/SUCCESS.json", "sha256": "<hash>"}}
+    ]
+  }
+
+The example shows one fold only to describe its fields. All five are required.
+Each receipt must describe completed optimizer work and full validation chunk
+coverage, match its actual V4 checkpoint, and bind the current code tree,
+configuration, input manifest and task manifest. This is a check of recorded
+completed artifacts, not independent observation of a training process.
+Missing results, a changed scientific configuration, mismatched checkpoint,
+duplicate fold, changed input or incomplete task inventory stop before output.
+
+The original preparation remains immutable. A future training run uses its
+own config/task copies: execution_control may change from CODE_ONLY to an
+authorized TRAINING configuration, and training_io.output_root may move.
+All other settings must remain identical, including model, seed, runtime,
+budget, prepared paths and binding overlay. Input manifests retain the exact
+prepared authority contents. Tasks retain their run/fold/seed identity and
+server149 CPU owner and have PENDING status as in the existing authorized
+training plan. This workflow neither changes these files nor grants training
+authorization. It does not require historical authorization/training folder
+names. The existing G012 selector now accepts explicit pinned run declarations
+in addition to its unchanged legacy directory interface.
+
+geneset and subtype use SelectedGeneSetConfig and RankedSubtypeConfig fields.
+For native fold-local inputs, geneset.min_expression_folds is explicit (1--5).
+It governs GeneSet eligibility; it does not remove full prediction rows or
+change the five-fold probability mean. Subtype settings retain their existing
+rank/composition semantics and do not define patient molecular subtypes.
+
+publication_components contains the existing nine component names: state,
+clinical, drug, evidence, external, single_cell, patient, genomic and distal.
+Each uses BUILD plus a pinned input_manifest, REUSE plus a pinned binding, or
+an explicit NOT_PRODUCED/SOURCE_UNAVAILABLE/NOT_APPLICABLE status and reason.
+Configured native contexts are validated against the selected analysis by
+their existing consumers; missing contexts remain visibly missing. A PASS
+does not imply that all nine analyses exist.
+
+BUILD templates may reference results with exactly {"result_ref": "name"}.
+The allowed names are selected_model (the direct primary model declaration),
+core_prediction (its prediction binding), core_run_id (its training run ID),
+core_export (its embedding manifest), and primary_fusion (private label
+binding). Referenced input paths are resolved relative to their original
+template and pinned before the template is copied. Existing workflow_ref
+references to selected_analysis, selected_score and earlier published stages
+are left for the existing publication workflow to resolve.
+
+For external evaluation of the selected score, use producer_kind=
+selected_release, score_column=selected_score, producer_binding=
+{"workflow_ref":"selected_score"} and run_id={"result_ref":"core_run_id"}.
+With model_use_inventory={"derive_from_native_models":true}, the existing
+publisher reconstructs the selected score's native model-use inventory,
+including all three G012 comparison arms. This preserves losing-model
+selection exposure; the direct primary model declaration alone does not
+represent the G012 selection decision. Incomplete study or patient mappings
+remain explicitly unverified.
+
+Commands, on server 149 and with a new output directory::
+
+  python -m scripts.run_native_results_workflow --manifest /input/results.json --output /new/results --plan
+  python -m scripts.run_native_results_workflow --manifest /input/results.json --output /new/results
+
+--plan checks completed checkpoints, sources and real input loaders without
+constructing models, fitting, forwarding or creating the destination. The
+execution command uses actual frozen model forwards. LAUNCH_PREFLIGHT and
+STAGE_STATUS record inputs and stage logs. Failures preserve the failed stage
+without a workflow SUCCESS. NATIVE_RESULTS_BINDING.json links all six
+prediction releases, selection, binding comparison, selected core export,
+private fusion input and current publication. Validation rechecks original
+sources, all prediction ensembles, comparison losses, native label replay,
+export file hashes and registered public consumers.
+
+G012 selection still minimizes the arithmetic mean of the five recorded best
+validation losses, with the original G0/G1/G2 tie ordering. It does not read
+sealed test data. BINDING_COMPARISON.json separately reports the same five
+recorded losses and their arithmetic mean for each binding arm, retaining
+all sources and predictions. It does not replace the G012 winner or claim
+independent scientific improvement. Full-candidate predictions retain the
+existing weighted-chunk-logit then sigmoid estimand and arithmetic mean of
+five fold probabilities. Fusion labels retain their actual availability masks
+and VALIDATION_REUSED_FOR_FUSION_DEVELOPMENT status; unavailable labels are
+NaN and are not negatives.
+
+This workflow consumes completed checkpoints and any declared native auxiliary
+results. It does not acquire missing data or fit their models. The overall
+code acceptance and complete source/patient coverage audits remain open.
+
+Verification: native_results_workflow_r2 records twelve passing checks on 149:
+nine native results integration/error cases and three legacy G012 selector
+regressions. The actual --plan and execution entry points consume thirty
+synthetic V4 checkpoint containers derived from the real native preparation
+fixture. All thirty frozen prediction folds and five selected embedding
+exports run. The original selector chooses G1 from the declared synthetic
+validation losses. Native fusion label views exactly match the prepared masks,
+including fold-varying eligibility and NaN values for unavailable labels.
+The actual current publisher builds selected scores/GeneSets, native model-use
+inventory, external V2 isolation and web registration. Real HTTP queries return
+all three candidates and the expected lncRNA-overlap exclusion. G0's losing
+comparison context remains in the model-use dependency table.
+
+Checks reject incomplete groups, duplicate folds, altered scientific config,
+wrong tasks, missing optimizer-completion evidence and mismatched checkpoints
+before output. A hash-consistent but structurally damaged model state reaches
+the real model loader and leaves a failed prediction_G0 stage without workflow
+SUCCESS or publication. Changing a losing-arm checkpoint invalidates the
+completed workflow. Checkpoint files remain byte-identical after successful
+frozen inference/export.
+
+The test containers are serialized untrained random model states, with
+explicit synthetic_serialization_fixture and no_optimizer_actually_run flags.
+Their optimizer-success fields exist to exercise strict downstream artifact
+contracts; they are not evidence that an optimizer ran. The upstream fixture
+also substitutes frozen full-cohort control identities and fixed L1 logits.
+Actual optimizer construction and LogisticRegression.fit remain forbidden.
+The failed r1 receipt records an incorrect test assumption of exactly one
+available label per fold; the final test compares actual aligned masks. No
+scientific threshold or availability calculation was changed for that test.
+
+Open external-evaluation code boundary: current_model_use still fixes
+model_use_inventory_completeness_verified to false, and external V2 passes
+that value into isolate_sources. Consequently its provenance-held-out branch
+cannot currently admit observations. The all-used-rows provenance check also
+mixes study-free entity-exposure records with biological source records.
+Finishing C13 requires an evidence-derived completeness policy for the actual
+declared dependency boundary, preserving unknown biological ancestry and
+patient mappings, plus positive eligible-metric tests and exclusion tests.
+The successful workflow check above verifies source traversal and exclusion;
+it does not close that remaining positive-evaluation path.
