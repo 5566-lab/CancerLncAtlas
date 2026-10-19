@@ -1,7 +1,7 @@
 """Derive model input exposure from native selected/core/fusion producers.
 
 This inventory inspects authorized tensors and dependencies without constructing
-an optimizer or doing model forwards. It records unresolved upstream study
+an optimizer or constructing neural models. Bound native L1 linear scores may be replayed. It records unresolved upstream study
 provenance explicitly; file integrity is not proof of biological independence.
 """
 from __future__ import annotations
@@ -46,6 +46,7 @@ def implementations():
         "cc_hhgt/v32/native_graph_input.py",
         "scripts/export_v32_current_core_embeddings.py","cc_hhgt/v32/training.py",
         "cc_hhgt/v32/preparation_sources.py","scripts/prepare_v32_formal.py",
+        "cc_hhgt/v32/prepared_construction.py","cc_hhgt/v32/baselines.py",
         "cc_hhgt/v32/g012_winner_lock.py","cc_hhgt/v32/selected_score.py",
         "cc_hhgt/v32/current_auxiliary_model_use.py","cc_hhgt/v32/native_auxiliary_fusion.py",
         "cc_hhgt/v32/native_partitioned_genomic.py","cc_hhgt/v32/genomic_partition_training.py",
@@ -274,6 +275,16 @@ class Inventory:
             digest=item["prepared"]["sha256"]
             self.entities(fold_candidates,model=model,fold=fold,phase="FEATURE_CONSTRUCTION",view="CANDIDATE_FEATURES",digest=digest)
             known=self.preparation(payload,paths["prepared"].parent,model,fold,score_column=="l1_probability")
+            from .prepared_construction import replay as replay_construction
+            construction = replay_construction(payload, paths["prepared"].parent, inventory=self, model=model,
+                                                baseline_only=score_column=="l1_probability")
+            if construction is not None:
+                known.add(construction["construction_sha256"])
+                self.transform_replays.append({"model_id":model,"dependency_context":self.context_id,
+                    "patient_fold_id":fold,"role":"prepared.feature_and_label_construction",
+                    "format":construction["format"],"source_release_sha256":construction["construction_sha256"],
+                    "normalization_sha256":"","activity_sha256":"","folds_recomputed":1,
+                    "outputs_compared":construction["tensor_fields_compared"],"model_training_started":False})
             if score_column=="l1_probability":
                 # The published baseline is sigmoid(base_logit). The reference
                 # neural head, graph and its checkpoint selection did not fit
@@ -311,7 +322,8 @@ class Inventory:
             for role,digest in receipt["input_authority_hashes"].items():
                 if isinstance(digest,str) and len(digest)==64 and digest not in known:
                     self.gap(model,"prepared."+role,"UNRESOLVED_INPUT_AUTHORITY_DIGEST",fold,digest)
-            self.gap(model,"prepared.feature_and_label_construction","RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED",fold,item["prepared"]["sha256"])
+            if construction is None:
+                self.gap(model,"prepared.feature_and_label_construction","RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED",fold,item["prepared"]["sha256"])
             del payload,checkpoint,features
 
     def comparison(self,path,model):
@@ -435,6 +447,11 @@ def derive_manifest(path):
     return manifest,identities,tables,list(inventory.sources.values())
 
 
+def linear_replay_executed(tables):
+    from .prepared_construction import FORMAT as CONSTRUCTION_FORMAT
+    return bool(tables["transformation_replays"].format.eq(CONSTRUCTION_FORMAT).any())
+
+
 def materialize_current_model_use(manifest_path,output):
     if socket.gethostname()!="149":raise RuntimeError("Model-use preparation requires host 149")
     source=Path(manifest_path).resolve();output=Path(output).resolve();output.mkdir(parents=True,exist_ok=False)
@@ -447,7 +464,8 @@ def materialize_current_model_use(manifest_path,output):
     binding={"format":FORMAT,"status":"PASS_DERIVED_INVENTORY","target_host":"149","input_manifest":record(source),
         "models":models,"outputs":outputs,"source_inputs":sources,"implementation_sha256":implementations(),
         "isolation_scope":SCOPE,"model_use_inventory_completeness_verified":is_complete(tables["completeness"]),"independent_external_validation_attested":False,
-        "raw_study_provenance_reconstructed":False,"model_forwards_executed":False,"training_started":False}
+        "raw_study_provenance_reconstructed":False,"model_forwards_executed":linear_replay_executed(tables),
+        "neural_model_forwards_executed":False,"training_started":False}
     binding["patient_identity_namespace"]=manifest.get("patient_identity_crosswalk",{}).get("namespace")
     path=output/"MODEL_USE_BINDING.json";write(path,binding)
     audit=audit_current_model_use(path,expected_sha=sha256(path));ap=output/"RECOMPUTATION_AUDIT.json";write(ap,audit)
@@ -459,7 +477,7 @@ def load_current_model_use(path,*,expected_sha,models=None,root=None,replay=True
     path=verified_path({"path":str(path),"sha256":expected_sha},Path.cwd());binding=read(path)
     if binding.get("format")!=FORMAT or binding.get("status")!="PASS_DERIVED_INVENTORY" or binding.get("target_host")!="149" or binding.get("isolation_scope")!=SCOPE:
         raise ValueError("Invalid native model-use release")
-    for name in ("independent_external_validation_attested","raw_study_provenance_reconstructed","model_forwards_executed","training_started"):
+    for name in ("independent_external_validation_attested","raw_study_provenance_reconstructed","training_started"):
         if binding.get(name) is not False:raise ValueError("Native model-use inventory makes an unsupported completeness claim")
     if models is not None and binding["models"]!=model_identities(models,root or path.parent):raise ValueError("Model-use inventory belongs to different evaluated models")
     if binding["implementation_sha256"]!=implementations():raise ValueError("Model-use implementation changed")
@@ -467,6 +485,10 @@ def load_current_model_use(path,*,expected_sha,models=None,root=None,replay=True
         raise ValueError("Patient identity usage must remain private")
     for source in binding["source_inputs"]:verified_source(source,path.parent)
     tables={name:pd.read_parquet(verified_path(item,path.parent)) for name,item in binding["outputs"].items()}
+    if binding.get("model_forwards_executed") is not linear_replay_executed(tables):
+        raise ValueError("Native model-use linear replay execution declaration differs")
+    if binding.get("neural_model_forwards_executed", False) is not False:
+        raise ValueError("Native model-use inspection does not run neural forwards")
     from .model_use_completeness import assess,is_complete
     coverage=assess(binding["models"],tables)
     if binding.get("model_use_inventory_completeness_verified") is not is_complete(coverage):

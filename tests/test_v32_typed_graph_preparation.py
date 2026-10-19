@@ -111,9 +111,8 @@ def prepared(native_authority, scoped):
             "root": str(vargs.output_root), "success_sha256": record(vargs.output_root / "SUCCESS.json")["sha256"],
             "independent_audit_sha256": record(vargs.output_root / "INDEPENDENT_AUDIT.json")["sha256"],
             "candidate_sha256": record(candidates)["sha256"]})
-        fixed = SimpleNamespace(decision_function=lambda x: np.zeros(len(x)))
-        patch.setattr(prepare, "_fast_l1", lambda frames, **kw:
-            (fixed, {"synthetic_fixed_no_fit": True}, frames["train"], frames["validation"]))
+        from frozen_formal_baseline import frozen_l1
+        patch.setattr(prepare, "_fast_l1", frozen_l1)
         patch.setattr(prepare, "load_scope", forbidden)
         authorization = root / "authorization.json"; write(authorization, {"synthetic_control": True})
         argv = ["prepare", "--hashes", str(authorization), "--patient-folds", spec["patient_map"]["path"],

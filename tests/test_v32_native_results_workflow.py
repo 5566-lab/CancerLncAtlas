@@ -168,6 +168,15 @@ def test_actual_native_selection_predictions_export_labels_and_web(released, nat
     dependencies = pd.read_parquet(inventory["outputs"]["dependencies"]["path"])
     assert "G012_COMPARISON:G0" in set(dependencies.dependency_context)
     assert not inventory["model_use_inventory_completeness_verified"]
+    replayed = pd.read_parquet(inventory["outputs"]["transformation_replays"]["path"])
+    from cc_hhgt.v32.prepared_construction import FORMAT
+    construction = replayed.loc[replayed.format.eq(FORMAT)]
+    assert set(construction.patient_fold_id) == set(range(5))
+    assert {"G012_COMPARISON:G0", "G012_COMPARISON:G1", "G012_COMPARISON:G2"} <= set(construction.dependency_context)
+    assert inventory["model_forwards_executed"] and not inventory["neural_model_forwards_executed"]
+    gaps = pd.read_parquet(inventory["outputs"]["gaps"]["path"])
+    assert "RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED" not in set(gaps.reason)
+    assert len(gaps) > 0  # Other upstream ancestry limits remain blocking.
     assert not binding["fusion_fitting_started"] and not binding["production_deployed"]
 
 

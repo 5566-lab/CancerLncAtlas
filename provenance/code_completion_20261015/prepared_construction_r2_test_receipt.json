@@ -1,0 +1,52 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T11:33:03.435084+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_model_use.py": "e22a9ca9dff2925734e2a26bca7ce2414dd9ed36ee6137466994aa9f89ab6cd5",
+    "cc_hhgt/v32/native_core_workflow.py": "ee728ae3806ce371d63012ab981dc9c3bb5f9996708dfdff65f0ca02aa7c5f1a",
+    "cc_hhgt/v32/preparation_sources.py": "3297f61c5f0ec8c9cb450e027993a815618658d8b2953b2095e41bc0f4897be2",
+    "cc_hhgt/v32/prepared_construction.py": "2d174f3b14f9cd9b509da810ed17ee8ea6805d172050aa80c66ef3fa8c4f21c2",
+    "scripts/audit_prepared_construction.py": "c3fc11a062a12e25f1aec92130c2e0439d741a5d618dac1e5541be00f6c90a0d",
+    "scripts/prepare_v32_formal.py": "26574ca75f69176bf59439cb0624b4a8989cf50ca69438a666c5ed65a0828d77",
+    "tests/frozen_formal_baseline.py": "0c4697330e1372dafcd4e7a4201a36f00b827013e78b4236f06bede9ebc533b0",
+    "tests/test_v32_fold_local_scope.py": "80c1cd109f78b0bf0ffefd3c12e148e6230b854ccea644f2b4e730ff37aa1671",
+    "tests/test_v32_native_core_workflow.py": "a0d3b1821e5af1ae31e0334573aee6880f7969d6b24448919f085cbd2f679d59",
+    "tests/test_v32_native_results_workflow.py": "ff8a4997b3b90a1901573dd3d65f26c2ef062d515da770ed2cb9f155e1c76a7c",
+    "tests/test_v32_prepared_construction.py": "f65f60addfb37771d1f465e25298eb54bf21215e1e6e4b5a86e26b75a1c9ca74",
+    "tests/test_v32_typed_graph_preparation.py": "ac6662b1cc05816a7a1fa2a5ac4c10a8046073b7fdcfd77e37ffecfd583003c4"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_prepared_construction.py",
+    "--junitxml=provenance/code_completion_20261015/prepared_construction_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T11:34:32.882021+00:00"
+}

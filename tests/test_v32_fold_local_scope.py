@@ -237,8 +237,8 @@ def test_actual_adjusted_prepare_writes_all_three_graph_arms_with_training_scope
     inputs,_=graph_fixture(tmp_path/"graph",scoped,0)
     monkeypatch.setattr(graph,"load_formal_graph_input_authority",lambda **kw:inputs)
     monkeypatch.setattr(prepare,"load_scope",forbidden)
-    fixed=SimpleNamespace(decision_function=lambda x:np.zeros(len(x)))
-    monkeypatch.setattr(prepare,"_fast_l1",lambda frames,**kw:(fixed,{"synthetic_fixed_no_fit":True},frames["train"],frames["validation"]))
+    from frozen_formal_baseline import frozen_l1
+    monkeypatch.setattr(prepare,"_fast_l1",frozen_l1)
     output=tmp_path/"prepared"
     argv=["prepare","--hashes",str(controls["authorization"]),"--patient-folds",str(patient_map),
         "--patient-fold-authority-receipt",str(controls["patients"]),"--graph-authority-receipt",str(inputs.receipt_path),

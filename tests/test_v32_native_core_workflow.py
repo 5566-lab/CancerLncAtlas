@@ -86,7 +86,8 @@ def completed(inputs,native_authority,scoped):
         calls=[]
         def fixed_l1(frames,**kwargs):
             calls.append(len(frames["train"]))
-            return SimpleNamespace(decision_function=lambda x:np.zeros(len(x))),{"synthetic_fixed_no_fit":True},frames["train"],frames["validation"]
+            from frozen_formal_baseline import frozen_l1
+            return frozen_l1(frames, **kwargs)
         patch.setattr(formal,"_fast_l1",fixed_l1)
         plan=workflow.preflight(manifest,root/"output")
         assert len(plan["commands"])==3 and not (root/"output").exists()

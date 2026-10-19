@@ -340,8 +340,8 @@ def _fast_l1(frames: dict[str, pd.DataFrame], *, seed: int):
     train_available = frames["train"].association_available.to_numpy(bool)
     if np.unique(y[train_available]).size != 2:
         raise RuntimeError("Available adjusted training associations require both classes")
-    weight = np.where(frames["train"].label_class.astype(str).eq("weak_positive"), 0.35, np.where(y == 0, 0.12, 1.0))
-    weight = np.where(train_available, weight, 0.0)
+    from cc_hhgt.v32.prepared_construction import training_weights
+    weight = training_weights(frames["train"])
     model = LogisticRegression(penalty="l1", solver="liblinear", C=0.1, max_iter=250, random_state=seed)
     model.fit(x_train, y, sample_weight=weight)
     val_prob = model.predict_proba(x_val)[:, 1]
@@ -776,21 +776,8 @@ def main(argv=None) -> int:
             if local_scope is not None:
                 from cc_hhgt.v32.fold_local_scope import verify_association_normalizations
                 verify_association_normalizations(captured,local_scope[1]["folds"][str(fold)],local_scope[0].parent,fold)
-            metadata = candidates.merge(
-                scope[["cancer_id", "lncrna_id", "detection_rate", "detected_cancers", "shared_or_local_scope"]
-                      + (["assessed_cancers"] if "assessed_cancers" in scope else [])],
-                on=["cancer_id", "lncrna_id"], how="left", validate="many_to_one",
-            )
-            train_discovery = metadata.merge(
-                associations["train"], on=KEYS,
-                how="left", validate="one_to_one",
-            )
-            validation_replication = metadata.merge(
-                associations["validation"], on=KEYS,
-                how="left", validate="one_to_one",
-            )
-            if train_discovery.association_available.isna().any() or validation_replication.association_available.isna().any():
-                raise RuntimeError("Adjusted association authority does not close over candidates")
+            from cc_hhgt.v32.prepared_construction import adjusted_frames
+            frames = adjusted_frames(candidates, scope, associations, cancers=cancers, fold_local=local_scope is not None)
         else:
             train_discovery = sampled_associations(expr_by, activity_by, candidates, split_manifest, "train", hierarchy, scope)
             validation_replication = sampled_associations(expr_by, activity_by, candidates, split_manifest, "validation", hierarchy, scope)
@@ -798,14 +785,10 @@ def main(argv=None) -> int:
             train_discovery["association_unavailable_reason"] = ""
             validation_replication["association_available"] = True
             validation_replication["association_unavailable_reason"] = ""
-        frames = {
-            "train": train_discovery,
-            "validation": attach_replication_labels(train_discovery, validation_replication),
-        }
-        for split, frame in frames.items():
-            frame["cross_cancer_support_frequency"] = frame.lncrna_id.map(scope.groupby("lncrna_id").detected_cancers.max()).fillna(0).to_numpy(float) / (
-                len(cancers) if local_scope is not None else 33.0)
-            frame["cross_cancer_direction_consistency"] = 0.0; frame["cross_cancer_i2"] = 0.0
+            frames = {"train": train_discovery,
+                      "validation": attach_replication_labels(train_discovery, validation_replication)}
+            from cc_hhgt.v32.prepared_construction import add_cross_cancer_features
+            add_cross_cancer_features(frames, scope, denominator=33.)
         model, baseline_metrics, x_train, x_val = _fast_l1(frames, seed=args.seed)
         train_logits = model.decision_function(x_train); val_logits = model.decision_function(x_val)
         from cc_hhgt.v32.training import PREPARED_FORMAT
@@ -826,9 +809,19 @@ def main(argv=None) -> int:
         from cc_hhgt.v32.formal_graph_authority import bind_formal_graph_variant
         import torch
         source_receipt = captured.receipt(fold=fold, mode=args.association_mode, cancers=cancers)
+        construction = None
+        if local_scope is not None:
+            from cc_hhgt.v32.prepared_construction import FORMAT as CONSTRUCTION_FORMAT, contract
+            source_receipt["feature_construction_format"] = CONSTRUCTION_FORMAT
+            construction = contract(source_receipt, frames, model, x_train, seed=args.seed)
         source_receipt_path = out / "SOURCE_READS" / f"PATIENT_FOLD_{fold}.json"
         source_receipt_path.parent.mkdir(parents=True, exist_ok=True)
         source_receipt_path.write_text(json.dumps(source_receipt, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+        if construction is not None:
+            from cc_hhgt.v32.formal_expression_sources import write, record
+            construction_path = source_receipt_path.with_name(f"PATIENT_FOLD_{fold}_CONSTRUCTION.json")
+            write(construction_path, construction)
+            construction = {"format": CONSTRUCTION_FORMAT, **record(construction_path)}
         for variant in ("G0", "G1", "G2"):
             bundle = build_variant_runtime_bundle(bound_graph.authority, variant)
             graph_binding = bind_formal_graph_variant(
@@ -866,6 +859,9 @@ def main(argv=None) -> int:
                 "patient_fold_authority": patient_binding,
                 "input_scope": {**scope_summaries[str(fold)], "candidate_definition": candidate_definition_kind, "budget_per_cancer": args.budget_per_cancer, "candidate_rows_per_split": int(len(frames["train"])), "discovery_features_split": "train_patients_only", "replication_labels_splits": ["validation"], "held_out_effects_as_features": False, "sealed_test_accessed": False, "association_mode": args.association_mode, "unavailable_rows_loss_masked": adjusted_mode},
             }
+            if construction is not None:
+                from cc_hhgt.v32.prepared_construction import attach
+                attach(payload, construction)
             attach_sources(payload, source_receipt)
             variant_root = out / variant
             prepared_path = variant_root / f"PATIENT_FOLD_{fold}.pt"

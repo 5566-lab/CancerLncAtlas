@@ -4316,3 +4316,71 @@ Final verification on 149: native_atac_scope_r3 (24 checks) and
 native_atac_consumers_r1 (72 checks), for 96 related checks on the final source.
 The first failed fixture receipt and superseded r2 pass remain recorded as
 development history. Remaining warnings are two Torch deprecations.
+
+Native prepared feature, label and baseline reconstruction
+---------------------------------------------------------
+
+Formal preparation previously recorded the input association/detection files
+without preserving enough information to independently reconstruct all tensors
+consumed by the core. The model-use inventory therefore always retained
+RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED, even when upstream file and
+normalization checks succeeded. New annotation-defined, local-CNV-adjusted
+preparation now writes a per-fold construction record and uses the same source
+join/label attachment implementation as the independent reconstruction path.
+
+prepared_construction.py records the 4096-column hashed training design,
+candidate-key digest, labels, availability-weighted fitting weights and fixed-C
+L1 configuration. The fitted binary coefficient vector and intercept live in
+SOURCE_READS/PATIENT_FOLD_<fold>_CONSTRUCTION.json. Prepared tensor files contain
+only that file's path/SHA256 reference, bound through their input authority;
+they do not embed fitted parameters or optimizer state. The original L1 fitting
+method, class weights, feature allow-list, seeds and scientific labels are
+unchanged. Historical preparation remains supported with its explicit limits.
+
+Reconstruction resolves the actual consumed candidate, training-only detection,
+pathway hierarchy and train/validation association files. It replays native
+candidate/detection definitions, rebuilds the original joins and hashed designs,
+and verifies the recorded training labels and weights. It then recomputes the
+frozen L1 linear score and reconstructs every batch tensor, including candidate
+indices, context, proxy labels, weak-positive and availability masks, direction
+labels/masks and graph availability. Comparisons follow the actual batch sizes.
+Validation effects supply validation direction targets; they do not replace
+training-discovery features. Baseline-only inspection reconstructs only training
+batches and never reads validation association files as baseline dependencies.
+
+The current model-use producer runs this reconstruction for selected native
+core inputs, G012 comparison inputs and native core exports used downstream.
+Only a successful native reconstruction removes the construction-specific gap;
+all independent normalization, association, graph, study and patient gaps remain.
+Transformation records report the inspected fold and tensor count. Their frozen
+linear score calculation is explicitly reported as model_forwards_executed=true,
+while neural_model_forwards_executed and training_started remain false. Historical
+inventories with no such linear reconstruction continue reporting false. This
+inspection does not prove the optimizer that originally produced the coefficient
+values, rerun parameter fitting, or certify biological source independence.
+
+The standalone audit_prepared_construction.py accepts --prepared,
+--expected-sha256 and a new --output; --baseline-only narrows inspection to the
+actual L1 training dependencies. It requires host 149, records CHECKING_INPUTS
+before loading, writes FAILED on mismatch, and refuses a missing native
+construction authority rather than emitting a misleading PASS. Its PASS still
+reports raw_study_ancestry_complete=false. Missing or altered native references,
+fit policy, code identity, labels, weights, keys and tensors fail validation.
+
+Synthetic checks use the actual native CNV association/core preparation route,
+with explicitly frozen zero and nonzero L1 coefficients instead of fitting. All fifteen
+G0/G1/G2 prepared files are reconstructed and label/direction masks are also
+checked directly against the original statistical tables. A separate actual
+producer run with nonzero coefficients is checked against an independent scalar
+summation oracle for all three graph variants. Existing reduced
+cohort controls remain declared fixtures. No real cohort analysis or optimizer
+ran. Complete original-study/reference ancestry and complete external evaluation
+remain C13; unified auxiliary command handoffs and final acceptance remain C16.
+
+Final verification on 149 covers 195 distinct related checks: 21 construction
+checks, 14 historical preparation-source checks, 106 upstream checks and 54
+downstream model-use/publication checks. The earlier 20 construction checks are
+superseded by the final 21-case suite and are not counted twice. The complete
+native publication fixture reaches PASS with the construction gap removed and
+other original-study, upstream-transformation and patient-use gaps retained.
+Warnings are Torch deprecations and a Starlette deprecation.

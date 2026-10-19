@@ -224,6 +224,8 @@ def validate_payload_sources(payload):
     mappings = [payload.get(k, {}) for k in ("artifact_hashes", "input_authority_hashes")]
     receipt = payload.get("preparation_sources")
     if receipt is None:
+        from .prepared_construction import validate
+        validate(payload, None)
         if any(AUTHORITY_KEY in m for m in mappings): raise ValueError("Hash-bound preparation sources are missing")
         return None  # Historical payloads remain explicitly unresolved downstream.
     validate_receipt(receipt, fold=payload["patient_fold"])
@@ -233,4 +235,6 @@ def validate_payload_sources(payload):
         raise ValueError("Preparation source receipt SHA256 differs from native authority")
     if payload.get("input_scope", {}).get("association_mode") != receipt["association_mode"]:
         raise ValueError("Preparation source mode differs from payload")
+    from .prepared_construction import validate
+    validate(payload, receipt)
     return receipt
