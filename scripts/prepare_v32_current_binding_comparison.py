@@ -5,6 +5,8 @@ No optimizer or training dispatch. Outputs retain the existing guarded trainer
 entry and blocked tasks. Input CURRENT_C_BINDING_COMPARISON_INPUT_V1 declares a
 hash-bound config, five fold_inputs (prepared/current graph_overlay/input_manifest,
 optional global_binding_source), and named native_october or rbns_sequence sources.
+Native direct G2 uses graph_input_mode=NATIVE_GLOBAL_PHYSICAL_BINDING in each
+fold record and its input manifest; it declares neither historical sidecar role.
 """
 from __future__ import annotations
 import argparse
@@ -15,6 +17,7 @@ import re
 import socket
 
 from cc_hhgt.v32.current_core_export import sha256, verified_path
+from cc_hhgt.v32.native_graph_input import NATIVE_MODE, C_OVERLAY_MODES, validate_native_base
 from cc_hhgt.v32.current_binding_graph import (
     ARMS, adapt_october_edges, normalize_binding_source, build_current_binding_arms, canonical_json_sha,
 )
@@ -55,15 +58,32 @@ def load_current_fold(record, root):
     from cc_hhgt.v32.c_graph_overlay import apply_c_graph_overlay
     from cc_hhgt.v32.training import _validate_prepared
     fold = record["fold"]
-    paths = {key: verified_path(record[key], root) for key in
-        ("prepared", "graph_overlay", "input_manifest")}
+    direct = record.get("graph_input_mode") == NATIVE_MODE
+    if direct and ({"graph_overlay", "global_binding_source"} & set(record)):
+        raise ValueError("Native direct G2 cannot declare historical overlay sources")
+    roles = ("prepared", "input_manifest") if direct else ("prepared", "graph_overlay", "input_manifest")
+    paths = {key: verified_path(record[key], root) for key in roles}
     if "global_binding_source" in record:
         paths["global_binding_source"] = verified_path(record["global_binding_source"], root)
     source = json.loads(paths["input_manifest"].read_text(encoding="utf-8"))
     matches = [r for r in source["fold_inputs"] if r["fold"] == fold]
     if len(matches) != 1 or matches[0]["sha256"] != record["prepared"]["sha256"]:
         raise ValueError("Current source fold differs from its manifest")
-    authorized = deepcopy(matches[0]); original_overlay = authorized["graph_overlay"]
+    authorized = deepcopy(matches[0])
+    if direct:
+        if (authorized.get("graph_input_mode") != NATIVE_MODE or authorized.get("graph_overlay")
+                or authorized.get("binding_expansion") or authorized.get("bytes") != paths["prepared"].stat().st_size):
+            raise ValueError("Native direct graph differs from its manifest")
+        payload = torch.load(paths["prepared"], map_location="cpu", weights_only=False)
+        validate_native_base(payload, fold)
+        from cc_hhgt.v32.fold_local_graph import replay_binding
+        replay_binding(payload["formal_graph_authority"], root, fold)
+        _validate_prepared(payload, fold=fold, artifact_hashes=payload.get("artifact_hashes", {}))
+        authorized["path"] = str(paths["prepared"])
+        return payload, authorized
+    if authorized.get("graph_input_mode") == NATIVE_MODE:
+        raise ValueError("Native direct graph cannot be loaded as a historical C overlay")
+    original_overlay = authorized["graph_overlay"]
     size_only = original_overlay.get("verification_mode") == "SIZE_AND_GRAPH_SEMANTICS_V1"
     if ((size_only and paths["graph_overlay"].stat().st_size != original_overlay.get("bytes"))
             or (not size_only and record["graph_overlay"]["sha256"] != original_overlay.get("sha256"))):
@@ -112,8 +132,15 @@ def main(argv=None):
     folds = sorted(folds, key=lambda r: r["fold"])
     config_path = verified_path(manifest["config"], root)
     common = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-    if common.get("task_contract", {}).get("rbp_evidence_mode") not in {"C_TYPED_ENCODE_V2", "C_GLOBAL_PHYSICAL_BINDING"}:
+    mode = common.get("task_contract", {}).get("rbp_evidence_mode")
+    if mode not in C_OVERLAY_MODES | {NATIVE_MODE}:
         raise ValueError("Comparison must start with the current typed C config")
+    direct = mode == NATIVE_MODE
+    if any((r.get("graph_input_mode") == NATIVE_MODE) != direct for r in folds):
+        raise ValueError("All comparison folds must use the configured graph input mode")
+    if direct and (any({"graph_overlay", "global_binding_source"} & set(r) for r in folds)
+                   or common.get("training_io", {}).get("c_graph_overlay_pattern")):
+        raise ValueError("Native direct comparison cannot mix historical C overlays")
     if common["task_contract"].get("graph_variant") != "G2":
         raise ValueError("Current C comparison requires the G2 graph variant")
     common["execution_control"] = {"execution_mode": "CODE_ONLY", "training_authorized": False,
@@ -122,19 +149,23 @@ def main(argv=None):
     # Only resolve the common patterns here. load_current_fold hashes the large
     # inputs once when they are consumed, rather than repeating a full read.
     relocated = [{"prepared": str((root/Path(r["prepared"]["path"])).resolve()),
-                  "overlay": str((root/Path(r["graph_overlay"]["path"])).resolve())} for r in folds]
+                  **({"overlay": str((root/Path(r["graph_overlay"]["path"])).resolve())} if not direct else {})} for r in folds]
     if any(Path(r["prepared"]).parent.name != "G2" for r in relocated):
         raise ValueError("Prepared folds must retain their registered G2 parent directory")
-    common.setdefault("training_io", {}).update(prepared_fold_pattern=_pattern(relocated, "prepared"),
-        c_graph_overlay_pattern=_pattern(relocated, "overlay"))
+    common.setdefault("training_io", {}).update(prepared_fold_pattern=_pattern(relocated, "prepared"))
+    if not direct: common["training_io"]["c_graph_overlay_pattern"] = _pattern(relocated, "overlay")
+    output = args.output.resolve(); output.mkdir(parents=True, exist_ok=False)
+    preflight = {"target_host": "149", "training_started": False,
+                 "stage": "PREPARE_CURRENT_C_THREE_ARM_COMPARISON", "base_graph_input_mode": mode}
+    (output/"LAUNCH_PREFLIGHT.json").write_text(json.dumps(preflight, indent=2))
     tables, source_records = load_sources(manifest["sources"], root)
     comparison = {"format": "CURRENT_C_THREE_ARM_COMPARISON_V1", "arms": list(ARMS),
         "source_manifest_sha256": sha256(args.manifest), "config_sha256": comparison_config_sha(common),
         "sources": source_records, "predicted_dropout": .5, "predicted_weight_cap": .25,
-        "edge_chunk_size": args.edge_chunk_size, "target_host": "149", "training_started": False}
-    output = args.output.resolve(); output.mkdir(parents=True, exist_ok=False)
-    (output/"LAUNCH_PREFLIGHT.json").write_text(json.dumps({"target_host": "149", "training_started": False,
-        "stage": "PREPARE_CURRENT_C_THREE_ARM_COMPARISON", "comparison_sha256": canonical_json_sha(comparison)}, indent=2))
+        "edge_chunk_size": args.edge_chunk_size, "target_host": "149", "training_started": False,
+        "base_graph_input_mode": mode}
+    (output/"LAUNCH_PREFLIGHT.json").write_text(json.dumps({**preflight,
+        "comparison_sha256": canonical_json_sha(comparison)}, indent=2))
     arm_rows = {arm: [] for arm in ARMS}; audits = []
     for record in folds:
         fold = record["fold"]; payload, authorized = load_current_fold(record, root)

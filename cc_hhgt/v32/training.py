@@ -389,11 +389,6 @@ def _validate_prepared(
         overlay = payload.get("graph_overlay_authority")
         if not isinstance(overlay, Mapping) or overlay.get("verified") is not True:
             raise RuntimeError("C graph overlay has no verified source binding")
-        if payload.get("formal_graph_authority", {}).get("format") == "CURRENT_C_BINDING_EXPANSION_AUTHORITY_V1":
-            expansion = payload.get("binding_expansion_authority", {})
-            if (expansion.get("verified") is not True
-                    or expansion.get("arm") != payload["formal_graph_authority"]["binding_expansion_arm"]):
-                raise RuntimeError("Binding expansion has no verified source/arm binding")
     elif registered is not None:
         drift = {
             key: {"prepared": registered.get(key), "authorized": artifact_hashes.get(key)}
@@ -402,6 +397,11 @@ def _validate_prepared(
         }
         if drift:
             raise RuntimeError(f"Prepared fold authorization hash mismatch: {drift}")
+    if payload.get("formal_graph_authority", {}).get("format") == "CURRENT_C_BINDING_EXPANSION_AUTHORITY_V1":
+        expansion = payload.get("binding_expansion_authority", {})
+        if (expansion.get("verified") is not True
+                or expansion.get("arm") != payload["formal_graph_authority"]["binding_expansion_arm"]):
+            raise RuntimeError("Binding expansion has no verified source/arm binding")
     forbidden_test_keys = sorted(
         key
         for key in payload
@@ -2535,30 +2535,10 @@ def run_authorized_task(context: Any) -> int:
     )
     if not isinstance(payload, Mapping):
         raise RuntimeError("Prepared fold artifact must contain a mapping")
-    rbp_mode = str(config.get("task_contract", {}).get("rbp_evidence_mode", ""))
-    overlay_active = rbp_mode in {"C_TYPED_ENCODE_V2", "C_GLOBAL_PHYSICAL_BINDING"}
-    if rbp_mode and not overlay_active:
-        raise RuntimeError(f"Unsupported RBP evidence training mode: {rbp_mode}")
-    if overlay_active:
-        from .c_graph_overlay import load_c_graph_overlay
-
-        pattern = config.get("training_io", {}).get("c_graph_overlay_pattern")
-        if not isinstance(pattern, str) or pattern.count("{fold}") != 1:
-            raise RuntimeError("C training requires one explicit graph overlay fold pattern")
-        overlay_path = Path(pattern.format(fold=fold))
-        if not overlay_path.is_absolute():
-            overlay_path = root / overlay_path
-        payload, _overlay_sha256 = load_c_graph_overlay(
-            torch,
-            input_manifest_path=ctx["input_manifest_path"],
-            overlay_path=overlay_path,
-            fold=fold,
-            parent_sha256=prepared_artifact_sha256,
-            old_payload=payload,
-        )
-    from .current_binding_overlay import load_declared_binding_expansion
-    payload = load_declared_binding_expansion(torch, payload=payload, config=config,
-        input_manifest_path=ctx["input_manifest_path"], fold=fold, root=root, task_seed=seed)
+    from .native_graph_input import load_training_graph_inputs
+    payload, overlay_active = load_training_graph_inputs(torch, payload=payload, config=config,
+        input_manifest_path=ctx["input_manifest_path"], fold=fold, root=root,
+        prepared_sha256=prepared_artifact_sha256, task_seed=seed)
     _validate_prepared(
         payload, fold=fold, artifact_hashes=ctx["artifact_hashes"],
         **({"authorized_graph_overlay": True} if overlay_active else {}),

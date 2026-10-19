@@ -34,10 +34,13 @@ def patch_controls(patch, patient_map, receipt):
     import cc_hhgt.v32.patient_fold_authority as patient
     import cc_hhgt.v32.formal_graph_authority as graph
     from test_v32_current_binding_expansion import verified_payload
+    # Import/build the generic synthetic control before patching module
+    # constants, so tests that import constants by value cannot capture ours.
+    audit = verified_payload()["patient_fold_authority"]["authority"]
     for module in (patient, graph):
         patch.setattr(module, "FROZEN_V32_SAMPLE_PATIENT_MAP_SHA256", record(patient_map)["sha256"])
         patch.setattr(module, "FROZEN_V32_RECEIPT_SHA256", record(receipt)["sha256"])
-    audit = verified_payload()["patient_fold_authority"]["authority"]
+    audit.update(manifest_sha256=record(patient_map)["sha256"], receipt_sha256=record(receipt)["sha256"])
     patch.setattr(patient, "validate_frozen_v32_patient_fold_binding", lambda *a: audit)
     patch.setattr(typed, "validate_frozen_v32_patient_fold_binding", lambda *a: audit)
     return audit

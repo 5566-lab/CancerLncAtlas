@@ -1,0 +1,74 @@
+{
+  "method": "DIRECT_NATIVE_TYPED_G2_COMPARISON_TRAINER_INPUT_AND_FROZEN_EXPORT",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "native_binding_comparison_r3",
+    "native_binding_regression_r1",
+    "native_binding_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "native_binding_comparison_r1",
+    "native_binding_comparison_r2"
+  ],
+  "intermediate_failure_causes": [
+    "Expansion reconstruction still defaulted to cohort expression schema; now preserves the actual baseline schema scope.",
+    "Synthetic control helper imported another test module after patching constants; imports now occur before patching.",
+    "Expansion loader discarded native preparation lineage stored only in artifact_hashes; now uses the existing input-authority accessor."
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_binding_graph.py",
+    "cc_hhgt/v32/current_binding_overlay.py",
+    "cc_hhgt/v32/current_core_prediction.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/native_graph_input.py",
+    "cc_hhgt/v32/training.py",
+    "scripts/export_v32_current_core_embeddings.py",
+    "scripts/prepare_v32_current_binding_comparison.py",
+    "scripts/prepare_v32_formal.py",
+    "tests/test_v32_native_binding_comparison.py",
+    "tests/test_v32_typed_graph_preparation.py"
+  ],
+  "actual_native_formal_prepared_artifacts": 15,
+  "actual_comparison_sidecars": 15,
+  "comparison_arms": [
+    "current_c",
+    "experimental",
+    "experimental_predicted"
+  ],
+  "actual_trainer_graph_loading_stage_tested": true,
+  "actual_frozen_export_loader_and_restored_models_tested": true,
+  "frozen_forward_folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "candidate_and_label_object_identity_preserved": true,
+  "source_hashes_and_existing_node_indices_preserved": true,
+  "model_state_unchanged_verified": true,
+  "native_direct_comparison_route_complete": true,
+  "historical_c_sidecar_route_preserved": true,
+  "generated_training_commands": 15,
+  "generated_training_commands_status": "BLOCKED_CODE_ONLY",
+  "test_substitutes": [
+    "synthetic frozen-cohort control metadata and hash constants",
+    "reduced candidate/cancer dimensions and closeout controls",
+    "fixed zero L1 logits",
+    "synthetic pathway activity and expansion evidence",
+    "untrained checkpoint/source-receipt serialization"
+  ],
+  "full_cohort_closeout_complete": false,
+  "biological_independence_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The earlier direct-native-to-current-comparison boundary is now closed for the verified native typed G2 route. Actual formal preparation writes pinned per-arm input manifests; explicit native mode reaches the actual three-arm comparison writer, the trainer graph-loading stage, portable prepared validation and frozen export/model restoration. All fifteen expansion payloads preserve candidate tensors, labels, non-graph input hashes, original node indices and training-patient expression scope. Original source hashes are retained when native inputs initially use artifact_hashes. All generated training commands remain blocked code-only records; no optimizer ran. Frozen full-cohort control metadata, reduced dimensions, synthetic pathway/expansion sources and fixed L1 logits remain explicit substitutes. Fixed native cohort/budget closeout, complete acquisition/patient provenance and overall consolidation/final acceptance remain open."
+}

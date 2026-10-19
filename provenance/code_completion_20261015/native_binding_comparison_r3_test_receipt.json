@@ -1,0 +1,52 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T05:13:53.274524+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_binding_graph.py": "a42bcdd5a7f1d160fc10f3969048fead411ac8e6086ed4ad2f4e717e66d7350d",
+    "cc_hhgt/v32/current_binding_overlay.py": "9da70d2a9417fef1b624faf660423056ace66d739d419aaa91ae8f3fadec8bb5",
+    "cc_hhgt/v32/current_core_prediction.py": "bb822c40eeb2819d20255f9a39436788b398d35aed51b7a368a0da369c481333",
+    "cc_hhgt/v32/current_model_use.py": "65fb73d72962bb05fa192b2277e5519afa7dfd8909f6beb14f820cdb7a2101ea",
+    "cc_hhgt/v32/native_graph_input.py": "27374a271ac99ada6aaafe0c86371ba40e71e26587cdc6486d94f05458700b1b",
+    "cc_hhgt/v32/training.py": "f3416420473a36f2e1df6947e4287564262900bce3f50b53b85d1f55ca06b0e5",
+    "scripts/export_v32_current_core_embeddings.py": "29dc4479c955224b052033c3a06d5cdd2b9674de9fae316be7c863c6efadc9e4",
+    "scripts/prepare_v32_current_binding_comparison.py": "4d40dd9ba60ce73c3d01cfaa6c9c264ebcba0eaaf34472f8a2520311b9dc5b37",
+    "scripts/prepare_v32_formal.py": "b1383f08faf2885df67cf72ce93bd8ecd7f9581e4c533fef478cc420eca4133c",
+    "tests/test_v32_native_binding_comparison.py": "83532c82e9364c6559db4baf28d9b665ffc803c5a6dc4bd099e211646ab0311e",
+    "tests/test_v32_typed_graph_preparation.py": "448819ecc6b356d0a073475e2534fb4496fc493141293a54ea56c3d26956371a"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_binding_comparison.py",
+    "tests/test_v32_current_binding_expansion.py",
+    "--junitxml=provenance/code_completion_20261015/native_binding_comparison_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T05:15:16.209657+00:00"
+}

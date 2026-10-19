@@ -174,8 +174,17 @@ def build_current_binding_arms(base_bundle, sources, *, fold, predicted_dropout=
     if accepted.empty or not accepted.graph_assay_class.eq("predicted").any() or not accepted.graph_assay_class.ne("predicted").any():
         raise ValueError("Three-arm comparison requires both new experimental and new predicted pairs")
     new_edges = materialize_typed_lnc_protein_binding(accepted, include_predicted=True, require_global_binding=True)
+    # Preserve the baseline's declared detection scope even in a fold with no
+    # expressed_in rows. The historical default is cohort-wide; native inputs
+    # explicitly register training-patient eligibility in the full schema.
+    schema = base_bundle.relation_schema_edges
+    expression_roles = set(schema.loc[schema.relation_type.eq("expressed_in"), "edge_role"])
+    scopes = {"transductive_expression_eligibility": "cohort", "fold_train_expression_eligibility": "train"}
+    if len(expression_roles) != 1 or not expression_roles <= set(scopes):
+        raise ValueError("Current C must declare exactly one expression eligibility scope")
+    expression_scope = scopes[next(iter(expression_roles))]
     authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
-                                            required_nodes=base_bundle.nodes[["node_type", "canonical_id"]])
+        required_nodes=base_bundle.nodes[["node_type", "canonical_id"]], expression_scope=expression_scope)
     # Append new nodes after all existing per-type indices. Reusing sorted
     # full-universe positions would silently change the candidate tensors.
     old_nodes = base_bundle.nodes[NODE_COLUMNS].copy()

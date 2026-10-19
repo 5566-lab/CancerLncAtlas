@@ -742,6 +742,7 @@ def main() -> int:
         }
         activity_by = {c: activity.loc[activity.cancer_id.eq(c)].copy() for c in cancers}
     metrics = []
+    prepared_rows = {variant: [] for variant in ("G0", "G1", "G2")}
     scope_summaries = {}
     detection_fit_split = "train" if local_scope is not None else "all_samples_pre_outcome"
     candidate_definition_kind = "annotation_and_gmt_only" if local_scope is not None else "legacy_cohort_detection"
@@ -858,11 +859,24 @@ def main() -> int:
             }
             attach_sources(payload, source_receipt)
             variant_root = out / variant
-            torch.save(payload, variant_root / f"PATIENT_FOLD_{fold}.pt")
+            prepared_path = variant_root / f"PATIENT_FOLD_{fold}.pt"
+            torch.save(payload, prepared_path)
+            prepared_record = {"fold": fold, "path": str(prepared_path.resolve()),
+                "sha256": sha256_file(prepared_path), "bytes": prepared_path.stat().st_size}
+            if variant == "G2" and local_scope is not None and args.graph_relation_schema_generation == "TYPED_ASSAY_CLASS_V1":
+                from cc_hhgt.v32.native_graph_input import NATIVE_MODE
+                prepared_record["graph_input_mode"] = NATIVE_MODE
+            prepared_rows[variant].append(prepared_record)
             fold_metrics = {"fold": fold, "variant": variant, **baseline_metrics, "rows": {s: int(len(f)) for s, f in frames.items()}, "graph_variant_edge_count": int(bound_graph.authority.manifest["variant_edge_counts"][variant])}
             metrics.append(fold_metrics)
             print(json.dumps({"status": "PREPARED_FORMAL", **fold_metrics}), flush=True)
     (out / "PREP_METRICS.json").write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
+    for variant, rows in prepared_rows.items():
+        (out / variant / "INPUT_MANIFEST.json").write_text(json.dumps({
+            "format": "FORMAL_PREPARED_INPUT_MANIFEST_V1", "graph_variant": variant,
+            "fold_inputs": rows, "neural_training_started": False,
+            "preparation_includes_l1_baseline_fitting": True,
+        }, indent=2) + "\n", encoding="utf-8")
     summary = {"source_lnc_n": int(scope.lncrna_id.nunique()),
         "scope_by_fold": scope_summaries, "detection_fit_split": detection_fit_split,
         "candidate_definition": candidate_definition_kind,

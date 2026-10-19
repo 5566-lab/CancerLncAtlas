@@ -88,11 +88,17 @@ in this hash, including unknown future settings.
 def _verify_base(payload, fold):
     from .formal_graph_authority import validate_formal_graph_payload_binding
     if payload.get("graph_overlay_authority", {}).get("verified") is not True:
-        raise ValueError("Binding expansion requires the verified current C overlay")
+        from .native_graph_input import validate_native_base
+        validate_native_base(payload, fold, bundle=False)
     if payload.get("binding_expansion_authority"):
         raise ValueError("An already expanded graph cannot become the current C baseline")
     validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
         variant="G2", bundle=payload["bundle"])
+
+
+def _input_authority(payload):
+    from .training import _prepared_input_authority_hashes
+    return _prepared_input_authority_hashes(payload)
 
 
 def prepare_binding_overlay(payload, arms, arm, comparison, *, non_graph_sha=None):
@@ -119,7 +125,7 @@ def prepare_binding_overlay(payload, arms, arm, comparison, *, non_graph_sha=Non
     return {"format": FORMAT, "patient_fold": fold, "binding_expansion_arm": arm,
         "bundle": bundle, "formal_graph_authority": binding,
         "base_authority_sha256": canonical_json_sha(payload["formal_graph_authority"]),
-        "base_input_authority_sha256": canonical_json_sha(payload.get("input_authority_hashes", {})),
+        "base_input_authority_sha256": canonical_json_sha(_input_authority(payload)),
         "non_graph_payload_sha256": identity, "audit": arms.audit}
 
 
@@ -166,7 +172,7 @@ def apply_binding_overlay(payload, overlay, *, fold, arm, overlay_sha, compariso
     if overlay.get("format") != FORMAT or overlay.get("patient_fold") != fold or overlay.get("binding_expansion_arm") != arm:
         raise ValueError("Expansion sidecar format/fold/arm mismatch")
     if (overlay["base_authority_sha256"] != canonical_json_sha(payload["formal_graph_authority"])
-            or overlay["base_input_authority_sha256"] != canonical_json_sha(payload.get("input_authority_hashes", {}))):
+            or overlay["base_input_authority_sha256"] != canonical_json_sha(_input_authority(payload))):
         raise ValueError("Expansion sidecar current C parent changed")
     binding = overlay["formal_graph_authority"]; bundle = overlay["bundle"]; base = payload["bundle"]
     if binding["binding_expansion_arm"] != arm or binding["comparison_sha256"] != comparison_sha:
@@ -195,7 +201,7 @@ def apply_binding_overlay(payload, overlay, *, fold, arm, overlay_sha, compariso
     result["binding_expansion_authority"] = {"verified": True, "arm": arm,
         "sidecar_sha256": overlay_sha, "comparison_sha256": comparison_sha,
         "non_graph_payload_sha256": binding["non_graph_payload_sha256"]}
-    result["input_authority_hashes"] = {**payload.get("input_authority_hashes", {}),
+    result["input_authority_hashes"] = {**_input_authority(payload),
         "binding_expansion_sidecar_sha256": overlay_sha, "binding_comparison_sha256": comparison_sha,
         "binding_expansion_graph_receipt_sha256": binding["receipt"]["sha256"]}
     return result

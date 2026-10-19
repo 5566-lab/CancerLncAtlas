@@ -52,6 +52,10 @@ def _validated_payload(paths, record, fold):
     if bool(expansion) != ("binding_expansion" in paths):
         raise ValueError("Export must use exactly the training-authorized binding expansion")
     config = yaml.safe_load(paths["config"].read_text(encoding="utf-8"))
+    from cc_hhgt.v32.native_graph_input import NATIVE_MODE, validate_source_mode
+    if (config.get("task_contract", {}).get("rbp_evidence_mode") == NATIVE_MODE) != (authorized.get("graph_input_mode") == NATIVE_MODE):
+        raise ValueError("Native graph mode differs from its training manifest")
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
     declared_arm = config.get("task_contract", {}).get("binding_expansion_arm")
     if bool(declared_arm) != bool(expansion):
         raise ValueError("Export comparison arm differs from its training config")

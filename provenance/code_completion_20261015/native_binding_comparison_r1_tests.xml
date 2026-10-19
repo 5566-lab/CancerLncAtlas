@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="20" failures="10" skipped="0" tests="47" time="61.907" timestamp="2026-10-19T13:08:57.121290+08:00" hostname="149"><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[current_c-0]" time="47.527"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[current_c-1]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[current_c-2]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[current_c-3]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[current_c-4]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental-0]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental-1]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental-2]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental-3]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental-4]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-0]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-1]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-2]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-3]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-4]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_generated_native_commands_stay_code_only" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_native_mode_rejects_incompatible_bases[legacy_cohort]" time="0.260" /><testcase classname="tests.test_v32_native_binding_comparison" name="test_native_mode_rejects_incompatible_bases[generation]" time="0.262" /><testcase classname="tests.test_v32_native_binding_comparison" name="test_native_mode_rejects_incompatible_bases[binding_source]" time="0.259" /><testcase classname="tests.test_v32_native_binding_comparison" name="test_native_mode_rejects_incompatible_bases[trained]" time="0.260" /><testcase classname="tests.test_v32_native_binding_comparison" name="test_native_mode_rejects_incompatible_bases[overlay_metadata]" time="0.253" /><testcase classname="tests.test_v32_native_binding_comparison" name="test_comparison_cli_rejects_mixed_mode_before_materialization[mode]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_comparison_cli_rejects_mixed_mode_before_materialization[mixed_fold]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_comparison_cli_rejects_mixed_mode_before_materialization[historical_overlay]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_native_binding_comparison" name="test_native_runtime_rejects_undeclared_mode_and_overlay_pattern" time="0.001"><error message="failed on setup with &quot;RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}&quot;">tests/test_v32_native_binding_comparison.py:57: in comparison
+    assert command.main(["--manifest", str(manifest), "--output", str(root / "output"), "--release", "native-synthetic"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:172: in main
+    arms = build_current_binding_arms(payload["bundle"], tables, fold=fold, edge_chunk_size=args.edge_chunk_size)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:177: in build_current_binding_arms
+    authority = build_formal_graph_authority([base, new_edges], outer_fold=fold,
+cc_hhgt/v32/formal_graph.py:730: in build_formal_graph_authority
+    raise RuntimeError(
+E   RuntimeError: Fresh graph emitted an unregistered typed relation: {('lncRNA', 'expressed_in', 'cancer', 'fold_train_expression_eligibility', False)}</error></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_three_arms_preserve_old_indices_features_edges_and_rotating_chunks" time="0.870" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_each_arm_has_identical_model_state_schema_and_real_candidate_forward" time="0.991" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_native_lineage_adapter_preserves_experimental_assay_and_provenance" time="0.041" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_native_lineage_rejects_corrupted_or_nonphysical_evidence[event_hash]" time="0.016" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_native_lineage_rejects_corrupted_or_nonphysical_evidence[endpoint]" time="0.024" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_native_lineage_rejects_corrupted_or_nonphysical_evidence[flag]" time="0.024" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_native_lineage_rejects_corrupted_or_nonphysical_evidence[functional]" time="0.025" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_native_lineage_rejects_corrupted_or_nonphysical_evidence[family]" time="0.005" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_native_lineage_rejects_corrupted_or_nonphysical_evidence[mapping]" time="0.004" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_predictions_are_unobserved_and_cannot_impersonate_experimental_edges" time="0.166" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_three_arm_builder_rejects_vacuous_comparison_and_changed_current_features" time="0.576" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_sidecar_uses_actual_training_validator_and_reuses_all_candidate_tensors" time="0.584"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:213: in test_expansion_sidecar_uses_actual_training_validator_and_reuses_all_candidate_tensors
+    payload, config, overlay = overlay_inputs()
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[label]" time="0.566"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[candidate]" time="0.582"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[new_input]" time="0.608"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[budget]" time="0.586"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[arm]" time="0.605"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[parent]" time="0.548"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[edge]" time="0.459"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_expansion_loader_rejects_changed_comparison_semantics[dropout]" time="0.464"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:226: in test_expansion_loader_rejects_changed_comparison_semantics
+    payload, config, overlay = overlay_inputs(); arm = "experimental_predicted"
+                               ^^^^^^^^^^^^^^^^
+tests/test_v32_current_binding_expansion.py:207: in overlay_inputs
+    return payload, config, prepare_binding_overlay(payload, arms, "experimental_predicted", comparison)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:100: in prepare_binding_overlay
+    fold = int(arms.audit["fold"]); _verify_base(payload, fold)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_overlay.py:95: in _verify_base
+    validate_formal_graph_payload_binding(payload["formal_graph_authority"], outer_fold=fold,
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase><testcase classname="tests.test_v32_current_binding_expansion" name="test_server149_cpu_device_is_explicit_and_has_no_cuda_calls" time="0.002" /><testcase classname="tests.test_v32_current_binding_expansion" name="test_fivefold_prepare_to_training_loader_and_frozen_export_entry_without_optimizer" time="1.592"><failure message="cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed">tests/test_v32_current_binding_expansion.py:312: in test_fivefold_prepare_to_training_loader_and_frozen_export_entry_without_optimizer
+    assert prepare.main(["--manifest", str(manifest), "--output", str(output), "--release", "synthetic", "--edge-chunk-size", "2"]) == 0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:171: in main
+    fold = record["fold"]; payload, authorized = load_current_fold(record, root)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:93: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:681: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</failure></testcase></testsuite></testsuites>

@@ -41,6 +41,7 @@ def implementations():
     root=Path(__file__).resolve().parents[2]
     names=["cc_hhgt/v32/current_model_use.py","cc_hhgt/v32/current_core_prediction.py",
         "cc_hhgt/v32/current_core_export.py","cc_hhgt/v32/current_primary_fusion.py",
+        "cc_hhgt/v32/native_graph_input.py",
         "scripts/export_v32_current_core_embeddings.py","cc_hhgt/v32/training.py",
         "cc_hhgt/v32/preparation_sources.py","scripts/prepare_v32_formal.py",
         "cc_hhgt/v32/g012_winner_lock.py","cc_hhgt/v32/selected_score.py",

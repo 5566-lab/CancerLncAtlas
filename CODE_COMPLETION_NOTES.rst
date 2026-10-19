@@ -3131,3 +3131,90 @@ and encoding edges, with PPI added only in G2. Production arm semantics were
 not changed. The initial failed receipt is retained alongside the passing
 rerun. Unknown assays, invalid identifiers and invalid weights were also added
 to the fresh global policy checks before the passing verification.
+
+Native typed G2 enters the three-arm comparison directly (2026-10-19)
+-------------------------------------------------------------------
+
+This supersedes the preceding boundary that limited current-C comparison to
+historical C graph sidecars. The formal preparation command now writes an
+INPUT_MANIFEST.json in every G0/G1/G2 directory, pinning each actual serialized
+fold file by path, SHA256 and byte size. A native scoped typed G2 row additionally
+declares graph_input_mode=NATIVE_GLOBAL_PHYSICAL_BINDING. Other graph variants
+and historical preparation modes do not receive that declaration.
+
+To compare the newly prepared native G2, use the existing
+scripts.prepare_v32_current_binding_comparison command and
+CURRENT_C_BINDING_COMPARISON_INPUT_V1 manifest. Set config.task_contract fields
+graph_variant=G2 and rbp_evidence_mode=NATIVE_GLOBAL_PHYSICAL_BINDING. Every
+fold_inputs record supplies fold, graph_input_mode with that same value,
+prepared={path,sha256}, and input_manifest={path,sha256} pointing to the actual
+G2/INPUT_MANIFEST.json. The existing named native_october and rbns_sequence
+source declarations are unchanged. Do not include graph_overlay,
+global_binding_source or training_io.c_graph_overlay_pattern in this mode.
+
+The comparison command validates actual native payloads and replays their
+fold-normalization/E1 sources before constructing the arms. Its base must be
+a fresh untrained typed global G2 with training-patient detection, a matching
+normalization proof and explicit typed binding preparation ancestry. Mixed
+native/historical folds, stale source modes and a historical overlay declared
+alongside native direct inputs are rejected. Historical C_TYPED_ENCODE_V2 and
+C_GLOBAL_PHYSICAL_BINDING configurations retain their sidecar path.
+
+The expansion builder now preserves the baseline's expression eligibility
+scope from its complete registered relation schema. This is necessary because
+the previous cohort-default reconstruction rejected native training-patient
+expressed_in edges. Reading the schema also preserves the intended scope when
+an outer fold has no active expression edges. Expanded nodes remain appended
+after existing indices; original candidate tensors, labels, non-graph inputs,
+G0-derived features and coexpression runtime assignments are retained.
+
+The actual trainer now calls native_graph_input.load_training_graph_inputs
+before model or optimizer construction. It selects the declared direct or
+historical source route, applies an authorized binding expansion and returns
+the loaded payload. Frozen core export checks the same native source-mode
+contract before applying the expansion. Both routes require a verified
+expansion arm binding even when no historical graph overlay is present.
+This shared loading stage can be exercised without calling the optimizer.
+
+Comparison output remains the three arms current_c, experimental and
+experimental_predicted, with five binding-expansion sidecars per arm. These
+sidecars are the actual comparison differences; they do not pretend to be
+historical C graph sidecars. Generated configurations remain CODE_ONLY with
+training_authorized=false, CPU host 149 and zero paid budget. Fifteen command
+records remain BLOCKED_CODE_ONLY. No training authorization or result is
+created by successful preparation.
+
+This change connects the newly generated native inputs to existing comparison,
+training-input loading and frozen export code. It does not establish that a
+real model trained on those inputs, or that all source/patient exposure,
+native cohort closeout and final project acceptance requirements are complete.
+
+Native prepared inputs initially carry their original source hashes in
+artifact_hashes. The expansion writer/loader now uses the trainer's existing
+input-authority accessor, preserving that mapping when input_authority_hashes
+has not yet been created. It then appends expansion hashes without dropping
+the original preparation source receipt. Historical overlaid inputs continue
+using their explicit input_authority_hashes. This also binds the expansion's
+parent hash to the actual native source mapping, rather than an empty mapping.
+
+Verification: native_binding_comparison_r3 records 47 passing native-direct
+and historical-expansion cases. Twenty-five new native cases include all
+three arms across five folds through actual prepared serialization, authorized
+trainer loading, frozen export restoration and forward calculations. Original
+candidate/label tensor identity, source hashes, node indices, training-only
+expression schema and unchanged model parameters are checked. Generated task
+commands are exercised only to confirm they remain blocked before training.
+native_binding_regression_r1 records 34 passing typed-preparation, training
+objective and patient-authority checks. native_binding_consumers_r1 records
+47 passing current export, source-inventory and scope prediction checks,
+including GeneSet/GMT and HTTP/browser consumption. These are 128 distinct
+scoped checks on host 149, not a full current-suite or real-cohort analysis.
+
+The first failed run exposed the cohort-default expansion schema and a test
+helper's import-time constant contamination. The second reached all fifteen
+comparison outputs but failed source-receipt validation because the expansion
+loader discarded artifact_hashes. Those implementation and test-isolation
+issues were corrected; source validation was retained. Both failed receipts
+remain available. Synthetic frozen-cohort controls, reduced closeout size,
+fixed L1 logits, synthetic pathway/expansion evidence and untrained checkpoint
+serialization are explicit test substitutes, not evidence of model training.
