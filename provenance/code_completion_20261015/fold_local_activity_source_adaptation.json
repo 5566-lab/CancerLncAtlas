@@ -1,0 +1,53 @@
+{
+  "method": "TRAIN_FITTED_NATIVE_GSVA_SSGSEA_WITH_FOLD_LOCAL_CONSUMERS",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "fold_local_activity_r2",
+    "fold_local_activity_native_regression_r1",
+    "fold_local_activity_consumers_regression_r1"
+  ],
+  "intermediate_successful_receipts": [
+    "fold_local_activity_r1"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/cnv_input_sources.py",
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/fold_local_activity.py",
+    "cc_hhgt/v32/fold_local_expression.py",
+    "cc_hhgt/v32/local_cnv_sources.py",
+    "cc_hhgt/v32/preparation_sources.py",
+    "scripts/convert_fold_local_activity.py",
+    "scripts/frozen_ssgsea.R",
+    "scripts/materialize_fold_local_ssgsea.R",
+    "scripts/materialize_v32_local_cnv_validation_associations.py",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py",
+    "tests/test_v32_current_binding_expansion.py",
+    "tests/test_v32_current_core_prediction.py",
+    "tests/test_v32_fold_local_activity.py",
+    "tests/test_v32_local_cnv_source_ancestry.py"
+  ],
+  "GSVA_version_observed": "2.4.9",
+  "actual_GSVA_on_synthetic_expression": true,
+  "training_gene_filter_and_score_range_only": true,
+  "heldout_perturbation_invariance": true,
+  "query_batch_invariance": true,
+  "native_missing_pathway_candidate_closure": true,
+  "actual_core_forward_and_GMT_study_exclusion": true,
+  "inventory_replays_GSVA_algorithm": false,
+  "inventory_replays_conversion_and_training_scaling": true,
+  "outer_test_tumors_emitted": false,
+  "whole_count_RDS_exposure_retained": true,
+  "biological_independence_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Training-fitted native ssGSEA on the frozen expression path: actual GSVA, coding-gene CPM detection, native symbol averaging, training-only score-range normalization, full pathway closure and typed missingness reach native five-fold local-CNV/adjusted core and external study exclusion. Conversion inspection replays filtering/scaling/serialization, not GSVA. Global candidate selection, legacy direct preparation, pre-RDS acquisition and full row/patient ancestry remain open. No real cohort, optimizer, paid compute or deployment."
+}

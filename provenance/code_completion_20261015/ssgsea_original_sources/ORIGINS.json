@@ -1,0 +1,18 @@
+{
+  "source_host": "149",
+  "source_files": [
+    {
+      "original_path": "/public8/DSC/CancerLncAtlas/R/02_bulk_pathway_ssgsea.R",
+      "preserved_file": "provenance/code_completion_20261015/ssgsea_original_sources/02_bulk_pathway_ssgsea.R.txt",
+      "sha256": "b487263aa05a30cb3d324247c1710ed246dd7d913fc84e2831d4d932d37eb9f2",
+      "executed": false
+    },
+    {
+      "original_path": "/public8/DSC/CancerLncAtlas/R/01_tcga_preprocess.R",
+      "preserved_file": "provenance/code_completion_20261015/ssgsea_original_sources/01_tcga_preprocess.R.txt",
+      "sha256": "cbf3f259bcf036346beb7fc586e06c2f232afa7efd322c94428c4d9ba2b7c322",
+      "executed": false
+    }
+  ],
+  "scope": "Preserved native method references; original hardcoded cohort scripts were not executed."
+}

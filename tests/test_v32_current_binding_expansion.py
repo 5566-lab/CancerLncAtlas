@@ -28,7 +28,7 @@ def source(rows):
     return frame
 
 
-def current_bundle(fold=0):
+def current_bundle(fold=0, pathway_id="P1"):
     # Added IDs sort BEFORE current IDs: a full resort would break candidates.
     binding = source([("LNC:Z", "UNIPROT:Z", "eclip", 1.)])
     coexp = pd.DataFrame({"cancer_id": ["BRCA"]*3, "lncrna_id": ["LNC:Z"]*3,
@@ -38,8 +38,8 @@ def current_bundle(fold=0):
     authority = build_formal_graph_authority([
         materialize_expressed_in(expression, candidate_pairs=expression),
         materialize_signed_coexpression(coexp, outer_fold=fold),
-        materialize_signed_membership(pd.DataFrame({"gene_id": ["G1", "G2"], "pathway_id": ["P1", "P1"], "weight": [1., -1.]})),
-        materialize_pathway_hierarchy(pd.DataFrame({"pathway_id": ["P1"], "pathway_family_id": ["F1"], "weight": [1.]})),
+        materialize_signed_membership(pd.DataFrame({"gene_id": ["G1", "G2"], "pathway_id": [pathway_id, pathway_id], "weight": [1., -1.]})),
+        materialize_pathway_hierarchy(pd.DataFrame({"pathway_id": [pathway_id], "pathway_family_id": ["F1"], "weight": [1.]})),
         materialize_protein_gene_encoding(pd.DataFrame({"protein_id": ["UNIPROT:Z"], "gene_id": ["G1"], "weight": [1.]})),
         materialize_typed_lnc_protein_binding(binding, require_global_binding=True),
     ], outer_fold=fold)

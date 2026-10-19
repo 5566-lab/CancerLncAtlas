@@ -425,7 +425,7 @@ def association_fold(
         int(np.linalg.matrix_rank(validation_design)) if len(validation_design) else 0
     )
     from cc_hhgt.v32.fold_local_expression import mark_excluded
-    return mark_excluded(out, lnc)
+    return mark_excluded(mark_excluded(out, pathway, entity="pathway_id"), lnc)
 
 
 def edge_candidate_frame(
@@ -630,8 +630,6 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
         receipt = dict(receipt)
         receipt["reused_after_sha_verification"] = True
         return receipt
-    pathway_path = Path(sources["pathway_activity_root"]["path"]) / f"cancer_id={cancer}" / "part-0.parquet"
-    pathway, pathway_duplicates = patient_matrix(pathway_path, cancer, "pathway_id", "activity_score",capture=capture,role="pathway_activity")
     columns=["cancer_id","lncrna_id","pathway_id"]
     candidates = capture.read(args.candidates,lambda p:pd.read_parquet(p,columns=columns,
         filters=[("cancer_id","==",cancer)]),role="candidates",cancer=cancer,columns=columns).astype(str)
@@ -652,22 +650,27 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
     allowed_genes = set(signed_membership.gene_id.astype(str)) | set(encoding.gene_id.astype(str))
     pair_records, edge_records = [], []
     from cc_hhgt.v32.fold_local_expression import expression_path
+    from cc_hhgt.v32.fold_local_activity import activity_path
     expression_cache, duplicate_by_fold = {}, {}
     for fold in range(5):
         matrices = {}
         for key, entity, role in (("lnc_expression_root","lncrna_id","lncrna_expression"),
-                                  ("gene_expression_root","gene_id","gene_expression")):
-            path = expression_path(sources,key,cancer,fold,args.patient_map)
+                                  ("gene_expression_root","gene_id","gene_expression"),
+                                  ("pathway_activity_root","pathway_id","pathway_activity")):
+            path = (activity_path(sources,cancer,fold,args.patient_map) if entity=="pathway_id" else
+                    expression_path(sources,key,cancer,fold,args.patient_map))
+            column = "activity_score" if entity=="pathway_id" else "logcpm"
             scope = fold if sources[key].get("layout") == "fold_local" else -1
             if scope >= 0:
-                matrices[key] = patient_matrix(path,cancer,entity,"logcpm",capture=capture,role=role,fold=scope)
+                matrices[key] = patient_matrix(path,cancer,entity,column,capture=capture,role=role,fold=scope)
                 continue
             if path not in expression_cache:
-                expression_cache[path] = patient_matrix(path,cancer,entity,"logcpm",capture=capture,role=role,fold=scope)
+                expression_cache[path] = patient_matrix(path,cancer,entity,column,capture=capture,role=role,fold=scope)
             matrices[key] = expression_cache[path]
         lnc, lnc_duplicates = matrices["lnc_expression_root"]
         gene, gene_duplicates = matrices["gene_expression_root"]
-        duplicate_by_fold[str(fold)] = {"lncrna":lnc_duplicates,"gene":gene_duplicates}
+        pathway, pathway_duplicates = matrices["pathway_activity_root"]
+        duplicate_by_fold[str(fold)] = {"lncrna":lnc_duplicates,"gene":gene_duplicates,"pathway":pathway_duplicates}
         pair = association_fold(
             cancer, fold, candidates, lnc, pathway, patient_map, cnv, covariates
         )
@@ -721,7 +724,7 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
         },
         "pair_outputs": pair_records, "g0_outputs": edge_records,
         "duplicate_patient_feature_rows_averaged": {
-            "expression_by_fold": duplicate_by_fold, "pathway": pathway_duplicates,
+            "expression_by_fold": duplicate_by_fold,
         },
         "association_C0": "shared_covariate_current_v32_formal_association",
         "association_A1_A2_covariates": list(DEFAULT_COVARIATES),

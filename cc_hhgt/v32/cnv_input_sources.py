@@ -37,7 +37,9 @@ class SourceCapture:
         path = Path(path).resolve()
         before = sha256(path)
         from .formal_expression_sources import binding, validate
+        from .fold_local_activity import binding as activity_binding, validate as validate_activity
         upstream = binding(path) if path.suffix == ".parquet" else None
+        activity = activity_binding(path) if path.suffix == ".parquet" else None
         value = reader(path)
         if sha256(path) != before:
             raise ValueError("CNV input changed while reading: " + str(path))
@@ -46,6 +48,9 @@ class SourceCapture:
         if upstream is not None:
             validate(upstream, path.parent, path)
             item["upstream_expression"] = upstream
+        if activity is not None:
+            validate_activity(activity, path.parent, path)
+            item["upstream_activity"] = activity
         key = (str(path), role, cancer, fold, split)
         previous = self.records.get(key)
         if previous is not None and previous != item:

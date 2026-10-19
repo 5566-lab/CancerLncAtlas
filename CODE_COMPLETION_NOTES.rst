@@ -2661,3 +2661,111 @@ expression/preparation/CNV-source cases. These 71 distinct scoped checks ran on
 verification, not added again to the distinct latest count. The summary's old
 top-level R parse-only label is corrected to scoped synthetic execution; the
 scope for other, unexecuted R scripts is unchanged.
+
+Training-fitted native ssGSEA activity (2026-10-19)
+------------------------------------------------
+
+The original 01_tcga_preprocess.R and 02_bulk_pathway_ssgsea.R were recovered
+from /public8/DSC/CancerLncAtlas/R on host 149 and preserved as inactive text in
+provenance/code_completion_20261015/ssgsea_original_sources, with source paths
+and hashes. Their hardcoded real-cohort commands were not executed. The original
+pathway method is actual GSVA ssGSEA, not the rank-mean fixture utility.
+
+scripts/materialize_fold_local_ssgsea.R consumes each cancer's five-fold frozen
+TMM normalization root, an explicit stable Ensembl/symbol annotation TSV and an
+explicit GMT manifest. scripts/frozen_ssgsea.R fits training-tumor detection and
+the training raw-score range. Coding genes require CPM >= 1 in at least
+max(3, ceiling(0.20 * n_training_tumors)) samples. CPM is recovered from frozen
+logCPM as 2^logCPM * (1 + 0.5/M) - 0.25*1e6/M, where M is the recorded mean
+training effective library size. Protein-coding symbols must be present in the
+annotation; duplicate symbols retain the native arithmetic mean of logCPM in
+first-occurrence order. The ssGSEA rank background includes all retained coding
+symbols, including those outside the supplied pathway sets.
+
+The native minSize=10, maxSize=500, alpha=0.25 and original GMT set size <=500
+are retained. Canonical IDs are MSIGDB:COLLECTION:GENE_SET_NAME. Actual GSVA
+2.4.9 was inspected on 149: ssGSEA does not remove constant-expression rows;
+normalize=TRUE divides raw scores by their global max-minus-min. The new path
+uses normalize=FALSE and divides by the TRAINING raw-score range, with no
+minimum subtraction or added z-score. Held-out patients cannot choose genes,
+change symbol mappings or set the normalization denominator. The callable
+apply function accepts independent query batches under that frozen state.
+
+This is a new, versioned input path. Historical 01_tcga_preprocess.R used the
+stranded_second count assay and summed duplicate stable rows. The current
+fold-local expression source uses unstranded counts and first stable rows.
+The new pipeline is not represented as numerical reproduction of historical
+cohort-normalized scores. Raw count RDS exposure is still recorded as a whole;
+only training/validation tumor matrices are exported, not outer-test matrices.
+
+Manifest schema (paths and hashes must refer to actual server files)::
+
+  {"format":"SSGSEA_GMT_INPUT_V1","collections":[
+    {"collection":"HALLMARK","file":{"path":"/actual/hallmark.gmt","sha256":"..."},
+     "study_metadata":{"dataset_id":"explicit_source_accession"}},
+    {"collection":"REACTOME","file":{"path":"/actual/reactome.gmt","sha256":"..."}},
+    {"collection":"KEGG_MEDICUS","file":{"path":"/actual/kegg_medicus.gmt","sha256":"..."}}
+  ]}
+
+Study metadata is optional but missing metadata remains an explicit inventory
+gap; no study identifier is inferred from GMT descriptions or filenames. The
+annotation requires ensembl_gene_id, gene_symbol and gene_type. Explicit study
+columns in that annotation are also followed into external exclusion.
+
+Command order, server 149 only, new outputs:
+
+* Run the fold-local expression producer and converter documented above.
+* Rscript scripts/materialize_fold_local_ssgsea.R NORMALIZATION_ROOT
+  ANNOTATION_TSV GMT_MANIFEST_JSON NEW_NATIVE_ACTIVITY_ROOT
+* python scripts/convert_fold_local_activity.py --source NEW_NATIVE_ACTIVITY_ROOT
+  --output NEW_ACTIVITY_ROOT (repeat --source for additional cancers)
+* Merge NEW_ACTIVITY_ROOT/SOURCE_CONFIG_FRAGMENT.json into the new local-CNV
+  source config. pathway_activity_root uses layout=fold_local. Keep the same
+  patient map and normalization sources as the fold-local expression inputs.
+* Run the existing local-CNV association/validation and adjusted-preparation
+  commands in the documented order. This does not authorize or launch training.
+
+Every supplied pathway and every emitted sample retains a row. activity_score
+is dimensionless training-range-normalized ssGSEA; raw_score is unnormalized
+GSVA ssGSEA. gene_count counts unique input symbols; detected_gene_count counts
+symbols after the training filter; coverage is their fraction. analysis_eligible
+and unavailable_reason retain insufficient coverage, excessive original size,
+no background genes, or a degenerate training range. Missing scores stay NaN.
+Native train/validation association rows remain typed_unavailable for excluded
+pathways; they are not silently dropped or interpreted as measured negatives.
+
+ACTIVITY_SOURCES.json binds the R output, converter, native source receipt,
+fold and cancer. Native receipts bind raw/scaled matrices, coverage, gene
+filter, state, annotation, GMT files/manifest and expression normalization.
+Conversion inspection replays gene filtering, coverage, training normalization
+and Parquet values. It does not independently rerun the GSVA algorithm.
+Actual input capture carries these dependencies through native local-CNV
+statistics, adjusted core preparation, current model-use inventory and external
+study exclusion. Inventory follows the consumed fold only and conservatively
+retains raw-file patient exposure. Historical inputs without bindings remain
+unverified rather than inheriting this implementation's guarantees.
+
+The remaining C01/C13/C16 scope includes global candidate-universe selection,
+global detection-derived scope/features, legacy direct-preparation input semantics, acquisition before count RDS,
+complete row/patient ancestry, unsupported historical comparisons, consolidated
+upstream command/schema records and final acceptance. No real cohort analysis,
+optimizer, paid compute or deployment was started by these changes.
+
+The next concrete upstream dependency is scripts/prepare_v32_formal.py:
+load_scope still reads whole-cohort detection, asserts 16,889 lncRNAs and 4,712
+shared lncRNAs, and uses detected_cancers in candidate metadata and model
+features even in adjusted mode. The new fold-local measurements do not repair
+that separate feature/universe selection. It must be addressed before claiming
+fully training-local core preparation.
+
+Verification receipts: fold_local_activity_r2 contains 14 passing new cases;
+fold_local_activity_native_regression_r1 contains 31 passing expression/native
+CNV cases; fold_local_activity_consumers_regression_r1 contains 68 passing
+preparation, CNV-input, graph-expansion, core-prediction and model-use cases.
+These are 113 distinct scoped checks on host 149, not a current whole-suite
+run. The first activity iteration's 11 passing cases are preserved as an
+intermediate source version and are not added to the latest distinct count.
+The r2 test process finished successfully; its first SCP receipt download
+failed transiently, and the existing completed receipts were then retrieved
+without rerunning the test process. Only synthetic statistics and frozen
+forwards ran; no optimizer was started.

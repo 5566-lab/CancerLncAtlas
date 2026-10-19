@@ -231,7 +231,7 @@ def _validation_a1(
     )
     out["validation_patient_n"] = len(common)
     from cc_hhgt.v32.fold_local_expression import mark_excluded
-    return mark_excluded(out, lnc)
+    return mark_excluded(mark_excluded(out, pathway, entity="pathway_id"), lnc)
 
 
 def _run(args: argparse.Namespace) -> dict[str, Any]:
@@ -284,8 +284,6 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         raise RuntimeError("Covariates authority lacks cancer_id/patient_id")
     covariates["cancer_id"] = covariates.cancer_id.astype(str).str.upper()
     covariates["patient_id"] = covariates.patient_id.map(canonical_patient)
-    pathway_path = Path(sources["pathway_activity_root"]["path"]) / f"cancer_id={cancer}" / "part-0.parquet"
-    pathway = _matrix(pathway_path, cancer, "pathway_id", "activity_score",capture=capture,role="pathway_activity")
     columns=["cancer_id","lncrna_id","pathway_id"]
     pairs = capture.read(args.candidates,lambda p:pd.read_parquet(p,columns=columns,
         filters=[("cancer_id","==",cancer)]),role="candidates",cancer=cancer,columns=columns).astype(str)
@@ -300,6 +298,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     cnv = DirectionalCNVStore(args.directional_root / f"cancer={cancer}",source_capture=capture,cancer=cancer)
     records = []
     from cc_hhgt.v32.fold_local_expression import expression_path
+    from cc_hhgt.v32.fold_local_activity import activity_path
     expression_cache = {}
     for fold in range(5):
         lnc_path = expression_path(sources,"lnc_expression_root",cancer,fold,args.patient_map)
@@ -310,6 +309,14 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             if lnc_path not in expression_cache:
                 expression_cache[lnc_path] = _matrix(lnc_path,cancer,"lncrna_id","logcpm",capture=capture,role="lncrna_expression",fold=scope)
             lnc = expression_cache[lnc_path]
+        pathway_path = activity_path(sources,cancer,fold,args.patient_map)
+        scope = fold if sources["pathway_activity_root"].get("layout") == "fold_local" else -1
+        if scope >= 0:
+            pathway = _matrix(pathway_path,cancer,"pathway_id","activity_score",capture=capture,role="pathway_activity",fold=scope)
+        else:
+            if pathway_path not in expression_cache:
+                expression_cache[pathway_path] = _matrix(pathway_path,cancer,"pathway_id","activity_score",capture=capture,role="pathway_activity",fold=scope)
+            pathway = expression_cache[pathway_path]
         validation_fold = (fold + 1) % 5
         patients = sorted(
             patient_map.loc[

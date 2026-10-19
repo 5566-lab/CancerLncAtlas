@@ -1,0 +1,86 @@
+#!/usr/bin/env Rscript
+suppressPackageStartupMessages({
+  library(data.table)
+  library(GSVA)
+  library(BiocParallel)
+})
+
+args <- commandArgs(trailingOnly = TRUE)
+project_root <- "/public8/DSC/CancerLncAtlas"
+cancers <- c("ACC","BLCA","BRCA","CESC","CHOL","COAD","DLBC","ESCA","GBM","HNSC",
+             "KICH","KIRC","KIRP","LAML","LGG","LIHC","LUAD","LUSC","MESO","OV",
+             "PAAD","PCPG","PRAD","READ","SARC","SKCM","STAD","TGCT","THCA","THYM",
+             "UCEC","UCS","UVM")
+if (length(args) && args[[1]] != "all") cancers <- strsplit(args[[1]], ",", fixed = TRUE)[[1]]
+
+collections <- list(
+  HALLMARK = file.path(project_root, "input/msigdb_hallmark.gmt"),
+  REACTOME = file.path(project_root, "input/msigdb_reactome.gmt"),
+  KEGG_MEDICUS = file.path(project_root, "input/msigdb_kegg_medicus.gmt")
+)
+
+read_gmt <- function(path, collection) {
+  lines <- readLines(path, warn = FALSE)
+  fields <- strsplit(lines, "\t", fixed = TRUE)
+  sets <- lapply(fields, function(x) unique(x[-c(1, 2)]))
+  names(sets) <- vapply(fields, `[[`, character(1), 1)
+  names(sets) <- paste("MSIGDB", collection, names(sets), sep = ":")
+  sets
+}
+gene_sets <- do.call(c, unname(Map(read_gmt, collections, names(collections))))
+
+annotation <- fread(file.path(project_root, "processed/dimensions/dim_gene.tsv"))
+symbol_map <- annotation[gene_type == "protein_coding" & gene_symbol != "", .(ensembl_gene_id, gene_symbol)]
+
+for (cancer in cancers) {
+  message("Bulk ssGSEA: ", cancer)
+  input_file <- file.path(project_root, "results/bulk", cancer, "gene_logcpm.tsv.gz")
+  outdir <- file.path(project_root, "results/bulk_pathway", cancer)
+  dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
+  dt <- fread(input_file, showProgress = FALSE)
+  gene_ids <- dt$ensembl_gene_id
+  mat <- as.matrix(dt[, -1, with = FALSE])
+  rownames(mat) <- gene_ids
+  rm(dt); gc()
+
+  map <- symbol_map[match(rownames(mat), ensembl_gene_id)]
+  keep <- !is.na(map$gene_symbol) & map$gene_symbol != ""
+  mat <- mat[keep, , drop = FALSE]
+  symbols <- map$gene_symbol[keep]
+  if (anyDuplicated(symbols)) {
+    counts_per_symbol <- table(symbols)
+    mat <- rowsum(mat, group = symbols, reorder = FALSE)
+    mat <- mat / as.numeric(counts_per_symbol[rownames(mat)])
+  } else {
+    rownames(mat) <- symbols
+  }
+
+  coverage <- rbindlist(lapply(names(gene_sets), function(pathway_id) {
+    genes <- unique(gene_sets[[pathway_id]])
+    detected <- intersect(genes, rownames(mat))
+    data.table(
+      cancer_id = cancer,
+      pathway_id = pathway_id,
+      gene_count = length(genes),
+      detected_gene_count = length(detected),
+      coverage_rate = length(detected) / length(genes),
+      usable = length(detected) >= 10 && length(genes) <= 500,
+      quality_flag = ifelse(length(detected) >= 10 && length(genes) <= 500, "pass", "insufficient_coverage_or_size")
+    )
+  }))
+  fwrite(coverage, file.path(outdir, "pathway_coverage.tsv.gz"), sep = "\t")
+  usable_sets <- gene_sets[coverage$usable]
+
+  param <- ssgseaParam(
+    exprData = mat,
+    geneSets = usable_sets,
+    minSize = 10,
+    maxSize = 500,
+    alpha = 0.25,
+    normalize = TRUE
+  )
+  scores <- gsva(param, verbose = FALSE, BPPARAM = SerialParam())
+  score_dt <- as.data.table(scores, keep.rownames = "pathway_id")
+  fwrite(score_dt, file.path(outdir, "ssgsea_scores.tsv.gz"), sep = "\t", compress = "gzip")
+  rm(mat, scores, score_dt); gc()
+}

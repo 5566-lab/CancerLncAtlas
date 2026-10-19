@@ -82,7 +82,7 @@ def test_full_candidate_feature_integrity_before_any_forward(fault):
     with pytest.raises(ValueError):prediction_batches(payload,candidates)
 
 
-def current_fixture(root):
+def current_fixture(root, pathway_id="P1"):
     from test_v32_current_binding_expansion import write_preparation_inputs
     from scripts.prepare_v32_current_binding_comparison import load_current_fold
     from cc_hhgt.v32.training import _prepared_input_authority_hashes, _runtime_chunk_contract
@@ -90,7 +90,7 @@ def current_fixture(root):
     from cc_hhgt.v32.model import build_v32_cc_hhgt_residual
     root.mkdir()
     source=json.loads(write_preparation_inputs(root).read_text())
-    candidates=pd.DataFrame({'cancer_id':['BRCA'],'lncrna_id':['LNC:Z'],'pathway_id':['P1'],'pathway_family_id':['F1']})
+    candidates=pd.DataFrame({'cancer_id':['BRCA'],'lncrna_id':['LNC:Z'],'pathway_id':[pathway_id],'pathway_family_id':['F1']})
     path=root/'candidates.parquet';candidates.to_parquet(path,index=False)
     scope=root/'scope.parquet';candidates[['cancer_id','lncrna_id']].assign(shared_or_local_scope='shared').to_parquet(scope,index=False)
     manifest={'format':'CURRENT_CORE_PREDICTION_INPUT_V1','core_run_id':'CURRENT-V4-SYNTHETIC','graph_variant':'G2',

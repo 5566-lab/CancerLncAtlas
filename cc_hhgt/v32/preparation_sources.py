@@ -79,6 +79,9 @@ def source_members(path, kind):
             from .formal_expression_sources import binding
             upstream = binding(file)
             if upstream: item["upstream_expression"] = upstream
+            from .fold_local_activity import binding as activity_binding
+            activity = activity_binding(file)
+            if activity: item["upstream_activity"] = activity
         result.append(item)
     return result
 
@@ -108,6 +111,9 @@ class SourceCapture:
             if member.get("upstream_expression"):
                 from .formal_expression_sources import validate
                 validate(member["upstream_expression"],path.parent,member["path"])
+            if member.get("upstream_activity"):
+                from .fold_local_activity import validate
+                validate(member["upstream_activity"],path.parent,member["path"])
         record = {"role": role, "path": str(path), "sha256": before, "kind": kind,
                   "fold": fold, "cancer_id": str(cancer_id), "members": members}
         for old in self.reads:
@@ -127,6 +133,9 @@ class SourceCapture:
                 if member.get("upstream_expression"):
                     from .formal_expression_sources import validate
                     validate(member["upstream_expression"],Path(item["path"]).parent,member["path"])
+                if member.get("upstream_activity"):
+                    from .fold_local_activity import validate
+                    validate(member["upstream_activity"],Path(item["path"]).parent,member["path"])
             if item.get("upstream_transformation"):
                 for source in item["upstream_transformation"].values():
                     if artifact_sha256(source["path"])!=source["sha256"]:

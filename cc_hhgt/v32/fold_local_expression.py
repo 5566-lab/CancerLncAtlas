@@ -178,7 +178,9 @@ def read_analysis_frame(path, columns):
     frame = pd.read_parquet(path, columns=columns)
     if extra:
         if len(extra) != 2: raise ValueError("Incomplete expression eligibility columns")
-        entity = "lncrna_id" if "lncrna_id" in frame else "gene_id"
+        entities = [name for name in ("lncrna_id", "gene_id", "pathway_id") if name in frame]
+        if len(entities) != 1: raise ValueError("Analysis input needs one feature identity")
+        entity = entities[0]
         status = frame[[entity, *extra]].drop_duplicates()
         if status[entity].duplicated().any() or frame.analysis_eligible.isna().any():
             raise ValueError("Inconsistent expression feature eligibility")
@@ -188,8 +190,8 @@ def read_analysis_frame(path, columns):
     return frame
 
 
-def mark_excluded(frame, expression):
-    reasons = frame.lncrna_id.map(expression.attrs.get("expression_exclusions", {})).fillna("")
+def mark_excluded(frame, expression, *, entity="lncrna_id"):
+    reasons = frame[entity].map(expression.attrs.get("expression_exclusions", {})).fillna("")
     excluded = reasons.ne("")
     frame.loc[excluded, "availability"] = "typed_unavailable"
     frame.loc[excluded, "unavailable_reason"] = reasons[excluded]

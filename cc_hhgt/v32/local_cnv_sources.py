@@ -78,6 +78,11 @@ def validate(item,root,*,expected_inputs=None,compact_root=None):
                 if (expression["fold"]!=scope or expression["cancer_id"]!=value["cancer_id"]
                         or expression["kind"]!=expected_kind):
                     raise ValueError("Local-CNV consumed fold-local expression scope differs")
+        if source.get("upstream_activity"):
+            from .fold_local_activity import validate as validate_activity
+            _,activity=validate_activity(source["upstream_activity"],path.parent,actual)
+            if activity["fold"]!=scope or activity["cancer_id"]!=value["cancer_id"] or source["role"]!="pathway_activity":
+                raise ValueError("Local-CNV consumed fold-local activity scope differs")
         if key in seen:raise ValueError("Duplicate local-CNV input role/file")
         seen.add(key)
         if source["role"]=="compact":compact[actual.name]=actual

@@ -42,15 +42,17 @@ def test_recovered_producers_reject_wrong_host_before_execution(monkeypatch,modu
         entry() if function=="main" else entry(None)
 
 
-def native_inputs(root,monkeypatch,*,expression_source=None,fold_expression_root=None,patient_map_source=None,candidate_ids=None):
+def native_inputs(root,monkeypatch,*,expression_source=None,fold_expression_root=None,patient_map_source=None,candidate_ids=None,
+                  fold_activity_root=None,pathway_ids=None):
     import scripts.run_v32_local_cnv_confounding_audit_r2 as association
     import scripts.materialize_v32_local_cnv_validation_associations as validation
     root.mkdir(parents=True)
     # Only fixture size is reduced. Native matrix reads, five folds, all
     # covariates, statistical calculations and source writers are unchanged.
     candidate_ids = candidate_ids or ["LNC:Z"]
-    monkeypatch.setattr(association,"CANDIDATES_PER_CANCER",len(candidate_ids))
-    monkeypatch.setattr(validation,"CANDIDATES_PER_CANCER",len(candidate_ids))
+    pathway_ids = pathway_ids or ["P1"]
+    monkeypatch.setattr(association,"CANDIDATES_PER_CANCER",len(candidate_ids)*len(pathway_ids))
+    monkeypatch.setattr(validation,"CANDIDATES_PER_CANCER",len(candidate_ids)*len(pathway_ids))
     n=120;t=np.arange(n,dtype=float);patients=[f"PRIVATE_LOCAL_PATIENT_{i:03}" for i in range(n)]
     if expression_source is not None:
         patients=pd.read_parquet(expression_source).patient_id.drop_duplicates().tolist()
@@ -62,10 +64,12 @@ def native_inputs(root,monkeypatch,*,expression_source=None,fold_expression_root
     sources={}
     for name,entity,column,ids,signal,pmid in (
         ("lnc_expression_root","lncrna_id","logcpm",["LNC:Z"],values,"55667788"),
-        ("pathway_activity_root","pathway_id","activity_score",["P1"],values+np.sin(t*.13)*.2,"66778899"),
+        ("pathway_activity_root","pathway_id","activity_score",pathway_ids,values+np.sin(t*.13)*.2,"66778899"),
         ("gene_expression_root","gene_id","logcpm",["G1"],values+np.cos(t*.1)*.1,"77665544")):
         if name=="lnc_expression_root" and expression_source is not None:
             sources[name]={"path":str(Path(expression_source).parent.parent)};continue
+        if name=="pathway_activity_root" and fold_activity_root is not None:
+            sources[name]={"path":str(fold_activity_root),"layout":"fold_local"};continue
         if fold_expression_root is not None and name in {"lnc_expression_root","gene_expression_root"}:
             kind="lncrna" if name=="lnc_expression_root" else "gene"
             sources[name]={"path":str(Path(fold_expression_root)/kind),"layout":"fold_local"};continue
@@ -80,15 +84,16 @@ def native_inputs(root,monkeypatch,*,expression_source=None,fold_expression_root
     cov=root/"covariates.parquet";covariates.to_parquet(cov,index=False);sources["covariates"]=record(cov)
     config=root/"source_config.json";write(config,{"sources":sources})
     candidates=root/"candidates.parquet"
-    pd.DataFrame({"cancer_id":"BRCA","lncrna_id":candidate_ids,"pathway_id":"P1"}).to_parquet(candidates,index=False)
+    pd.DataFrame([("BRCA",lnc,pathway) for lnc in candidate_ids for pathway in pathway_ids],
+                 columns=["cancer_id","lncrna_id","pathway_id"]).to_parquet(candidates,index=False)
     folds=Path(patient_map_source) if patient_map_source is not None else root/"patient_map.tsv"
     if patient_map_source is None:
         pd.DataFrame({"cancer_id":"BRCA","patient_id":patients,"patient_fold_id":np.arange(n)%5}).to_csv(folds,sep="\t",index=False)
     partition=root/"directional/cancer=BRCA";partition.mkdir(parents=True)
-    for name,ids in (("patient_ids",patients),("lncrna_ids",candidate_ids),("pathway_ids",["P1"])):write(partition/(name+".json"),ids)
+    for name,ids in (("patient_ids",patients),("lncrna_ids",candidate_ids),("pathway_ids",pathway_ids)):write(partition/(name+".json"),ids)
     for entity in ("lncrna","pathway"):
         for feature in ("signed_mean","callable","amplification","deletion"):
-            shape=(n,len(candidate_ids) if entity=="lncrna" else 1)
+            shape=(n,len(candidate_ids) if entity=="lncrna" else len(pathway_ids))
             array=np.ones(shape,dtype=bool) if feature=="callable" else np.zeros(shape,dtype=np.float32)
             np.save(partition/(entity+"_"+feature+".npy"),array)
     raw=root/"raw_segments.tsv"
@@ -223,7 +228,7 @@ def test_native_transformation_drift_rejected(tmp_path,monkeypatch,fault):
     with pytest.raises(ValueError,match="SHA256 mismatch|incomplete"):validate(item,tmp_path)
 
 
-def test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs(tmp_path,monkeypatch,*,native_factory=native_inputs,external_pmid="55667788"):
+def test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs(tmp_path,monkeypatch,*,native_factory=native_inputs,external_pmid="55667788",pathway_id="P1"):
     import test_v32_current_binding_expansion as fixtures
     from test_v32_current_core_prediction import current_fixture
     from cc_hhgt.v32.current_core_prediction import materialize_current_predictions
@@ -232,6 +237,9 @@ def test_actual_core_and_external_consumer_exclude_studies_only_in_transformatio
     from cc_hhgt.v32.external_validation_current import materialize_current_external,CurrentExternalValidationQuery
     args,vargs,_,_=native_factory(tmp_path/"native",monkeypatch)
     original=fixtures.verified_payload
+    if pathway_id!="P1":
+        original_bundle=fixtures.current_bundle
+        monkeypatch.setattr(fixtures,"current_bundle",lambda fold=0:original_bundle(fold,pathway_id=pathway_id))
     def payload(fold=0):
         result=original(fold);receipt,frames=prepared_capture(tmp_path/f"preparation{fold}",args,vargs,fold)
         for frame in frames.values():
@@ -245,7 +253,7 @@ def test_actual_core_and_external_consumer_exclude_studies_only_in_transformatio
             association_target="A1_LOCAL",association_available_mask="association_available")
         attach_sources(result,receipt);return result
     monkeypatch.setattr(fixtures,"verified_payload",payload)
-    manifest=current_fixture(tmp_path/"current")
+    manifest=current_fixture(tmp_path/"current",pathway_id=pathway_id)
     primary=materialize_current_predictions(manifest,tmp_path/"prediction",expected_run_id="CURRENT-V4-SYNTHETIC")
     spec={"model_id":"core","producer_kind":"current_core_release","producer_binding":record(primary),
           "run_id":"CURRENT-V4-SYNTHETIC","score_column":"association_membership_probability"}
@@ -254,7 +262,7 @@ def test_actual_core_and_external_consumer_exclude_studies_only_in_transformatio
     monkeypatch.setattr(exporter,"_build_model",forbidden)
     inventory=Path(materialize_current_model_use(source,tmp_path/"inventory")["binding_path"])
     crosswalk=tmp_path/"entities.parquet"
-    pd.DataFrame([("lncrna","new","LNC:NEW"),("cancer","breast","BRCA"),("pathway","p","P1")],
+    pd.DataFrame([("lncrna","new","LNC:NEW"),("cancer","breast","BRCA"),("pathway","p",pathway_id)],
         columns=["namespace","raw_id","canonical_id"]).to_parquet(crosswalk,index=False)
     observed=tmp_path/"external.parquet"
     pd.DataFrame({"record_id":["r1"],"lncrna":["new"],"cancer":["breast"],"pathway":["p"],"label":[1],

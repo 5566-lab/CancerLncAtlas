@@ -52,6 +52,9 @@ def implementations():
         "cc_hhgt/v32/patient_source_identity.py",
         "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_confounding.py",
         "cc_hhgt/v32/formal_expression_sources.py","scripts/convert_formal_lncrna_rds.py",
+        "cc_hhgt/v32/fold_local_expression.py","scripts/frozen_tmm.R","scripts/materialize_fold_local_expression.R",
+        "cc_hhgt/v32/fold_local_activity.py","scripts/frozen_ssgsea.R","scripts/materialize_fold_local_ssgsea.R",
+        "scripts/convert_fold_local_activity.py",
         "scripts/materialize_formal_lncrna_logcpm.R",
         "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/stats.py","cc_hhgt/v32/directional_cnv.py",
         "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
@@ -174,6 +177,9 @@ class Inventory:
                 if member.get("upstream_expression"):
                     from .formal_expression_sources import inspect
                     inspect(self,member["upstream_expression"],path.parent,member["path"],model,label+".expression",fold)
+                if member.get("upstream_activity"):
+                    from .fold_local_activity import inspect
+                    inspect(self,member["upstream_activity"],path.parent,member["path"],model,label+".activity",fold)
                 self.patient_use.table(member["path"],digest=member["sha256"],model=model,context=self.context_id,
                     role=label,fold=fold,phase="MODEL_SELECTION" if role=="validation_associations" else "FEATURE_CONSTRUCTION",
                     scope="WHOLE_CONSUMED_FILE_NOT_ALL_ROWS_FITTED")

@@ -1,0 +1,127 @@
+#!/usr/bin/env Rscript
+suppressPackageStartupMessages({
+  library(data.table)
+  library(edgeR)
+})
+
+args <- commandArgs(trailingOnly = TRUE)
+project_root <- "/public8/DSC/CancerLncAtlas"
+source_root <- "/dsk2/user/xumj/ShuJuKu/data/01_bulk/GDCdata"
+cancers <- c("ACC","BLCA","BRCA","CESC","CHOL","COAD","DLBC","ESCA","GBM","HNSC",
+             "KICH","KIRC","KIRP","LAML","LGG","LIHC","LUAD","LUSC","MESO","OV",
+             "PAAD","PCPG","PRAD","READ","SARC","SKCM","STAD","TGCT","THCA","THYM",
+             "UCEC","UCS","UVM")
+if (length(args) && args[[1]] != "all") cancers <- strsplit(args[[1]], ",", fixed = TRUE)[[1]]
+
+annotation <- fread(file.path(project_root, "processed/dimensions/dim_gene.tsv"))
+annotation <- annotation[grepl("^chr([1-9]|1[0-9]|2[0-2]|X|Y)$", chromosome)]
+annotation <- annotation[!duplicated(ensembl_gene_id)]
+
+barcode_type <- function(x) {
+  x <- gsub("\\.", "-", x)
+  code <- suppressWarnings(as.integer(substr(x, 14, 15)))
+  fifelse(code >= 1 & code <= 9, "tumor",
+          fifelse(code >= 10 & code <= 19, "normal",
+                  fifelse(code >= 20 & code <= 29, "control", "other")))
+}
+
+for (cancer in cancers) {
+  message("TCGA preprocess: ", cancer)
+  outdir <- file.path(project_root, "results/bulk", cancer)
+  dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
+  count_file <- file.path(source_root, paste0("TCGA-", cancer, "_stranded_second.tsv"))
+  tpm_file <- file.path(source_root, paste0("TCGA-", cancer, "_tpm_stranded_second.tsv"))
+  if (!file.exists(count_file) || !file.exists(tpm_file)) stop("Missing matrix for ", cancer)
+
+  counts_dt <- fread(count_file, showProgress = FALSE)
+  setnames(counts_dt, 1L, "ensembl_gene_id_versioned")
+  count_samples <- names(counts_dt)[-1]
+  counts <- as.matrix(counts_dt[, -1, with = FALSE])
+  storage.mode(counts) <- "integer"
+  rownames(counts) <- sub("\\.[0-9]+$", "", counts_dt$ensembl_gene_id_versioned)
+  rm(counts_dt); gc()
+
+  # Sum rare duplicate unversioned Ensembl rows (e.g. alternate annotation entries).
+  if (anyDuplicated(rownames(counts))) counts <- rowsum(counts, group = rownames(counts), reorder = FALSE)
+  common_genes <- intersect(annotation$ensembl_gene_id, rownames(counts))
+  counts <- counts[common_genes, , drop = FALSE]
+
+  library_size <- colSums(counts)
+  sample_qc <- data.table(
+    cancer_id = cancer,
+    sample_id = count_samples,
+    sample_id_hyphen = gsub("\\.", "-", count_samples),
+    patient_id = substr(gsub("\\.", "-", count_samples), 1, 12),
+    sample_type = barcode_type(count_samples),
+    library_size = as.numeric(library_size)
+  )
+  sample_qc[, sample_priority := fifelse(sample_type == "tumor" & substr(sample_id_hyphen, 14, 15) == "01", 1L,
+                                fifelse(sample_type == "tumor", 2L,
+                                fifelse(sample_type == "normal" & substr(sample_id_hyphen, 14, 15) == "11", 3L, 4L)))]
+  setorder(sample_qc, patient_id, sample_type, sample_priority, -library_size, sample_id)
+  sample_qc[, selected_within_patient_type := seq_len(.N) == 1L, by = .(patient_id, sample_type)]
+  sample_qc[, include_expression := selected_within_patient_type & sample_type %in% c("tumor", "normal")]
+  sample_qc[, include_association := include_expression & sample_type == "tumor"]
+
+  survival_file <- file.path(source_root, "survival_time", paste0("TCGA-", cancer, "_time.txt"))
+  survival_patients <- character()
+  if (file.exists(survival_file)) {
+    surv <- tryCatch(fread(survival_file), error = function(e) NULL)
+    if (!is.null(surv)) {
+      possible_ids <- unique(c(rownames(as.data.frame(surv)), as.character(surv[[1]])))
+      survival_patients <- unique(substr(gsub("\\.", "-", possible_ids), 1, 12))
+    }
+  }
+  sample_qc[, include_survival := include_association & patient_id %in% survival_patients]
+  sample_qc[, exclusion_reason := fifelse(include_expression, "",
+                                   fifelse(!sample_type %in% c("tumor", "normal"), "unsupported_sample_type", "duplicate_patient_sample"))]
+  fwrite(sample_qc, file.path(outdir, "tcga_sample_qc.tsv"), sep = "\t")
+
+  selected <- sample_qc[include_expression == TRUE, sample_id]
+  association_samples <- sample_qc[include_association == TRUE, sample_id]
+  counts_selected <- counts[, selected, drop = FALSE]
+  y <- DGEList(counts = counts_selected)
+  y <- calcNormFactors(y, method = "TMM")
+  cpm_matrix <- cpm(y, log = FALSE)
+  logcpm_matrix <- cpm(y, log = TRUE, prior.count = 0.25)
+
+  assoc_idx <- match(association_samples, colnames(cpm_matrix))
+  assoc_cpm <- cpm_matrix[, assoc_idx, drop = FALSE]
+  threshold_n <- max(3L, ceiling(0.20 * ncol(assoc_cpm)))
+  detected_n <- rowSums(assoc_cpm >= 1)
+  filter_dt <- data.table(
+    cancer_id = cancer,
+    ensembl_gene_id = rownames(assoc_cpm),
+    n_samples = ncol(assoc_cpm),
+    n_detected = detected_n,
+    detection_rate = detected_n / ncol(assoc_cpm),
+    median_cpm = apply(assoc_cpm, 1L, median),
+    mean_logcpm = rowMeans(logcpm_matrix[, assoc_idx, drop = FALSE]),
+    pass_filter = detected_n >= threshold_n,
+    filter_rule = paste0("CPM>=1 in >=max(3,20% tumor samples); threshold_n=", threshold_n)
+  )
+  filter_dt <- merge(filter_dt, annotation[, .(ensembl_gene_id, gene_symbol, gene_type)], by = "ensembl_gene_id", all.x = TRUE)
+  fwrite(filter_dt[gene_type == "lncRNA"], file.path(outdir, "bulk_lncRNA_filter.tsv.gz"), sep = "\t")
+
+  pass_lnc <- filter_dt[gene_type == "lncRNA" & pass_filter, ensembl_gene_id]
+  pass_pc <- filter_dt[gene_type == "protein_coding" & pass_filter, ensembl_gene_id]
+
+  tpm_dt <- fread(tpm_file, showProgress = FALSE)
+  setnames(tpm_dt, 1L, "ensembl_gene_id_versioned")
+  tpm <- as.matrix(tpm_dt[, -1, with = FALSE])
+  rownames(tpm) <- sub("\\.[0-9]+$", "", tpm_dt$ensembl_gene_id_versioned)
+  if (anyDuplicated(rownames(tpm))) tpm <- rowsum(tpm, group = rownames(tpm), reorder = FALSE)
+  lnc_output_genes <- sort(Reduce(intersect, list(pass_lnc, rownames(tpm), rownames(logcpm_matrix))))
+  tpm <- tpm[lnc_output_genes, selected, drop = FALSE]
+  rm(tpm_dt); gc()
+
+  write_matrix <- function(mat, path) {
+    dt <- as.data.table(mat, keep.rownames = "ensembl_gene_id")
+    fwrite(dt, path, sep = "\t", compress = "gzip")
+  }
+  write_matrix(logcpm_matrix[lnc_output_genes, , drop = FALSE], file.path(outdir, "lnc_logcpm.tsv.gz"))
+  write_matrix(tpm, file.path(outdir, "lnc_tpm.tsv.gz"))
+  write_matrix(logcpm_matrix[intersect(rownames(logcpm_matrix), pass_pc), , drop = FALSE], file.path(outdir, "gene_logcpm.tsv.gz"))
+  saveRDS(list(norm_factors = y$samples, filter_rule = unique(filter_dt$filter_rule)), file.path(outdir, "normalization_metadata.rds"))
+  rm(counts, counts_selected, y, cpm_matrix, logcpm_matrix, assoc_cpm, tpm); gc()
+}

@@ -1,0 +1,39 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T03:26:59.425581+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/cnv_input_sources.py": "c8a3196e608389910d0962e7ddead6f03547a8c47971dfdb65ede7fa37341e12",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "bb58acca7e1081903f6dc0bde6cfc95b41f70e50d296f2460f182de34614cca7",
+    "cc_hhgt/v32/current_model_use.py": "ce44945f47f9a7629288d092133f8460694371e1f040acdcee8b0bd260db9c75",
+    "cc_hhgt/v32/fold_local_activity.py": "4ae7cafa155f47f6c24a77b3e885245c00aabfd38c345b6fb8435a326d254b2c",
+    "cc_hhgt/v32/fold_local_expression.py": "c5b003b36f037aa28e19d5e9ba9833acc7944d659ac0ab78bfbf548f1abed43c",
+    "cc_hhgt/v32/local_cnv_sources.py": "921b31293e758f7c55c47fd6fadbd137e25a5e6f63b62106e915598c2832a155",
+    "cc_hhgt/v32/preparation_sources.py": "63474110346ccbefa49b6ccc34fca73dab05840c5b9cfa33697945d1f7f2216c",
+    "scripts/convert_fold_local_activity.py": "5cca24109c309282860a340baebae59238f83a5c9b5e497cdfe8f6d252f4a08d",
+    "scripts/frozen_ssgsea.R": "d8461490358c6218390404ad7e6ab2aa591767af904fc54471494bfe030dc7ae",
+    "scripts/materialize_fold_local_ssgsea.R": "ee7a5d299e56461183145242d3a81af8950e95c4ae50371aa209884e83722695",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "9ac2b8934b8e21b26c61e52c28a65857d458ba31eabf32cdc2df48b06196ec17",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "d54935d5873904a935a7633746a4100dcbec6b8e292b05b62cc182715e8313dd",
+    "tests/test_v32_current_binding_expansion.py": "413a676afe3d6c1f766e971f7a396b6249d28c6eb9378739af67c968d916d59a",
+    "tests/test_v32_current_core_prediction.py": "75aa835f9dfa57f551c57a0865b907738bbe7489cc1a3e05bf42daee7eea3be6",
+    "tests/test_v32_fold_local_activity.py": "69177ecfd9773628526fe1ac4dc6d1657ec82cd4f3336061ccdb0e971bd279bd",
+    "tests/test_v32_local_cnv_source_ancestry.py": "66d642494c5ae35b21e68494beef9028fcc97e24a090416150868ab2a301e5b6"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_preparation_sources.py",
+    "tests/test_v32_cnv_input_sources.py",
+    "tests/test_v32_current_binding_expansion.py",
+    "tests/test_v32_current_core_prediction.py",
+    "tests/test_v32_current_model_use.py",
+    "--junitxml=provenance/code_completion_20261015/fold_local_activity_consumers_regression_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T03:28:00.029748+00:00"
+}
