@@ -12,6 +12,7 @@ from .evidence_rule_summary import KEYS, stable_id
 from .selected_score import materialize_selected_scores, load_selected_scores
 from .genesets import genesets_to_gmt_lines
 from .subtypes import RankedSubtypeConfig, classify_pathway_context_subtypes, classify_cancer_program_subtypes
+from .prediction_scope import validate_annotations, geneset_eligibility, FOLD_COLUMNS, FOLD_BASIS
 
 
 @dataclass(frozen=True)
@@ -19,26 +20,40 @@ class SelectedGeneSetConfig:
     min_members: int = 10
     max_members: int = 200
     score_min: float = .5
+    min_expression_folds: int | None = None
 
     def validate(self):
         if (type(self.min_members) is not int or type(self.max_members) is not int
                 or self.min_members < 1 or self.max_members < self.min_members
                 or not np.isfinite(self.score_min) or not 0 <= self.score_min <= 1):
             raise ValueError("Invalid selected Gene Set thresholds")
+        if self.min_expression_folds is not None and (
+                type(self.min_expression_folds) is not int or self.min_expression_folds not in range(1, 6)):
+            raise ValueError("min_expression_folds must be an integer from 1 to 5")
 
 
 def add_fold_support(scores, binding, config):
     result = scores.sort_values(KEYS).reset_index(drop=True).copy()
+    native_scope = validate_annotations(result)
+    expression_eligible = geneset_eligibility(result, config.min_expression_folds)
     source = binding["sources"]; available = source["selected_fold_estimates_available"]
     records = source["reference_fold_sources"]
     if len(records) != 5 or {r["fold"] for r in records} != set(range(5)): raise ValueError("Incomplete primary fold annotation sources")
     n = len(result); total = np.zeros(n); squared = np.zeros(n); selected = np.zeros(n); percentile = np.zeros(n); agreement = np.zeros(n)
+    rank_eligible_count = np.zeros(n, dtype=int)
     for record in sorted(records, key=lambda r: r["fold"]):
         path = verified_path(record, Path.cwd())
         columns = [*KEYS, "association_direction_probability"]
+        if native_scope: columns += ["shared_or_local_scope", "scope_basis", "scope_outer_fold"]
         if available: columns.append(source["selected_fold_score_column"])
         frame = pd.read_parquet(path, columns=list(dict.fromkeys(columns))).sort_values(KEYS).reset_index(drop=True)
         if not result[KEYS].equals(frame[KEYS]): raise ValueError("Fold support candidate universe changed")
+        fold_eligible = np.ones(n, dtype=bool)
+        if native_scope:
+            if (not frame.scope_basis.eq(FOLD_BASIS).all() or not frame.scope_outer_fold.eq(record["fold"]).all()
+                    or not frame.shared_or_local_scope.equals(result[FOLD_COLUMNS[record["fold"]]])):
+                raise ValueError("GeneSet fold support differs from native scope annotations")
+            fold_eligible = frame.shared_or_local_scope.ne("not_expression_eligible").to_numpy()
         p = pd.to_numeric(frame.association_direction_probability, errors="coerce").to_numpy(float)
         if not np.isfinite(p).all() or ((p < 0) | (p > 1)).any(): raise ValueError("Invalid per-fold direction probabilities")
         direction = np.select([p>.5, p<.5], ["positive", "negative"], default="unknown")
@@ -49,22 +64,30 @@ def add_fold_support(scores, binding, config):
             total += values; squared += values**2
             # Selection means membership after the same directional threshold,
             # size and deterministic tie policy as the final Gene Sets.
-            fold = frame.assign(_value=values, _direction=direction, _eligible=values >= config.score_min)
+            fold = frame.assign(_value=np.where(fold_eligible, values, np.nan), _direction=direction,
+                                _eligible=(values >= config.score_min) & fold_eligible)
             fold_groups = fold.groupby(["cancer_id", "pathway_id", "_direction"])
             eligible_count = fold_groups["_eligible"].transform("sum").to_numpy()
             rank = fold_groups["_value"].rank(method="first", ascending=False).to_numpy()
-            selected += (values >= config.score_min) & (rank <= config.max_members) & (eligible_count >= config.min_members)
-            groups = frame.assign(_value=values).groupby(["cancer_id", "pathway_id"])
+            selected += fold_eligible & (values >= config.score_min) & (rank <= config.max_members) & (eligible_count >= config.min_members)
+            groups = frame.assign(_value=np.where(fold_eligible, values, np.nan)).groupby(["cancer_id", "pathway_id"])
             ranks = groups["_value"].rank(method="average", ascending=False)
-            counts = groups["_value"].transform("size")
-            percentile += 1-(ranks.to_numpy()-1)/np.maximum(counts.to_numpy()-1, 1)
+            counts = groups["_value"].transform("count")
+            percentile += np.nan_to_num(1-(ranks.to_numpy()-1)/np.maximum(counts.to_numpy()-1, 1), nan=0.)
+            rank_eligible_count += fold_eligible
     result["primary_direction_fold_agreement"] = np.where(result.direction_available, agreement/5, np.nan)
     result["selected_fold_estimates_available"] = available
     result["selected_score_fold_count"] = 5 if available else 0
     result["selected_score_fold_sd"] = np.sqrt(np.maximum((squared-total**2/5)/4, 0)) if available else np.nan
     result["selected_fold_selection_frequency"] = selected/5 if available else np.nan
-    result["selected_fold_selection_definition"] = "PER_FOLD_DIRECTIONAL_GENESET_MEMBERSHIP_WITH_SELECTED_THRESHOLDS"
-    result["selected_fold_rank_percentile_mean"] = percentile/5 if available else np.nan
+    result["selected_fold_selection_definition"] = ("PER_FOLD_DIRECTIONAL_GENESET_MEMBERSHIP_WITH_FOLD_EXPRESSION_ELIGIBILITY"
+        if native_scope else "PER_FOLD_DIRECTIONAL_GENESET_MEMBERSHIP_WITH_SELECTED_THRESHOLDS")
+    result["selected_fold_rank_percentile_mean"] = np.divide(percentile, rank_eligible_count,
+        out=np.full(n, np.nan), where=rank_eligible_count > 0) if available else np.nan
+    if native_scope:
+        result["selected_fold_rank_eligible_count"] = rank_eligible_count
+        result["geneset_expression_eligible"] = expression_eligible
+        result["geneset_min_expression_folds"] = config.min_expression_folds
     result["selected_fold_unavailable_reason"] = None if available else "SELECTED_PRODUCER_HAS_NO_MATCHED_FOLD_ESTIMATES"
     return result
 
@@ -72,20 +95,26 @@ def add_fold_support(scores, binding, config):
 def selected_gene_sets(scores, config):
     config.validate()
     if not scores.selected_score.between(0, 1).all(): raise ValueError("Invalid selected scores")
+    expression_eligible = geneset_eligibility(scores, config.min_expression_folds)
     master_rows = []; member_frames = []; coverage_rows = []
     grouping = ["cancer_id", "pathway_id", "association_direction"]
     version = scores.selected_score_run_id.unique()
     if len(version) != 1: raise ValueError("Gene Sets cannot mix selected-score runs")
     for keys, group in scores.groupby(grouping, sort=True):
         cancer, pathway, direction = keys
-        eligible = group.loc[group.selected_score.ge(config.score_min)].sort_values(["selected_score", "lncrna_id"], ascending=[False, True], kind="stable")
+        scope_allowed = expression_eligible.loc[group.index]
+        score_allowed = group.selected_score.ge(config.score_min)
+        eligible = group.loc[score_allowed & scope_allowed].sort_values(["selected_score", "lncrna_id"], ascending=[False, True], kind="stable")
         chosen = eligible.head(config.max_members)
         passing = len(chosen) >= config.min_members
         count = len(chosen) if passing else 0
         boundary_ties = int(eligible.selected_score.eq(chosen.selected_score.iloc[-1]).sum()) if len(eligible)>config.max_members else 0
         coverage = {"cancer_id": cancer, "pathway_id": pathway, "association_direction": direction, "candidate_rows": len(group),
-            "rows_passing_score": len(eligible), "exported_members": count, "geneset_available": passing,
-            "unavailable_reason": None if passing else "FEWER_THAN_MIN_MEMBERS_AFTER_SELECTED_SCORE_THRESHOLD",
+            "rows_passing_score": int(score_allowed.sum()), "exported_members": count, "geneset_available": passing,
+            "rows_passing_expression_scope": int(scope_allowed.sum()),
+            "rows_passing_score_and_expression": len(eligible), "min_expression_folds": config.min_expression_folds,
+            "unavailable_reason": None if passing else ("NO_CANDIDATE_MEETS_EXPRESSION_FOLD_THRESHOLD" if not scope_allowed.any()
+                else "FEWER_THAN_MIN_MEMBERS_AFTER_SELECTED_SCORE_THRESHOLD"),
             "boundary_tie_count": boundary_ties, "selected_score_min": config.score_min,
             "min_members": config.min_members, "max_members": config.max_members}
         for column in group:
@@ -98,13 +127,14 @@ def selected_gene_sets(scores, config):
         master_rows.append({"geneset_id": identifier, "geneset_name": name, "geneset_type": "selected_score_exact_pathway_ranked",
             "cancer_id": cancer, "pathway_id": pathway, "pathway_family_id": chosen.pathway_family_id.iloc[0], "direction": direction,
             "member_count": count, "shared_member_count": int(chosen.shared_or_local_scope.eq("shared").sum()),
-            "local_member_count": int(chosen.shared_or_local_scope.eq("cancer_local").sum()), "pathway_target_level": "exact_pathway",
+            "local_member_count": int(chosen.shared_or_local_scope.eq("cancer_local").sum()),
+            "fold_variable_member_count": int(chosen.shared_or_local_scope.eq("fold_variable").sum()), "pathway_target_level": "exact_pathway",
             "ranking_score_column": "selected_score", "rank_tie_policy": "SCORE_DESC_THEN_STABLE_LNCRNA_ID",
             "rule_evidence_used_for_ranking": False})
         ranked = chosen.copy(); ranked.insert(0, "geneset_id", identifier); ranked.insert(1, "geneset_rank", np.arange(1, count+1))
         ranked["pathway_target_level"] = "exact_pathway"; member_frames.append(ranked)
     master_columns = ["geneset_id", "geneset_name", "geneset_type", "cancer_id", "pathway_id", "pathway_family_id", "direction",
-        "member_count", "shared_member_count", "local_member_count", "pathway_target_level", "ranking_score_column", "rank_tie_policy", "rule_evidence_used_for_ranking"]
+        "member_count", "shared_member_count", "local_member_count", "fold_variable_member_count", "pathway_target_level", "ranking_score_column", "rank_tie_policy", "rule_evidence_used_for_ranking"]
     master = pd.DataFrame(master_rows, columns=master_columns)
     members = pd.concat(member_frames, ignore_index=True) if member_frames else pd.DataFrame(columns=["geneset_id", "geneset_rank", *scores.columns, "pathway_target_level"])
     return master, members, pd.DataFrame(coverage_rows)
@@ -120,9 +150,12 @@ def selected_subtypes(scores, members, config):
     conservation_columns = ["pathway_id", "pathway_family_id", "n_evaluable_cancers", "mean_pairwise_similarity",
         "bootstrap_ci_lower", "bootstrap_ci_upper", "selected_k", "proposed_k", "silhouette", "bootstrap_ari", "classification_status"]
     pair_columns = ["pathway_id", "pathway_family_id", "cancer_a", "cancer_b", "rbo_similarity", "weighted_jaccard_similarity", "combined_similarity"]
-    if directed.empty:
+    # Existing subtype estimands use shared members only. Fold-varying members
+    # remain in GeneSets, but cannot be silently relabelled as shared or local.
+    profiles = directed.loc[directed.shared_or_local_scope.eq("shared")] if "scope_basis" in scores else directed
+    if profiles.empty:
         context = pd.DataFrame(columns=context_columns); conservation = pd.DataFrame(columns=conservation_columns); pairwise = pd.DataFrame(columns=pair_columns)
-    else: context, conservation, pairwise = classify_pathway_context_subtypes(directed, config)
+    else: context, conservation, pairwise = classify_pathway_context_subtypes(profiles, config)
     context = base.merge(context, on=list(base), how="left", validate="one_to_one")
     context["classification_status"] = context.classification_status.fillna("UNAVAILABLE")
     for column in ("pathway_context_subtype_id", "pathway_context_subtype"): context[column] = context[column].fillna("UNAVAILABLE")
@@ -148,6 +181,7 @@ def selected_subtypes(scores, members, config):
         "cancer_program_subtype": program, "cancer_program_similarity": program_similarity}
     for frame in tables.values():
         frame["subtype_score_column"] = "selected_score"; frame["subtype_feedback_to_model"] = False
+        if "scope_basis" in scores: frame["subtype_scope_policy"] = "UNANIMOUS_TRAINING_FOLD_SHARED"
         if "classification_status" in frame:
             frame["available"] = frame.classification_status.ne("UNAVAILABLE")
             for column in ("selected_k", "proposed_k"):

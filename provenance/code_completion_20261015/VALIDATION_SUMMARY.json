@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 767,
+  "unique_test_cases_passed": 781,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -69,7 +69,7 @@
     "cc_hhgt/v32/safe_graph.py": "00974657223b7ad141140eb556833b721cdb4f821276e3586e940b28e1d98985",
     "cc_hhgt/v32/orchestration.py": "a759ee75972d3f41797a081529d25878c6aecdebdc7b0b3cc000eae8ee34b8e2",
     "scripts/prepare_v32_current_binding_comparison.py": "06d43f85a2e200d89a488c6d1067b5963c865cff9e3e93257a1f8cf6dfc894b6",
-    "tests/test_v32_current_binding_expansion.py": "413a676afe3d6c1f766e971f7a396b6249d28c6eb9378739af67c968d916d59a",
+    "tests/test_v32_current_binding_expansion.py": "f5d51c90de2234bdc4192efc23d323bdc2a63161cfc81e497880a266d667c5f5",
     "cc_hhgt/v32/evidence_rule_summary.py": "70b3954d8f048d1aab28ba97c7e1d059fc6b9b7f872dd78d9a904f8da50b8b15",
     "cc_hhgt/v32/evidence_rule_sources.py": "6aecfaac0ce592095ee6134d7054066bc8fce8ce26f3b4c60b20e9593b363680",
     "cc_hhgt/v32/evidence_rule_audit.py": "41207ed2cb3aceea3bb2720bf75badfd715285f317cb90eb302934074fc72e98",
@@ -88,8 +88,8 @@
     "cc_hhgt/v32/external_validation_current.py": "e8116d6eed9201c8f95393ed620f7e17a61be2a39a55da07f576b77ca762f9c3",
     "scripts/analyze_v32_current_external_validation.py": "7e07b081a45320aaf75736340617b81246032e41a3f93dfdb435dcd1a050b5cd",
     "tests/test_v32_current_external_validation.py": "955414265e940228dfad35a6f241ee6423fa697be4f3e963b85ed1023f8f03cc",
-    "cc_hhgt/v32/selected_score.py": "e04224259acc9d638d3a14f4f815cda91229883ea762d3d9e675d5847b6cb0d7",
-    "cc_hhgt/v32/selected_genesets.py": "d25db37e46ac8144ba0a178899945000c4e68c8199c90f507e542993f074bb44",
+    "cc_hhgt/v32/selected_score.py": "ebd1d8e77c0586ba9acef0b16d9bc030097783340e71a87986985976b5685f18",
+    "cc_hhgt/v32/selected_genesets.py": "54d8f8322871f43b9e81c5e44af621c2f632e1bc2b823c6d03ac40e158e10d00",
     "cc_hhgt/v32/subtypes.py": "dc2412a90cd5a58e43e8321d58a98634dc5d44a168cd8f908f9773f447be1920",
     "scripts/materialize_v32_selected_analysis.py": "d7b6eb0bf83709cf0fd145c3dc2d9369f484b962ee45d03b4fe7dcafc7659a1f",
     "scripts/materialize_v32_release.py": "941d0852e978c6d6f117ef0d9c5b8b9e8691ecf3a0ec6645052ff70bb5d5ca1a",
@@ -97,7 +97,7 @@
     "tests/test_v32_selected_analysis.py": "88944cc0b3289036905fd60ad7b6c988fa4b1d8cc4dbfc6d532648ff78478d7a",
     "tests/test_v32_subtypes.py": "855b5f209237585952f78936fb13553072fa0b6721dd3e3890ff565e26935a01",
     "tests/test_v32_genesets.py": "75f438475616550840210edc7d8117d527c3cd2bfc99ae860ff194446c66711e",
-    "cc_hhgt/v32/current_core_prediction.py": "cf82a1ce416dfc4a1ba37916f1a168a4542c46af506c249530da4ddd9bbfb96b",
+    "cc_hhgt/v32/current_core_prediction.py": "ea0054328b84911d00d587b9a41b7f2d16e3ca802d0fd3be8de8fb55e3e6ed13",
     "scripts/infer_v32_current_candidates.py": "1dae81861195b0861edeea63f260317a1ca782ec96586a9d289f4986be9e7774",
     "scripts/infer_v32_release_fold.py": "ba33d64376cc5d4d62d4b6bc7e8a8a6be4f46a0108bc0e2a67383eec43a3efad",
     "scripts/audit_v32_current_candidates.py": "b08befd195a533709e3952ab92108c82eaf16b2147403b63af92c525a06114e8",
@@ -143,7 +143,7 @@
     "src/cc_hhgt_v26/query_service.py": "19621739215335311a9192405b15fcb89c1f9aeec51fb9abe15a8f00ea83810d",
     "src/cc_hhgt_v26/query_models.py": "185b5608a1320f2663cc03ca34365af4dd90ddd2de03d8ce9616d23749f7b729",
     "website/frontend/current-analysis.html": "2e4b9984e27fc1799bd00e42f46eb155b2c686ab87fe189a80192b67ebea4f14",
-    "website/frontend/assets/current-analysis.js": "e92eb7f48c4df9f365d314153f55eb4ec9f40ee3ed3201a0a6684f2dcf67b563",
+    "website/frontend/assets/current-analysis.js": "b3cfa4cc638bfbece22b0264a89b3285aff298df60023eea9783d43ea45b90b2",
     "website/frontend/assets/current-analysis.css": "585546ef543374e5c85551ffc898aefeccbec401932bcf3d4611cbbb83b1bf00",
     "website/frontend/assets/mark.svg": "50829b47affe907dd1569d06051925f65c69130570229f1e85ffaa2957d74bc5",
     "tests/test_v32_current_analysis_web.py": "f015f8a176b439a66864f2a9a599f2bd91f073e278a0e3a805dd249281a4b39c",
@@ -161,7 +161,7 @@
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "1ea88912d0a66bd31443d35b36e336f0ca1214701a1990ce0a929197690c569c",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
-    "cc_hhgt/v32/current_model_use.py": "ab23e61191bfc118caedc7358dc16b36b06939a2fcd1fff6e3bd1b3415cb6d9d",
+    "cc_hhgt/v32/current_model_use.py": "5b8ce20a30e20a84bb50954f1fc343d23028877de776505bb1661cfeda255181",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "75c340c6e0bac50d2aff0840ec4cfc4ef5b972b37fa3c28da0d8536f39732323",
     "cc_hhgt/v32/preparation_sources.py": "0bb6b8f4596963ae7a941ca3311bb294881a36cc94f2cac8bb9effdfa6ef9a2e",
@@ -221,7 +221,9 @@
     "tests/test_v32_fold_local_activity.py": "69177ecfd9773628526fe1ac4dc6d1657ec82cd4f3336061ccdb0e971bd279bd",
     "cc_hhgt/v32/fold_local_scope.py": "0880e6aad4602f6e1628ff59629e1eff82252d80b44e58d8241418459b09bf70",
     "scripts/materialize_fold_local_scope.py": "926f8374d62c42a89757982e44b9977d1a7e3e0cc1fd0f488269fb7a2a120fc9",
-    "tests/test_v32_fold_local_scope.py": "14c3856e34f9b775aa77e200b1a2bf453803c4f0adc4abc8ad63f04bf7849412"
+    "tests/test_v32_fold_local_scope.py": "14c3856e34f9b775aa77e200b1a2bf453803c4f0adc4abc8ad63f04bf7849412",
+    "cc_hhgt/v32/prediction_scope.py": "efcb5ae49ab22eb1ad4109b4afa84fed0a2d273f34e0351d353a3b6eb2ab8bc4",
+    "tests/test_v32_prediction_scope.py": "65ce49143888d06b9fc86fd8f729815ce252841de992d505966c70df67918173"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -341,7 +343,8 @@
     "Cohort-level TMM is explicitly not fold-local. GDC acquisition before count RDS, pathway/gene preprocessing, complete per-row exposure, unsupported historical bindings and final C01/C13/C16 acceptance remain open. No raw-normalization statistical replay is claimed by inventory inspection; it replays only RDS conversion and verifies native upstream bindings. Cumulative tests are versioned history, not a single current-code full-suite run.",
     "Frozen fold-local TMM expression: actual training-only reference, factor centering, logCPM prior and tumor detection are implemented; lncRNA and coding-gene outputs reach native five-fold CNV/adjusted-core preparation and actual external exclusion. Raw count RDS is still read as a whole. Direct legacy preparation, global candidate selection, pathway activity, GDC acquisition and complete per-row exposure are not declared independent. Synthetic edgeR and frozen model forwards only; real cohorts/optimization/deployment were not run.",
     "Training-fitted native ssGSEA on the frozen expression path: actual GSVA, coding-gene CPM detection, native symbol averaging, training-only score-range normalization, full pathway closure and typed missingness reach native five-fold local-CNV/adjusted core and external study exclusion. Conversion inspection replays filtering/scaling/serialization, not GSVA. Global candidate selection, legacy direct preparation, pre-RDS acquisition and full row/patient ancestry remain open. No real cohort, optimizer, paid compute or deployment.",
-    "Annotation/GMT-only candidates and training-patient detection now reach native adjusted association inputs, per-fold model features and expressed_in edges with actual source capture. Candidate and scope values replay from native inputs; association normalization must match. Synthetic actual preparation writes G0/G1/G2 for one fold with explicit frozen-cohort control and L1-fit substitutes. Final current inference still requires global shared/local scope; subset/candidate-budget closeout and matching coexpression-normalization enforcement remain open. No real cohort analysis, optimizer, paid compute or deployment."
+    "Annotation/GMT-only candidates and training-patient detection now reach native adjusted association inputs, per-fold model features and expressed_in edges with actual source capture. Candidate and scope values replay from native inputs; association normalization must match. Synthetic actual preparation writes G0/G1/G2 for one fold with explicit frozen-cohort control and L1-fit substitutes. Final current inference still requires global shared/local scope; subset/candidate-budget closeout and matching coexpression-normalization enforcement remain open. No real cohort analysis, optimizer, paid compute or deployment.",
+    "Supersedes the earlier downstream-global-scope limitation: actual five training-fold scopes now reach current frozen-model inference, selected scores, explicit expression-fold GeneSet selection, GMT, model-use inventory, current HTTP tables and browser. Fold disagreement and all-ineligible states are preserved; numeric five-fold score means are unchanged. Native subtypes use unanimously shared members. Tests use synthetic count/statistical inputs, frozen-control serialization substitutes and no optimizer. Native full-size/budget closeout, matching corrected-coexpression normalization, pre-RDS acquisition, patient exposure completeness and final orchestration remain open. No real cohort run or deployment."
   ],
   "test_suites": [
     {
@@ -688,6 +691,16 @@
       "path": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml",
       "passed": 54,
       "sha256": "50ef7fbbce083260caba89288218cc674cca0416ed6b60ea88242efcde3d6144"
+    },
+    {
+      "path": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml",
+      "passed": 72,
+      "sha256": "992b91f2e8600c3068b62aa9c19924c83f60efd3f5525bd102985108008682ff"
+    },
+    {
+      "path": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml",
+      "passed": 38,
+      "sha256": "f0d16105b5d40929bbe1bd02a17cc17a1188dfd0030cc1545c29de5f9d6160a7"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1086,167 +1099,167 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/expression_ancestry_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_each_arm_has_identical_model_state_schema_and_real_candidate_forward",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[arm]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[budget]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[candidate]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[dropout]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[edge]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[label]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[new_input]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_loader_rejects_changed_comparison_semantics[parent]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_expansion_sidecar_uses_actual_training_validator_and_reuses_all_candidate_tensors",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_fivefold_prepare_to_training_loader_and_frozen_export_entry_without_optimizer",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_adapter_preserves_experimental_assay_and_provenance",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[endpoint]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[event_hash]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[family]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[flag]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[functional]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_native_lineage_rejects_corrupted_or_nonphysical_evidence[mapping]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_predictions_are_unobserved_and_cannot_impersonate_experimental_edges",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_server149_cpu_device_is_explicit_and_has_no_cuda_calls",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_three_arm_builder_rejects_vacuous_comparison_and_changed_current_features",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
       "case": "test_three_arms_preserve_old_indices_features_edges_and_rotating_chunks",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
@@ -1531,67 +1544,67 @@
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_actual_v4_loaders_all_chunks_existing_cli_and_selected_geneset_consumer",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_chunk_logits_precede_sigmoid_and_candidate_order_is_restored_without_label_reads",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[checkpoint]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[run]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[weights]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[availability]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[duplicate]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[extra]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[feature]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[indices]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[missing]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[nan]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[sealed]",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_current_drug_context",
@@ -1721,42 +1734,42 @@
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_actual_fusion_inputs_include_zero_coefficient_experts_and_explicit_missing_ancestry",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_directory_authority_uses_native_tree_hash_and_cannot_hide_a_changed_partition",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenance",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_inventory_cannot_be_relabelled_for_another_score_or_claim_complete",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_training_selection_and_graph_inputs_are_derived_with_masks",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_rehashed_native_use_omission_fails_actual_input_replay",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inventory",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_consumers_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
@@ -1811,97 +1824,97 @@
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_bare_hash_list_cannot_authorize_current_fusion_fit",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_builder_refuses_malformed_native_labels[available_null]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_builder_refuses_malformed_native_labels[filled_missing]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_builder_refuses_malformed_native_labels[float_mask]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_builder_refuses_malformed_native_labels[missing_reason]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_builder_refuses_malformed_native_labels[patient_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_builder_refuses_malformed_native_labels[scope]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_preserves_real_zero_mask_and_candidate_mapping_without_reading_train_labels",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[feature]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[float_mask]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[invalid_label]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[mask_shape]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[missing_mask]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[scope]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_extract_rejects_invented_availability_or_heldout_scope[sealed]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_native_checkpoint_to_label_replay_and_current_fusion_cli",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_no_fitting_begins_when_one_pair_fold_has_no_labels",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
       "case": "test_nullable_aggregate_crossfit_filters_and_release_never_claims_independent_validation",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_rule_evidence",
@@ -3964,6 +3977,76 @@
       "suite": "provenance/code_completion_20261015/predicted_binding_runtime_tests.xml"
     },
     {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_agreement_preserves_mixed_and_all_ineligible_states_and_explicit_policy",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_native_annotations_must_match_actual_prepared_inputs[feature]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_native_annotations_must_match_actual_prepared_inputs[fold]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_native_annotations_must_match_actual_prepared_inputs[hierarchy]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_native_annotations_must_match_actual_prepared_inputs[legacy]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_native_annotations_must_match_actual_prepared_inputs[patient_map]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_native_five_fold_forward_preserves_all_candidates_and_score_estimand",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_native_selected_genesets_query_gmt_scope_policy_and_model_use",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_scope_annotation_corruption_rejected[counts]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_scope_annotation_corruption_rejected[different_grid]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_scope_annotation_corruption_rejected[heldout]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_scope_annotation_corruption_rejected[missing_fold]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_scope_annotation_corruption_rejected[partial]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_prediction_scope",
+      "case": "test_scope_annotation_corruption_rejected[relabel]",
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+    },
+    {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_adjusted_reader_preserves_used_files_and_separate_study_sources",
       "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
@@ -4181,117 +4264,117 @@
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_actual_frozen_fusion_drives_gene_sets_and_preserves_missing_fold_support[discovery_adjusted_probability]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_actual_frozen_fusion_drives_gene_sets_and_preserves_missing_fold_support[fused_confidence_probability]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_candidate_authority_cannot_be_replaced_by_a_smaller_declared_universe",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_development_validation_reuse_status_reaches_actual_selected_geneset_members",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_existing_cli_exact_selected_score_rank_gmt_full_coverage_and_query",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_existing_g012_lock_is_verified_against_actual_selected_sources[None]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_existing_g012_lock_is_verified_against_actual_selected_sources[candidate]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_existing_g012_lock_is_verified_against_actual_selected_sources[external]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_existing_g012_lock_is_verified_against_actual_selected_sources[mean]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_existing_g012_lock_is_verified_against_actual_selected_sources[training]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_existing_g012_lock_is_verified_against_actual_selected_sources[winner]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_fold_membership_support_obeys_the_same_top_n_cap",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_rehashed_downstream_or_direction_edits_fail_source_replay[gmt]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_rehashed_downstream_or_direction_edits_fail_source_replay[member]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_rehashed_downstream_or_direction_edits_fail_source_replay[primary_direction]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_rehashed_downstream_or_direction_edits_fail_source_replay[selected_score]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_rule_source_annotations_reach_members_without_changing_ranks_or_subtypes",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_selected_fusion_must_have_consumed_the_reference_primary",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_selected_snapshot_is_consumed_by_actual_external_metrics_without_new_selection",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_selected_weights_drive_similarity_and_local_or_rule_evidence_cannot_change_it",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_selecting_baseline_changes_members_without_rewriting_primary_or_direction",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_unknown_direction_and_empty_gene_sets_keep_full_unavailable_subtype_coverage[False-1.0]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_selected_analysis",
       "case": "test_unknown_direction_and_empty_gene_sets_keep_full_unavailable_subtype_coverage[True-0.5]",
-      "suite": "provenance/code_completion_20261015/auxiliary_sources_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
@@ -4536,11 +4619,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "fold_local_scope_r5",
-      "fold_local_scope_native_regression_r1",
-      "fold_local_scope_consumers_regression_r1"
+      "prediction_scope_r4",
+      "prediction_scope_consumers_r1"
     ],
-    "passed": 135,
+    "passed": 110,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

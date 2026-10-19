@@ -1,0 +1,65 @@
+{
+  "method": "TRAINING_FOLD_SCOPE_THROUGH_CURRENT_PREDICTION_AND_SELECTED_GENESETS",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "prediction_scope_r4",
+    "prediction_scope_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "prediction_scope_r1",
+    "prediction_scope_r2",
+    "prediction_scope_r3"
+  ],
+  "intermediate_failure_causes": [
+    "synthetic graph fixture needed actual typed materialization",
+    "synthetic fixture needed concrete G2 variant binding",
+    "HTTP checks needed existing isolated web dependencies"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_core_prediction.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/prediction_scope.py",
+    "cc_hhgt/v32/selected_genesets.py",
+    "cc_hhgt/v32/selected_score.py",
+    "tests/test_v32_current_binding_expansion.py",
+    "tests/test_v32_prediction_scope.py",
+    "website/frontend/assets/current-analysis.js"
+  ],
+  "scope_agreement": "UNANIMOUS_OR_FOLD_VARIABLE",
+  "not_expression_eligible_candidates_retained": true,
+  "numeric_fold_estimand": "ARITHMETIC_MEAN_OF_FIVE_FOLD_PROBABILITIES",
+  "geneset_min_expression_folds": "REQUIRED_EXPLICIT_INTEGER_1_TO_5_FOR_NATIVE_SCOPE",
+  "native_subtype_scope": "UNANIMOUS_TRAINING_FOLD_SHARED",
+  "actual_frozen_model_folds_replayed": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "actual_native_to_gmt_http_and_browser_checked": true,
+  "source_inventory_preserves_native_study_metadata": true,
+  "test_substitutes": [
+    "synthetic frozen-cohort control metadata",
+    "synthetic checkpoint/receipt serialization; no optimizer actually run",
+    "fixed zero L1 logits",
+    "reduced native candidate dimensions",
+    "synthetic pathway activity and coexpression",
+    "browser request transport to actual TestClient handlers"
+  ],
+  "downstream_global_scope_integration_complete_for_native_path": true,
+  "arbitrary_candidate_budget_native_closeout_complete": false,
+  "coexpression_matching_normalization_enforced_by_new_scope": false,
+  "biological_independence_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Supersedes the earlier downstream-global-scope limitation: actual five training-fold scopes now reach current frozen-model inference, selected scores, explicit expression-fold GeneSet selection, GMT, model-use inventory, current HTTP tables and browser. Fold disagreement and all-ineligible states are preserved; numeric five-fold score means are unchanged. Native subtypes use unanimously shared members. Tests use synthetic count/statistical inputs, frozen-control serialization substitutes and no optimizer. Native full-size/budget closeout, matching corrected-coexpression normalization, pre-RDS acquisition, patient exposure completeness and final orchestration remain open. No real cohort run or deployment."
+}

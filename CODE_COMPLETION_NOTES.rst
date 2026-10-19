@@ -2860,10 +2860,9 @@ Integration limits that still require code work:
   declared sizes, but those sizes do not yet close through all native commands.
   Synthetic tests reduce those dimensions explicitly and do not certify the
   full production closeout or an arbitrary subset workflow.
-* current_core_prediction.py still requires one global shared/cancer_local
-  table. Fold-varying and not_expression_eligible scope needs an explicit
-  downstream representation, including selected-score and GeneSet consumers.
-  Do not substitute one fold or a cohort-derived table to bypass this boundary.
+* The global prediction-scope boundary identified here is addressed by the
+  subsequent section. Do not substitute one fold or a cohort-derived table
+  for the native five-fold release.
 * Matching association normalization is enforced. Matching normalization for
   corrected coexpression graph ancestry is not yet enforced by this new switch;
   its existing source inspection remains separate. Activity, static pathway
@@ -2889,3 +2888,98 @@ The initial scope run exposed the legacy requirement that every candidate
 must have an expression edge (8 passed, 1 failed); it was corrected to retain
 unexpressed nodes. Intermediate passing runs are retained but not added again
 to the latest unique count. This is not a whole-suite or real-cohort result.
+
+Fold-local scope through current prediction and GeneSets (2026-10-19)
+-------------------------------------------------------------------
+
+The current-core inference manifest now accepts exactly one scope mode. Legacy
+manifests retain candidate_authority and lncrna_scope. A native manifest instead
+requires these four source records, each with an explicit path and SHA256::
+
+  {"format":"CURRENT_CORE_PREDICTION_INPUT_V1",
+   "core_run_id":"ACTUAL_AUTHORIZED_RUN", "graph_variant":"G2",
+   "candidate_authority":{"path":"/actual/scope/candidates.parquet","sha256":"..."},
+   "fold_local_scope":{"path":"/actual/scope/SCOPE_RELEASE.json","sha256":"..."},
+   "patient_map":{"path":"/actual/patient_map.tsv","sha256":"..."},
+   "pathway_hierarchy":{"path":"/actual/hierarchy.parquet","sha256":"..."},
+   "fold_inputs":["the existing five explicit prepared/config/checkpoint/receipt records"]}
+
+The fold_inputs illustration is a placeholder, not an executable manifest;
+its existing object schema is unchanged. Candidate selection and each fold's
+detection values replay from the bound scope producer. Exact pathway families
+come from the explicit hierarchy. Each model's preparation sources must bind
+the same candidate file, patient map and hierarchy and its own detection scope.
+The actual inference feature tensors must match that fold's shared indicator,
+detection_rate and detected_cancers / assessed_cancers. A native prepared model
+cannot be annotated with a legacy global scope table.
+Conversely, a historical checkpoint prepared with cohort detection cannot be
+retroactively declared to have consumed these new fold-local inputs. Native
+scope predictions require matching native preparation and checkpoint lineage.
+
+Per-fold prediction files contain the actual fold classification,
+scope_basis=OUTER_TRAIN_PATIENT_DETECTION and scope_outer_fold. The ensemble and
+selected-score tables retain scope_fold_0 through scope_fold_4 and their counts:
+scope_shared_fold_count, scope_local_fold_count, scope_ineligible_fold_count and
+scope_eligible_fold_count. Each count has units of folds (0 to 5).
+scope_basis=FIVE_TRAINING_FOLD_AGREEMENT describes these aggregate annotations.
+If all five labels agree, shared_or_local_scope is their common value; otherwise
+it is fold_variable. No majority vote, global expression classification or
+single-fold substitute is used. These are descriptive ensemble annotations,
+not inputs from other folds to an individual model.
+
+All candidates, including not_expression_eligible rows, keep their predictions.
+The numeric estimand remains the arithmetic mean of the five original fold
+probabilities. Missing eligibility is not a zero probability or a negative
+biological association. This change does not make an ensemble prediction an
+out-of-fold patient effect or establish whole-pipeline independence.
+
+Native selected analysis requires an explicit geneset.min_expression_folds
+integer from 1 through 5. No default scientific threshold is imposed. A member
+must reach the training detection threshold in at least that many folds and
+meet the existing score, direction, size and tie policies. The chosen threshold
+is part of the selected-analysis manifest and version; it is also exported as
+geneset_min_expression_folds. Legacy inputs do not accept this threshold because
+they lack fold evidence. Candidate scores and coverage retain all rows, while
+GeneSet/GMT members exclude rows failing this explicit policy.
+
+Per-fold membership frequency uses the actual expression eligibility and the
+same directional score/size policy in that fold, with denominator five. Fold
+score SD still uses all five score estimates. Rank-percentile means use only
+eligible folds; zero eligible folds produces missing rank, not zero rank.
+selected_fold_rank_eligible_count records the denominator. For producers without
+matched fold estimates, fold statistics remain unavailable. Fold-variable
+members may enter GeneSets under the chosen policy and are counted separately
+from unanimous shared/local members.
+
+The existing cross-cancer subtype estimand uses shared members. With native
+scope it therefore uses only members classified shared in all five training
+folds, labelled subtype_scope_policy=UNANIMOUS_TRAINING_FOLD_SHARED. Other
+members remain in GeneSets and coverage; insufficient shared profiles retain
+explicit unavailable subtype results. Legacy subtype behavior is unchanged.
+The current HTTP tables preserve all fold fields, and the browser labels
+fold-variable and ineligible states explicitly.
+
+This closes the downstream representation boundary only. Fixed native cohort
+size/budget closeout, matching corrected-coexpression normalization, pre-count
+acquisition ancestry, complete patient exposure and final orchestration remain
+open under C01/C13/C16. No real cohort preparation, fitting, training, paid
+compute or deployment is authorized or performed by this change.
+
+Verification: prediction_scope_r4 records 72 passing native-scope, current-core,
+selected-analysis and typed-binding-expansion checks. prediction_scope_consumers_r1
+records 38 passing model-use, current-primary-fusion and current-web checks.
+These are 110 distinct scoped checks on host 149, not a full-suite run. The
+native test executes real edgeR-derived scopes, native synthetic association
+statistics, typed graphs, five frozen checkpoint forwards and replay, selected
+scores, GeneSets, GMT, source inventory, actual HTTP handlers and Chromium.
+Its frozen-cohort control metadata, untrained checkpoint serialization, fixed
+L1 logits, pathway activity and coexpression are explicit synthetic fixtures.
+The browser uses the actual page assets and API handlers with intercepted
+transport; the regression suite also exercises the actual application server.
+
+Initial failed checks are preserved: r1/r2 exposed missing typed-graph and
+concrete-variant metadata in the new synthetic fixture; the fixture now uses
+the actual graph materializer and arm binder. r3 completed native inference,
+GeneSet and source-inventory assertions but lacked HTTP dependencies. r4 used
+the existing isolated web verification dependencies. Production validation
+was not weakened to accommodate these failures. No optimizer was run.

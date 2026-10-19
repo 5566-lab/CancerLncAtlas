@@ -59,6 +59,13 @@
     mean_expression_component_z:"表达成分均值",expression_component_sd:"表达成分标准差",missing_reasons:"缺失原因汇总",
     cancer_id:"癌种",lncrna_id:"lncRNA",pathway_id:"精确通路",pathway_family_id:"通路家族",geneset_id:"基因集 ID",
     geneset_name:"基因集名称",geneset_rank:"成员排序",selected_score:"选定评分",member_count:"成员数",
+    shared_or_local_scope:"训练折表达分类",scope_eligible_fold_count:"达到检测阈值的折数",
+    scope_shared_fold_count:"共享分类折数",scope_local_fold_count:"局部分类折数",scope_ineligible_fold_count:"未达到检测阈值的折数",
+    scope_fold_0:"训练折 0 分类",scope_fold_1:"训练折 1 分类",scope_fold_2:"训练折 2 分类",scope_fold_3:"训练折 3 分类",scope_fold_4:"训练折 4 分类",
+    geneset_min_expression_folds:"入集所需检测折数",geneset_expression_eligible:"达到入集检测门槛",
+    fold_variable_member_count:"分类随折变化的成员数",selected_fold_rank_eligible_count:"参与排名的折数",
+    selected_fold_rank_percentile_mean:"合格折内平均排名百分位",selected_fold_selection_frequency:"五折入集频率",
+    rows_passing_expression_scope:"达到检测门槛的候选数",rows_passing_score_and_expression:"同时达到评分与检测门槛的候选数",
     association_direction:"关联方向",drug_id:"药物稳定 ID",gene_id:"靶基因",subtype_id:"亚型",subtype_system:"亚型体系",
     clinical_endpoint:"临床终点",state_id:"状态",subject_id:"实体 ID",subject_type:"实体类型",source_id:"来源",
     positive_available_weight_fraction:"正向成员权重占比",negative_available_weight_fraction:"负向成员权重占比",
@@ -77,6 +84,7 @@
     metric:"指标",value:"数值",estimate:"估计值",model_id:"模型",endpoint:"评价终点",isolation_scope:"隔离范围"
   };
   const preferred = ["geneset_id","geneset_name","cancer_id","pathway_id","lncrna_id","geneset_rank","selected_score","association_direction","member_count",
+    "shared_or_local_scope","scope_eligible_fold_count","geneset_min_expression_folds","geneset_expression_eligible","fold_variable_member_count",
     "drug_id","subtype_system","subtype_id","state_id","clinical_endpoint","subject_type","subject_id","mean_association_strength_probability",
     "drug_response_association_probability","signed_expression_sensitivity_rho","observed_direction","unique_cell_models","dose_molar_key","low_dose_molar_key",
     "high_dose_molar_key","exposure_hours_key","response_metric","response_unit","mean_observed_oriented_response","measured_response_available","association_available",
@@ -114,6 +122,8 @@
   function display(value) {
     if(value===null||value===undefined)return "不可用";
     if(typeof value==="boolean")return value?"是":"否";
+    const scopeStatus={shared:"共享",cancer_local:"癌种局部",fold_variable:"折间变化",not_expression_eligible:"未达到表达检测阈值"};
+    if(typeof value==="string"&&scopeStatus[value])return scopeStatus[value];
     const patientStatus={MAPPED:"身份已映射",NO_IDENTITY_COLUMNS:"来源未记录患者身份",IDENTITY_MAPPING_INCOMPLETE:"身份映射未完成",
       NO_RECORDED_IDENTITIES:"未记录患者身份",MAPPING_INCOMPLETE:"身份映射未完成",
       LOWER_BOUND_FROM_MAPPED_IDENTITIES_NOT_A_FOLD_LEAKAGE_ATTESTATION:"已映射身份中的重叠下限；不代表折泄漏判定"};

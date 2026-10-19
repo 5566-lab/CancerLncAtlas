@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T04:21:15.640975+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_core_prediction.py": "ea0054328b84911d00d587b9a41b7f2d16e3ca802d0fd3be8de8fb55e3e6ed13",
+    "cc_hhgt/v32/current_model_use.py": "5b8ce20a30e20a84bb50954f1fc343d23028877de776505bb1661cfeda255181",
+    "cc_hhgt/v32/prediction_scope.py": "efcb5ae49ab22eb1ad4109b4afa84fed0a2d273f34e0351d353a3b6eb2ab8bc4",
+    "cc_hhgt/v32/selected_genesets.py": "54d8f8322871f43b9e81c5e44af621c2f632e1bc2b823c6d03ac40e158e10d00",
+    "cc_hhgt/v32/selected_score.py": "ebd1d8e77c0586ba9acef0b16d9bc030097783340e71a87986985976b5685f18",
+    "tests/test_v32_prediction_scope.py": "ab7aab7a78e902ec3d71fc5ca1d7c1058624c040ab8ac99804b5b709220c1fc1"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_prediction_scope.py",
+    "tests/test_v32_current_core_prediction.py",
+    "tests/test_v32_selected_analysis.py",
+    "--junitxml=provenance/code_completion_20261015/prediction_scope_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-19T04:22:32.736658+00:00"
+}

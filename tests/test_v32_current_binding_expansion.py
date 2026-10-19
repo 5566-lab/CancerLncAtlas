@@ -269,14 +269,15 @@ def write_preparation_inputs(tmp_path):
         payload = verified_payload(fold)
         old = {k: v for k, v in payload.items() if k not in GRAPH_FIELDS-{ "bundle", "formal_graph_authority"}}
         prepared = graph_root/f"A_FOLD_{fold}.pt"; torch.save(old, prepared)
+        graph_receipt_sha = payload["formal_graph_authority"]["receipt"]["sha256"]
         sidecar = {"format": OVERLAY_FORMAT, "patient_fold": fold, "formal_graph_variant": "G2",
-            "source_prepared_sha256": sha256(prepared), "graph_authority_receipt_sha256": "a"*64,
+            "source_prepared_sha256": sha256(prepared), "graph_authority_receipt_sha256": graph_receipt_sha,
             "bundle": payload["bundle"], "formal_graph_authority": payload["formal_graph_authority"]}
         path = graph_root/f"C_FOLD_{fold}.pt"; torch.save(sidecar, path)
         current_manifest = tmp_path/f"current_{fold}.json"
         current_manifest.write_text(json.dumps({"fold_inputs": [{"fold": fold, **record(prepared),
             "graph_overlay": {**record(path), "format": OVERLAY_FORMAT, "bytes": path.stat().st_size,
-                "source_prepared_sha256": sha256(prepared), "graph_authority_receipt_sha256": "a"*64}}]}))
+                "source_prepared_sha256": sha256(prepared), "graph_authority_receipt_sha256": graph_receipt_sha}}]}))
         folds.append({"fold": fold, "prepared": record(prepared), "graph_overlay": record(path), "input_manifest": record(current_manifest)})
     native_edges, native_lineage = native_source()
     edges_path = tmp_path/"edges.parquet"; native_edges.to_parquet(edges_path)

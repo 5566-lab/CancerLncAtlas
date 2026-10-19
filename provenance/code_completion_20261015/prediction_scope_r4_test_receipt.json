@@ -1,0 +1,51 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T04:26:39.029062+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_core_prediction.py": "ea0054328b84911d00d587b9a41b7f2d16e3ca802d0fd3be8de8fb55e3e6ed13",
+    "cc_hhgt/v32/current_model_use.py": "5b8ce20a30e20a84bb50954f1fc343d23028877de776505bb1661cfeda255181",
+    "cc_hhgt/v32/prediction_scope.py": "efcb5ae49ab22eb1ad4109b4afa84fed0a2d273f34e0351d353a3b6eb2ab8bc4",
+    "cc_hhgt/v32/selected_genesets.py": "54d8f8322871f43b9e81c5e44af621c2f632e1bc2b823c6d03ac40e158e10d00",
+    "cc_hhgt/v32/selected_score.py": "ebd1d8e77c0586ba9acef0b16d9bc030097783340e71a87986985976b5685f18",
+    "tests/test_v32_current_binding_expansion.py": "f5d51c90de2234bdc4192efc23d323bdc2a63161cfc81e497880a266d667c5f5",
+    "tests/test_v32_prediction_scope.py": "65ce49143888d06b9fc86fd8f729815ce252841de992d505966c70df67918173",
+    "website/frontend/assets/current-analysis.js": "b3cfa4cc638bfbece22b0264a89b3285aff298df60023eea9783d43ea45b90b2"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_prediction_scope.py",
+    "tests/test_v32_current_core_prediction.py",
+    "tests/test_v32_selected_analysis.py",
+    "tests/test_v32_current_binding_expansion.py",
+    "--junitxml=provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T04:28:30.767981+00:00"
+}

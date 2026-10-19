@@ -24,7 +24,8 @@ def _json(path): return json.loads(Path(path).read_text(encoding="utf-8"))
 
 def implementation_hashes():
     root = Path(__file__).parent
-    names = ["current_core_prediction.py", "current_core_export.py", "model.py", "training.py", "integrated_model.py"]
+    names = ["current_core_prediction.py", "current_core_export.py", "model.py", "training.py", "integrated_model.py",
+             "prediction_scope.py", "fold_local_scope.py"]
     return {**{name: sha256(root/name) for name in names},
         "export_v32_current_core_embeddings.py": sha256(root.parents[1]/"scripts/export_v32_current_core_embeddings.py"),
         "gnn.py": sha256(root.parent/"gnn.py")}
@@ -32,16 +33,21 @@ def implementation_hashes():
 
 def candidate_table(manifest, root):
     from .evidence_rule_sources import read_table
+    from .prediction_scope import manifest_roles, annotated_candidates, validate_annotations
+    manifest_roles(manifest)
     frame = read_table(verified_path(manifest["candidate_authority"], root))
     required = [*KEYS, "pathway_family_id"]
-    if not set(required).issubset(frame): raise ValueError("Current candidates need exact pathway/family annotations")
     candidate_aliases(frame)
-    frame = frame[required].copy()
-    scope = read_table(verified_path(manifest["lncrna_scope"], root))[["cancer_id", "lncrna_id", "shared_or_local_scope"]]
-    if scope.duplicated(["cancer_id", "lncrna_id"]).any(): raise ValueError("Ambiguous current lncRNA scope")
-    frame = frame.merge(scope, on=["cancer_id", "lncrna_id"], how="left", validate="many_to_one")
-    if (not frame.shared_or_local_scope.isin(["shared", "cancer_local"]).all()
-            or frame.pathway_family_id.isna().any() or frame.pathway_family_id.eq("").any()
+    if "fold_local_scope" in manifest:
+        frame = annotated_candidates(manifest, root, frame)
+    else:
+        if not set(required).issubset(frame): raise ValueError("Current candidates need exact pathway/family annotations")
+        frame = frame[required].copy()
+        scope = read_table(verified_path(manifest["lncrna_scope"], root))[["cancer_id", "lncrna_id", "shared_or_local_scope"]]
+        if scope.duplicated(["cancer_id", "lncrna_id"]).any(): raise ValueError("Ambiguous current lncRNA scope")
+        frame = frame.merge(scope, on=["cancer_id", "lncrna_id"], how="left", validate="many_to_one")
+    validate_annotations(frame)
+    if (frame.pathway_family_id.isna().any() or frame.pathway_family_id.eq("").any()
             or frame.pathway_family_id.eq(frame.pathway_id).any()
             or frame.groupby("pathway_id").pathway_family_id.nunique().gt(1).any()):
         raise ValueError("Incomplete or ambiguous current candidate annotations")
@@ -174,25 +180,30 @@ def _fold_source(manifest, record, root, candidates, device):
         raise ValueError("Current prediction candidates differ from the training-authorized file")
     payload = _validated_payload(paths, record, fold)
     batches = prediction_batches(payload, candidates)
+    from .prediction_scope import validate_prepared_scope, fold_annotations
+    scope_source = validate_prepared_scope(manifest, root, payload, candidates, batches, fold)
     model = _build_model(payload, yaml.safe_load(paths["config"].read_text()), checkpoint, device)
     chunks, weights = _runtime_chunk_contract(payload["bundle"])
     if ({str(c):weights[c] for c in chunks} != receipt["runtime_chunk_weights"] or len(chunks) != receipt["runtime_num_chunks"]):
         raise ValueError("Current inference runtime estimator differs from the trained checkpoint")
     frame, audit = stream_predictions(model, payload["bundle"], batches, chunks, weights, _runtime_graph_for_chunk,
         candidate_rows=len(candidates), device=device)
-    frame = pd.concat([candidates, frame], axis=1)
+    frame = pd.concat([fold_annotations(candidates, fold), frame], axis=1)
     frame["patient_fold_id"] = fold; frame["training_run_id"] = manifest["core_run_id"]
     frame["analysis_version"] = VERSION; frame["pathway_target_level"] = "exact_pathway"
     return frame, {**audit, "patient_fold": fold, "checkpoint_format": CHECKPOINT_FORMAT,
         "runtime_chunk_weights": {str(c):weights[c] for c in chunks},
+        **({"training_detection_scope": scope_source} if scope_source else {}),
         "sources": {k:{"path":str(paths[k]), "sha256":record[k]["sha256"]} for k in roles}}
 
 
 def ensemble_predictions(paths, candidates, run_id):
+    from .prediction_scope import fold_annotations
     result = candidates.copy(); sums = {k:np.zeros(len(candidates)) for k in NUMERIC}
     for fold, path in enumerate(paths):
         frame = pd.read_parquet(path).sort_values(KEYS).reset_index(drop=True)
-        if (not frame[candidates.columns].equals(candidates) or not frame.patient_fold_id.eq(fold).all()
+        expected = fold_annotations(candidates, fold)
+        if (not frame[expected.columns].equals(expected) or not frame.patient_fold_id.eq(fold).all()
                 or not frame.training_run_id.eq(run_id).all()):
             raise ValueError("Current fold prediction keys, annotations or identity drifted")
         for key in NUMERIC:
@@ -241,10 +252,11 @@ def materialize_current_predictions(manifest_path, output, *, expected_run_id, d
     prediction = output/"CURRENT_CORE_PREDICTIONS.parquet"; ensemble.to_parquet(prediction,index=False,compression="zstd")
     if sha256(manifest_path) != source_sha: raise ValueError("Current prediction manifest changed during inference")
     implementation = implementation_hashes()
+    from .prediction_scope import manifest_roles
     binding = {"format":FORMAT,"status":"PASS","target_host":"149","training_run_id":expected_run_id,
         "run_id":stable_id("CURRENT-PREDICTION:",[source_sha,implementation]),"graph_variant":manifest["graph_variant"],
         "input_manifest":{"path":str(manifest_path),"sha256":source_sha}, "implementation_sha256":implementation,
-        "input_artifacts":[{"path":str(verified_path(manifest[k],root)),"sha256":manifest[k]["sha256"]} for k in ("candidate_authority","lncrna_scope")],
+        "input_artifacts":[{"path":str(verified_path(manifest[k],root)),"sha256":manifest[k]["sha256"]} for k in manifest_roles(manifest)],
         "ensemble_source_records":folds,"prediction":{"path":str(prediction),"sha256":sha256(prediction),"rows":len(ensemble)},
         "chunk_estimand":CHUNK_ESTIMAND,"fold_estimand":FOLD_ESTIMAND,"labels_used_for_prediction":False,
         "test_payloads_loaded":False,"metrics_computed":False,"training_started":False,"production_deployed":False,
@@ -274,6 +286,10 @@ def load_current_predictions(binding_path, *, expected_sha, require_success=True
     if len(manifest["fold_inputs"]) != 5 or set(authorized) != set(range(5)):
         raise ValueError("Current candidate source lacks all five selected folds")
     candidates = candidate_table(manifest,manifest_path.parent)
+    from .prediction_scope import manifest_roles, fold_source_record
+    expected_inputs = [{"path": str(verified_path(manifest[k], manifest_path.parent)), "sha256": manifest[k]["sha256"]}
+                       for k in manifest_roles(manifest)]
+    if binding["input_artifacts"] != expected_inputs: raise ValueError("Current prediction input annotations drifted")
     records = binding["ensemble_source_records"]
     if len(records) != 5 or {r["patient_fold"] for r in records} != set(range(5)): raise ValueError("Incomplete current fold predictions")
     paths = []
@@ -281,6 +297,9 @@ def load_current_predictions(binding_path, *, expected_sha, require_success=True
         if item.get("core_unchanged_after_prediction") is not True or item.get("optimizer_started") is not False:
             raise ValueError("Current prediction lacks frozen-core evidence")
         authority = authorized[item["patient_fold"]]
+        expected_scope = fold_source_record(manifest, manifest_path.parent, item["patient_fold"])
+        if item.get("training_detection_scope") != expected_scope:
+            raise ValueError("Current prediction training detection scope drifted")
         roles = {"config", "input_manifest", "prepared", "checkpoint", "training_receipt"}
         roles |= {k for k in ("graph_overlay", "global_binding_source", "binding_expansion") if k in authority}
         expected_sources = {k:{"path":str(verified_path(authority[k],manifest_path.parent)),"sha256":authority[k]["sha256"]} for k in roles}

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="7" failures="0" skipped="0" tests="14" time="45.684" timestamp="2026-10-19T12:23:20.791112+08:00" hostname="149"><testcase classname="tests.test_v32_prediction_scope" name="test_agreement_preserves_mixed_and_all_ineligible_states_and_explicit_policy" time="1.222" /><testcase classname="tests.test_v32_prediction_scope" name="test_scope_annotation_corruption_rejected[missing_fold]" time="0.004" /><testcase classname="tests.test_v32_prediction_scope" name="test_scope_annotation_corruption_rejected[heldout]" time="0.006" /><testcase classname="tests.test_v32_prediction_scope" name="test_scope_annotation_corruption_rejected[different_grid]" time="0.010" /><testcase classname="tests.test_v32_prediction_scope" name="test_scope_annotation_corruption_rejected[relabel]" time="0.036" /><testcase classname="tests.test_v32_prediction_scope" name="test_scope_annotation_corruption_rejected[counts]" time="0.033" /><testcase classname="tests.test_v32_prediction_scope" name="test_scope_annotation_corruption_rejected[partial]" time="0.032" /><testcase classname="tests.test_v32_prediction_scope" name="test_native_five_fold_forward_preserves_all_candidates_and_score_estimand" time="41.983"><error message="failed on setup with &quot;cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed&quot;">tests/test_v32_prediction_scope.py:128: in native_current
+    manifest = current_fixture(root/"current", pathway_id=P1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_core_prediction.py:99: in current_fixture
+    fold=item['fold'];payload,_=load_current_fold(item,root)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:73: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:664: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</error></testcase><testcase classname="tests.test_v32_prediction_scope" name="test_native_annotations_must_match_actual_prepared_inputs[legacy]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed&quot;">tests/test_v32_prediction_scope.py:128: in native_current
+    manifest = current_fixture(root/"current", pathway_id=P1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_core_prediction.py:99: in current_fixture
+    fold=item['fold'];payload,_=load_current_fold(item,root)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:73: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:664: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</error></testcase><testcase classname="tests.test_v32_prediction_scope" name="test_native_annotations_must_match_actual_prepared_inputs[fold]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed&quot;">tests/test_v32_prediction_scope.py:128: in native_current
+    manifest = current_fixture(root/"current", pathway_id=P1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_core_prediction.py:99: in current_fixture
+    fold=item['fold'];payload,_=load_current_fold(item,root)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:73: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:664: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</error></testcase><testcase classname="tests.test_v32_prediction_scope" name="test_native_annotations_must_match_actual_prepared_inputs[feature]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed&quot;">tests/test_v32_prediction_scope.py:128: in native_current
+    manifest = current_fixture(root/"current", pathway_id=P1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_core_prediction.py:99: in current_fixture
+    fold=item['fold'];payload,_=load_current_fold(item,root)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:73: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:664: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</error></testcase><testcase classname="tests.test_v32_prediction_scope" name="test_native_annotations_must_match_actual_prepared_inputs[patient_map]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed&quot;">tests/test_v32_prediction_scope.py:128: in native_current
+    manifest = current_fixture(root/"current", pathway_id=P1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_core_prediction.py:99: in current_fixture
+    fold=item['fold'];payload,_=load_current_fold(item,root)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:73: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:664: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</error></testcase><testcase classname="tests.test_v32_prediction_scope" name="test_native_annotations_must_match_actual_prepared_inputs[hierarchy]" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed&quot;">tests/test_v32_prediction_scope.py:128: in native_current
+    manifest = current_fixture(root/"current", pathway_id=P1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_core_prediction.py:99: in current_fixture
+    fold=item['fold'];payload,_=load_current_fold(item,root)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:73: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:664: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</error></testcase><testcase classname="tests.test_v32_prediction_scope" name="test_native_selected_genesets_query_gmt_scope_policy_and_model_use" time="0.001"><error message="failed on setup with &quot;cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed&quot;">tests/test_v32_prediction_scope.py:128: in native_current
+    manifest = current_fixture(root/"current", pathway_id=P1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_core_prediction.py:99: in current_fixture
+    fold=item['fold'];payload,_=load_current_fold(item,root)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_current_binding_comparison.py:73: in load_current_fold
+    payload = apply_c_graph_overlay(payload, overlay, fold=fold,
+cc_hhgt/v32/c_graph_overlay.py:162: in apply_c_graph_overlay
+    validate_formal_graph_payload_binding(
+cc_hhgt/v32/formal_graph_authority.py:664: in validate_formal_graph_payload_binding
+    raise FormalGraphAuthorityError("Prepared fold graph authority binding failed")
+E   cc_hhgt.v32.formal_graph_authority.FormalGraphAuthorityError: Prepared fold graph authority binding failed</error></testcase></testsuite></testsuites>

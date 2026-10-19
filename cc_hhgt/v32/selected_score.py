@@ -22,7 +22,7 @@ def implementation_hashes():
     root = Path(__file__).parent
     names = ["selected_score.py", "external_validation_current.py", "external_validation_metrics.py",
         "exact_release.py", "current_core_prediction.py", "multimodal_fusion.py", "evidence_rule_release.py", "evidence_rule_summary.py",
-        "g012_winner_lock.py"]
+        "g012_winner_lock.py", "prediction_scope.py"]
     return {name: sha256(root/name) for name in names}
 
 
@@ -105,13 +105,13 @@ def prepare_selected_scores(manifest_path):
     public = pd.read_parquet(primary_source["prediction"]["path"])
     required = [*KEYS, "pathway_family_id", "shared_or_local_scope", "association_membership_probability", "association_direction_probability"]
     if not set(required).issubset(public): raise ValueError("Primary annotations or direction probability are missing")
-    frame = public[required].copy(); candidate_aliases(frame)
+    from .prediction_scope import ANNOTATIONS, validate_annotations
+    validate_annotations(public)
+    frame = public[required + [c for c in ANNOTATIONS if c in public]].copy(); candidate_aliases(frame)
     if (frame.pathway_family_id.isna().any() or frame.pathway_family_id.astype(str).eq("").any()
             or frame.pathway_id.eq(frame.pathway_family_id).any()
             or frame.groupby("pathway_id").pathway_family_id.nunique().gt(1).any()):
         raise ValueError("Exact pathway/family annotations are ambiguous")
-    if not frame.shared_or_local_scope.isin(["shared", "cancer_local"]).all():
-        raise ValueError("Selected analysis requires explicit shared/cancer_local scope")
     direction = pd.to_numeric(frame.association_direction_probability, errors="coerce")
     if not np.isfinite(direction).all() or not direction.between(0, 1).all(): raise ValueError("Invalid primary direction probability")
     frame["association_direction"] = np.select([direction.gt(.5), direction.lt(.5)], ["positive", "negative"], default="unknown")
