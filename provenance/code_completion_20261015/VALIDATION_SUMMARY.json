@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 933,
+  "unique_test_cases_passed": 979,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -165,7 +165,7 @@
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "75c340c6e0bac50d2aff0840ec4cfc4ef5b972b37fa3c28da0d8536f39732323",
     "cc_hhgt/v32/preparation_sources.py": "0bb6b8f4596963ae7a941ca3311bb294881a36cc94f2cac8bb9effdfa6ef9a2e",
-    "scripts/prepare_v32_formal.py": "9855d795ed834d2d3e087e6ace3168fd180722dddcc78b020951e4eef41e76f9",
+    "scripts/prepare_v32_formal.py": "2de438fe3b0f6e44863551c8d92d1af31820f3a33cdcf6f6157d39bc9a0ab7ff",
     "tests/test_v32_preparation_sources.py": "967573cc29359b8a19a2a7240ae2d15a429f1b568ffa4c34b2fb476e0baaed8b",
     "tests/test_v32_formal_preparation_firewall.py": "3ca2520cc107b2e7019fc4e8db17b33c6341288549be3373737144098fbd7e3c",
     "scripts/server_prepare_v32_g012_patient_first_r2.sh": "6af76a4c20de354b52347d761099baba415bacebd194d2628fa22c4433fc4601",
@@ -197,7 +197,7 @@
     "cc_hhgt/v32/local_cnv_sources.py": "26fa4c4bc6d40661f5985938da399969b81005f5c019b1092e17699d60cc034c",
     "scripts/audit_v32_local_cnv_validation_associations.py": "4345d4f4914fcd1da3413ffa502604e11adf129b26873e7a5701bc1cc528878b",
     "scripts/finalize_and_audit_v32_local_cnv_r3.py": "491aab81f5bb348fcc8c9350f761bacc0a051c400c52c3cddfb82425d75f30ed",
-    "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "bba1fbfcd4f35cc4bdef10377bf1f2198c3f00ceea413d54ef8d91d9e9f9e623",
+    "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "35cf0685c5fcbf49bc7c931314e448d5207133387c31933808f4ec6abc54c582",
     "scripts/materialize_v32_local_cnv_validation_associations.py": "e532863f0926e571e80c462a38432908830028e271e86d8ea6b5a0542937c2f7",
     "scripts/run_v32_local_cnv_confounding_audit_r2.py": "d1924bece1a074da03bf660b4efdfc4a20e4a3e41f931e5a23ebd623cf56f92d",
     "tests/test_local_cnv_residualization.py": "88da7b9767ed16af5d01392a7100fb1900ceb042623a21d3cccae770ba01d841",
@@ -242,10 +242,13 @@
     "cc_hhgt/v32/native_expression_workflow.py": "2a53c1ed93e7c8781cd0a1ce80100378b754b40a600bf46cbb70e743dd3736a9",
     "scripts/run_native_expression_workflow.py": "47f67766474fb4fc86cacd367e92569d89aaa8f9f70fb774a9cde67b3a638547",
     "tests/test_v32_native_expression_workflow.py": "9f1abb34b6e358f3c9c79b14001d42756b26f98dd3880eb6ef916dcc3cb17e6a",
-    "cc_hhgt/v32/native_cnv_workflow.py": "973fff0f90118fdedcd0d38fa627049cf7adfc2b7c4b41500b8027e98660dafc",
+    "cc_hhgt/v32/native_cnv_workflow.py": "870e70d842302c2decbb7920f0d307b15461fbbc4553600ef5487aa5d4a12dad",
     "scripts/run_native_cnv_workflow.py": "8cfeb216ef83d4b5b7870937ec38bed9b72bc40696d86854045589363ac5f344",
-    "tests/test_v32_native_cnv_workflow.py": "0442e06d625cbf33e5526016712a17dda712c8fa4ee5f13db1b641b8fce0e87c",
-    "tests/test_v32_native_cnv_workflow_gdc.py": "61324683a60328feb290b7c28e657202d3caae48be0cd4ba800740512ceff85d"
+    "tests/test_v32_native_cnv_workflow.py": "5eb2e95472773f22287fda604ff4230297743b7f9ac0239bd7fcbf69bfe5b449",
+    "tests/test_v32_native_cnv_workflow_gdc.py": "61324683a60328feb290b7c28e657202d3caae48be0cd4ba800740512ceff85d",
+    "cc_hhgt/v32/native_core_workflow.py": "a3c24f03115dc52ac9d89133a6143866e8def69378d60d358e42327b21203e5e",
+    "scripts/run_native_core_workflow.py": "97351b0efba4843be9715ac68eee2a36c5ff2f3f046b479327818d61781ca5f7",
+    "tests/test_v32_native_core_workflow.py": "6316b4cd50b0555c8fd623f734ce88cce60494aace8f8496a62723e50cb64c6c"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -373,7 +376,8 @@
     "The fixed-size local-CNV closeout boundary is now closed for an explicitly pinned annotation/GMT candidate definition. Actual two-cancer five-fold workers, independent train and validation finalizers, authority validators and corrected-E1 materialization run without patched cancer/budget constants or fabricated aggregate success/decision receipts. Actual core-required, small-effect and insufficient-rank-review outcomes retain the existing scientific thresholds. Constant or fully projected outcomes now remain unestimable under the existing effective-variance tolerance; constant CNV remains a noop for variable outcomes. Expression/activity tables, compact CNV inputs and minimal parent graph metadata are synthetic. Existing native full formal preparation and downstream regressions still use their documented reduced frozen controls. This is not one full raw acquisition-to-final-release run. Complete source/patient ancestry, orchestration and overall C01/C13/C16 acceptance remain open; no real data or fitting ran.",
     "The new explicit GDC STAR route now has archived metadata query/pagination replay, aliquot/sample/patient reconciliation, optional verified acquisition, actual three-assay SummarizedExperiment assembly and raw-to-RDS replay. Completed source bindings propagate through actual native expression, training detection, ssGSEA, retained legacy normalization, core preparation and external model-use inspection. Explicit TCGA project identifiers now support conservative cohort-overlap exclusion. Tests use synthetic API responses, raw STAR files, patient identities, frozen controls and untrained checkpoint serialization. No live assay acquisition or real cohorts were run. GDC upstream alignment/biological identity truth, unbound historical count provenance, full patient identity coverage and overall command orchestration/final C01/C13/C16 acceptance remain unresolved.",
     "A bounded host-149 native expression workflow now calls actual cached GDC STAR assembly, five-fold TMM, five-fold ssGSEA, native conversions and annotation/detection scope producers. Actual plan/build CLI and downstream native readers were exercised with two synthetic cancer cohorts and forty synthetic raw files. It ends before association analysis, model fitting and publication. Remaining native CNV/graph/comparison/training command consolidation, complete source/patient identity coverage and final C01/C13/C16 acceptance remain open.",
-    "A host-149 declared-cohort CNV command workflow now executes native association workers, independent closeout, decision-gated validation and corrected-E1 graph production. Actual two-cancer statistical fixtures preserve correction-required, small-impact and scientific-review outcomes. Actual cached-GDC preprocessing feeds native workers/closeout and source inspection reaches all forty original synthetic STAR files. Canonical patients cannot recur across declared cancers. Core preparation includes L1 fitting and was not run; typed binding, formal preparation/comparison/training orchestration, complete patient/source coverage and overall C01/C13/C16 acceptance remain open."
+    "A host-149 declared-cohort CNV command workflow now executes native association workers, independent closeout, decision-gated validation and corrected-E1 graph production. Actual two-cancer statistical fixtures preserve correction-required, small-impact and scientific-review outcomes. Actual cached-GDC preprocessing feeds native workers/closeout and source inspection reaches all forty original synthetic STAR files. Canonical patients cannot recur across declared cancers. Core preparation includes L1 fitting and was not run; typed binding, formal preparation/comparison/training orchestration, complete patient/source coverage and overall C01/C13/C16 acceptance remain open.",
+    "Native corrected-CNV inputs now flow through fresh typed authority, actual formal G012 preparation and the three-arm binding comparison. All thirty generated commands use the actual trainer input loaders and frozen model forwards, with unchanged parameters and blocked neural training. Tests substitute frozen full-cohort control identities and fixed L1 logits only; actual native CNV workers, decision closeout, validation and corrected graph production are executed on synthetic data without patched scientific decisions. Optional graph counts no longer crash the corrected finalizer. Native CNV workflow pins original segment bytes as well as their manifests. Actual fitting, real cohort execution and full raw-to-publication lifecycle acceptance remain outside this validation; complete source/patient coverage and final C01/C13/C16 acceptance are still open."
   ],
   "test_suites": [
     {
@@ -815,6 +819,11 @@
       "path": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml",
       "passed": 37,
       "sha256": "662abbf3ee33c4c69af7175d57650f6b526e33e7d09fbe1d160f1bb7c220b9db"
+    },
+    {
+      "path": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml",
+      "passed": 62,
+      "sha256": "e6ff3c7708f93aca259e888a8aa85455f17c38e72b6761cb2a7b19992d0c9b51"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -3463,22 +3472,22 @@
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_fold_expression_leakage_or_sha_drift_fails_closed",
-      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_legacy_build_call_and_unbound_old_payload_are_rejected",
-      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_safe_minimal_authority_builds_three_true_masks",
-      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_server_launcher_requires_every_fresh_authority_and_variant_roots",
-      "suite": "provenance/code_completion_20261015/typed_graph_preparation_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_fusion_expert_policy",
@@ -4373,52 +4382,57 @@
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_cli_decision_and_scientific_outputs[correction-LOCAL_CNV_CORE_RETRAIN_REQUIRED]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_cli_decision_and_scientific_outputs[review-LOCAL_CNV_SENSITIVITY_ONLY_REVIEW]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_cli_decision_and_scientific_outputs[small-LOCAL_CNV_IMPACT_SMALL]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_actual_worker_failure_leaves_stage_diagnostics",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[cancer]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[candidate_definition]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[covariate_path]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[directional_failed]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[extra_command]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_bad_inputs_stop_before_output[raw_corrupt]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_bad_inputs_stop_before_output[static_hash]",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
@@ -4427,13 +4441,23 @@
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_changed_input_rejected_after_completion[covariates]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
+      "case": "test_changed_input_rejected_after_completion[raw_segments]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_repinned_skipped_stage_cannot_claim_execution",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow",
       "case": "test_wrong_host_rejected",
-      "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_cnv_workflow_gdc",
@@ -4449,6 +4473,221 @@
       "module": "tests.test_v32_native_cnv_workflow_gdc",
       "case": "test_expression_binding_does_not_allow_a_different_patient_map",
       "suite": "provenance/code_completion_20261015/native_cnv_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_acceptance_rejects_miswired_commands[duplicate_fold]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_acceptance_rejects_miswired_commands[task_fold]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_acceptance_rejects_miswired_commands[task_seed]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[0]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[10]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[11]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[12]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[13]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[14]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[15]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[16]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[17]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[18]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[19]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[1]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[20]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[21]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[22]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[23]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[24]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[25]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[26]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[27]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[28]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[29]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[2]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[3]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[4]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[5]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[6]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[7]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[8]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_generated_command_model_forward_preserves_parameters[9]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_actual_workflow_loaders_sources_and_thirty_blocked_commands",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_changed_input_invalidates_completed_core",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_execution_without_baseline_switch_never_calls_a_producer",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_preflight_rejects_mixed_authorities[cnv_binding]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_preflight_rejects_mixed_authorities[config_expanded]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_preflight_rejects_mixed_authorities[config_mode]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_preflight_rejects_mixed_authorities[config_seed]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_preflight_rejects_mixed_authorities[scope]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_preflight_rejects_mixed_authorities[unknown_field]",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_core_workflow",
+      "case": "test_producer_failure_records_stage_without_success",
+      "suite": "provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
@@ -5493,9 +5732,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "native_cnv_workflow_r2"
+      "native_core_workflow_r3"
     ],
-    "passed": 37,
+    "passed": 62,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

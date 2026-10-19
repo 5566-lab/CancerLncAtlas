@@ -72,7 +72,7 @@ def test_actual_cli_decision_and_scientific_outputs(completed,kind,decision):
     assert not (root/"prepared").exists() and not (root/"training").exists()
 
 
-@pytest.mark.parametrize("fault",["candidate_definition","static_hash","cancer","directional_failed","covariate_path","extra_command"])
+@pytest.mark.parametrize("fault",["candidate_definition","static_hash","cancer","directional_failed","covariate_path","raw_corrupt","extra_command"])
 def test_bad_inputs_stop_before_output(tmp_path,fault):
     manifest,args=input_manifest(tmp_path/"input");spec=read(manifest)
     if fault=="candidate_definition":
@@ -85,6 +85,9 @@ def test_bad_inputs_stop_before_output(tmp_path,fault):
         path=Path(spec["directional_success"]["path"]);value=read(path);value["status"]="FAILED";write(path,value);spec["directional_success"]=record(path)
     elif fault=="covariate_path":
         config=read(args.source_config);config["sources"]["covariates"]["path"]="covariates.parquet";write(args.source_config,config);spec["source_config"]=record(args.source_config)
+    elif fault=="raw_corrupt":
+        item=read(args.directional_root/"cancer=BRCA/SOURCE_FILES.json")["records"][0]
+        Path(item["path"]).write_text("changed original segment bytes")
     else:spec["commands"]=["train"]
     write(manifest,spec)
     with pytest.raises(ValueError):workflow.run(manifest,tmp_path/"bad")
@@ -102,9 +105,12 @@ def test_actual_worker_failure_leaves_stage_diagnostics(tmp_path):
     assert not (tmp_path/"bad/SUCCESS.json").exists() and not (tmp_path/"bad/corrected_graph").exists()
 
 
-def test_changed_input_rejected_after_completion(completed):
+@pytest.mark.parametrize("source",["covariates","raw_segments"])
+def test_changed_input_rejected_after_completion(completed,source):
     root,_,args=completed["correction"]
-    path=args.covariates;original=path.read_bytes()
+    path=(args.covariates if source=="covariates" else
+          Path(read(args.directional_root/"cancer=BRCA/SOURCE_FILES.json")["records"][0]["path"]))
+    original=path.read_bytes()
     try:
         path.write_bytes(original+b"changed")
         with pytest.raises(ValueError):workflow.validate(record(root/"NATIVE_CNV_BINDING.json"),root)

@@ -3558,3 +3558,129 @@ changed to satisfy that assertion. The failed receipt remains available.
 The synthetic static graph receipt is a limited source control, not a fully
 audited frozen core graph authority. No L1 fitting, neural optimization, real
 cohort analysis, source download or production publication was executed.
+
+Native typed/core/comparison workflow (2026-10-19)
+-------------------------------------------------
+
+scripts.run_native_core_workflow connects fresh typed graph authority, native
+formal G0/G1/G2 preparation and the current/experimental/experimental+predicted
+binding comparison. All three stages use their existing scientific producers.
+The completed release contains fifteen prepared files, fifteen comparison
+overlays and thirty blocked training commands. It does not run neural training
+or create trained neural checkpoints. The core preparation stage DOES include
+the existing five-fold L1 baseline fitting; execution is refused unless
+--allow-baseline-fitting is explicitly supplied. That flag does not enable
+any of the generated neural training tasks. This code-only project has not
+authorized or performed real baseline fitting.
+
+The input manifest has these fields::
+
+  {
+    "format": "NATIVE_CORE_WORKFLOW_INPUT_V1",
+    "release": "<new-lowercase-release-token>",
+    "typed_graph_manifest": {"path": "/input/typed.json", "sha256": "<hash>"},
+    "candidates": {"path": "/input/candidates.parquet", "sha256": "<hash>"},
+    "fold_local_scope": {"path": "/input/SCOPE_RELEASE.json", "sha256": "<hash>"},
+    "local_cnv_success": {"path": "/input/cnv/association/SUCCESS.json", "sha256": "<hash>"},
+    "validation_success": {"path": "/input/cnv/validation/SUCCESS.json", "sha256": "<hash>"},
+    "authorization_hashes": {"path": "/input/hashes.json", "sha256": "<hash>"},
+    "comparison_config": {"path": "/input/native-g2.yaml", "sha256": "<hash>"},
+    "native_cnv_workflow": {"path": "/input/cnv/NATIVE_CNV_BINDING.json", "sha256": "<hash>"},
+    "expansion_sources": [
+      {"source_id": "october", "kind": "native_october",
+       "edges": {"path": "/input/october_edges.parquet", "sha256": "<hash>"},
+       "lineage": {"path": "/input/october_lineage.parquet", "sha256": "<hash>"}},
+      {"source_id": "rbns", "kind": "rbns_sequence",
+       "audit": {"path": "/input/rbns/AUDIT.json", "sha256": "<hash>"},
+       "binding": {"path": "/input/rbns/RBNS_TYPED_BINDING.parquet", "sha256": "<hash>"}}
+    ]
+  }
+
+The expansion_sources entries use the existing comparison producer's native
+source schemas. native_cnv_workflow is optional for independently prepared
+native inputs. When supplied, its exact corrected graph, association and
+validation outputs must match this request, and its original sources are
+rechecked at closeout and on subsequent validation. A small-impact or review
+CNV outcome cannot be passed to this corrected-core workflow.
+
+typed_graph_manifest uses TYPED_GLOBAL_GRAPH_AUTHORITY_INPUT_V1 and explicit
+five-fold expression/coexpression patterns. Its source_receipt must be the
+matching corrected graph. The frozen patient authority, annotation/GMT
+candidate definition, fold-local scope and train/validation cohorts must
+agree. All graph declarations retain the existing source-role and hash
+requirements. comparison_config must describe unexpanded native G2 using
+NATIVE_GLOBAL_PHYSICAL_BINDING. The frozen seed is 20260726; a different
+crossfit seed is rejected before output creation. Historical C overlays and
+already expanded configurations are rejected. authorization_hashes is the
+existing formal preparation's source-hash mapping, not permission to train.
+Its optional formal_graph_authority_receipt_sha256 must match the newly
+generated typed receipt; an old receipt hash cannot authorize a new graph.
+
+Non-executing plan command on server 149::
+
+  python -m scripts.run_native_core_workflow --manifest /input/core.json --output /new/core --plan
+
+The plan checks actual input authorities and sources without creating the
+destination or fitting a model. A sha256_of=typed_receipt dependency resolves
+after typed publication. Future execution, only when L1 fitting is authorized,
+uses the same command without --plan and with --allow-baseline-fitting. The
+workflow calls the existing Python command entry points in-process with
+explicit argument lists; it does not accept arbitrary executable commands.
+prepare_v32_formal.main now accepts optional argv and preserves default CLI
+argument parsing.
+
+The output layout is typed/, prepared/G0/, prepared/G1/, prepared/G2/,
+comparison/<arm>/ and training/<G variant>/. TRAINING_COMMANDS.json covers
+G0, G1, G2, current_c, experimental and experimental_predicted, each with
+folds 0--4 exactly once. The prepared payloads are shared by comparison arms;
+only their binding overlays differ. Generated configurations use server149,
+CPU/FP32 and CODE_ONLY with training_authorized=false. No training approval
+file is created. The actual run-shard entry retains its authorization guard.
+
+Before SUCCESS, the workflow loads all thirty commands through the real
+trainer's authorized prepared-input and graph-loading functions, validates
+prepared payload semantics and checks their graph generation. It also checks
+task/config/fold/seed correspondence and records accepted artifact hashes.
+This acceptance does not fit a model or execute a forward pass. STAGE_STATUS
+and individual logs preserve producer failures; failed work has no workflow
+SUCCESS. A new output directory is required. NATIVE_CORE_BINDING.json links
+preflight inputs, producer receipts, comparison inputs and blocked commands.
+Validation rechecks these files, original sources and actual input acceptance.
+
+The corrected-E1 finalizer now accepts source authorities without optional
+counts, including the new typed generation that deliberately drops stale
+parent binding totals. It calculates the two new coexpression totals from
+actual verified output partitions; it does not reconstruct old binding counts.
+
+This closes the native corrected-graph to formal/comparison command handoff.
+It is not the final raw-to-publication workflow, a scientific performance
+comparison, a whole-pipeline patient-independence certificate or completion of
+historical data analyses. Those separate scopes remain visible in the plan.
+
+The native CNV workflow now also verifies and pins each original segment file
+listed in the directional materializer's SOURCE_FILES.json records array.
+Previously it pinned that manifest and the compact matrices but did not check
+changes in the underlying segment bytes during workflow validation. The new
+pins are checked before execution, at closeout and during later validation,
+including through a bound core workflow. This is direct recorded segment
+provenance, not a claim about upstream assay generation or all historical data.
+
+Verification: native_core_workflow_r3 records 62 passing checks on host 149:
+43 new core workflow/forward/error checks, 15 native CNV workflow regressions
+and four formal graph-authority regressions. The core fixture uses one cancer,
+120 synthetic patients, three candidates and actual native CNV association,
+decision closeout, validation-A1 and corrected-E1 commands. It then executes
+all three preparation entry points in-process. All thirty generated training
+commands are rejected by the actual run-shard guard; the thirty actual model
+forward cases preserve parameter hashes. Duplicate/mismatched fold tasks,
+different seeds, mixed authorities, producer failure and changed original CNV
+bytes are checked. The separate native CNV regressions retain the correction,
+small-impact and review branches with unchanged scientific thresholds.
+
+Substitutes are explicit: synthetic biological inputs, reduced frozen-cohort
+control identities and five fixed zero-logit L1 calls. LogisticRegression.fit
+and neural optimizer construction are forbidden in the core test process.
+No native CNV decision/aggregate audit is replaced in this workflow fixture.
+Actual L1 fitting, real cohorts, paid compute and production deployment were
+not executed. The failed r1/r2 receipts remain recorded: r1 exposed missing
+optional graph counts, and r2 exposed missing original segment-byte pins.

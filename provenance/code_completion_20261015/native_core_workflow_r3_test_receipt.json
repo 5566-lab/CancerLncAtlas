@@ -1,0 +1,49 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T07:19:13.145276+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/native_cnv_workflow.py": "870e70d842302c2decbb7920f0d307b15461fbbc4553600ef5487aa5d4a12dad",
+    "cc_hhgt/v32/native_core_workflow.py": "a3c24f03115dc52ac9d89133a6143866e8def69378d60d358e42327b21203e5e",
+    "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "35cf0685c5fcbf49bc7c931314e448d5207133387c31933808f4ec6abc54c582",
+    "scripts/prepare_v32_formal.py": "2de438fe3b0f6e44863551c8d92d1af31820f3a33cdcf6f6157d39bc9a0ab7ff",
+    "scripts/run_native_core_workflow.py": "97351b0efba4843be9715ac68eee2a36c5ff2f3f046b479327818d61781ca5f7",
+    "tests/test_v32_native_cnv_workflow.py": "5eb2e95472773f22287fda604ff4230297743b7f9ac0239bd7fcbf69bfe5b449",
+    "tests/test_v32_native_core_workflow.py": "6316b4cd50b0555c8fd623f734ce88cce60494aace8f8496a62723e50cb64c6c"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_core_workflow.py",
+    "tests/test_v32_native_cnv_workflow.py",
+    "tests/test_v32_formal_prepare_graph_authority.py",
+    "--junitxml=provenance/code_completion_20261015/native_core_workflow_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T07:21:38.905973+00:00"
+}

@@ -1,0 +1,49 @@
+{
+  "method": "ACTUAL_NATIVE_CORE_TYPED_FORMAL_COMPARISON_WORKFLOW",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "live_assay_download_performed": false,
+  "successful_validation_receipts": [
+    "native_core_workflow_r3"
+  ],
+  "intermediate_failed_receipts": [
+    "native_core_workflow_r1",
+    "native_core_workflow_r2"
+  ],
+  "intermediate_failure_causes": [
+    "The corrected-E1 finalizer assumed optional counts existed on a graph authority. It now creates only its own verified coexpression totals when counts is absent.",
+    "Completed workflow validation hashed SOURCE_FILES.json without pinning the original raw CNV segment files referenced inside it. The native CNV preflight now verifies and retains their hashes."
+  ],
+  "actual_native_cnv_decision_closeout_used": true,
+  "scientific_decision_thresholds_changed": false,
+  "actual_native_synthetic_cancer": "BRCA",
+  "native_synthetic_patients": 120,
+  "actual_prepared_artifacts": 15,
+  "actual_comparison_overlays": 15,
+  "generated_blocked_training_commands": 30,
+  "actual_trainer_loaders_verified": 30,
+  "actual_frozen_forward_cases": 30,
+  "all_actual_run_shard_commands_rejected_training": true,
+  "model_parameters_unchanged": true,
+  "actual_producer_failure_stage_verified": true,
+  "mismatched_seed_fold_tasks_rejected": true,
+  "original_cnv_source_change_rejected_before_and_after_completion": true,
+  "test_substitutes": [
+    "synthetic count/expression/activity/CNV/candidate/static-binding data",
+    "synthetic frozen full-cohort patient authority identity controls",
+    "five fixed zero L1-logit producers with LogisticRegression.fit and neural optimizers forbidden"
+  ],
+  "native_cnv_aggregate_or_decision_substituted": false,
+  "full_raw_to_final_release_run": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native corrected-CNV inputs now flow through fresh typed authority, actual formal G012 preparation and the three-arm binding comparison. All thirty generated commands use the actual trainer input loaders and frozen model forwards, with unchanged parameters and blocked neural training. Tests substitute frozen full-cohort control identities and fixed L1 logits only; actual native CNV workers, decision closeout, validation and corrected graph production are executed on synthetic data without patched scientific decisions. Optional graph counts no longer crash the corrected finalizer. Native CNV workflow pins original segment bytes as well as their manifests. Actual fitting, real cohort execution and full raw-to-publication lifecycle acceptance remain outside this validation; complete source/patient coverage and final C01/C13/C16 acceptance are still open."
+}

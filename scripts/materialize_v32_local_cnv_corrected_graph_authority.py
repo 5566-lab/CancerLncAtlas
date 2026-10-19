@@ -271,7 +271,9 @@ def finalize(args: argparse.Namespace) -> int:
             "e0_fallback_allowed": False,
         })
         total_rows += fold_rows[fold]
-    receipt["counts"]["five_fold_coexpression_rows"] = total_rows
+    # Counts are optional in the graph-authority contract. A freshly typed
+    # authority deliberately drops parent totals for its replaced binding.
+    receipt.setdefault("counts", {})["five_fold_coexpression_rows"] = total_rows
     receipt["counts"]["five_fold_e1_coexpression_rows"] = total_rows
     receipt_path = output / "GRAPH_INPUT_AUTHORITY_RECEIPT.json"
     atomic_json(receipt_path, receipt)

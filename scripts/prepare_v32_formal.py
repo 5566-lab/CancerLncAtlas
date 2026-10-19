@@ -448,7 +448,7 @@ def make_batches(
     return result
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--hashes", required=True)
     parser.add_argument("--patient-folds", required=True)
@@ -508,7 +508,7 @@ def main() -> int:
     parser.add_argument("--local-cnv-audit-success-sha256")
     parser.add_argument("--local-cnv-validation-root")
     parser.add_argument("--local-cnv-validation-success-sha256")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     import socket
     if socket.gethostname() != "149":
         raise RuntimeError("Formal preparation requires host 149")

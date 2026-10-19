@@ -82,6 +82,13 @@ def preflight(manifest, output):
         compact = directional.parent/("cancer="+cancer)
         from .cnv_input_sources import ARRAYS, IDS
         biological += [record(compact/name) for name in (*IDS, *ARRAYS["cnv"], "SUCCESS.json", "SOURCE_FILES.json")]
+        # Pin the original segment bytes, not just the JSON that names them.
+        # This is the native directional materializer's SOURCE_FILES schema.
+        raw_sources = read(compact/"SOURCE_FILES.json").get("records")
+        if not isinstance(raw_sources,list):
+            raise ValueError("Native directional CNV source records are missing")
+        for item in raw_sources:
+            biological.append(record(verified_path(item,compact)))
         for fold in range(5):
             biological += [record(expression_path(sources,key,cancer,fold,files["patient_map"]["path"]))
                            for key in ("lnc_expression_root", "gene_expression_root")]
