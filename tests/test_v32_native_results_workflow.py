@@ -173,9 +173,15 @@ def test_actual_native_selection_predictions_export_labels_and_web(released, nat
     construction = replayed.loc[replayed.format.eq(FORMAT)]
     assert set(construction.patient_fold_id) == set(range(5))
     assert {"G012_COMPARISON:G0", "G012_COMPARISON:G1", "G012_COMPARISON:G2"} <= set(construction.dependency_context)
+    from cc_hhgt.v32.local_cnv_source_replay import FORMAT as LOCAL_CNV_REPLAY
+    statistics = replayed.loc[replayed.format.eq(LOCAL_CNV_REPLAY)]
+    assert set(statistics.patient_fold_id) == set(range(5))
+    assert {"G012_COMPARISON:G0", "G012_COMPARISON:G1", "G012_COMPARISON:G2"} <= set(statistics.dependency_context)
+    assert {role.rsplit(".", 1)[-1] for role in statistics.role} == {"pair", "graph", "validation"}
     assert inventory["model_forwards_executed"] and not inventory["neural_model_forwards_executed"]
     gaps = pd.read_parquet(inventory["outputs"]["gaps"]["path"])
     assert "RAW_FEATURE_LABEL_STUDY_LINEAGE_NOT_RECONSTRUCTED" not in set(gaps.reason)
+    assert "LOCAL_CNV_NUMERIC_REPLAY_NOT_BOUND" not in set(gaps.reason)
     assert len(gaps) > 0  # Other upstream ancestry limits remain blocking.
     assert not binding["fusion_fitting_started"] and not binding["production_deployed"]
 

@@ -255,7 +255,7 @@ def a0_full(
 def association_fold(
     cancer: str, fold: int, pairs: pd.DataFrame, lnc: pd.DataFrame,
     pathway: pd.DataFrame, patient_map: pd.DataFrame, cnv: DirectionalCNVStore,
-    covariates: pd.DataFrame,
+    covariates: pd.DataFrame, *, run_id: str | None = None,
 ) -> pd.DataFrame:
     declared = split_patients(patient_map, cancer, fold)
     common = sorted(set(declared) & set(lnc.index) & set(pathway.index) & set(cnv.patient_ids))
@@ -417,7 +417,7 @@ def association_fold(
         out.local_cnv_callable_n.lt(12), "LOCAL_CNV_INSUFFICIENT_MATCHED_PATIENTS",
         np.where(~out.association_available, "ASSOCIATION_NOT_ESTIMABLE", ""),
     )
-    out["run_id"] = RUN_ID
+    out["run_id"] = RUN_ID if run_id is None else run_id
     out["local_cnv_continuous_definition"] = "signed_mean_segment_value"
     out["formal_C0"] = "shared_covariate_current_v32_formal_association"
     out.attrs["covariates_used"] = list(covariates_used)
@@ -503,14 +503,14 @@ def select_edges(candidates: pd.DataFrame, total_tests: int, model: str) -> pd.D
 def g0_fold(
     cancer: str, fold: int, lnc: pd.DataFrame, gene: pd.DataFrame,
     patient_map: pd.DataFrame, covariates: pd.DataFrame, cnv: DirectionalCNVStore,
-    allowed_genes: set[str],
+    allowed_genes: set[str], *, run_id: str | None = None,
 ) -> pd.DataFrame:
     declared = split_patients(patient_map, cancer, fold)
     common = sorted(set(declared) & set(lnc.index) & set(gene.index) & set(cnv.patient_ids))
     lnc_ids = sorted(set(lnc.columns.astype(str)) & set(cnv.lncrna_ids))
     gene_ids = sorted(set(gene.columns.astype(str)) & allowed_genes)
     if not common or not lnc_ids or not gene_ids:
-        return merge_edge_models(cancer,fold,select_edges(pd.DataFrame(),0,"E0"),select_edges(pd.DataFrame(),0,"E1"))
+        return merge_edge_models(cancer,fold,select_edges(pd.DataFrame(),0,"E0"),select_edges(pd.DataFrame(),0,"E1"),run_id=run_id)
     lnc_local = lnc.reindex(index=common, columns=lnc_ids)
     gene_local = gene.reindex(index=common, columns=gene_ids)
     rows = np.asarray([cnv.patient_index[p] for p in common], dtype=int)
@@ -564,10 +564,10 @@ def g0_fold(
         e0_parts.append(e0); e1_parts.append(e1); total_tests += tests
     e0 = select_edges(pd.concat(e0_parts, ignore_index=True) if e0_parts else pd.DataFrame(), total_tests, "E0")
     e1 = select_edges(pd.concat(e1_parts, ignore_index=True) if e1_parts else pd.DataFrame(), total_tests, "E1")
-    return merge_edge_models(cancer,fold,e0,e1)
+    return merge_edge_models(cancer,fold,e0,e1,run_id=run_id)
 
 
-def merge_edge_models(cancer: str, fold: int, e0: pd.DataFrame, e1: pd.DataFrame) -> pd.DataFrame:
+def merge_edge_models(cancer: str, fold: int, e0: pd.DataFrame, e1: pd.DataFrame, *, run_id: str | None = None) -> pd.DataFrame:
     """Keep the complete E0/E1 schema even when no expression features qualify."""
     keys = ["lncrna_id", "gene_id"]
     merged = e0.merge(e1, on=keys, how="outer", validate="one_to_one")
@@ -586,7 +586,7 @@ def merge_edge_models(cancer: str, fold: int, e0: pd.DataFrame, e1: pd.DataFrame
     merged["rank_change"] = merged.rank_E1 - merged.rank_E0
     merged["local_cnv_continuous_definition"] = "signed_mean_segment_value"
     merged["edge_universe"] = "real_lncrna_gene_G0"
-    merged["run_id"] = RUN_ID
+    merged["run_id"] = RUN_ID if run_id is None else run_id
     return merged
 
 

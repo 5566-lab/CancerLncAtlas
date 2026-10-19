@@ -25,7 +25,7 @@ VALIDATION_AUDIT = "scripts.audit_v32_local_cnv_validation_associations"
 GRAPH = "scripts.materialize_v32_local_cnv_corrected_graph_authority"
 CODE = ["cc_hhgt/v32/native_cnv_workflow.py", "scripts/run_native_cnv_workflow.py",
     "cc_hhgt/v32/local_cnv_cohort.py", "cc_hhgt/v32/local_cnv_core_preparation.py",
-    "cc_hhgt/v32/local_cnv_sources.py", "cc_hhgt/v32/local_cnv_confounding.py",
+    "cc_hhgt/v32/local_cnv_sources.py", "cc_hhgt/v32/local_cnv_source_replay.py", "cc_hhgt/v32/local_cnv_confounding.py",
     *[name.replace(".", "/")+".py" for name in (ASSOCIATION, FINALIZER, VALIDATION, VALIDATION_AUDIT, GRAPH)]]
 
 

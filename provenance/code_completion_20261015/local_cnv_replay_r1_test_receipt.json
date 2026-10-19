@@ -1,0 +1,50 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T11:44:45.228916+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_model_use.py": "9fb4a9e603b64f5ec1d4b601a80847831b592917d136e8f013eb6f5955899706",
+    "cc_hhgt/v32/local_cnv_source_replay.py": "38e0574cdaae6de928acc5e6992caa355da8b253d1e8f9693c2bbe703f232fbb",
+    "cc_hhgt/v32/local_cnv_sources.py": "273003f701664a40e4376c5ad820e292ea7d4a72dc2a087bca37eb126055d6c8",
+    "cc_hhgt/v32/native_cnv_workflow.py": "bac6843859c3f32c45502e5b8efb3dcd7c6b734f8afdaae28875fac65a799d30",
+    "scripts/audit_local_cnv_source_replay.py": "c0e129e43a0e78943af513bd55d5ba4c3df2deeb773c3eff754e473e0d61b33d",
+    "scripts/materialize_v32_local_cnv_validation_associations.py": "ec6ffda8a0840c527be34aa8b1c9055a8c770cc1936c5cf0b566912f229d4f72",
+    "scripts/run_v32_local_cnv_confounding_audit_r2.py": "596498497056d40d3b3bb16d49cf6bb0cee6e4159658a7cdeb6d6fe09a564249",
+    "tests/test_v32_local_cnv_source_replay.py": "34783245fe0adef63932185e8dba2478cbd2ad01d166ebf49fde15374dff984b"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_local_cnv_source_replay.py",
+    "tests/test_v32_local_cnv_source_ancestry.py",
+    "tests/test_v32_local_cnv_core_preparation.py",
+    "--junitxml=provenance/code_completion_20261015/local_cnv_replay_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-19T11:46:40.695224+00:00"
+}

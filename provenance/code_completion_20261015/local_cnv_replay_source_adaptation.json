@@ -1,0 +1,66 @@
+{
+  "method": "NATIVE_LOCAL_CNV_STATISTICAL_OUTPUT_RECONSTRUCTION",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "auxiliary_forward_started": false,
+  "numerical_nuisance_residualization_replayed": true,
+  "real_data_analysis_started": false,
+  "synthetic_frozen_core_prediction_executed": true,
+  "neural_construction_in_statistical_replay": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "local_cnv_replay_upstream_r1",
+    "local_cnv_replay_consumers_r1",
+    "local_cnv_replay_r3",
+    "local_cnv_replay_consumers_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "local_cnv_replay_r1"
+  ],
+  "superseded_pass_receipts": [
+    "local_cnv_replay_r2"
+  ],
+  "native_results_module_in_consumers_r1_superseded_by_consumers_r2": true,
+  "unchanged_upstream_and_legacy_regressions_precede_final_cache_dependency_hardening": true,
+  "final_hardening_reverified_by_direct_native_and_full_publication_tests": true,
+  "intermediate_failure_causes": [
+    "Independent test initially used symmetric rather than the original one-sided A1 correction; corrected only the oracle.",
+    "Graph corruption test initially assumed a finite E1 edge; corrected it to inject a finite value into a legitimately unavailable E1 cell."
+  ],
+  "actual_worker_and_closeout_partitions_compared": 70,
+  "cancer_ids": [
+    "BRCA",
+    "LUAD"
+  ],
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "scientific_decisions": [
+    "LOCAL_CNV_CORE_RETRAIN_REQUIRED",
+    "LOCAL_CNV_IMPACT_SMALL",
+    "LOCAL_CNV_SENSITIVITY_ONLY_REVIEW"
+  ],
+  "output_kinds": [
+    "pair",
+    "graph",
+    "validation"
+  ],
+  "independent_one_sided_rank_projection_oracle": true,
+  "full_current_publication_g012_source_consumer": true,
+  "validation_parent_cache_rechecked": true,
+  "parent_audit_files_bound_as_dependencies": 3,
+  "biological_ancestry_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native local-CNV captured partitions now numerically reconstruct the original A0/A1/A2 training statistics, validation-only A1 targets and E0/E1 graph comparison using consumed expression/activity, covariate, patient-map and compact CNV inputs. All columns and statistical metadata are compared, including unavailable values and empty graphs. Actual G012/current publication source consumers execute the replay. Cached validation proof rechecks its upstream audit and records all three parent files as dependencies. Earlier raw segment materialization/acquisition and per-pair/cross-module patient ancestry remain blocking; no gap was waived. Numerical inspection constructs no neural model. Downstream synthetic fixtures execute frozen core prediction, not learned-model fitting. No real cohort analysis, paid compute or deployment ran."
+}

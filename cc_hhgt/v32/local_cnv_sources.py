@@ -1,7 +1,7 @@
 """Actual local-CNV preprocessing reads bound to their produced partitions.
 
 This records file exposure and transformations, not per-pair optimizer use or
-complete raw biological ancestry. No statistical calculation is replayed here.
+complete raw biological ancestry. New captured outputs support numerical replay.
 """
 from pathlib import Path
 import json
@@ -42,15 +42,13 @@ class TransformationCapture(SourceCapture):
         if {r["role"] for r in records}!=ROLES[producer]:raise ValueError("Local-CNV consumed input roles are incomplete")
         for item in records:
             if sha256(item["path"])!=item["sha256"]:raise ValueError("Local-CNV input changed before publication")
+        from .local_cnv_source_replay import FORMAT as REPLAY_FORMAT, code_paths
         value={"format":FORMAT,"target_host":"149","producer":producer,"cancer_id":cancer,
                "records":records,"outputs":[dict(r) for r in outputs],"training_started":False,
+               "numeric_replay_format":REPLAY_FORMAT,
                "exposure_scope":"WHOLE_CONSUMED_FILE_NOT_ALL_ROWS_USED",
-               "implementations":[record(p) for p in (runner,Path(__file__),
-                   Path(__file__).with_name("local_cnv_confounding.py"),
-                   Path(__file__).with_name("local_cnv_cohort.py"),
-                   Path(__file__).with_name("bulk_coexpression_release.py"),
-                   Path(__file__).with_name("directional_cnv.py"),Path(__file__).with_name("cnv_input_sources.py"),
-                   Path(__file__).resolve().parents[1]/"stats.py")]}
+               "implementations":[record(p) for p in code_paths(producer)]}
+        if Path(runner).resolve()!=code_paths(producer)[0]:raise ValueError("Local-CNV source runner differs from producer")
         path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
         if path.exists():raise FileExistsError("Local-CNV consumed source receipt is immutable")
         path.write_text(json.dumps(value,indent=2)+"\n",encoding="utf-8")
@@ -115,7 +113,12 @@ def validate(item,root,*,expected_inputs=None,compact_root=None):
             if len(selected)!=1:raise ValueError("Local-CNV output expression/activity fold coverage differs")
     implementations=value.get("implementations",[])
     # Historical receipts predate the explicit annotation-defined cohort module.
-    if len(implementations) not in {7,8}:raise ValueError("Local-CNV implementation bindings are incomplete")
+    from .local_cnv_source_replay import FORMAT as REPLAY_FORMAT, code_paths
+    if value.get("numeric_replay_format") is not None:
+        if (value["numeric_replay_format"]!=REPLAY_FORMAT or len(implementations)!=len(code_paths(producer))
+                or {Path(r["path"]).name for r in implementations}!={p.name for p in code_paths(producer)}):
+            raise ValueError("Local-CNV numerical replay implementation bindings are incomplete")
+    elif len(implementations) not in {7,8}:raise ValueError("Local-CNV implementation bindings are incomplete")
     if len(implementations)==8 and sum(Path(r["path"]).name=="local_cnv_cohort.py" for r in implementations)!=1:
         raise ValueError("Local-CNV cohort implementation binding is incomplete")
     for implementation in value["implementations"]:verified_path(implementation,path.parent)
@@ -155,6 +158,8 @@ def inspect(inventory,binding,root,model,role,fold):
     for r in consumed:inventory.bind(r,path.parent,model,role+".input."+r["role"],fold)
     phase="MODEL_SELECTION" if matches[0]["output_kind"]=="validation" else "FEATURE_CONSTRUCTION"
     inspect_bound_sources(inventory,biological,path.parent,model,role+".upstream",fold,phase=phase)
+    from .local_cnv_source_replay import inspect as inspect_replay
+    inspect_replay(inventory,binding,root,model,role,fold)
     inventory.gap(model,role,"LOCAL_CNV_ROW_LEVEL_USAGE_AND_EARLIER_RAW_ANCESTRY_UNVERIFIED",fold,binding["sources"]["sha256"])
 
 

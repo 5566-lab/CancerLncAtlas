@@ -234,6 +234,32 @@ def _validation_a1(
     return mark_excluded(mark_excluded(out, pathway, entity="pathway_id"), lnc)
 
 
+def validation_fold(cancer, fold, pairs, lnc, pathway, patient_map, cnv, covariates, *, run_id, audit_success_sha256):
+    """Construct one complete validation partition and its statistical metadata."""
+    validation_fold_id = (fold + 1) % 5
+    patients = sorted(patient_map.loc[patient_map.cancer_id.eq(cancer)
+        & patient_map.patient_fold_id.eq(validation_fold_id), "patient_id"].astype(str))
+    common = sorted(set(patients) & set(lnc.index) & set(pathway.index) & set(cnv.patient_ids))
+    design, covariates_used, missing_covariate_patients = bulk._covariate_design(
+        covariates, cancer=cancer, patients=common, columns=DEFAULT_COVARIATES)
+    result = _validation_a1(pairs, lnc, pathway, cnv, patients, design)
+    result.insert(3, "fold_id", int(fold))
+    result.insert(4, "split_role", "validation_label_only")
+    result["validation_patient_fold_id"] = validation_fold_id
+    result["validation_patient_sha256"] = _patient_hash(patients)
+    result["run_id"] = run_id
+    result["local_cnv_audit_success_sha256"] = audit_success_sha256
+    result["sealed_test_accessed"] = False
+    result["covariates_used"] = json.dumps(covariates_used, separators=(",", ":"))
+    metadata = {"validation_fold": validation_fold_id, "validation_patient_n": len(patients),
+        "validation_patient_sha256": _patient_hash(patients), "rows": len(result),
+        "available": int(result.availability.eq("available").sum()),
+        "typed_unavailable": int(result.availability.eq("typed_unavailable").sum()),
+        "covariates_used": list(covariates_used), "missing_covariate_patients": int(missing_covariate_patients),
+        "base_design_rank": int(np.linalg.matrix_rank(design)) if len(design) else 0}
+    return result, metadata
+
+
 def _run(args: argparse.Namespace) -> dict[str, Any]:
     from cc_hhgt.v32.local_cnv_sources import TransformationCapture,preflight,validate,OUTPUT_ROLES
     cancer = args.cancer.upper()
@@ -328,45 +354,15 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
             if pathway_path not in expression_cache:
                 expression_cache[pathway_path] = _matrix(pathway_path,cancer,"pathway_id","activity_score",capture=capture,role="pathway_activity",fold=scope)
             pathway = expression_cache[pathway_path]
-        validation_fold = (fold + 1) % 5
-        patients = sorted(
-            patient_map.loc[
-                patient_map.cancer_id.eq(cancer)
-                & patient_map.patient_fold_id.eq(validation_fold),
-                "patient_id",
-            ].astype(str)
-        )
-        common = sorted(set(patients) & set(lnc.index) & set(pathway.index) & set(cnv.patient_ids))
-        design, covariates_used, missing_covariate_patients = bulk._covariate_design(
-            covariates,
-            cancer=cancer,
-            patients=common,
-            columns=DEFAULT_COVARIATES,
-        )
-        result = _validation_a1(pairs, lnc, pathway, cnv, patients, design)
-        result.insert(3, "fold_id", int(fold))
-        result.insert(4, "split_role", "validation_label_only")
-        result["validation_patient_fold_id"] = validation_fold
-        result["validation_patient_sha256"] = _patient_hash(patients)
-        result["run_id"] = args.run_id
-        result["local_cnv_audit_success_sha256"] = audit["success_sha256"]
-        result["sealed_test_accessed"] = False
-        result["covariates_used"] = json.dumps(covariates_used, separators=(",", ":"))
+        result, metadata = validation_fold(cancer, fold, pairs, lnc, pathway, patient_map, cnv, covariates,
+            run_id=args.run_id, audit_success_sha256=audit["success_sha256"])
         path = output / "validation_associations" / f"cancer={cancer}" / f"fold={fold}" / "part.parquet"
         _atomic_parquet(path, result)
         records.append(
             {
                 "fold": fold,
                 "output_kind":"validation","consumed_roles":sorted(OUTPUT_ROLES["validation"]),
-                "validation_fold": validation_fold,
-                "validation_patient_n": len(patients),
-                "validation_patient_sha256": _patient_hash(patients),
-                "rows": len(result),
-                "available": int(result.availability.eq("available").sum()),
-                "typed_unavailable": int(result.availability.eq("typed_unavailable").sum()),
-                "covariates_used": list(covariates_used),
-                "missing_covariate_patients": int(missing_covariate_patients),
-                "base_design_rank": int(np.linalg.matrix_rank(design)) if len(design) else 0,
+                **metadata,
                 "path": str(path.resolve()),
                 "sha256": sha256_file(path),
             }

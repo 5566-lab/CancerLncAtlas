@@ -4384,3 +4384,76 @@ superseded by the final 21-case suite and are not counted twice. The complete
 native publication fixture reaches PASS with the construction gap removed and
 other original-study, upstream-transformation and patient-use gaps retained.
 Warnings are Torch deprecations and a Starlette deprecation.
+
+Native local-CNV numerical source reconstruction
+-----------------------------------------------
+
+Local-CNV source inspection previously verified consumed bytes and the E1 graph
+selection step but did not reconstruct the upstream association statistics.
+New worker receipts declare NATIVE_LOCAL_CNV_NUMERIC_REPLAY_V1 and bind the
+actual producer, statistical routines, matrix readers and replay implementation.
+Historical seven/eight-file implementation receipts remain readable and retain
+LOCAL_CNV_NUMERIC_REPLAY_NOT_BOUND. Removing the replay declaration from a new
+receipt is rejected by its implementation contract.
+
+local_cnv_source_replay.py reconstructs each consumed cancer/fold partition
+from the captured expression, activity, covariate, patient-map and compact CNV
+files. It calls the original association_fold, g0_fold and validation calculation;
+the validation partition assembly is now a shared producer/replay function.
+Association and graph functions accept an explicit run ID for reconstruction,
+preserving the original default. No scientific threshold, missing-value rule,
+patient split, FDR correction, covariate design or graph selection is changed.
+
+All output columns and row order are compared. Integer/categorical decisions
+and null positions remain exact; floating statistics use relative tolerance
+1e-10 and absolute tolerance 1e-12 with the pinned current implementation.
+The audit also reconstructs partition counts, covariate/design metadata,
+validation patient hashes and empty/insufficient graph statuses. Actual source
+paths must agree with the source configuration. Validation reconstruction checks
+its completed association parent. Cached numerical proof is keyed by source,
+producer and output hashes; every use rechecks the bound bytes and code.
+
+Model-use inspection runs this reconstruction for consumed training pairs,
+validation labels and graph partitions, including G012 comparison contexts.
+The transformation table records the actual fold and output kind. Graph replay
+does not load pathway activity or candidate tables, and pair/validation replay
+does not load gene-expression matrices. Raw file hashing remains conservative
+over the source receipt. Numerical inspection constructs no neural model or
+learned classifier. Downstream synthetic workflow fixtures execute frozen core
+prediction separately, without parameter fitting.
+Statistical nuisance residualization is the original preprocessing calculation.
+
+The standalone command is audit_local_cnv_source_replay.py --receipt <worker>
+--receipt-sha256 <sha256> --partition <parquet> --output <new-json>. It requires
+host 149, writes CHECKING_INPUTS before reading, PASS only after numerical
+comparison, and FAILED on mismatch or missing replay authority. It never
+rewrites the original partition. Its PASS is explicitly not complete raw-study
+ancestry. The earlier segment acquisition/materialization and per-pair/cross-module
+patient ancestry gap remains blocking; no source gap is waived by this change.
+
+Synthetic checks use the actual two-cancer workers and independent closeout
+across correction-required, small-impact and review decisions. They reconstruct
+70 original pair/graph/validation partitions over five folds, including unavailable
+effects and absent E1 edges. Compact CNV inputs are declared synthetic arrays;
+this check does not establish their earlier segment materialization. An independent
+rank-projection and Student-t oracle checks the existing one-sided A1 effect,
+patient count and degrees of freedom. Altered values, labels, null availability,
+patient hashes, schema, metadata, implementation identity and omitted replay
+declarations are rejected even after repinning output/source/producer hashes.
+
+The first development run had two test errors: its independent oracle used
+symmetric rather than the original one-sided correction, and its graph tamper
+case assumed a finite E1 edge. Only the tests were corrected; the scientific
+estimand and production thresholds stayed unchanged. The failed receipt remains
+recorded. Final cache/dependency hardening additionally rechecks validation
+closeout before and after calculation, including cache hits, and binds SUCCESS,
+the independent audit and decision files into the downstream dependency table.
+
+Validation on 149 covers 198 distinct related checks: 72 upstream regression
+checks, 70 downstream checks and 56 direct/source/consumer checks. The final
+cache/dependency change is verified by the 56-check suite and a repeated actual
+native publication workflow (9 checks already included in the 70, not counted
+again). Unchanged upstream/legacy regression results precede that last hardening.
+The native workflow reaches PASS through source_recheck with numerical replay
+for every fold and all G012 comparison contexts; the remaining ancestry gaps
+continue to prevent a completeness claim. Only Torch/Starlette deprecations remain.
