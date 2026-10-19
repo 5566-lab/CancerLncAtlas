@@ -227,4 +227,5 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
             "raw_record_id":identity, "raw_row_sha256":canonical_sha(entry), "raw_identifiers_json":"{}",
             "model_id":model, "patient_fold_id":fold, "use_view":"AUXILIARY_SOURCE_METADATA", "candidate_rows":0,
             "entity_scope":"WHOLE_REGISTERED_FILE_NO_ENTITY_ASSERTION", "dependency_context":inventory.context_id})
-    inventory.gap(model, role, "EXPRESSION_GDC_ACQUISITION_BEFORE_COUNT_RDS_UNVERIFIED", fold, norm["inputs"]["counts"]["sha256"])
+    from .gdc_star_counts import inspect as inspect_counts
+    inspect_counts(inventory, norm, npath.parent, model, role, fold, phase=phase)

@@ -22,6 +22,18 @@ if (!nrow(folds) || anyDuplicated(folds$patient_id) || anyNA(folds$patient_id) |
     anyNA(folds$patient_fold_id) || any(!folds$patient_fold_id %in% 0:4) || !setequal(folds$patient_fold_id,0:4))
   stop('Invalid patient folds; require unique canonical patients and all five folds')
 x <- readRDS(inputs$counts$path)
+counts_assembly <- NULL
+count_receipt <- paste0(inputs$counts$path,'.sources.json')
+if (!is.null(metadata(x)$gdc_star_counts) && !file.exists(count_receipt)) stop('STAR count source receipt is missing')
+if (file.exists(count_receipt)) {
+  assembly <- fromJSON(count_receipt,simplifyVector=FALSE)
+  completed <- fromJSON(file.path(dirname(count_receipt),'SUCCESS.json'),simplifyVector=FALSE)
+  if (completed$status!='PASS' || completed$target_host!='149' || !identical(completed$training_started,FALSE) ||
+      !identical(completed$source,record(count_receipt))) stop('STAR count assembly is not complete')
+  if (assembly$format!='GDC_STAR_COUNT_ASSEMBLY_V1' || assembly$cancer_id!=cancer ||
+      !identical(assembly$output,inputs$counts) || !identical(assembly$inputs,metadata(x)$gdc_star_counts)) stop('STAR count source binding differs')
+  unchanged(assembly$inputs);counts_assembly<-record(count_receipt)
+}
 rd <- as.data.frame(rowData(x),stringsAsFactors=FALSE)
 if (!all(c('gene_id','gene_type') %in% names(rd))) stop('Missing gene annotation')
 versioned <- as.character(rd$gene_id);stable <- sub('\\..*$','',versioned)
@@ -85,6 +97,7 @@ for (fold in 0:4) {
     reference_sample=state$reference_sample,mean_train_effective_library_size=state$mean_train_effective_library_size,
     raw_file_exposure='WHOLE_COUNT_RDS_INCLUDING_HELDOUT_ROWS',raw_source_ancestry_complete=FALSE,
     versions=list(R=R.version.string,edgeR=as.character(packageVersion('edgeR'))))
+  if (!is.null(counts_assembly)) {unchanged(counts_assembly);receipt$counts_assembly<-counts_assembly}
   path <- file.path(target,'NORMALIZATION_SOURCES.json');write_json(receipt,path,auto_unbox=TRUE,pretty=TRUE,digits=NA)
   outputs[[as.character(fold)]] <- record(path)
 }

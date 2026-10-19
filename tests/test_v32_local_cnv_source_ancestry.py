@@ -229,7 +229,7 @@ def test_native_transformation_drift_rejected(tmp_path,monkeypatch,fault):
     with pytest.raises(ValueError,match="SHA256 mismatch|incomplete"):validate(item,tmp_path)
 
 
-def test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs(tmp_path,monkeypatch,*,native_factory=native_inputs,external_pmid="55667788",pathway_id="P1"):
+def test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs(tmp_path,monkeypatch,*,native_factory=native_inputs,external_pmid="55667788",pathway_id="P1",external_study_metadata=None):
     import test_v32_current_binding_expansion as fixtures
     from test_v32_current_core_prediction import current_fixture
     from cc_hhgt.v32.current_core_prediction import materialize_current_predictions
@@ -267,7 +267,7 @@ def test_actual_core_and_external_consumer_exclude_studies_only_in_transformatio
         columns=["namespace","raw_id","canonical_id"]).to_parquet(crosswalk,index=False)
     observed=tmp_path/"external.parquet"
     pd.DataFrame({"record_id":["r1"],"lncrna":["new"],"cancer":["breast"],"pathway":["p"],"label":[1],
-        "pmid":[external_pmid],"is_experimental":[True],"is_predicted":[False],"assay":["Synthetic"]}).to_parquet(observed,index=False)
+        "pmid":[external_pmid],"is_experimental":[True],"is_predicted":[False],"assay":["Synthetic"]}).assign(**(external_study_metadata or {})).to_parquet(observed,index=False)
     external=tmp_path/"external.json";write(external,{"format":"CURRENT_EXTERNAL_VALIDATION_INPUT_V2","models":[spec],
         "model_use_inventory":record(inventory),"identity_crosswalk":record(crosswalk),
         "external_sources":[{"source_id":"upstream_only","kind":"exact_assay","table":record(observed)}],

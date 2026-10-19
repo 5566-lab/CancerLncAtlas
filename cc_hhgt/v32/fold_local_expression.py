@@ -32,6 +32,10 @@ def native(item, root):
         raise ValueError("Invalid fold-local expression normalization receipt")
     for source in [*value["inputs"].values(), *value["outputs"].values(), *value["implementations"]]:
         verified_path(source, path.parent)
+    if value.get("counts_assembly") is not None:
+        from .gdc_star_counts import validate as validate_counts
+        _, assembly, _ = validate_counts(value["counts_assembly"], path.parent, verified_path(value["inputs"]["counts"], path.parent))
+        if assembly["cancer_id"] != value["cancer_id"]: raise ValueError("Count assembly cancer differs from normalization")
     samples = pd.read_csv(verified_path(value["outputs"]["normalization_samples"], path.parent), sep="\t")
     folds = pd.read_csv(verified_path(value["inputs"]["patient_map"], path.parent), sep="\t")
     folds = folds.loc[folds.cancer_id.eq(value["cancer_id"])]
@@ -220,4 +224,5 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
     from .current_auxiliary_model_use import input_source
     input_source(inventory, info["outputs"]["normalization_samples"], native_path.parent,
                  model, role + ".raw_sample_exposure", fold, phase=phase)
-    inventory.gap(model, role, "EXPRESSION_GDC_ACQUISITION_BEFORE_COUNT_RDS_UNVERIFIED", fold, info["inputs"]["counts"]["sha256"])
+    from .gdc_star_counts import inspect as inspect_counts
+    inspect_counts(inventory, info, native_path.parent, model, role, fold, phase=phase)

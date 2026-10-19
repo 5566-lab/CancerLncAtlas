@@ -268,5 +268,6 @@ def inspect_scope(inventory,item,root,output,model,role,fold):
         for key,source in {**norm["inputs"],"lncrna":norm["outputs"]["lncrna"]}.items():inventory.bind(source,npath.parent,model,label+"."+key,fold)
         input_source(inventory,norm["outputs"]["normalization_samples"],npath.parent,model,label+".raw_sample_exposure",fold)
         for j,source in enumerate(norm["implementations"]):inventory.bind(source,npath.parent,model,label+".implementation."+str(j),fold)
-        inventory.gap(model,label,"EXPRESSION_GDC_ACQUISITION_BEFORE_COUNT_RDS_UNVERIFIED",fold,norm["inputs"]["counts"]["sha256"])
+        from .gdc_star_counts import inspect as inspect_counts
+        inspect_counts(inventory,norm,npath.parent,model,label,fold)
     for i,source in enumerate(value["implementations"]):inventory.bind(source,path.parent,model,role+".implementation."+str(i),fold)

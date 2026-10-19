@@ -1,0 +1,51 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T05:53:30.090360+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_model_use.py": "c29e1e659ba837ceb9eaf19d85d1574190ef714d54b5ce6bd25908c556ac3c29",
+    "cc_hhgt/v32/fold_local_activity.py": "0b3e0e4d60474e6b3d77669769f3eb7268bbc6281e7be5c7104d57b3a7a7d239",
+    "cc_hhgt/v32/fold_local_expression.py": "d2ed650c0d5df1a33705981595b345c275fbcc2093595f3ebab074d3d823d349",
+    "cc_hhgt/v32/fold_local_scope.py": "c5aee8988adae070e18f6a6934d69d546e2bb0e6a6d225f1685b5f63a66898a1",
+    "cc_hhgt/v32/formal_expression_sources.py": "9c9d85ae9d9372bae77718fa526bc2740ef07c251d5998c0229d302cfb302cc6",
+    "cc_hhgt/v32/gdc_star_counts.py": "ae24110050199719a3bf8d95ad0acdc95da8d41fa7063c877caec1c163654d84",
+    "scripts/assemble_gdc_star_counts.R": "d6471e88ba0e622ad0f0c9905379648e7246604e103fb0d67cea1b8a605d18a0",
+    "scripts/materialize_fold_local_expression.R": "a862e1389f9c5c9b3fadf53c45edb58715503fa68557a8197d3c8bdeecb974b3",
+    "scripts/materialize_formal_lncrna_logcpm.R": "ff7af8a28c4e53140bd1d60ad8f0aae53fd0407c3b9f00a2b5a22e65f0c81083",
+    "scripts/materialize_gdc_star_counts.py": "3eba594d051fe14f489807adabc1ff278f0a1a5b300feb5237022b5ee6ccda81",
+    "tests/test_v32_gdc_star_counts.py": "28748b24cda7e9e991a49fc3e368fde29f143d69ec62a188c530a0136515c791"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_gdc_star_counts.py",
+    "--junitxml=provenance/code_completion_20261015/gdc_star_counts_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-19T05:55:24.365723+00:00"
+}

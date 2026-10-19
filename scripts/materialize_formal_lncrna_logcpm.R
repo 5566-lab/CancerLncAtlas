@@ -30,6 +30,18 @@ for (cancer in cancers) {
   message(sprintf('%s', cancer))
   raw_source <- record(file.path(input_root, sprintf('TCGA-%s.RDS', cancer)))
   x <- readRDS(raw_source$path)
+  counts_assembly <- NULL
+  count_receipt <- paste0(raw_source$path,'.sources.json')
+  if (!is.null(metadata(x)$gdc_star_counts) && !file.exists(count_receipt)) stop('STAR count source receipt is missing')
+  if (file.exists(count_receipt)) {
+    assembly <- fromJSON(count_receipt,simplifyVector=FALSE)
+    completed <- fromJSON(file.path(dirname(count_receipt),'SUCCESS.json'),simplifyVector=FALSE)
+    if (completed$status!='PASS' || completed$target_host!='149' || !identical(completed$training_started,FALSE) ||
+        !identical(completed$source,record(count_receipt))) stop('STAR count assembly is not complete')
+    if (assembly$format!='GDC_STAR_COUNT_ASSEMBLY_V1' || assembly$cancer_id!=cancer ||
+        !identical(assembly$output,raw_source) || !identical(assembly$inputs,metadata(x)$gdc_star_counts)) stop('STAR count source binding differs')
+    unchanged(assembly$inputs);counts_assembly<-record(count_receipt)
+  }
   unchanged(raw_source)
   rd <- as.data.frame(rowData(x), stringsAsFactors=FALSE)
   versioned_id <- as.character(rd$gene_id)
@@ -91,6 +103,7 @@ for (cancer in cancers) {
     normalization=list(method='edgeR_TMM',prior_count=0.25,counts_assay='unstranded',normalization_scope='SELECTED_TUMOR_AND_NORMAL_SAMPLES_WITHIN_CANCER',fold_local=FALSE),
     versions=list(R=R.version.string,edgeR=as.character(packageVersion('edgeR'))),
     raw_source_ancestry_complete=FALSE)
+  if (!is.null(counts_assembly)) {unchanged(counts_assembly);receipt$counts_assembly<-counts_assembly}
   write_json(receipt,file.path(output_dir,sprintf('TCGA-%s_SOURCE_RECEIPT.json',cancer)),auto_unbox=TRUE,pretty=TRUE)
   counts[[cancer]] <- list(cancer_id=cancer, n_lnc=nrow(matrix_out), n_samples=ncol(matrix_out))
   rm(x, rd, counts_all, y, logcpm, matrix_out); gc(verbose=FALSE)

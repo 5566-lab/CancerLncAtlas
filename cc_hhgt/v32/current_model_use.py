@@ -53,6 +53,7 @@ def implementations():
         "cc_hhgt/v32/patient_source_identity.py",
         "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_confounding.py","cc_hhgt/v32/local_cnv_cohort.py",
         "cc_hhgt/v32/formal_expression_sources.py","scripts/convert_formal_lncrna_rds.py",
+        "cc_hhgt/v32/gdc_star_counts.py","scripts/assemble_gdc_star_counts.R","scripts/materialize_gdc_star_counts.py",
         "cc_hhgt/v32/fold_local_expression.py","scripts/frozen_tmm.R","scripts/materialize_fold_local_expression.R",
         "cc_hhgt/v32/fold_local_activity.py","scripts/frozen_ssgsea.R","scripts/materialize_fold_local_ssgsea.R",
         "scripts/convert_fold_local_activity.py",

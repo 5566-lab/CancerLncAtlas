@@ -3290,3 +3290,94 @@ projection roundoff and an incorrect small-effect expectation when only two
 rank-comparable candidates remained. The last scenario now explicitly expects
 review; the small-effect scenario uses three variable outcomes. Scientific
 decision thresholds were not relaxed to make a test pass.
+
+GDC STAR files to native count RDS and downstream source inspection (2026-10-19)
+----------------------------------------------------------------------------
+
+scripts.materialize_gdc_star_counts provides two explicit host-149 commands.
+The query command archives original GDC API response pages, requested filters,
+pagination and retrieval times. It requires released open RNA-Seq STAR count
+files and complete declared cancer coverage. Each file must map through one
+associated aliquot and the biospecimen tree to one sample and patient. UUIDs,
+barcodes, projects, workflow, filename, size and MD5 are checked. Duplicate
+files/aliquots, ambiguous mappings and incomplete pages fail before publication.
+Normal and additional tumor aliquots remain in the count input; the existing
+normalization stage makes the patient/sample selection.
+
+Example command order, using explicit new directories on 149::
+
+  python -m scripts.materialize_gdc_star_counts query --cancers BRCA,LUAD --output /new/star-query
+  python -m scripts.materialize_gdc_star_counts materialize --manifest /new/star-query/QUERY.json --cancer BRCA --download-root /verified/gdc-cache --output /new/BRCA-counts
+  Rscript scripts/materialize_fold_local_expression.R /new/BRCA-counts/TCGA-BRCA.RDS /frozen/patients.tsv BRCA /new/BRCA-normalization
+
+Repeat assembly/normalization for each declared cancer, then use the existing
+convert_fold_local_expression.py command and fold-local ssGSEA/scope consumers.
+The materializer reads the standard file-UUID/filename GDC cache layout. It
+requires existing files by default; --download explicitly enables fetching
+missing open files. Downloads use temporary files and must match the archived
+GDC byte size and MD5 before being published. Existing invalid files are not
+silently overwritten. Successful reads also receive SHA256 bindings.
+
+The actual R assembler produces a SummarizedExperiment with unstranded,
+stranded_first and stranded_second integer count assays; no normalization,
+feature filtering or sample aggregation occurs here. Versioned gene IDs,
+symbols and gene types must agree across files. The four STAR N_* summary rows
+are preserved as metadata and excluded from gene matrices. Counts must be
+finite nonnegative integers below 2^53, and all gene/sample identities remain
+explicit. Units are raw read counts. Original source tables and API pages stay
+unchanged; output goes to a new directory.
+
+COUNT_INPUTS.json pins the actual raw files, query and assembly implementations.
+The RDS embeds its hash; TCGA-<cancer>.RDS.sources.json binds that declaration,
+the resulting RDS and SAMPLE_SOURCES.tsv. Both native normalization commands
+now carry this optional assembly binding forward. A native RDS that declares
+this ancestry cannot silently lose its sidecar during normalization. Existing
+unbound count RDS inputs retain their explicit unresolved-ancestry gap.
+The count SUCCESS must pin the completed sidecar before downstream consumption;
+an in-progress assembly is not an eligible normalization input.
+
+Inspection of fold-local expression, ssGSEA and training detection, as well as
+legacy expression, follows the pinned assembly binding. First inspection
+reassembles the three assays from the raw files and compares actual RDS values,
+gene/sample metadata and STAR summary rows. Hash-only repinning of altered
+count values is insufficient. Query pages, raw files, sample exposure and code
+versions reach the existing model-use inventory. This is whole-file exposure,
+including held-out samples read during input preparation, not an assertion
+that every sample was fitted or that patient mapping is globally complete.
+
+Explicit source_dataset=TCGA-<project> now produces a GDC_PROJECT provenance
+token. This conservatively flags observations from the same registered cohort
+in external evaluation; it does not count projects as independently verified
+publications. The token is limited to external/model-use isolation metadata;
+shared evidence-rule study counting retains its previous behavior.
+No identifier is inferred from a filename. GDC alignment/BAM
+processing and the biological truth of submitted biospecimen identities remain
+unverified. The old acquisition-before-count-RDS gap is replaced only when the
+actual bound raw-to-count transformation replays successfully.
+
+Format references: GDC documents the three STAR count channels at
+https://gdc.cancer.gov/node/1661 and file/biospecimen API retrieval at
+https://docs.gdc.cancer.gov/API/Users_Guide/Search_and_Retrieval/ .
+Verification uses archived synthetic API responses, generated STAR-shaped
+files and actual R/SummarizedExperiment/edgeR execution. No live assay download,
+real cohort preparation, optimization or training is authorized by these checks.
+
+Verification: gdc_star_counts_r3 records 19 passing assembly, replay, raw-format,
+metadata, checksum, completion and native-source checks. The actual fixture has
+122 raw files for 120 synthetic patients, 83 gene rows and three distinct count
+assays. gdc_star_transforms_r1 records three passing actual native scope/ssGSEA,
+legacy-TMM and missing-sidecar checks. gdc_star_consumers_r3 records 34 passing
+frozen core/external-consumer, cross-file identity and unchanged evidence-rule
+checks. gdc_star_regression_r1 records 28 passing existing-expression ancestry
+and fold-local normalization checks. These are 84 distinct scoped checks on
+149, not a complete current-suite run or a real-cohort validation.
+
+The initial counts-r1 failure exposed the missing TCGA project overlap token;
+the failed receipt is retained. Its correction is limited to external/model-use
+isolation and is explicitly tested not to add independent rule evidence.
+Frozen downstream fixtures retain fixed L1 controls and untrained checkpoint
+serialization; their purpose is consumption and isolation, not estimated gain.
+Two transient SSH interruptions affected receipt return. Read-only probes
+confirmed hostname 149, completed original receipts were recovered, and the
+running regression check was not duplicated. No iOA login or reconnection was
+performed. Remaining C01/C13/C16 consolidation and acceptance are still open.

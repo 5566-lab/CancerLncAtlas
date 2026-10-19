@@ -1,6 +1,7 @@
 """Raw external observations and declared model-use provenance, without labels inferred from scores."""
 from __future__ import annotations
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -43,6 +44,10 @@ def _tokens(row):
     if isinstance(pmid, (float, np.floating)) and np.isfinite(pmid) and pmid == int(pmid): pmid = str(int(pmid))
     tokens = provenance_tokens({**row, "pmid": pmid,
         "source_dataset": text(row.get("dataset_id")) or text(row.get("source_dataset")) or text(row.get("dataset_accession"))})
+    # Project-wide overlap is conservative isolation metadata. Keep it out of
+    # evidence-rule independent-study counts, which use provenance_tokens.
+    project = (text(row.get("dataset_id")) or text(row.get("source_dataset")) or text(row.get("dataset_accession"))).upper()
+    if re.fullmatch(r"TCGA-[A-Z0-9]+", project): tokens.append("GDC_PROJECT:"+project)
     accession = text(row.get("study_accession"))
     if accession and accession.lower() not in {"unknown", "na", "none"}:
         tokens.append("REGISTERED_STUDY:"+accession)

@@ -58,6 +58,10 @@ def normalization(item, root, matrix, cancer):
         verified_path(source, path.parent)
     if value["outputs"]["matrix"] != record(matrix):
         raise ValueError("Expression normalization does not bind the consumed matrix")
+    if value.get("counts_assembly") is not None:
+        from .gdc_star_counts import validate as validate_counts
+        _, assembly, _ = validate_counts(value["counts_assembly"], path.parent, verified_path(value["inputs"]["counts"], path.parent))
+        if assembly["cancer_id"] != cancer: raise ValueError("Count assembly cancer differs from normalization")
     return path, value
 
 
@@ -150,6 +154,7 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
         input_source(inventory, native["outputs"]["normalization_samples"], native_path.parent,
                      model, role + ".normalization_samples", fold, phase=phase)
         inventory.gap(model, role, "COHORT_LEVEL_TMM_NORMALIZATION_NOT_FOLD_LOCAL", fold, value["normalization"]["sha256"])
-        inventory.gap(model, role, "EXPRESSION_GDC_ACQUISITION_BEFORE_COUNT_RDS_UNVERIFIED", fold, native["inputs"]["counts"]["sha256"])
+        from .gdc_star_counts import inspect as inspect_counts
+        inspect_counts(inventory, native, native_path.parent, model, role, fold, phase=phase)
     else:
         inventory.gap(model, role, "EXPRESSION_NORMALIZATION_SOURCES_ABSENT", fold, value["matrix"]["sha256"])
