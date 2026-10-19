@@ -226,6 +226,13 @@ def a0_full(
     )
     xv = _rank_and_standardize(x, design)
     yv = _rank_and_standardize(y, design)
+    # Normalization must not promote numerical projection noise to a signal.
+    def estimable(frame):
+        ranked = frame.rank(axis=0, method="average").to_numpy(float)
+        residual = ranked - design @ (np.linalg.pinv(design) @ ranked)
+        residual -= residual.mean(axis=0, keepdims=True)
+        return np.sum(residual * residual, axis=0) > EFFECTIVE_VARIANCE_TOL
+    x_estimable, y_estimable = estimable(x), estimable(y)
     li = pairs.lncrna_id.astype(str).map({v: i for i, v in enumerate(lnc_ids)}).to_numpy(int)
     pi = pairs.pathway_id.astype(str).map({v: i for i, v in enumerate(pathway_ids)}).to_numpy(int)
     rho = np.full(len(pairs), np.nan)
@@ -239,6 +246,7 @@ def a0_full(
     # through the historical missing-value imputation above.
     measured = pairs.lncrna_id.isin(lnc.columns) & pairs.pathway_id.isin(pathway.columns)
     rho[~measured.to_numpy()] = np.nan
+    rho[~(x_estimable[li] & y_estimable[pi])] = np.nan
     residual_rank = design_rank(design)
     p = correlation_p_values(rho, len(common), residual_design_rank=residual_rank)
     return rho, p, len(common), residual_rank
@@ -592,6 +600,10 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
     capture=TransformationCapture()
     source_config_path = Path(args.source_config).resolve(strict=True)
     config = capture.json(source_config_path,role="source_config")
+    from cc_hhgt.v32.local_cnv_cohort import from_config, require_receipt
+    cohort = from_config(config, source_config_path.parent, args.candidates, args.patient_map)
+    if cohort is not None and cancer not in cohort["cancers"]:
+        raise ValueError("Requested cancer is outside the declared local-CNV cohort")
     sources = config.get("sources")
     if not isinstance(sources, dict):
         raise RuntimeError("Source config lacks a sources mapping")
@@ -601,6 +613,7 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
     receipt_path = output / "receipts" / f"{cancer}.json"
     if receipt_path.exists():
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        require_receipt(receipt, cohort)
         if "consumed_sources" not in receipt:raise RuntimeError("Historical local-CNV output lacks consumed-source binding; use a new output")
         validate(receipt["consumed_sources"],receipt_path.parent,expected_inputs={
             "source_config":source_config_path,"covariates":covariates_path,
@@ -633,7 +646,8 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
     columns=["cancer_id","lncrna_id","pathway_id"]
     candidates = capture.read(args.candidates,lambda p:pd.read_parquet(p,columns=columns,
         filters=[("cancer_id","==",cancer)]),role="candidates",cancer=cancer,columns=columns).astype(str)
-    if len(candidates) != CANDIDATES_PER_CANCER or candidates.duplicated().any():
+    expected_rows = cohort["candidate_rows_by_cancer"][cancer] if cohort is not None else CANDIDATES_PER_CANCER
+    if len(candidates) != expected_rows or candidates.duplicated().any():
         raise RuntimeError(f"candidate authority drift for {cancer}: {len(candidates)}")
     patient_map = capture.read(args.patient_map,lambda p:pd.read_csv(p,sep="\t"),role="patient_map")
     patient_map["cancer_id"] = patient_map.cancer_id.astype(str)
@@ -711,6 +725,7 @@ def run_cancer(args: argparse.Namespace) -> dict[str, Any]:
         })
     receipt = {
         "format": FORMAT, "status": "PASS", "cancer_id": cancer,"run_id":RUN_ID,
+        **({"cohort": cohort} if cohort is not None else {}),
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "covariate_contract_version": COVARIATE_CONTRACT_VERSION,
         "covariate_contract": covariate_binding,

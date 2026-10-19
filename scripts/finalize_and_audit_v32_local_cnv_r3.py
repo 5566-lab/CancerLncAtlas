@@ -203,11 +203,12 @@ def top_jaccard(left: np.ndarray, right: np.ndarray, keys: np.ndarray, k: int) -
     return jaccard(set(keys[a]), set(keys[b]))
 
 
-def verify_pair(frame: pd.DataFrame, cancer: str, fold: int, candidate_keys: pd.MultiIndex) -> list[dict[str, Any]]:
+def verify_pair(frame: pd.DataFrame, cancer: str, fold: int, candidate_keys: pd.MultiIndex,
+                *, run_id: str = EXPECTED_RUN_ID) -> list[dict[str, Any]]:
     missing = sorted(PAIR_REQUIRED - set(frame.columns))
     if missing:
         raise RuntimeError(f"pair schema missing {cancer}/{fold}: {missing}")
-    if len(frame) != 100_000 or frame[["lncrna_id", "pathway_id"]].duplicated().any():
+    if len(frame) != len(candidate_keys) or frame[["lncrna_id", "pathway_id"]].duplicated().any():
         raise RuntimeError(f"pair closure drift {cancer}/{fold}: {len(frame)}")
     observed_keys = pd.MultiIndex.from_frame(frame[["lncrna_id", "pathway_id"]].astype(str))
     if not observed_keys.equals(candidate_keys):
@@ -218,7 +219,7 @@ def verify_pair(frame: pd.DataFrame, cancer: str, fold: int, candidate_keys: pd.
         raise RuntimeError(f"partition identity drift {cancer}/{fold}")
     if set(frame.split_role.astype(str)) != {"train"}:
         raise RuntimeError(f"non-train rows in audit {cancer}/{fold}")
-    if set(frame.run_id.astype(str)) != {EXPECTED_RUN_ID}:
+    if set(frame.run_id.astype(str)) != {run_id}:
         raise RuntimeError(f"run id drift {cancer}/{fold}")
     if set(frame.local_cnv_continuous_definition.astype(str)) != {"signed_mean_segment_value"}:
         raise RuntimeError(f"signed CNV definition drift {cancer}/{fold}")
@@ -299,7 +300,7 @@ def decision(global_summary: dict[str, Any], cancer_summary: pd.DataFrame) -> st
     return "LOCAL_CNV_IMPACT_SMALL" if small else "LOCAL_CNV_SENSITIVITY_ONLY_REVIEW"
 
 
-def main() -> None:
+def main(argv=None) -> None:
     from cc_hhgt.v32.cnv_input_sources import require_host
     require_host()
     parser = argparse.ArgumentParser()
@@ -316,7 +317,10 @@ def main() -> None:
     parser.add_argument("--source-config", type=Path, default=Path(
         "/dell_2/DSC/CancerLncAtlas/runtime/tools/v32_local_cnv_and_oof_20260902_r2/"
         "v32_g012_authority_sources_20260830_r1.json"))
-    args = parser.parse_args()
+    parser.add_argument("--run-id", default=EXPECTED_RUN_ID,
+                        help="Explicit expected worker identity; never inferred from observed outputs.")
+    args = parser.parse_args(argv)
+    if not str(args.run_id).strip():raise ValueError("Local-CNV run identity is empty")
     root = args.root.resolve()
     from cc_hhgt.v32.local_cnv_sources import preflight
     preflight(root,"FINALIZE","association_finalizer")
@@ -327,9 +331,20 @@ def main() -> None:
         raise RuntimeError("directional CNV aggregate SUCCESS missing")
     candidates = pd.read_parquet(args.candidates, columns=["cancer_id", "lncrna_id", "pathway_id"])
     candidates = candidates.astype(str)
-    if len(candidates) != 3_300_000 or set(candidates.cancer_id) != set(CANCERS):
-        raise RuntimeError("formal candidate authority closure drift")
     configured = json.loads(args.source_config.read_text(encoding="utf-8"))
+    from cc_hhgt.v32.local_cnv_cohort import from_config, require_receipt, require_partitions
+    cohort = from_config(configured, args.source_config.resolve().parent, args.candidates, args.patient_map)
+    cancers = cohort["cancers"] if cohort is not None else list(CANCERS)
+    counts = cohort["candidate_rows_by_cancer"] if cohort is not None else {c: 100_000 for c in cancers}
+    if (len(candidates) != sum(counts.values()) or set(candidates.cancer_id) != set(cancers)
+            or candidates.duplicated(["cancer_id", "lncrna_id", "pathway_id"]).any()
+            or candidates.groupby("cancer_id").size().to_dict() != counts):
+        raise RuntimeError("formal candidate authority closure drift")
+    require_partitions(root / "pair_level", cancers, "cancer={cancer}/fold={fold}/part.parquet")
+    require_partitions(root / "g0_edge_stability", cancers, "cancer={cancer}/fold={fold}/part.parquet")
+    fold_count = 5 * len(cancers)
+    row_counts = set(counts.values())
+    rows_per_cancer = next(iter(row_counts)) if len(row_counts) == 1 else None
     sources = configured.get("sources")
     if not isinstance(sources, dict):
         raise RuntimeError("source config lacks a sources mapping")
@@ -386,7 +401,7 @@ def main() -> None:
     )
     directional_payload = json.loads(directional_success.read_text(encoding="utf-8"))
     directional_coverage = [{"cancer_id": cancer, **directional_payload["cancers"][cancer]}
-                            for cancer in CANCERS]
+                            for cancer in cancers]
 
     staging = root / f".finalization.partial.{os.getpid()}"
     if staging.exists():
@@ -398,13 +413,17 @@ def main() -> None:
     audited_files: list[dict[str, Any]] = []
     receipt_hashes: dict[str, str] = {}
     try:
-        for cancer in CANCERS:
+        for cancer in cancers:
             receipt_path = root / "receipts" / f"{cancer}.json"
             receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            require_receipt(receipt, cohort)
             from cc_hhgt.v32.local_cnv_sources import validate
             if "consumed_sources" not in receipt:raise RuntimeError("Local-CNV receipt lacks actual consumed sources")
-            validate(receipt["consumed_sources"],receipt_path.parent)
-            if receipt.get("status") != "PASS" or receipt.get("cancer_id") != cancer:
+            validate(receipt["consumed_sources"],receipt_path.parent, expected_inputs={
+                "source_config": args.source_config, "candidates": args.candidates,
+                "patient_map": args.patient_map, "covariates": observed_covariate_path})
+            if (receipt.get("status") != "PASS" or receipt.get("cancer_id") != cancer
+                    or receipt.get("run_id") != args.run_id):
                 raise RuntimeError(f"receipt contract drift: {cancer}")
             if (
                 receipt.get("covariate_contract_version")
@@ -438,7 +457,7 @@ def main() -> None:
                 pair = pd.read_parquet(pair_path)
                 if int(pair_record["rows"]) != len(pair):
                     raise RuntimeError(f"pair receipt row drift {cancer}/{fold}")
-                pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys, run_id=args.run_id))
                 baseline = pair.label_A0_matched.isin(POSITIVE)
                 adjusted = pair.label_A1_local.isin(POSITIVE)
                 direction_evaluable = (
@@ -478,7 +497,7 @@ def main() -> None:
                         raise RuntimeError(f"edge schema missing {cancer}/{fold}: {missing}")
                     if set(edge.cancer_id.astype(str)) != {cancer} or set(edge.fold_id.astype(int)) != {fold}:
                         raise RuntimeError(f"edge identity drift {cancer}/{fold}")
-                    if set(edge.run_id.astype(str)) != {EXPECTED_RUN_ID}:
+                    if set(edge.run_id.astype(str)) != {args.run_id}:
                         raise RuntimeError(f"edge run id drift {cancer}/{fold}")
                     if edge[["lncrna_id", "gene_id"]].duplicated().any():
                         raise RuntimeError(f"duplicate real G0 edges {cancer}/{fold}")
@@ -508,7 +527,7 @@ def main() -> None:
         fold_table = pd.DataFrame(fold_summaries)
         edge_table = pd.DataFrame(edge_summaries)
         cancer_rows: list[dict[str, Any]] = []
-        for cancer in CANCERS:
+        for cancer in cancers:
             folds = fold_table.loc[fold_table.cancer_id.eq(cancer)]
             paths = pathway_table.loc[pathway_table.cancer_id.eq(cancer)]
             edges = edge_table.loc[edge_table.cancer_id.eq(cancer)]
@@ -546,7 +565,8 @@ def main() -> None:
         total_g0_direction = int(edge_table.sign_flip_evaluable_count.sum())
         global_summary = {
             "format": "CC_HHGT_V3_2_LOCAL_CNV_GLOBAL_SUMMARY_V1",
-            "cancers": 33, "folds": 165, "candidate_rows": int(fold_table.candidate_count.sum()),
+            "cancers": len(cancers), "folds": fold_count, "candidate_rows": int(fold_table.candidate_count.sum()),
+            **({"cohort": cohort} if cohort is not None else {}),
             "baseline_positive_count": total_base,
             "adjusted_positive_count": int(fold_table.adjusted_positive_count.sum()),
             "baseline_positive_label_flip_rate": float(fold_table.baseline_positive_flip_count.sum() / total_base) if total_base else 0.0,
@@ -571,6 +591,7 @@ def main() -> None:
         decision_payload = {
             "format": "CC_HHGT_V3_2_LOCAL_CNV_DECISION_V1", "status": "PASS",
             "decision": outcome,
+            **({"cohort": cohort} if cohort is not None else {}),
             "frozen_gate": {
                 "impact_small_all": {"label_flip_max": 0.05, "direction_flip_max": 0.02, "median_rank_min": 0.95, "median_top100_min": 0.85, "g0_sign_flip_max": 0.02, "median_g0_jaccard_min": 0.85},
                 "core_retrain_any": {"label_flip_gt": 0.10, "at_least_5_cancers_label_flip_gt": 0.15, "direction_flip_gt": 0.05, "median_rank_lt": 0.90, "median_top100_lt": 0.75, "g0_sign_flip_gt": 0.05, "median_g0_jaccard_lt": 0.75},
@@ -582,7 +603,8 @@ def main() -> None:
         # has passed the checks above.
         input_authority = {
             "format": "CC_HHGT_V3_2_LOCAL_CNV_INPUT_AUTHORITY_V1",
-            "run_id": EXPECTED_RUN_ID, "status": "PASS", "files": authority_files,
+            "run_id": args.run_id, "status": "PASS", "files": authority_files,
+            **({"cohort": cohort} if cohort is not None else {}),
             "covariate_contract_version": EXPECTED_COVARIATE_CONTRACT_VERSION,
             "covariate_contract": {
                 "path": str(observed_covariate_path),
@@ -616,8 +638,8 @@ def main() -> None:
         pd.DataFrame(schema_rows).to_csv(staging / "INPUT_SCHEMA_REPORT.tsv", sep="\t", index=False)
         precheck = {
             "format": "CC_HHGT_V3_2_LOCAL_CNV_PRECHECK_V1", "status": "PASS",
-            "run_id": EXPECTED_RUN_ID, "cancer_count": 33, "fold_count": 165,
-            "candidate_rows_per_cancer": 100_000,
+            "run_id": args.run_id, "cancer_count": len(cancers), "fold_count": fold_count,
+            "candidate_rows_per_cancer": rows_per_cancer, "candidate_rows_by_cancer": counts,
             "signed_continuous_cnv": True, "amplification_deletion_separate": True,
             "fold_local_only": True, "mutation_used": False, "sealed_test_read": False,
             "authority_file_count": len(authority_files),
@@ -634,8 +656,8 @@ def main() -> None:
         write_json(staging / "PRECHECK.json", precheck)
         (staging / "RUNNING_PROCESS_SNAPSHOT.txt").write_text(
             f"captured_at_utc={datetime.now(timezone.utc).isoformat()}\n"
-            f"finalizer_pid={os.getpid()}\nrun_id={EXPECTED_RUN_ID}\n"
-            "state=all_33_cancer_workers_complete;independent_finalization_running\n",
+            f"finalizer_pid={os.getpid()}\nrun_id={args.run_id}\n"
+            f"state=all_{len(cancers)}_declared_cancer_workers_complete;independent_finalization_running\n",
             encoding="utf-8",
         )
         hardlink_dataset(root / "pair_level", staging / "local_cnv_confounding_pair_level.parquet")
@@ -646,7 +668,8 @@ def main() -> None:
         write_json(staging / "local_cnv_confounding_global_summary.json", global_summary)
         write_json(staging / "LOCAL_CNV_DECISION.json", decision_payload)
         lineage = {
-            "format": "CC_HHGT_V3_2_LOCAL_CNV_LINEAGE_V1", "run_id": EXPECTED_RUN_ID,
+            "format": "CC_HHGT_V3_2_LOCAL_CNV_LINEAGE_V1", "run_id": args.run_id,
+            **({"cohort": cohort} if cohort is not None else {}),
             "generated_at_utc": datetime.now(timezone.utc).isoformat(),
             "formal_candidates": {"path": str(args.candidates.resolve()), "sha256": sha256(args.candidates.resolve())},
             "covariates": {
@@ -666,9 +689,11 @@ def main() -> None:
         write_json(staging / "LINEAGE.json", lineage)
         audit = {
             "format": "CC_HHGT_V3_2_LOCAL_CNV_INDEPENDENT_AUDIT_V1", "status": "PASS",
+            **({"cohort": cohort} if cohort is not None else {}),
             "audited_at_utc": datetime.now(timezone.utc).isoformat(),
             "checks": {
-                "cancer_closure": 33, "fold_closure": 165, "candidate_rows_per_fold": 100_000,
+                "cancer_closure": len(cancers), "fold_closure": fold_count, "candidate_rows_per_fold": rows_per_cancer,
+                "candidate_rows_by_cancer": counts,
                 "candidate_key_exact": True, "receipt_sha_recomputed": True,
                 "pair_file_sha_recomputed": True, "g0_file_sha_recomputed": True,
                 "official_fdr_recomputed": True, "labels_recomputed": True,
@@ -686,11 +711,12 @@ def main() -> None:
             "decision": outcome,
         }
         write_json(staging / "LOCAL_CNV_INDEPENDENT_AUDIT.json", audit)
-        report = f"""# CancerLncAtlas V3.2 local-CNV confounding audit\n\nStatus: PASS\n\nDecision: **{outcome}**\n\n- 33 cancers and 165 fold-local partitions audited.\n- Signed continuous local CNV was used; amplification and deletion counts remain separate.\n- Mutation and sealed-test data were not read.\n- Primary and G0/G1/G2 production outputs were not modified by this audit.\n\nMachine-readable results are in `local_cnv_confounding_global_summary.json`, `local_cnv_confounding_cancer_summary.tsv`, `local_cnv_g0_edge_summary.tsv`, and `LOCAL_CNV_DECISION.json`.\n"""
+        report = f"""# CancerLncAtlas V3.2 local-CNV confounding audit\n\nStatus: PASS\n\nDecision: **{outcome}**\n\n- {len(cancers)} declared cancers and {fold_count} fold-local partitions audited.\n- Signed continuous local CNV was used; amplification and deletion counts remain separate.\n- Mutation and sealed-test data were not read.\n- Primary and G0/G1/G2 production outputs were not modified by this audit.\n\nMachine-readable results are in `local_cnv_confounding_global_summary.json`, `local_cnv_confounding_cancer_summary.tsv`, `local_cnv_g0_edge_summary.tsv`, and `LOCAL_CNV_DECISION.json`.\n"""
         (staging / "LOCAL_CNV_AUDIT_REPORT.md").write_text(report, encoding="utf-8")
         success = {
             "format": "CC_HHGT_V3_2_LOCAL_CNV_FINAL_SUCCESS_V1", "status": "SUCCESS",
-            "run_id": EXPECTED_RUN_ID, "decision": outcome,
+            "run_id": args.run_id, "decision": outcome,
+            **({"cohort": cohort} if cohort is not None else {}),
             "covariate_contract_version": EXPECTED_COVARIATE_CONTRACT_VERSION,
             "association_C0": EXPECTED_ASSOCIATION_C0,
             "covariate_contract": {

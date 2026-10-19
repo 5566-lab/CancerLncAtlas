@@ -3218,3 +3218,75 @@ issues were corrected; source validation was retained. Both failed receipts
 remain available. Synthetic frozen-cohort controls, reduced closeout size,
 fixed L1 logits, synthetic pathway/expansion evidence and untrained checkpoint
 serialization are explicit test substitutes, not evidence of model training.
+
+Declared local-CNV cohort and independent closeout (2026-10-19)
+------------------------------------------------------------
+
+The source configuration shared by the association and validation producers
+now accepts candidate_definition={path,sha256} at its top level. This points to
+the actual CANDIDATE_SOURCES.json from scripts.materialize_fold_local_scope.
+The annotation/GMT inputs and deterministic candidate sampling are replayed;
+the declared cancers, exact candidate keys, requested budget, observed counts
+and all five patient folds are bound into LOCAL_CNV_ANNOTATION_COHORT_V1.
+The current sampler requires the exact budget and rejects a budget larger than
+the available no-replacement universe. It never silently shrinks the budget.
+Without this declaration the historical 33-cancer, 100,000-per-cancer closeout
+contract remains in force; a small observed file cannot redefine that contract.
+
+Run the existing association command once per declared cancer, using one
+explicit --run-id. Then call scripts.finalize_and_audit_v32_local_cnv_r3 with
+that same --run-id and the existing explicit input paths. The finalizer's
+historical default remains the R3 identifier. The independently selected run
+identity is checked against both worker receipts and pair/edge rows. Candidate,
+patient, source configuration and covariate inputs must match actual captured
+reads. Missing, additional or mixed cancer/fold files prevent publication.
+The existing scientific decision thresholds are retained unchanged.
+
+Only a LOCAL_CNV_CORE_RETRAIN_REQUIRED decision authorizes the corrected
+preparation route. A genuinely small-effect synthetic audit still produces
+LOCAL_CNV_IMPACT_SMALL and remains ineligible for that route. On a qualifying
+audit, the validation producer consumes the same candidate definition and
+covariate authority. Its independent finalizer uses the declared cohort, checks
+five partitions per cancer, candidate closure and validation patient roles,
+and pins the actual parent audit SUCCESS. The corrected-E1 graph materializer
+uses the same declared cancer scope and exact five-fold partition layout.
+
+Formal preparation checks matching training/validation cohorts, the validation
+parent SUCCESS, the actual requested candidate/patient files and, when supplied,
+the matching native expression-scope candidate definition. This closes the
+fixed-size closeout mismatch for explicitly declared native candidates. It
+does not authorize fitting or declare real cohort analyses complete.
+
+Actual synthetic closeout exposed a numerical defect: constant expression or
+an outcome fully projected out by covariates could leave tiny floating-point
+residuals and appear estimable. Scalar and vector local-CNV correlations now
+apply the existing effective-variance tolerance to each residual separately;
+the full A0 comparator also checks estimability before reporting a correlation.
+Constant CNV remains a no-op adjustment when expression/activity are variable.
+Unestimable candidate rows remain present with unavailable effects and labels.
+
+The new closeout fixture runs real two-cancer, five-fold association workers,
+independent train/validation finalizers and corrected-E1 materialization. It
+does not patch cancer/budget constants or fabricate aggregate success/decision
+receipts. Expression/activity tables, compact CNV arrays, annotation/GMT and
+minimal parent graph metadata are synthetic inputs. It does not independently
+validate raw acquisition, native count normalization or complete graph metadata;
+those have separately scoped checks. Overall C01/C13/C16 acceptance remains open.
+
+Verification: local_cnv_cohort_r5 records 65 passing closeout, source-ancestry,
+core-adapter and statistical checks. Three actual scenarios retain the original
+core-required, small-effect and insufficient-rank-review outcomes. Corrupted
+cohort counts, budget, patient folds, worker identity, partitions, audit hashes
+and cohort-removal attempts are rejected. local_cnv_cohort_preparation_r1 records
+38 passing fold-local scope and typed-preparation checks, including actual
+native statistical preparation and G0/G1/G2 payload writing.
+local_cnv_cohort_consumers_r1 records 33 passing native binding-comparison and
+model-use checks, including actual graph loading and frozen export restoration.
+These are 136 distinct scoped checks on 149, not a full current-suite run.
+
+Failed r1-r4 receipts are retained. They exposed a fixture budget beyond its
+universe, an implementation-pin count mismatch, the hardcoded closeout run ID,
+projection roundoff and an incorrect small-effect expectation when only two
+rank-comparable candidates remained. The last scenario now explicitly expects
+review; the small-effect scenario uses three variable outcomes. Scientific
+decision thresholds were not relaxed to make a test pass.

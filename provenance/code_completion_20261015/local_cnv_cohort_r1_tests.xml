@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="8" failures="15" skipped="0" tests="36" time="16.905" timestamp="2026-10-19T13:29:04.082577+08:00" hostname="149"><testcase classname="tests.test_v32_local_cnv_cohort" name="test_actual_two_cancer_five_fold_closeout_and_validation" time="0.037"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_actual_small_effect_decision_is_preserved_and_does_not_authorize_correction" time="0.001"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_actual_corrected_graph_closes_declared_cancers_without_constant_patch" time="0.001"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[cancer]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[counts]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[budget]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[folds]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[missing_patient_fold]" time="0.001"><error message="failed on setup with &quot;RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3&quot;">tests/test_v32_local_cnv_cohort.py:110: in completed
+    args = fixture_inputs(root / name, confounded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_closeout_rejects_incomplete_or_mixed_partitions[missing]" time="0.013"><failure message="RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3">tests/test_v32_local_cnv_cohort.py:191: in test_closeout_rejects_incomplete_or_mixed_partitions
+    args = fixture_inputs(tmp_path / "inputs", True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</failure></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_closeout_rejects_incomplete_or_mixed_partitions[extra]" time="0.010"><failure message="RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3">tests/test_v32_local_cnv_cohort.py:191: in test_closeout_rejects_incomplete_or_mixed_partitions
+    args = fixture_inputs(tmp_path / "inputs", True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</failure></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_closeout_rejects_incomplete_or_mixed_partitions[worker_cohort]" time="0.010"><failure message="RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3">tests/test_v32_local_cnv_cohort.py:191: in test_closeout_rejects_incomplete_or_mixed_partitions
+    args = fixture_inputs(tmp_path / "inputs", True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</failure></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_legacy_candidate_budget_is_not_inferred_from_small_observed_inputs" time="0.010"><failure message="RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3">tests/test_v32_local_cnv_cohort.py:207: in test_legacy_candidate_budget_is_not_inferred_from_small_observed_inputs
+    args = fixture_inputs(tmp_path / "inputs", True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:50: in fixture_inputs
+    candidates = root / "candidates.parquet"; candidate_frame(definition, root).to_parquet(candidates, index=False)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/fold_local_scope.py:52: in candidate_frame
+    return make_candidate_pairs(grid,pathways,budget=budget,seed=value["seed"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:163: in make_candidate_pairs
+    raise RuntimeError(
+E   RuntimeError: Budget 7 exceeds the no-replacement lncRNA-pathway universe for BRCA: 3</failure></testcase><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_adjusted_association_preserves_typed_unavailable" time="0.018" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_adjusted_association_rejects_numeric_unavailable" time="0.005" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_e1_edges_never_fall_back_to_e0" time="0.007" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_validation_a1_authority_requires_firewall_gates" time="0.002" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_association_availability_masks_membership_and_direction_losses" time="0.024" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_shared_oracle_and_production_loss_match_with_availability_mask" time="0.002" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[run_v32_local_cnv_confounding_audit_r2-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_validation_associations-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[audit_v32_local_cnv_validation_associations-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[finalize_and_audit_v32_local_cnv_r3-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-initialize]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-materialize_cancer]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-finalize]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_five_fold_statistics_and_actual_preparation_preserve_sources" time="0.923"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:139: in test_native_five_fold_statistics_and_actual_preparation_preserve_sources
+    args,vargs,train,valid=native_inputs(tmp_path/"native",monkeypatch)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_reuse_rejects_different_requested_inputs[candidates]" time="0.886"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:167: in test_native_reuse_rejects_different_requested_inputs
+    args,_,_,_=native_inputs(tmp_path/"native",monkeypatch)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_reuse_rejects_different_requested_inputs[compact]" time="0.940"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:167: in test_native_reuse_rejects_different_requested_inputs
+    args,_,_,_=native_inputs(tmp_path/"native",monkeypatch)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_reuse_rejects_different_requested_inputs[run_id]" time="0.990"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:167: in test_native_reuse_rejects_different_requested_inputs
+    args,_,_,_=native_inputs(tmp_path/"native",monkeypatch)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges" time="0.931"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:181: in test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges
+    args,_,_,_=native_inputs(tmp_path/"native",monkeypatch)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[raw_table]" time="0.921"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:211: in test_native_transformation_drift_rejected
+    args,vargs,train,_=native_inputs(tmp_path/"native",monkeypatch)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[array]" time="0.923"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:211: in test_native_transformation_drift_rejected
+    args,vargs,train,_=native_inputs(tmp_path/"native",monkeypatch)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[missing_array]" time="0.922"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:211: in test_native_transformation_drift_rejected
+    args,vargs,train,_=native_inputs(tmp_path/"native",monkeypatch)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[output]" time="0.933"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:211: in test_native_transformation_drift_rejected
+    args,vargs,train,_=native_inputs(tmp_path/"native",monkeypatch)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[wrong_partition]" time="0.935"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:211: in test_native_transformation_drift_rejected
+    args,vargs,train,_=native_inputs(tmp_path/"native",monkeypatch)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs" time="1.031"><failure message="ValueError: Local-CNV implementation bindings are incomplete">tests/test_v32_local_cnv_source_ancestry.py:239: in test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs
+    args,vargs,_,_=native_factory(tmp_path/"native",monkeypatch)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_source_ancestry.py:110: in native_inputs
+    train=association.run_cancer(args)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/run_v32_local_cnv_confounding_audit_r2.py:744: in run_cancer
+    receipt["consumed_sources"]=capture.publish(output/"source_reads"/(cancer+".json"),
+cc_hhgt/v32/local_cnv_sources.py:57: in publish
+    validate(record(path),path.parent)
+cc_hhgt/v32/local_cnv_sources.py:116: in validate
+    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: Local-CNV implementation bindings are incomplete</failure></testcase></testsuite></testsuites>

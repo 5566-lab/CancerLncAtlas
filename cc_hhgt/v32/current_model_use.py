@@ -51,7 +51,7 @@ def implementations():
         "cc_hhgt/v32/current_single_cell_model_use.py","cc_hhgt/v32/single_cell_signed_fusion.py",
         "cc_hhgt/v32/current_core_model_use.py","cc_hhgt/v32/integrated_model.py",
         "cc_hhgt/v32/patient_source_identity.py",
-        "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_confounding.py",
+        "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_confounding.py","cc_hhgt/v32/local_cnv_cohort.py",
         "cc_hhgt/v32/formal_expression_sources.py","scripts/convert_formal_lncrna_rds.py",
         "cc_hhgt/v32/fold_local_expression.py","scripts/frozen_tmm.R","scripts/materialize_fold_local_expression.R",
         "cc_hhgt/v32/fold_local_activity.py","scripts/frozen_ssgsea.R","scripts/materialize_fold_local_ssgsea.R",

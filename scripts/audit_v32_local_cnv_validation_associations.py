@@ -72,7 +72,7 @@ def _covariates_used(value: Any) -> list[str]:
     return list(decoded)
 
 
-def main() -> int:
+def main(argv=None) -> int:
     from cc_hhgt.v32.cnv_input_sources import require_host
     require_host()
     parser = argparse.ArgumentParser(description=__doc__)
@@ -80,7 +80,7 @@ def main() -> int:
     parser.add_argument("--candidates", required=True, type=Path)
     parser.add_argument("--patient-map", required=True, type=Path)
     parser.add_argument("--local-cnv-audit-success", required=True, type=Path)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     root = args.root.resolve()
     from cc_hhgt.v32.local_cnv_sources import preflight
     preflight(root,"FINALIZE","validation_finalizer")
@@ -88,18 +88,26 @@ def main() -> int:
         raise FileExistsError("Validation-A1 terminal authority reuse is forbidden")
 
     candidates = pd.read_parquet(args.candidates, columns=KEYS).astype(str)
+    local_success = json.loads(args.local_cnv_audit_success.read_text(encoding="utf-8"))
+    from cc_hhgt.v32.local_cnv_cohort import replay, require_receipt, require_partitions
+    cohort = local_success.get("cohort")
+    if cohort is not None:
+        replay(cohort, args.local_cnv_audit_success.parent, candidates=args.candidates, patient_map=args.patient_map)
+    cancers = cohort["cancers"] if cohort is not None else list(CANCERS)
+    counts = cohort["candidate_rows_by_cancer"] if cohort is not None else {c: 100_000 for c in cancers}
+    require_partitions(root / "validation_associations", cancers, "cancer={cancer}/fold={fold}/part.parquet")
     if (
-        len(candidates) != 3_300_000
+        len(candidates) != sum(counts.values())
         or candidates.duplicated(KEYS).any()
-        or set(candidates.cancer_id) != set(CANCERS)
-        or not candidates.groupby("cancer_id", observed=True).size().eq(100_000).all()
+        or set(candidates.cancer_id) != set(cancers)
+        or candidates.groupby("cancer_id", observed=True).size().to_dict() != counts
     ):
         raise RuntimeError("Formal candidate authority closure failed")
     candidate_sha = sha256_file(args.candidates)
     candidate_by_cancer = {
         cancer: candidates.loc[candidates.cancer_id.eq(cancer), KEYS]
         .sort_values(KEYS, kind="stable").reset_index(drop=True)
-        for cancer in CANCERS
+        for cancer in cancers
     }
     patient_map = pd.read_csv(args.patient_map, sep="\t")
     required_patient = {"cancer_id", "patient_id", "patient_fold_id"}
@@ -116,7 +124,6 @@ def main() -> int:
     if patient_map.duplicated(["cancer_id", "patient_id"]).any():
         raise RuntimeError("Patient authority assigns one patient to multiple folds")
 
-    local_success = json.loads(args.local_cnv_audit_success.read_text(encoding="utf-8"))
     if (
         local_success.get("status") != "SUCCESS"
         or local_success.get("decision") != "LOCAL_CNV_CORE_RETRAIN_REQUIRED"
@@ -127,12 +134,14 @@ def main() -> int:
     records = []
     total_available = 0
     total_unavailable = 0
-    for cancer in CANCERS:
+    for cancer in cancers:
         receipt_path = root / "receipts" / f"{cancer}.json"
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        require_receipt(receipt, cohort)
         from cc_hhgt.v32.local_cnv_sources import validate
         if "consumed_sources" not in receipt:raise RuntimeError("Validation-A1 receipt lacks actual consumed sources")
-        validate(receipt["consumed_sources"],receipt_path.parent)
+        validate(receipt["consumed_sources"],receipt_path.parent,
+                 expected_inputs={"candidates": args.candidates, "patient_map": args.patient_map})
         if (
             receipt.get("status") != "PASS"
             or receipt.get("cancer_id") != cancer
@@ -148,7 +157,7 @@ def main() -> int:
         ):
             raise RuntimeError(f"Invalid validation-A1 receipt: {cancer}")
         outputs = receipt.get("outputs", [])
-        if {int(item.get("fold", -1)) for item in outputs} != set(range(5)):
+        if len(outputs) != 5 or {int(item.get("fold", -1)) for item in outputs} != set(range(5)):
             raise RuntimeError(f"Validation-A1 receipt lacks five folds: {cancer}")
         for record in sorted(outputs, key=lambda item: int(item["fold"])):
             fold = int(record["fold"])
@@ -212,7 +221,7 @@ def main() -> int:
             if (
                 observed_available != int(record.get("available", -1))
                 or observed_unavailable != int(record.get("typed_unavailable", -1))
-                or len(frame) != 100_000
+                or len(frame) != counts[cancer]
             ):
                 raise RuntimeError(f"Validation-A1 receipt count drift: {cancer}/{fold}")
             total_available += observed_available
@@ -234,15 +243,16 @@ def main() -> int:
         "candidate_sha256": candidate_sha,
         "patient_map_sha256": sha256_file(args.patient_map),
         "local_cnv_audit_success_sha256": local_success_sha,
-        "cancers": len(CANCERS),
+        "cancers": len(cancers),
+        **({"cohort": cohort} if cohort is not None else {}),
         "fold_partitions": len(records),
         "rows": total_available + total_unavailable,
         "available": total_available,
         "typed_unavailable": total_unavailable,
         "partitions": records,
         "gates": {
-            "five_folds": len(records) == 165,
-            "candidate_closure": total_available + total_unavailable == 16_500_000,
+            "five_folds": len(records) == 5 * len(cancers),
+            "candidate_closure": total_available + total_unavailable == 5 * sum(counts.values()),
             "validation_label_only": True,
             "patient_roles_recomputed": True,
             "typed_unavailable_preserved": True,
@@ -256,6 +266,7 @@ def main() -> int:
     atomic_json(root / "INDEPENDENT_AUDIT.json", audit)
     success = {
         "format": "CC_HHGT_V3_2_LOCAL_CNV_VALIDATION_A1_SUCCESS_V1",
+        **({"cohort": cohort} if cohort is not None else {}),
         "status": "PASS",
         "covariate_contract_version": COVARIATE_CONTRACT_VERSION,
         "covariate_contract": {"version": COVARIATE_CONTRACT_VERSION},
@@ -270,7 +281,7 @@ def main() -> int:
     atomic_json(root / "SUCCESS.json", success)
     print(json.dumps({
         "status": "PASS",
-        "partitions": 165,
+        "partitions": len(records),
         "rows": total_available + total_unavailable,
     }))
     return 0

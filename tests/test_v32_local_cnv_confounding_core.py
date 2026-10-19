@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from cc_hhgt.v32.local_cnv_confounding import (
     association_label,
@@ -16,6 +17,25 @@ from scripts.finalize_and_audit_v32_local_cnv_r3 import edge_direction_metrics
 
 def _intercept(n: int) -> np.ndarray:
     return np.ones((n, 1), dtype=float)
+
+
+@pytest.mark.parametrize("kind", ["constant_expression", "constant_activity", "expression_explained_by_cnv"])
+def test_projection_roundoff_is_not_estimable_correlation(kind):
+    n = 72
+    t = np.arange(n, dtype=float)
+    x = np.sin(t * .3) + np.cos(t * .13)
+    y = np.sin(t * .71)
+    local = np.zeros(n)
+    if kind == "constant_expression": x[:] = 0
+    elif kind == "constant_activity": y[:] = 0
+    else: local = x.copy()
+    design = np.column_stack([np.ones(n), np.linspace(.2, .8, n)])
+    scalar = partial_spearman(x, y, design, x_extras=[local])
+    vector = fold_local_pair_models(x[:, None], y[:, None], local[:, None], np.zeros((n, 1)), design,
+        local_callable=np.ones((n, 1), bool), pathway_callable=np.ones((n, 1), bool))
+    assert not scalar.available and scalar.unavailable_reason == "ZERO_RESIDUAL_VARIANCE"
+    assert not vector["available"][0] and not vector["available_a2"][0]
+    assert np.isnan(vector["rho_a1_local"][0]) and np.isnan(vector["p_a1_local"][0])
 
 
 def test_no_cnv_effect_preserves_matched_association() -> None:

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="8" failures="1" skipped="0" tests="36" time="32.493" timestamp="2026-10-19T13:33:32.224952+08:00" hostname="149"><testcase classname="tests.test_v32_local_cnv_cohort" name="test_actual_two_cancer_five_fold_closeout_and_validation" time="1.974"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_actual_small_effect_decision_is_preserved_and_does_not_authorize_correction" time="0.001"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_actual_corrected_graph_closes_declared_cancers_without_constant_patch" time="0.001"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[cancer]" time="0.002"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[counts]" time="0.001"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[budget]" time="0.001"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[folds]" time="0.001"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_cohort_replay_rejects_repinned_wrong_coverage[missing_patient_fold]" time="0.001"><error message="failed on setup with &quot;RuntimeError: run id drift BRCA/0&quot;">tests/test_v32_local_cnv_cohort.py:113: in completed
+    close_train(args)
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</error></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_closeout_rejects_incomplete_or_mixed_partitions[missing]" time="1.861" /><testcase classname="tests.test_v32_local_cnv_cohort" name="test_closeout_rejects_incomplete_or_mixed_partitions[extra]" time="2.066" /><testcase classname="tests.test_v32_local_cnv_cohort" name="test_closeout_rejects_incomplete_or_mixed_partitions[worker_cohort]" time="2.037"><failure message="RuntimeError: run id drift BRCA/0">tests/test_v32_local_cnv_cohort.py:202: in test_closeout_rejects_incomplete_or_mixed_partitions
+    with pytest.raises(ValueError, match="coverage|worker cohort"): close_train(args)
+                                                                    ^^^^^^^^^^^^^^^^^
+tests/test_v32_local_cnv_cohort.py:99: in close_train
+    finalizer.main(["--root", str(args.output_root), "--candidates", str(args.candidates),
+scripts/finalize_and_audit_v32_local_cnv_r3.py:455: in main
+    pathway_metrics.extend(verify_pair(pair, cancer, fold, candidate_keys))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/finalize_and_audit_v32_local_cnv_r3.py:222: in verify_pair
+    raise RuntimeError(f"run id drift {cancer}/{fold}")
+E   RuntimeError: run id drift BRCA/0</failure></testcase><testcase classname="tests.test_v32_local_cnv_cohort" name="test_legacy_candidate_budget_is_not_inferred_from_small_observed_inputs" time="0.059" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_adjusted_association_preserves_typed_unavailable" time="0.016" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_adjusted_association_rejects_numeric_unavailable" time="0.007" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_e1_edges_never_fall_back_to_e0" time="0.010" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_validation_a1_authority_requires_firewall_gates" time="0.003" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_association_availability_masks_membership_and_direction_losses" time="0.007" /><testcase classname="tests.test_v32_local_cnv_core_preparation" name="test_shared_oracle_and_production_loss_match_with_availability_mask" time="0.003" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[run_v32_local_cnv_confounding_audit_r2-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_validation_associations-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[audit_v32_local_cnv_validation_associations-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[finalize_and_audit_v32_local_cnv_r3-main]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-initialize]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-materialize_cancer]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_recovered_producers_reject_wrong_host_before_execution[materialize_v32_local_cnv_corrected_graph_authority-finalize]" time="0.001" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_five_fold_statistics_and_actual_preparation_preserve_sources" time="1.393" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_reuse_rejects_different_requested_inputs[candidates]" time="1.304" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_reuse_rejects_different_requested_inputs[compact]" time="1.122" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_reuse_rejects_different_requested_inputs[run_id]" time="1.144" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_e1_graph_materializer_and_source_inspector_replay_actual_edges" time="1.351" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[raw_table]" time="1.119" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[array]" time="1.089" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[missing_array]" time="1.073" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[output]" time="1.089" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_native_transformation_drift_rejected[wrong_partition]" time="1.047" /><testcase classname="tests.test_v32_local_cnv_source_ancestry" name="test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs" time="9.508" /></testsuite></testsuites>

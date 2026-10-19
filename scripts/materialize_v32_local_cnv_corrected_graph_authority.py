@@ -78,6 +78,9 @@ def initialize(args: argparse.Namespace) -> int:
         args.local_cnv_audit_root,
         expected_success_sha256=args.local_cnv_audit_success_sha256,
     )
+    cancers = local.get("cohort", {}).get("cancers", list(CANCERS))
+    if local.get("cohort") is not None and source.get("cancer_scope") != cancers:
+        raise ValueError("Source graph cancer scope differs from the local-CNV cohort")
     output.mkdir(parents=True)
     from cc_hhgt.v32.local_cnv_sources import preflight
     preflight(output,"INITIALIZE","corrected_graph")
@@ -95,7 +98,7 @@ def initialize(args: argparse.Namespace) -> int:
             "sha256": args.source_graph_receipt_sha256.lower(),
         },
         "local_cnv_audit": local,
-        "cancer_scope": list(CANCERS),
+        "cancer_scope": cancers,
         "gates": {
             "e1_only": True,
             "e0_fallback_allowed": False,
@@ -118,6 +121,8 @@ def materialize_cancer(args: argparse.Namespace) -> int:
     from cc_hhgt.v32.local_cnv_sources import preflight
     preflight(output,cancer,"corrected_graph")
     initialized = json.loads((output / "INITIALIZED.json").read_text(encoding="utf-8"))
+    if cancer not in initialized["cancer_scope"]:
+        raise ValueError("Cancer is outside the initialized graph cohort")
     local = validate_local_cnv_audit(
         args.local_cnv_audit_root,
         expected_success_sha256=args.local_cnv_audit_success_sha256,
@@ -193,7 +198,12 @@ def finalize(args: argparse.Namespace) -> int:
     fold_rows = {fold: 0 for fold in range(5)}
     cancer_receipt_hashes = {}
     source_receipts=[]
-    for cancer in CANCERS:
+    cancers = local.get("cohort", {}).get("cancers", list(CANCERS))
+    if initialized.get("cancer_scope") != cancers:
+        raise ValueError("Initialized corrected graph cohort differs")
+    from cc_hhgt.v32.local_cnv_cohort import require_partitions
+    require_partitions(output / "folds", cancers, "fold_{fold}/train_coexpression/part_{cancer}.parquet")
+    for cancer in cancers:
         receipt_path = output / "receipts" / f"{cancer}.json"
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         if (
@@ -205,11 +215,14 @@ def finalize(args: argparse.Namespace) -> int:
             raise RuntimeError(f"Invalid corrected graph cancer receipt: {cancer}")
         cancer_receipt_hashes[cancer] = sha256_file(receipt_path)
         source_receipts.append({"path":str(receipt_path),"sha256":sha256_file(receipt_path)})
-        if {int(item["fold"]) for item in receipt.get("outputs", [])} != set(range(5)):
+        if len(receipt.get("outputs", [])) != 5 or {int(item["fold"]) for item in receipt.get("outputs", [])} != set(range(5)):
             raise RuntimeError(f"Corrected graph cancer lacks five folds: {cancer}")
         for record in receipt["outputs"]:
             fold = int(record["fold"])
             path = Path(record["path"])
+            expected_path = output / "folds" / f"fold_{fold}" / "train_coexpression" / f"part_{cancer}.parquet"
+            if path.resolve() != expected_path.resolve():
+                raise ValueError("Corrected graph receipt path differs from declared partition")
             frame = pd.read_parquet(path)
             required = {
                 "cancer_id", "lncrna_id", "gene_id", "rho",
@@ -246,8 +259,8 @@ def finalize(args: argparse.Namespace) -> int:
     for fold in range(5):
         coexpression = output / "folds" / f"fold_{fold}" / "train_coexpression"
         parts = sorted(coexpression.glob("part_*.parquet"))
-        if len(parts) != len(CANCERS):
-            raise RuntimeError(f"Corrected graph fold {fold} lacks 33 partitions")
+        if {p.name for p in parts} != {f"part_{c}.parquet" for c in cancers}:
+            raise RuntimeError(f"Corrected graph fold {fold} differs from declared cancer partitions")
         declaration = receipt["fold_artifacts"][str(fold)]["train_coexpression"]
         declaration.update({
             "path": str(coexpression),
@@ -271,7 +284,7 @@ def finalize(args: argparse.Namespace) -> int:
         "local_cnv_audit_success_sha256": local["success_sha256"],
         "fold_rows": {str(k): v for k, v in fold_rows.items()},
         "gates": {
-            "cancers": len(cancer_receipt_hashes) == len(CANCERS),
+            "cancers": len(cancer_receipt_hashes) == len(cancers),
             "folds": len(fold_rows) == 5,
             "e1_only": True,
             "e0_fallback_allowed": False,

@@ -182,7 +182,7 @@ def partial_spearman(
     ry = yr - y_design @ beta_y
     sx = float(np.linalg.norm(rx))
     sy = float(np.linalg.norm(ry))
-    if sx <= 0.0 or sy <= 0.0:
+    if sx * sx <= EFFECTIVE_VARIANCE_TOL or sy * sy <= EFFECTIVE_VARIANCE_TOL:
         return PartialSpearmanResult(
             np.nan, np.nan, n, rank, df,
             tuple(float(v) for v in beta_x), tuple(float(v) for v in beta_y),
@@ -212,12 +212,14 @@ def partial_spearman(
 
 def _rho_columns(left: np.ndarray, right: np.ndarray) -> np.ndarray:
     numerator = np.sum(left * right, axis=0)
-    denominator = np.sqrt(np.sum(left * left, axis=0) * np.sum(right * right, axis=0))
+    left_energy = np.sum(left * left, axis=0)
+    right_energy = np.sum(right * right, axis=0)
+    denominator = np.sqrt(left_energy * right_energy)
     return np.divide(
         numerator,
         denominator,
         out=np.full(left.shape[1], np.nan, dtype=float),
-        where=denominator > 0,
+        where=(left_energy > EFFECTIVE_VARIANCE_TOL) & (right_energy > EFFECTIVE_VARIANCE_TOL),
     )
 
 

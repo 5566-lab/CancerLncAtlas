@@ -47,6 +47,7 @@ class TransformationCapture(SourceCapture):
                "exposure_scope":"WHOLE_CONSUMED_FILE_NOT_ALL_ROWS_USED",
                "implementations":[record(p) for p in (runner,Path(__file__),
                    Path(__file__).with_name("local_cnv_confounding.py"),
+                   Path(__file__).with_name("local_cnv_cohort.py"),
                    Path(__file__).with_name("bulk_coexpression_release.py"),
                    Path(__file__).with_name("directional_cnv.py"),Path(__file__).with_name("cnv_input_sources.py"),
                    Path(__file__).resolve().parents[1]/"stats.py")]}
@@ -112,7 +113,11 @@ def validate(item,root,*,expected_inputs=None,compact_root=None):
         for role in set(output["consumed_roles"]) & {"lncrna_expression","gene_expression","pathway_activity"}:
             selected=[r for r in records if r["role"]==role and r.get("fold",-1) in {-1,output["fold"]}]
             if len(selected)!=1:raise ValueError("Local-CNV output expression/activity fold coverage differs")
-    if len(value.get("implementations",[]))!=7:raise ValueError("Local-CNV implementation bindings are incomplete")
+    implementations=value.get("implementations",[])
+    # Historical receipts predate the explicit annotation-defined cohort module.
+    if len(implementations) not in {7,8}:raise ValueError("Local-CNV implementation bindings are incomplete")
+    if len(implementations)==8 and sum(Path(r["path"]).name=="local_cnv_cohort.py" for r in implementations)!=1:
+        raise ValueError("Local-CNV cohort implementation binding is incomplete")
     for implementation in value["implementations"]:verified_path(implementation,path.parent)
     return path,value
 

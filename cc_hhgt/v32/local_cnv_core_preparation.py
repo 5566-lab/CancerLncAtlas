@@ -69,7 +69,21 @@ def validate_local_cnv_audit(
     binding = success.get("covariate_contract", {})
     if binding.get("version") != COVARIATE_CONTRACT_VERSION:
         raise RuntimeError("Local-CNV SUCCESS covariate authority binding missing")
+    cohort = success.get("cohort")
+    if cohort is None and (independent.get("cohort") is not None or decision.get("cohort") is not None):
+        raise RuntimeError("Local-CNV cohort declaration was removed from SUCCESS")
+    if cohort is not None:
+        from .local_cnv_cohort import replay, require_receipt
+        replay(cohort, audit_root)
+        require_receipt(independent, cohort); require_receipt(decision, cohort)
+        if (success.get("independent_audit_sha256") != sha256_file(independent_path)
+                or success.get("decision_sha256") != sha256_file(decision_path)
+                or success.get("decision") != decision["decision"]
+                or independent.get("checks", {}).get("cancer_closure") != len(cohort["cancers"])
+                or independent.get("checks", {}).get("fold_closure") != 5 * len(cohort["cancers"])):
+            raise RuntimeError("Local-CNV cohort closeout binding differs")
     return {
+        **({"cohort": cohort} if cohort is not None else {}),
         "root": str(audit_root),
         "success_sha256": success_sha,
         "independent_audit_sha256": sha256_file(independent_path),
@@ -117,7 +131,21 @@ def validate_validation_a1_authority(
         or gates.get("covariates_declared") != list(DEFAULT_COVARIATES)
     ):
         raise RuntimeError("Validation-A1 governance contract failed")
+    cohort = success.get("cohort")
+    if cohort is None and independent.get("cohort") is not None:
+        raise RuntimeError("Validation-A1 cohort declaration was removed from SUCCESS")
+    if cohort is not None:
+        from .local_cnv_cohort import replay, require_receipt
+        replay(cohort, authority_root); require_receipt(independent, cohort)
+        if (success.get("independent_audit_sha256") != sha256_file(independent_path)
+                or independent.get("rows") != cohort["expected_pair_rows_all_folds"]
+                or independent.get("fold_partitions") != 5 * len(cohort["cancers"])
+                or success.get("candidate_sha256") != cohort["candidates"]["sha256"]
+                or success.get("patient_map_sha256") != cohort["patient_map"]["sha256"]):
+            raise RuntimeError("Validation-A1 cohort closeout binding differs")
     return {
+        **({"cohort": cohort, "local_cnv_audit_success_sha256": success.get("local_cnv_audit_success_sha256")}
+           if cohort is not None else {}),
         "root": str(authority_root),
         "success_sha256": success_sha,
         "independent_audit_sha256": sha256_file(independent_path),

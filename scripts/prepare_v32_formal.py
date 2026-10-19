@@ -638,6 +638,15 @@ def main() -> int:
             args.local_cnv_validation_root,
             expected_success_sha256=args.local_cnv_validation_success_sha256,
         )
+        if local_cnv_authority.get("cohort") is not None or validation_a1_authority.get("cohort") is not None:
+            cohort = local_cnv_authority.get("cohort")
+            if (cohort is None or validation_a1_authority.get("cohort") != cohort
+                    or validation_a1_authority.get("local_cnv_audit_success_sha256") != local_cnv_authority["success_sha256"]):
+                raise RuntimeError("Train and validation local-CNV cohort authorities differ")
+            from cc_hhgt.v32.local_cnv_cohort import replay
+            replay(cohort, ROOT, candidates=candidate_path, patient_map=patient_folds_path)
+            if local_scope is not None and cohort["candidate_definition"] != local_scope[1]["candidates"]:
+                raise RuntimeError("Scope and local-CNV candidate definitions differ")
         for role, filename, authority, key in (
             ("train_audit_success", "SUCCESS.json", local_cnv_authority, "success_sha256"),
             ("train_audit_independent", "LOCAL_CNV_INDEPENDENT_AUDIT.json", local_cnv_authority, "independent_audit_sha256"),

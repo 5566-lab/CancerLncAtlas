@@ -244,15 +244,29 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     capture=TransformationCapture()
     source_config_path = args.source_config.resolve(strict=True)
     config = capture.json(source_config_path,role="source_config")
+    from cc_hhgt.v32.local_cnv_cohort import from_config, require_receipt
+    cohort = from_config(config, source_config_path.parent, args.candidates, args.patient_map)
+    if cohort is not None and cancer not in cohort["cancers"]:
+        raise ValueError("Requested cancer is outside the declared local-CNV cohort")
     sources = config.get("sources")
     if not isinstance(sources, dict):
         raise RuntimeError("Source config lacks a sources mapping")
     covariates_path, covariate_binding = _bind_covariate_authority(
         source_config_path, sources
     )
+    audit = validate_local_cnv_audit(args.local_cnv_audit_root,
+        expected_success_sha256=args.local_cnv_success_sha256)
+    require_receipt(audit, cohort)
+    if cohort is not None and (
+            audit["covariate_contract"].get("observed_sha256") != covariate_binding["observed_sha256"]
+            or Path(audit["covariate_contract"].get("declared_path", "")).resolve() != covariates_path):
+        raise ValueError("Validation and training covariate authorities differ")
     receipt_path = output / "receipts" / f"{cancer}.json"
     if receipt_path.exists():
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        require_receipt(receipt, cohort)
+        if receipt.get("local_cnv_authority", {}).get("success_sha256") != audit["success_sha256"]:
+            raise ValueError("Validation reused local-CNV parent authority differs")
         if "consumed_sources" not in receipt:raise RuntimeError("Historical validation output lacks consumed-source binding; use a new output")
         validate(receipt["consumed_sources"],receipt_path.parent,expected_inputs={
             "source_config":source_config_path,"covariates":covariates_path,
@@ -275,10 +289,6 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
                 raise RuntimeError(f"Existing validation output drift: {path}")
         return receipt
 
-    audit = validate_local_cnv_audit(
-        args.local_cnv_audit_root,
-        expected_success_sha256=args.local_cnv_success_sha256,
-    )
     covariates = capture.read(covariates_path,pd.read_parquet,role="covariates")
     if not {"cancer_id", "patient_id"}.issubset(covariates.columns):
         raise RuntimeError("Covariates authority lacks cancer_id/patient_id")
@@ -287,7 +297,8 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
     columns=["cancer_id","lncrna_id","pathway_id"]
     pairs = capture.read(args.candidates,lambda p:pd.read_parquet(p,columns=columns,
         filters=[("cancer_id","==",cancer)]),role="candidates",cancer=cancer,columns=columns).astype(str)
-    if len(pairs) != CANDIDATES_PER_CANCER or pairs.duplicated().any():
+    expected_rows = cohort["candidate_rows_by_cancer"][cancer] if cohort is not None else CANDIDATES_PER_CANCER
+    if len(pairs) != expected_rows or pairs.duplicated().any():
         raise RuntimeError(f"Candidate authority drift for {cancer}: {len(pairs)}")
     patient_map = capture.read(args.patient_map,lambda p:pd.read_csv(p,sep="\t"),role="patient_map")
     patient_map["cancer_id"] = patient_map.cancer_id.astype(str)
@@ -366,6 +377,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         "run_id": args.run_id,
         "cancer_id": cancer,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        **({"cohort": cohort} if cohort is not None else {}),
         "candidate_sha256": sha256_file(args.candidates),
         "patient_map_sha256": sha256_file(args.patient_map),
         "directional_cnv_success_sha256": sha256_file(args.directional_root / "SUCCESS.json"),
@@ -382,7 +394,7 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         "local_cnv_authority": audit,
         "outputs": records,
         "gates": {
-            "candidate_closure_per_fold": CANDIDATES_PER_CANCER,
+            "candidate_closure_per_fold": expected_rows,
             "validation_label_only": True,
             "validation_partition_independent_of_train": True,
             "designated_oof_partition_read": False,
