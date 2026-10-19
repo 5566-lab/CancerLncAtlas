@@ -144,6 +144,7 @@ def materialize(manifest, output, *, runner):
     for fold in range(5):
         value={"format":SCOPE,"target_host":"149","training_started":False,"fold":fold,"candidates":candidate_item,
                "normalizations":{c:s["folds"][str(fold)] for c,s in successes.items()},
+               "normalization_releases":{c:record(verified_path(item,manifest.parent)) for c,item in spec["normalizations"].items()},
                "implementations":[record(__file__),record(runner)]}
         frame=scope_frame(value,manifest.parent)
         directory=output/f"fold={fold}";directory.mkdir()
@@ -169,6 +170,13 @@ def validate_scope(item, root, output=None, *, replay=False):
     for cancer,source in value["normalizations"].items():
         _,norm,_=normalization(source,path.parent)
         if norm["cancer_id"]!=cancer or norm["fold"]!=value["fold"]: raise ValueError("Scope normalization fold/cancer differs")
+        if "normalization_releases" in value:
+            from .normalization_source_replay import declared_release
+            if set(value["normalization_releases"])!=set(value["normalizations"]):
+                raise ValueError("Scope normalization release cancer coverage differs")
+            _,release=declared_release(value["normalization_releases"][cancer],path.parent)
+            if release.get("cancer_id")!=cancer or release["folds"][str(value["fold"])]["sha256"]!=source["sha256"]:
+                raise ValueError("Scope normalization differs from its completed release")
     if replay:
         try:pd.testing.assert_frame_equal(pd.read_parquet(target),scope_frame(value,path.parent),check_exact=True,check_dtype=False)
         except AssertionError as error: raise ValueError("Scope differs from training-tumor detection") from error
@@ -261,13 +269,8 @@ def inspect_scope(inventory,item,root,output,model,role,fold):
     inventory.visited.add(key);inventory.bind(item,root,model,role+".scope",fold)
     cpath,candidate=validate_candidates(value["candidates"],path.parent)
     inspect_candidates(inventory,value["candidates"],path.parent,verified_path(candidate["output"],cpath.parent),model,role,fold)
-    from .current_auxiliary_model_use import input_source
+    from .fold_local_expression import inspect_normalization
     for i,(cancer,source) in enumerate(sorted(value["normalizations"].items())):
-        npath,norm,_=normalization(source,path.parent);label=role+".normalization."+str(i)
-        inventory.bind(source,path.parent,model,label,fold)
-        for key,source in {**norm["inputs"],"lncrna":norm["outputs"]["lncrna"]}.items():inventory.bind(source,npath.parent,model,label+"."+key,fold)
-        input_source(inventory,norm["outputs"]["normalization_samples"],npath.parent,model,label+".raw_sample_exposure",fold)
-        for j,source in enumerate(norm["implementations"]):inventory.bind(source,npath.parent,model,label+".implementation."+str(j),fold)
-        from .gdc_star_counts import inspect as inspect_counts
-        inspect_counts(inventory,norm,npath.parent,model,label,fold)
+        inspect_normalization(inventory,source,path.parent,model,role+".normalization."+str(i),fold,
+                              release=value.get("normalization_releases",{}).get(cancer))
     for i,source in enumerate(value["implementations"]):inventory.bind(source,path.parent,model,role+".implementation."+str(i),fold)

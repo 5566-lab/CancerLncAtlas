@@ -23,6 +23,8 @@ SCOPE="NATIVE_REGISTERED_INPUTS_WITH_EXPLICIT_PROVENANCE_LIMITS"
 EXTRA=["model_id","patient_fold_id","use_view","candidate_rows","entity_scope","dependency_context","usage_record_kind"]
 DEPENDENCIES=["model_id","patient_fold_id","role","path","sha256","status","dependency_context"]
 GAPS=["model_id","patient_fold_id","role","sha256","reason","dependency_context"]
+REPLAYS=["model_id","dependency_context","patient_fold_id","role","format","source_release_sha256",
+         "normalization_sha256","folds_recomputed","outputs_compared","model_training_started"]
 
 
 def read(path):return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -66,7 +68,8 @@ def implementations():
         "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py",
         "scripts/train_single_cell_hhgt_149.py","cc_hhgt/v32/single_cell_hhgt.py",
         "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/external_validation_sources.py",
-        "cc_hhgt/v32/model_use_completeness.py"]
+        "cc_hhgt/v32/model_use_completeness.py","cc_hhgt/v32/normalization_source_replay.py",
+        "scripts/compare_fold_local_normalization.R"]
     return {name:sha256(root/name) for name in names}
 
 
@@ -85,6 +88,7 @@ def model_identities(models,root):
 class Inventory:
     def __init__(self,locations,root,patient_crosswalk=None):
         self.sources={};self.dependencies=[];self.gaps=[];self.usage=[];self.visited=set();self.locations={};self.used_locations=set()
+        self.transform_replays=[]
         self.context_id="SELECTED_SCORE"
         from .patient_source_identity import IdentityMap,PatientUse
         self.patient_use=PatientUse(IdentityMap(patient_crosswalk,root))
@@ -175,11 +179,18 @@ class Inventory:
                 relocated=path/Path(member["path"]).relative_to(original) if path.is_dir() else path
                 expected.append({**member,"path":str(relocated)})
             if observed!=expected:raise ValueError("Preparation consumed-file metadata differs: "+role)
+            from .current_auxiliary_model_use import inherited_tokens
+            start=len(self.usage)
+            if item.get("upstream_transformation"):
+                from .local_cnv_sources import inspect
+                inspect(self,item["upstream_transformation"],root,model,label+".transformation",fold)
+            item_tokens=inherited_tokens(self,start)
             for member in observed:
                 known.add(member["sha256"])
                 self.bind(member,path.parent,model,label+".consumed_file",fold)
                 tokens=member["study_tokens"]
                 if item["kind"]=="control":continue
+                start=len(self.usage)
                 if member.get("upstream_expression"):
                     from .formal_expression_sources import inspect
                     inspect(self,member["upstream_expression"],path.parent,member["path"],model,label+".expression",fold)
@@ -191,6 +202,8 @@ class Inventory:
                     inspect_scope(self,member["upstream_scope"],path.parent,member["path"],model,label+".detection",fold)
                 if member.get("upstream_candidates"):
                     inspect_candidates(self,member["upstream_candidates"],path.parent,member["path"],model,label+".candidates",fold)
+                upstream_tokens=sorted(set(item_tokens)|set(inherited_tokens(self,start)))
+                tokens=sorted(set(tokens)|set(upstream_tokens))
                 self.patient_use.table(member["path"],digest=member["sha256"],model=model,context=self.context_id,
                     role=label,fold=fold,phase="MODEL_SELECTION" if role=="validation_associations" else "FEATURE_CONSTRUCTION",
                     scope="WHOLE_CONSUMED_FILE_NOT_ALL_ROWS_FITTED")
@@ -204,14 +217,12 @@ class Inventory:
                         "source_id":"PREPARATION-SOURCE:"+identity,"source_event_id":identity,
                         "source_file_sha256":member["sha256"],"phase":phase,"endpoint":"MODEL_USE",
                         "label":np.nan,"is_experimental":False,"is_predicted":False,"mapped":True,
-                        "assay":"CONSUMED_SOURCE_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
+                        "assay":"VERIFIED_UPSTREAM_STUDY_METADATA" if upstream_tokens else "CONSUMED_SOURCE_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
                         "raw_record_id":identity,"raw_row_sha256":canonical_sha(member),"raw_identifiers_json":"{}",
                         "model_id":model,"patient_fold_id":fold,"use_view":"PREPARATION_SOURCE_METADATA",
                         "candidate_rows":0,"entity_scope":"WHOLE_CONSUMED_FILE_NO_ENTITY_ASSERTION","dependency_context":self.context_id})
-            if item.get("upstream_transformation"):
-                from .local_cnv_sources import inspect
-                inspect(self,item["upstream_transformation"],root,model,label+".transformation",fold)
-            elif item["kind"]=="table":
+            if (not item.get("upstream_transformation") and item["kind"]=="table"
+                    and not all(any(m.get(k) for k in ("upstream_expression","upstream_activity","upstream_scope","upstream_candidates")) for m in observed)):
                 self.gap(model,label,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
         return known
 
@@ -394,6 +405,7 @@ def inventory_tables(inventory,models):
         "dependencies":pd.DataFrame(inventory.dependencies,columns=DEPENDENCIES).drop_duplicates().reset_index(drop=True),
         "gaps":pd.DataFrame(inventory.gaps,columns=GAPS).drop_duplicates().reset_index(drop=True)}
     tables.update(inventory.patient_use.tables())
+    tables["transformation_replays"]=pd.DataFrame(inventory.transform_replays,columns=REPLAYS).drop_duplicates().reset_index(drop=True)
     tables["usage"]["usage_record_kind"]=tables["usage"].usage_record_kind.fillna(STUDY)
     for field in ("mapped","is_experimental","is_predicted"):tables["usage"][field]=tables["usage"][field].astype(bool)
     tables["usage"]["label"]=tables["usage"]["label"].astype(float)

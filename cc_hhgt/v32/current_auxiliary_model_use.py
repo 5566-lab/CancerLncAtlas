@@ -19,6 +19,11 @@ from .evidence_rule_summary import KEYS, candidate_aliases, stable_id
 def read(path):return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
+def inherited_tokens(inventory,start):
+    """Study identities actually inspected while replaying this transformation."""
+    return sorted({token for row in inventory.usage[start:] for token in json.loads(row["study_tokens_json"])})
+
+
 def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRUCTION"):
     """Follow only hash-bound records from the actual native producer lineage."""
     digest=item.get("sha256")
@@ -30,6 +35,8 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
     if not source.get("path") or not path.exists():
         inventory.authority(source,root,model,role,fold);return
     path=inventory.bind(source,root,model,role,fold)
+    start=len(inventory.usage)
+    derived=any(item.get(k) for k in ("upstream_expression","upstream_activity","upstream_scope","upstream_candidates"))
     if item.get("upstream_expression"):
         from .formal_expression_sources import inspect
         inspect(inventory,item["upstream_expression"],root,path,model,role+".expression",fold,phase=phase)
@@ -52,11 +59,11 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
         is_table=bool(files) and all(p.suffix==".parquet" for p in files)
     if not is_table:
         inventory.gap(model,role,"AUXILIARY_NON_TABLE_UPSTREAM_CONTENT_NOT_RECONSTRUCTED",fold,digest);return
-    source_metadata(inventory,path,model,role,fold,phase=phase)
-    inventory.gap(model,role,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
+    source_metadata(inventory,path,model,role,fold,phase=phase,upstream_tokens=inherited_tokens(inventory,start) if derived else ())
+    if not derived:inventory.gap(model,role,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
 
 
-def source_metadata(inventory,path,model,role,fold=-1,*,phase="FEATURE_CONSTRUCTION"):
+def source_metadata(inventory,path,model,role,fold=-1,*,phase="FEATURE_CONSTRUCTION",upstream_tokens=()):
     """Read exposure only; the calling native inspector must establish ancestry.
 
     Generic tables still go through input_source and retain its ancestry gap.
@@ -67,14 +74,14 @@ def source_metadata(inventory,path,model,role,fold=-1,*,phase="FEATURE_CONSTRUCT
         inventory.bind(member,path.parent,model,role+".consumed_file",fold)
         inventory.patient_use.table(member["path"],digest=member["sha256"],model=model,context=inventory.context_id,
             role=role,fold=fold,phase=phase,scope="WHOLE_REGISTERED_NATIVE_INPUT_NOT_ALL_ROWS_FITTED")
-        tokens=member["study_tokens"]
+        tokens=sorted(set(member["study_tokens"])|set(upstream_tokens))
         if not tokens:inventory.gap(model,role,"SOURCE_STUDY_METADATA_ABSENT",fold,member["sha256"])
         identity=stable_id("",[model,fold,role,member["sha256"],inventory.context_id,phase])
         inventory.usage.append({"cancer_id":"","lncrna_id":"","pathway_id":"",
             "source_id":"AUXILIARY-SOURCE:"+identity,"source_event_id":identity,
             "source_file_sha256":member["sha256"],"phase":phase,"endpoint":"MODEL_USE",
             "label":np.nan,"is_experimental":False,"is_predicted":False,"mapped":True,
-            "assay":"REGISTERED_NATIVE_INPUT_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
+            "assay":"VERIFIED_UPSTREAM_STUDY_METADATA" if upstream_tokens else "REGISTERED_NATIVE_INPUT_METADATA","biosample":"","study_tokens_json":json.dumps(tokens),
             "raw_record_id":identity,"raw_row_sha256":canonical_sha(member),"raw_identifiers_json":"{}",
             "model_id":model,"patient_fold_id":fold,"use_view":"AUXILIARY_SOURCE_METADATA",
             "candidate_rows":0,"entity_scope":"WHOLE_REGISTERED_FILE_NO_ENTITY_ASSERTION",

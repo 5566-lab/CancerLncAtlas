@@ -122,6 +122,7 @@ def convert(source_roots, output_root, *, runner):
                 frame.to_parquet(target, index=False, compression="zstd")
                 receipt = {"format": FORMAT, "target_host": "149", "training_started": False,
                            "cancer_id": value["cancer_id"], "fold": fold, "kind": kind, "normalization": item,
+                           "normalization_release":record(root / "SUCCESS.json"),
                            "output": record(target), "implementations": [record(__file__), record(runner)]}
                 receipt_path = target.parent / "EXPRESSION_SOURCES.json"; write(receipt_path, receipt)
                 validate(record(receipt_path), target.parent, target)
@@ -142,6 +143,12 @@ def validate(item, root, output, *, replay=False):
     if actual != Path(output).resolve(): raise ValueError("Fold-local expression binds a different output")
     for implementation in value["implementations"]: verified_path(implementation, path.parent)
     native_path, native_value, samples = native(value["normalization"], path.parent)
+    if value.get("normalization_release"):
+        from .normalization_source_replay import declared_release
+        _, release = declared_release(value["normalization_release"],path.parent)
+        if (release["folds"][str(value["fold"])]["sha256"]!=value["normalization"]["sha256"]
+                or release.get("cancer_id")!=value["cancer_id"]):
+            raise ValueError("Expression normalization differs from completed release")
     if value["fold"] != native_value["fold"] or value["cancer_id"] != native_value["cancer_id"]:
         raise ValueError("Fold-local expression scope differs from normalization")
     if replay:
@@ -215,14 +222,28 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
     if fold != value["fold"]: raise ValueError("Consumed expression belongs to a different model fold")
     inventory.visited.add(key)
     inventory.bind(item, root, model, role + ".conversion", fold)
-    native_path, info, _ = native(value["normalization"], path.parent)
-    inventory.bind(value["normalization"], path.parent, model, role + ".normalization", fold)
-    for i, source in enumerate([*value["implementations"], *info["implementations"]]):
-        inventory.bind(source, path.parent, model, role + ".implementation." + str(i), fold)
+    for i,source in enumerate(value["implementations"]):inventory.bind(source,path.parent,model,role+".conversion.implementation."+str(i),fold)
+    inspect_normalization(inventory,value["normalization"],path.parent,model,role,fold,
+                          release=value.get("normalization_release"),phase=phase)
+
+
+def inspect_normalization(inventory,item,root,model,role,fold,*,release=None,phase="FEATURE_CONSTRUCTION"):
+    native_path,info,_=native(item,root)
+    if info["fold"]!=fold:raise ValueError("Consumed normalization belongs to a different model fold")
+    inventory.bind(item, root, model, role + ".normalization", fold)
+    for i, source in enumerate(info["implementations"]):
+        inventory.bind(source, native_path.parent, model, role + ".implementation." + str(i), fold)
     for name, source in {**info["inputs"], **info["outputs"]}.items():
         inventory.bind(source, native_path.parent, model, role + ".normalization." + name, fold)
-    from .current_auxiliary_model_use import input_source
-    input_source(inventory, info["outputs"]["normalization_samples"], native_path.parent,
-                 model, role + ".raw_sample_exposure", fold, phase=phase)
+    from .normalization_source_replay import inspect as inspect_replay
+    replayed=inspect_replay(inventory,release,item,root,model,role,fold)
     from .gdc_star_counts import inspect as inspect_counts
+    start=len(inventory.usage)
     inspect_counts(inventory, info, native_path.parent, model, role, fold, phase=phase)
+    from .current_auxiliary_model_use import input_source,source_metadata,inherited_tokens
+    if replayed:
+        source_metadata(inventory,verified_path(info["outputs"]["normalization_samples"],native_path.parent),
+            model,role+".raw_sample_exposure",fold,phase=phase,upstream_tokens=inherited_tokens(inventory,start))
+    else:
+        input_source(inventory,info["outputs"]["normalization_samples"],native_path.parent,
+                     model,role+".raw_sample_exposure",fold,phase=phase)

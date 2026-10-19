@@ -1,0 +1,57 @@
+{
+  "method": "RAW_COUNT_NUMERIC_TMM_REPLAY_AND_DERIVED_SOURCE_INHERITANCE",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "synthetic_normalization_fitting_replayed": true,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "normalization_source_replay_r1",
+    "normalization_source_consumers_r1",
+    "normalization_source_public_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "actual_native_tmm_replay_folds_per_release": 5,
+  "actual_outputs_compared_per_release": 25,
+  "compared_outputs": [
+    "lncrna_logcpm",
+    "coding_gene_logcpm",
+    "fitted_tmm_state",
+    "training_detection",
+    "sample_and_normalization_factors"
+  ],
+  "metadata_comparison_includes": [
+    "reference_sample",
+    "training_effective_library_size",
+    "scientific_parameters",
+    "R_and_edgeR_versions"
+  ],
+  "comparison": "R_all.equal_tolerance_1e-12_including_attributes",
+  "independent_statistical_implementation": false,
+  "repinned_corruptions_rejected": [
+    "gene_matrix",
+    "fitted_state",
+    "library_size",
+    "declared_scale"
+  ],
+  "original_normalization_files_unchanged_verified": true,
+  "shared_release_numeric_replay_cache_verified": true,
+  "historical_unbound_release_kept_incomplete": true,
+  "native_derived_study_metadata_inherited": true,
+  "source_transformation_replay_public_table": true,
+  "full_core_positive_external_release_verified": false,
+  "test_substitutes": [
+    "synthetic archived GDC API metadata and raw count/annotation inputs",
+    "existing explicitly scoped synthetic graph/cohort/control and fixed no-fit baseline fixtures; original suite records apply"
+  ],
+  "independent_biological_validation_performed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The native model-use route now replays the pinned five-fold TMM producer from original count RDS/patient maps on 149 and numerically compares all 25 outputs and normalization metadata. GDC ancestry and study metadata reach both lncRNA/coding-gene conversions and formal preparation without a spurious derived-table metadata gap. The same normalization verifier is consumed by detection scope and ssGSEA source inspection. Repinned expression/state/library-size/declared-scale corruptions are rejected even when conversion remains self-consistent. Historical conversions without a bound normalization release remain incomplete. This is same-implementation numerical replay on synthetic inputs, not independent biological validation or a complete native core/fusion positive external release. ssGSEA raw scoring, references/controls and other ancestry remain open. No neural/L1 fitting, real cohort analysis, paid compute or deployment was executed."
+}

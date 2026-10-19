@@ -3914,3 +3914,64 @@ all G012 competitors, GDC assembly, publication/API and browser consumers.
 Earlier failed receipts are retained, including the positive-coverage patient
 bug and legacy preparation import failure. No optimizer, real cohort analysis,
 paid compute or deployment was started. C01, C13 and C16 remain in progress.
+
+Raw-count numerical replay through fold-local expression
+-------------------------------------------------------
+
+Native expression conversion now records normalization_release, the pinned
+five-fold SUCCESS consumed by conversion. Detection scope likewise records
+normalization_releases per cancer. Historical receipts remain readable but
+cannot establish numeric replay without this authority. The ssGSEA receipt
+already has an explicit normalization_success input and uses the same check.
+
+normalization_source_replay requires host 149 and all five normalization folds
+with matching cancer, raw count input and patient map. It verifies the current
+producer/helper hashes, reruns materialize_fold_local_expression.R in a new
+temporary directory, and compares all 25 native outputs. These include both
+lncRNA and coding-gene logCPM matrices, the fitted TMM state, detection table,
+and complete sample/normalization-factor table. The comparator also checks
+reference sample, mean effective training library size, scientific parameters
+and recorded R/edgeR versions. R object attributes and table order are retained;
+numeric comparison uses all.equal tolerance 1e-12. This is a replay of the same
+implementation, not an independent statistical implementation.
+
+The temporary work records target_host=149 and normalization_fitting_replayed,
+then is removed. Original counts, normalized outputs and receipts are not
+rewritten. No neural model, optimizer or L1 baseline is fitted. Within one
+inventory, the verified five-fold release is replayed once; subsequent views
+still recheck the consumed receipt, input/output bytes and implementations.
+
+TRANSFORMATION_REPLAYS.parquet records the model, dependency context, consumed
+fold, release/normalization hashes, replay format, five folds and 25 outputs
+compared. External V2 exposes it as model_transformation_replays; public queries
+do not include raw patient IDs or paths in that table.
+
+Study identifiers can now pass from inspected native upstream sources to a
+derived expression/preparation record that has no study columns of its own.
+Such records are marked VERIFIED_UPSTREAM_STUDY_METADATA. This uses only the
+source records emitted during that specific upstream inspection, never all
+other records already in the inventory. Missing-source and unknown-transform
+gaps from any ancestor remain blocking. A recognized transform avoids the
+generic unknown-transform gap only because its own inspector supplies the
+specific missing or unsupported ancestry checks. Tables without a native
+transform continue to retain the generic gap.
+
+The source boundary now reaches GDC raw counts -> actual five-fold TMM ->
+lncRNA/coding-gene conversion -> formal preparation exposure. It is still not
+a provenance-complete core/selected/fusion release. In particular, ssGSEA
+coverage and range scaling were previously replayed from stored raw scores,
+not from the GSVA computation. This remains explicitly blocking as
+SSGSEA_RAW_SCORE_TRANSFORMATION_NOT_REPLAYED. Annotation/reference ancestry,
+core/graph controls, CNV and other auxiliary lineage still need reconciliation.
+
+Verification: normalization_source_replay_r1 (21 checks),
+normalization_source_consumers_r1 (73 checks), and
+normalization_source_public_r1 (97 checks) all pass on 149: 191 related checks
+on this source version. These include real synthetic edgeR/GDC calculations,
+native expression/detection/activity/CNV consumers, frozen-core input and
+prediction consumers, current model-use/external publication, and actual web
+API/browser queries. The positive source boundary and inherited metadata are
+verified; repinned gene matrices, fitted states, library sizes and declared
+scales fail numerical comparison. The original output files stay unchanged.
+No intermediate failing receipt occurred in this change. C01/C13/C16 remain
+in progress; this is not a complete native-core independent-validation claim.

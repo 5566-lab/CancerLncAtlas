@@ -203,13 +203,13 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
     inventory.visited.add(key); inventory.bind(item, root, model, role+".conversion", fold)
     apath, info, npath, norm, _ = native(value["native"], path.parent)
     inventory.bind(value["native"], path.parent, model, role+".ssgsea", fold)
-    inventory.bind(info["normalization"], apath.parent, model, role+".normalization", fold)
-    for i, source in enumerate([*value["implementations"], *info["implementations"], *norm["implementations"]]):
+    for i, source in enumerate([*value["implementations"], *info["implementations"]]):
         inventory.bind(source, path.parent, model, role+".implementation."+str(i), fold)
     for name, source in {**info["inputs"], **info["outputs"]}.items(): inventory.bind(source, apath.parent, model, role+".ssgsea."+name, fold)
-    for name, source in {**norm["inputs"], "gene":norm["outputs"]["gene"]}.items(): inventory.bind(source, npath.parent, model, role+".normalization."+name, fold)
+    from .fold_local_expression import inspect_normalization
+    inspect_normalization(inventory,info["normalization"],apath.parent,model,role,fold,
+                          release=info["inputs"]["normalization_success"],phase=phase)
     from .current_auxiliary_model_use import input_source
-    input_source(inventory, norm["outputs"]["normalization_samples"], npath.parent, model, role+".raw_sample_exposure", fold, phase=phase)
     input_source(inventory, info["inputs"]["annotation"], apath.parent, model, role+".annotation", fold, phase=phase)
     _, manifest = gene_sets(info, apath.parent)
     from .preparation_sources import metadata_tokens, canonical_sha
@@ -227,5 +227,4 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
             "raw_record_id":identity, "raw_row_sha256":canonical_sha(entry), "raw_identifiers_json":"{}",
             "model_id":model, "patient_fold_id":fold, "use_view":"AUXILIARY_SOURCE_METADATA", "candidate_rows":0,
             "entity_scope":"WHOLE_REGISTERED_FILE_NO_ENTITY_ASSERTION", "dependency_context":inventory.context_id})
-    from .gdc_star_counts import inspect as inspect_counts
-    inspect_counts(inventory, norm, npath.parent, model, role, fold, phase=phase)
+    inventory.gap(model,role,"SSGSEA_RAW_SCORE_TRANSFORMATION_NOT_REPLAYED",fold,value["native"]["sha256"])

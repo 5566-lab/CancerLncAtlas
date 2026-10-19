@@ -166,6 +166,7 @@ def evaluate_manifest(path):
         coverage["independence_scope"]=SCOPE
         tables.update(model_dependencies=derived["dependencies"].drop(columns="path"),model_dependency_gaps=derived["gaps"])
         tables["model_use_completeness"]=derived["completeness"]
+        tables["model_transformation_replays"]=derived["transformation_replays"]
         tables.update(patient_mapping=derived["patient_mapping"],patient_context_overlap=derived["patient_context_overlap"])
     return manifest,tables,model_sources
 
@@ -233,7 +234,7 @@ def _load_binding(path, expected_sha):
         raise ValueError("External completeness claim differs from native input evidence")
     allowed={"isolation","model_use","metrics","details","coverage"}
     if binding["format"]=="CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":
-        allowed|={"model_dependencies","model_dependency_gaps","model_use_completeness","patient_mapping","patient_context_overlap"}
+        allowed|={"model_dependencies","model_dependency_gaps","model_use_completeness","model_transformation_replays","patient_mapping","patient_context_overlap"}
     if not set(binding["outputs"])<=allowed or any(r.get("private") is True for r in binding["outputs"].values()):
         raise ValueError("External release may publish only approved aggregate tables")
     outputs = {name: verified_path(record, path.parent) for name, record in binding["outputs"].items()}
