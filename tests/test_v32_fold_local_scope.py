@@ -120,6 +120,33 @@ def test_actual_scope_capture_batch_context_and_source_inventory(scoped,tmp_path
     np.testing.assert_allclose(batch["conservation_context"].numpy(),[[0,1,.3,1]],atol=1e-7)
 
 
+def corrected_graph_fixture(scoped):
+    """Actual five-fold E1 statistics/producer, with reduced synthetic controls."""
+    from test_v32_local_cnv_source_ancestry import native_inputs
+    import scripts.materialize_v32_local_cnv_corrected_graph_authority as corrected
+    from cc_hhgt.v32.formal_graph_authority import GRAPH_INPUT_RECEIPT_FORMAT, GRAPH_INPUT_RECEIPT_STATUS
+    root=scoped/"native_corrected_graph"
+    result=root/"corrected/GRAPH_INPUT_AUTHORITY_RECEIPT.json"
+    if result.is_file():return result
+    root.mkdir()
+    with pytest.MonkeyPatch.context() as patch:
+        for name in ("Adam","AdamW","SGD"):patch.setattr(torch.optim,name,forbidden)
+        args,_,_,_=native_inputs(root/"native",patch,fold_expression_root=scoped.parent/"converted",
+            patient_map_source=scoped.parent/"patient_map.tsv",candidate_ids=["LNC:LEAK","LNC:LOW","LNC:Z"],
+            pathway_ids=[P1],candidate_source=scoped/"normal/candidates.parquet")
+        patch.setattr(corrected,"CANCERS",("BRCA",))
+        source=root/"source_graph.json"
+        write(source,{"format":GRAPH_INPUT_RECEIPT_FORMAT,"status":GRAPH_INPUT_RECEIPT_STATUS,"counts":{},"gates":{},
+            "fold_artifacts":{str(f):{"train_coexpression":{}} for f in range(5)}})
+        settings=SimpleNamespace(output_root=root/"corrected",source_graph_receipt=source,
+            source_graph_receipt_sha256=record(source)["sha256"],local_cnv_audit_root=args.output_root,
+            local_cnv_audit_success_sha256=record(args.output_root/"SUCCESS.json")["sha256"],cancer="BRCA")
+        assert corrected.initialize(settings)==0
+        assert corrected.materialize_cancer(settings)==0
+        assert corrected.finalize(settings)==0
+    return result
+
+
 def graph_fixture(root,scoped,fold):
     from cc_hhgt.v32.formal_graph_authority import FormalGraphInputAuthority,train_identity_hashes
     from test_v32_formal_prepare_graph_authority import _declaration
@@ -128,11 +155,11 @@ def graph_fixture(root,scoped,fold):
     patients["sample_id"]=patients.patient_id+"-01A"
     patients["split"]=np.where(patients.patient_fold_id.eq(fold),"test",np.where(patients.patient_fold_id.eq((fold+1)%5),"validation","train"))
     identity=train_identity_hashes(patients,cancer_scope=["BRCA"])
-    expression=root/"expression.parquet"
+    expression=root/f"expression{fold}.parquet"
     patients.loc[patients.split.eq("train"),["cancer_id","sample_id","patient_id"]].to_parquet(expression,index=False)
-    coexpression=root/"coexpression.parquet"
-    pd.DataFrame({"cancer_id":["BRCA"],"lncrna_id":["LNC:Z"],"gene_id":["G1"],"rho":[.8],
-                  "source_split":["train"],"edge_outer_fold":[fold]}).to_parquet(coexpression,index=False)
+    corrected=corrected_graph_fixture(scoped)
+    native_graph=read(corrected)
+    coexpression=Path(native_graph["fold_artifacts"][str(fold)]["train_coexpression"]["path"])
     frames={
         "detection":pd.DataFrame({"cancer_id":["BRCA"],"lncrna_id":["LNC:LOW"],"detection_rate":[1.]}),
         "signed_membership":pd.DataFrame({"gene_id":["G1"],"pathway_id":[P1],"weight":[1.]}),
@@ -142,19 +169,15 @@ def graph_fixture(root,scoped,fold):
         "ppi":pd.DataFrame({"protein_id_a":["PR1"],"protein_id_b":["PR2"],"weight":[.7]})}
     paths={}
     for key,frame in frames.items():paths[key]=root/(key+".parquet");frame.to_parquet(paths[key],index=False)
-    receipt={"cancer_scope":["BRCA"],"fold_artifacts":{str(fold):{"outer_fold":fold,
+    receipt={"cancer_scope":["BRCA"],"local_cnv_adjustment":native_graph["local_cnv_adjustment"],
+        "fold_artifacts":{str(fold):{"outer_fold":fold,
         "train_expression":_declaration(expression,source_role="outer_train_expression",outer_fold=fold,identity=identity),
         "train_coexpression":_declaration(coexpression,source_role="outer_train_coexpression",outer_fold=fold,identity=identity)}}}
     path=root/"receipt.json";write(path,receipt)
-    # Filenames must contain {fold}; the actual selected fold resolves to the
-    # explicitly materialized synthetic identity and graph tables above.
-    expression.rename(root/f"expression{fold}.parquet");coexpression.rename(root/f"coexpression{fold}.parquet")
-    for key,stem in (("train_expression","expression"),("train_coexpression","coexpression")):
-        receipt["fold_artifacts"][str(fold)][key]["path"]=str(root/f"{stem}{fold}.parquet")
-    write(path,receipt)
     return FormalGraphInputAuthority(receipt_path=path,receipt_sha256=record(path)["sha256"],receipt=receipt,
         static_paths=paths,static_sha256={k:record(p)["sha256"] for k,p in paths.items()},
-        fold_expression_pattern=str(root/"expression{fold}.parquet"),fold_coexpression_pattern=str(root/"coexpression{fold}.parquet")),patients
+        fold_expression_pattern=str(root/"expression{fold}.parquet"),
+        fold_coexpression_pattern=str(corrected.parent/"folds/fold_{fold}/train_coexpression")),patients
 
 
 def test_actual_graph_uses_training_detection_and_keeps_unexpressed_nodes(scoped,tmp_path,monkeypatch):

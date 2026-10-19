@@ -471,6 +471,7 @@ def build_bound_formal_graph(
             f"Fold {outer_fold} expression includes non-train, missing, or relabelled identities"
         )
 
+    normalization_match = None
     if detection_override is None:
         detection = _read_table(inputs.static_paths["detection"])
     else:
@@ -487,6 +488,11 @@ def build_bound_formal_graph(
             expected=set(split_manifest.loc[split_manifest.cancer_id.eq(cancer) & split_manifest.split.eq("train"),"patient_id"])
             if observed!=expected:raise FormalGraphAuthorityError("Graph detection patients differ from outer train")
         detection=_read_table(override_path)
+        from .fold_local_graph import verify as verify_graph_normalization
+        normalization_match = verify_graph_normalization(
+            {"path": str(inputs.receipt_path), "sha256": inputs.receipt_sha256},
+            {"path": str(coexpression_path), "sha256": coexpression_sha},
+            detection_override["upstream_scope"], inputs.receipt_path.parent, outer_fold)
     coexpression = _read_table(coexpression_path)
     membership = _read_table(inputs.static_paths["signed_membership"])
     hierarchy = _read_table(inputs.static_paths["pathway_hierarchy"])
@@ -594,6 +600,9 @@ def build_bound_formal_graph(
             >= set(FOLD_ARTIFACT_IDS),
         },
     }
+    if normalization_match is not None:
+        binding["fold_normalization_match"] = normalization_match
+        binding["gates"]["matching_fold_expression_normalization"] = True
     return BoundFormalGraph(authority=authority, binding=binding)
 
 
@@ -625,6 +634,9 @@ def validate_formal_graph_payload_binding(
         for record in provenance_records
     )
     detection = static_artifacts.get("detection", {}) if isinstance(static_artifacts, Mapping) else {}
+    if detection.get("upstream_scope"):
+        from .fold_local_graph import validate_binding
+        validate_binding(binding, outer_fold)
     if detection.get("upstream_scope") and (
             detection.get("fold")!=outer_fold or gates.get("training_patient_detection") is not True
             or gates.get("cohort_detection_used") is not False):

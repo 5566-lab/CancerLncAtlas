@@ -1,0 +1,49 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T04:42:11.338839+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_core_model_use.py": "cb42e5e96ec2ce7a2b596c96ad0b3627e61786131b3bc438b1d893bf28580cf2",
+    "cc_hhgt/v32/current_core_prediction.py": "6b5f73c61bad8871d7e99c4ee5754aa5deac367ba9d193c68a4b88a02d3f6580",
+    "cc_hhgt/v32/current_model_use.py": "973fe22fbd2a20158582aeb6cbe2c2f48a200b0081084c97bb6f6ca372f5f3eb",
+    "cc_hhgt/v32/fold_local_graph.py": "d7be9968b36b55de48c62bd6d82900b15c2e899e83d564a5e992310f97b51ea8",
+    "cc_hhgt/v32/formal_graph_authority.py": "0ffe38da9d2d16c4d0a66e8ecea1264f58689b8480404f3f6296be46290c3398",
+    "cc_hhgt/v32/prediction_scope.py": "3d7ef05ec49f92491f1b42757d4311a82ec8f3a6e150da243648b09b1fecf23e",
+    "tests/test_v32_fold_local_graph.py": "bc73d7b51a3ad13ca805d18ccb40ee78821d037c48e41f5b1790d69cd97a2c77",
+    "tests/test_v32_fold_local_scope.py": "809a514a45a72bad6fe0a9fe00ebc37f9eebdbf09c5e6c9dc344f209aa2a4574"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_fold_local_graph.py",
+    "tests/test_v32_fold_local_scope.py",
+    "--junitxml=provenance/code_completion_20261015/fold_graph_normalization_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T04:43:42.978235+00:00"
+}

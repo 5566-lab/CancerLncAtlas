@@ -2863,10 +2863,10 @@ Integration limits that still require code work:
 * The global prediction-scope boundary identified here is addressed by the
   subsequent section. Do not substitute one fold or a cohort-derived table
   for the native five-fold release.
-* Matching association normalization is enforced. Matching normalization for
-  corrected coexpression graph ancestry is not yet enforced by this new switch;
-  its existing source inspection remains separate. Activity, static pathway
-  hierarchy and legacy preparation have their own source constraints.
+* Matching association normalization is enforced. The separate corrected-graph
+  normalization gap identified here is addressed by the subsequent graph
+  consistency section. Activity, static pathway hierarchy and legacy
+  preparation retain their own source constraints.
 * Pre-RDS acquisition, complete per-row patient exposure, unsupported
   historical sources, final upstream orchestration/schema and acceptance remain
   open. Passing these checks does not prove full biological independence.
@@ -2960,10 +2960,11 @@ The current HTTP tables preserve all fold fields, and the browser labels
 fold-variable and ineligible states explicitly.
 
 This closes the downstream representation boundary only. Fixed native cohort
-size/budget closeout, matching corrected-coexpression normalization, pre-count
-acquisition ancestry, complete patient exposure and final orchestration remain
-open under C01/C13/C16. No real cohort preparation, fitting, training, paid
-compute or deployment is authorized or performed by this change.
+size/budget closeout, pre-count acquisition ancestry, complete patient exposure
+and final orchestration remain open under C01/C13/C16. The separate corrected-
+coexpression normalization gap is addressed in the following section. No real
+cohort preparation, fitting, training, paid compute or deployment is authorized
+or performed by this change.
 
 Verification: prediction_scope_r4 records 72 passing native-scope, current-core,
 selected-analysis and typed-binding-expansion checks. prediction_scope_consumers_r1
@@ -2983,3 +2984,74 @@ the actual graph materializer and arm binder. r3 completed native inference,
 GeneSet and source-inventory assertions but lacked HTTP dependencies. r4 used
 the existing isolated web verification dependencies. Production validation
 was not weakened to accommodate these failures. No optimizer was run.
+
+Corrected graph and detection use the same fold normalization (2026-10-19)
+-----------------------------------------------------------------------
+
+Training-patient identity checks alone allowed a corrected coexpression graph
+and the detection/association features to use different expression versions.
+The native fold-local graph path now follows the actual E1 producer's source
+receipts before constructing the graph. It verifies that every declared cancer
+has exactly one consumed corrected partition for the current fold, including
+an explicit empty parquet when no edge passes. Extra, missing or duplicated
+partitions and a missing transformation ancestry are errors.
+
+Each corrected parquet must equal the actual present_E1/rho_E1 selection from
+its bound native G0 statistics. The transformation must be the matching cancer,
+fold and graph output, not a pair association or validation partition. Both
+lncrna_expression and gene_expression must be native fold-local conversions
+from the same normalization receipt used by detection. Their table values are
+replayed from the native RDS conversion, not accepted solely because hashes
+were updated. The transformation patient map must also match the native
+normalization patient map. Changing only a coding-gene normalization is enough
+to fail this check, even if lncRNA detection and patient identities still match.
+
+The existing native command order is unchanged: generate fold-local expression,
+candidate/scope and native adjusted associations; run the corrected-graph
+materializer; then pass --fold-local-scope to formal preparation. The graph
+producer's explicit local_cnv_adjustment.source_receipts supplies the E1
+ancestry. No new source-path inference or global-expression fallback is added.
+Historical graph preparation without the explicit native scope retains its
+existing behavior and does not receive the new consistency claim.
+
+Native graph bindings now contain fold_normalization_match with format
+FOLD_LOCAL_GRAPH_NORMALIZATION_MATCH_V1, the outer fold, detection-scope record,
+graph receipt, coexpression artifact and a record for every cancer. Each cancer
+record includes the normalization and patient-map files, the actual lncRNA and
+gene conversion/table pairs, E1 producer, native transformation, corrected
+partition and its edge_rows count. This count describes that whole partition
+before candidate filtering; it is not optimizer usage or a biological score.
+The matching_fold_expression_normalization gate records the completed check.
+
+Portable payload validation requires the complete native binding. Current
+prediction and model-use inspection also replay its actual sources; a binding
+claim alone is insufficient. Experimental/predicted expansion arms retain and
+check their base graph's evidence. Older native prepared files without this
+evidence need to be prepared again; their historical checkpoints cannot be
+relabeled as having consumed a verified replacement graph.
+
+This addresses expression-version consistency for the existing native adjusted
+path. Full native cohort/budget closeout, fresh typed-authority/sidecar command
+orchestration, pre-count acquisition, complete patient exposure and final
+acceptance remain open. It does not establish full biological independence.
+
+Verification: fold_graph_normalization_r2 records 28 passing native-source,
+repinned-corruption, empty-partition and actual G0/G1/G2 preparation checks.
+fold_graph_consumers_r1 records 14 passing current-scope checks, including five
+frozen model forwards/replay, source inventory, selected scores, GeneSet/GMT,
+actual HTTP handlers and browser consumption. fold_graph_regression_r1 records
+38 passing native local-CNV ancestry, formal graph authority, C-overlay and
+model-use regressions. These are 80 distinct scoped checks on host 149; no
+optimizer or real cohort job ran. Native E1 calculations and corrected output
+writers replace the earlier direct synthetic coexpression table. Frozen cohort
+control metadata, untrained checkpoint serialization, fixed L1 logits, reduced
+dimensions and synthetic pathway activities remain explicit test substitutes.
+
+The first graph-normalization run passed 27 cases and failed while constructing
+an empty-directory test fixture. The corrected fixture contains metadata but
+no parquet, reaching the intended missing-partition check. The actual native
+fixture has zero E1 edges in folds 0 and 4 and positive edge counts in folds
+1 through 3; all five retain their cancer and normalization evidence. The
+consumer run passed but its initial SCP receipt transfer failed during SSH
+banner exchange. A read-only probe returned host 149 and the existing completed
+receipts were downloaded without rerunning the tests or changing the VPN login.

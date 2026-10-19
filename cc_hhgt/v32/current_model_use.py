@@ -55,7 +55,7 @@ def implementations():
         "cc_hhgt/v32/fold_local_expression.py","scripts/frozen_tmm.R","scripts/materialize_fold_local_expression.R",
         "cc_hhgt/v32/fold_local_activity.py","scripts/frozen_ssgsea.R","scripts/materialize_fold_local_ssgsea.R",
         "scripts/convert_fold_local_activity.py",
-        "cc_hhgt/v32/fold_local_scope.py","scripts/materialize_fold_local_scope.py","cc_hhgt/v32/prediction_scope.py",
+        "cc_hhgt/v32/fold_local_scope.py","scripts/materialize_fold_local_scope.py","cc_hhgt/v32/prediction_scope.py","cc_hhgt/v32/fold_local_graph.py",
         "cc_hhgt/v32/formal_graph.py","cc_hhgt/v32/formal_graph_authority.py","cc_hhgt/v32/safe_graph.py",
         "scripts/materialize_formal_lncrna_logcpm.R",
         "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/stats.py","cc_hhgt/v32/directional_cnv.py",

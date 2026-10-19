@@ -1,0 +1,80 @@
+{
+  "method": "MATCH_NATIVE_E1_GRAPH_AND_DETECTION_EXPRESSION_NORMALIZATION",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "fold_graph_normalization_r2",
+    "fold_graph_consumers_r1",
+    "fold_graph_regression_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "fold_graph_normalization_r1"
+  ],
+  "intermediate_failure_causes": [
+    "missing-partition fixture was rejected as an empty directory before reaching the intended partition check"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/current_core_model_use.py",
+    "cc_hhgt/v32/current_core_prediction.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/fold_local_graph.py",
+    "cc_hhgt/v32/formal_graph_authority.py",
+    "cc_hhgt/v32/prediction_scope.py",
+    "tests/test_v32_fold_local_graph.py",
+    "tests/test_v32_fold_local_scope.py"
+  ],
+  "native_e1_statistics_and_corrected_producer_executed": true,
+  "lncrna_and_gene_conversion_replayed": true,
+  "same_normalization_and_patient_map_required": true,
+  "normalization_folds_verified": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "explicit_empty_native_partitions_verified": [
+    0,
+    4
+  ],
+  "nonempty_native_partitions_verified": [
+    1,
+    2,
+    3
+  ],
+  "actual_preparation_graph_arms": [
+    "G0",
+    "G1",
+    "G2"
+  ],
+  "actual_frozen_model_folds_replayed": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "native_to_gmt_http_and_browser_checked": true,
+  "test_substitutes": [
+    "synthetic frozen-cohort control metadata",
+    "synthetic untrained checkpoint/receipt serialization",
+    "fixed zero L1 logits",
+    "reduced candidate/cancer dimensions",
+    "synthetic pathway activity",
+    "browser transport to actual HTTP handlers"
+  ],
+  "corrected_coexpression_matching_normalization_enforced": true,
+  "arbitrary_candidate_budget_native_closeout_complete": false,
+  "fresh_typed_authority_sidecar_orchestration_complete": false,
+  "biological_independence_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Supersedes the earlier missing corrected-graph normalization check: native scoped graph construction now replays E1 selection and both actual lncRNA/gene conversions, checks their shared fold normalization and patient map against detection, and preserves empty cancer partitions. Payload validation, current prediction and model-use inventory consume the bound consistency evidence. Actual synthetic native statistics, all three graph arms, five frozen model forwards/replay and downstream publication are verified without optimization. Native full-size/budget closeout, fresh typed-authority/sidecar command orchestration, pre-count acquisition and complete patient/source ancestry remain open."
+}

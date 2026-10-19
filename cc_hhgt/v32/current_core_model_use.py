@@ -125,6 +125,9 @@ def graph_sources(inventory, graph, root, model, fold):
     def visit(authority, prefix):
         parent = authority.get("base_authority")
         if parent is not None:visit(parent,prefix+"base.")
+        elif authority.get("static_artifacts", {}).get("detection", {}).get("upstream_scope"):
+            from .fold_local_graph import replay_binding
+            replay_binding(authority, root, fold)
         for group in ("static_artifacts","fold_artifacts"):
             for name,item in authority.get(group,{}).items():
                 input_source(inventory,item,root,model,prefix+group+"."+name,fold=fold)

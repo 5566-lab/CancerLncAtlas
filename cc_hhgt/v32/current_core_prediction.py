@@ -25,7 +25,7 @@ def _json(path): return json.loads(Path(path).read_text(encoding="utf-8"))
 def implementation_hashes():
     root = Path(__file__).parent
     names = ["current_core_prediction.py", "current_core_export.py", "model.py", "training.py", "integrated_model.py",
-             "prediction_scope.py", "fold_local_scope.py"]
+             "prediction_scope.py", "fold_local_scope.py", "fold_local_graph.py"]
     return {**{name: sha256(root/name) for name in names},
         "export_v32_current_core_embeddings.py": sha256(root.parents[1]/"scripts/export_v32_current_core_embeddings.py"),
         "gnn.py": sha256(root.parent/"gnn.py")}

@@ -137,6 +137,8 @@ def validate_prepared_scope(manifest, root, payload, candidates, batches, fold):
         observed = batch["conservation_context"].numpy()[:, [0, 1, 3]]
         if not np.allclose(observed, features[batch["candidate_positions"]], rtol=0, atol=1e-7):
             raise ValueError("Prediction features differ from bound training detection")
+    from .fold_local_graph import replay_binding
+    replay_binding(payload["formal_graph_authority"], root, fold, scope_item=expected)
     return expected
 
 
