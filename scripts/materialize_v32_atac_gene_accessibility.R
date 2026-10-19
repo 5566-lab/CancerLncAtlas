@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
 })
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 8L) {
+if (!length(args) %in% c(8L, 9L)) {
   stop(paste(
     "usage: materialize_v32_atac_gene_accessibility.R",
     "<matrix.rds> <mapping.tsv> <peak_set.tsv> <promoters.bed.gz>",
@@ -42,6 +42,19 @@ expected_covered <- c(
   "HNSC", "KIRC", "KIRP", "LGG", "LIHC", "LUAD", "LUSC", "MESO",
   "PCPG", "PRAD", "SKCM", "STAD", "TGCT", "THCA", "UCEC"
 )
+raw_covered <- expected_covered
+if (length(args) == 9L) {
+  cohort <- fromJSON(normalizePath(args[[9L]], mustWork = TRUE))
+  if (!identical(cohort$format, "ATAC_ANNOTATION_COHORT_V1") ||
+      length(cohort$cancers) == 0L || anyDuplicated(cohort$cancers) ||
+      !all(cohort$cancers %in% formal_cancers)) stop("invalid declared ATAC cohort")
+  formal_cancers <- sort(cohort$cancers)
+  expected_covered <- intersect(formal_cancers, raw_covered)
+  if (!identical(sort(cohort$covered_cancers), sort(expected_covered)) ||
+      !identical(sort(cohort$raw_gap_cancers), sort(setdiff(formal_cancers, raw_covered)))) {
+    stop("ATAC cohort raw availability differs from official asset")
+  }
+}
 expected_gaps <- setdiff(formal_cancers, expected_covered)
 
 atomic_fwrite <- function(value, path) {
@@ -65,7 +78,7 @@ mapping[, cancer_id := sub("x$", "", cancer_id)]
 mapping[, aliquot_id := as.character(aliquot_id)]
 mapping[, patient_id := substr(aliquot_id, 1L, 12L)]
 mapping[, expected_matrix_column := gsub("-", "_", bam_prefix, fixed = TRUE)]
-if (!identical(sort(unique(mapping$cancer_id)), sort(expected_covered))) {
+if (!identical(sort(unique(mapping$cancer_id)), sort(raw_covered))) {
   stop("official ATAC mapping coverage differs from frozen 23-cancer scope")
 }
 
@@ -75,10 +88,14 @@ if (!all(c("cancer_id", "patient_id", "patient_fold_id") %in% names(folds))) {
 }
 folds[, cancer_id := toupper(as.character(cancer_id))]
 folds[, patient_id := substr(as.character(patient_id), 1L, 12L)]
+if (anyNA(folds$patient_fold_id) || !all(folds$patient_fold_id %in% 0:4)) stop("invalid fold ID")
 folds[, patient_fold_id := as.integer(patient_fold_id)]
 if (!identical(sort(unique(folds$cancer_id)), sort(formal_cancers)) ||
     !identical(sort(unique(folds$patient_fold_id)), 0:4)) {
-  stop("canonical fold input is not exact 33 cancers x folds 0..4")
+  stop("canonical fold input differs from declared cancers x folds 0..4")
+}
+if (!all(folds[, .(ok = setequal(patient_fold_id, 0:4)), by = cancer_id]$ok)) {
+  stop("each declared cancer must contain all five folds")
 }
 if (folds[, anyDuplicated(paste(cancer_id, patient_id, sep = "\t"))] > 0L) {
   stop("canonical fold input duplicates a cancer-patient")
@@ -247,8 +264,8 @@ audit <- list(
   status = "PASS",
   analysis_version = "CancerLncAtlas_V3.2_FULL_MULTITASK",
   module_id = "atac_gene_accessibility_materialization",
-  covered_cancers = expected_covered,
-  raw_gap_cancers = expected_gaps,
+  covered_cancers = I(expected_covered),
+  raw_gap_cancers = I(expected_gaps),
   matrix_rows = nrow(atac),
   matrix_sample_columns = length(sample_columns),
   official_mapping_rows = nrow(mapping),

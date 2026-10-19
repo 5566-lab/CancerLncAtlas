@@ -26,7 +26,7 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--candidates", required=True)
     parser.add_argument("--patient-folds", required=True)
-    parser.add_argument("--patient-fold-authority-receipt", required=True)
+    parser.add_argument("--patient-fold-authority-receipt")
     parser.add_argument("--pathway-membership", required=True)
     parser.add_argument("--materialization-success", required=True)
     parser.add_argument("--output-root", required=True)
@@ -60,10 +60,14 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
     args = _parser().parse_args(argv)
-    validate_frozen_v32_patient_fold_binding(
-        args.patient_folds, args.patient_fold_authority_receipt
-    )
+    from cc_hhgt.v32.atac_training import _validate_materialization
+    materialization, _ = _validate_materialization(Path(args.materialization_success).resolve())
+    if materialization.get("cohort") is None:
+        if not args.patient_fold_authority_receipt: raise ValueError("Legacy ATAC requires frozen patient authority receipt")
+        validate_frozen_v32_patient_fold_binding(args.patient_folds, args.patient_fold_authority_receipt)
     config = AtacTrainingConfig(
         seed=args.seed,
         min_pathway_promoter_genes=args.min_pathway_promoter_genes,

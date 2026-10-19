@@ -63,7 +63,7 @@ def _verify_input_contract(
     if not isinstance(records, list):
         raise AtacTrainingError("ATAC authoritative input contract lacks files")
     by_role = {str(record.get("role")): record for record in records}
-    if set(by_role) != set(paths):
+    if len(by_role) != len(records) or set(by_role) != set(paths):
         raise AtacTrainingError("ATAC input contract roles do not match formal inputs")
     for role, path in paths.items():
         record = by_role[role]
@@ -109,6 +109,9 @@ def run_atac_materialization(
 ) -> dict[str, Any]:
     """Hash-gate raw inputs, run the R aggregation, and publish Parquet matrices."""
 
+    from .cnv_input_sources import require_host
+    from .atac_cohort import from_definition
+    require_host()
     paths = {
         "candidates": Path(candidates_path).resolve(),
         "patient_folds": Path(patient_folds_path).resolve(),
@@ -136,14 +139,23 @@ def run_atac_materialization(
     observed_hashes = {role: file_sha256(path) for role, path in paths.items()}
     contract = _verify_input_contract(contract_path, paths, observed_hashes)
     folds = normalise_patient_folds(pd.read_csv(paths["patient_folds"], sep="\t"))
-    if set(folds.cancer_id.unique()) != set(FORMAL_CANCERS):
-        raise AtacTrainingError("ATAC folds are not the exact 33-cancer scope")
+    cohort = (from_definition(contract["candidate_definition"], contract_path.parent, paths["candidates"], paths["patient_folds"])
+              if contract.get("candidate_definition") is not None else None)
+    cancers = tuple(cohort["cancers"]) if cohort else FORMAL_CANCERS
+    covered = tuple(cohort["covered_cancers"]) if cohort else RAW_COVERED_CANCERS
+    gaps = tuple(cohort["raw_gap_cancers"]) if cohort else RAW_GAP_CANCERS
+    if cohort: folds = folds.loc[folds.cancer_id.isin(cancers)].reset_index(drop=True)
+    if set(folds.cancer_id.unique()) != set(cancers):
+        raise AtacTrainingError("ATAC folds differ from declared cancer scope")
+    contract_hash = file_sha256(contract_path); extractor_hash = file_sha256(extractor)
     membership = normalise_membership(pd.read_parquet(paths["pathway_membership"]))
     required_genes = _candidate_gene_ids(paths["candidates"]) | set(
         membership.gene_id.astype(str)
     )
 
     output.mkdir(parents=True)
+    _atomic_json(output / "LAUNCH_PREFLIGHT.json", {"target_host": "149", "training_started": False,
+        "cohort": cohort, "input_hashes": observed_hashes, "input_contract_sha256": contract_hash})
     intermediate = output / "intermediate"
     r_output = intermediate / "r_gene_accessibility"
     intermediate.mkdir()
@@ -169,6 +181,10 @@ def run_atac_materialization(
         str(r_output),
         "CC_HHGT_V3_2_ATAC_MATERIALIZE_V1",
     ]
+    scope_path = intermediate / "ATAC_COHORT.json"
+    if cohort:
+        _atomic_json(scope_path, cohort)
+        command.append(str(scope_path))
     environment = os.environ.copy()
     environment.update(
         {
@@ -198,11 +214,11 @@ def run_atac_materialization(
     if r_audit.get("status") != "PASS":
         raise AtacTrainingError("ATAC R materialization audit is not PASS")
     if tuple(sorted(r_audit.get("covered_cancers", []))) != tuple(
-        sorted(RAW_COVERED_CANCERS)
+        sorted(covered)
     ):
-        raise AtacTrainingError("ATAC R materializer did not recover exact 23-cancer coverage")
-    if tuple(sorted(r_audit.get("raw_gap_cancers", []))) != tuple(sorted(RAW_GAP_CANCERS)):
-        raise AtacTrainingError("ATAC R materializer raw-gap list differs from exact typed 10")
+        raise AtacTrainingError("ATAC R materializer did not recover declared raw-covered cancers")
+    if tuple(sorted(r_audit.get("raw_gap_cancers", []))) != tuple(sorted(gaps)):
+        raise AtacTrainingError("ATAC R materializer raw-gap list differs from declared typed gaps")
 
     matrix_root = output / "gene_accessibility"
     records: list[dict[str, Any]] = []
@@ -210,7 +226,7 @@ def run_atac_materialization(
         cancer: set(group.patient_id.astype(str))
         for cancer, group in folds.groupby("cancer_id", observed=True, sort=False)
     }
-    for cancer in RAW_COVERED_CANCERS:
+    for cancer in covered:
         source = r_output / f"{cancer}.gene_accessibility.tsv.gz"
         if not source.is_file() or source.stat().st_size <= 0:
             raise FileNotFoundError(source)
@@ -251,6 +267,7 @@ def run_atac_materialization(
     materialized_paths = [Path(record["path"]) for record in records]
     materialized_paths.extend(Path(record["r_intermediate_path"]) for record in records)
     materialized_paths.extend([log_path, r_audit_path, genes_path, fold_path])
+    if cohort: materialized_paths.append(scope_path)
     manifest_entries = [
         {
             "relative_path": str(path.relative_to(output)).replace("\\", "/"),
@@ -272,8 +289,9 @@ def run_atac_materialization(
         "status": "SUCCESS",
         "analysis_version": ANALYSIS_VERSION,
         "completed_at_utc": datetime.now(timezone.utc).isoformat(),
-        "covered_cancers": list(RAW_COVERED_CANCERS),
-        "raw_gap_cancers": list(RAW_GAP_CANCERS),
+        "covered_cancers": list(covered),
+        "cohort": cohort,
+        "raw_gap_cancers": list(gaps),
         "records": records,
         "manifest_path": str(manifest_path),
         "manifest_sha256": file_sha256(manifest_path),
@@ -308,6 +326,13 @@ def run_atac_materialization(
         "missing_raw_cancer_assumed_zero": False,
         "success_written_last": True,
     }
+    if file_sha256(contract_path) != contract_hash or file_sha256(extractor) != extractor_hash:
+        raise AtacTrainingError("ATAC authority/extractor changed during materialization")
+    for role, path in paths.items():
+        if file_sha256(path) != observed_hashes[role]: raise AtacTrainingError("ATAC raw input changed during materialization")
+    if cohort and from_definition(contract["candidate_definition"], contract_path.parent,
+                                 paths["candidates"], paths["patient_folds"]) != cohort:
+        raise AtacTrainingError("ATAC candidate definition changed during materialization")
     _atomic_json(output / "GENE_ACCESSIBILITY_SUCCESS.json", success)
     return success
 

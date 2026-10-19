@@ -4236,3 +4236,83 @@ E1/source checks. Full native graph controls still undergo strict validation.
 The original edge-replay assertions remain, with an additional explicit gap
 assertion. Earlier passing development receipts are superseded. Only Torch
 deprecation warnings remain; no training or real-data execution occurred.
+
+Native candidate scope through ATAC materialization and consumers
+---------------------------------------------------------------
+
+ATAC materialization, trainer preparation and independent result audit previously
+required the historical 33-cancer / 100,000-candidates-per-cancer universe. The
+new native path accepts the annotation-defined candidate receipt already emitted
+by the expression/scope workflow. The original seven-file ATAC input contract
+adds a candidate_definition record containing that receipt's path and SHA256.
+The receipt is replayed from annotation/GMT; observed predictions never define
+the allowed cancer set or candidate counts. An omitted native declaration retains
+the historical fixed-scope contract. Duplicate input-contract roles are rejected.
+
+atac_cohort.py binds the candidate definition, exact candidate and patient files,
+declared cancer order, per-cancer candidate counts, and raw-covered/raw-gap sets.
+The latter are the declared cancers intersected with the unchanged official
+23-covered / 10-gap classification. The R producer still requires the complete
+official mapping and 562,709-peak matrix. Its optional ninth argument is a bound
+cohort JSON; only the cohort's covered cancers are exported. Technical replicates
+are averaged within exact aliquots, followed by equal-weight aliquot means per
+patient. Missing raw cancers remain unavailable, never a zero accessibility value.
+Native training rechecks the seven raw/static input hashes, original input
+contract, materialization manifest and R audit, and rejects different candidate,
+patient or membership inputs. Materialization and training rehash inputs before
+publishing final SUCCESS. Neither check reconstructs biological source truth or
+replays the full original ATAC normalization; those ancestry limits remain open.
+
+prepare_atac_inputs and collect_atac_examples are now shared by the real trainer
+and preflight_v32_atac_training.py. They read the actual materialized matrices,
+project exact pathway genes, compute inner-training-only standardized features
+and adjacent-validation persistence targets, then apply the original deterministic
+sampling. The declared covered-cancer count sets the quota. Fractional/null/outside
+fold IDs and null/empty candidate IDs fail. A raw-covered cancer unable to produce
+any eligible outer-fold prediction also fails before fitting.
+
+The no-fit preflight accepts --candidates, --patient-folds, --pathway-membership,
+--materialization-success and a new --output. Sampling options are --seed,
+--min-pathway-promoter-genes, --min-inner-train-patients,
+--min-outer-train-patients and --max-training-rows. PASS_READY requires all five
+actual feature/target collections, at least 100 sampled rows and both persistence
+classes per fold, matching the calibrator's existing fitting requirements. It
+records host 149 and training_started=false before work and writes FAILED on
+errors. It does not construct a calibrator, optimize or run auxiliary predictions.
+
+run_v32_atac_materialization.py and run_v32_atac_training.py preserve the frozen
+patient-authority gate for legacy inputs. Native inputs instead validate the
+candidate receipt's exact patient-file binding; --patient-fold-authority-receipt
+is optional only on that verified native route. Actual fitting remains a separate
+explicit training command. audit_v32_atac_readiness.py accepts
+--candidate-definition and reports the declared denominator. Its historical
+spreadsheet checks remain file inventory checks, not workbook-content validation.
+
+Completed native checkpoints, fold-success files, LINEAGE and SUCCESS carry the
+same cohort. The independent result auditor additionally requires an explicit
+--expected-training-run-id for native output. It checks candidate keys, fold IDs,
+typed availability, checkpoint/fold-success hashes and all five fold tables;
+published probabilities and counts must equal their independently recomputed
+fold aggregate. It processes one cancer at a time. The native auxiliary consumer
+verifies the cohort against the materialization actually consumed and checks
+checkpoint/fold-success cohort identity. Existing native legacy fixtures remain
+supported. These checks do not establish incremental fusion gain or causal effects.
+
+Synthetic verification runs the real R extraction with the unchanged full raw
+shape, two annotation-declared cancers (BRCA and raw-gap OV), 240 candidate rows
+and 40 declared synthetic patients. It checks the exact replicate/aliquot mean,
+all five 120-by-7 feature collections, the readiness and no-fit preflight CLIs,
+independent auditing of 1,200 frozen fold rows, and native fusion consumption.
+Frozen probabilities/checkpoint JSON are explicitly marked serialization fixtures;
+they are not generated by a fitted head. Historical spreadsheet/source placeholders
+exercise only the readiness inventory. Changed raw files, duplicate contract roles,
+removed scope, wrong input paths, changed keys/fold IDs and inconsistent aggregates
+are rejected. The first development run exposed a test-contract omission (missing
+byte sizes); the production hash/size gate correctly rejected it and was retained.
+No real cohort analysis, model fitting, auxiliary prediction, paid compute or
+deployment was performed. C01, C13 and C16 remain in progress.
+
+Final verification on 149: native_atac_scope_r3 (24 checks) and
+native_atac_consumers_r1 (72 checks), for 96 related checks on the final source.
+The first failed fixture receipt and superseded r2 pass remain recorded as
+development history. Remaining warnings are two Torch deprecations.

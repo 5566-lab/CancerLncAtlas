@@ -7,6 +7,9 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path: sys.path.insert(0, str(ROOT))
 from typing import Any
 
 import numpy as np
@@ -56,12 +59,15 @@ def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--training-success", required=True)
     parser.add_argument("--candidates", required=True)
     parser.add_argument("--output-root", required=True)
-    args = parser.parse_args()
+    parser.add_argument("--expected-training-run-id")
+    args = parser.parse_args(argv)
 
     success_path = Path(args.training_success).resolve()
     candidates_path = Path(args.candidates).resolve()
@@ -88,10 +94,30 @@ def main() -> int:
         raise AuditError("ATAC lineage SHA differs from SUCCESS")
     if checkpoint_manifest_sha != success.get("checkpoint_manifest_sha256"):
         raise AuditError("ATAC checkpoint manifest SHA differs from SUCCESS")
-    if pq.ParquetFile(prediction_path).metadata.num_rows != 3_300_000:
-        raise AuditError("ATAC typed prediction table is not 3,300,000 rows")
 
     lineage = read_json(lineage_path)
+    from cc_hhgt.v32.current_core_export import verified_path
+    from cc_hhgt.v32.atac_cohort import training_cohort
+    input_path = verified_path({"path": lineage["input_lineage_audit_path"],
+        "sha256": lineage["input_lineage_audit_sha256"]}, lineage_path.parent)
+    input_audit = read_json(input_path)
+    cohort = training_cohort(success, lineage, input_audit, input_path.parent, candidates=candidates_path)
+    if cohort and not args.expected_training_run_id:
+        raise AuditError("Native ATAC audit requires --expected-training-run-id")
+    run_id = args.expected_training_run_id or success.get("training_run_id")
+    if not run_id or success.get("training_run_id") != run_id or lineage.get("training_run_id") != run_id:
+        raise AuditError("ATAC training run identity differs")
+    cancers = tuple(cohort["cancers"]) if cohort else FORMAL_CANCERS
+    covered = tuple(c for c in cancers if c not in RAW_GAPS)
+    gaps = tuple(c for c in cancers if c in RAW_GAPS)
+    counts = cohort["candidate_rows_by_cancer"] if cohort else {c: 100_000 for c in cancers}
+    total_rows = sum(counts.values())
+    for p in (prediction_path, candidates_path):
+        if pq.ParquetFile(p).metadata.num_rows != total_rows:
+            raise AuditError("ATAC total rows differ from declared candidate scope")
+    if cohort and (lineage.get("raw_covered_cancers") != list(covered)
+                   or lineage.get("typed_raw_gap_cancers") != list(gaps)):
+        raise AuditError("ATAC lineage raw coverage differs from declared scope")
     lineage_checks = {
         "analysis_version_is_v32": str(lineage.get("analysis_version", "")).startswith(
             "CancerLncAtlas_V3.2"
@@ -122,7 +148,7 @@ def main() -> int:
 
     candidate_sha = sha256(candidates_path)
     cancer_rows: list[dict[str, Any]] = []
-    for cancer in FORMAL_CANCERS:
+    for cancer in cancers:
         expected = pq.read_table(
             candidates_path, columns=KEYS, filters=[("cancer_id", "=", cancer)]
         ).to_pandas()
@@ -141,12 +167,13 @@ def main() -> int:
             ],
             filters=[("cancer_id", "=", cancer)],
         ).to_pandas()
-        if len(expected) != 100_000 or len(observed) != 100_000:
-            raise AuditError(f"{cancer} does not preserve exact 100,000-row scope")
+        if len(expected) != counts[cancer] or len(observed) != counts[cancer]:
+            raise AuditError(f"{cancer} does not preserve declared candidate scope")
         if expected.duplicated(KEYS).any() or observed.duplicated(KEYS).any():
             raise AuditError(f"{cancer} contains duplicate exact keys")
         if not expected[KEYS].reset_index(drop=True).equals(observed[KEYS].reset_index(drop=True)):
             raise AuditError(f"{cancer} candidate keys differ from the authority")
+        if not observed.training_run_id.eq(run_id).all(): raise AuditError("ATAC typed rows have a different run")
         available = observed.atac_available
         if available.isna().any() or not pd.api.types.is_bool_dtype(available):
             raise AuditError(f"{cancer} ATAC availability is not a non-null boolean")
@@ -204,6 +231,17 @@ def main() -> int:
         fold_path = Path(str(record["prediction_path"]))
         fold_success_path = Path(str(record["success_path"]))
         fold_success = read_json(fold_success_path)
+        checkpoint = read_json(checkpoint_path)
+        if (checkpoint.get("training_run_id") != run_id or checkpoint.get("patient_fold") != fold
+                or checkpoint.get("outer_test_patients_used_for_fit") is not False
+                or checkpoint.get("cohort") != cohort or fold_success.get("cohort") != cohort):
+            raise AuditError("ATAC checkpoint fold/run/cohort differs")
+        if cohort and (checkpoint.get("input_hashes", {}).get("candidates") != candidate_sha
+                       or checkpoint.get("input_hashes", {}).get("folds") != cohort["patient_map"]["sha256"]
+                       or fold_success.get("training_run_id") != run_id):
+            raise AuditError("ATAC checkpoint input/fold-success run differs")
+        if sha256(fold_success_path) != record.get("success_sha256"):
+            raise AuditError("ATAC fold success SHA mismatch")
         checkpoint_sha = sha256(checkpoint_path)
         fold_sha = sha256(fold_path)
         if checkpoint_sha != record.get("sha256") or checkpoint_sha != fold_success.get(
@@ -214,7 +252,7 @@ def main() -> int:
             "prediction_sha256"
         ):
             raise AuditError(f"ATAC fold {fold} prediction SHA mismatch")
-        if pq.ParquetFile(fold_path).metadata.num_rows != 3_300_000:
+        if pq.ParquetFile(fold_path).metadata.num_rows != total_rows:
             raise AuditError(f"ATAC fold {fold} prediction row count mismatch")
         if fold_success.get("heldout_patients_used_for_fit") is not False:
             raise AuditError(f"ATAC fold {fold} does not prove held-out isolation")
@@ -225,7 +263,7 @@ def main() -> int:
                 "checkpoint_sha256": checkpoint_sha,
                 "prediction_path": str(fold_path),
                 "prediction_sha256": fold_sha,
-                "prediction_rows": 3_300_000,
+                "prediction_rows": total_rows,
                 "success_path": str(fold_success_path),
                 "success_sha256": sha256(fold_success_path),
             }
@@ -233,24 +271,54 @@ def main() -> int:
     if {record["patient_fold"] for record in fold_records} != set(range(5)):
         raise AuditError("ATAC fold set is not exactly 0..4")
 
+    # Independently reconcile all five key/fold tables and the published mean.
+    # Process one cancer at a time, bounded by its declared candidate budget.
+    for cancer in cancers:
+        expected = pq.read_table(candidates_path, columns=KEYS, filters=[("cancer_id", "=", cancer)]).to_pandas()
+        values = []
+        for record in fold_records:
+            frame = pq.read_table(record["prediction_path"], filters=[("cancer_id", "=", cancer)]).to_pandas()
+            if (not frame[KEYS].reset_index(drop=True).equals(expected.reset_index(drop=True))
+                    or not frame.patient_fold_id.eq(record["patient_fold"]).all()):
+                raise AuditError("ATAC fold keys/identity differ from authority")
+            available = frame.atac_available
+            probability = pd.to_numeric(frame.atac_context_probability, errors="raise")
+            reason = frame.atac_unavailable_reason.astype("string")
+            if (not pd.api.types.is_bool_dtype(available) or available.isna().any()
+                    or not probability[available].between(0, 1).all() or probability[~available].notna().any()
+                    or reason[available].notna().any() or reason[~available].isna().any()):
+                raise AuditError("ATAC fold typed availability/probability differs")
+            if cancer in gaps and (available.any() or not reason.eq("ATAC_RAW_NOT_AVAILABLE_FOR_CANCER").all()):
+                raise AuditError("ATAC fold raw gap is not typed null")
+            values.append(probability.to_numpy(float))
+        matrix = np.stack(values); n = np.isfinite(matrix).sum(axis=0)
+        mean = np.divide(np.nansum(matrix, axis=0), n, out=np.full(len(expected), np.nan), where=n > 0)
+        typed = pq.read_table(prediction_path, filters=[("cancer_id", "=", cancer)]).to_pandas()
+        if (not np.array_equal(n, typed.atac_patient_folds_with_prediction)
+                or not np.allclose(mean, typed.atac_context_probability, atol=1e-7, rtol=1e-6, equal_nan=True)):
+            raise AuditError("ATAC typed mean/count differs from actual five fold tables")
+
     output.mkdir(parents=True)
+    atomic_json(output / "AUDIT_PREFLIGHT.json", {"target_host": "149", "training_started": False,
+        "training_run_id": run_id, "cohort": cohort})
     audit_path = output / "ATAC_FRESH_OOF_AUDIT.json"
     audit = {
         "format": "CC_HHGT_V3_2_ATAC_FRESH_OOF_INDEPENDENT_AUDIT_V1",
         "status": "PASS",
         "training_success_path": str(success_path),
+        "cohort": cohort, "training_run_id": run_id,
         "training_success_sha256": sha256(success_path),
         "candidate_authority_path": str(candidates_path),
         "candidate_authority_sha256": candidate_sha,
         "prediction_path": str(prediction_path),
         "prediction_sha256": prediction_sha,
-        "prediction_rows": 3_300_000,
+        "prediction_rows": total_rows,
         "lineage_path": str(lineage_path),
         "lineage_sha256": lineage_sha,
         "lineage_checks": lineage_checks,
-        "formal_cancers": list(FORMAL_CANCERS),
-        "raw_covered_cancers": list(RAW_COVERED),
-        "typed_raw_gap_cancers": list(RAW_GAPS),
+        "formal_cancers": list(cancers),
+        "raw_covered_cancers": list(covered),
+        "typed_raw_gap_cancers": list(gaps),
         "cancer_records": cancer_rows,
         "fold_records": sorted(fold_records, key=lambda item: item["patient_fold"]),
         "exact_candidate_keys_match_authority": True,
@@ -268,9 +336,9 @@ def main() -> int:
             "audit_path": str(audit_path),
             "audit_sha256": sha256(audit_path),
             "prediction_sha256": prediction_sha,
-            "prediction_rows": 3_300_000,
-            "covered_cancers_with_predictions": list(RAW_COVERED),
-            "typed_raw_gap_cancers": list(RAW_GAPS),
+            "prediction_rows": total_rows,
+            "covered_cancers_with_predictions": list(covered),
+            "typed_raw_gap_cancers": list(gaps),
             "success_written_last": True,
         },
     )

@@ -114,6 +114,9 @@ def native_sources(manifest_path, *, expected_core_run_id):
             _, input_audit = sources.document({"path": lineage["input_lineage_audit_path"],
                 "sha256": lineage["input_lineage_audit_sha256"]}, lineage_path.parent)
             _authority_in(input_audit["input_artifacts"], manifest["candidate_authority"], manifest["patient_folds"])
+            from .atac_cohort import training_cohort
+            training_cohort(native, lineage, input_audit, lineage_path.parent,
+                candidates=candidates_path, patient_map=patient_path, sources=sources)
             fold_records = [{"patient_fold_id": r["patient_fold"], "path": r["prediction_path"],
                 "sha256": r["prediction_sha256"]} for r in checkpoints["records"]]
     else:
@@ -184,7 +187,11 @@ def native_sources(manifest_path, *, expected_core_run_id):
                     or checkpoint.get("input_hashes", {}).get("candidates") != manifest["candidate_authority"]["sha256"]
                     or checkpoint.get("input_hashes", {}).get("folds") != manifest["patient_folds"]["sha256"]):
                 raise ValueError("ATAC checkpoint does not bind the native split/input identity")
+            if checkpoint.get("cohort") != native.get("cohort"):
+                raise ValueError("ATAC checkpoint cohort differs from native completion")
             success_path, success = sources.document({"path": record["success_path"], "sha256": record["success_sha256"]}, native_path.parent)
+            if success.get("cohort") != native.get("cohort"):
+                raise ValueError("ATAC fold success cohort differs from native completion")
             if (success.get("status") != "SUCCESS" or success.get("checkpoint_sha256") != record["sha256"]
                     or success.get("prediction_sha256") != record["prediction_sha256"]
                     or success.get("heldout_patients_used_for_fit") is not False):

@@ -22,7 +22,7 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--candidates", required=True)
     parser.add_argument("--patient-folds", required=True)
-    parser.add_argument("--patient-fold-authority-receipt", required=True)
+    parser.add_argument("--patient-fold-authority-receipt")
     parser.add_argument("--pathway-membership", required=True)
     parser.add_argument("--matrix", required=True)
     parser.add_argument("--mapping", required=True)
@@ -36,10 +36,15 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
     args = _parser().parse_args(argv)
-    validate_frozen_v32_patient_fold_binding(
-        args.patient_folds, args.patient_fold_authority_receipt
-    )
+    from cc_hhgt.v32.formal_expression_sources import read
+    # The materializer verifies this declaration and every input hash before R.
+    native = read(Path(args.input_contract)).get("candidate_definition") is not None
+    if not native:
+        if not args.patient_fold_authority_receipt: raise ValueError("Legacy ATAC requires frozen patient authority receipt")
+        validate_frozen_v32_patient_fold_binding(args.patient_folds, args.patient_fold_authority_receipt)
     result = run_atac_materialization(
         candidates_path=args.candidates,
         patient_folds_path=args.patient_folds,

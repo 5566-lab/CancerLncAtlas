@@ -95,7 +95,8 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--atac-asset-root", required=True)
     parser.add_argument("--candidate-universe", required=True)
     parser.add_argument("--patient-folds", required=True)
-    parser.add_argument("--patient-fold-authority-receipt", required=True)
+    parser.add_argument("--patient-fold-authority-receipt")
+    parser.add_argument("--candidate-definition")
     parser.add_argument("--promoters", required=True)
     parser.add_argument("--pathway-membership", required=True)
     parser.add_argument("--historical-pilot-success", required=True)
@@ -117,7 +118,7 @@ def _markdown(audit: dict[str, Any], cancer: pd.DataFrame) -> str:
         "## 结论",
         "",
         (
-            f"官方 ATAC 资产实际覆盖 {summary['raw_covered_cancers']}/33 个癌种，"
+            f"官方 ATAC 资产实际覆盖 {summary['raw_covered_cancers']}/{summary['candidate_cancers']} 个癌种，"
             f"共 {summary['technical_replicates']} 个技术重复、"
             f"{summary['full_atac_aliquots']} 个完整 aliquot、"
             f"{summary['unique_atac_patients']} 名患者。"
@@ -181,6 +182,8 @@ def _markdown(audit: dict[str, Any], cancer: pd.DataFrame) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
     args = _parser().parse_args(argv)
     paths = {
         key: Path(value).resolve()
@@ -196,7 +199,7 @@ def main(argv: list[str] | None = None) -> int:
             "historical_r_builder": args.historical_r_builder,
             "router_source": args.router_source,
             "router_launcher": args.router_launcher,
-        }.items()
+        }.items() if value is not None
     }
     asset_files = {
         "matrix": paths["asset_root"] / "TCGA-ATAC_PanCan_Log2Norm_Counts.rds",
@@ -218,6 +221,7 @@ def main(argv: list[str] | None = None) -> int:
     if output.exists():
         raise RuntimeError(f"ATAC readiness audit refuses output reuse: {output}")
     output.mkdir(parents=True)
+    _atomic_json(output / "AUDIT_PREFLIGHT.json", {"target_host": "149", "training_started": False})
 
     mapping = pd.read_csv(asset_files["mapping"], sep="\t")
     mapping_required = {"bam_prefix", "stanfordUUID", "Case_ID"}
@@ -231,14 +235,19 @@ def main(argv: list[str] | None = None) -> int:
         raise RuntimeError("Official ATAC technical replicate identifiers are duplicated")
     raw_patient = mapping[["cancer_id", "patient_id"]].drop_duplicates()
 
-    fold_authority_audit = validate_frozen_v32_patient_fold_binding(
-        paths["folds"],
-        paths["fold_receipt"],
-    )
+    cohort = None
+    if args.candidate_definition:
+        from cc_hhgt.v32.atac_cohort import from_definition
+        from cc_hhgt.v32.formal_expression_sources import record
+        definition = Path(args.candidate_definition).resolve()
+        cohort = from_definition(record(definition), definition.parent, paths["candidates"], paths["folds"])
+        fold_authority_audit = {"cohort": cohort, "patient_map": cohort["patient_map"]}
+    else:
+        if "fold_receipt" not in paths: raise ValueError("Legacy ATAC requires frozen patient authority receipt")
+        fold_authority_audit = validate_frozen_v32_patient_fold_binding(paths["folds"], paths["fold_receipt"])
     folds = pd.read_csv(paths["folds"], sep="\t")
-    fold_required = {
-        "cancer_id", "sample_id", "patient_id", "patient_fold_id", "fold_seed"
-    }
+    fold_required = {"cancer_id", "patient_id", "patient_fold_id"}
+    if cohort is None: fold_required |= {"sample_id", "fold_seed"}
     if missing := sorted(fold_required - set(folds.columns)):
         raise RuntimeError(f"Fresh V3.2 fold manifest lacks columns: {missing}")
     folds["cancer_id"] = folds.cancer_id.astype(str).str.upper()
@@ -260,7 +269,7 @@ def main(argv: list[str] | None = None) -> int:
         paths["candidates"], columns=["cancer_id", "lncrna_id", "pathway_id"]
     )
     candidates["cancer_id"] = candidates.cancer_id.astype(str).str.upper()
-    if len(candidates) != 3_300_000 or candidates.cancer_id.nunique() != 33:
+    if cohort is None and (len(candidates) != 3_300_000 or candidates.cancer_id.nunique() != 33):
         raise RuntimeError("Candidate input is not the exact 3.3M/33-cancer V3.2 universe")
     if candidates[["cancer_id", "lncrna_id", "pathway_id"]].duplicated().any():
         raise RuntimeError("Candidate universe contains duplicate exact keys")
@@ -436,6 +445,8 @@ def main(argv: list[str] | None = None) -> int:
             "fold_aligned_patients": int(aligned_patient.patient_fold_id.notna().sum()),
             "unaligned_patients": int(aligned_patient.patient_fold_id.isna().sum()),
             "candidate_rows": int(len(candidates)),
+            "candidate_cancers": int(candidates.cancer_id.nunique()),
+            "cohort": cohort,
             "candidate_lncrnas": int(candidate_lnc.gene_id.nunique()),
             "candidate_lncrnas_with_gencode_v36_promoter": int(
                 len(set(candidate_lnc.gene_id) & promoter_gene_ids)
@@ -560,7 +571,8 @@ def main(argv: list[str] | None = None) -> int:
                 "peak_set": asset_files["peaks"],
                 "candidate_universe": paths["candidates"],
                 "patient_folds": paths["folds"],
-                "patient_fold_authority_receipt": paths["fold_receipt"],
+                **({"patient_fold_authority_receipt": paths["fold_receipt"]} if "fold_receipt" in paths else {}),
+                **({"candidate_definition": Path(args.candidate_definition).resolve()} if cohort else {}),
                 "promoters": paths["promoters"],
                 "pathway_membership": paths["membership"],
                 "historical_pilot_success": paths["historical_pilot_success"],

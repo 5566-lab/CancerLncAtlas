@@ -200,15 +200,16 @@ def normalise_patient_folds(frame: pd.DataFrame) -> pd.DataFrame:
             fold_col: "patient_fold_id",
         }
     )
-    result["cancer_id"] = result.cancer_id.astype(str).str.upper()
     if result[["cancer_id", "patient_id"]].isna().any().any():
         raise AtacTrainingError("Patient-fold manifest contains null cancer/patient IDs")
+    result["cancer_id"] = result.cancer_id.astype(str).str.strip().str.upper()
     result["patient_id"] = result.patient_id.astype(str).str.strip()
-    if result.patient_id.eq("").any():
+    if result.patient_id.eq("").any() or result.cancer_id.eq("").any():
         raise AtacTrainingError("Patient-fold manifest contains empty patient_id")
-    result["patient_fold_id"] = pd.to_numeric(
-        result.patient_fold_id, errors="raise"
-    ).astype(int)
+    numeric = pd.to_numeric(result.patient_fold_id, errors="raise")
+    if numeric.isna().any() or not numeric.isin(range(N_FOLDS)).all():
+        raise AtacTrainingError("Patient-fold IDs must be integers 0..4")
+    result["patient_fold_id"] = numeric.astype(int)
     result = result.drop_duplicates()
     conflict = result.groupby(
         ["cancer_id", "patient_id"], observed=True
@@ -253,6 +254,8 @@ def _candidate_table(path: Path, cancer_id: str) -> pd.DataFrame:
     _assert_nonpredictive_columns(frame.columns, f"{cancer_id} candidates")
     if set(frame.columns) != set(TARGET_KEYS):
         raise AtacTrainingError(f"{cancer_id} candidate keys are malformed")
+    if frame.isna().any().any() or frame.astype(str).apply(lambda c: c.str.strip().eq("")).any().any():
+        raise AtacTrainingError(f"{cancer_id} candidate keys contain null/empty values")
     frame = frame.loc[:, list(TARGET_KEYS)].astype(str).reset_index(drop=True)
     frame["cancer_id"] = frame.cancer_id.str.upper()
     if frame.empty or not frame.cancer_id.eq(cancer_id).all():
@@ -270,20 +273,22 @@ def _validate_materialization(success_path: Path) -> tuple[dict[str, Any], dict[
         raise AtacTrainingError("ATAC materialization does not prohibit old predictions")
     if payload.get("old_checkpoints_used") is not False:
         raise AtacTrainingError("ATAC materialization does not prohibit old checkpoints")
-    declared_covered = tuple(sorted(map(str, payload.get("covered_cancers", []))))
-    declared_gaps = tuple(sorted(map(str, payload.get("raw_gap_cancers", []))))
-    if declared_covered != tuple(sorted(RAW_COVERED_CANCERS)):
-        raise AtacTrainingError("ATAC materialization does not contain the exact 23 raw-covered cancers")
-    if declared_gaps != tuple(sorted(RAW_GAP_CANCERS)):
-        raise AtacTrainingError("ATAC materialization raw-gap list is not the exact typed 10")
+    from .atac_cohort import materialization_cohort
+    cohort = materialization_cohort(payload, success_path.parent)
+    covered = tuple(cohort["covered_cancers"]) if cohort else RAW_COVERED_CANCERS
+    gaps = tuple(cohort["raw_gap_cancers"]) if cohort else RAW_GAP_CANCERS
+    if sorted(payload.get("covered_cancers", [])) != sorted(covered):
+        raise AtacTrainingError("ATAC materialization raw coverage differs from declared scope")
+    if sorted(payload.get("raw_gap_cancers", [])) != sorted(gaps):
+        raise AtacTrainingError("ATAC materialization raw-gap list differs from declared scope")
     records = payload.get("records")
-    if not isinstance(records, list) or len(records) != len(RAW_COVERED_CANCERS):
-        raise AtacTrainingError("ATAC materialization lacks 23 cancer records")
+    if not isinstance(records, list) or len(records) != len(covered):
+        raise AtacTrainingError("ATAC materialization lacks declared cancer records")
     by_cancer: dict[str, dict[str, Any]] = {}
     for record in records:
         cancer = str(record.get("cancer_id", "")).upper()
         path = Path(str(record.get("path", "")))
-        if cancer in by_cancer or cancer not in RAW_COVERED_CANCERS:
+        if cancer in by_cancer or cancer not in covered:
             raise AtacTrainingError("ATAC materialization cancer records are invalid")
         if not path.is_file() or path.stat().st_size <= 0:
             raise FileNotFoundError(path)
@@ -593,18 +598,11 @@ def _gap_fold_frame(candidates: pd.DataFrame, fold: int) -> pd.DataFrame:
     )
 
 
-def run_atac_training(
-    *,
-    candidates_path: str | Path,
-    patient_folds_path: str | Path,
-    pathway_membership_path: str | Path,
-    materialization_success_path: str | Path,
-    output_root: str | Path,
-    training_run_id: str,
-    config: AtacTrainingConfig | None = None,
-) -> dict[str, Any]:
-    """Train five fresh calibrators and stream unified typed predictions."""
-
+def prepare_atac_inputs(*, candidates_path, patient_folds_path, pathway_membership_path,
+                        materialization_success_path, config=None):
+    """Actual trainer input preparation, with no optimizer or outputs."""
+    from .cnv_input_sources import require_host
+    require_host()
     settings = config or AtacTrainingConfig()
     settings.validate()
     paths = {
@@ -617,51 +615,69 @@ def run_atac_training(
         _assert_nonpredictive_path(path, name)
         if not path.is_file() or path.stat().st_size <= 0:
             raise FileNotFoundError(path)
-    output = Path(output_root).resolve()
-    if output.exists():
-        raise AtacTrainingError(f"ATAC trainer refuses output reuse: {output}")
 
     input_hashes = {name: file_sha256(path) for name, path in paths.items()}
     materialization, records = _validate_materialization(paths["materialization_success"])
     folds = normalise_patient_folds(pd.read_csv(paths["folds"], sep="\t"))
     membership = normalise_membership(pd.read_parquet(paths["membership"]))
 
+    from .atac_cohort import materialization_cohort
+    cohort = materialization_cohort(materialization, paths["materialization_success"].parent,
+        candidates=paths["candidates"], patient_map=paths["folds"], membership=paths["membership"])
+    cancers = tuple(cohort["cancers"]) if cohort else FORMAL_CANCERS
+    covered = tuple(cohort["covered_cancers"]) if cohort else RAW_COVERED_CANCERS
+    gaps = tuple(cohort["raw_gap_cancers"]) if cohort else RAW_GAP_CANCERS
+    if not covered: raise AtacTrainingError("ATAC cohort has no raw-covered cancer for fitting")
+    if cohort:
+        folds = folds.loc[folds.cancer_id.isin(cancers)].reset_index(drop=True)
     candidate_counts: dict[str, int] = {}
     total_rows = 0
-    for cancer in FORMAL_CANCERS:
+    for cancer in cancers:
         frame = _candidate_table(paths["candidates"], cancer)
-        if (
-            settings.expected_rows_per_cancer is not None
-            and len(frame) != int(settings.expected_rows_per_cancer)
-        ):
+        expected = cohort["candidate_rows_by_cancer"][cancer] if cohort else settings.expected_rows_per_cancer
+        if expected is not None and len(frame) != int(expected):
             raise AtacTrainingError(
                 f"{cancer} has {len(frame)} candidates; expected "
-                f"{settings.expected_rows_per_cancer}"
+                f"{expected}"
             )
         candidate_counts[cancer] = len(frame)
         total_rows += len(frame)
         del frame
-    if set(folds.cancer_id.unique()) != set(FORMAL_CANCERS):
-        raise AtacTrainingError("Patient-fold manifest is not the exact 33-cancer scope")
+    if set(folds.cancer_id.unique()) != set(cancers):
+        raise AtacTrainingError("Patient-fold manifest is not the declared cancer scope")
 
-    output.mkdir(parents=True)
-    checkpoint_root = output / "checkpoints"
-    fold_prediction_root = output / "patient_fold_oof_predictions"
-    checkpoint_root.mkdir()
-    fold_prediction_root.mkdir()
+    import pyarrow.parquet as pq
+    if pq.ParquetFile(paths["candidates"]).metadata.num_rows != total_rows:
+        raise AtacTrainingError("Candidate file has extra rows outside declared cancers")
+    return dict(settings=settings, paths=paths, input_hashes=input_hashes,
+        materialization=materialization, records=records, folds=folds, membership=membership,
+        cohort=cohort, cancers=cancers, covered=covered, gaps=gaps,
+        candidate_counts=candidate_counts, total_rows=total_rows)
 
+
+def collect_atac_examples(prepared):
+    """Actual bounded fold-local features and validation targets, with no fit."""
+    from .cnv_input_sources import require_host
+    require_host()
+    settings = prepared["settings"]; paths = prepared["paths"]
+    records = prepared["records"]; folds = prepared["folds"]
+    membership = prepared["membership"]; covered = prepared["covered"]
     # First pass: bounded, deterministic training samples for each outer fold.
-    quota = max(1, math.ceil(settings.max_training_rows / len(RAW_COVERED_CANCERS)))
+    quota = max(1, math.ceil(settings.max_training_rows / len(covered)))
     feature_parts: dict[int, list[np.ndarray]] = {fold: [] for fold in range(N_FOLDS)}
     score_parts: dict[int, list[np.ndarray]] = {fold: [] for fold in range(N_FOLDS)}
     sample_audit: dict[int, list[dict[str, Any]]] = {fold: [] for fold in range(N_FOLDS)}
-    for cancer_offset, cancer in enumerate(RAW_COVERED_CANCERS):
+    for cancer_offset, cancer in enumerate(covered):
         candidates = _candidate_table(paths["candidates"], cancer)
         accessibility = _load_accessibility(records[cancer], cancer, folds)
         _, pathway_weight, _, mapping = _pathway_projection(
             candidates, accessibility, membership, settings.min_pathway_promoter_genes
         )
         structurally_eligible = mapping.structural_reason == ""
+        if (not structurally_eligible.any() or not any(
+                int((accessibility.patient_folds != f).sum()) >= settings.min_outer_train_patients
+                for f in range(N_FOLDS))):
+            raise AtacTrainingError(f"ATAC {cancer} cannot produce any eligible outer-fold prediction")
         for fold in range(N_FOLDS):
             validation_fold = (fold + 1) % N_FOLDS
             inner_mask = (accessibility.patient_folds != fold) & (
@@ -718,25 +734,67 @@ def run_atac_training(
                 }
             )
 
-    models: dict[int, dict[str, Any]] = {}
-    checkpoint_records: list[dict[str, Any]] = []
+    examples = {}
     for fold in range(N_FOLDS):
-        if not feature_parts[fold]:
-            raise AtacTrainingError(f"ATAC fold {fold} has no training cancer")
+        if not feature_parts[fold] or not sum(len(x) for x in feature_parts[fold]):
+            raise AtacTrainingError(f"ATAC fold {fold} has no usable training pairs")
         x = np.concatenate(feature_parts[fold], axis=0)
         score = np.concatenate(score_parts[fold], axis=0)
         if len(x) > settings.max_training_rows:
-            positions = _sample_positions(
-                np.ones(len(x), dtype=bool),
-                settings.max_training_rows,
-                seed=settings.seed + fold * 1_000_003,
-            )
-            x = x[positions]
-            score = score[positions]
+            positions = _sample_positions(np.ones(len(x), dtype=bool), settings.max_training_rows,
+                seed=settings.seed + fold * 1_000_003)
+            x, score = x[positions], score[positions]
+        if not np.isfinite(x).all() or not np.isfinite(score).all():
+            raise AtacTrainingError("ATAC training features/persistence contain non-finite values")
+        examples[fold] = (x, score, sample_audit[fold])
+    return examples
+
+
+def run_atac_training(
+    *,
+    candidates_path: str | Path,
+    patient_folds_path: str | Path,
+    pathway_membership_path: str | Path,
+    materialization_success_path: str | Path,
+    output_root: str | Path,
+    training_run_id: str,
+    config: AtacTrainingConfig | None = None,
+) -> dict[str, Any]:
+    """Train five fresh calibrators and stream unified typed predictions."""
+
+    from .cnv_input_sources import require_host
+    require_host()
+    if not str(training_run_id).strip(): raise AtacTrainingError("Empty ATAC training run identity")
+    output = Path(output_root).resolve()
+    if output.exists(): raise AtacTrainingError(f"ATAC trainer refuses output reuse: {output}")
+    prepared = prepare_atac_inputs(candidates_path=candidates_path, patient_folds_path=patient_folds_path,
+        pathway_membership_path=pathway_membership_path, materialization_success_path=materialization_success_path,
+        config=config)
+    settings, paths = prepared["settings"], prepared["paths"]
+    materialization, records = prepared["materialization"], prepared["records"]
+    folds, membership = prepared["folds"], prepared["membership"]
+    input_hashes = prepared["input_hashes"]; cohort = prepared["cohort"]
+    cancers, covered, gaps = prepared["cancers"], prepared["covered"], prepared["gaps"]
+    total_rows = prepared["total_rows"]
+    output.mkdir(parents=True)
+    checkpoint_root = output / "checkpoints"
+    fold_prediction_root = output / "patient_fold_oof_predictions"
+    checkpoint_root.mkdir()
+    fold_prediction_root.mkdir()
+
+    _atomic_json(output / "LAUNCH_PREFLIGHT.json", {"target_host": "149", "training_started": False,
+        "cohort": cohort, "input_hashes": input_hashes})
+    examples = collect_atac_examples(prepared)
+
+    models: dict[int, dict[str, Any]] = {}
+    checkpoint_records: list[dict[str, Any]] = []
+    for fold in range(N_FOLDS):
+        x, score, sample_audit = examples[fold]
         model = _fit_logistic(x, score, fold=fold, config=settings)
         model.update(
             {
                 "training_run_id": str(training_run_id),
+                "cohort": cohort,
                 "outer_test_fold": fold,
                 "inner_validation_fold": (fold + 1) % N_FOLDS,
                 "outer_test_patients_used_for_fit": False,
@@ -744,7 +802,7 @@ def run_atac_training(
                 "materialization_manifest_sha256": materialization.get(
                     "manifest_sha256"
                 ),
-                "sample_audit": sample_audit[fold],
+                "sample_audit": sample_audit,
             }
         )
         checkpoint_path = checkpoint_root / f"atac_patient_fold_{fold}.json"
@@ -777,13 +835,13 @@ def run_atac_training(
     cancer_audit: list[dict[str, Any]] = []
     available_cancers: list[str] = []
     try:
-        for cancer in FORMAL_CANCERS:
+        for cancer in cancers:
             candidates = _candidate_table(paths["candidates"], cancer)
             fold_probabilities: list[np.ndarray] = []
             fold_reasons: list[np.ndarray] = []
             fold_train_counts: list[int] = []
             fold_test_counts: list[int] = []
-            if cancer in RAW_GAP_CANCERS:
+            if cancer in gaps:
                 for fold in range(N_FOLDS):
                     frame = _gap_fold_frame(candidates, fold)
                     table = _arrow_table(frame)
@@ -920,7 +978,7 @@ def run_atac_training(
             cancer_audit.append(
                 {
                     "cancer_id": cancer,
-                    "raw_atac_available": cancer not in RAW_GAP_CANCERS,
+                    "raw_atac_available": cancer not in gaps,
                     "aligned_patients": aligned_patients,
                     "mapped_candidate_lncrnas": mapped_lncrnas,
                     "covered_exact_pathways": covered_pathways,
@@ -936,9 +994,9 @@ def run_atac_training(
         if typed_writer is not None:
             typed_writer.close()
 
-    if tuple(sorted(available_cancers)) != tuple(sorted(RAW_COVERED_CANCERS)):
+    if tuple(sorted(available_cancers)) != tuple(sorted(covered)):
         raise AtacTrainingError(
-            "Fresh ATAC predictions were not generated for all 23 raw-covered cancers"
+            "Fresh ATAC predictions were not generated for all declared raw-covered cancers"
         )
     if not typed_path.is_file() or pq.ParquetFile(typed_path).metadata.num_rows != total_rows:
         raise AtacTrainingError("ATAC typed prediction output did not preserve candidate rows")
@@ -951,6 +1009,7 @@ def run_atac_training(
         checkpoint = checkpoint_records[fold]
         success = {
             "format": "CC_HHGT_V3_2_ATAC_FOLD_SUCCESS_V1",
+            "training_run_id": str(training_run_id), "cohort": cohort,
             "status": "SUCCESS",
             "analysis_version": ANALYSIS_VERSION,
             "modality": "atac",
@@ -988,6 +1047,7 @@ def run_atac_training(
             "analysis_version": ANALYSIS_VERSION,
             "module_id": MODULE_ID,
             "training_run_id": str(training_run_id),
+            "cohort": cohort,
             "training": asdict(settings),
             "scientific_semantics": (
                 "FOLD_LOCAL_PROMOTER_COACCESSIBILITY_PERSISTENCE_PROBABILITY_"
@@ -1046,6 +1106,7 @@ def run_atac_training(
         "module_id": MODULE_ID,
         "modality": "atac",
         "training_run_id": str(training_run_id),
+        "cohort": cohort,
         "training_status": "SUCCESS",
         "folds": N_FOLDS,
         "patient_level_modality_oof": True,
@@ -1060,8 +1121,8 @@ def run_atac_training(
         "predictions_sha256": prediction_sha,
         "prediction_rows": int(total_rows),
         "prediction_format": PREDICTION_FORMAT,
-        "raw_covered_cancers": list(RAW_COVERED_CANCERS),
-        "typed_raw_gap_cancers": list(RAW_GAP_CANCERS),
+        "raw_covered_cancers": list(covered),
+        "typed_raw_gap_cancers": list(gaps),
         "cancers_with_any_prediction": sorted(available_cancers),
         "cancer_audit": cancer_audit,
         "checkpoint_manifest_path": str(checkpoint_manifest_path),
@@ -1088,6 +1149,7 @@ def run_atac_training(
         "analysis_version": ANALYSIS_VERSION,
         "module_id": MODULE_ID,
         "training_run_id": str(training_run_id),
+        "cohort": cohort,
         "prediction_path": str(typed_path),
         "prediction_sha256": prediction_sha,
         "prediction_rows": int(total_rows),
@@ -1096,7 +1158,7 @@ def run_atac_training(
         "checkpoint_manifest_path": str(checkpoint_manifest_path),
         "checkpoint_manifest_sha256": lineage["checkpoint_manifest_sha256"],
         "covered_cancers_with_predictions": sorted(available_cancers),
-        "typed_raw_gap_cancers": list(RAW_GAP_CANCERS),
+        "typed_raw_gap_cancers": list(gaps),
         "candidate_universe_preserved": True,
         "old_predictions_or_checkpoints_used": False,
         "missing_is_typed_null_never_zero": True,
@@ -1104,6 +1166,9 @@ def run_atac_training(
         "release_ready": False,
         "release_reason": "REQUIRES_FAIR_ROUTER_VS_HIERARCHICAL_VALIDATION",
     }
+    for name, path in paths.items():
+        if file_sha256(path) != input_hashes[name]: raise AtacTrainingError("ATAC training input changed during run")
+    _validate_materialization(paths["materialization_success"])
     _atomic_json(output / "SUCCESS.json", success)
     return success
 

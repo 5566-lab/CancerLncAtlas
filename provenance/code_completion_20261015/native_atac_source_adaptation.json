@@ -1,0 +1,67 @@
+{
+  "method": "NATIVE_ANNOTATION_COHORT_THROUGH_ATAC_MATERIALIZATION_AND_CONSUMERS",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "auxiliary_forward_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "native_atac_scope_r3",
+    "native_atac_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "native_atac_scope_r1"
+  ],
+  "intermediate_failure_causes": [
+    "Synthetic input-contract fixture omitted mandatory byte sizes; the unchanged production size/hash gate correctly rejected it. Fixture corrected, gate preserved."
+  ],
+  "superseded_passed_receipts": [
+    "native_atac_scope_r2"
+  ],
+  "actual_R_materializer_executed": true,
+  "synthetic_raw_matrix_peak_count": 562709,
+  "synthetic_raw_mapping_cancer_count": 23,
+  "declared_cancers": [
+    "BRCA",
+    "OV"
+  ],
+  "raw_covered_declared_cancers": [
+    "BRCA"
+  ],
+  "raw_gap_declared_cancers": [
+    "OV"
+  ],
+  "actual_annotation_candidate_count": 240,
+  "actual_synthetic_declared_patient_count": 40,
+  "actual_input_sample_folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "feature_rows_per_fold": 120,
+  "feature_columns": 7,
+  "actual_readiness_and_no_fit_preflight_executed": true,
+  "original_sampling_and_target_semantics_preserved": true,
+  "actual_native_adapter_and_independent_audit_executed": true,
+  "independent_audit_fold_rows": 1200,
+  "native_expected_run_explicit_not_inferred": true,
+  "actual_replicate_aliquot_mean_checked": true,
+  "original_official_raw_shape_gate_preserved": true,
+  "biological_ancestry_complete": false,
+  "test_substitutes": [
+    "synthetic full-shape raw ATAC matrix and mapping; no biological data",
+    "frozen JSON checkpoint and fixed-probability serialization fixtures; no head fit/forward",
+    "explicit historical spreadsheet/source inventory placeholders; no workbook validation claimed"
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "ATAC annotation-defined candidate scope now passes through the actual R promoter materializer, real trainer input/feature/target collectors, no-fit preflight, readiness CLI, independent result auditor and native fusion adapter. The official full raw matrix/23-cancer mapping gates are preserved; only the explicit candidate cohort determines output coverage. All five synthetic feature collections execute without fit. Frozen probability/checkpoint fixtures test result reconciliation and native consumption, not actual model training. No optimizer, auxiliary prediction forward, real cohort analysis, paid compute or deployment ran. Original ATAC normalization/source truth, complete cross-module patient ancestry, incremental fusion efficacy and final unified command handoffs remain unproven/open."
+}
