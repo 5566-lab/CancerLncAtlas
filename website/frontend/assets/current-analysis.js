@@ -16,7 +16,7 @@
     drug_pharmacology:"药物结构与药理",drug_target_annotations:"药物靶点注释",cancer_subtype_coverage:"癌种和亚型覆盖",
     dose_context_coverage:"剂量分析覆盖",summary:"规则证据汇总",source_events:"来源事件",source_coverage:"来源覆盖",
     events:"候选证据事件",contexts:"实验背景",metrics:"评价指标",coverage:"评价覆盖",details:"逐项评价",isolation:"来源隔离",model_use:"模型使用来源与输入实体",
-    model_dependencies:"模型输入文件核对",model_dependency_gaps:"尚未追溯的来源",
+    model_dependencies:"模型输入文件核对",model_dependency_gaps:"尚未追溯的来源",model_use_completeness:"各模型来源核查结果",
     patient_mapping:"患者身份映射覆盖",patient_context_overlap:"模块间患者重叠",
     patient_overlap:"患者身份重叠",overlapping_patient_count:"重叠患者数",
     external_patient_identity_complete:"外部身份映射完整",registered_patient_mapping_complete:"已记录身份映射完整",

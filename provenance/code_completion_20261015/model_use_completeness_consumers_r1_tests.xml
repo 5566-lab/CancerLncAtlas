@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="10" failures="1" skipped="0" tests="72" time="224.552" timestamp="2026-10-19T16:15:10.124309+08:00" hostname="149"><testcase classname="tests.test_v32_preparation_sources" name="test_actual_adjusted_reader_preserves_used_files_and_separate_study_sources" time="0.116" /><testcase classname="tests.test_v32_preparation_sources" name="test_changed_partition_with_unchanged_success_receipt_is_detected" time="0.059" /><testcase classname="tests.test_v32_preparation_sources" name="test_changed_during_read_and_extra_directory_partition_fail" time="0.018" /><testcase classname="tests.test_v32_preparation_sources" name="test_relocated_native_source_keeps_hash_and_explicit_missing_metadata" time="0.081" /><testcase classname="tests.test_v32_preparation_sources" name="test_metadata_is_explicit_and_retains_multiple_accession_columns" time="0.006" /><testcase classname="tests.test_v32_preparation_sources" name="test_formal_entrypoint_serializes_consumed_legacy_sources_in_all_arms_without_fitting" time="0.548"><failure message="UnboundLocalError: cannot access local variable 'sha256_file' where it is not associated with a value">tests/test_v32_preparation_sources.py:174: in test_formal_entrypoint_serializes_consumed_legacy_sources_in_all_arms_without_fitting
+    assert prepare.main() == 0
+           ^^^^^^^^^^^^^^
+scripts/prepare_v32_formal.py:874: in main
+    "sha256": sha256_file(prepared_path), "bytes": prepared_path.stat().st_size}
+              ^^^^^^^^^^^
+E   UnboundLocalError: cannot access local variable 'sha256_file' where it is not associated with a value</failure></testcase><testcase classname="tests.test_v32_preparation_sources" name="test_native_training_and_inventory_reject_altered_preparation_sources[receipt_hash]" time="0.299" /><testcase classname="tests.test_v32_preparation_sources" name="test_native_training_and_inventory_reject_altered_preparation_sources[missing_receipt]" time="0.259" /><testcase classname="tests.test_v32_preparation_sources" name="test_native_training_and_inventory_reject_altered_preparation_sources[missing_role]" time="0.259" /><testcase classname="tests.test_v32_preparation_sources" name="test_native_training_and_inventory_reject_altered_preparation_sources[fold]" time="0.259" /><testcase classname="tests.test_v32_preparation_sources" name="test_native_training_and_inventory_reject_altered_preparation_sources[cancer]" time="0.262" /><testcase classname="tests.test_v32_preparation_sources" name="test_native_training_and_inventory_reject_altered_preparation_sources[invented_metadata]" time="0.400" /><testcase classname="tests.test_v32_preparation_sources" name="test_real_current_producer_propagates_train_sources_and_keeps_l1_validation_diagnostic" time="5.312" /><testcase classname="tests.test_v32_preparation_sources" name="test_actual_external_v2_excludes_shared_study_even_for_an_unseen_entity" time="2.376" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_producers_and_zero_weight_experts_retain_dependencies[genomic]" time="1.519" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_producers_and_zero_weight_experts_retain_dependencies[atac]" time="1.053" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_producers_and_zero_weight_experts_retain_dependencies[cnv]" time="1.707" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_producers_and_zero_weight_experts_retain_dependencies[cnv_event]" time="1.344" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_auxiliary_only_study_excludes_unseen_external_entity" time="6.154" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_source_and_declared_expert_corruption_rejected[source_change]" time="0.985" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_source_and_declared_expert_corruption_rejected[snapshot_change]" time="0.942" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_source_and_declared_expert_corruption_rejected[run_identity]" time="0.723" /><testcase classname="tests.test_v32_auxiliary_model_use" name="test_native_source_and_declared_expert_corruption_rejected[unconsumed_binding]" time="0.699" /><testcase classname="tests.test_v32_current_comparison_sources" name="test_all_native_competitors_and_their_losing_study_are_retained" time="8.818"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_arm]" time="0.001"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_fold]" time="0.001"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[loss]" time="0.001"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[checkpoint_alias]" time="0.001"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_hash]" time="0.001"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_content]" time="0.000"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_selected_consumer_replays_losing_model_receipts" time="0.000"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_external_v2_excludes_a_study_seen_only_by_the_losing_model" time="0.000"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_current_comparison_sources" name="test_historical_winner_only_lock_remains_explicitly_incomplete" time="0.000"><error message="failed on setup with &quot;ValueError: Historical C mode requires its authorized graph overlay&quot;">tests/test_v32_current_comparison_sources.py:113: in comparison_release
+    primary = materialize_current_predictions(manifests["G1"], root / "prediction", expected_run_id="fresh-G1")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:244: in materialize_current_predictions
+    frame, audit = _fold_source(manifest, record, root, candidates, device)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_prediction.py:181: in _fold_source
+    payload = _validated_payload(paths, record, fold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/export_v32_current_core_embeddings.py:58: in _validated_payload
+    validate_source_mode(payload, config, fold, has_overlay=bool(overlay_record))
+cc_hhgt/v32/native_graph_input.py:48: in validate_source_mode
+    raise ValueError("Historical C mode requires its authorized graph overlay")
+E   ValueError: Historical C mode requires its authorized graph overlay</error></testcase><testcase classname="tests.test_v32_single_cell_model_use" name="test_native_checkpoint_episode_source_and_external_isolation" time="12.301" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_canonical_donor_alias_leak_is_rejected" time="1.525" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_signed_source_drift_and_historical_gap[upstream_file]" time="1.476" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_signed_source_drift_and_historical_gap[checkpoint]" time="1.004" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_signed_source_drift_and_historical_gap[episode]" time="0.948" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_signed_source_drift_and_historical_gap[missing_training_binding]" time="0.969" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_rehashed_native_receipts_do_not_hide_semantic_drift[checkpoint_state]" time="1.201" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_rehashed_native_receipts_do_not_hide_semantic_drift[ablation_report_omission]" time="1.092" /><testcase classname="tests.test_v32_single_cell_model_use" name="test_rehashed_native_receipts_do_not_hide_semantic_drift[query_identity]" time="1.587" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_actual_three_assay_rds_and_five_fold_normalization" time="37.792" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_actual_native_association_and_preparation_inventory_reach_raw_files" time="15.143" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_metadata_mapping_rejects_ambiguity_and_wrong_inputs[workflow]" time="0.003" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_metadata_mapping_rejects_ambiguity_and_wrong_inputs[case]" time="0.003" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_metadata_mapping_rejects_ambiguity_and_wrong_inputs[aliquot]" time="0.003" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_metadata_mapping_rejects_ambiguity_and_wrong_inputs[sample]" time="0.003" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_metadata_mapping_rejects_ambiguity_and_wrong_inputs[duplicate_case]" time="0.003" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_metadata_mapping_rejects_ambiguity_and_wrong_inputs[filename]" time="0.003" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_metadata_mapping_rejects_ambiguity_and_wrong_inputs[checksum]" time="0.003" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_actual_r_parser_rejects_bad_raw_counts[fractional]" time="8.381" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_actual_r_parser_rejects_bad_raw_counts[negative]" time="7.935" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_actual_r_parser_rejects_bad_raw_counts[annotation]" time="9.595" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_actual_r_parser_rejects_bad_raw_counts[missing_summary]" time="8.372" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_actual_r_parser_rejects_bad_raw_counts[duplicate_gene]" time="7.959" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_download_bytes_checked_and_missing_cache_never_downloaded_implicitly" time="0.009" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_modified_cache_and_repinned_rds_values_rejected" time="18.312" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_unfinished_count_assembly_is_not_consumable" time="0.004" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_incomplete_pagination_duplicate_file_and_removed_manifest_rows_rejected" time="0.006" /><testcase classname="tests.test_v32_gdc_star_counts" name="test_wrong_host_prevents_query_before_network_or_output" time="0.001" /><testcase classname="tests.test_v32_current_analysis_web" name="test_real_current_components_are_served_and_every_public_part_downloads" time="26.690" /><testcase classname="tests.test_v32_current_analysis_web" name="test_workflow_builds_native_contexts_and_records_actual_public_schemas" time="0.056" /><testcase classname="tests.test_v32_current_analysis_web" name="test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit" time="0.782" /><testcase classname="tests.test_v32_current_analysis_web" name="test_workflow_preserves_failed_stage_and_rejects_forward_references" time="0.007" /><testcase classname="tests.test_v32_current_analysis_web" name="test_workflow_reuses_pinned_components_and_rejects_changed_inputs" time="0.588" /><testcase classname="tests.test_v32_current_analysis_web" name="test_version_mismatch_invalid_queries_and_private_downloads_are_rejected" time="0.100" /><testcase classname="tests.test_v32_current_analysis_web" name="test_http_semantics_keep_null_zero_and_drug_missingness" time="0.394" /><testcase classname="tests.test_v32_current_analysis_web" name="test_modified_artifact_fails_without_disclosing_source_paths" time="0.009" /><testcase classname="tests.test_v32_current_analysis_web" name="test_missing_components_are_explicit_but_cross_selected_components_fail" time="0.204" /><testcase classname="tests.test_v32_current_analysis_web" name="test_full_application_uses_current_home_and_does_not_serve_old_results" time="5.455" /><testcase classname="tests.test_v32_current_analysis_web" name="test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout" time="11.236" /></testsuite></testsuites>

@@ -19,8 +19,8 @@ from .external_validation_sources import SOURCE_COLUMNS
 
 INPUT_FORMAT="CURRENT_MODEL_USE_INPUT_V1"
 FORMAT="CURRENT_MODEL_USE_RELEASE_V1"
-SCOPE="NATIVE_INPUT_EXPOSURE_WITH_UNRESOLVED_UPSTREAM_PROVENANCE"
-EXTRA=["model_id","patient_fold_id","use_view","candidate_rows","entity_scope","dependency_context"]
+SCOPE="NATIVE_REGISTERED_INPUTS_WITH_EXPLICIT_PROVENANCE_LIMITS"
+EXTRA=["model_id","patient_fold_id","use_view","candidate_rows","entity_scope","dependency_context","usage_record_kind"]
 DEPENDENCIES=["model_id","patient_fold_id","role","path","sha256","status","dependency_context"]
 GAPS=["model_id","patient_fold_id","role","sha256","reason","dependency_context"]
 
@@ -65,7 +65,8 @@ def implementations():
         "cc_hhgt/v32/cnv_only_training.py","cc_hhgt/v32/cnv_only_training_v2.py",
         "scripts/materialize_v32_directional_cnv.py","cc_hhgt/v32/segment_cnv_streaming.py",
         "scripts/train_single_cell_hhgt_149.py","cc_hhgt/v32/single_cell_hhgt.py",
-        "cc_hhgt/v32/external_validation_current.py"]
+        "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/external_validation_sources.py",
+        "cc_hhgt/v32/model_use_completeness.py"]
     return {name:sha256(root/name) for name in names}
 
 
@@ -145,7 +146,8 @@ class Inventory:
                 "assay":"NATIVE_MODEL_INPUT_EXPOSURE","biosample":"","study_tokens_json":"[]",
                 "raw_record_id":identity,"raw_row_sha256":stable_id("",[ids,int(count)]),"raw_identifiers_json":json.dumps(ids,sort_keys=True),
                 "model_id":model,"patient_fold_id":fold,"use_view":view,"candidate_rows":int(count),
-                "entity_scope":"LNCRNA_EXPOSURE_ALL_PATHWAYS","dependency_context":self.context_id})
+                "entity_scope":"LNCRNA_EXPOSURE_ALL_PATHWAYS","dependency_context":self.context_id,
+                "usage_record_kind":"ENTITY_EXPOSURE"})
 
     def preparation(self,payload,root,model,fold,baseline):
         from .preparation_sources import validate_payload_sources,canonical_sha,source_members
@@ -385,6 +387,20 @@ class Inventory:
             self.gap(model,"producer."+kind,"LEGACY_NATIVE_INPUT_DEPENDENCIES_NOT_RECONSTRUCTED")
 
 
+def inventory_tables(inventory,models):
+    """Typed records and computed coverage; no caller-supplied completeness flag."""
+    from .model_use_completeness import assess,STUDY
+    tables={"usage":pd.DataFrame(inventory.usage,columns=SOURCE_COLUMNS+EXTRA),
+        "dependencies":pd.DataFrame(inventory.dependencies,columns=DEPENDENCIES).drop_duplicates().reset_index(drop=True),
+        "gaps":pd.DataFrame(inventory.gaps,columns=GAPS).drop_duplicates().reset_index(drop=True)}
+    tables.update(inventory.patient_use.tables())
+    tables["usage"]["usage_record_kind"]=tables["usage"].usage_record_kind.fillna(STUDY)
+    for field in ("mapped","is_experimental","is_predicted"):tables["usage"][field]=tables["usage"][field].astype(bool)
+    tables["usage"]["label"]=tables["usage"]["label"].astype(float)
+    tables["completeness"]=assess(models,tables)
+    return tables
+
+
 def derive_manifest(path):
     path=Path(path).resolve();manifest=read(path)
     if set(manifest)-{"format","models","artifact_locations","patient_identity_crosswalk"} or manifest.get("format")!=INPUT_FORMAT:
@@ -394,12 +410,7 @@ def derive_manifest(path):
     inventory.sources[str(path)]=record(path)
     for spec in manifest["models"]:inventory.producer(spec,path.parent,spec["model_id"])
     if set(inventory.locations)!=inventory.used_locations:raise ValueError("Unused model-use artifact locator is not a proven dependency")
-    tables={"usage":pd.DataFrame(inventory.usage,columns=SOURCE_COLUMNS+EXTRA),
-        "dependencies":pd.DataFrame(inventory.dependencies,columns=DEPENDENCIES).drop_duplicates().reset_index(drop=True),
-        "gaps":pd.DataFrame(inventory.gaps,columns=GAPS).drop_duplicates().reset_index(drop=True)}
-    tables.update(inventory.patient_use.tables())
-    for field in ("mapped","is_experimental","is_predicted"):tables["usage"][field]=tables["usage"][field].astype(bool)
-    tables["usage"]["label"]=tables["usage"]["label"].astype(float)
+    tables=inventory_tables(inventory,identities)
     for source in inventory.sources.values():verified_source(source,path.parent)
     return manifest,identities,tables,list(inventory.sources.values())
 
@@ -412,9 +423,10 @@ def materialize_current_model_use(manifest_path,output):
     for name,frame in tables.items():
         path=output/(name.upper()+".parquet");frame.to_parquet(path,index=False);outputs[name]={**record(path),"rows":len(frame),
             "private":name=="patient_usage_private"}
+    from .model_use_completeness import is_complete
     binding={"format":FORMAT,"status":"PASS_DERIVED_INVENTORY","target_host":"149","input_manifest":record(source),
         "models":models,"outputs":outputs,"source_inputs":sources,"implementation_sha256":implementations(),
-        "isolation_scope":SCOPE,"model_use_inventory_completeness_verified":False,"independent_external_validation_attested":False,
+        "isolation_scope":SCOPE,"model_use_inventory_completeness_verified":is_complete(tables["completeness"]),"independent_external_validation_attested":False,
         "raw_study_provenance_reconstructed":False,"model_forwards_executed":False,"training_started":False}
     binding["patient_identity_namespace"]=manifest.get("patient_identity_crosswalk",{}).get("namespace")
     path=output/"MODEL_USE_BINDING.json";write(path,binding)
@@ -427,7 +439,7 @@ def load_current_model_use(path,*,expected_sha,models=None,root=None,replay=True
     path=verified_path({"path":str(path),"sha256":expected_sha},Path.cwd());binding=read(path)
     if binding.get("format")!=FORMAT or binding.get("status")!="PASS_DERIVED_INVENTORY" or binding.get("target_host")!="149" or binding.get("isolation_scope")!=SCOPE:
         raise ValueError("Invalid native model-use release")
-    for name in ("model_use_inventory_completeness_verified","independent_external_validation_attested","raw_study_provenance_reconstructed","model_forwards_executed","training_started"):
+    for name in ("independent_external_validation_attested","raw_study_provenance_reconstructed","model_forwards_executed","training_started"):
         if binding.get(name) is not False:raise ValueError("Native model-use inventory makes an unsupported completeness claim")
     if models is not None and binding["models"]!=model_identities(models,root or path.parent):raise ValueError("Model-use inventory belongs to different evaluated models")
     if binding["implementation_sha256"]!=implementations():raise ValueError("Model-use implementation changed")
@@ -435,6 +447,12 @@ def load_current_model_use(path,*,expected_sha,models=None,root=None,replay=True
         raise ValueError("Patient identity usage must remain private")
     for source in binding["source_inputs"]:verified_source(source,path.parent)
     tables={name:pd.read_parquet(verified_path(item,path.parent)) for name,item in binding["outputs"].items()}
+    from .model_use_completeness import assess,is_complete
+    coverage=assess(binding["models"],tables)
+    if binding.get("model_use_inventory_completeness_verified") is not is_complete(coverage):
+        raise ValueError("Native model-use inventory makes an unsupported completeness claim")
+    try:pd.testing.assert_frame_equal(tables["completeness"],coverage,check_dtype=False,check_exact=True)
+    except (KeyError,AssertionError) as error:raise ValueError("Native model-use recomputation differs: completeness") from error
     if replay:
         audit_current_model_use(path,expected_sha=expected_sha)
         success=read(path.parent/"SUCCESS.json");ap=path.parent/"RECOMPUTATION_AUDIT.json"

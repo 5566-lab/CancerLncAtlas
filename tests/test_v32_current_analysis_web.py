@@ -167,6 +167,9 @@ def test_workflow_builds_native_contexts_and_records_actual_public_schemas(web_r
     rows=store.query("external.isolation",version=store.sha)["rows"]
     assert rows[0]["lncrna_overlap"] and not rows[0]["provenance_held_out"]
     assert "external.model_dependency_gaps" in store.binding["tables"]
+    completeness=store.query("external.model_use_completeness",version=store.sha)["rows"]
+    assert completeness and not all(r["inventory_complete"] for r in completeness)
+    assert workflow["model_use_inventory_completeness_verified"]==external["model_use_inventory_completeness_verified"]
     assert "external.patient_mapping" in store.binding["tables"] and "external.patient_context_overlap" in store.binding["tables"]
     assert not any("patient_usage_private" in name for name in store.binding["tables"])
     native_use=read_json(root/"model_use/MODEL_USE_BINDING.json")

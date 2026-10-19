@@ -521,6 +521,7 @@ def main(argv=None) -> int:
         "preparation_includes_l1_baseline_fitting": True,
     }, indent=2) + "\n", encoding="utf-8")
     from cc_hhgt.v32.preparation_sources import SourceCapture, attach_sources
+    from cc_hhgt.v32.local_cnv_core_preparation import sha256_file
     captured = SourceCapture()
     read_json = lambda path: json.loads(path.read_text(encoding="utf-8"))
     from cc_hhgt.v32.patient_fold_authority import (
@@ -603,7 +604,6 @@ def main(argv=None) -> int:
             expected_sha=graph_inputs.static_sha256["detection"]))
     if adjusted_mode:
         from cc_hhgt.v32.local_cnv_core_preparation import (
-            sha256_file,
             validate_local_cnv_audit,
             validate_validation_a1_authority,
         )

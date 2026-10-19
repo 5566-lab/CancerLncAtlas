@@ -3828,13 +3828,89 @@ The failed r1 receipt records an incorrect test assumption of exactly one
 available label per fold; the final test compares actual aligned masks. No
 scientific threshold or availability calculation was changed for that test.
 
-Open external-evaluation code boundary: current_model_use still fixes
-model_use_inventory_completeness_verified to false, and external V2 passes
-that value into isolate_sources. Consequently its provenance-held-out branch
-cannot currently admit observations. The all-used-rows provenance check also
-mixes study-free entity-exposure records with biological source records.
-Finishing C13 requires an evidence-derived completeness policy for the actual
-declared dependency boundary, preserving unknown biological ancestry and
-patient mappings, plus positive eligible-metric tests and exclusion tests.
-The successful workflow check above verifies source traversal and exclusion;
-it does not close that remaining positive-evaluation path.
+That workflow check verified traversal and exclusion. At commit 53a4ff6 the
+native inventory still hard-coded completeness=false and mixed study-free
+entity exposure with study-source coverage. The following change addresses
+that decision policy; complete-core ancestry remains a separate open boundary.
+
+Evidence-derived registered-source completeness
+----------------------------------------------
+
+The native model-use producer now writes COMPLETENESS.parquet, computed from
+the actual usage, dependency and gap tables, separately for every model and
+dependency_context. This includes losing G012 comparison arms and zero-weight
+fusion experts. A context requires at least one verified dependency and one
+study source, no unresolved dependency, no unverified study source, and no
+blocking gap. Every context of every compared model must pass. An absent
+model or an otherwise empty context fails. Unknown future gap reasons fail
+closed. No input manifest accepts a completeness assertion.
+
+usage_record_kind separates ENTITY_EXPOSURE from STUDY_SOURCE. Entity rows
+must retain their typed native assay, source ID, model ID, lncRNA scope and
+empty study tokens. They continue to exclude exposed lncRNAs and all their
+pathway pairs, but are not themselves supposed to carry study citations.
+Manual model-use declarations remain study sources. They cannot supply this
+exemption through their raw input columns or specifications.
+
+model_use_inventory_completeness_verified is the computed conjunction, not
+a constant. Native binding loading recomputes it from verified tables and
+full auditing reconstructs those tables from actual producers. External V2
+publishes the public model_use_completeness table and carries the same value
+through its binding, query response and current publication workflow. The
+scope is NATIVE_REGISTERED_INPUTS_WITH_EXPLICIT_PROVENANCE_LIMITS.
+
+The only nonblocking gap reason is the explicit GDC upstream alignment and
+biospecimen-veracity limitation, appended after archived API metadata, raw
+STAR bytes, count RDS values and sample-table identity have been replayed.
+The GDC inspector now records sample exposure after that validation without
+also adding the generic unknown-table-transformation gap. Generic tables
+still retain that gap even if their hashes and study identifiers are present.
+No other unresolved ancestry gap is waived. This distinction does not verify
+upstream alignment, experimental truth or absence of unregistered studies.
+raw_study_provenance_reconstructed and independent_external_validation_attested
+remain false.
+
+provenance_held_out additionally requires measured, mapped external outcomes,
+verified external provenance, no connected-study or source-file overlap,
+complete registered and external patient mapping, and no mapped patient
+overlap. pair_held_out and lncrna_held_out add their existing entity exclusions.
+Completeness alone never overrides these exclusions. Missing labels are never
+converted to negatives, and descriptive metrics retain their separate scope.
+The positive check exposed a previously masked patient-isolation bug: joining
+annotated observations with native usage could promote booleans to object
+dtype, for which bitwise negation of True is the truthy integer -2. Patient
+flags are now normalized to boolean before exclusion. The shared-patient alias
+case is verified with otherwise complete source coverage, so an unrelated
+provenance failure cannot hide this regression.
+
+The positive test boundary is an actual GDC INPUT SLICE: two synthetic raw
+STAR files and archived API responses pass real R assembly and replay, then
+typed entity exposure, explicit patient mappings and synthetic measured
+outcomes enter the actual isolation/metric consumers. Scores are explicitly
+declared fixtures, not model predictions. This proves the covered slice can
+produce nonempty strict metrics while rejecting overlapping and incomplete
+records. It does not claim a full core/fusion release is provenance-complete.
+
+C13 remains open: core/graph authorities, some preparation and auxiliary/CNV/SC
+inspectors still retain unresolved or unconditional ancestry gaps. Each must
+be reconciled with verified actual transforms, reference/control roles and
+patient coverage, without removing unknown lineage. A complete native
+core/selected/fusion release must then pass the positive external V2 path;
+the GDC-slice metric check is not a substitute for that integration.
+
+The consumer regression pass also found a legacy formal-preparation crash:
+output-manifest hashing used sha256_file, whose import existed only inside
+the adjusted-CNV branch. Importing the same helper in the common path restores
+the legacy writer without changing statistics or fitting behavior. The legacy
+synthetic graph-authority fixture now supplies its consumed receipt field.
+The ordinary G012 comparison fixture no longer incorrectly declares the
+historical C-overlay mode; production overlay/native-mode guards are unchanged.
+
+Verification: model_use_completeness_final_r1 records 116 passing checks on
+149 against the final source version. These cover the new positive and
+negative source-slice cases, actual native model-use and external releases,
+patient identity, legacy preparation, native auxiliary and signed SC sources,
+all G012 competitors, GDC assembly, publication/API and browser consumers.
+Earlier failed receipts are retained, including the positive-coverage patient
+bug and legacy preparation import failure. No optimizer, real cohort analysis,
+paid compute or deployment was started. C01, C13 and C16 remain in progress.

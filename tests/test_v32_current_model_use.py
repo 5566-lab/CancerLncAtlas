@@ -125,6 +125,9 @@ def test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenan
     assert query.query()["isolation_scope"]==SCOPE
     assert "path" not in pd.read_parquet(query.paths["model_dependencies"]).columns
     assert len(pd.read_parquet(query.paths["model_dependency_gaps"]))>0
+    coverage=query.query(table="model_use_completeness")["rows"]
+    assert coverage and not all(r["inventory_complete"] for r in coverage)
+    assert not query.query()["model_use_inventory_completeness_verified"]
     # A manually declared disjoint source alone would have missed this exposure.
     from cc_hhgt.v32.external_validation_current import evaluate_manifest
     manifest["format"]="CURRENT_EXTERNAL_VALIDATION_INPUT_V1";manifest.pop("model_use_inventory");write(source,manifest)

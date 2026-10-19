@@ -38,7 +38,8 @@ def implementation_hashes():
         "cc_hhgt/v32/current_drug_context.py","cc_hhgt/v32/current_single_cell_context.py",
         "cc_hhgt/v32/current_patient_context.py","cc_hhgt/v32/current_omics_context.py",
         "scripts/materialize_v32_current_rule_evidence.py","cc_hhgt/v32/evidence_rule_release.py",
-        "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/current_model_use.py"]
+        "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/current_model_use.py",
+        "cc_hhgt/v32/model_use_completeness.py"]
     return {name:sha256(root/name) for name in names}
 
 
@@ -196,12 +197,17 @@ def run_current_analysis_workflow(manifest_path,output):
         state["stages"].append({"stage":stage,"status":"BUILT","resolved_input":record(web_input),"binding":web})
         for source in sources.values():verified_path(source,path.parent)
         if codes!=implementation_hashes():raise ValueError("Workflow implementation changed during execution")
+        inventory_complete=False
+        if "external" in refs:
+            from .external_validation_current import CurrentExternalValidationQuery
+            external=CurrentExternalValidationQuery(refs["external"]["path"],expected_sha=refs["external"]["sha256"])
+            inventory_complete=external.binding["model_use_inventory_completeness_verified"]
         binding={"format":FORMAT,"status":"PASS","target_host":"149","input_manifest":record(path),
             "release_id":manifest["release_id"],"selected_analysis":refs["selected_analysis"],"web_binding":web,
             "public_table_catalog":record(catalog_path),"implementation_sha256":codes,
             "source_inputs":list(sources.values()),"stages":state["stages"],"training_started":False,
             "upstream_training_executed":False,"production_deployed":False,
-            "model_use_inventory_completeness_verified":False,"independent_external_validation_attested":False}
+            "model_use_inventory_completeness_verified":inventory_complete,"independent_external_validation_attested":False}
         target=output/"CURRENT_WORKFLOW_BINDING.json";write(target,binding)
         state["status"]="PASS";write(output/"STAGE_STATUS.json",state)
         result={"status":"PASS","target_host":"149","binding_path":str(target),"binding_sha256":sha256(target),

@@ -52,6 +52,16 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
         is_table=bool(files) and all(p.suffix==".parquet" for p in files)
     if not is_table:
         inventory.gap(model,role,"AUXILIARY_NON_TABLE_UPSTREAM_CONTENT_NOT_RECONSTRUCTED",fold,digest);return
+    source_metadata(inventory,path,model,role,fold,phase=phase)
+    inventory.gap(model,role,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
+
+
+def source_metadata(inventory,path,model,role,fold=-1,*,phase="FEATURE_CONSTRUCTION"):
+    """Read exposure only; the calling native inspector must establish ancestry.
+
+    Generic tables still go through input_source and retain its ancestry gap.
+    Native producers may use this after validating the actual raw-to-table path.
+    """
     from .preparation_sources import source_members,canonical_sha
     for member in source_members(path,"table"):
         inventory.bind(member,path.parent,model,role+".consumed_file",fold)
@@ -69,7 +79,6 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
             "model_id":model,"patient_fold_id":fold,"use_view":"AUXILIARY_SOURCE_METADATA",
             "candidate_rows":0,"entity_scope":"WHOLE_REGISTERED_FILE_NO_ENTITY_ASSERTION",
             "dependency_context":inventory.context_id})
-    inventory.gap(model,role,"RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED",fold,digest)
 
 
 def inspect_fusion_expert(inventory,path,binding,audit,frame,expert,model,endpoint):

@@ -1,0 +1,49 @@
+{
+  "method": "EVIDENCE_DERIVED_NATIVE_SOURCE_COVERAGE_AND_PATIENT_ISOLATION",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "model_use_completeness_final_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "model_use_completeness_r1",
+    "model_use_completeness_r2",
+    "model_use_completeness_consumers_r1"
+  ],
+  "intermediate_successful_receipts": [
+    "model_use_completeness_r3",
+    "model_use_completeness_compat_r1"
+  ],
+  "intermediate_failure_causes": [
+    "R1: new exact-assay fixture omitted required record_id; the omission guard triggered before any evaluation. A legacy assertion also expected the old recomputation error text. Added explicit record IDs and preserved the recomputation diagnostic contract.",
+    "R2: positive coverage exposed an actual patient-overlap exclusion bug: concat promoted boolean flags to object and bitwise negation admitted a known overlapping patient. Normalized flags before exclusion; retained the known-alias negative expectation.",
+    "Consumer R1: legacy formal preparation called an uninitialized branch-local hash helper; moved its import into the common path. Existing synthetic graph-authority mock lacked its newly consumed receipt, and an ordinary G012 comparison fixture incorrectly declared historical C overlay mode without an overlay; corrected the fixtures to their actual source contracts without weakening production validation."
+  ],
+  "actual_gdc_star_assembly_and_source_replay": true,
+  "actual_positive_strict_metrics_on_native_input_slice": true,
+  "actual_full_core_positive_external_release": false,
+  "evidence_derived_per_model_and_context_coverage": true,
+  "entity_exposure_separate_from_study_metadata": true,
+  "known_patient_overlap_positive_coverage_regression": true,
+  "unknown_gap_reasons_block_by_default": true,
+  "legacy_formal_preparation_hash_import_regression_fixed": true,
+  "only_nonblocking_gap_reason": "GDC_UPSTREAM_ALIGNMENT_AND_BIOSPECIMEN_VERACITY_UNVERIFIED",
+  "test_substitutes": [
+    "synthetic archived GDC API metadata and raw STAR counts",
+    "synthetic measured external outcomes and explicitly declared score fixtures for the covered input slice",
+    "existing per-suite synthetic producer/model/control fixtures; see their original recorded scope"
+  ],
+  "raw_experimental_veracity_attested": false,
+  "independent_biological_validation_performed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native model-use completeness is now derived per evaluated model and dependency context, rather than hard-coded false. Typed entity exposure is separate from study-source coverage. Actual synthetic GDC STAR assembly/API/raw/RDS replay establishes a bounded covered input slice, which produces positive strict isolation metrics with explicitly declared fixture scores. This is not a complete native core/fusion prediction release or independent biological validation. Unknown ancestry, unresolved dependencies, losing competitors, zero-weight experts and missing patient identities remain blocking. A previously masked object-dtype boolean-negation error that could admit a known overlapping patient is corrected and positively regression-tested. Full native core/graph/preparation/auxiliary ancestry and positive external V2 release integration remain open; C01/C13/C16 are not marked complete."
+}

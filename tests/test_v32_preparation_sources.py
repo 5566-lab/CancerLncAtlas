@@ -151,7 +151,8 @@ def test_formal_entrypoint_serializes_consumed_legacy_sources_in_all_arms_withou
     manifest[["cancer_id", "sample_id", "patient_id"]].assign(lncrna_id="LNC:Z", logcpm=values).to_parquet(expression / "part-0.parquet", index=False)
     monkeypatch.setattr(patient, "validate_frozen_v32_patient_fold_binding", lambda *a: {
         "manifest_sha256": artifact_sha256(patient_map), "receipt_sha256": artifact_sha256(receipt)})
-    inputs = SimpleNamespace(receipt_sha256="a"*64, static_paths={"detection": detection, "pathway_hierarchy": hierarchy},
+    inputs = SimpleNamespace(receipt_sha256="a"*64, receipt={"binding_context_policy":"GLOBAL_PHYSICAL_BINDING"},
+                             static_paths={"detection": detection, "pathway_hierarchy": hierarchy},
                              static_sha256={"detection": artifact_sha256(detection), "pathway_hierarchy": artifact_sha256(hierarchy)})
     monkeypatch.setattr(graph, "load_formal_graph_input_authority", lambda **kw: inputs)
     monkeypatch.setattr(prepare, "load_scope", lambda frame: frame)

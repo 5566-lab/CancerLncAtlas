@@ -258,6 +258,10 @@ def inspect(inventory, normalization, root, model, role, fold, *, phase="FEATURE
     for i, source in enumerate(read(query_path)["pages"]): inventory.bind(source, query_path.parent, model, role + ".star.api." + str(i), fold)
     for i, source in enumerate(spec["implementations"]): inventory.bind(source, inputs.parent, model, role + ".star.implementation." + str(i), fold)
     for i, source in enumerate(spec["files"]): inventory.bind(source["raw"], inputs.parent, model, role + ".star.raw." + str(i), fold)
-    from .current_auxiliary_model_use import input_source
-    input_source(inventory, value["samples"], path.parent, model, role + ".star.sample_exposure", fold, phase=phase)
+    # validate() above replays archived API metadata, raw STAR bytes, RDS values
+    # and this exact sample table. Do not append a generic unknown-table ancestry
+    # gap to a transformation that has just been reconstructed.
+    from .current_auxiliary_model_use import source_metadata
+    source_metadata(inventory, verified_path(value["samples"],path.parent), model,
+                    role + ".star.sample_exposure", fold, phase=phase)
     inventory.gap(model, role, "GDC_UPSTREAM_ALIGNMENT_AND_BIOSPECIMEN_VERACITY_UNVERIFIED", fold, counts["sha256"])

@@ -44,6 +44,9 @@ def current_runs(root):
     for variant in ("G0", "G1", "G2"):
         run = fixture["run_parent"] / variant; prepared = fixture["prepared_parent"] / variant
         config = comparison_config(); config["task_contract"]["graph_variant"] = variant
+        # These are ordinary formal G012 payloads. They do not consume the
+        # historical C overlay used by the shared binding-comparison fixture.
+        config["task_contract"].pop("rbp_evidence_mode")
         config_path = run / "config.yaml"; config_path.write_text(yaml.safe_dump(config))
         input_path = run / "authorization/INPUT_MANIFEST.json"
         task_path = run / "authorization/TASK_MANIFEST.tsv"

@@ -165,6 +165,7 @@ def evaluate_manifest(path):
     if native_use:
         coverage["independence_scope"]=SCOPE
         tables.update(model_dependencies=derived["dependencies"].drop(columns="path"),model_dependency_gaps=derived["gaps"])
+        tables["model_use_completeness"]=derived["completeness"]
         tables.update(patient_mapping=derived["patient_mapping"],patient_context_overlap=derived["patient_context_overlap"])
     return manifest,tables,model_sources
 
@@ -184,21 +185,23 @@ def materialize_current_external(manifest_path, output):
     if sha256(manifest_path) != digest: raise ValueError("External policy changed during evaluation")
     from . import external_validation_sources, external_validation_metrics
     native_use=manifest["format"]=="CURRENT_EXTERNAL_VALIDATION_INPUT_V2"
-    native_binding=None;scope="REGISTERED_MODEL_USE_ONLY"
+    native_binding=None;scope="REGISTERED_MODEL_USE_ONLY";inventory_complete=False
     implementation_files=[__file__,external_validation_sources.__file__,external_validation_metrics.__file__]
     if native_use:
-        from . import current_model_use,patient_source_identity
+        from . import current_model_use,patient_source_identity,model_use_completeness
         source=verified_path(manifest["model_use_inventory"],manifest_path.parent)
         native_binding={"path":str(source),"sha256":sha256(source)};scope=current_model_use.SCOPE
         implementation_files.append(current_model_use.__file__)
         implementation_files.append(patient_source_identity.__file__)
+        implementation_files.append(model_use_completeness.__file__)
+        inventory_complete=model_use_completeness.is_complete(tables["model_use_completeness"])
     implementation = {str(Path(p).resolve()): sha256(Path(p)) for p in
         implementation_files}
     binding = {"format": "CURRENT_EXTERNAL_VALIDATION_RELEASE_V2" if native_use else "CURRENT_EXTERNAL_VALIDATION_RELEASE_V1", "status": "PASS", "target_host": "149",
         "run_id": stable_id("EXTERNAL:", [digest, implementation]), "input_manifest": {"path": str(manifest_path), "sha256": digest},
         "outputs": outputs, "models": model_sources, "implementation_sha256": implementation, "evaluation": manifest["evaluation"],
         "training_started": False, "used_for_model_selection": False, "negative_labels_synthesized": False,
-        "isolation_scope":scope,"native_model_use_inventory":native_binding,"model_use_inventory_completeness_verified":False,
+        "isolation_scope":scope,"native_model_use_inventory":native_binding,"model_use_inventory_completeness_verified":inventory_complete,
         "independent_external_validation_attested": False, "production_deployed": False}
     path = output/"EXTERNAL_BINDING.json"; path.write_text(json.dumps(binding, indent=2)+"\n")
     # Recompute from the original raw tables, not from already filtered outputs.
@@ -217,14 +220,20 @@ def _load_binding(path, expected_sha):
             or binding.get("target_host") != "149" or binding.get("training_started") is not False
             or binding.get("used_for_model_selection") is not False or binding.get("negative_labels_synthesized") is not False
             or binding.get("independent_external_validation_attested") is not False
-            or binding.get("model_use_inventory_completeness_verified") is not False
             or binding.get("isolation_scope") != scopes.get(binding.get("format"))):
         raise ValueError("Invalid external evaluation binding")
-    if binding["format"]=="CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":verified_path(binding["native_model_use_inventory"],path.parent)
+    inventory_complete=False
+    if binding["format"]=="CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":
+        from .current_model_use import load_current_model_use
+        source=verified_path(binding["native_model_use_inventory"],path.parent)
+        native,_=load_current_model_use(source,expected_sha=sha256(source),replay=False)
+        inventory_complete=native["model_use_inventory_completeness_verified"]
     elif binding.get("native_model_use_inventory") is not None:raise ValueError("Legacy external release has a hidden native inventory")
+    if binding.get("model_use_inventory_completeness_verified") is not inventory_complete:
+        raise ValueError("External completeness claim differs from native input evidence")
     allowed={"isolation","model_use","metrics","details","coverage"}
     if binding["format"]=="CURRENT_EXTERNAL_VALIDATION_RELEASE_V2":
-        allowed|={"model_dependencies","model_dependency_gaps","patient_mapping","patient_context_overlap"}
+        allowed|={"model_dependencies","model_dependency_gaps","model_use_completeness","patient_mapping","patient_context_overlap"}
     if not set(binding["outputs"])<=allowed or any(r.get("private") is True for r in binding["outputs"].values()):
         raise ValueError("External release may publish only approved aggregate tables")
     outputs = {name: verified_path(record, path.parent) for name, record in binding["outputs"].items()}
@@ -243,6 +252,9 @@ def audit_current_external(path, *, expected_sha):
         native=verified_path(manifest["model_use_inventory"],source.parent)
         if binding.get("native_model_use_inventory")!={"path":str(native),"sha256":sha256(native)}:
             raise ValueError("External native model-use provenance drift")
+        from .model_use_completeness import is_complete
+        if binding["model_use_inventory_completeness_verified"] is not is_complete(expected["model_use_completeness"]):
+            raise ValueError("External completeness differs from recomputed input evidence")
     elif binding["format"]!="CURRENT_EXTERNAL_VALIDATION_RELEASE_V1":raise ValueError("External input/release inventory mode differs")
     if model_sources != binding["models"]: raise ValueError("External model provenance drift")
     if set(expected) != set(outputs): raise ValueError("External output tables differ from the registered analysis")
@@ -288,4 +300,5 @@ class CurrentExternalValidationQuery:
         finally: connection.close()
         return {"run_id": self.binding["run_id"], "binding_sha256": self.binding_sha256,
             "isolation_scope":self.binding["isolation_scope"],"independent_external_validation_attested":False,
+            "model_use_inventory_completeness_verified":self.binding["model_use_inventory_completeness_verified"],
             "rows": json.loads(frame.to_json(orient="records"))}

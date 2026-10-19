@@ -159,11 +159,14 @@ def isolate_sources(external, usage, *, dependency_complete=None, dependency_has
     combined = assign_study_components(pd.concat([usage, external], ignore_index=True))
     used = combined.loc[combined.phase.ne("EXTERNAL_EVALUATION")].copy()
     evaluated = combined.loc[combined.phase.eq("EXTERNAL_EVALUATION")].copy()
+    from .model_use_completeness import record_kinds,STUDY
+    used["usage_record_kind"]=record_kinds(used)
+    study_sources=used.loc[used.usage_record_kind.eq(STUDY)]
     used_studies = set(used.loc[used.provenance_verified, "study_id"])
     used_lnc = set(used.loc[used.lncrna_id.ne(""), "lncrna_id"])
     used_pairs = set(used.loc[used.lncrna_id.ne("") & used.pathway_id.ne(""), ["lncrna_id", "pathway_id"]].itertuples(index=False, name=None))
     used_unspecified_pair = set(used.loc[used.pathway_id.eq(""), "lncrna_id"])
-    complete = bool(len(used) and used.provenance_verified.all() and dependency_complete is not False)
+    complete = bool(len(study_sources) and study_sources.provenance_verified.all() and dependency_complete is not False)
     entity_complete = bool(len(used) and used.mapped.all())
     evaluated["model_usage_provenance_complete"] = complete
     evaluated["model_usage_entity_complete"] = entity_complete
@@ -174,9 +177,15 @@ def isolate_sources(external, usage, *, dependency_complete=None, dependency_has
         or (not pathway and lnc in used_lnc) for lnc, pathway in evaluated[["lncrna_id", "pathway_id"]].itertuples(index=False, name=None)]
     evaluated["descriptive_eligible"] = evaluated.mapped & evaluated.is_experimental & ~evaluated.is_predicted & evaluated.label.notna()
     patient_checked="patient_overlap" in evaluated
-    patient_ready=(evaluated.external_patient_identity_complete.fillna(False)
-                   & evaluated.registered_patient_mapping_complete.fillna(False)
-                   & ~evaluated.patient_overlap.fillna(False)) if patient_checked else True
+    # Concatenating native usage (no patient annotations) can promote booleans
+    # to object dtype. On object values ~True is -2, which is truthy: normalize
+    # before negation so a known patient overlap cannot become eligible.
+    if patient_checked:
+        for column in ("external_patient_identity_complete","registered_patient_mapping_complete","patient_overlap"):
+            evaluated[column]=evaluated[column].fillna(False).astype(bool)
+    patient_ready=(evaluated.external_patient_identity_complete
+                   & evaluated.registered_patient_mapping_complete
+                   & ~evaluated.patient_overlap) if patient_checked else True
     evaluated["provenance_held_out"] = (evaluated.descriptive_eligible & evaluated.provenance_verified & complete
         & ~evaluated.study_overlap & ~evaluated.source_file_overlap & patient_ready)
     evaluated["pair_held_out"] = evaluated.provenance_held_out & entity_complete & ~evaluated.pair_overlap
