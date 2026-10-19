@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 713,
+  "unique_test_cases_passed": 728,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -161,10 +161,10 @@
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "1ea88912d0a66bd31443d35b36e336f0ca1214701a1990ce0a929197690c569c",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
-    "cc_hhgt/v32/current_model_use.py": "9efdcd4eb9674a12b74c22764f1a15dca9709e6e7805e2cff7d2e81f363dc863",
+    "cc_hhgt/v32/current_model_use.py": "72f281c644122db3a975c812a2dc0cfbb30d4fe0d0a6b2cd92e5c4491bf31598",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "75c340c6e0bac50d2aff0840ec4cfc4ef5b972b37fa3c28da0d8536f39732323",
-    "cc_hhgt/v32/preparation_sources.py": "5e7ce542436c3bdb73faf657b6c853f948a18687e25e442421137ed433ac214b",
+    "cc_hhgt/v32/preparation_sources.py": "004a7608bef0a686351f6833dff06671574a7d547fa88558759db4d1da2b223c",
     "scripts/prepare_v32_formal.py": "f4fe2b2d4c9ef8c30216825d6ca5c363192d51627ba4d228cd83f7c5ada58fda",
     "tests/test_v32_preparation_sources.py": "967573cc29359b8a19a2a7240ae2d15a429f1b568ffa4c34b2fb476e0baaed8b",
     "tests/test_v32_formal_preparation_firewall.py": "3ca2520cc107b2e7019fc4e8db17b33c6341288549be3373737144098fbd7e3c",
@@ -173,12 +173,12 @@
     "artifacts/v32_patient_fold_authority_20260829_r1/PATIENT_FOLD_AUTHORITY_RECEIPT.json": "1ef32bda9d14d87997f3b81c34b8aacce172de390db5c29aee011ca73ba317e0",
     "cc_hhgt/v32/g012_winner_lock.py": "9e7cc87dd5b59d9614ab30333bf2068b12ad4d817b0d6625f3bb2a4019feb12e",
     "tests/test_v32_current_comparison_sources.py": "03cb8099a762d5940d7abd2b7bf220bef3b9afa8266d503a8c00b52fab36056f",
-    "cc_hhgt/v32/current_auxiliary_model_use.py": "fad3060a4e2ee2838b12529f8723bb82d4d0990d5515cf23007d55b972a175b7",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "185af61ab634e9ac648f73d1f542016d82cfbfe1457c0a01e66fc50c61e148df",
     "tests/test_v32_auxiliary_model_use.py": "2cdd8a129044b3bb7d3ab6cff45334df07b1b9bbdf87591ae385db33c3342845",
     "cc_hhgt/v32/current_single_cell_model_use.py": "4f6defa9b953de9fc003448a0192b040725e014db85486581da81c9546a3a899",
     "tests/test_v32_single_cell_model_use.py": "be1988feea5f055ef18988cc091871322bc1c36038a57c504e2ed326d704d3f3",
-    "cc_hhgt/v32/cnv_input_sources.py": "76ffc0c69ffcac3a830a28e4cf93eb8888c4914fcf2fa8be077c387149213002",
-    "cc_hhgt/v32/current_cnv_model_use.py": "cb44c99f211540d33dcf767e432c843031055b0ea1a0012d0395920910707256",
+    "cc_hhgt/v32/cnv_input_sources.py": "06ff2a812679ad5c9aa2ec8935cb1b4a3d8c6c9a67154bdb0819c3a33cb36111",
+    "cc_hhgt/v32/current_cnv_model_use.py": "9585c5d4b67252eefe1a473f7221ea1553649d14900ef708999bd5ede804f204",
     "cc_hhgt/v32/cnv_only_training_v2.py": "3f0bb687bda8f2ad2f2c6ba2460b7b633f91cfb7ea277487cbfadd8b6e759f47",
     "scripts/materialize_v32_directional_cnv.py": "40a075f2775508b90eb1c61c3d71ca1d250578e0aa2a0a6cd7964c661a8ca344",
     "cc_hhgt/v32/segment_cnv_streaming.py": "0eda55d497adf081ac104635b6bba362d89373ea24b62069223ebaaf14202027",
@@ -194,7 +194,7 @@
     "cc_hhgt/v32/directional_cnv.py": "748f5db244e189f5a81ffa722ba075a1ddea19e9e30e5c165abd149e8d747402",
     "cc_hhgt/v32/local_cnv_confounding.py": "878a21ca7146bea8af0077ea41d64c552cc9cf94c705dd081599399aa5c74bec",
     "cc_hhgt/v32/local_cnv_core_preparation.py": "93ab20530d3dcc38f1029aeff7f923593c98abf9850a79954ecd75908ab5c8a6",
-    "cc_hhgt/v32/local_cnv_sources.py": "d3626db0d28f68ab1f419286ed8c02c11e622445ba056c0a5957ec2ec917fac1",
+    "cc_hhgt/v32/local_cnv_sources.py": "96283b1aa2e897935fec46675928037afa168ec93096a322c1de812c7378f0fd",
     "scripts/audit_v32_local_cnv_validation_associations.py": "740d51e169f0a639e4b3b28d0543d73d1b7ee909f78dcb5b513000ecc01f16d7",
     "scripts/finalize_and_audit_v32_local_cnv_r3.py": "0de64188a4ec782f026cb66fa078f557a5d71edca2d6ae3b4dffd5dd59a3378b",
     "scripts/materialize_v32_local_cnv_corrected_graph_authority.py": "94c9b24f453008497d8d01ad15bb5c7c9ac01e42e56ba659c54ed619291e21da",
@@ -204,7 +204,11 @@
     "tests/test_v32_bulk_coexpression.py": "b2a51a81e42dc533aac54d616bab7fa147da966386b31511d478e143cc6ad14b",
     "tests/test_v32_covariate_contract.py": "0f39433b2d533108d4453769a13b291413a6aed990197880055e12386d28c3f6",
     "tests/test_v32_local_cnv_core_preparation.py": "2d613a4e6b9419055a2968ee231cef6876d359516816d9502e4489e518fc9168",
-    "tests/test_v32_local_cnv_source_ancestry.py": "20d66270eb5efa38dd530e6f6865e4c2744fceae3b6767e4017ce613a09b6c83"
+    "tests/test_v32_local_cnv_source_ancestry.py": "a97591ef53a9d42db5e31380c6f3fe4c27058eeb3a2c53a85f6a2a787cea99ae",
+    "scripts/materialize_formal_lncrna_logcpm.R": "daaf1bc259a2c965c772d1c3d82895f7d694bcc55eeaae63081ef1a9cee6a224",
+    "scripts/convert_formal_lncrna_rds.py": "82f78ab5b6729de08c222e400d3822c72655e3cda2bf68f9a95840cb7e7441b8",
+    "cc_hhgt/v32/formal_expression_sources.py": "ce289787df9d1b5d827daa9050e9df0176eae31d6c596ad76595a28f2cab0505",
+    "tests/test_v32_expression_source_ancestry.py": "021bf0fb4b606baeea1c5fad1bd0dee169caf75064f428f7634ef54d80e677be"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -317,7 +321,12 @@
     "Actual native association/validation reads bind source tables, eight compact arrays, three ID lists, implementation hashes and five-fold outputs. Output-specific roles distinguish pair statistics from G0 edge construction. Reuse rejects changed authorities, compact root and run identity. All recovered execution paths require 149 and write preflights.",
     "Actual formal preparation carries bound transformation receipts into core inventory. E1 materialization binds source edge partitions and model-use inspection replays corrected graph selection before upstream traversal. Explicit upstream study metadata, source hashes and patient identities reach model/context-specific external isolation; validation-only ancestry retains model-selection semantics.",
     "Synthetic native calculations use 120 patients and one candidate with only fixture dimensions reduced. Actual native five-fold association, validation, E1 graph preparation, frozen-core forwards, inventory/external consumers and website regression run without optimization. Full 33-cancer closeout and bulk KMeans clustering are not executed; synthetic aggregate authorizations are not real closeout evidence.",
-    "Earlier raw expression/activity normalization, complete per-row patient usage, absent historical bindings and final acceptance remain open. No real cohort analysis, optimizer, paid compute or deployment occurred. Cumulative tests are versioned history, not one current-code full-suite run."
+    "Earlier raw expression/activity normalization, complete per-row patient usage, absent historical bindings and final acceptance remain open. No real cohort analysis, optimizer, paid compute or deployment occurred. Cumulative tests are versioned history, not one current-code full-suite run.",
+    "Recovered the actual standalone TMM normalizer with original source SHA256. Its historical all-gene edgeR TMM on selected tumor and normal samples is retained; only tumor/eligible-lncRNA rows are exported. Actual count RDS, threshold table, sample selection, normalization factors, explicit source study metadata and implementation/version records are preserved.",
+    "Native RDS conversion has explicit paths/cancer scope, host149 preflight, new-output-only semantics, exact value and identifier validation, and pinned normalization ancestry. Actual formal/local-CNV reads bind the conversion receipt; model-use inspection replays RDS-to-Parquet values before traversing normalization inputs. Legacy missing normalization receipts remain unresolved.",
+    "Real edgeR calculations on 80 count rows and 123 synthetic aliquots select 121 normalization samples and export 120 tumor samples. Independent expected sample/row selection and direct edgeR reference values, actual local-CNV/core/external consumers and drift rejection are verified without optimization or real cohort analysis.",
+    "Cohort-level TMM is explicitly not fold-local. GDC acquisition before count RDS, pathway/gene preprocessing, complete per-row exposure, unsupported historical bindings and final C01/C13/C16 acceptance remain open. No raw-normalization statistical replay is claimed by inventory inspection; it replays only RDS conversion and verifies native upstream bindings. Cumulative tests are versioned history, not a single current-code full-suite run.",
+    "Expression ancestry regression and browser verification remain pending after initial SCP upload failure. The interrupted regression coordinator exited before launching remote tests. No remote result is inferred from that failed transfer; the previous successful 40-case receipt is preserved."
   ],
   "test_suites": [
     {
@@ -609,6 +618,11 @@
       "path": "provenance/code_completion_20261015/local_cnv_ancestry_web_r1_tests.xml",
       "passed": 11,
       "sha256": "670979f463346e6328c303610f464edef0d23f877435fad8cbfe909d45fa28a4"
+    },
+    {
+      "path": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml",
+      "passed": 40,
+      "sha256": "fdce22c654e21d19cf8f234ae9987d14c41bc4804411eff6120d50d4ff0ba118"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -842,57 +856,57 @@
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_capture_detects_changes_during_read_and_before_sealing",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_consumed_cnv_sources_reach_external_study_isolation[cnv_event]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[matrix_change]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_array]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[missing_label]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_shape]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_drift_and_repinned_incomplete_receipts_rejected[wrong_split]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
       "case": "test_native_reader_rejects_materialized_matrix_drift_before_fit[cnv_event]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_regression_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_materialization_sources",
@@ -2850,6 +2864,81 @@
       "suite": "provenance/code_completion_20261015/current_rule_evidence_tests.xml"
     },
     {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_actual_edgeR_normalization_and_conversion_preserve_expected_values",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_actual_legacy_formal_reader_follows_conversion_sources",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_actual_raw_counts_reach_local_cnv_core_and_external_isolation",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_actual_reads_bind_expression_receipt_and_detect_later_change",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_changed_expression_or_ancestor_is_rejected[normalization]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_changed_expression_or_ancestor_is_rejected[output]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_changed_expression_or_ancestor_is_rejected[raw_counts]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_changed_expression_or_ancestor_is_rejected[repinned_output]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[duplicate_lnc]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[duplicate_sample]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[invalid_sample]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_invalid_native_matrix_does_not_silently_change_identity_or_missingness[nonfinite]",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_legacy_rds_keeps_missing_normalization_explicit",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_normalizer_host_guard_and_converter_full_scope",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_expression_source_ancestry",
+      "case": "test_wrong_host_and_existing_output_rejected",
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_formal_graph_contract",
       "case": "test_fresh_materializers_preserve_context_sign_and_all_static_layers",
       "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
@@ -3617,72 +3706,72 @@
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_adjusted_reader_preserves_used_files_and_separate_study_sources",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_external_v2_excludes_shared_study_even_for_an_unseen_entity",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_during_read_and_extra_directory_partition_fail",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_partition_with_unchanged_success_receipt_is_detected",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_formal_entrypoint_serializes_consumed_legacy_sources_in_all_arms_without_fitting",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_metadata_is_explicit_and_retains_multiple_accession_columns",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[cancer]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[fold]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[invented_metadata]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_receipt]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_role]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[receipt_hash]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_real_current_producer_propagates_train_sources_and_keeps_l1_validation_diagnostic",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_relocated_native_source_keeps_hash_and_explicit_missing_metadata",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/expression_ancestry_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_rbns_sequence",
@@ -4187,15 +4276,19 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "local_cnv_ancestry_r4",
-      "local_cnv_ancestry_r5",
-      "local_cnv_ancestry_regression_r1",
-      "local_cnv_ancestry_web_r1"
+      "expression_ancestry_r2"
     ],
-    "passed": 148,
+    "passed": 40,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
-    "training_started": false
+    "training_started": false,
+    "pending_validation": [
+      "tests/test_v32_current_model_use.py",
+      "tests/test_v32_patient_source_identity.py",
+      "tests/test_v32_auxiliary_model_use.py",
+      "tests/test_v32_local_cnv_source_ancestry.py",
+      "tests/test_v32_current_analysis_web.py"
+    ]
   },
   "validation_count_scope": "CUMULATIVE_UNIQUE_CASES_WITH_VERSIONED_SUITE_RECEIPTS_NOT_ONE_FULL_CURRENT_SUITE_RUN"
 }

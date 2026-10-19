@@ -36,11 +36,16 @@ class SourceCapture:
     def read(self, path, reader, *, role, cancer="", fold=-1, split="", columns=()):
         path = Path(path).resolve()
         before = sha256(path)
+        from .formal_expression_sources import binding, validate
+        upstream = binding(path) if path.suffix == ".parquet" else None
         value = reader(path)
         if sha256(path) != before:
             raise ValueError("CNV input changed while reading: " + str(path))
         item = dict(path=str(path), sha256=before, role=role, cancer=cancer,
                     fold=fold, split=split, columns=list(columns))
+        if upstream is not None:
+            validate(upstream, path.parent, path)
+            item["upstream_expression"] = upstream
         key = (str(path), role, cancer, fold, split)
         previous = self.records.get(key)
         if previous is not None and previous != item:

@@ -51,6 +51,8 @@ def implementations():
         "cc_hhgt/v32/current_core_model_use.py","cc_hhgt/v32/integrated_model.py",
         "cc_hhgt/v32/patient_source_identity.py",
         "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_confounding.py",
+        "cc_hhgt/v32/formal_expression_sources.py","scripts/convert_formal_lncrna_rds.py",
+        "scripts/materialize_formal_lncrna_logcpm.R",
         "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/stats.py","cc_hhgt/v32/directional_cnv.py",
         "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
         "cc_hhgt/v32/cnv_only_training.py","cc_hhgt/v32/cnv_only_training_v2.py",
@@ -169,6 +171,9 @@ class Inventory:
                 self.bind(member,path.parent,model,label+".consumed_file",fold)
                 tokens=member["study_tokens"]
                 if item["kind"]=="control":continue
+                if member.get("upstream_expression"):
+                    from .formal_expression_sources import inspect
+                    inspect(self,member["upstream_expression"],path.parent,member["path"],model,label+".expression",fold)
                 self.patient_use.table(member["path"],digest=member["sha256"],model=model,context=self.context_id,
                     role=label,fold=fold,phase="MODEL_SELECTION" if role=="validation_associations" else "FEATURE_CONSTRUCTION",
                     scope="WHOLE_CONSUMED_FILE_NOT_ALL_ROWS_FITTED")

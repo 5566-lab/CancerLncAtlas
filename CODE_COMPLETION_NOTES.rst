@@ -2460,3 +2460,94 @@ the existing receipts were retrieved without repeating completed jobs.
 This implements local-CNV transformation ancestry for newly bound native sources.
 Earlier raw expression/activity normalization, complete per-row patient usage,
 absent historical bindings and final C01/C13/C16 acceptance remain unresolved.
+
+Native TMM expression normalization and conversion ancestry
+---------------------------------------------------------
+
+The original standalone materialize_formal_lncrna_logcpm.R was recovered into
+scripts/ with its original path and SHA256 recorded in
+expression_ancestry_recovered_sources.json. Its existing scientific calculation
+is retained: use the unstranded count assay, select one sample per patient and
+sample type with the original priority/library-size rules, calculate edgeR TMM
+on all genes in selected tumor AND normal samples, use log CPM prior.count=0.25,
+then export the declared eligible lncRNAs in selected tumor samples. Duplicate
+stable gene IDs retain the first source row and PAR_Y rows are excluded from the
+lncRNA export. They are not removed from the count-library normalization.
+
+Both the R producer and Python converter require host 149, record a preflight,
+and require a new output directory. The producer records the actual count RDS,
+detection table, its implementation and edgeR/R versions. It checks input hashes
+around reads and before publication. Each cancer has an immutable source receipt
+binding its output matrix, tumor-sample table and complete read-sample metadata.
+The latter retains which samples contributed to normalization and which were
+exported, including normal samples absent from the tumor output. Study metadata
+is copied only from explicit source RDS colData or metadata(x)$study_metadata
+fields. Study identifiers are not inferred from TCGA filenames or cancer names.
+
+convert_formal_lncrna_rds.py now has --source, --output and repeatable --cancer
+arguments. Omitting --cancer still requires 33 matrices. An explicit subset is
+recorded as that subset, not a full release. The converter rejects duplicated or
+invalid lncRNA/sample identifiers and nonfinite values; it preserves exact RDS
+values and TCGA patient identity. EXPRESSION_SOURCES.json in each output partition
+binds the actual RDS read, optional native normalization receipt, output Parquet
+and converter implementations. Legacy RDS files can be converted, but absent
+normalization provenance remains explicitly unresolved.
+
+The normalization sample table has these scientific field meanings:
+
+* library_size: sum of unstranded raw counts across all input rows for that
+  aliquot, before the tumor/normal selection; unit is read counts.
+* normalization_factor: dimensionless edgeR TMM factor for a selected aliquot;
+  missing for excluded aliquots. The effective library size is library_size
+  multiplied by this factor.
+* selected_within_patient_type: first aliquot under the recorded sample-type,
+  priority, descending library-size and sample-ID ordering.
+* include_expression: selected tumor or normal aliquot actually used by TMM.
+* include_association: selected tumor aliquot exported to the expression
+  matrix. It does not assert use in every later correlation or training batch.
+* logcpm: edgeR log2 counts per million with TMM normalization and the specified
+  prior count; it is not TPM, a probability, or an effect size.
+* patient_id: the first 12 characters of a validated TCGA sample identifier;
+  cross-study identity still requires the separate explicit patient crosswalk.
+
+Formal preparation and native local-CNV readers capture this receipt during the
+actual Parquet read. Later inspection checks the previously captured binding;
+it does not silently attach provenance to old payloads. Inventory replay compares
+the converted table against the actual bound RDS, so repinning an edited output
+does not bypass the transformation check. Native normalization input hashes and
+explicit study/sample metadata then reach direct core, auxiliary and comparison
+consumers through the existing source paths. The shared workflow and public
+dependency outputs retain their existing private-identity restrictions.
+
+Run on 149 with the development root on PYTHONPATH, using new destinations:
+
+* Rscript scripts/materialize_formal_lncrna_logcpm.R COUNT_RDS_DIRECTORY
+  DETECTION_TABLE_DIRECTORY NEW_NORMALIZATION_DIRECTORY
+* python scripts/convert_formal_lncrna_rds.py --source NEW_NORMALIZATION_DIRECTORY
+  --output NEW_PARQUET_DIRECTORY
+* Bind NEW_PARQUET_DIRECTORY as the actual lnc_expression_root for local-CNV or
+  --formal-expression-root for legacy formal preparation. Existing pinned
+  authorities must be regenerated and rebound; old results are not overwritten.
+
+Synthetic verification uses 80 count rows and 123 sample aliquots, selects 121
+normalization samples and exports 120 tumor samples. It executes real edgeR TMM,
+the actual RDS conversion, native five-fold local-CNV calculations, current-core
+frozen forwards and external isolation. An independent direct edgeR calculation
+uses explicitly expected sample/row indices to check values and sample selection.
+This is stronger than an R parse check. No optimizer or real cohort run occurs.
+
+This recovers one earlier transformation, not complete raw ancestry. The
+historical TMM procedure is cohort-level and is explicitly reported as NOT
+fold-local; this change does not attest independent predictive validation or
+retroactively correct historical scores. GDC acquisition before the count RDS,
+pathway-activity/gene-expression preprocessing, complete per-row exposure,
+missing historical bindings and final C01/C13/C16 acceptance remain open.
+
+The expression_ancestry_r2 receipt records 40 passing synthetic cases on 149.
+Subsequent broader regression was not started: the coordinator failed during its
+initial SCP upload, before sending the remote test command. A later SSH probe
+returned an invalid banner, and iOA could not be made readable through the
+available desktop controls. No credentials were submitted. As recorded in
+expression_ancestry_network_pending.json, broader regression, browser verification
+and final handoff synchronization remain pending. Previous browser screenshots
+are not reused as evidence for this change.

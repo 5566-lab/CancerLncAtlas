@@ -42,7 +42,7 @@ def test_recovered_producers_reject_wrong_host_before_execution(monkeypatch,modu
         entry() if function=="main" else entry(None)
 
 
-def native_inputs(root,monkeypatch):
+def native_inputs(root,monkeypatch,*,expression_source=None):
     import scripts.run_v32_local_cnv_confounding_audit_r2 as association
     import scripts.materialize_v32_local_cnv_validation_associations as validation
     root.mkdir(parents=True)
@@ -51,12 +51,17 @@ def native_inputs(root,monkeypatch):
     monkeypatch.setattr(association,"CANDIDATES_PER_CANCER",1)
     monkeypatch.setattr(validation,"CANDIDATES_PER_CANCER",1)
     n=120;t=np.arange(n,dtype=float);patients=[f"PRIVATE_LOCAL_PATIENT_{i:03}" for i in range(n)]
+    if expression_source is not None:
+        patients=pd.read_parquet(expression_source).patient_id.drop_duplicates().tolist()
+        assert len(patients)==n
     values=np.sin(t*.63)+np.cos(t*.27)
     sources={}
     for name,entity,column,ids,signal,pmid in (
         ("lnc_expression_root","lncrna_id","logcpm",["LNC:Z"],values,"55667788"),
         ("pathway_activity_root","pathway_id","activity_score",["P1"],values+np.sin(t*.13)*.2,"66778899"),
         ("gene_expression_root","gene_id","logcpm",["G1"],values+np.cos(t*.1)*.1,"77665544")):
+        if name=="lnc_expression_root" and expression_source is not None:
+            sources[name]={"path":str(Path(expression_source).parent.parent)};continue
         directory=root/name;file=directory/"cancer_id=BRCA/part-0.parquet";file.parent.mkdir(parents=True)
         pd.DataFrame({"cancer_id":"BRCA","patient_id":patients,"sample_id":patients,
                       entity:ids[0],column:signal,"pmid":pmid}).to_parquet(file,index=False)
@@ -209,14 +214,14 @@ def test_native_transformation_drift_rejected(tmp_path,monkeypatch,fault):
     with pytest.raises(ValueError,match="SHA256 mismatch|incomplete"):validate(item,tmp_path)
 
 
-def test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs(tmp_path,monkeypatch):
+def test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs(tmp_path,monkeypatch,*,native_factory=native_inputs,external_pmid="55667788"):
     import test_v32_current_binding_expansion as fixtures
     from test_v32_current_core_prediction import current_fixture
     from cc_hhgt.v32.current_core_prediction import materialize_current_predictions
     from cc_hhgt.v32.preparation_sources import attach_sources
     from scripts.prepare_v32_formal import make_batches,attach_replication_labels
     from cc_hhgt.v32.external_validation_current import materialize_current_external,CurrentExternalValidationQuery
-    args,vargs,_,_=native_inputs(tmp_path/"native",monkeypatch)
+    args,vargs,_,_=native_factory(tmp_path/"native",monkeypatch)
     original=fixtures.verified_payload
     def payload(fold=0):
         result=original(fold);receipt,frames=prepared_capture(tmp_path/f"preparation{fold}",args,vargs,fold)
@@ -244,7 +249,7 @@ def test_actual_core_and_external_consumer_exclude_studies_only_in_transformatio
         columns=["namespace","raw_id","canonical_id"]).to_parquet(crosswalk,index=False)
     observed=tmp_path/"external.parquet"
     pd.DataFrame({"record_id":["r1"],"lncrna":["new"],"cancer":["breast"],"pathway":["p"],"label":[1],
-        "pmid":["55667788"],"is_experimental":[True],"is_predicted":[False],"assay":["Synthetic"]}).to_parquet(observed,index=False)
+        "pmid":[external_pmid],"is_experimental":[True],"is_predicted":[False],"assay":["Synthetic"]}).to_parquet(observed,index=False)
     external=tmp_path/"external.json";write(external,{"format":"CURRENT_EXTERNAL_VALIDATION_INPUT_V2","models":[spec],
         "model_use_inventory":record(inventory),"identity_crosswalk":record(crosswalk),
         "external_sources":[{"source_id":"upstream_only","kind":"exact_assay","table":record(observed)}],

@@ -1,0 +1,7 @@
+{
+    "source_path":  "D:/model/materialize_formal_lncrna_logcpm.R",
+    "source_sha256":  "b86d8ac32cb3558036720443336502c95783e955cabae56c12bcc75a3f72e6d0",
+    "destination":  "scripts/materialize_formal_lncrna_logcpm.R",
+    "operation":  "RECOVER_ORIGINAL_BEFORE_ADAPTATION",
+    "original_unchanged":  true
+}

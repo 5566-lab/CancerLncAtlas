@@ -1,0 +1,52 @@
+{
+  "method": "RESTORE_NATIVE_TMM_EXPRESSION_AND_CAPTURE_CONSUMED_NORMALIZATION_ANCESTRY",
+  "successful_validation_receipts": [
+    "expression_ancestry_r2"
+  ],
+  "intermediate_successful_receipts": [
+    "expression_ancestry_r1"
+  ],
+  "implemented_and_verified_files": [
+    "cc_hhgt/v32/cnv_input_sources.py",
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_cnv_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/formal_expression_sources.py",
+    "cc_hhgt/v32/local_cnv_sources.py",
+    "cc_hhgt/v32/preparation_sources.py",
+    "scripts/convert_formal_lncrna_rds.py",
+    "scripts/materialize_formal_lncrna_logcpm.R",
+    "tests/test_v32_expression_source_ancestry.py",
+    "tests/test_v32_local_cnv_source_ancestry.py"
+  ],
+  "source_recovery_receipt": {
+    "path": "expression_ancestry_recovered_sources.json",
+    "sha256": "1a1eec7bbdab1b7b854a73447e69172df12479ae4e645aae811dae7c5a0849db"
+  },
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "actual_edgeR_normalization_on_synthetic_counts": true,
+  "fixture_frozen_core_forwards_executed": true,
+  "inventory_replays_RDS_conversion": true,
+  "inventory_replays_TMM_calculations": false,
+  "fold_local_normalization_implemented": false,
+  "raw_study_provenance_reconstructed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_patient_source_identity.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_local_cnv_source_ancestry.py",
+    "tests/test_v32_current_analysis_web.py"
+  ],
+  "browser_validation": "PENDING_NETWORK",
+  "captured_browser_receipt": null,
+  "captured_screenshots": []
+}

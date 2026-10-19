@@ -60,7 +60,7 @@ def inspect_bound_sources(inventory, records, root, model, role, fold=-1,*,phase
                         visit(child, prefix+"."+str(i))
             visit(document, label)
         elif path.suffix in {".parquet", ".tsv", ".csv", ".maf", ".txt", ".seg"}:
-            input_source(inventory, {**resolved, "source_kind":"table"}, base, model, role+label,fold=fold,phase=phase)
+            input_source(inventory, {**item, **resolved, "source_kind":"table"}, base, model, role+label,fold=fold,phase=phase)
 
     for i,item in enumerate(records):walk(item,root,".consumed."+str(i))
 

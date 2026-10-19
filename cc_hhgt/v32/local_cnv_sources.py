@@ -68,6 +68,9 @@ def validate(item,root,*,expected_inputs=None,compact_root=None):
     seen=set();compact={}
     for source in records:
         actual=verified_path(source,path.parent);key=(str(actual),source["role"])
+        if source.get("upstream_expression"):
+            from .formal_expression_sources import validate as validate_expression
+            validate_expression(source["upstream_expression"],path.parent,actual)
         if key in seen:raise ValueError("Duplicate local-CNV input role/file")
         seen.add(key)
         if source["role"]=="compact":compact[actual.name]=actual

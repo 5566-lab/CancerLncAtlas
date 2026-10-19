@@ -71,9 +71,16 @@ def source_members(path, kind):
         if not files: raise ValueError("Preparation input contains no Parquet files")
     elif kind == "control" and path.is_file(): files = [path]
     else: raise ValueError("Unsupported preparation input kind")
-    return [{"path": str(file), "sha256": artifact_sha256(file),
-             **(table_metadata(file) if kind == "table" else {"metadata_columns": [], "study_tokens": []})}
-            for file in files]
+    result = []
+    for file in files:
+        item = {"path": str(file), "sha256": artifact_sha256(file),
+                **(table_metadata(file) if kind == "table" else {"metadata_columns": [], "study_tokens": []})}
+        if kind == "table" and file.suffix == ".parquet":
+            from .formal_expression_sources import binding
+            upstream = binding(file)
+            if upstream: item["upstream_expression"] = upstream
+        result.append(item)
+    return result
 
 
 class SourceCapture:
@@ -97,6 +104,10 @@ class SourceCapture:
         value = reader(path)
         if artifact_sha256(path) != before:
             raise ValueError("Preparation source changed during read: " + role)
+        for member in members:
+            if member.get("upstream_expression"):
+                from .formal_expression_sources import validate
+                validate(member["upstream_expression"],path.parent,member["path"])
         record = {"role": role, "path": str(path), "sha256": before, "kind": kind,
                   "fold": fold, "cancer_id": str(cancer_id), "members": members}
         for old in self.reads:
@@ -112,6 +123,10 @@ class SourceCapture:
         for item in records:
             if artifact_sha256(item["path"]) != item["sha256"]:
                 raise ValueError("Preparation source changed before output: " + item["role"])
+            for member in item["members"]:
+                if member.get("upstream_expression"):
+                    from .formal_expression_sources import validate
+                    validate(member["upstream_expression"],Path(item["path"]).parent,member["path"])
             if item.get("upstream_transformation"):
                 for source in item["upstream_transformation"].values():
                     if artifact_sha256(source["path"])!=source["sha256"]:

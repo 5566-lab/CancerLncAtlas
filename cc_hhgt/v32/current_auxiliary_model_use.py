@@ -30,6 +30,9 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
     if not source.get("path") or not path.exists():
         inventory.authority(source,root,model,role,fold);return
     path=inventory.bind(source,root,model,role,fold)
+    if item.get("upstream_expression"):
+        from .formal_expression_sources import inspect
+        inspect(inventory,item["upstream_expression"],root,path,model,role+".expression",fold,phase=phase)
     # Controls are dependencies, not biological study evidence. Never infer
     # provenance from a filename, a directory name or patient identifiers.
     if item.get("source_role") in {"split_manifest","v32_core_checkpoint"} or item.get("role") in {"folds","materialization_success"}:

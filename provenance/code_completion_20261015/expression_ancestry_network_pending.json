@@ -1,0 +1,27 @@
+{
+    "status":  "PENDING_REMOTE_REGRESSION",
+    "observed_local_date":  "2026-10-19",
+    "target_host":  "149",
+    "training_started":  false,
+    "successful_receipts":  [
+                                "expression_ancestry_r1",
+                                "expression_ancestry_r2"
+                            ],
+    "latest_unique_passed":  40,
+    "failed_coordinator_session":  8354,
+    "failure_stage":  "INITIAL_SCP_SOURCE_UPLOAD",
+    "remote_test_started":  false,
+    "ssh_probe_error":  "banner exchange: invalid format",
+    "recovery":  "Read recovery skill; read-only SSH probe failed; iOA inspection remained occluded; foreground activation and PrintWindow did not provide a readable window; no credential submission",
+    "pending_user_action":  "Open Tencent iOA and confirm company-network connection",
+    "skill":  "C:/Users/Administrator.DESKTOP-Q0HM6B0/.codex/skills/tencent-ioa-ssh-recovery/SKILL.md",
+    "pending_checks":  [
+                           "tests/test_v32_current_model_use.py",
+                           "tests/test_v32_patient_source_identity.py",
+                           "tests/test_v32_auxiliary_model_use.py",
+                           "tests/test_v32_local_cnv_source_ancestry.py",
+                           "tests/test_v32_current_analysis_web.py"
+                       ],
+    "remote_handoff_sync":  "PENDING",
+    "temporary_desktop_captures_in_shared_artifacts":  false
+}
