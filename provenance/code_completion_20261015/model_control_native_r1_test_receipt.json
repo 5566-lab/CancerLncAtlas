@@ -1,0 +1,51 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T09:53:04.388209+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_binding_overlay.py": "397508b68c57eec046626962de917a536f408ae0fdafcc4c5c2e9381c4f8f09b",
+    "cc_hhgt/v32/current_core_model_use.py": "361ab843edfd2afff73e9eb8dca795146309ac28d70b1e6027b8f8aef82a7f1d",
+    "cc_hhgt/v32/current_model_use.py": "8b0da58db520631b659eb22e69edcd01083a203485bf477962791fc8c20bfac5",
+    "cc_hhgt/v32/formal_graph_authority.py": "d9d1ed8452ccb325984518b37a57e2636dee52337679b089a401b8e53ec06053",
+    "cc_hhgt/v32/model_control_sources.py": "4454863ab8fd942672fbff958225a72a8f906fe7a773ad0edd3b9973b6c902e1",
+    "tests/test_v32_model_control_sources.py": "b424b3c238b7674b74e7afb5cefd1d4eb22e2d41e6e356f0cfaff160bc2576e0"
+  },
+  "source_code_uploaded": false,
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--tb=short",
+    "tests/test_v32_native_results_workflow.py",
+    "tests/test_v32_typed_graph_preparation.py",
+    "tests/test_v32_native_binding_comparison.py",
+    "--junitxml=provenance/code_completion_20261015/model_control_native_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T10:00:46.358740+00:00"
+}

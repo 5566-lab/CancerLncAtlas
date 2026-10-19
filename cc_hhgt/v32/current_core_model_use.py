@@ -118,13 +118,18 @@ def inspect_export(inventory, path, model, role):
     return len(records)==5
 
 
-def graph_sources(inventory, graph, root, model, fold):
+def graph_sources(inventory, graph, root, model, fold, *, expansion_source=None, verified_expansion=None):
     """Retain explicit table provenance, including the base of a C expansion."""
     from .current_auxiliary_model_use import input_source
+    from .model_control_sources import inspect_graph_receipt,inspect_expansion_receipt
     known = set()
     def visit(authority, prefix):
         parent = authority.get("base_authority")
-        if parent is not None:visit(parent,prefix+"base.")
+        if parent is not None:
+            visit(parent,prefix+"base.")
+            known.update(inspect_expansion_receipt(inventory,authority,verified_expansion,expansion_source,
+                                                   root,model,prefix+"receipt",fold))
+            return
         elif authority.get("static_artifacts", {}).get("detection", {}).get("upstream_scope"):
             from .fold_local_graph import replay_binding
             replay_binding(authority, root, fold)
@@ -133,11 +138,10 @@ def graph_sources(inventory, graph, root, model, fold):
                 input_source(inventory,item,root,model,prefix+group+"."+name,fold=fold)
                 known.add(item.get("sha256"))
         item = authority.get("receipt",{})
-        inventory.authority(item,root,model,prefix+"receipt",fold);known.add(item.get("sha256"))
-        receipt=inventory.locations.get(item.get("sha256"),item)
-        path=Path(receipt.get("path",""));path=path if path.is_absolute() else root/path
+        path=inspect_graph_receipt(inventory,authority,root,model,prefix+"receipt",fold)
+        known.add(item.get("sha256"))
         graph_input=authority.get("fold_artifacts",{}).get("train_coexpression")
-        if path.is_file() and graph_input:
+        if path is not None and graph_input:
             from .local_cnv_sources import inspect_corrected_graph
             actual=inventory.bind(graph_input,root,model,prefix+"train_coexpression",fold)
             inspect_corrected_graph(inventory,path,actual,model,prefix+"local_cnv",fold)

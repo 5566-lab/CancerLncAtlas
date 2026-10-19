@@ -175,6 +175,9 @@ def apply_binding_overlay(payload, overlay, *, fold, arm, overlay_sha, compariso
             or overlay["base_input_authority_sha256"] != canonical_json_sha(_input_authority(payload))):
         raise ValueError("Expansion sidecar current C parent changed")
     binding = overlay["formal_graph_authority"]; bundle = overlay["bundle"]; base = payload["bundle"]
+    logical_receipt = canonical_json_sha({"audit": overlay["audit"], "comparison": binding["comparison"]})
+    if binding.get("receipt") != {"sha256": logical_receipt}:
+        raise ValueError("Expansion logical control receipt differs from its actual audit")
     if binding["binding_expansion_arm"] != arm or binding["comparison_sha256"] != comparison_sha:
         raise ValueError("Expansion sidecar comparison or arm substitution")
     if comparison_config_sha(config) != binding["comparison"]["config_sha256"]:
@@ -182,6 +185,19 @@ def apply_binding_overlay(payload, overlay, *, fold, arm, overlay_sha, compariso
     if non_graph_payload_sha(payload) != overlay["non_graph_payload_sha256"] or overlay["non_graph_payload_sha256"] != binding["non_graph_payload_sha256"]:
         raise ValueError("Comparison candidates, labels or non-graph inputs changed")
     validate_expansion_binding(binding, outer_fold=fold, variant="G2", bundle=bundle)
+    audit = overlay["audit"]
+    expected_audit = {"fold": fold, "node_sha256": binding["graph"]["node_sha256"],
+        "base_node_sha256": payload["formal_graph_authority"]["graph"]["node_sha256"],
+        "base_edge_sha256": binding["base_graph_sha256"], "master_edge_sha256": binding["graph"]["master_edge_sha256"],
+        "appended_nodes": len(bundle.nodes)-len(base.nodes), "runtime_chunks": base.runtime_num_chunks,
+        "predicted_dropout": binding["comparison"]["predicted_dropout"]}
+    counts = audit.get("arm_edge_counts", {})
+    if (any(audit.get(key) != value for key,value in expected_audit.items())
+            or set(counts) != set(ARMS) or counts.get(arm) != len(bundle.edges)
+            or any(type(value) is not int or value < 0 for value in counts.values())
+            or audit.get("current_candidate_indices_preserved") is not True
+            or audit.get("node_features_from_common_g0") is not True or audit.get("training_started") is not False):
+        raise ValueError("Expansion control audit differs from the actual loaded graphs")
     for kind, mapping in base.node_maps.items():
         if any(bundle.node_maps.get(kind, {}).get(key) != value for key, value in mapping.items()):
             raise ValueError("Expansion changed an existing candidate/node index")
@@ -200,6 +216,7 @@ def apply_binding_overlay(payload, overlay, *, fold, arm, overlay_sha, compariso
     result.update(bundle=bundle, graph=None, formal_graph_authority=binding)
     result["binding_expansion_authority"] = {"verified": True, "arm": arm,
         "sidecar_sha256": overlay_sha, "comparison_sha256": comparison_sha,
+        "logical_receipt_sha256": logical_receipt,
         "non_graph_payload_sha256": binding["non_graph_payload_sha256"]}
     result["input_authority_hashes"] = {**_input_authority(payload),
         "binding_expansion_sidecar_sha256": overlay_sha, "binding_comparison_sha256": comparison_sha,

@@ -69,7 +69,8 @@ def implementations():
         "scripts/train_single_cell_hhgt_149.py","cc_hhgt/v32/single_cell_hhgt.py",
         "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/external_validation_sources.py",
         "cc_hhgt/v32/model_use_completeness.py","cc_hhgt/v32/normalization_source_replay.py",
-        "cc_hhgt/v32/activity_source_replay.py",
+        "cc_hhgt/v32/activity_source_replay.py","cc_hhgt/v32/model_control_sources.py",
+        "cc_hhgt/v32/patient_fold_authority.py","cc_hhgt/v32/current_binding_overlay.py",
         "scripts/compare_fold_local_normalization.R"]
     return {name:sha256(root/name) for name in names}
 
@@ -284,6 +285,8 @@ class Inventory:
                 else:self.gap(model,"baseline.preparation","BASELINE_FITTING_STUDY_DEPENDENCIES_NOT_RECONSTRUCTED",fold,digest)
                 del payload,checkpoint,features
                 continue
+            from .model_control_sources import inspect_patients
+            known.update(inspect_patients(self,payload["patient_fold_authority"],paths["prepared"].parent,model,fold))
             graph_nodes=pd.DataFrame({"lncrna_id":list(payload["bundle"].node_maps["lncRNA"])})
             self.entities(graph_nodes,model=model,fold=fold,phase="FEATURE_CONSTRUCTION",view="GRAPH_NODE_INPUT",digest=digest)
             for split,phase in (("train_batches","TRAINING"),("validation_batches","MODEL_SELECTION")):
@@ -297,9 +300,9 @@ class Inventory:
                     indices.extend(positions[mask.cpu().numpy()].tolist())
                 self.entities(fold_candidates.iloc[indices],model=model,fold=fold,phase=phase,view="AVAILABLE_ASSOCIATION_SUPERVISION",digest=digest)
             graph=payload["formal_graph_authority"]
-            known.update(graph_sources(self,graph,paths["prepared"].parent,model,fold))
-            for role,value in [("patient."+k,payload.get("patient_fold_authority",{}).get(k,{})) for k in ("sample_patient_fold_map","authority_receipt")]:
-                self.authority(value,paths["prepared"].parent,model,role,fold);known.add(value.get("sha256"))
+            known.update(graph_sources(self,graph,paths["prepared"].parent,model,fold,
+                expansion_source=({**item["binding_expansion"],"path":str(paths["binding_expansion"])} if "binding_expansion" in item else None),
+                verified_expansion=payload.get("binding_expansion_authority")))
             known.update(r["sha256"] for r in item.values() if isinstance(r,dict) and "sha256" in r)
             for role,digest in receipt["input_authority_hashes"].items():
                 if isinstance(digest,str) and len(digest)==64 and digest not in known:

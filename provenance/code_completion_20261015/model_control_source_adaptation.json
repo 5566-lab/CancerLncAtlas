@@ -1,0 +1,54 @@
+{
+  "method": "TYPED_NATIVE_CONTROLS_AND_LOGICAL_EXPANSION_RECEIPT_VALIDATION",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "model_control_sources_r3",
+    "model_control_native_r1",
+    "model_control_public_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "model_control_sources_r1",
+    "model_control_sources_r2"
+  ],
+  "intermediate_failure_causes": [
+    "adding control hashes before the L1 branch incorrectly implied that preparation sources existed",
+    "checking reference-neural patient controls in the L1 branch added dependencies outside its original supported scope; moved controls after the L1 return"
+  ],
+  "superseded_passed_receipts": [
+    "model_control_public_r1"
+  ],
+  "patient_authority_builder_and_both_validators_executed": true,
+  "patient_control_is_not_study_or_fitted_patient_usage": true,
+  "generic_empirical_source_gaps_preserved": true,
+  "missing_controls_remain_incomplete": true,
+  "logical_expansion_receipt_bound_to_actual_sidecar": true,
+  "logical_receipt_is_not_treated_as_file_digest": true,
+  "repinned_expansion_node_and_selected_arm_edge_count_lies_rejected": true,
+  "graph_control_checks": [
+    "generation_and_policy",
+    "frozen_patient_hashes",
+    "static_input_hashes",
+    "all_fold_declarations",
+    "consumed_fold_hashes",
+    "training_identity_hashes"
+  ],
+  "l1_reference_neural_control_dependencies_excluded": true,
+  "test_substitutes": [
+    "20 synthetic patients with frozen cohort identity/count constants replaced; actual builder and semantic validators unchanged",
+    "existing native workflow frozen-control and fixed L1 output fixtures; no actual optimizer telemetry or fitting"
+  ],
+  "full_core_positive_external_release_verified": false,
+  "independent_biological_validation_performed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native neural model-use now validates located frozen patient controls with actual physical and semantic validators, without inventing study or fitted-patient usage. G012 control metadata is checked against the actual consumed graph authorities; empirical tables retain their own ancestry gaps. Expansion logical receipts are verified against embedded audit/comparison and loaded graph attributes, then resolved through the actual loaded sidecar rather than searched as files. The L1 reference-neural dependency boundary is preserved. Missing/unsupported controls remain incomplete. Full raw study/reference, feature/label, CNV/auxiliary/SC and cross-module patient closure remain open. No model training, real cohort analysis, paid compute or deployment was executed."
+}

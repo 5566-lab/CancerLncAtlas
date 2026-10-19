@@ -206,17 +206,14 @@ def train_identity_hashes(
     }
 
 
-def load_formal_graph_input_authority(
+def validate_graph_control_receipt(
     *,
     receipt_path: str | Path,
     receipt_sha256: str,
     patient_authority_audit: Mapping[str, Any],
-    static_inputs: Mapping[str, tuple[str | Path, str]],
-    fold_expression_pattern: str,
-    fold_coexpression_pattern: str,
     relation_schema_generation: str = RELATION_SCHEMA_GENERIC_GLOBAL,
-) -> FormalGraphInputAuthority:
-    """Validate the immutable receipt and every non-fold graph input.
+) -> tuple[Path, str, Mapping[str, Any]]:
+    """Validate graph policy/control metadata, not biological source ancestry.
 
     ``relation_schema_generation`` must be declared explicitly when a run changes
     the relation schema.  For the historical ``GENERIC_GLOBAL`` generation the
@@ -282,6 +279,25 @@ def load_formal_graph_input_authority(
         or patient_authority_audit.get("sample_fallback_used") is not False
     ):
         raise FormalGraphAuthorityError("Graph receipt is not bound to frozen patient-first folds")
+    return receipt_file, receipt_digest, receipt
+
+
+def load_formal_graph_input_authority(
+    *,
+    receipt_path: str | Path,
+    receipt_sha256: str,
+    patient_authority_audit: Mapping[str, Any],
+    static_inputs: Mapping[str, tuple[str | Path, str]],
+    fold_expression_pattern: str,
+    fold_coexpression_pattern: str,
+    relation_schema_generation: str = RELATION_SCHEMA_GENERIC_GLOBAL,
+) -> FormalGraphInputAuthority:
+    """Validate the receipt, every static input and all five fold declarations."""
+    receipt_file, receipt_digest, receipt = validate_graph_control_receipt(
+        receipt_path=receipt_path, receipt_sha256=receipt_sha256,
+        patient_authority_audit=patient_authority_audit,
+        relation_schema_generation=relation_schema_generation,
+    )
     if set(static_inputs) != set(STATIC_ARTIFACT_IDS):
         raise FormalGraphAuthorityError(
             f"Explicit graph inputs must be exactly {list(STATIC_ARTIFACT_IDS)}"

@@ -4034,3 +4034,60 @@ subsequent changes to consumed file bytes. No intermediate failing receipt
 occurred. Dependency deprecation warnings in Torch and Starlette are retained
 in the logs. C01/C13/C16 remain in progress. No neural/L1 fitting, real cohort
 analysis, paid compute or production deployment was executed.
+
+Native control receipts and actual research-source boundaries
+------------------------------------------------------------
+
+Native model-use inspection now distinguishes validated control records from
+empirical source tables. A frozen patient map and its receipt are located by
+their bound hashes, then checked by the existing physical and semantic patient
+authority validators. Merely carrying the embedded payload audit is insufficient
+when files are unavailable. Missing files retain explicit unresolved-dependency
+and PATIENT_CONTROL_FILES_NOT_VERIFIED gaps. Relocation works through the existing
+hash locators; changed bytes or incompatible authority contents fail validation.
+The control files create dependencies, not biological study rows or evidence
+that every patient in the split map was fitted. Controls alone cannot establish
+complete study coverage. L1 inspection retains its original preparation-source
+boundary and does not inherit reference-neural control dependencies.
+
+The existing graph receipt metadata check is shared between preparation and
+model-use inspection. Known G012 receipts must agree on frozen patient authority,
+generation, policy gates, six static input declarations, five fold declarations,
+the consumed fold's input hashes and training identity hashes. Fold-local
+detection retains its existing independently replayed replacement binding.
+Unrecognized control formats remain explicitly incomplete. The static and
+fold-local scientific tables still pass their own source inspectors; a valid
+graph control receipt does not turn those tables into verified raw studies.
+
+A current-C expansion receipt is a canonical hash of its embedded audit and
+comparison, not a path to a missing file. The actual expansion loader now checks
+that digest and checks audit fields against the loaded base/expanded graphs:
+node identities, base/master edge identities, appended node count, selected-arm
+edge count, runtime chunks, preservation flags and dropout policy. Rehashing a
+false node/edge-count audit therefore does not make it valid. The model-use route
+consumes the check performed by that loader and binds the actual sidecar file.
+Its verified logical receipt and comparison hashes are recognized as resolved
+input authorities; the base graph and experimental/predicted source dependencies
+are still inspected separately. No second large sidecar load is needed.
+
+The new positive patient fixture runs the real patient-authority builder and
+both semantic validators on twenty synthetic patients. Only the frozen cohort
+identity/count constants are replaced for that fixture. Existing native workflow
+fixtures retain their separately recorded frozen-control and fixed-L1 substitutes;
+they are not evidence of real training. Complete annotation/reference ancestry,
+feature/label transformation replay, CNV/auxiliary/SC ancestry and cross-module
+patient closure remain open. C01, C13 and C16 are not marked complete.
+
+Verification: model_control_sources_r3 (50 checks), model_control_native_r1
+(60 checks), and model_control_public_r2 (89 checks) pass on 149: 199 related
+checks against the final code. These cover actual patient builders/validators,
+five-fold graph preparation, expansion loading, native completed-result
+registration/selection/frozen prediction/publication, study/patient isolation,
+and actual API/browser consumers. The first two source-suite receipts are
+retained as failures: adding control hashes had incorrectly implied L1 training
+source coverage, then inspecting reference-neural controls added dependencies
+outside the original L1 boundary. Production code was corrected; the original
+L1 regression assertions were preserved. The earlier public_r1 pass belongs
+to the superseded source version and is not counted as final validation.
+Only dependency deprecation warnings remain. No neural/L1 fitting, real cohort
+analysis, paid compute or deployment was started.
