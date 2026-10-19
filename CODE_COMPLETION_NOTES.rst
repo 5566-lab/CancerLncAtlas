@@ -3958,9 +3958,9 @@ transform continue to retain the generic gap.
 
 The source boundary now reaches GDC raw counts -> actual five-fold TMM ->
 lncRNA/coding-gene conversion -> formal preparation exposure. It is still not
-a provenance-complete core/selected/fusion release. In particular, ssGSEA
+a provenance-complete core/selected/fusion release. At this checkpoint, ssGSEA
 coverage and range scaling were previously replayed from stored raw scores,
-not from the GSVA computation. This remains explicitly blocking as
+not from the GSVA computation. This was explicitly blocking as
 SSGSEA_RAW_SCORE_TRANSFORMATION_NOT_REPLAYED. Annotation/reference ancestry,
 core/graph controls, CNV and other auxiliary lineage still need reconciliation.
 
@@ -3975,3 +3975,62 @@ verified; repinned gene matrices, fitted states, library sizes and declared
 scales fail numerical comparison. The original output files stay unchanged.
 No intermediate failing receipt occurred in this change. C01/C13/C16 remain
 in progress; this is not a complete native-core independent-validation claim.
+
+Numerical replay from expression to native ssGSEA activity
+--------------------------------------------------------
+
+Native activity conversion now includes activity_release, the hash-bound
+five-fold SUCCESS.json read by conversion. Validation checks its fold/cancer
+mapping against the consumed ACTIVITY_NATIVE_SOURCES.json. Historical conversion
+receipts without this field remain readable, but model-use inspection records
+SSGSEA_REPLAY_RELEASE_NOT_BOUND and SSGSEA_RAW_SCORE_TRANSFORMATION_NOT_REPLAYED.
+Neither the existence of raw scores nor a matching conversion hash is enough
+to remove these gaps.
+
+activity_source_replay verifies that all five native folds use the same
+normalization release, annotation and GMT inputs. On host 149 only, it executes
+the pinned materialize_fold_local_ssgsea.R and frozen_ssgsea.R producer/helper
+in a temporary directory. It compares all 25 native outputs: raw GSVA scores,
+scaled activity, fitted ssGSEA state, pathway coverage and gene detection.
+The comparison also includes method parameters, training score range, training
+detection threshold, cancer/fold identity and recorded R/GSVA versions. The
+recomputed receipts must name the same actual input files as the originals.
+The shared R comparator preserves object attributes, NA values and table order,
+with all.equal tolerance 1e-12. No producer calculation or scientific threshold
+was changed by adding this verifier.
+
+The release is numerically replayed once per inventory, while every subsequent
+consumer still rechecks its source files and code. Original files are rehashed
+after computation and never rewritten. Temporary output is removed on success
+or failure. The preflight records target_host=149, training_started=false and
+ssgsea_training_scale_replayed=true. These checks fit the synthetic normalization
+and ssGSEA scaling state only; they never construct a neural or L1 optimizer.
+
+Successful replay removes only the missing ssGSEA numerical-transformation gap.
+The existing TMM/raw-count inspector is still required, and annotation/reference
+ancestry remains unresolved where it was unresolved before. Inherited study
+identifiers do not waive those gaps. Full core, selected-model and fusion source
+completeness, patient closure and a complete native positive external release
+are still unproved; C01, C13 and C16 remain in progress.
+
+The public transformation-replay table now includes activity_sha256. TMM rows
+leave that field empty; ssGSEA rows identify both the consumed activity receipt
+and its normalization receipt, alongside the native release hash, replay format,
+model/context/fold, five folds and 25 compared outputs. It contains no patient
+identifiers or file paths. This is consistency with the same pinned scientific
+implementation, not independent biological validation.
+
+Verification: activity_source_replay_r1 (15 checks),
+activity_source_consumers_r1 (36 checks), and activity_source_public_r1
+(97 checks) all pass on 149: 148 related checks on this source version.
+These include actual synthetic raw-count/TMM/GSVA computations, original
+independent ssGSEA oracle and held-out isolation checks, native five-fold
+preprocessing, frozen-core/external integration and website/API queries.
+The external consumer exposes nonempty ssGSEA proof rows for all five folds
+without claiming complete model provenance. Self-consistent altered scores,
+frozen states and software versions fail replay; unavailable pathways, legacy
+gaps and source bytes are preserved. Reuse of a cached numerical proof rejects
+subsequent changes to consumed file bytes. No intermediate failing receipt
+occurred. Dependency deprecation warnings in Torch and Starlette are retained
+in the logs. C01/C13/C16 remain in progress. No neural/L1 fitting, real cohort
+analysis, paid compute or production deployment was executed.

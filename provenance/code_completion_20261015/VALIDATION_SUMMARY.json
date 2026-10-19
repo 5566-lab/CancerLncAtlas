@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1012,
+  "unique_test_cases_passed": 1019,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -161,7 +161,7 @@
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "d7bff1a7b3e5e37c5d78a3e66c20ebefa70d5301c0239073a19b86248aa555f7",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
-    "cc_hhgt/v32/current_model_use.py": "86f2825ae0f206b821f66e531056ce7ad3de8d42586950c669d7c5c03a56fa0b",
+    "cc_hhgt/v32/current_model_use.py": "283fc53663999c962f4abcbb4829dcd56927328a7492b9d6f7a7c0133575a8f4",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "3589c7691f5baf782a594bb7185eb3fe2754af0620a851ea25e5c7cae120e454",
     "cc_hhgt/v32/preparation_sources.py": "0bb6b8f4596963ae7a941ca3311bb294881a36cc94f2cac8bb9effdfa6ef9a2e",
@@ -214,11 +214,11 @@
     "scripts/convert_fold_local_expression.py": "c039d20063f991b7a676be9fed7859eedc7077718b216ea9ae365c9d18927b54",
     "cc_hhgt/v32/fold_local_expression.py": "c3a9ca5564e459980e56274379b11d03238b1349ab90c737a1d39c169218bbe4",
     "tests/test_v32_fold_local_expression.py": "a027e74369db96846a8a30462e117f9c1710c783d79187ddd3f2e10debd5e133",
-    "cc_hhgt/v32/fold_local_activity.py": "45dafed65b2817f004b01c3b010f6e404e18423a89b317323d1f4445c61f67bd",
+    "cc_hhgt/v32/fold_local_activity.py": "cd49bf5ea78e2cff750da691886f4cc1b50b6cd850c44cf34806bcedb2d6581d",
     "scripts/convert_fold_local_activity.py": "5cca24109c309282860a340baebae59238f83a5c9b5e497cdfe8f6d252f4a08d",
     "scripts/frozen_ssgsea.R": "d8461490358c6218390404ad7e6ab2aa591767af904fc54471494bfe030dc7ae",
     "scripts/materialize_fold_local_ssgsea.R": "ee7a5d299e56461183145242d3a81af8950e95c4ae50371aa209884e83722695",
-    "tests/test_v32_fold_local_activity.py": "69177ecfd9773628526fe1ac4dc6d1657ec82cd4f3336061ccdb0e971bd279bd",
+    "tests/test_v32_fold_local_activity.py": "f9516498ecc34e3c50dce5663c474e9cb495562f5f62423b8dcc7e36b8bbc857",
     "cc_hhgt/v32/fold_local_scope.py": "7eccf42f64568f4b0455cda1b0cb7e9308cd697de1c33923b2d14d2114cecb89",
     "scripts/materialize_fold_local_scope.py": "926f8374d62c42a89757982e44b9977d1a7e3e0cc1fd0f488269fb7a2a120fc9",
     "tests/test_v32_fold_local_scope.py": "809a514a45a72bad6fe0a9fe00ebc37f9eebdbf09c5e6c9dc344f209aa2a4574",
@@ -254,9 +254,11 @@
     "tests/test_v32_native_results_workflow.py": "a2e2c40f054311f854bd59fc8023e996736f58c268f7c4528a266c7e796a33da",
     "cc_hhgt/v32/model_use_completeness.py": "e3dd5e8c339e781bbf93ad4de56167fe0da3e02346f800fbef7cbf862200a2c8",
     "tests/test_v32_model_use_completeness.py": "d24673372b7b17582d3d2df822e681d978fa1b6898498086487a69e0780daf5c",
-    "cc_hhgt/v32/normalization_source_replay.py": "d67d29ab73e49c8ac5fa43e80f244986090a286097b55a7ced490426a39820db",
-    "scripts/compare_fold_local_normalization.R": "78fe322cbb823aebcf20e119364b43627c600159694a6c8059706429f8ab2d4f",
-    "tests/test_v32_normalization_source_replay.py": "ffc6d5c4df96193ce09457c23fd5713b0adb4596b551891894b07c20d66cab7a"
+    "cc_hhgt/v32/normalization_source_replay.py": "e87bedf21003867eec2410815cf895c0917583db54fd94751a30bbdee2085d05",
+    "scripts/compare_fold_local_normalization.R": "657decfa9b4cf87b1e9d9918ae2d92f54f9f505d87b680f26c7ffb4185e3f463",
+    "tests/test_v32_normalization_source_replay.py": "ffc6d5c4df96193ce09457c23fd5713b0adb4596b551891894b07c20d66cab7a",
+    "cc_hhgt/v32/activity_source_replay.py": "8ac19e880c15799f823304230a6f9fe5f3c5845545f7557c803a5a49762ba421",
+    "tests/test_v32_activity_source_replay.py": "a8b68d6db122fc9ea8dedc23105f90b1f21de8e3ff48cd2a054d501676d8d7bd"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -388,7 +390,8 @@
     "Native corrected-CNV inputs now flow through fresh typed authority, actual formal G012 preparation and the three-arm binding comparison. All thirty generated commands use the actual trainer input loaders and frozen model forwards, with unchanged parameters and blocked neural training. Tests substitute frozen full-cohort control identities and fixed L1 logits only; actual native CNV workers, decision closeout, validation and corrected graph production are executed on synthetic data without patched scientific decisions. Optional graph counts no longer crash the corrected finalizer. Native CNV workflow pins original segment bytes as well as their manifests. Actual fitting, real cohort execution and full raw-to-publication lifecycle acceptance remain outside this validation; complete source/patient coverage and final C01/C13/C16 acceptance are still open.",
     "Completed native core registration now binds all six groups and thirty checkpoints to the original prepared files, scientific configuration, tasks, input authorities and current code. Actual frozen prediction, G012 validation selection, selected core export, native fusion label preparation and selected/publication producers execute without fitting. The external V2 publication template derives actual selected-score model-use inventory, retaining losing G012 sources. Test checkpoint containers and optimizer telemetry are explicitly synthetic; no actual optimizer work is established or claimed. Auxiliary/fusion fitting, real biological results and complete source/patient coverage remain outside this scoped validation. Final C01/C13/C16 acceptance remains open.",
     "Native model-use completeness is now derived per evaluated model and dependency context, rather than hard-coded false. Typed entity exposure is separate from study-source coverage. Actual synthetic GDC STAR assembly/API/raw/RDS replay establishes a bounded covered input slice, which produces positive strict isolation metrics with explicitly declared fixture scores. This is not a complete native core/fusion prediction release or independent biological validation. Unknown ancestry, unresolved dependencies, losing competitors, zero-weight experts and missing patient identities remain blocking. A previously masked object-dtype boolean-negation error that could admit a known overlapping patient is corrected and positively regression-tested. Full native core/graph/preparation/auxiliary ancestry and positive external V2 release integration remain open; C01/C13/C16 are not marked complete.",
-    "The native model-use route now replays the pinned five-fold TMM producer from original count RDS/patient maps on 149 and numerically compares all 25 outputs and normalization metadata. GDC ancestry and study metadata reach both lncRNA/coding-gene conversions and formal preparation without a spurious derived-table metadata gap. The same normalization verifier is consumed by detection scope and ssGSEA source inspection. Repinned expression/state/library-size/declared-scale corruptions are rejected even when conversion remains self-consistent. Historical conversions without a bound normalization release remain incomplete. This is same-implementation numerical replay on synthetic inputs, not independent biological validation or a complete native core/fusion positive external release. ssGSEA raw scoring, references/controls and other ancestry remain open. No neural/L1 fitting, real cohort analysis, paid compute or deployment was executed."
+    "The native model-use route now replays the pinned five-fold TMM producer from original count RDS/patient maps on 149 and numerically compares all 25 outputs and normalization metadata. GDC ancestry and study metadata reach both lncRNA/coding-gene conversions and formal preparation without a spurious derived-table metadata gap. The same normalization verifier is consumed by detection scope and ssGSEA source inspection. Repinned expression/state/library-size/declared-scale corruptions are rejected even when conversion remains self-consistent. Historical conversions without a bound normalization release remain incomplete. This is same-implementation numerical replay on synthetic inputs, not independent biological validation or a complete native core/fusion positive external release. ssGSEA raw scoring, references/controls and other ancestry remain open. No neural/L1 fitting, real cohort analysis, paid compute or deployment was executed.",
+    "Native ssGSEA conversion now binds its completed five-fold release. Model-use inspection recomputes actual GSVA raw scores from pinned normalized expression, annotation and GMT inputs on 149, comparing all 25 outputs and method/scale/detection/software metadata. Self-consistent repinned scores, frozen state and software metadata are rejected; all-unavailable NA pathways remain represented. TMM and ssGSEA proofs both reach the actual native core/external consumer. Legacy unbound activity retains explicit replay gaps; unresolved reference/raw-study/patient ancestry remains blocking. Same-implementation synthetic replay is not independent biological validation or a complete native core/fusion positive external release. No neural/L1 fitting, real cohort analysis, paid compute or deployment was executed."
   ],
   "test_suites": [
     {
@@ -860,6 +863,21 @@
       "path": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml",
       "passed": 97,
       "sha256": "2e0c7f3bd36c6d0f6a466b4ab012de4e9e6ad61bf7431013d6ff2aac4a8097e5"
+    },
+    {
+      "path": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml",
+      "passed": 15,
+      "sha256": "9a71bf8f73c94c85c637dcfd5b3d97116f2bc68396bada15ca37055f11da8a95"
+    },
+    {
+      "path": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml",
+      "passed": 36,
+      "sha256": "8b095116042e3c5a109891c92a70b1c990f82b2d15455c482543ac4c23ab0169"
+    },
+    {
+      "path": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml",
+      "passed": 97,
+      "sha256": "3f3f4ba519a59532b8449ec9b7f3d61d8768e16a99ff4dd2cf2fa8f24f90be62"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -961,49 +979,84 @@
       "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
     },
     {
+      "module": "tests.test_v32_activity_source_replay",
+      "case": "test_all_unavailable_pathways_compare_null_scale_and_na_outputs",
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_activity_source_replay",
+      "case": "test_five_fold_gsva_replay_is_cached_and_does_not_waive_unresolved_resources",
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_activity_source_replay",
+      "case": "test_incomplete_release_wrong_partition_and_wrong_host_stop_before_r",
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_activity_source_replay",
+      "case": "test_legacy_activity_keeps_missing_replay_gaps",
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_activity_source_replay",
+      "case": "test_repinned_native_outputs_cannot_hide_wrong_gsva_calculation[fitted_state]",
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_activity_source_replay",
+      "case": "test_repinned_native_outputs_cannot_hide_wrong_gsva_calculation[self_consistent_scores]",
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_activity_source_replay",
+      "case": "test_repinned_native_outputs_cannot_hide_wrong_gsva_calculation[software_version]",
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
+    },
+    {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_auxiliary_only_study_excludes_unseen_external_entity",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[atac]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv_event]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[genomic]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[run_identity]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[snapshot_change]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[unconsumed_binding]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
@@ -1258,57 +1311,57 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -1528,52 +1581,52 @@
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_all_native_competitors_and_their_losing_study_are_retained",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[checkpoint_alias]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[loss]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_arm]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[omitted_fold]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_content]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_comparison_source_reader_rejects_loser_omissions_and_rehashed_losses[receipt_hash]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_external_v2_excludes_a_study_seen_only_by_the_losing_model",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_historical_winner_only_lock_remains_explicitly_incomplete",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
       "case": "test_selected_consumer_replays_losing_model_receipts",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
@@ -1838,97 +1891,97 @@
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_actual_exact_producer_external_command_and_queries_without_training",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_actual_fusion_public_scores_are_reconstructed_and_changed_scores_rejected",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_connected_multi_pmid_dataset_and_entity_exclusions_are_cancer_agnostic",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_duplicate_database_rows_do_not_change_estimates_and_conflicts_are_visible",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_exact_source_uses_explicit_negatives_and_typed_flags",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_metrics_match_analytic_auc_average_precision_and_tied_rank_recovery",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_missing_use_provenance_or_unknown_entity_cannot_claim_independence",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_native_mixed_methods_numeric_pmids_and_followup_cohorts_are_not_synthetic_truth",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_paired_cluster_intervals_and_no_false_classification_without_negatives",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_study_or_lncrna_dependence_forms_one_resampling_block",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_external_validation",
       "case": "test_versions_and_families_are_not_guessed_and_paired_universes_must_match",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_actual_fusion_inputs_include_zero_coefficient_experts_and_explicit_missing_ancestry",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_directory_authority_uses_native_tree_hash_and_cannot_hide_a_changed_partition",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenance",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_inventory_cannot_be_relabelled_for_another_score_or_claim_complete",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_training_selection_and_graph_inputs_are_derived_with_masks",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_rehashed_native_use_omission_fails_actual_input_replay",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inventory",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
@@ -3178,72 +3231,72 @@
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_activity_cannot_mix_with_expression_from_other_counts",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_actual_core_forward_and_external_isolation_include_gmt_only_study",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_actual_native_five_fold_statistics_preserve_missing_pathways_and_sources",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_changed_scores_scope_or_ancestors_rejected[fold]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_changed_scores_scope_or_ancestors_rejected[gmt]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_changed_scores_scope_or_ancestors_rejected[output_repin]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_changed_scores_scope_or_ancestors_rejected[patient_map]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_changed_scores_scope_or_ancestors_rejected[scale]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_full_pathway_closure_and_actual_inventory_uses_only_requested_fold",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_heldout_perturbation_preserves_training_state_and_scores",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_independent_query_batch_and_degenerate_range",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_no_eligible_pathways_still_preserves_native_candidate_closure",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_real_gsva_oracle_native_symbol_average_and_training_filter",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_activity",
       "case": "test_wrong_host_rejected_before_output",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_expression",
@@ -3393,62 +3446,62 @@
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_actual_adjusted_prepare_writes_all_three_graph_arms_with_training_scope",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_actual_graph_uses_training_detection_and_keeps_unexpressed_nodes",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_actual_scope_capture_batch_context_and_source_inventory",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_candidates_include_unexpressed_lncrnas_and_ignore_all_heldout_measurements",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_scope_cannot_relabel_associations_from_other_count_sources",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_shared_classification_and_denominator_use_declared_training_cancers",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_training_expression_edges_cannot_be_used_in_another_fold",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_wrong_host_rejected_before_outputs",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_wrong_scope_candidates_or_patient_authority_rejected[candidate_value]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_wrong_scope_candidates_or_patient_authority_rejected[fold]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_wrong_scope_candidates_or_patient_authority_rejected[patient_map]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
       "case": "test_wrong_scope_candidates_or_patient_authority_rejected[scope_value]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_formal_graph_contract",
@@ -4133,82 +4186,82 @@
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[losing_comparator]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[missing_file]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[missing_model]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[missing_study]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[no_study_sources]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[unknown_ancestry]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[unknown_gap]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[zero_weight_expert]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_generic_table_cannot_gain_complete_ancestry_from_file_hash_and_study_tokens",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_only_typed_native_entity_rows_are_exempt_from_study_metadata[missing_kind]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_only_typed_native_entity_rows_are_exempt_from_study_metadata[spoof_kind]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_only_typed_native_entity_rows_are_exempt_from_study_metadata[unknown_kind]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_positive_coverage_does_not_override_source_or_patient_exclusions[external_identity]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_positive_coverage_does_not_override_source_or_patient_exclusions[file_overlap]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_positive_coverage_does_not_override_source_or_patient_exclusions[native_mapping]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_replayed_gdc_boundary_has_positive_coverage_without_claiming_experimental_veracity",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_multimodal_fusion",
@@ -4808,52 +4861,52 @@
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_actual_two_cancer_cli_reaches_same_normalization_consumers",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_completed_receipt_rejects_changed_original_raw_source",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_invalid_inputs_fail_before_any_output[budget]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_invalid_inputs_fail_before_any_output[cache]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_invalid_inputs_fail_before_any_output[cancers]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_invalid_inputs_fail_before_any_output[gmt_relative]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_invalid_inputs_fail_before_any_output[patient]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_invalid_inputs_fail_before_any_output[unknown_stage]",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_real_count_parser_failure_records_stage_without_success",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
       "case": "test_wrong_host_is_rejected_before_reading_inputs",
-      "suite": "provenance/code_completion_20261015/normalization_source_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
@@ -4903,42 +4956,42 @@
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_all_five_folds_and_both_expression_views_inherit_replayed_raw_studies",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_formal_preparation_retains_inherited_studies_without_false_expression_gaps",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_legacy_conversion_without_release_does_not_claim_replay",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_missing_release_fold_and_wrong_host_stop_before_replay",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_rehashed_self_consistent_conversion_cannot_hide_wrong_tmm_values[declared_scale]",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_rehashed_self_consistent_conversion_cannot_hide_wrong_tmm_values[fitted_state]",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_rehashed_self_consistent_conversion_cannot_hide_wrong_tmm_values[gene_matrix]",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
       "case": "test_rehashed_self_consistent_conversion_cannot_hide_wrong_tmm_values[library_size]",
-      "suite": "provenance/code_completion_20261015/normalization_source_replay_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_orchestration",
@@ -5043,47 +5096,47 @@
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_actual_cnv_compact_referenced_patients_are_collected",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_core_preparation_read_uses_file_scoped_patient_mapping",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_file_scopes_aliases_and_public_overlap_counts",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[ambiguous]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[digest]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_invalid_identity_authority_rejected[namespace]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_native_genomic_alias_overlap_reaches_external_query_without_identifiers",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_native_sc_actual_episode_donors_are_mapped",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_source_identity",
       "case": "test_numeric_looking_csv_ids_keep_leading_zeroes",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_predicted_binding_runtime",
@@ -5193,72 +5246,72 @@
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_adjusted_reader_preserves_used_files_and_separate_study_sources",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_actual_external_v2_excludes_shared_study_even_for_an_unseen_entity",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_during_read_and_extra_directory_partition_fail",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_changed_partition_with_unchanged_success_receipt_is_detected",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_formal_entrypoint_serializes_consumed_legacy_sources_in_all_arms_without_fitting",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_metadata_is_explicit_and_retains_multiple_accession_columns",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[cancer]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[fold]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[invented_metadata]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_receipt]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[missing_role]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_native_training_and_inventory_reject_altered_preparation_sources[receipt_hash]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_real_current_producer_propagates_train_sources_and_keeps_l1_validation_diagnostic",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_preparation_sources",
       "case": "test_relocated_native_source_keeps_hash_and_explicit_missing_metadata",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_rbns_sequence",
@@ -5588,47 +5641,47 @@
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_canonical_donor_alias_leak_is_rejected",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_native_checkpoint_episode_source_and_external_isolation",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[ablation_report_omission]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[checkpoint_state]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[query_identity]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[checkpoint]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[episode]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[missing_training_binding]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[upstream_file]",
-      "suite": "provenance/code_completion_20261015/normalization_source_public_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/activity_source_public_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_state_training",
@@ -5933,11 +5986,11 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "normalization_source_replay_r1",
-      "normalization_source_consumers_r1",
-      "normalization_source_public_r1"
+      "activity_source_replay_r1",
+      "activity_source_consumers_r1",
+      "activity_source_public_r1"
     ],
-    "passed": 191,
+    "passed": 148,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

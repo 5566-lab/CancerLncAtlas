@@ -1,0 +1,64 @@
+{
+  "method": "NATIVE_FIVE_FOLD_GSVA_NUMERIC_REPLAY_AND_CONSUMER_PROOF",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "synthetic_normalization_fitting_replayed": true,
+  "synthetic_ssgsea_scale_replayed": true,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "activity_source_replay_r1",
+    "activity_source_consumers_r1",
+    "activity_source_public_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "native_ssgsea_replay_folds_per_release": 5,
+  "native_outputs_compared_per_release": 25,
+  "compared_outputs": [
+    "raw_GSVA_scores",
+    "scaled_activity",
+    "frozen_ssgsea_state",
+    "pathway_coverage",
+    "gene_detection"
+  ],
+  "metadata_comparison_includes": [
+    "method",
+    "training_score_range",
+    "training_detection_required_n",
+    "R_and_GSVA_versions"
+  ],
+  "comparison": "R_all.equal_tolerance_1e-12_including_attributes",
+  "independent_statistical_implementation": false,
+  "repinned_corruptions_rejected": [
+    "self_consistent_raw_and_scaled_scores",
+    "fitted_state",
+    "software_version"
+  ],
+  "original_activity_files_unchanged_verified": true,
+  "cache_hit_rechecks_actual_file_bytes": true,
+  "shared_release_numeric_replay_cache_verified": true,
+  "all_unavailable_NA_pathways_preserved": true,
+  "historical_unbound_release_kept_incomplete": true,
+  "unresolved_resource_ancestry_kept_blocking": true,
+  "actual_native_core_to_external_transformation_table_verified": true,
+  "public_fields_include": [
+    "source_release_sha256",
+    "normalization_sha256",
+    "activity_sha256"
+  ],
+  "full_core_positive_external_release_verified": false,
+  "test_substitutes": [
+    "synthetic archived GDC API responses and raw counts/annotation/GMT inputs",
+    "existing synthetic native graph/control and fixed no-fit baseline fixtures; original suite records apply"
+  ],
+  "independent_biological_validation_performed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native ssGSEA conversion now binds its completed five-fold release. Model-use inspection recomputes actual GSVA raw scores from pinned normalized expression, annotation and GMT inputs on 149, comparing all 25 outputs and method/scale/detection/software metadata. Self-consistent repinned scores, frozen state and software metadata are rejected; all-unavailable NA pathways remain represented. TMM and ssGSEA proofs both reach the actual native core/external consumer. Legacy unbound activity retains explicit replay gaps; unresolved reference/raw-study/patient ancestry remains blocking. Same-implementation synthetic replay is not independent biological validation or a complete native core/fusion positive external release. No neural/L1 fitting, real cohort analysis, paid compute or deployment was executed."
+}

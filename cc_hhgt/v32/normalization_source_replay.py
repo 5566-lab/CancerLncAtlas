@@ -102,6 +102,6 @@ def inspect(inventory,release,normalization,root,model,role,fold):
     inventory.bind(release,root,model,role+".normalization_release",fold)
     inventory.transform_replays.append({"model_id":model,"dependency_context":inventory.context_id,
         "patient_fold_id":fold,"role":role,"format":FORMAT,"source_release_sha256":release["sha256"],
-        "normalization_sha256":normalization["sha256"],"folds_recomputed":5,"outputs_compared":25,
+        "normalization_sha256":normalization["sha256"],"activity_sha256":"","folds_recomputed":5,"outputs_compared":25,
         "model_training_started":False})
     return True

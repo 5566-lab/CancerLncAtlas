@@ -24,7 +24,7 @@ EXTRA=["model_id","patient_fold_id","use_view","candidate_rows","entity_scope","
 DEPENDENCIES=["model_id","patient_fold_id","role","path","sha256","status","dependency_context"]
 GAPS=["model_id","patient_fold_id","role","sha256","reason","dependency_context"]
 REPLAYS=["model_id","dependency_context","patient_fold_id","role","format","source_release_sha256",
-         "normalization_sha256","folds_recomputed","outputs_compared","model_training_started"]
+         "normalization_sha256","activity_sha256","folds_recomputed","outputs_compared","model_training_started"]
 
 
 def read(path):return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -69,6 +69,7 @@ def implementations():
         "scripts/train_single_cell_hhgt_149.py","cc_hhgt/v32/single_cell_hhgt.py",
         "cc_hhgt/v32/external_validation_current.py","cc_hhgt/v32/external_validation_sources.py",
         "cc_hhgt/v32/model_use_completeness.py","cc_hhgt/v32/normalization_source_replay.py",
+        "cc_hhgt/v32/activity_source_replay.py",
         "scripts/compare_fold_local_normalization.R"]
     return {name:sha256(root/name) for name in names}
 

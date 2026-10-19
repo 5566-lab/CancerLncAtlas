@@ -1,7 +1,8 @@
 """Native training-fitted ssGSEA, its actual consumers and source ancestry.
 
-GSVA raw scores are calculated by the R producer. Conversion inspection replays
-coverage, training scaling and serialization, not the GSVA algorithm itself.
+Conversion inspection checks coverage, training scaling and serialization.
+Model-use inspection also recomputes GSVA raw scores when a completed native
+release is bound; legacy unbound conversions retain an explicit replay gap.
 """
 from pathlib import Path
 import json
@@ -146,6 +147,7 @@ def convert(source_roots, output_root, *, runner):
             target.parent.mkdir(parents=True); frame.to_parquet(target, index=False, compression="zstd")
             receipt = {"format":FORMAT, "target_host":"149", "training_started":False, "fold":fold,
                        "cancer_id":value["cancer_id"], "native":item, "output":record(target),
+                       "activity_release":record(root/"SUCCESS.json"),
                        "implementations":[record(__file__), record(runner)]}
             rpath = target.parent/"ACTIVITY_SOURCES.json"; write(rpath, receipt)
             validate(record(rpath), target.parent, target); outputs.append(record(rpath))
@@ -162,6 +164,12 @@ def validate(item, root, output, *, replay=False):
     for implementation in value["implementations"]: verified_path(implementation, path.parent)
     native_path, info, npath, norm, samples = native(value["native"], path.parent)
     if value["fold"] != info["fold"] or value["cancer_id"] != info["cancer_id"]: raise ValueError("Activity fold/cancer mismatch")
+    if value.get("activity_release") is not None:
+        from .activity_source_replay import declared_release
+        rpath,release = declared_release(value["activity_release"],path.parent)
+        source = release["folds"][str(value["fold"])]
+        if release["cancer_id"] != value["cancer_id"] or verified_path(source,rpath.parent) != native_path:
+            raise ValueError("Activity conversion differs from its completed release")
     if replay:
         expected = frame_from_native(info, native_path.parent, npath, norm, samples)
         try: pd.testing.assert_frame_equal(pd.read_parquet(output), expected, check_dtype=False, check_exact=True)
@@ -209,6 +217,9 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
     from .fold_local_expression import inspect_normalization
     inspect_normalization(inventory,info["normalization"],apath.parent,model,role,fold,
                           release=info["inputs"]["normalization_success"],phase=phase)
+    from .activity_source_replay import inspect as inspect_replay
+    inspect_replay(inventory,value.get("activity_release"),value["native"],info["normalization"],
+                   path.parent,model,role,fold)
     from .current_auxiliary_model_use import input_source
     input_source(inventory, info["inputs"]["annotation"], apath.parent, model, role+".annotation", fold, phase=phase)
     _, manifest = gene_sets(info, apath.parent)
@@ -227,4 +238,3 @@ def inspect(inventory, item, root, output, model, role, fold, *, phase="FEATURE_
             "raw_record_id":identity, "raw_row_sha256":canonical_sha(entry), "raw_identifiers_json":"{}",
             "model_id":model, "patient_fold_id":fold, "use_view":"AUXILIARY_SOURCE_METADATA", "candidate_rows":0,
             "entity_scope":"WHOLE_REGISTERED_FILE_NO_ENTITY_ASSERTION", "dependency_context":inventory.context_id})
-    inventory.gap(model,role,"SSGSEA_RAW_SCORE_TRANSFORMATION_NOT_REPLAYED",fold,value["native"]["sha256"])

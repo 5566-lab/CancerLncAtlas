@@ -203,6 +203,15 @@ def test_actual_core_forward_and_external_isolation_include_gmt_only_study(activ
             patient_map_source=activity.parent/"patient_map.tsv",fold_activity_root=activity/"converted",pathway_ids=[P1])
     test_actual_core_and_external_consumer_exclude_studies_only_in_transformation_inputs(
         tmp_path,monkeypatch,native_factory=factory,external_pmid="12344321",pathway_id=P1)
+    from cc_hhgt.v32.external_validation_current import CurrentExternalValidationQuery
+    source=record(tmp_path/"evaluation/EXTERNAL_BINDING.json")
+    query=CurrentExternalValidationQuery(source["path"],expected_sha=source["sha256"])
+    rows=query.query(table="model_transformation_replays",limit=1000)["rows"]
+    proof=[r for r in rows if r["format"]=="NATIVE_SSGSEA_NUMERIC_REPLAY_V1"]
+    assert proof and {r["patient_fold_id"] for r in proof}==set(range(5))
+    assert all(r["activity_sha256"] and r["normalization_sha256"] and r["outputs_compared"]==25 for r in proof)
+    assert all(r["model_training_started"] is False and "path" not in r for r in rows)
+    assert not query.query()["model_use_inventory_completeness_verified"]
 
 
 def test_no_eligible_pathways_still_preserves_native_candidate_closure(activity,tmp_path,monkeypatch):
