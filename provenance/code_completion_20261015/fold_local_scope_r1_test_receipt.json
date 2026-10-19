@@ -1,0 +1,28 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T03:41:53.402798+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/cnv_input_sources.py": "9eaece3bef91dff2a8af47d09f8b0c2aecc7b4e2256b0c1b8c7118fb98cee300",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "c70c0290962cda5e10c7c9bc3693d08882339894d2bdaec9d82e8cba07e9436a",
+    "cc_hhgt/v32/current_model_use.py": "fcd198762b47ac4909b2256209c98160209fcc1f3f860a62338f5d5a9c2623c7",
+    "cc_hhgt/v32/fold_local_scope.py": "224d3f383bcc22442cee2a59343c616be98a79b8ab6a84a607587623d45068af",
+    "cc_hhgt/v32/formal_graph_authority.py": "33801206e336a0bcd08c023084cd38b1a063258f135abe9a686c8bb42cfaf2e5",
+    "cc_hhgt/v32/preparation_sources.py": "0bb6b8f4596963ae7a941ca3311bb294881a36cc94f2cac8bb9effdfa6ef9a2e",
+    "scripts/materialize_fold_local_scope.py": "926f8374d62c42a89757982e44b9977d1a7e3e0cc1fd0f488269fb7a2a120fc9",
+    "scripts/prepare_v32_formal.py": "3333942544117b347abb840672c90d4f6a7230a510c956df9b2671d973632183",
+    "tests/test_v32_fold_local_scope.py": "5bc475071fafb1dc51f02a82638ac49b4f74505ae531a42875b195bc6a9e87b7"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_fold_local_scope.py",
+    "--junitxml=provenance/code_completion_20261015/fold_local_scope_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-19T03:42:33.171105+00:00"
+}

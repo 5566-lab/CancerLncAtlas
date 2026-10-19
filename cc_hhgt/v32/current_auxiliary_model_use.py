@@ -36,6 +36,11 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
     if item.get("upstream_activity"):
         from .fold_local_activity import inspect
         inspect(inventory,item["upstream_activity"],root,path,model,role+".activity",fold,phase=phase)
+    from .fold_local_scope import inspect_scope, inspect_candidates
+    if item.get("upstream_scope"):
+        inspect_scope(inventory,item["upstream_scope"],root,path,model,role+".detection",fold)
+    if item.get("upstream_candidates"):
+        inspect_candidates(inventory,item["upstream_candidates"],root,path,model,role+".candidates",fold)
     # Controls are dependencies, not biological study evidence. Never infer
     # provenance from a filename, a directory name or patient identifiers.
     if item.get("source_role") in {"split_manifest","v32_core_checkpoint"} or item.get("role") in {"folds","materialization_success"}:

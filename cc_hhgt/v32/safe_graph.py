@@ -15,6 +15,7 @@ EDGE_KEYS = ("source_type", "source_id", "relation_type", "target_type", "target
 # mapping explicit prevents a valid source from being relabelled just to pass a
 # generic allowlist.
 ROLE_CONTRACTS: dict[str, tuple[str, str, str, str]] = {
+    "fold_train_expression_eligibility": ("lncRNA", "expressed_in", "cancer", "train"),
     "transductive_expression_eligibility": (
         "lncRNA", "expressed_in", "cancer", "all_samples_pre_outcome"
     ),
@@ -232,13 +233,15 @@ def build_safe_graph(edges: pd.DataFrame, *, outer_fold: int) -> SafeGraph:
         {"fold_train_coexpression_positive", "fold_train_coexpression_negative"}
     )
     edge_fold = pd.to_numeric(frame.edge_outer_fold, errors="coerce")
-    rejected |= coexpression & ~edge_fold.eq(int(outer_fold))
-    rejected |= ~coexpression & frame.edge_outer_fold.notna()
+    fold_expression = role.eq("fold_train_expression_eligibility")
+    fold_specific = coexpression | fold_expression
+    rejected |= fold_specific & ~edge_fold.eq(int(outer_fold))
+    rejected |= ~fold_specific & frame.edge_outer_fold.notna()
     rejected |= coexpression & (
         frame.cancer_id.isna() | ~context_specific
     )
 
-    expressed = role.eq("transductive_expression_eligibility")
+    expressed = role.eq("transductive_expression_eligibility") | fold_expression
     rejected |= expressed & (
         frame.cancer_id.isna()
         | ~frame.cancer_id.astype(str).eq(frame.target_id.astype(str))
@@ -293,7 +296,8 @@ def build_safe_graph(edges: pd.DataFrame, *, outer_fold: int) -> SafeGraph:
         "allowed_roles": sorted(ALLOWED_ROLES),
         "pair_evidence_included": False,
         "validation_or_test_outcome_edges": 0,
-        "transductive_expression_eligibility_declared": bool(expressed.any()),
+        "transductive_expression_eligibility_declared": bool(role.eq("transductive_expression_eligibility").any()),
+        "fold_training_expression_eligibility_declared": bool(fold_expression.any()),
         "ppi_reciprocal_message_count": int(frame.relation_type.eq("physical_interaction").sum()),
         "edge_sha256": dataframe_sha256(frame, EDGE_KEYS),
     }

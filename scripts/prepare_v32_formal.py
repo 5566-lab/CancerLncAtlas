@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Prepare the formal V3.2 one-seed, five-fold local run.
 
-This uses the 149-generated edgeR TMM logCPM matrices and the existing
-precomputed exact-pathway activity table.  Candidate pairs are deterministic
-and capped at 100,000 per cancer (below the frozen 250,000 evaluation cap),
-with every within-cancer eligible lncRNA represented in the cap.
+The legacy path uses cohort-derived expression, activity and detection.
+The explicit fold-local-scope path uses annotation-defined candidates and
+training-patient detection, paired with matching native adjusted associations.
+Candidate sampling is deterministic and subject to the frozen evaluation cap.
 """
 from __future__ import annotations
 
@@ -365,6 +365,7 @@ def build_graph(
     outer_fold: int,
     split_manifest: pd.DataFrame,
     candidate_pairs: pd.DataFrame,
+    detection_override=None,
 ):
     """Build one hash-bound fold authority; no implicit graph source exists."""
 
@@ -375,6 +376,7 @@ def build_graph(
         outer_fold=int(outer_fold),
         split_manifest=split_manifest,
         candidate_pairs=candidate_pairs,
+        detection_override=detection_override,
     )
 
 
@@ -396,7 +398,8 @@ def make_batches(
             sub.shared_or_local_scope.astype(str).eq("shared").to_numpy(float),
             pd.to_numeric(sub.detection_rate, errors="coerce").fillna(0).to_numpy(float),
             np.clip(np.abs(effect), 0, 5),
-            pd.to_numeric(sub.detected_cancers, errors="coerce").fillna(0).to_numpy(float) / 33.0,
+            pd.to_numeric(sub.detected_cancers, errors="coerce").fillna(0).to_numpy(float)
+            / (sub.assessed_cancers.to_numpy(float) if "assessed_cancers" in sub else 33.0),
         ])
         if split == "train":
             direction_label = (effect >= 0).astype(float)
@@ -487,6 +490,8 @@ def main() -> int:
     )
     parser.add_argument("--formal-candidates")
     parser.add_argument("--formal-candidates-sha256")
+    parser.add_argument("--fold-local-scope", help="Explicit SCOPE_RELEASE.json with annotation-defined candidates")
+    parser.add_argument("--fold-local-scope-sha256")
     parser.add_argument("--local-cnv-audit-root")
     parser.add_argument("--local-cnv-audit-success-sha256")
     parser.add_argument("--local-cnv-validation-root")
@@ -566,10 +571,23 @@ def main() -> int:
         fold_expression_pattern=args.graph_fold_expression_pattern,
         fold_coexpression_pattern=args.graph_fold_coexpression_pattern,
     )
-    scope = load_scope(captured.read(graph_inputs.static_paths["detection"],
-        lambda path: read_formal_graph_table(graph_inputs, "detection"), role="detection",
-        expected_sha=graph_inputs.static_sha256["detection"]))
     adjusted_mode = args.association_mode == "local-cnv-adjusted"
+    local_scope = None
+    if args.fold_local_scope:
+        if not adjusted_mode or not args.fold_local_scope_sha256 or not args.formal_candidates:
+            raise RuntimeError("Fold-local scope requires adjusted associations, candidates and explicit scope hash")
+        from cc_hhgt.v32.fold_local_scope import release as scope_release
+        local_scope = scope_release({"path":args.fold_local_scope,"sha256":args.fold_local_scope_sha256},ROOT,
+                                    candidates=args.formal_candidates,patient_map=patient_folds_path)
+        from cc_hhgt.v32.fold_local_scope import validate_candidates
+        _, candidate_definition = validate_candidates(local_scope[1]["candidates"], local_scope[0].parent)
+        if args.budget_per_cancer != candidate_definition["budget_per_cancer"]:
+            raise RuntimeError("Requested candidate budget differs from annotation-defined authority")
+        scope = None
+    else:
+        scope = load_scope(captured.read(graph_inputs.static_paths["detection"],
+            lambda path: read_formal_graph_table(graph_inputs, "detection"), role="detection",
+            expected_sha=graph_inputs.static_sha256["detection"]))
     if adjusted_mode:
         from cc_hhgt.v32.local_cnv_core_preparation import (
             sha256_file,
@@ -592,7 +610,7 @@ def main() -> int:
             raise RuntimeError("Formal candidate authority SHA256 drift")
         candidates = captured.read(candidate_path, pd.read_parquet, role="candidate_authority",
                                    expected_sha=args.formal_candidates_sha256.lower())
-        if (
+        if local_scope is None and (
             len(candidates) != 3_300_000
             or candidates.duplicated(KEYS).any()
             or candidates.cancer_id.astype(str).nunique() != 33
@@ -703,7 +721,7 @@ def main() -> int:
             encoding="utf-8",
         )
     hierarchy.to_parquet(out / "PATHWAY_HIERARCHY.parquet", index=False)
-    scope.to_parquet(out / "FORMAL_LNCRNA_SCOPE.parquet", index=False)
+    if scope is not None: scope.to_parquet(out / "FORMAL_LNCRNA_SCOPE.parquet", index=False)
     if not adjusted_mode:
         expr_by = {
             c: captured.read(Path(args.formal_expression_root) / f"cancer_id={c}" / "part-0.parquet",
@@ -711,14 +729,33 @@ def main() -> int:
         }
         activity_by = {c: activity.loc[activity.cancer_id.eq(c)].copy() for c in cancers}
     metrics = []
+    scope_summaries = {}
+    detection_fit_split = "train" if local_scope is not None else "all_samples_pre_outcome"
+    candidate_definition_kind = "annotation_and_gmt_only" if local_scope is not None else "legacy_cohort_detection"
     for fold in range(args.start_fold, min(5, args.start_fold + args.fold_count)):
+        detection_override = None
+        if local_scope is not None:
+            from cc_hhgt.v32.fold_local_scope import scope_input
+            scope,detection_override = scope_input(local_scope[1],local_scope[0].parent,fold,capture=captured)
+            target=out/"FORMAL_LNCRNA_SCOPE"/f"fold={fold}";target.mkdir(parents=True)
+            scope.to_parquet(target/"scope.parquet",index=False)
+        scope_summaries[str(fold)] = {
+            "source_lnc_n": int(scope.lncrna_id.nunique()),
+            "shared_lnc_n": int(scope.loc[scope.detected_cancers.ge(3), "lncrna_id"].nunique()),
+            "eligible_cancer_lnc_pairs": int(scope.within_cancer_eligible.sum()),
+            "detection_fit_split": detection_fit_split,
+        }
         print(json.dumps({"status": "PREPARING_FORMAL", "fold": fold, "candidates": len(candidates), "source_lnc": int(scope.lncrna_id.nunique()), "shared_lnc": int(scope.loc[scope.detected_cancers.ge(3), "lncrna_id"].nunique())}), flush=True)
         split_manifest = assign_outer_split(fold_manifest, fold, n_folds=5, validation_offset=1)
         if adjusted_mode:
             associations = load_adjusted_associations(captured, args.local_cnv_audit_root,
                 args.local_cnv_validation_root, fold=fold, cancers=cancers)
+            if local_scope is not None:
+                from cc_hhgt.v32.fold_local_scope import verify_association_normalizations
+                verify_association_normalizations(captured,local_scope[1]["folds"][str(fold)],local_scope[0].parent,fold)
             metadata = candidates.merge(
-                scope[["cancer_id", "lncrna_id", "detection_rate", "detected_cancers", "shared_or_local_scope"]],
+                scope[["cancer_id", "lncrna_id", "detection_rate", "detected_cancers", "shared_or_local_scope"]
+                      + (["assessed_cancers"] if "assessed_cancers" in scope else [])],
                 on=["cancer_id", "lncrna_id"], how="left", validate="many_to_one",
             )
             train_discovery = metadata.merge(
@@ -743,7 +780,8 @@ def main() -> int:
             "validation": attach_replication_labels(train_discovery, validation_replication),
         }
         for split, frame in frames.items():
-            frame["cross_cancer_support_frequency"] = frame.lncrna_id.map(scope.groupby("lncrna_id").detected_cancers.max()).fillna(0).to_numpy(float) / 33.0
+            frame["cross_cancer_support_frequency"] = frame.lncrna_id.map(scope.groupby("lncrna_id").detected_cancers.max()).fillna(0).to_numpy(float) / (
+                len(cancers) if local_scope is not None else 33.0)
             frame["cross_cancer_direction_consistency"] = 0.0; frame["cross_cancer_i2"] = 0.0
         model, baseline_metrics, x_train, x_val = _fast_l1(frames, seed=args.seed)
         train_logits = model.decision_function(x_train); val_logits = model.decision_function(x_val)
@@ -753,6 +791,7 @@ def main() -> int:
             outer_fold=fold,
             split_manifest=split_manifest,
             candidate_pairs=candidates,
+            detection_override=detection_override,
         )
         graph_binding_path = out / "GRAPH_AUTHORITIES" / f"PATIENT_FOLD_{fold}.json"
         graph_binding_path.parent.mkdir(parents=True, exist_ok=True)
@@ -802,7 +841,7 @@ def main() -> int:
                     } if adjusted_mode else {}),
                 }, "contains_optimizer_state": False, "contains_trained_parameters": False,
                 "patient_fold_authority": patient_binding,
-                "input_scope": {"source_lnc_n": int(scope.lncrna_id.nunique()), "shared_lnc_n": int(scope.loc[scope.detected_cancers.ge(3), "lncrna_id"].nunique()), "budget_per_cancer": args.budget_per_cancer, "candidate_rows_per_split": int(len(frames["train"])), "discovery_features_split": "train_patients_only", "replication_labels_splits": ["validation"], "held_out_effects_as_features": False, "sealed_test_accessed": False, "association_mode": args.association_mode, "unavailable_rows_loss_masked": adjusted_mode},
+                "input_scope": {**scope_summaries[str(fold)], "candidate_definition": candidate_definition_kind, "budget_per_cancer": args.budget_per_cancer, "candidate_rows_per_split": int(len(frames["train"])), "discovery_features_split": "train_patients_only", "replication_labels_splits": ["validation"], "held_out_effects_as_features": False, "sealed_test_accessed": False, "association_mode": args.association_mode, "unavailable_rows_loss_masked": adjusted_mode},
             }
             attach_sources(payload, source_receipt)
             variant_root = out / variant
@@ -811,7 +850,22 @@ def main() -> int:
             metrics.append(fold_metrics)
             print(json.dumps({"status": "PREPARED_FORMAL", **fold_metrics}), flush=True)
     (out / "PREP_METRICS.json").write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
-    (out / "PREP_INPUT_SUMMARY.json").write_text(json.dumps({"source_lnc_n": int(scope.lncrna_id.nunique()), "shared_lnc_n": int(scope.loc[scope.detected_cancers.ge(3), "lncrna_id"].nunique()), "cancers": len(cancers), "pathways": len(pathways), "budget_per_cancer": args.budget_per_cancer, "candidate_rows": int(len(candidates)), "candidate_sampler": "pinned_formal_candidate_authority" if adjusted_mode else CANDIDATE_SAMPLER, "association_mode": args.association_mode, "patient_fold_authority": patient_authority_audit, "formal_graph_authority_receipt_sha256": graph_inputs.receipt_sha256, "graph_variants": ["G0", "G1", "G2"], "prepared_layout": "{G0,G1,G2}/PATIENT_FOLD_{fold}.pt", "legacy_root_fold_payloads_written": False, **({"local_cnv_audit": local_cnv_authority, "validation_a1_authority": validation_a1_authority} if adjusted_mode else {})}, indent=2) + "\n", encoding="utf-8")
+    summary = {"source_lnc_n": int(scope.lncrna_id.nunique()),
+        "scope_by_fold": scope_summaries, "detection_fit_split": detection_fit_split,
+        "candidate_definition": candidate_definition_kind,
+        "cancers": len(cancers), "pathways": len(pathways), "budget_per_cancer": args.budget_per_cancer,
+        "candidate_rows": int(len(candidates)),
+        "candidate_sampler": "pinned_formal_candidate_authority" if adjusted_mode else CANDIDATE_SAMPLER,
+        "association_mode": args.association_mode, "patient_fold_authority": patient_authority_audit,
+        "formal_graph_authority_receipt_sha256": graph_inputs.receipt_sha256,
+        "graph_variants": ["G0", "G1", "G2"], "prepared_layout": "{G0,G1,G2}/PATIENT_FOLD_{fold}.pt",
+        "legacy_root_fold_payloads_written": False,
+        **({"local_cnv_audit": local_cnv_authority, "validation_a1_authority": validation_a1_authority} if adjusted_mode else {})}
+    if local_scope is None:
+        summary["shared_lnc_n"] = int(scope.loc[scope.detected_cancers.ge(3), "lncrna_id"].nunique())
+    else:
+        summary["fold_local_scope_release"] = {"path": str(local_scope[0]), "sha256": args.fold_local_scope_sha256.lower()}
+    (out / "PREP_INPUT_SUMMARY.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     return 0
 
 

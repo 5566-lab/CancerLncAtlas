@@ -82,6 +82,10 @@ def source_members(path, kind):
             from .fold_local_activity import binding as activity_binding
             activity = activity_binding(file)
             if activity: item["upstream_activity"] = activity
+            from .fold_local_scope import scope_binding, candidate_binding
+            scope = scope_binding(file); candidates = candidate_binding(file)
+            if scope: item["upstream_scope"] = scope
+            if candidates: item["upstream_candidates"] = candidates
         result.append(item)
     return result
 
@@ -114,6 +118,9 @@ class SourceCapture:
             if member.get("upstream_activity"):
                 from .fold_local_activity import validate
                 validate(member["upstream_activity"],path.parent,member["path"])
+            from .fold_local_scope import validate_scope, validate_candidates
+            for key,check in (("upstream_scope",validate_scope),("upstream_candidates",validate_candidates)):
+                if member.get(key):check(member[key],path.parent,member["path"])
         record = {"role": role, "path": str(path), "sha256": before, "kind": kind,
                   "fold": fold, "cancer_id": str(cancer_id), "members": members}
         for old in self.reads:
@@ -136,6 +143,9 @@ class SourceCapture:
                 if member.get("upstream_activity"):
                     from .fold_local_activity import validate
                     validate(member["upstream_activity"],Path(item["path"]).parent,member["path"])
+                from .fold_local_scope import validate_scope, validate_candidates
+                for key,check in (("upstream_scope",validate_scope),("upstream_candidates",validate_candidates)):
+                    if member.get(key):check(member[key],Path(item["path"]).parent,member["path"])
             if item.get("upstream_transformation"):
                 for source in item["upstream_transformation"].values():
                     if artifact_sha256(source["path"])!=source["sha256"]:
@@ -169,7 +179,8 @@ def validate_receipt(value, *, fold):
     for item in reads:
         role = item["role"]
         per_cancer = role in {"expression", "train_associations", "validation_associations"}
-        per_fold = role in {"train_associations", "validation_associations"}
+        per_fold = role in {"train_associations", "validation_associations"} or (
+            role == "detection" and any(m.get("upstream_scope") for m in item["members"]))
         identity = (role, item["cancer_id"])
         if identity in seen: raise ValueError("Duplicate preparation source role/cancer")
         seen.add(identity)

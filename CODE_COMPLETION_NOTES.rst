@@ -2769,3 +2769,123 @@ The r2 test process finished successfully; its first SCP receipt download
 failed transiently, and the existing completed receipts were then retrieved
 without rerunning the test process. Only synthetic statistics and frozen
 forwards ran; no optimizer was started.
+
+Annotation-defined candidates and fold-local detection (2026-10-19)
+-----------------------------------------------------------------
+
+This section supersedes the global detection TODO above for the explicit
+local-CNV-adjusted preparation path. It does not change historical results or
+the legacy direct-preparation path. C01/C13/C16 remain in progress.
+
+scripts/materialize_fold_local_scope.py constructs the candidate universe from
+the supplied lncRNA annotation and all explicit GMT definitions. It never uses
+measured expression, pathway coverage, correlation or outcome labels to select
+candidates. It reuses the deterministic affine sampler with the declared seed
+and budget. Every annotated lncRNA must fit in that budget. Unexpressed lncRNAs
+and unusable pathways retain candidate rows; lack of measurements is not a
+negative association. Candidate membership is the same in all five folds.
+
+Each fold separately computes detection_rate as the fraction of selected
+training tumors with frozen logCPM > 0. within_cancer_eligible means a rate of
+at least 0.10. detected_cancers counts eligible cancers among the explicitly
+declared set, and assessed_cancers is its size. shared requires eligibility in
+at least three cancers; otherwise an eligible cancer/lncRNA is cancer_local.
+Ineligible pairs are not_expression_eligible. All five scopes retain the full
+annotation-by-cancer grid. There must be exactly one unfiltered normalization
+row for every annotated lncRNA, with finite measurements and a common patient
+map. Missing coverage is an error, not a zero detection rate.
+
+Manifest schema, with actual server paths and SHA256 values::
+
+  {"format":"FOLD_LOCAL_SCOPE_INPUT_V1",
+   "annotation":{"path":"/actual/annotation.tsv","sha256":"..."},
+   "gmt_manifest":{"path":"/actual/gmt_manifest.json","sha256":"..."},
+   "normalizations":{
+     "BRCA":{"path":"/actual/normalization/BRCA/SUCCESS.json","sha256":"..."},
+     "LUAD":{"path":"/actual/normalization/LUAD/SUCCESS.json","sha256":"..."}},
+   "budget_per_cancer":100000,"seed":20260726}
+
+The annotation requires ensembl_gene_id and gene_type; gene_type=lncRNA rows
+are used, _PAR_Y entries excluded, and stable Ensembl IDs version-stripped.
+Stable duplicates are rejected. The GMT manifest follows the preceding
+ssGSEA schema. No collection, study or hierarchy is guessed from names.
+
+Command order, server 149 only:
+
+* Produce all five frozen expression normalizations for every declared cancer.
+* python scripts/materialize_fold_local_scope.py --manifest SCOPE_INPUT_JSON
+  --output NEW_SCOPE_ROOT
+* Use NEW_SCOPE_ROOT/candidates.parquet as the identical candidate authority
+  for native local-CNV train and validation transformations. Use the same fold
+  expression normalizations and patient map; produce fold-local ssGSEA as above.
+* Complete the native association, validation and corrected graph authorities.
+* Supply the usual explicit patient/graph/CNV authorities to
+  scripts/prepare_v32_formal.py, with --association-mode local-cnv-adjusted,
+  --formal-candidates NEW_SCOPE_ROOT/candidates.parquet, its SHA256,
+  --fold-local-scope NEW_SCOPE_ROOT/SCOPE_RELEASE.json, its
+  --fold-local-scope-sha256, and the same --budget-per-cancer as the manifest.
+
+These commands are documented for subsequent authorized execution. This code
+change did not run real preparation or L1 fitting. The actual preparation entry
+point fits its baseline during a real run; synthetic checks replace that fit
+with a fixed zero-logit object and prohibit optimizers.
+
+CANDIDATE_SOURCES.json binds annotation, GMT and sampler implementations.
+SCOPE_SOURCES.json binds each fold's normalization sources and scope values.
+Source inspection replays candidate selection and detection from those actual
+inputs, including nested GMT hashes. Explicit annotation/GMT study metadata
+and raw normalization sample exposure reach model-use inventory. Missing GDC
+acquisition ancestry before count RDS remains an explicit gap.
+
+Adjusted preparation checks that each consumed train/validation association
+uses the same native normalization as its fold's scope. The actual feature
+tensors use that fold's detection and detected_cancers / assessed_cancers.
+expressed_in edges use role=fold_train_expression_eligibility, split=train and
+the actual outer fold. Candidates without eligible expression remain nodes
+without expression edges. The graph rejects reuse of those edges in another
+fold. G0/G1/G2 share their node and relation schema within each fold.
+
+Outputs include FORMAL_LNCRNA_SCOPE/fold=F/scope.parquet and scope_by_fold in
+PREP_INPUT_SUMMARY.json. No global FORMAL_LNCRNA_SCOPE.parquet or single shared
+count is manufactured for this new mode. Legacy preparation retains its
+existing global file and explicitly records all_samples_pre_outcome detection.
+The frozen graph control receipt still verifies the old static detection file
+as part of its historical authority; in the new mode its values are not read
+for expression edges, whose binding instead points to the actual fold scope.
+
+Integration limits that still require code work:
+
+* Native per-cancer producers/finalizers retain the fixed 33-cancer,
+  100,000-candidate production contract. Scope materialization supports other
+  declared sizes, but those sizes do not yet close through all native commands.
+  Synthetic tests reduce those dimensions explicitly and do not certify the
+  full production closeout or an arbitrary subset workflow.
+* current_core_prediction.py still requires one global shared/cancer_local
+  table. Fold-varying and not_expression_eligible scope needs an explicit
+  downstream representation, including selected-score and GeneSet consumers.
+  Do not substitute one fold or a cohort-derived table to bypass this boundary.
+* Matching association normalization is enforced. Matching normalization for
+  corrected coexpression graph ancestry is not yet enforced by this new switch;
+  its existing source inspection remains separate. Activity, static pathway
+  hierarchy and legacy preparation have their own source constraints.
+* Pre-RDS acquisition, complete per-row patient exposure, unsupported
+  historical sources, final upstream orchestration/schema and acceptance remain
+  open. Passing these checks does not prove full biological independence.
+
+Synthetic checks cover actual edgeR-derived training detection, held-out
+perturbation invariance, cross-cancer classification, rejected altered sources,
+unexpressed candidate retention, native association normalization identity,
+actual model feature tensors and graph construction. The actual adjusted main
+entry writes all three graph arms for one synthetic fold; frozen cohort control
+checks and baseline fitting are explicit substitutes. Five-fold training or
+new real predictions were not executed.
+
+fold_local_scope_r5 records 50 passing scope/preparation/graph/sampler cases;
+fold_local_scope_native_regression_r1 records 31 passing frozen-expression and
+native local-CNV ancestry cases; fold_local_scope_consumers_regression_r1 records
+54 passing CNV-input, graph-expansion, core-prediction and model-use cases.
+These 135 distinct scoped checks ran on host 149, without optimizer fitting.
+The initial scope run exposed the legacy requirement that every candidate
+must have an expression edge (8 passed, 1 failed); it was corrected to retain
+unexpressed nodes. Intermediate passing runs are retained but not added again
+to the latest unique count. This is not a whole-suite or real-cohort result.

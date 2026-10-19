@@ -222,6 +222,7 @@ def materialize_expressed_in(
     candidate_pairs: pd.DataFrame,
     *,
     minimum_detection_rate: float = 0.10,
+    outer_fold: int | None = None,
 ) -> pd.DataFrame:
     required = {"cancer_id", "lncrna_id", "detection_rate"}
     if missing := sorted(required - set(detection)):
@@ -229,6 +230,12 @@ def materialize_expressed_in(
     if missing := sorted({"cancer_id", "lncrna_id"} - set(candidate_pairs)):
         raise ValueError(f"Candidate table lacks columns: {missing}")
     values = detection.loc[:, ["cancer_id", "lncrna_id", "detection_rate"]].copy().reset_index(drop=True)
+    if outer_fold is not None:
+        if not {"fold_id","fit_split"} <= set(detection) or not detection.fold_id.eq(outer_fold).all() or not detection.fit_split.eq("train").all():
+            raise ValueError("Fold-local expression edges need matching training detection")
+        declared=candidate_pairs[["cancer_id","lncrna_id"]].drop_duplicates().merge(
+            values[["cancer_id","lncrna_id"]],how="left",indicator=True,validate="one_to_one")
+        if declared._merge.ne("both").any():raise ValueError("Training detection does not cover candidate nodes")
     values["detection_rate"] = _numeric(values.detection_rate, name="detection_rate")
     values = values.loc[values.detection_rate.ge(float(minimum_detection_rate))]
     keys = candidate_pairs.loc[:, ["cancer_id", "lncrna_id"]].drop_duplicates().reset_index(drop=True)
@@ -239,16 +246,17 @@ def materialize_expressed_in(
         source_type="lncRNA",
         relation_type="expressed_in",
         target_type="cancer",
-        edge_role="transductive_expression_eligibility",
-        source_split="all_samples_pre_outcome",
+        edge_role="transductive_expression_eligibility" if outer_fold is None else "fold_train_expression_eligibility",
+        source_split="all_samples_pre_outcome" if outer_fold is None else "train",
         weight=values.detection_rate,
         relation_polarity=1.0,
         cancer_id=values.cancer_id,
         is_context_specific=True,
-        source_database="fresh_pre_outcome_expression_detection",
+        source_database="fresh_pre_outcome_expression_detection" if outer_fold is None else "frozen_training_tumor_detection",
+        edge_outer_fold=outer_fold,
     )
     expected = keys.merge(values[["cancer_id", "lncrna_id"]], how="left", indicator=True)
-    if expected._merge.ne("both").any():
+    if outer_fold is None and expected._merge.ne("both").any():
         examples = expected.loc[expected._merge.ne("both"), ["cancer_id", "lncrna_id"]].head(10)
         raise RuntimeError(
             "Candidate pairs include lncRNAs below the declared expressed_in threshold: "
@@ -648,6 +656,7 @@ def build_formal_graph_authority(
     *,
     outer_fold: int,
     required_nodes: pd.DataFrame | None = None,
+    expression_scope: str = "cohort",
 ) -> FormalGraphAuthority:
     frames = [frame.copy() for frame in relations if frame is not None and not frame.empty]
     if not frames:
@@ -691,6 +700,9 @@ def build_formal_graph_authority(
     ).sort_values(
         ["source_type", "relation_type", "target_type"], kind="stable"
     ).reset_index(drop=True)
+    if expression_scope not in {"cohort","train"}:raise ValueError("Unknown graph expression scope")
+    if expression_scope=="train":
+        relation_schema.loc[relation_schema.relation_type.eq("expressed_in"),"edge_role"]="fold_train_expression_eligibility"
     observed_schema = set(
         edges[
             ["source_type", "relation_type", "target_type", "edge_role", "symmetric_same_relation"]

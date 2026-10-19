@@ -43,7 +43,7 @@ def test_recovered_producers_reject_wrong_host_before_execution(monkeypatch,modu
 
 
 def native_inputs(root,monkeypatch,*,expression_source=None,fold_expression_root=None,patient_map_source=None,candidate_ids=None,
-                  fold_activity_root=None,pathway_ids=None):
+                  fold_activity_root=None,pathway_ids=None,candidate_source=None):
     import scripts.run_v32_local_cnv_confounding_audit_r2 as association
     import scripts.materialize_v32_local_cnv_validation_associations as validation
     root.mkdir(parents=True)
@@ -83,9 +83,10 @@ def native_inputs(root,monkeypatch,*,expression_source=None,fold_expression_root
     covariates["pmid"]="88997766"
     cov=root/"covariates.parquet";covariates.to_parquet(cov,index=False);sources["covariates"]=record(cov)
     config=root/"source_config.json";write(config,{"sources":sources})
-    candidates=root/"candidates.parquet"
-    pd.DataFrame([("BRCA",lnc,pathway) for lnc in candidate_ids for pathway in pathway_ids],
-                 columns=["cancer_id","lncrna_id","pathway_id"]).to_parquet(candidates,index=False)
+    candidates=Path(candidate_source) if candidate_source is not None else root/"candidates.parquet"
+    if candidate_source is None:
+        pd.DataFrame([("BRCA",lnc,pathway) for lnc in candidate_ids for pathway in pathway_ids],
+                     columns=["cancer_id","lncrna_id","pathway_id"]).to_parquet(candidates,index=False)
     folds=Path(patient_map_source) if patient_map_source is not None else root/"patient_map.tsv"
     if patient_map_source is None:
         pd.DataFrame({"cancer_id":"BRCA","patient_id":patients,"patient_fold_id":np.arange(n)%5}).to_csv(folds,sep="\t",index=False)

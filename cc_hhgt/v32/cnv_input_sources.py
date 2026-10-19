@@ -40,6 +40,8 @@ class SourceCapture:
         from .fold_local_activity import binding as activity_binding, validate as validate_activity
         upstream = binding(path) if path.suffix == ".parquet" else None
         activity = activity_binding(path) if path.suffix == ".parquet" else None
+        from .fold_local_scope import candidate_binding, validate_candidates
+        candidates = candidate_binding(path) if path.suffix == ".parquet" else None
         value = reader(path)
         if sha256(path) != before:
             raise ValueError("CNV input changed while reading: " + str(path))
@@ -51,6 +53,9 @@ class SourceCapture:
         if activity is not None:
             validate_activity(activity, path.parent, path)
             item["upstream_activity"] = activity
+        if candidates is not None:
+            validate_candidates(candidates,path.parent,path)
+            item["upstream_candidates"] = candidates
         key = (str(path), role, cancer, fold, split)
         previous = self.records.get(key)
         if previous is not None and previous != item:

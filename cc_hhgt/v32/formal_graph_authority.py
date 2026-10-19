@@ -413,6 +413,7 @@ def build_bound_formal_graph(
     candidate_pairs: pd.DataFrame,
     binding_materializer: Callable[..., pd.DataFrame] | None = None,
     binding_generation: str = "GENERIC_GLOBAL",
+    detection_override: Mapping[str, Any] | None = None,
 ) -> BoundFormalGraph:
     """Materialize one fold's G2 master authority and G0/G1 masks.
 
@@ -470,7 +471,22 @@ def build_bound_formal_graph(
             f"Fold {outer_fold} expression includes non-train, missing, or relabelled identities"
         )
 
-    detection = _read_table(inputs.static_paths["detection"])
+    if detection_override is None:
+        detection = _read_table(inputs.static_paths["detection"])
+    else:
+        from .fold_local_scope import validate_scope
+        from .fold_local_expression import native as normalization
+        from .current_core_export import verified_path
+        override_path=verified_path(detection_override,inputs.receipt_path.parent)
+        scope_path,scope_value=validate_scope(detection_override["upstream_scope"],inputs.receipt_path.parent,override_path,replay=True)
+        if scope_value["fold"]!=outer_fold or set(scope_value["normalizations"])!=set(cancer_scope):
+            raise FormalGraphAuthorityError("Graph detection scope cancer/fold differs")
+        for cancer,source in scope_value["normalizations"].items():
+            _,_,samples=normalization(source,scope_path.parent)
+            observed=set(samples.loc[samples.exported & samples.split_role.eq("train"),"patient_id"])
+            expected=set(split_manifest.loc[split_manifest.cancer_id.eq(cancer) & split_manifest.split.eq("train"),"patient_id"])
+            if observed!=expected:raise FormalGraphAuthorityError("Graph detection patients differ from outer train")
+        detection=_read_table(override_path)
     coexpression = _read_table(coexpression_path)
     membership = _read_table(inputs.static_paths["signed_membership"])
     hierarchy = _read_table(inputs.static_paths["pathway_hierarchy"])
@@ -489,7 +505,7 @@ def build_bound_formal_graph(
             f"Static hierarchy lacks candidate exact pathways: {missing_hierarchy[:10]}"
         )
     relations = [
-        materialize_expressed_in(detection, candidate_pairs),
+        materialize_expressed_in(detection, candidate_pairs,outer_fold=outer_fold if detection_override is not None else None),
         materialize_signed_coexpression(coexpression, outer_fold=int(outer_fold)),
         materialize_signed_membership(membership, candidate_pathways=pathways),
         materialize_pathway_hierarchy(hierarchy),
@@ -520,7 +536,8 @@ def build_bound_formal_graph(
         ignore_index=True,
     )[["node_type", "canonical_id"]]
     authority = build_formal_graph_authority(
-        relations, outer_fold=int(outer_fold), required_nodes=required_nodes
+        relations, outer_fold=int(outer_fold), required_nodes=required_nodes,
+        expression_scope="train" if detection_override is not None else "cohort",
     )
     fold_declarations = inputs.receipt["fold_artifacts"][str(int(outer_fold))]
     binding = {
@@ -542,7 +559,8 @@ def build_bound_formal_graph(
             "receipt_sha256": FROZEN_V32_RECEIPT_SHA256,
         },
         "static_artifacts": {
-            key: {"path": str(inputs.static_paths[key]), "sha256": inputs.static_sha256[key]}
+            key: ({**dict(detection_override),"fold":int(outer_fold)} if key=="detection" and detection_override is not None else
+                  {"path": str(inputs.static_paths[key]), "sha256": inputs.static_sha256[key]})
             for key in STATIC_ARTIFACT_IDS
         },
         "fold_artifacts": {
@@ -566,6 +584,8 @@ def build_bound_formal_graph(
             "outer_train_expression_only": True,
             "outer_train_coexpression_only": True,
             "static_evidence_outcome_free": True,
+            "training_patient_detection": detection_override is not None,
+            "cohort_detection_used": detection_override is None,
             "historical_graph_rows_used": False,
             "legacy_graph_root_fallback_used": False,
             "toy_or_synthetic_fallback_used": False,
@@ -604,6 +624,11 @@ def validate_formal_graph_payload_binding(
         and bool(_SHA256.fullmatch(str(record.get("sha256", ""))))
         for record in provenance_records
     )
+    detection = static_artifacts.get("detection", {}) if isinstance(static_artifacts, Mapping) else {}
+    if detection.get("upstream_scope") and (
+            detection.get("fold")!=outer_fold or gates.get("training_patient_detection") is not True
+            or gates.get("cohort_detection_used") is not False):
+        raise FormalGraphAuthorityError("Fold-local graph detection binding differs")
     required_gates = (
         "frozen_patient_first_authority",
         "outer_train_expression_only",

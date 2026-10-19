@@ -52,7 +52,7 @@ x<-SummarizedExperiment(assays=list(unstranded=counts),
  rowData=DataFrame(gene_id=c('Z.1','LOW.1','LEAK.1',paste0('G',1:80)),gene_type=c(rep('lncRNA',3),rep('protein_coding',80))),
  colData=DataFrame(pmid=rep('77889900',123),row.names=samples))
 saveRDS(x,file.path(root,'counts.RDS'))
-fwrite(data.table(cancer_id='BRCA',patient_id=sprintf('TCGA-ZZ-%04d',0:119),patient_fold_id=(0:119)%%5),file.path(root,'patient_map.tsv'),sep='\t')
+fwrite(data.table(cancer_id='BRCA',sample_id=samples[1:120],patient_id=sprintf('TCGA-ZZ-%04d',0:119),patient_fold_id=(0:119)%%5),file.path(root,'patient_map.tsv'),sep='\t')
 # Independent edgeR oracle on known training tumor indices. Normal patient 0
 # and its alternate aliquots are held out in fold 0 and must not enter fit.
 train<-which(!((0:119)%%5 %in% c(0,1)))

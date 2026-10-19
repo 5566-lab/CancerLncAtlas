@@ -55,6 +55,8 @@ def implementations():
         "cc_hhgt/v32/fold_local_expression.py","scripts/frozen_tmm.R","scripts/materialize_fold_local_expression.R",
         "cc_hhgt/v32/fold_local_activity.py","scripts/frozen_ssgsea.R","scripts/materialize_fold_local_ssgsea.R",
         "scripts/convert_fold_local_activity.py",
+        "cc_hhgt/v32/fold_local_scope.py","scripts/materialize_fold_local_scope.py",
+        "cc_hhgt/v32/formal_graph.py","cc_hhgt/v32/formal_graph_authority.py","cc_hhgt/v32/safe_graph.py",
         "scripts/materialize_formal_lncrna_logcpm.R",
         "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/stats.py","cc_hhgt/v32/directional_cnv.py",
         "cc_hhgt/v32/cnv_input_sources.py","cc_hhgt/v32/current_cnv_model_use.py",
@@ -180,6 +182,11 @@ class Inventory:
                 if member.get("upstream_activity"):
                     from .fold_local_activity import inspect
                     inspect(self,member["upstream_activity"],path.parent,member["path"],model,label+".activity",fold)
+                from .fold_local_scope import inspect_scope, inspect_candidates
+                if member.get("upstream_scope"):
+                    inspect_scope(self,member["upstream_scope"],path.parent,member["path"],model,label+".detection",fold)
+                if member.get("upstream_candidates"):
+                    inspect_candidates(self,member["upstream_candidates"],path.parent,member["path"],model,label+".candidates",fold)
                 self.patient_use.table(member["path"],digest=member["sha256"],model=model,context=self.context_id,
                     role=label,fold=fold,phase="MODEL_SELECTION" if role=="validation_associations" else "FEATURE_CONSTRUCTION",
                     scope="WHOLE_CONSUMED_FILE_NOT_ALL_ROWS_FITTED")

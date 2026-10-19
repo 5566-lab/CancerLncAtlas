@@ -1,0 +1,30 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T03:43:47.964443+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/cnv_input_sources.py": "9eaece3bef91dff2a8af47d09f8b0c2aecc7b4e2256b0c1b8c7118fb98cee300",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "c70c0290962cda5e10c7c9bc3693d08882339894d2bdaec9d82e8cba07e9436a",
+    "cc_hhgt/v32/current_model_use.py": "fcd198762b47ac4909b2256209c98160209fcc1f3f860a62338f5d5a9c2623c7",
+    "cc_hhgt/v32/fold_local_scope.py": "224d3f383bcc22442cee2a59343c616be98a79b8ab6a84a607587623d45068af",
+    "cc_hhgt/v32/formal_graph.py": "79157f86d36bd9e545a8a31d33ec0554efad6daa5d4adfb68ea40bd60568129e",
+    "cc_hhgt/v32/formal_graph_authority.py": "40ae46eb8b6e38516a6f4020f9c6d55e9899243bb9c08ed37d41b23055dd8ccb",
+    "cc_hhgt/v32/preparation_sources.py": "0bb6b8f4596963ae7a941ca3311bb294881a36cc94f2cac8bb9effdfa6ef9a2e",
+    "cc_hhgt/v32/safe_graph.py": "00974657223b7ad141140eb556833b721cdb4f821276e3586e940b28e1d98985",
+    "scripts/materialize_fold_local_scope.py": "926f8374d62c42a89757982e44b9977d1a7e3e0cc1fd0f488269fb7a2a120fc9",
+    "scripts/prepare_v32_formal.py": "3333942544117b347abb840672c90d4f6a7230a510c956df9b2671d973632183",
+    "tests/test_v32_fold_local_scope.py": "57f37b623a3ef0d9a7b9eb8196aa9a16d0bf736adfb98a04ee5bf01887b3f115"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_fold_local_scope.py",
+    "--junitxml=provenance/code_completion_20261015/fold_local_scope_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T03:44:26.969949+00:00"
+}
