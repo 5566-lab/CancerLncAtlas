@@ -1,0 +1,50 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-19T10:26:44.179837+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_model_use.py": "dc67a5c2095d097b0e5bfbe6718e823f8a2f45d04e66124fe76b3ef75bc51e37",
+    "cc_hhgt/v32/genomic_partition_training.py": "a9bb115756dfc2f1c901aadc094f51d0132a2e40d67f3d0a1e72359115fe3d5e",
+    "cc_hhgt/v32/native_auxiliary_fusion.py": "aac2ada186455677e118114adb05ce7e01f9cfcd086d0e88f738437fe2295afc",
+    "cc_hhgt/v32/native_partitioned_genomic.py": "4e642c761a512672008f7c787189b4186e73524ab333cc1f7d07118a7596f9bf",
+    "tests/test_v32_native_partitioned_genomic.py": "058cea22e21d3d4dd541442466cca147f7a1bd03ecc5cfe60a7264b5b7dcb061"
+  },
+  "source_code_uploaded": false,
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--tb=short",
+    "tests/test_v32_native_auxiliary_fusion.py",
+    "tests/test_v32_auxiliary_model_use.py",
+    "tests/test_v32_current_primary_fusion.py",
+    "--junitxml=provenance/code_completion_20261015/partitioned_genomic_consumers_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-19T10:27:26.480554+00:00"
+}

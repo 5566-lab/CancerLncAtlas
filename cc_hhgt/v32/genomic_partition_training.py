@@ -261,6 +261,24 @@ def _assert_empty_resource_stage(manifest: Mapping[str, Any], stage_root: Path) 
         arrays.clear()
 
 
+def write_partitioned_completion(output_staging, output, *, source_audit, split_policy,
+                                 checkpoint_manifest, resource_audit, lineage, training_success):
+    """Seal the actual producer records, without promoting staging to a release."""
+    output_staging, output = Path(output_staging), Path(output)
+    records = {}
+    for name, value in (("INPUT_LINEAGE_AUDIT.json", source_audit), ("SPLIT_POLICY.json", split_policy),
+                        ("CHECKPOINT_MANIFEST.json", checkpoint_manifest), ("RESOURCE_AUDIT.json", resource_audit)):
+        _atomic_json(output_staging/name, value)
+        records[name] = {"path": str(output/name), "sha256": artifact_sha256(output_staging/name)}
+    lineage = {**lineage, "completion_records": records}
+    _atomic_json(output_staging/"LINEAGE.json", lineage)
+    training_success = {**training_success,
+        "lineage_sha256": artifact_sha256(output_staging/"LINEAGE.json"),
+        "checkpoint_manifest_sha256": records["CHECKPOINT_MANIFEST.json"]["sha256"]}
+    _atomic_json(output_staging/"TRAINING_SUCCESS.json", training_success)
+    return training_success
+
+
 def run_partitioned_genomic_training(
     *,
     resource_staging_success_path: str | Path,
@@ -815,21 +833,12 @@ def run_partitioned_genomic_training(
         "fold_prediction_storage": "DISK_MEMMAP",
         "samples": resource_samples,
     }
-    _atomic_json(output_staging / "INPUT_LINEAGE_AUDIT.json", source_audit)
-    _atomic_json(output_staging / "SPLIT_POLICY.json", split_policy)
-    _atomic_json(output_staging / "CHECKPOINT_MANIFEST.json", checkpoint_manifest)
-    _atomic_json(output_staging / "RESOURCE_AUDIT.json", resource_audit)
-    _atomic_json(output_staging / "LINEAGE.json", lineage)
     training_success = {
         "format": TRAINING_FORMAT,
         "status": "TRAINING_SUCCESS_PREDICTIONS_SEALED_NOT_RELEASED",
         "training_run_id": str(training_run_id),
         "lineage_path": str(output / "LINEAGE.json"),
-        "lineage_sha256": artifact_sha256(output_staging / "LINEAGE.json"),
         "checkpoint_manifest_path": str(output / "CHECKPOINT_MANIFEST.json"),
-        "checkpoint_manifest_sha256": artifact_sha256(
-            output_staging / "CHECKPOINT_MANIFEST.json"
-        ),
         "predictions_ready_path": str(ready_path),
         "predictions_ready_sha256": artifact_sha256(ready_path),
         "checkpoint_count": len(checkpoint_rows),
@@ -838,7 +847,9 @@ def run_partitioned_genomic_training(
         "release_ready": False,
         "success_written_last": True,
     }
-    _atomic_json(output_staging / "TRAINING_SUCCESS.json", training_success)
+    training_success = write_partitioned_completion(output_staging, output,
+        source_audit=source_audit, split_policy=split_policy, checkpoint_manifest=checkpoint_manifest,
+        resource_audit=resource_audit, lineage=lineage, training_success=training_success)
     os.replace(output_staging, output)
     return training_success
 

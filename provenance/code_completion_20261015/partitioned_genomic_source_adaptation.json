@@ -1,0 +1,48 @@
+{
+  "method": "PARTITIONED_GENOMIC_COMPLETION_AND_NATIVE_REASSEMBLY_HANDOFF",
+  "target_host": "149",
+  "training_started": false,
+  "baseline_fitting_started": false,
+  "auxiliary_forward_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "partitioned_genomic_bridge_r3",
+    "partitioned_genomic_consumers_r2",
+    "partitioned_genomic_model_use_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "partitioned_genomic_bridge_r1"
+  ],
+  "intermediate_failure_causes": [
+    "generic adapter canonicalized patient spelling before trace comparison; fixed production bridge to replay the trainer normalizer on its actual bound file"
+  ],
+  "superseded_passed_receipts": [
+    "partitioned_genomic_bridge_r2",
+    "partitioned_genomic_consumers_r1",
+    "partitioned_genomic_model_use_r1"
+  ],
+  "absolute_and_manifest_relative_input_records_verified": true,
+  "actual_stage_write_seal_reassembly_executed": true,
+  "actual_native_and_fusion_preparation_consumers_executed": true,
+  "actual_zero_weight_fusion_model_use_executed": true,
+  "ten_serialized_checkpoints_inspected": true,
+  "all_five_native_fold_tables_and_aggregate_numerically_replayed": true,
+  "repinned_consistent_prediction_replacements_rejected": true,
+  "original_training_status_preserved": true,
+  "missing_historical_completion_records_remain_unsupported": true,
+  "test_substitutes": [
+    "frozen synthetic private checkpoint tensors/history; no optimizer invocation",
+    "synthetic compact-CNV aggregate gate metadata; raw CNV transforms not exercised",
+    "legacy primary label fixtures permit preparation only, never fitting",
+    "fixed zero fusion coefficients for source-tracing checks"
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Completed partitioned Mutation/CNV training now binds its input audit, split policy, checkpoint manifest and resource audit. Native auxiliary ingestion accepts this actual producer contract only with completed reassembly, verifies ten frozen checkpoints and actual producer patient splits, selected core export hashes and source/stage/seal identities, then replays the original bounded reassembler against all five fold outputs and their aggregate. Original training status and downstream PREPARED_NOT_TRAINED remain distinct. Inputs remain visible to model-use even at zero expert weight. No auxiliary forward, optimizer, real cohort analysis, paid compute or deployment ran. Synthetic checkpoint metadata and CNV aggregate gate remain declared fixtures. Complete ancestry and unified remaining lifecycle acceptance remain open."
+}

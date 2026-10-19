@@ -4091,3 +4091,71 @@ L1 regression assertions were preserved. The earlier public_r1 pass belongs
 to the superseded source version and is not counted as final validation.
 Only dependency deprecation warnings remain. No neural/L1 fitting, real cohort
 analysis, paid compute or deployment was started.
+
+Partitioned genomic results: training, reassembly and fusion handoff
+------------------------------------------------------------------
+
+The resource-bounded Mutation/CNV trainer has a different completion contract
+from the older in-memory trainer. Its TRAINING_SUCCESS.json deliberately says
+TRAINING_SUCCESS_PREDICTIONS_SEALED_NOT_RELEASED. The resource stage SUCCESS.json
+and the separate reassembly SUCCESS.json are not substitutes for that receipt.
+Previously the native auxiliary adapter accepted only the older producer, so
+completed partitioned runs could not enter the current fusion preparation path.
+
+The partitioned trainer now seals its input audit, split policy, checkpoint
+manifest and resource audit as hash-bound completion_records inside LINEAGE.json.
+The top-level training receipt binds that lineage and the checkpoint manifest.
+This changes serialization only; the optimizer, sampling and model objectives
+are unchanged. Existing partitioned outputs without these recorded bindings
+remain unsupported; do not retrospectively manufacture the missing records.
+
+For a future completed run on 149, the handoff order is:
+
+1. Run the existing partitioned trainer only under separate fitting authorization.
+   Its completion receipt points to the sealed PREDICTIONS_READY.json.
+2. Run scripts/manage_v32_genomic_resource_memmaps.py reassemble with that exact
+   --predictions-ready, the same --training-run-id, and a new --output-root.
+3. Supply a NATIVE_AUXILIARY_FUSION_INPUT_V1 manifest to
+   scripts/materialize_v32_native_auxiliary_fusion.py. Keep producer_kind=genomic
+   and modalities=[mutation, cnv]; bind the current core_manifest,
+   candidate_authority and patient_folds as before. native_receipt must point
+   to TRAINING_SUCCESS.json. Add reassembly_receipt with the path and SHA-256
+   of the reassembly SUCCESS.json. Every record contains actual path/sha256
+   values; neither a prospective filename nor a resource-stage receipt is enough.
+4. Use the adapter's FUSION_EXPERTS.json entries with the selected core's native
+   FUSION_PRIMARY_INPUTS.json to assemble CURRENT_MULTIMODAL_FUSION_MANIFEST_V1.
+   The current fusion CLI without --fit writes PREPARED_NOT_TRAINED. Actual
+   fusion fitting remains a separate explicit --fit invocation and still
+   requires replayed native validation labels covering all five pair folds.
+
+The new bridge recomputes patient split identities with the trainer's original
+normalizer, inspects all ten frozen private checkpoints, checks their parent
+core and split policy, verifies the actually consumed frozen export hashes,
+and validates the stage/candidate/seal identities. It runs the original bounded
+memmap reassembler in a temporary directory on 149 and compares all five fold
+tables and their aggregate in bounded batches. Repinning consistently edited
+fold predictions and their average does not bypass that numerical replay.
+Original training status is preserved in the auxiliary audit. No training
+receipt is rewritten as a new fit or an independently validated release.
+
+Model-use retains the inspected partition inputs, memmaps, controls and frozen
+checkpoints even when fusion assigns the experts zero weight. The additional
+implementation hashes participate in model-use validation. This does not prove
+auxiliary model forwards, original biological source correctness or complete
+cross-module patient ancestry; existing blocking gaps remain in force.
+
+The synthetic checks execute the actual stage/write/seal/reassembly serializers,
+adapter, fusion preparation and model-use consumer. Model states/history and
+the compact-CNV aggregate gate are explicit serialization fixtures, not evidence
+that a trainer or raw CNV analysis ran. The first bridge check identified a real
+normalization mismatch: the general adapter canonicalizes patient IDs, whereas
+the trainer preserves their spelling. Replay now uses the actual producer
+normalizer on its bound patient file. No test expectations were relaxed.
+
+Final verification on 149: partitioned_genomic_bridge_r3 (15 checks),
+partitioned_genomic_consumers_r2 (56 checks) and
+partitioned_genomic_model_use_r2 (35 checks), for 106 related checks on the final
+source. The bridge covers absolute and manifest-relative input records. Earlier
+passed receipts predate the relative-path correction and are retained only as
+development history. The failing r1 receipt is also retained. Remaining warnings
+are Torch deprecations. No optimizer, real cohort run or paid compute started.

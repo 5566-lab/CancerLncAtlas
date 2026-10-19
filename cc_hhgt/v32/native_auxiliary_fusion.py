@@ -89,7 +89,11 @@ def native_sources(manifest_path, *, expected_core_run_id):
     if not manifest.get("native_run_id") or native.get("training_run_id") != manifest["native_run_id"]:
         raise ValueError("Native auxiliary run identity differs")
     lineage = native; typed_path = None; core = None; core_path = None; consumed = None
-    if kind in {"genomic", "atac"}:
+    if kind == "genomic" and native.get("format") == "CC_HHGT_V3_2_PARTITIONED_GLOBAL_GENOMIC_TRAINING_V1":
+        from .native_partitioned_genomic import load_partitioned
+        lineage, typed_path, checkpoints, fold_records = load_partitioned(sources, manifest, native_path, native,
+            patient_path, manifest_root=root)
+    elif kind in {"genomic", "atac"}:
         if native.get("status") != "SUCCESS": raise ValueError("Native auxiliary training is incomplete")
         lineage_path, lineage = sources.document({"path": native["lineage_path"], "sha256": native["lineage_sha256"]}, native_path.parent)
         if (lineage.get("training_status") != "SUCCESS" or lineage.get("training_run_id") != manifest["native_run_id"]
@@ -145,6 +149,15 @@ def native_sources(manifest_path, *, expected_core_run_id):
         native_core_sha = lineage.get("v32_core_checkpoint_sha256") if kind == "genomic" else native.get("core_manifest_sha256")
         if native_core_sha != manifest["core_manifest"]["sha256"]:
             raise ValueError("Native auxiliary was trained against a different core export")
+        if kind == "genomic" and "completion_records" in lineage:
+            expected_exports = {}
+            for fold in core["folds"].values():
+                for node_type in ("lncRNA", "pathway"):
+                    item = fold["exports"][node_type]
+                    path = sources.bind(item, core_path.parent)
+                    expected_exports[str(path)] = item["sha256"]
+            if lineage["core_parameters_before_sha256"] != expected_exports:
+                raise ValueError("Partitioned frozen core files differ from actual selected exports")
     checkpoint_map = {}
     for record in checkpoints["records"]:
         modality = record.get("modality", "cnv" if kind=="cnv_event" else kind)
