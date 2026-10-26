@@ -6497,3 +6497,84 @@ was missing h5py; version 3.16.0 was installed only in the isolated verification
 directory on 149. Synthetic H5/metadata and existing frozen-consumer fixtures
 were used. No LASSO/neural optimizer, biological cohort, raw deletion, scientific
 data download, paid compute or deployment ran.
+
+Canonical donor preparation for nested single-cell inputs (2026-10-27)
+-------------------------------------------------------------------
+
+``single_cell_donors.run`` is operation 25. Its CLI is
+``python -m scripts.run_native_single_cell_donors_workflow --manifest INPUT.json --output NEW_DIRECTORY``;
+``--plan`` validates without writing. This stage consumes the raw-H5 mapping
+binding, an explicit donor crosswalk, existing static graph assets and current
+bulk candidates. It does not execute geometry, PCA, LASSO or neural fitting.
+
+The manifest is::
+
+    {
+      "format": "NATIVE_SINGLE_CELL_DONORS_INPUT_V1",
+      "mapping": {"path": "/path/NATIVE_SINGLE_CELL_MAPPING_BINDING.json", "sha256": "<SHA256>"},
+      "donor_crosswalk": {"path": "/path/donors.parquet", "sha256": "<SHA256>"},
+      "graph_preflight": {"path": "/path/graphs/LAUNCH_PREFLIGHT.json", "sha256": "<SHA256>"},
+      "candidates": {"path": "/path/candidates.parquet", "sha256": "<SHA256>"},
+      "seed": 1729
+    }
+
+Paths resolve relative to the manifest. ``seed`` is optional, nonnegative and
+less than 2**31. The donor table requires exact nonempty strings in
+``dataset_id``, ``query_donor_id`` and ``canonical_donor_id``; dataset/native
+pairs must be unique and cover every retained mapped cell. Distinct native
+aliases may map to one canonical donor. They collapse BEFORE donor counting,
+fold assignment and nested source/query/validation planning. The original
+fold algorithm and minimum-source rules remain unchanged. At least three
+canonical donors are required for the nested plan; three donors produce only
+unavailable episodes because each leaves fewer than two source donors.
+
+``CANONICAL_CELL_METADATA.parquet`` retains exact mapped cell row order and
+all original columns, stores the original donor ID as ``native_donor_id`` and
+uses the declared canonical ID as ``donor_id``. Original mapped metadata is
+unchanged. ``DONOR_FOLDS.parquet`` and ``NESTED_PLANS.json`` contain actual
+original-algorithm partitions, including support-limited and unavailable
+states. ``CANONICAL_DONOR_CROSSWALK.parquet`` maps the resulting canonical
+query IDs to themselves for later signed-SC consumption. It must accompany
+episodes produced from this canonical metadata; the input crosswalk is for
+the original raw donor names. These declarations do not independently prove
+biological donor identity or cross-module patient separation.
+
+Existing graph assets must have the original per-cancer STATIC layout,
+hash/size receipts, node identity ordering and pathway-family dimensions.
+Candidates require unique cancer/lncRNA/pathway keys and exact mapped IDs
+for the selected cancer. Graph construction, biological binding authority
+and annotation inference remain outside this stage's evidence boundary.
+
+``NATIVE_SINGLE_CELL_DONORS_BINDING.json`` binds the preparation; the stage
+also writes ``nested/LAUNCH_PREFLIGHT.json`` for the original
+``materialize_single_cell_nested_hhgt_episodes_149`` program. This explicit
+native route replaces its dependency on the historical full-28-cancer
+metacell closure. Historical invocations still require the old closure.
+The native consumer reconstructs canonical cell rows, folds, all nested
+plans and the downstream crosswalk before reading prepared inputs; replacing
+outputs and recomputing hashes does not satisfy these checks.
+
+``EXECUTION_COMMAND.json`` records the original nested CLI command but never
+executes it. Before separately running it, supply a finite positive Unix
+deadline in place of ``<UNIX_DEADLINE>``. Geometry/screening parameters remain
+the current original CLI defaults, bound through the materializer source
+hash; seed comes from the manifest. Changing those settings, selected folds,
+source paths or enabling scratch deletion fails native preflight. A different
+parameterized geometry workflow is not implemented by this stage. Executing
+that recorded command fits PCA; it was NOT executed for estimable episodes
+during this code-only task. LASSO assembly and full episode-to-training
+ancestry still require further integration.
+
+Verification uses the actual synthetic H5 mapper and static graph fixture,
+120 retained cells with ten original donors collapsed to nine canonical
+donors, plus a three-donor unavailable case. The actual original nested
+runner reaches the geometry call with canonical rows in the first case
+and completes all six unavailable episodes in the second. A test sentinel
+stops the first case before geometry. PCA, LASSO and optimizer entry points
+are disabled. This verifies the preparation/consumer boundary, not numerical
+geometry, fitted models, biological annotations or real cancer coverage.
+
+Native single-cell donor verification on 149: ``single_cell_donors_workflow_r3``, ``single_cell_donors_consumers_r1``
+pass 87 distinct related checks. Intermediate writer/path failures
+are retained in the source-adaptation record. No geometry/PCA, LASSO, neural
+optimizer, real cohort, download, deletion or deployment was executed.

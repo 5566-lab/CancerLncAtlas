@@ -1,0 +1,55 @@
+{
+  "method": "CANONICAL_DONOR_PREPARATION_TO_ORIGINAL_NESTED_CONSUMER",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "single_cell_donors_workflow_r3",
+    "single_cell_donors_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "single_cell_donors_workflow_r1",
+    "single_cell_donors_workflow_r2"
+  ],
+  "intermediate_failure_causes": [
+    "New nested preflight writer passed string paths to the original Path-only file_record helper; corrected to Path objects.",
+    "New nested launch subdirectory was not created before writing; added directory creation."
+  ],
+  "operation_registry_count": 25,
+  "new_operation": "single_cell_donors.run",
+  "synthetic_input_cells": 123,
+  "synthetic_retained_cells": 120,
+  "native_donors": 10,
+  "canonical_donors": 9,
+  "unavailable_case_canonical_donors": 3,
+  "original_unavailable_episodes_completed": 6,
+  "original_nested_geometry_call_reached": true,
+  "full_estimable_nested_outputs_verified": false,
+  "source_cell_row_order_preserved": true,
+  "canonical_downstream_crosswalk_written": true,
+  "historical_full_28_closure_unchanged": true,
+  "preparation_replay_verified": true,
+  "canonical_biological_identity_independently_verified": false,
+  "test_substitutes": [
+    "Synthetic H5 and declared cell/QC/annotation policy; actual mapper is used.",
+    "Synthetic dataset-qualified donor alias table and static graph assets; biological correctness is not inferred.",
+    "Explicit sentinel at original geometry call for estimable nested inputs; no PCA output is fabricated.",
+    "Actual original unavailable-episode producer for three canonical donors.",
+    "Existing frozen-model SC consumer regressions use serialized synthetic model fixtures."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native single_cell_donors.run binds the supplied H5 mapping, dataset-qualified donor crosswalk, existing static graphs and bulk candidates. Canonical aliases collapse before the original donor fold and strict nested planning algorithms; exact cell row order is preserved. The original nested materializer consumes a validated native preparation instead of requiring historical full-28-cancer metacell closure. Its unchanged historical path retains that closure requirement. Rehashed canonical metadata, folds, plans, downstream crosswalk and commands are rejected by source reconstruction. Synthetic 120-cell/10-native/9-canonical inputs reach the original geometry call, stopped by an explicit test sentinel before fitting. A three-canonical-donor input completes six unavailable episodes through the actual original runner without fitting. Static graph authority and crosswalk biological truth are not inferred or independently verified. Geometry parameters remain original defaults; a recorded command requires a finite supplied deadline and separate execution. PCA/LASSO/neural fitting, real cohort analysis, download, deletion and deployment were not run. Full estimable nested materialization, LASSO assembly, episode ancestry and cross-module patient closure remain open with C01/C13/C16."
+}

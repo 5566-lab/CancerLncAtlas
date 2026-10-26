@@ -127,6 +127,10 @@ def validate_preflight(settings) -> dict[str, object]:
     if not path.is_file():
         raise RuntimeError("NESTED_LAUNCH_PREFLIGHT_MISSING")
     receipt = json.loads(path.read_text(encoding="utf-8"))
+    if "native_donor_preparation" in receipt:
+        from cc_hhgt.v32.native_single_cell_donors_workflow import consumer
+        consumer(settings, receipt)
+        return receipt
     expected = {
         "format": NESTED_PREFLIGHT_FORMAT,
         "target_host": "149",
@@ -166,6 +170,13 @@ def validate_preflight(settings) -> dict[str, object]:
 
 
 def _validate_source_cancer(settings, cancer_id: str) -> tuple[pd.DataFrame, dict]:
+    preflight = json.loads((settings.output_root / "LAUNCH_PREFLIGHT.json").read_text(encoding="utf-8"))
+    if "native_donor_preparation" in preflight:
+        from cc_hhgt.v32.native_single_cell_donors_workflow import consumer
+        _, folds, receipt = consumer(settings, preflight)
+        if set(folds.cancer_id) != {cancer_id}:
+            raise RuntimeError("NATIVE_DONOR_CANCER_ID_DRIFT")
+        return folds, receipt
     root = settings.source_result_root / "cancers" / cancer_id
     success = root / "SUCCESS.json"
     folds_path = root / "DONOR_FOLDS.parquet"
@@ -898,7 +909,7 @@ def run_cancer(settings) -> list[dict]:
         raise SystemExit("WRONG_HOST")
     if time.time() >= settings.deadline:
         raise SystemExit("DEADLINE_EXPIRED")
-    validate_preflight(settings)
+    preflight = validate_preflight(settings)
     cancer_id = settings.cancer_id.upper()
     folds, source_cancer_receipt = _validate_source_cancer(settings, cancer_id)
     active = sorted(pd.to_numeric(folds.outer_fold_id, errors="raise").astype(int).unique())
@@ -936,6 +947,9 @@ def run_cancer(settings) -> list[dict]:
         "signature_counts": np.load(scratch / "SIGNATURE_GENE_COUNTS.npy"),
         "missing_counts": np.load(scratch / "MISSING_GENE_COUNTS.npy"),
     }
+    if "native_donor_preparation" in preflight:
+        from cc_hhgt.v32.native_single_cell_donors_workflow import consumer
+        matrices["metadata"], _, _ = consumer(settings, preflight)
     bulk = base._bulk_candidates(
         settings.candidates, cancer_id, ids["lncrna_ids"], ids["pathway_ids"]
     )
@@ -1012,11 +1026,11 @@ def run_cancer(settings) -> list[dict]:
                     "state": "CANCER_NESTED_ASSETS_COMPLETE",
                     "cancer_id": cancer_id,
                     "source_cancer_success_sha256": sha256(
-                        settings.source_result_root
-                        / "cancers"
-                        / cancer_id
-                        / "SUCCESS.json"
+                        Path(source_cancer_receipt["source_receipt_path"])
+                        if "native_donor_preparation" in preflight else
+                        settings.source_result_root / "cancers" / cancer_id / "SUCCESS.json"
                     ),
+                    "source_kind": "NATIVE_CANONICAL_DONOR_PREPARATION" if "native_donor_preparation" in preflight else "HISTORICAL_METACELL_MATERIALIZATION",
                     "source_dataset_id": source_cancer_receipt.get("dataset_id"),
                     "outer_fold_receipts": outer_records,
                     "matrix_identity": file_record(identity_receipt),

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="16" failures="1" skipped="0" tests="36" time="28.147" timestamp="2026-10-27T00:18:22.218327+08:00" hostname="149"><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_canonical_donors_reach_original_nested_consumer" time="4.650"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_actual_nested_runner_receives_canonical_rows_before_geometry" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_three_donors_publish_unavailable_without_fitting" time="4.324"><failure message="AttributeError: 'str' object has no attribute 'resolve'">tests/test_v32_native_single_cell_donors_workflow.py:105: in test_three_donors_publish_unavailable_without_fitting
+    binding = workflow.run(manifest, tmp_path / 'prepared'); value = read(read(binding)['preflight']['path'])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_single_cell_donors_workflow.py:153: in run
+    write(output / "nested/LAUNCH_PREFLIGHT.json", nested_preflight(value, output, binding))
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_single_cell_donors_workflow.py:125: in nested_preflight
+    "bindings": {"graph_asset_preflight": native.file_record(value["graph_preflight"]["path"]),
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+scripts/materialize_single_cell_nested_hhgt_episodes_149.py:69: in file_record
+    resolved = path.resolve()
+               ^^^^^^^^^^^^
+E   AttributeError: 'str' object has no attribute 'resolve'</failure></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_rehashed_prepared_outputs_cannot_replace_reconstruction[metadata]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_rehashed_prepared_outputs_cannot_replace_reconstruction[folds]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_rehashed_prepared_outputs_cannot_replace_reconstruction[plans]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_rehashed_prepared_outputs_cannot_replace_reconstruction[command]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_native_execution_rejects_unprepared_configuration[seed]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_native_execution_rejects_unprepared_configuration[delete_verified_scratch]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_native_execution_rejects_unprepared_configuration[pca_components]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_native_execution_rejects_unprepared_configuration[scratch_root]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_native_execution_rejects_unprepared_configuration[deadline]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_crosswalk_rejects_incomplete_or_ambiguous_identity[missing]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_crosswalk_rejects_incomplete_or_ambiguous_identity[duplicate]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_crosswalk_rejects_incomplete_or_ambiguous_identity[whitespace]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_crosswalk_rejects_incomplete_or_ambiguous_identity[two_donors]" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_donors_workflow" name="test_plan_has_no_outputs_and_enforces_host" time="0.001"><error message="failed on setup with &quot;AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}&#10;assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'&#10;  &#10;  - DECLARED_STAGES_COMPLETE&#10;  + FAILED&quot;">tests/test_v32_native_single_cell_donors_workflow.py:65: in completed
+    state = read(root / 'chain/CHAIN.json'); assert state['status'] == 'DECLARED_STAGES_COMPLETE', state
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-...nors0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '68db8be1c8c054ab6820e12843aa1956db389f51010bbfe894f7be81c60aee51'}, ...}
+E   assert 'FAILED' == 'DECLARED_STAGES_COMPLETE'
+E     
+E     - DECLARED_STAGES_COMPLETE
+E     + FAILED</error></testcase><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_raw_mapping_oracle_and_native_metacell_input_reuse" time="5.223" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_mapped_counts_reach_actual_aggregation_and_ucell" time="0.009" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_provided_log_scale_is_not_inverted" time="2.431" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_rehashed_mapping_cannot_replace_raw_reconstruction[coding]" time="1.962" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_rehashed_mapping_cannot_replace_raw_reconstruction[library]" time="1.728" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_rehashed_mapping_cannot_replace_raw_reconstruction[cell_order]" time="1.734" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_source_review_policy_change_invalidates_warm_cache" time="0.574" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_duplicate_raw_barcodes_rejected_even_after_repinning" time="0.063" /><testcase classname="tests.test_v32_native_single_cell_mapping_workflow" name="test_plan_writes_nothing_and_requires_149" time="0.570" /><testcase classname="tests.test_materialize_single_cell_nested_hhgt_episodes" name="test_selected_ints_normalizes_numpy_fold_ids_for_json_receipts" time="0.001" /><testcase classname="tests.test_materialize_single_cell_nested_hhgt_episodes" name="test_scratch_deletion_check_uses_receipt_metadata_without_rehash" time="0.003" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[fit]" time="0.002" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[core_run]" time="0.002" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[unknown]" time="0.002" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[duplicate]" time="0.002" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[forward]" time="0.002" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[cycle]" time="0.002" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[wrong_collection]" time="0.002" /><testcase classname="tests.test_v32_native_workflow_chain" name="test_invalid_or_training_chain_never_creates_output[extra_reference]" time="0.002" /></testsuite></testsuites>
