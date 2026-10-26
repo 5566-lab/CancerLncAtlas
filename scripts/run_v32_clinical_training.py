@@ -199,7 +199,47 @@ def _endpoint_arrays(
     return arrays, edges, pd.concat(private, ignore_index=True)
 
 
-def main(argv=None) -> int:
+def align_clinical_cohort(raw_folds, endpoints, covariates):
+    from cc_hhgt.v32.clinical_training import patient_fold_manifest
+    folds = patient_fold_manifest(raw_folds)
+    endpoints = endpoints.merge(folds, on=["cancer_id", "patient_id"], how="inner", validate="many_to_one")
+    covariates = covariates.merge(folds[["cancer_id", "patient_id"]], on=["cancer_id", "patient_id"], how="inner", validate="one_to_one")
+    return folds, endpoints, covariates
+
+
+def collect_fold_inputs(fold, folds, covariates, endpoints, expression_root, activity_root,
+                        core_root, core_manifest, *, n_bins, min_patients, min_events):
+    """Original patient projection, eligibility and train-defined time bins; no fit."""
+    from cc_hhgt.v32.contracts import dataframe_sha256
+    features = _build_fold_features(fold, folds, covariates, expression_root, activity_root, core_root, core_manifest)
+    train = np.flatnonzero(~features.patient_fold_id.isin([fold, (fold+1)%5]).to_numpy())
+    validation = np.flatnonzero(features.patient_fold_id.eq((fold+1)%5).to_numpy())
+    test = np.flatnonzero(features.patient_fold_id.eq(fold).to_numpy())
+    arrays, edges, private = _endpoint_arrays(features, endpoints, train, n_bins=n_bins, min_patients=min_patients, min_events=min_events)
+    if not arrays or any(not len(ids) for ids in (train, validation, test)):
+        raise RuntimeError("Clinical fold has no trainable endpoint or an empty patient split")
+    core_columns = sorted(c for c in features if c.startswith("core_"))
+    domain_columns = sorted(c for c in features if c.startswith("domain_"))
+    core = features[core_columns].to_numpy(np.float32)
+    domain = features[domain_columns].fillna(0).to_numpy(np.float32)
+    if not np.isfinite(core).all() or not np.isfinite(domain).all(): raise RuntimeError("Clinical collected features are nonfinite")
+    values = {"core":core, "domain":domain, "train":train, "validation":validation, "test":test,
+        **{endpoint+"."+key:value for endpoint, target in arrays.items() for key,value in target.items()}}
+    hashes = {}
+    for name,value in values.items():
+        array=np.ascontiguousarray(value); digest=hashlib.sha256(); view=memoryview(array).cast("B")
+        for start in range(0,len(view),8*1024*1024): digest.update(view[start:start+8*1024*1024])
+        hashes[name]={"shape":list(array.shape),"dtype":str(array.dtype),"sha256":digest.hexdigest()}
+    description={"n_train":len(train),"n_validation":len(validation),"n_test":len(test),
+        "core_columns":core_columns,"domain_columns":domain_columns,"endpoint_time_bins":edges,
+        "patient_order_sha256":dataframe_sha256(features[["cancer_id","patient_id","patient_fold_id"]], ["cancer_id","patient_id"]),
+        "training_input_sha256":_canonical_hash(hashes)}
+    return dict(features=features, arrays=arrays, edges=edges, private_labels=private,
+        train_indices=train, validation_indices=validation, test_indices=test, core_columns=core_columns,
+        domain_columns=domain_columns, core_values=core, domain_values=domain, description=description)
+
+
+def _parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=".")
     parser.add_argument(
@@ -234,12 +274,21 @@ def main(argv=None) -> int:
     parser.add_argument("--min-patients", type=int, default=40)
     parser.add_argument("--min-events", type=int, default=12)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--patient-authority-mode", choices=["frozen", "current"], default="frozen")
     parser.add_argument("--training-run-id", help="Required for a current-core V2 run")
     parser.add_argument("--expected-core-run-id", help="Required for a current-core V2 run")
-    args = parser.parse_args(argv)
+    return parser
+
+
+def main(argv=None) -> int:
+    args = _parser().parse_args(argv)
     if socket.gethostname() != "149":
         raise RuntimeError("Clinical preparation and training require target host 149")
     run_id = args.training_run_id or RUN_ID
+    if any(getattr(args,k)<1 for k in ("epochs","patience","n_bins","min_patients","min_events")):
+        raise ValueError("Clinical counts and training limits must be positive")
+    if args.prepare_only and args.resume: raise ValueError("Clinical input preparation cannot resume fitting outputs")
 
     root = Path(args.repo_root).resolve()
     sys.path.insert(0, str(root))
@@ -257,7 +306,7 @@ def main(argv=None) -> int:
     )
     from cc_hhgt.v32.input_lineage import InputLineageArtifact, artifact_sha256, validate_input_lineage
     from cc_hhgt.v32.patient_fold_authority import (
-        validate_frozen_v32_patient_fold_binding,
+        validate_frozen_v32_patient_fold_binding, validate_patient_fold_authority,
     )
 
     folds_requested = sorted(set(args.folds))
@@ -278,18 +327,27 @@ def main(argv=None) -> int:
         if not args.training_run_id or not args.expected_core_run_id:
             raise RuntimeError("Current clinical run requires --training-run-id and --expected-core-run-id")
         validate_current_export(core_manifest_path, expected_run_id=args.expected_core_run_id)
-    patient_authority_audit = validate_frozen_v32_patient_fold_binding(
+    if args.patient_authority_mode == "current" and (not args.expected_core_run_id or core_manifest.get("export_format") != EXPORT_FORMAT):
+        raise RuntimeError("Current Clinical patient authority requires the expected current core")
+    authority_validator = validate_frozen_v32_patient_fold_binding if args.patient_authority_mode == "frozen" else validate_patient_fold_authority
+    patient_authority_audit = authority_validator(
         fold_manifest_path, fold_authority_receipt_path
     )
     output_root.mkdir(parents=True, exist_ok=args.resume)
-    training_config_sha = _canonical_hash({
+    training_config = {
         "parameters": {key: getattr(args, key) for key in
                        ["seed", "epochs", "patience", "n_bins", "min_patients", "min_events"]},
         "runner_sha256": _sha256(Path(__file__)),
-        "implementation_sha256": _sha256(Path(__file__).resolve().parents[1] / "cc_hhgt/v32/clinical_training.py")})
+        "implementation_sha256": _sha256(Path(__file__).resolve().parents[1] / "cc_hhgt/v32/clinical_training.py")}
+    training_config_sha = _canonical_hash(training_config)
+    source_contract = {"format": "NATIVE_CLINICAL_RISK_INPUTS_V1", "patient_authority_mode": args.patient_authority_mode,
+        "files": {key:{"path":str(path.resolve()),"sha256":artifact_sha256(path)} for key,path in {
+            "workbook":workbook,"patient_folds":fold_manifest_path,"patient_authority_receipt":fold_authority_receipt_path,
+            "expression_root":expression_root,"activity_root":activity_root,"core_manifest":core_manifest_path}.items()}}
     preflight = {"target_host": "149",
         "training_started": False, "training_run_id": run_id, "core_run_id": core_manifest.get("core_run_id"),
         "core_manifest_sha256": core_manifest_sha, "training_config_sha256": training_config_sha}
+    preflight.update(prepare_only=args.prepare_only, source_contract=source_contract)
     preflight_path = output_root / "LAUNCH_PREFLIGHT.json"
     if args.resume:
         if not preflight_path.is_file() or json.loads(preflight_path.read_text()) != preflight:
@@ -330,15 +388,7 @@ def main(argv=None) -> int:
     endpoints, covariates = standardize_tcga_cdr_workbook(workbook)
     endpoints.to_parquet(output_root / "v32_clinical_endpoints_private.parquet", index=False)
     covariates.to_parquet(output_root / "v32_clinical_covariates.parquet", index=False)
-    raw_folds = pd.read_csv(fold_manifest_path, sep="\t")
-    folds = patient_fold_manifest(raw_folds)
-    endpoints = endpoints.merge(
-        folds, on=["cancer_id", "patient_id"], how="inner", validate="many_to_one"
-    )
-    covariates = covariates.merge(
-        folds[["cancer_id", "patient_id"]],
-        on=["cancer_id", "patient_id"], how="inner", validate="one_to_one"
-    )
+    folds, endpoints, covariates = align_clinical_cohort(pd.read_csv(fold_manifest_path, sep="\t"), endpoints, covariates)
     public_outputs = []
     private_outputs = []
     task_lineage = []
@@ -357,27 +407,18 @@ def main(argv=None) -> int:
             private_outputs.append(pd.read_parquet(private_path))
             task_lineage.append(json.loads(success_path.read_text(encoding="utf-8")))
             continue
-        features = _build_fold_features(
-            fold, folds, covariates, expression_root, activity_root, core_root, core_manifest
-        )
+        collected = collect_fold_inputs(fold, folds, covariates, endpoints, expression_root, activity_root,
+            core_root, core_manifest, n_bins=args.n_bins, min_patients=args.min_patients, min_events=args.min_events)
+        features, arrays, edges, private_labels = (collected[k] for k in ("features", "arrays", "edges", "private_labels"))
+        train_indices, validation_indices, test_indices = (collected[k] for k in ("train_indices", "validation_indices", "test_indices"))
+        core_columns, domain_columns = collected["core_columns"], collected["domain_columns"]
+        core_values, domain_values = collected["core_values"], collected["domain_values"]
         feature_path = fold_root / "patient_features.fold_local.parquet"
         features.to_parquet(feature_path, index=False, compression="zstd")
-        validation_fold = (fold + 1) % 5
-        train_indices = np.flatnonzero(
-            ~features.patient_fold_id.isin([fold, validation_fold]).to_numpy()
-        )
-        validation_indices = np.flatnonzero(
-            features.patient_fold_id.eq(validation_fold).to_numpy()
-        )
-        test_indices = np.flatnonzero(features.patient_fold_id.eq(fold).to_numpy())
-        arrays, edges, private_labels = _endpoint_arrays(
-            features, endpoints, train_indices,
-            n_bins=args.n_bins, min_patients=args.min_patients, min_events=args.min_events,
-        )
-        core_columns = sorted(column for column in features if column.startswith("core_"))
-        domain_columns = sorted(column for column in features if column.startswith("domain_"))
-        core_values = features[core_columns].to_numpy(np.float32)
-        domain_values = features[domain_columns].fillna(0).to_numpy(np.float32)
+        if args.prepare_only:
+            task_lineage.append({"patient_fold": fold, **collected["description"],
+                "feature_artifact": {"path": str(feature_path.resolve()), "sha256": _sha256(feature_path)}})
+            continue
         head, initialization, history = train_private_clinical_head(
             core_values, domain_values, arrays,
             train_indices=train_indices, validation_indices=validation_indices,
@@ -477,6 +518,7 @@ def main(argv=None) -> int:
             "core_manifest_sha256": core_manifest_sha,
             "input_lineage_sha256": input_audit["lineage_sha256"],
             "training_config_sha256": training_config_sha,
+            "input_description": collected["description"],
             "public_prediction_sha256": _sha256(public_path),
             "feature_artifact": {"path": str(feature_path.resolve()), "sha256": _sha256(feature_path)},
             "private_prediction_sha256": _sha256(private_path),
@@ -502,6 +544,15 @@ def main(argv=None) -> int:
         private_outputs.append(private)
         task_lineage.append(meta)
 
+    for item in source_contract["files"].values():
+        if artifact_sha256(item["path"]) != item["sha256"]: raise RuntimeError("Clinical source changed during execution")
+    if args.prepare_only:
+        ready={"format":"NATIVE_CLINICAL_RISK_PREFLIGHT_V1","status":"PASS_READY","target_host":"149",
+            "training_started":False,"model_forward_started":False,"training_run_id":run_id,
+            "core_run_id":core_manifest.get("core_run_id"),"source_contract":source_contract,
+            "training_config":training_config,"patient_fold_authority":patient_authority_audit,"folds":task_lineage}
+        (output_root/"HEAD_PREFLIGHT.json").write_text(json.dumps(ready,indent=2)+"\n",encoding="utf-8")
+        print(json.dumps({"status":"PASS_READY","training_started":False,"folds":len(task_lineage)}));return 0
     public_all = pd.concat(public_outputs, ignore_index=True)
     private_all = pd.concat(private_outputs, ignore_index=True)
     public_all.to_parquet(output_root / "clinical_patient_risk.parquet", index=False, compression="zstd")
@@ -546,6 +597,9 @@ def main(argv=None) -> int:
         "seeds": sorted({row["seed"] for row in task_lineage}),
         "code_sha256": artifact_sha256(root / "cc_hhgt" / "v32"),
         "config_sha256": _canonical_hash(vars(args)),
+        "training_config": training_config,
+        "training_config_sha256": training_config_sha,
+        "source_contract": source_contract,
         "input_manifest_sha256": input_audit["lineage_sha256"],
         "checkpoint_manifest_sha256": _canonical_hash(task_lineage),
         "old_checkpoint_loaded": False,

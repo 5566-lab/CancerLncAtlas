@@ -40,6 +40,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--tcga-cdr", required=True)
     parser.add_argument("--patient-folds", required=True)
     parser.add_argument("--patient-fold-authority-receipt", required=True)
+    parser.add_argument("--patient-authority-mode", choices=["frozen","current"], default="frozen")
     parser.add_argument("--candidates", required=True)
     parser.add_argument("--lncrna-expression-root", required=True)
     parser.add_argument("--pathway-activity-root", required=True)
@@ -139,6 +140,8 @@ def _input_artifact(path: Path, kind: str, usage: str) -> dict[str, str]:
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
     cdr_path = Path(args.tcga_cdr)
     fold_path = Path(args.patient_folds)
     fold_receipt_path = Path(args.patient_fold_authority_receipt)
@@ -149,18 +152,26 @@ def main(argv: list[str] | None = None) -> int:
     state_lineage_path = Path(args.v32_state_lineage)
     output = Path(args.output_root)
     from cc_hhgt.v32.patient_fold_authority import (
-        validate_frozen_v32_patient_fold_binding,
+        validate_frozen_v32_patient_fold_binding, validate_patient_fold_authority,
     )
 
-    patient_authority_audit = validate_frozen_v32_patient_fold_binding(
+    authority_validator = validate_frozen_v32_patient_fold_binding if args.patient_authority_mode == "frozen" else validate_patient_fold_authority
+    patient_authority_audit = authority_validator(
         fold_path, fold_receipt_path
     )
-    output.mkdir(parents=True, exist_ok=True)
-
     subject_types = tuple(value.strip() for value in args.subject_types.split(",") if value.strip())
     unknown = sorted(set(subject_types) - set(SUBJECT_SPECS))
-    if unknown:
-        raise ValueError(f"Unknown subject types: {unknown}")
+    if unknown or not subject_types or len(set(subject_types)) != len(subject_types):
+        raise ValueError(f"Invalid subject types: {subject_types}; unknown={unknown}")
+    source_paths = {"workbook":cdr_path,"patient_folds":fold_path,"patient_authority_receipt":fold_receipt_path,
+                    "candidates":candidate_path,"state_lineage":state_lineage_path}
+    if "lncRNA" in subject_types: source_paths["expression_root"] = lncrna_root
+    if "exact_pathway" in subject_types: source_paths["activity_root"] = pathway_root
+    if "state" in subject_types: source_paths["state_measurements"] = state_path
+    source_contract = {"format":"NATIVE_CLINICAL_ENTITY_INPUTS_V1", "patient_authority_mode":args.patient_authority_mode,
+        "files":{key:{"path":str(path.resolve()),"sha256":input_path_sha256(path)} for key,path in source_paths.items()}}
+    output.mkdir(parents=True, exist_ok=False)
+    write_json({"target_host":"149","training_started":False,"source_contract":source_contract},output/"LAUNCH_PREFLIGHT.json")
     endpoints, covariates = standardize_tcga_cdr_workbook(cdr_path)
     sample_folds = pd.read_csv(fold_path, sep="\t")
     folds = patient_fold_manifest(sample_folds)
@@ -327,6 +338,7 @@ def main(argv: list[str] | None = None) -> int:
         "analysis_version": ANALYSIS_VERSION,
         "training_run_id": args.training_run_id,
         "calculation_config": config,
+        "source_contract": source_contract,
         "folds": 5,
         "split_policy": {
             str(fold): {
@@ -348,9 +360,11 @@ def main(argv: list[str] | None = None) -> int:
         _input_artifact(
             fold_receipt_path,
             "split_authority_receipt",
-            "frozen V3.2 patient-first fold binding",
+            args.patient_authority_mode + " V3.2 patient-first fold binding",
         ),
         _input_artifact(candidate_path, "annotation", "complete typed lncRNA/exact-pathway universe"),
+        _input_artifact(state_lineage_path, "v32_generation_anchor",
+                        "V3.2 State lineage verification only; never a feature or label"),
     ]
     if "lncRNA" in subject_types:
         input_artifacts.append(
@@ -364,14 +378,11 @@ def main(argv: list[str] | None = None) -> int:
         input_artifacts.extend(
             [
                 _input_artifact(state_path, "standardized_input", "seven patient State measurements only"),
-                _input_artifact(
-                    state_lineage_path,
-                    "v32_generation_anchor",
-                    "V3.2 State lineage verification only; never a feature or label",
-                ),
             ]
         )
     seed_values = sorted(set(pd.to_numeric(sample_folds.fold_seed, errors="coerce").dropna().astype(int)))
+    for item in source_contract["files"].values():
+        if input_path_sha256(item["path"]) != item["sha256"]: raise RuntimeError("Clinical entity source changed during calculation")
     lineage = {
         "format": CALCULATION_FORMAT,
         "analysis_version": ANALYSIS_VERSION,
@@ -397,6 +408,7 @@ def main(argv: list[str] | None = None) -> int:
         "runner_sha256": file_sha256(Path(__file__)),
         "config_sha256": json_sha256(config),
         "calculation_config": config,
+        "source_contract": source_contract,
         "input_manifest_sha256": json_sha256(input_artifacts),
         "calculation_manifest_sha256": file_sha256(calculation_manifest_path),
         "input_artifacts": input_artifacts,

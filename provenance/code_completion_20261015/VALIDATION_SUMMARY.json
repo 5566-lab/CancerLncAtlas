@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1351,
+  "unique_test_cases_passed": 1365,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -39,7 +39,7 @@
     "cc_hhgt/v32/drug_training.py": "4ff035d5ad4ffd8585ceb67d50aae38469c094224245117bc424a954210e412c",
     "cc_hhgt/v32/state_training.py": "7ed653cfa3f9ac8a61437c4087bd5f422ab5651a22669099e6d8d88d13cb494f",
     "cc_hhgt/v32/clinical_training.py": "5d6809206186a3258fa55deec285549b73222e515d04184812ea34653c0125c6",
-    "scripts/run_v32_clinical_training.py": "9a8e0cab52b403efff5588eb22889e7be1d6f5da03e3f549892c4882d9064184",
+    "scripts/run_v32_clinical_training.py": "ce0ad07b72469f7ba6f712f19abd0ad148089053baa8afccce44bd06acdbd3f3",
     "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1",
     "cc_hhgt/v32/drug_identity.py": "df87b712554cab339504d76993638c120a64432db1371ea6bb8d521079bc78d7",
     "cc_hhgt/v32/drug_staging.py": "74208fc3b83a12f0cd1271d11e0dff4450d3d73e3ee3f20b3bbfca9dccc8cee5",
@@ -109,11 +109,11 @@
     "cc_hhgt/v32/current_state_context.py": "ce975bd2417b767ebc8a69badbe5ed75e5bcff0e0cec895eebeb5d99287e9bd6",
     "scripts/materialize_v32_state_gene_sets.py": "4fd6948aa7e374e5fb3fa5110e268485bef02c61453e7f2ccd45f78df4d1c3eb",
     "tests/test_v32_current_state_context.py": "43f18e6371e675915e55c3f27ee55e2db9fd3da1a0ef52eab0282ecee2f005c3",
-    "cc_hhgt/v32/current_clinical_sources.py": "eee4a872c796b17b7e7686890a3482610625a8ed3e83b5f67d83610fce029c1f",
-    "cc_hhgt/v32/current_clinical_context.py": "aa6a453cf9f38b1a3ec212cc1159e8e7aa9cd292fee36ee5e2d89ec82c937d6b",
+    "cc_hhgt/v32/current_clinical_sources.py": "17a64b3cf8da8254d85666e7bbce66dc385db78dd511eb275067d68990ba89f1",
+    "cc_hhgt/v32/current_clinical_context.py": "0f9e0fdd32c9f372836d8dd491edaff9cc56014c7297b471f30cf53073e5ad52",
     "scripts/materialize_v32_current_clinical_context.py": "3402b58f4671bac9f5fc3be152e318aaa3a732c727f6da87e6b0123d69b532a8",
-    "scripts/run_v32_clinical_entity_training.py": "00e6fa05ba7d5b70200abe07225b7e69098568f2833b8865708333166b8f4ce6",
-    "tests/test_v32_current_clinical_context.py": "8d5d024aeb239f195cb0b716ae936dd88e5fc4bf6364216d2009fe51b53f5a7d",
+    "scripts/run_v32_clinical_entity_training.py": "ef7e574a33357f7b13428effd55fbf0688cde0aef94bbf31273aadcc7a772ab6",
+    "tests/test_v32_current_clinical_context.py": "7be3706f52393472e218f84d2f7d0d7acaa8edcad8138618eeb9f1e0058853a4",
     "cc_hhgt/v32/current_primary_fusion.py": "e798168ba5bebdd5080c855d1e7e2bdd911b994678cfcc86eceacb260105c14c",
     "scripts/materialize_v32_current_primary_fusion.py": "372cbf7b66d8b429400ed204103a0c501f8ee3be27f3b0e74432731cf0b476e8",
     "tests/test_v32_current_primary_fusion.py": "08ff86d475d2e35922a3024c7d4a577c678c6efdb6bfbe73d3e49ab8108fb592",
@@ -303,7 +303,9 @@
     "tests/test_v32_native_genomic_workflow.py": "09e055e403c55490816405599b4fe1a55b4865b71ee6cafd439b42341a7c6783",
     "cc_hhgt/v32/native_state_workflow.py": "089ee010237fe04906977f5e2247a8a572cb5992814ab6f2cd99dbbd14c4162a",
     "scripts/run_native_state_workflow.py": "d5ac7f91fe3d771c44213f815ecb09d20046549f07f9104f1a05329380b4c095",
-    "tests/test_v32_native_state_workflow.py": "5476b72c91c3220e566a04f5bd023574c8391c5784ecb3d319b5898adca701e4"
+    "tests/test_v32_native_state_workflow.py": "5476b72c91c3220e566a04f5bd023574c8391c5784ecb3d319b5898adca701e4",
+    "cc_hhgt/v32/clinical_numeric_replay.py": "1fc9372c8c4aed4e8f281d0796f4d2643b11edee0da7712b864514628dee1ac3",
+    "tests/test_v32_clinical_numeric_replay.py": "3a067b43956ea407ee39ade09a8e84aef220525b65856e8c90294b3b5a38c692"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -449,7 +451,8 @@
     "Native genomic CNV now uses explicitly bound segment/patient/candidate inputs with the original six-array streaming producer and event/absolute-burden estimand. Declared cancer subsets resume to an exact aggregate. The actual partition training CLI accepts annotation-defined authority and supports --prepare-only through its original ten train/validation collectors without an optimizer or forward. Shared-map patients outside the declared cohort do not enter split traces. Completed native outputs are checked against the same cohort/core/event threshold/source bindings, and actual model-use source traversal numerically reconstructs raw CNV arrays while preserving acquisition/reference/patient gaps. Synthetic raw files and frozen completed checkpoint containers verify code only; no real analysis, fitting, paid compute or deployment occurred. Unified genomic prepare/collect orchestration and complete native producer/core/fusion/external positive acceptance remain open.",
     "Native genomic preparation now runs actual raw CNV materialization/reconstruction, derives the candidate resource budget, stages mutable prediction arrays and executes the original no-fit ten-group input collector. An explicit parsed training command is recorded but cannot be dispatched by this workflow. Collection checks separately completed output identity, complete settings, input hashes, resource stage and sample counts, then executes actual reassembly and native fusion aggregation. The collection audit and expert declarations are rechecked by actual consumers. Preparation pins immutable inputs while allowing the trainer destination arrays to change under their later seal. Tests use actual synthetic raw data and explicit frozen checkpoint/probability substitutes; no fitting or real cohort run occurred. The final fusion handoff uses synthetic primary scores and legacy labels and remains fitting-ineligible. Collection audits are numerical/structural, not independent performance or biological proof. Other producer command consolidation and full source/patient/external acceptance remain C01/C13/C16.",
     "Native State publication now reconstructs standardized measurement alignment, original fold-local correlations/labels/counts and frozen private-head OOF probabilities before its existing independent fold aggregation. The actual producer identity state_fold_N is shared with the consumer, and native partitioned Parquet/CSV inputs retain their original hash semantics. Tests use the original outer driver and completion serializer with only the fitting callback replaced by explicitly frozen serialization fixtures. No optimizer ran. Source acquisition/reference ancestry and complete cross-module patient identity remain unverified. State/Clinical/single-cell command consolidation and final per-requirement acceptance remain open.",
-    "Native State now has an actual original-CLI no-fit input collector, a separately declared training command and a completed-native-result -> measurement/frozen-forward replay -> selected State context and current publication handoff. Input arrays, patient receipt, full parameters, core parents and program coverage are matched. The current patient authority route is explicit; the legacy frozen default remains. This proves within-State preparation/completion consistency, not original source ancestry or full State/core/cross-module patient closure. Clinical/single-cell command handoffs, complete external acceptance and final per-requirement acceptance remain open. No fitting ran."
+    "Native State now has an actual original-CLI no-fit input collector, a separately declared training command and a completed-native-result -> measurement/frozen-forward replay -> selected State context and current publication handoff. Input arrays, patient receipt, full parameters, core parents and program coverage are matched. The current patient authority route is explicit; the legacy frozen default remains. This proves within-State preparation/completion consistency, not original source ancestry or full State/core/cross-module patient closure. Clinical/single-cell command handoffs, complete external acceptance and final per-requirement acceptance remain open. No fitting ran.",
+    "Native Clinical risk inputs now replay from the actual XLSX workbook, expression/activity partitions, explicit patient folds and current core embeddings; every full feature table, target/bin/split fingerprint and frozen risk forward is checked. Entity fold statistics now replay from the actual measured patient matrices and outcomes before native meta-analysis. Original producers and serializer are used in synthetic integration fixtures, replacing only private-head fitting with explicit frozen parameters. This establishes same-implementation numeric consistency, not acquisition ancestry, optimizer history, cross-module patient closure or independent predictive performance. Clinical/single-cell command handoffs and final acceptance remain open. No real analysis or fitting ran."
   ],
   "test_suites": [
     {
@@ -1136,6 +1139,16 @@
       "path": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml",
       "passed": 51,
       "sha256": "b2dbcbe9473b271a96752f0be53a53ff91da8ccda7f7404668846970389fcfe1"
+    },
+    {
+      "path": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml",
+      "passed": 34,
+      "sha256": "0fe69ac4e4e96a2d0fc4476a179e196cf22790944d68db38203bdcb9c836f342"
+    },
+    {
+      "path": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml",
+      "passed": 24,
+      "sha256": "eb1bd1fa2312d909d9e95e23df3538fb9c85ae7e759f6893b5cfb945244491e3"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1384,47 +1397,112 @@
     {
       "module": "tests.test_v32_clinical_entity_training",
       "case": "test_entity_analysis_has_all_folds_endpoints_and_dfs_null",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_entity_training",
       "case": "test_explicit_patient_ids_are_not_unconditionally_truncated_to_12",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_entity_training",
       "case": "test_fold_roles_are_three_one_one_and_disjoint",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_entity_training",
       "case": "test_preprocessing_is_invariant_to_test_value_changes",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_entity_training",
       "case": "test_vectorised_cox_score_recovers_risk_direction",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_actual_risk_prepare_only_collects_same_five_inputs_without_head_or_forward",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_changed_training_features_cannot_hide_behind_unchanged_test_predictions",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_entity_recalculated_summary_does_not_validate_forged_fold_statistics",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_legacy_frozen_default_and_current_output_guards_remain",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_missing_original_input_contract_is_not_replaced_with_defaults[input_description]",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_missing_original_input_contract_is_not_replaced_with_defaults[source_contract]",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_missing_original_input_contract_is_not_replaced_with_defaults[training_config]",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_native_entity_subset_does_not_require_unused_measurement_files",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_prepare_detects_raw_source_changed_during_collection",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_rehashed_raw_risk_source_must_reproduce_saved_features_and_targets[activity_root]",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_rehashed_raw_risk_source_must_reproduce_saved_features_and_targets[expression_root]",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_rehashed_raw_risk_source_must_reproduce_saved_features_and_targets[workbook]",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_clinical_numeric_replay",
+      "case": "test_rehashed_state_measurements_must_reproduce_entity_statistics",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_training",
       "case": "test_discrete_survival_loss_and_risk_are_valid",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_training",
       "case": "test_patient_fold_manifest_rejects_patient_leakage",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_training",
       "case": "test_projection_scaler_is_fit_on_training_patients_only",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_training",
       "case": "test_tcga_cdr_keeps_dfi_and_does_not_invent_dfs",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_cnv_input_sources",
@@ -1594,57 +1672,57 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -1759,52 +1837,57 @@
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_actual_native_readers_cli_selected_consumers_queries_and_replay",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[candidate]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[dfs]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[invalid_se]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[missing_fold]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[patient_counts]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[summary]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[threshold]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[wrong_roles]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_materializer_enforces_149_without_writing",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_clinical_context",
+      "case": "test_missing_native_features_cannot_claim_raw_numeric_replay",
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
@@ -1814,52 +1897,52 @@
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_coverage_keeps_unrepresented_patients_and_observed_zero",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[changed_feature]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[changed_prediction]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[checkpoint_run]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[nonboolean]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[patient_fold]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[private_label]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[wrong_core]",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_selected_weights_change_support_without_inventing_joint_hr_or_retesting_fdr",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_unavailable_native_risk_must_be_null_not_an_unparseable_string",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
@@ -2299,22 +2382,22 @@
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_missing_group_policy_is_not_guessed_and_source_changes_are_rejected",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_native_patient_statistics_reach_members_with_original_uncertainty_and_fdr",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_rehashed_native_statistics_cannot_replace_source_replay",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_selected_identity_and_analysis_inventory_are_enforced",
-      "suite": "provenance/code_completion_20261015/state_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/clinical_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
@@ -7904,10 +7987,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "state_workflow_r1",
-      "state_workflow_consumers_r1"
+      "clinical_numeric_replay_r1",
+      "clinical_numeric_consumers_r1"
     ],
-    "passed": 111,
+    "passed": 58,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

@@ -116,6 +116,8 @@ def patient_risk_sources(context):
         raise ValueError("Native Clinical input audit is inconsistent")
     sources.bind({"path":str(audit_path),"sha256":sha256(audit_path)},lp.parent)
     _inputs(audit["artifacts"],sources,lp.parent,method=artifact_sha256)
+    from . import clinical_numeric_replay as numeric
+    numeric_inputs=numeric.risk_sources(context,lineage,audit,lp.parent,artifacts)
     tasks = lineage["task_lineage"]
     if (len(tasks)!=5 or {r["patient_fold"] for r in tasks}!=set(range(5))
             or json_sha256(tasks)!=lineage.get("checkpoint_manifest_sha256")):
@@ -169,8 +171,10 @@ def patient_risk_sources(context):
         public_path=sources.bind({"path":str(cp_path.parent/"clinical_patient_risk.parquet"),"sha256":row["public_prediction_sha256"]},lp.parent)
         public=pd.read_parquet(public_path); _validate_risk(public,fold,manifest,patients,trained)
         if len(public)!=row["n_test"]*len(CLINICAL_ENDPOINTS): raise ValueError("Native risk fold row count differs")
+        if not row.get("feature_artifact"): raise ValueError("Clinical numeric replay requires actual patient features")
         if row.get("feature_artifact"):
             features=pd.read_parquet(sources.bind(row["feature_artifact"],lp.parent))
+            numeric.patient_fold(numeric_inputs,row,checkpoint,features)
             test=features.loc[features.patient_fold_id.eq(fold)].sort_values(["cancer_id","patient_id"]).reset_index(drop=True)
             if test.duplicated(["cancer_id","patient_id"]).any(): raise ValueError("Clinical feature rows duplicate patients")
             core_values=test[checkpoint["core_columns"]].to_numpy(np.float32,copy=True)
@@ -196,7 +200,7 @@ def patient_risk_sources(context):
     _assert_same_table(pd.read_parquet(prediction).sort_values(RISK_KEYS).reset_index(drop=True),public)
     if len(public)!=lineage["public_prediction_rows"]: raise ValueError("Native root risk count differs")
     return dict(patients=patients,workbook_sha256=workbook[0]["sha256"],public=public,bins=pd.DataFrame(bins),
-        replayed_folds=replayed,fold_input_sha256=split[0]["sha256"])
+        replayed_folds=replayed,fold_input_sha256=split[0]["sha256"],numeric_replay=numeric_inputs)
 
 
 def _validate_risk(data,fold,manifest,patients,trained):
@@ -256,6 +260,8 @@ def entity_sources(context,risk):
             or candidates[0]["sha256"]!=context["candidate_sha256"]):
         raise ValueError("Clinical native inputs differ from selected candidates or patient-risk outcomes")
     _assert_same_table(_patient_folds(split[0]["path"]),risk["patients"])
+    from . import clinical_numeric_replay as numeric
+    replay=numeric.entity_sources(context,lineage,calculation,lp.parent,artifacts,risk,config)
     output=[]; partitions=calculation["partitions"]; seen=set()
     candidate=context["candidates"]
     for part in partitions:
@@ -266,6 +272,7 @@ def entity_sources(context,risk):
         ids=(list(HISTORICAL_STATE_IDS) if kind=="state" else sorted(candidate.loc[candidate.cancer_id.eq(cancer),"lncrna_id" if kind=="lncRNA" else "pathway_id"].unique()))
         fp=sources.bind({"path":part["fold_records_path"],"sha256":part["fold_records_sha256"]},lp.parent)
         folds=pd.read_parquet(fp); _validate_entity_folds(folds,cancer,kind,ids,risk["patients"])
+        numeric.entity_partition(replay,cancer,kind,ids,folds,part)
         if len(folds)!=part["fold_rows"]: raise ValueError("Clinical fold partition count differs")
         summary=summarise_oof_associations(folds,ids,cancer_id=cancer,subject_type=kind,min_folds_available=minimum)
         sp=sources.bind({"path":part["summary_part_path"],"sha256":part["summary_part_sha256"]},lp.parent)
@@ -279,6 +286,7 @@ def entity_sources(context,risk):
     observed=pd.read_parquet(path).sort_values(ENTITY_KEYS).reset_index(drop=True)
     _boolean(observed,"availability"); _assert_same_table(observed,summary)
     validate_entity_clinical_contract(observed,lineage)
+    context["native_numeric_replay"]=numeric.summary(risk["numeric_replay"],replay)
     return summary
 
 

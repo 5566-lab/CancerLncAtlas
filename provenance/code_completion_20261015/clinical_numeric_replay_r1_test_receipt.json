@@ -1,0 +1,50 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T10:25:12.628268+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/clinical_numeric_replay.py": "1fc9372c8c4aed4e8f281d0796f4d2643b11edee0da7712b864514628dee1ac3",
+    "cc_hhgt/v32/current_clinical_context.py": "0f9e0fdd32c9f372836d8dd491edaff9cc56014c7297b471f30cf53073e5ad52",
+    "cc_hhgt/v32/current_clinical_sources.py": "17a64b3cf8da8254d85666e7bbce66dc385db78dd511eb275067d68990ba89f1",
+    "scripts/run_v32_clinical_entity_training.py": "ef7e574a33357f7b13428effd55fbf0688cde0aef94bbf31273aadcc7a772ab6",
+    "scripts/run_v32_clinical_training.py": "ce0ad07b72469f7ba6f712f19abd0ad148089053baa8afccce44bd06acdbd3f3",
+    "tests/test_v32_clinical_numeric_replay.py": "3a067b43956ea407ee39ade09a8e84aef220525b65856e8c90294b3b5a38c692",
+    "tests/test_v32_current_clinical_context.py": "7be3706f52393472e218f84d2f7d0d7acaa8edcad8138618eeb9f1e0058853a4"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_clinical_context.py",
+    "tests/test_v32_clinical_numeric_replay.py",
+    "--junitxml=provenance/code_completion_20261015/clinical_numeric_replay_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T10:29:07.350678+00:00"
+}

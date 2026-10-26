@@ -5134,3 +5134,103 @@ cases pass with no failures or skips. No model fitting, real cohort analysis,
 paid compute or deployment ran. State command handoff is implemented; Clinical
 and single-cell handoffs, complete source/patient closure, public scientific
 field definitions and final requirement acceptance remain outstanding.
+
+Native Clinical raw numerical replay (2026-10-26)
+------------------------------------------------
+
+Clinical publication now reconstructs the quantities that the original native
+producers actually consumed. Previously, patient risk replay began at a saved
+feature table and entity replay began at saved fold statistics. Those checks
+could not determine whether the intermediate values came from the declared
+patient measurements and clinical workbook.
+
+The risk producer's shared ``collect_fold_inputs`` now constructs the original
+fold-local features, core/domain arrays, train/validation/test indices, endpoint
+targets and train-only time bins. Preparation and fitting call this same helper.
+Completion records retain the complete six-parameter configuration, producer
+and implementation hashes, exact source roles, per-fold patient counts/columns,
+patient-order digest and array digest including values, shapes and dtypes.
+The input tree is hashed before and after execution. The actual fitting
+algorithm, loss and endpoint definitions are unchanged.
+
+The risk CLI has an explicit no-fit route. Run on server 149, with the original
+paths and parameters declared for the intended run::
+
+    python -m scripts.run_v32_clinical_training \
+      --repo-root /path/to/checkout \
+      --workbook /path/outcomes.xlsx \
+      --fold-manifest /path/SAMPLE_PATIENT_FOLD_MAP.tsv \
+      --patient-fold-authority-receipt /path/PATIENT_FOLD_AUTHORITY_RECEIPT.json \
+      --patient-authority-mode current \
+      --expression-root /path/expression --activity-root /path/activity \
+      --core-root /path/current_core_export --expected-core-run-id <core_run_id> \
+      --training-run-id <clinical_run_id> --output-root /new/clinical_prepared \
+      --seed 20260726 --epochs 100 --patience 12 --n-bins 12 \
+      --min-patients 40 --min-events 12 --prepare-only
+
+``HEAD_PREFLIGHT.json`` records the five collected inputs and patient authority.
+The directory includes private standardized outcomes/covariates and patient
+features; it is not a public download. Preparation constructs no model, runs
+no forward and calls no optimizer. It writes no checkpoint, risk prediction,
+fold success or completed module lineage. Preparation is incompatible with
+``--resume`` and cannot reuse an existing output directory. This is an actual
+input-collection entry point; unified Clinical prepare/collect orchestration
+and its separate completed-command handoff remain to be implemented.
+
+Both Clinical producers now offer ``--patient-authority-mode current`` for the
+existing generic authority validator. The default remains ``frozen`` and keeps
+the original frozen-authority validator. Risk current mode additionally requires
+an explicitly identified current core export. The entity CLI still supports
+scoped subject types without requiring unused measurement files; current full
+publication continues to require all lncRNA, exact-pathway and seven State
+subjects. Its output directory must be new, its launch receipt names host 149,
+and its source-role inventory is checked again after calculation.
+
+``clinical_numeric_replay.py`` reads the actual Excel sheets, expression and
+activity partitions, patient authority and core embeddings. It reconstructs
+every saved risk feature and target/bin/split digest before the existing five
+frozen-head prediction checks. Entity replay reconstructs the original patient
+measurement matrices and invokes the original statistical implementation,
+comparing every fold-statistic column and missing value before native
+meta-analysis and selected-member support. The State lineage remains only the
+original generation anchor; this does not establish complete State/core patient
+ancestry. Risk and entity sources must share the same workbook and explicit
+patient authority. Actual input sources and producer implementations are
+included in the current Clinical publication dependency inventory.
+
+Current Clinical bindings now require successful raw feature and entity
+statistic replay. Historical outputs lacking the actual feature artifact,
+complete original parameters or source-role contract cannot silently receive
+these guarantees. Preserve those outputs and recover their original evidence
+before creating a new verified binding; do not infer missing training settings
+from current defaults. This change does not rewrite old results.
+
+The integration fixture uses the actual patient-authority builder, real XLSX
+reader, risk/entity CLIs, native completion serialization and current publisher:
+40 synthetic patients, 41 aliquots, five risk folds, 240 typed patient-risk rows,
+270 entity fold rows and 54 entity summaries. Only private-head fitting is
+replaced by explicitly marked frozen parameters and synthetic training telemetry;
+neural optimizers are forbidden. The current core parent is the existing frozen
+synthetic fixture. DFS remains unavailable; neither a joint GeneSet hazard ratio
+nor independent performance is inferred. Entity calculations are native
+synthetic statistical checks, not neural-head optimization.
+
+Verification on 149: ``clinical_numeric_replay_r1`` passes 34 Clinical cases;
+``clinical_numeric_consumers_r1`` passes 24 actual publication/browser, patient
+context and non-fitting Clinical calculation cases. All 58 distinct cases pass
+without failures or skips. Checks reject rehashed expression/activity/workbook
+changes, modified training features with unchanged test predictions, rehashed
+State measurements and forged fold statistics even after recomputing their
+summaries. Preparation is tested with model construction, forward and fitting
+forbidden; changed inputs during collection cannot produce a ready receipt.
+
+The initial ``clinical_native_smoke_r1`` failed because the verification
+environment lacked the already-declared ``openpyxl`` dependency. Only the
+isolated verification directory was supplemented with openpyxl 3.1.5 and
+et_xmlfile 2.0.0; ``clinical_native_smoke_r2`` then passed. A transient SSH banner
+error during later observation resolved on the authorized read-only probe,
+which returned host 149. No login, test restart or duplicate job was needed.
+These are same-implementation numerical checks; acquisition/reference ancestry,
+complete cross-module patient closure, optimizer history and independent
+predictive performance remain unproved. C01/C13/C16 stay in progress. No fitting,
+real cohort analysis, paid compute or deployment ran.

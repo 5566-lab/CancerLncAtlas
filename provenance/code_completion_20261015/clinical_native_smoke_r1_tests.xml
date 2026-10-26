@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="28.456" timestamp="2026-10-26T18:16:17.036759+08:00" hostname="149"><testcase classname="tests.test_v32_current_clinical_context" name="test_actual_native_readers_cli_selected_consumers_queries_and_replay" time="16.077"><failure message="ModuleNotFoundError: No module named 'openpyxl'">tests/test_v32_current_clinical_context.py:105: in test_actual_native_readers_cli_selected_consumers_queries_and_replay
+    path=clinical_fixture(tmp_path/"inputs",current_sources); output=tmp_path/"out"
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_clinical_context.py:74: in clinical_fixture
+    with pd.ExcelWriter(workbook,engine="openpyxl") as writer:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/io/excel/_openpyxl.py:58: in __init__
+    from openpyxl.workbook import Workbook
+E   ModuleNotFoundError: No module named 'openpyxl'</failure></testcase></testsuite></testsuites>

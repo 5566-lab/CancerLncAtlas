@@ -143,8 +143,11 @@ def clinical_tables(manifest_path):
 def implementation_hashes():
     root=Path(__file__).resolve().parent
     names=["current_clinical_context.py","current_clinical_sources.py","clinical_training.py","clinical_entity_training.py",
-        "current_state_context.py","current_core_export.py","integrated_model.py","input_lineage.py"]
-    return {name:sha256(root/name) for name in names}
+        "current_state_context.py","current_core_export.py","integrated_model.py","input_lineage.py",
+        "clinical_numeric_replay.py","patient_fold_authority.py"]
+    return {**{name:sha256(root/name) for name in names},
+        **{name:sha256(root.parents[1]/name) for name in
+           ("scripts/run_v32_clinical_training.py","scripts/run_v32_clinical_entity_training.py")}}
 
 
 def materialize_current_clinical_context(manifest_path,output):
@@ -161,8 +164,9 @@ def materialize_current_clinical_context(manifest_path,output):
         "patient_risk_run_id":context["manifest"]["patient_risk_run_id"],"entity_run_id":context["manifest"]["entity_run_id"],
         "fdr_threshold":float(context["manifest"].get("fdr_threshold",.05)),"outputs":outputs,
         "source_artifacts":list(context["sources"].records.values()),"implementation_sha256":implementation_hashes(),
-        "patient_risk_frozen_replay_folds":risk["replayed_folds"],"raw_patient_feature_projection_replayed":False,
-        "native_entity_meta_analysis_recomputed":True,"entity_raw_patient_statistics_replayed":False,
+        "patient_risk_frozen_replay_folds":risk["replayed_folds"],"raw_patient_feature_projection_replayed":True,
+        "native_entity_meta_analysis_recomputed":True,"entity_raw_patient_statistics_replayed":True,
+        "native_numeric_replay":context["native_numeric_replay"],
         "context_changes_ranking":False,"joint_geneset_survival_effect_estimated":False,"patient_identifiers_in_public_context":False,
         "production_deployed":False}
     bp=output/"CURRENT_CLINICAL_CONTEXT_BINDING.json"; _write(bp,binding)
@@ -175,10 +179,12 @@ def _load(binding_path,expected_sha):
     path=verified_path({"path":str(binding_path),"sha256":expected_sha},Path.cwd()); binding=_json(path)
     if binding.get("format")!=FORMAT or binding.get("status")!="PASS" or binding.get("target_host")!="149":
         raise ValueError("Invalid current Clinical binding")
-    for key in ("training_started","raw_patient_feature_projection_replayed","entity_raw_patient_statistics_replayed",
+    for key in ("training_started",
         "context_changes_ranking","joint_geneset_survival_effect_estimated","patient_identifiers_in_public_context","production_deployed"):
         if binding.get(key) is not False: raise ValueError("Invalid Clinical release semantics: "+key)
     if binding.get("native_entity_meta_analysis_recomputed") is not True: raise ValueError("Clinical entity replay missing")
+    for key in ("raw_patient_feature_projection_replayed","entity_raw_patient_statistics_replayed"):
+        if binding.get(key) is not True: raise ValueError("Clinical numerical replay missing: "+key)
     paths={name:verified_path(r,path.parent) for name,r in binding["outputs"].items()}
     return path,binding,paths
 
@@ -192,6 +198,7 @@ def audit_current_clinical_context(binding_path,*,expected_sha):
     if (binding["selected_score_run_id"]!=context["selected"].binding["selected_score_run_id"]
             or binding["fdr_threshold"]!=context["manifest"].get("fdr_threshold",.05)
             or binding["source_artifacts"]!=list(context["sources"].records.values())
+            or binding.get("native_numeric_replay")!=context["native_numeric_replay"]
             or binding["patient_risk_frozen_replay_folds"]!=risk["replayed_folds"] or set(outputs)!=set(tables)):
         raise ValueError("Clinical output policy or source inventory changed")
     for name,expected in tables.items():
@@ -202,7 +209,8 @@ def audit_current_clinical_context(binding_path,*,expected_sha):
     return {"status":"PASS","binding_sha256":expected_sha,"training_started":False,
         "native_entity_meta_analysis_recomputed":True,"entity_replay_same_statistical_implementation":True,
         "selected_member_support_recomputed":True,"patient_risk_frozen_replay_folds":risk["replayed_folds"],
-        "raw_patient_feature_projection_replayed":False,"entity_raw_patient_statistics_replayed":False}
+        "raw_patient_feature_projection_replayed":True,"entity_raw_patient_statistics_replayed":True,
+        "native_numeric_replay":context["native_numeric_replay"]}
 
 
 class CurrentClinicalContextQuery:
