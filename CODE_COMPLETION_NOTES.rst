@@ -4698,3 +4698,62 @@ completed remotely with exit 0 after its observing SSH connection closed; its
 original XML/log/receipt were recovered after a successful hostname/process
 probe. The test job was not restarted. No model fitting or real cohort run was
 started during recovery. The broader C01/C13/C16 acceptance remains unfinished.
+
+Variable cancer partitions for Mutation/CNV (2026-10-26)
+------------------------------------------------------
+
+The partitioned sampler already supported unequal cancer candidate counts, but
+the resource stage, empty-stage check and prediction reassembler still required
+a single rows-per-cancer value. The production disk-backed path now accepts an
+exact count map in the existing resource budget, for example::
+
+    "scope": {
+      "formal_cancers": ["BRCA", "COAD", "LUAD"],
+      "candidate_rows": 20,
+      "candidate_rows_by_cancer": {"BRCA": 7, "COAD": 4, "LUAD": 9}
+    }
+
+Every declared cancer needs a positive integer count. Counts must sum to the
+total and the largest partition must fit max_candidate_partition_rows. The old
+candidate_rows_per_cancer integer remains valid for uniform scopes. If both
+forms are supplied, they must agree. Do not set that integer to the largest
+count for an unequal scope. New stage manifests record all counts and the
+maximum partition size; their uniform field is null for an unequal scope.
+Historical uniform manifests without the new optional fields remain readable.
+
+Use the existing manage_v32_genomic_resource_memmaps.py stage, write, seal and
+reassemble commands with this budget. There is no new training command. The
+existing partitioned trainer's empty-stage inspection now derives its bounded
+scan size from actual partition counts, as does the reassembler. Sampling,
+patient splits, optimizer settings and probability aggregation are unchanged.
+
+The stage scans the candidate cancer column in bounded batches and checks the
+complete declared count map before creating its staging directory. Undeclared
+cancers and omitted rows can no longer disappear through cancer filtering.
+Partition key validation rejects null, blank and duplicate exact keys. Every
+subsequent loader checks that partition intervals form contiguous, nonoverlapping
+coverage of the declared budget, and that manifest totals, count maps and memmap
+shape/dtype declarations agree. Repinning a modified manifest does not bypass
+these semantic checks. These controls validate candidate storage identity;
+they do not certify raw assay ancestry or optimizer execution.
+
+Verification on 149: genomic_variable_scope_r2 passed 74 related tests without
+an optimizer. The production CLI and trainer empty-stage inspection handle
+7/4/9 and legacy 7/7/7 candidate partitions. Explicit synthetic fold values are
+written and sealed; each emitted fold and aggregate is compared to an independent
+array calculation, including true zero, partial fold coverage and unavailable
+CNV/Mutation values. The existing actual native-auxiliary/fusion preparation
+fixture additionally exercises 73/19 candidates, alongside the original 80/80
+scope, absolute and relative paths, and zero-weight model-use traversal.
+Frozen checkpoint containers and streaming-CNV gate metadata in these fixtures
+are explicitly synthetic. No streaming-CNV raw preparation, neural forward,
+model fitting or real cohort analysis was performed for this change.
+The original 73-case pass is superseded by this run, which also verifies that
+unused Pandas categorical cancer levels do not create phantom candidate rows.
+
+This fixes a scope mismatch in the actual partition lifecycle. The existing
+partition training CLI still requires its frozen patient-fold authority, and
+the original streaming-CNV producer has separate input requirements. A complete
+native genomic prepare/collect workflow must reconcile those upstream contracts;
+this change does not claim that broader handoff is complete. C01/C13/C16 retain
+their outstanding integration and evidence requirements.

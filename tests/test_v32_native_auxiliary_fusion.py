@@ -30,7 +30,7 @@ def no_fitting(monkeypatch):
     monkeypatch.setattr(runner,'train_pair_blocked_crossfit_fusion',forbidden)
 
 
-def fixture(root,kind='genomic',current_sources=None,unavailable=False,core_override=None):
+def fixture(root,kind='genomic',current_sources=None,unavailable=False,core_override=None,candidate_counts=None):
     root.mkdir(parents=True,exist_ok=True)
     if core_override is not None:
         assert current_sources is None
@@ -45,7 +45,8 @@ def fixture(root,kind='genomic',current_sources=None,unavailable=False,core_over
                 'core_feature_000':np.arange(80,dtype=float),'core_feature_001':1.}).to_parquet(p,index=False)
             core['folds'][str(fold)]['exports']['lncRNA']={**record(p),'rows':80,'features':2}
         write(core_path,core)
-        keys=pd.DataFrame([(c,f'LNC:L{i}','PATHWAY:P1') for c in ('BRCA','LAML') for i in range(80)],columns=['cancer_id','lncrna_id','pathway_id'])
+        counts = candidate_counts if candidate_counts is not None else {'BRCA':80,'LAML':80}
+        keys=pd.DataFrame([(c,f'LNC:L{i}','PATHWAY:P1') for c,n in counts.items() for i in range(n)],columns=['cancer_id','lncrna_id','pathway_id'])
         core_run='current-G2'
     else:
         core_path,selected_path,core_run=current_sources;core=read(core_path)

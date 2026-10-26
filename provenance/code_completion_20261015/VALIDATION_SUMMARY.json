@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1207,
+  "unique_test_cases_passed": 1240,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -105,7 +105,7 @@
     "cc_hhgt/v32/native_auxiliary_fusion.py": "1a2537638706f994a2391783784cbff5e025d8428e7978872c52d7e1f3fabf81",
     "cc_hhgt/v32/cnv_only_training.py": "113302a4ef55d310fa357b01c7930fb40beafb8f343bcd68fc46bd2603505bd0",
     "scripts/materialize_v32_native_auxiliary_fusion.py": "9320612a5d10eb35207ed409a2b48aca953d0e2008905019679ba30f9284f971",
-    "tests/test_v32_native_auxiliary_fusion.py": "4e137b425f00e886090509884b9aee113c72104f85e9319b1c0c15089b8ab7c6",
+    "tests/test_v32_native_auxiliary_fusion.py": "941208599aef783bd7d18ef80b702bbd1c683ff8b6ffdb3c116114091f7ddc4c",
     "cc_hhgt/v32/current_state_context.py": "16aea238d32ff49e02295964d7e345ff7268acf7aea6a062a6cc2fd6e9bf5045",
     "scripts/materialize_v32_state_gene_sets.py": "4fd6948aa7e374e5fb3fa5110e268485bef02c61453e7f2ccd45f78df4d1c3eb",
     "tests/test_v32_current_state_context.py": "4d44b84477bc51a5591107ab1caf5b736098cfb2d9b2207c31fecef4e7c2b687",
@@ -261,9 +261,9 @@
     "tests/test_v32_activity_source_replay.py": "a8b68d6db122fc9ea8dedc23105f90b1f21de8e3ff48cd2a054d501676d8d7bd",
     "cc_hhgt/v32/model_control_sources.py": "d7929664a17bfe7f311c58fdd75e9f7445ef4b5e4be1fabba57031cad0431408",
     "tests/test_v32_model_control_sources.py": "b424b3c238b7674b74e7afb5cefd1d4eb22e2d41e6e356f0cfaff160bc2576e0",
-    "cc_hhgt/v32/genomic_partition_training.py": "a9bb115756dfc2f1c901aadc094f51d0132a2e40d67f3d0a1e72359115fe3d5e",
+    "cc_hhgt/v32/genomic_partition_training.py": "6389def299a97c296f1bf2564f2e5511e48603edaa69d38a437bd960726bd348",
     "cc_hhgt/v32/native_partitioned_genomic.py": "4e642c761a512672008f7c787189b4186e73524ab333cc1f7d07118a7596f9bf",
-    "tests/test_v32_native_partitioned_genomic.py": "058cea22e21d3d4dd541442466cca147f7a1bd03ecc5cfe60a7264b5b7dcb061",
+    "tests/test_v32_native_partitioned_genomic.py": "c96dd4aaed2e972868fe6cdf47237214b7535ad4593cb68484d1c3a4a3321e3d",
     "cc_hhgt/v32/cnv_head_association.py": "a485b229e354ad91e05e9823fe51a7dc004ca8027dd5bc06359d63417d2daece",
     "scripts/audit_v32_directional_cnv_head_oof.py": "c58a31e3b3aea2322a017db4ad3638f49b09625f4b7a967a8e931ddcf65b572c",
     "scripts/preflight_v32_directional_cnv_head.py": "0d3567d983d5e1aabcfb6476bcd49967fc0c46121d83c1205b0685784043d2d0",
@@ -291,7 +291,9 @@
     "cc_hhgt/v32/native_auxiliary_workflow.py": "d1f78cc6a2c3e02467f59300cc97f6b6a3d59bc42fc4ec55f4c74a4fe46329ed",
     "scripts/run_native_auxiliary_workflow.py": "0aea451134af784da2cb2333a79364cd85a780d9cccbbd0057a48c90737c2397",
     "scripts/run_v32_directional_cnv_head_oof.py": "7d6e6df60d42353d8dec3c80033536b59d34a8a6139966948ac57398e46bb25d",
-    "tests/test_v32_native_auxiliary_workflow.py": "ba3e581cd61566506080294fac122dc825c6cdc90aad5f481b9124ba7ffa17d2"
+    "tests/test_v32_native_auxiliary_workflow.py": "ba3e581cd61566506080294fac122dc825c6cdc90aad5f481b9124ba7ffa17d2",
+    "cc_hhgt/v32/genomic_resource_staging.py": "5e4286f5a01b7d5e9b3435f2e63ea88d722c949e2c11cc269bf0f8cd5fa661f8",
+    "tests/test_v32_genomic_resource_scope.py": "3d02ecc870db41d750ca7aae894fcaed060b97d24957dd8d5861e9fc2092910d"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -432,7 +434,8 @@
     "Native annotation-defined adjusted preparation now binds an external per-fold L1 coefficient/fit-input construction record. Actual source joins, hashed designs, labels, weights and all batch tensors are reconstructed through core model-use, G012 comparisons and current publication/external consumption. Frozen linear scores are recomputed and explicitly reported as model forwards; no neural model is constructed by inspection. Only the construction-specific gap is removed after positive reconstruction. Original study/reference, association, auxiliary and cross-module patient ancestry gaps remain blocking. No optimizer, L1 fitting, real cohort analysis, paid compute or deployment ran. Complete native external positive-metric coverage and unified auxiliary handoffs remain open.",
     "Native local-CNV captured partitions now numerically reconstruct the original A0/A1/A2 training statistics, validation-only A1 targets and E0/E1 graph comparison using consumed expression/activity, covariate, patient-map and compact CNV inputs. All columns and statistical metadata are compared, including unavailable values and empty graphs. Actual G012/current publication source consumers execute the replay. Cached validation proof rechecks its upstream audit and records all three parent files as dependencies. Earlier raw segment materialization/acquisition and per-pair/cross-module patient ancestry remain blocking; no gap was waived. Numerical inspection constructs no neural model. Downstream synthetic fixtures execute frozen core prediction, not learned-model fitting. No real cohort analysis, paid compute or deployment ran.",
     "Native declared-cohort directional CNV now materializes directly from bound patient segment files using the actual original signed mapping and canonical callability algorithms, without an old compact matrix or a fixed 33-cancer universe. Numerical reconstruction compares every row of all twelve arrays per cancer, including unavailable values; actual association and CNV-head source consumers execute it. The raw-derived synthetic store reaches native association/validation/E1 production and all five CNV-head input collectors. Explicit study metadata and private file-patient declarations are retained. Acquisition, genome-build/reference ancestry and per-pair/cross-module patient closure remain blocking. No real cohort analysis, learned-model fitting, auxiliary prediction, paid compute or deployment ran. Separate downstream regression checks use frozen core forwards only.",
-    "A native CNV/ATAC workflow now invokes actual five-fold no-fit input collectors, records exact training argv parsed by the original CLI, and reconciles separately completed result containers against the same run, inputs and full settings. Actual independent auditors and native fusion adapters execute during collection; subsequent fusion loading rechecks bound preparation and audit sources. CNV audits support a separate new directory without changing the training package. Tests use explicitly marked frozen checkpoint containers and synthetic optimizer telemetry; no optimizer, auxiliary forward, real cohort analysis, paid compute or deployment was executed. The final fusion preparer check uses synthetic primary scores and legacy hash-listed labels, retaining unverified label authority and fitting ineligibility. This verifies auxiliary handoff, not native-primary label reconstruction, full source ancestry or scientific gain. Other producer orchestration and complete native-to-external acceptance remain open."
+    "A native CNV/ATAC workflow now invokes actual five-fold no-fit input collectors, records exact training argv parsed by the original CLI, and reconciles separately completed result containers against the same run, inputs and full settings. Actual independent auditors and native fusion adapters execute during collection; subsequent fusion loading rechecks bound preparation and audit sources. CNV audits support a separate new directory without changing the training package. Tests use explicitly marked frozen checkpoint containers and synthetic optimizer telemetry; no optimizer, auxiliary forward, real cohort analysis, paid compute or deployment was executed. The final fusion preparer check uses synthetic primary scores and legacy hash-listed labels, retaining unverified label authority and fitting ineligibility. This verifies auxiliary handoff, not native-primary label reconstruction, full source ancestry or scientific gain. Other producer orchestration and complete native-to-external acceptance remain open.",
+    "The actual genomic resource stage, trainer empty-stage check, write/seal/reassembly and native auxiliary/fusion consumers now support explicit unequal candidate counts by cancer. Bounded full cancer-count inspection prevents undeclared candidate rows from disappearing; manifest scope and contiguous partition intervals are checked before any prediction write. Historical uniform scope remains readable. Actual CLI, synthetic fold arrays, frozen checkpoint containers and source/fusion adapters were exercised on 149 without an optimizer. Streaming-CNV gate metadata is synthetic and no raw streaming preparation or neural forward is asserted. The upstream streaming producer and frozen patient-fold trainer CLI still need native workflow reconciliation; complete source/patient ancestry and C01/C13/C16 acceptance remain open."
   ],
   "test_suites": [
     {
@@ -1059,6 +1062,16 @@
       "path": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml",
       "passed": 71,
       "sha256": "3fd34d3699870a730b3af11a77bdaebc1172d702b1ce8db7c9ecf5948560ec7d"
+    },
+    {
+      "path": "provenance/code_completion_20261015/genomic_variable_scope_r1_tests.xml",
+      "passed": 73,
+      "sha256": "4bc3c8c8b89ecb00524beda39ebb53aedd2b38e4c2093cc46652d7fcedeb0c25"
+    },
+    {
+      "path": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml",
+      "passed": 74,
+      "sha256": "26971b7866bcb1a0c444f3705eed81894afedcc4e7ff07f2cad3678dc13613ff"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -3967,7 +3980,152 @@
     {
       "module": "tests.test_v32_genomic_partition_training",
       "case": "test_partition_collector_exact_rng_offset_concat_and_core_filter",
-      "suite": "provenance/code_completion_20261015/partitioned_genomic_bridge_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_actual_cli_and_trainer_empty_stage_accept_scope_and_preserve_each_fold[False]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_actual_cli_and_trainer_empty_stage_accept_scope_and_preserve_each_fold[True]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_candidate_authority_cannot_drop_or_relabel_rows_in_declared_scope[duplicate_key]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_candidate_authority_cannot_drop_or_relabel_rows_in_declared_scope[empty_key]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_candidate_authority_cannot_drop_or_relabel_rows_in_declared_scope[extra_cancer]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_candidate_authority_cannot_drop_or_relabel_rows_in_declared_scope[missing_row]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_candidate_authority_cannot_drop_or_relabel_rows_in_declared_scope[null_cancer]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_candidate_authority_cannot_drop_or_relabel_rows_in_declared_scope[null_key]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_historical_uniform_manifest_without_new_optional_fields_remains_readable",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[bool]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[conflicting_uniform]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[extra_cancer]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[fractional]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[missing_cancer]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[negative]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[partition_budget]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[unsafe_cancer]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[wrong_total]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_invalid_budget_scope_fails_before_stage_creation[zero]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[gap]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[overlap]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[swapped_ranges]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[wrong_count]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[wrong_dtype]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[wrong_map]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[wrong_max]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[wrong_shape]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_repinned_partition_scope_is_rejected_before_any_prediction_write[wrong_total]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_genomic_resource_scope",
+      "case": "test_unused_categorical_levels_do_not_create_phantom_cancer_rows",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",
@@ -4832,142 +4990,142 @@
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[averaged_score]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[boolean_string]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[checkpoint_parent]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[duplicate]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[invalid_probability]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[missing_candidate]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[missing_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[native_run]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[old_core]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[split_authority]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[unavailable_zero]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_genomic_source_corruption_cannot_be_relabelled_as_current[wrong_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[atac]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[cnv]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[cnv_event]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_command_to_real_fusion_preserves_estimand_folds_missingness_and_exact_fallback[genomic]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[atac-checkpoint_split]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[atac-upstream_fit]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-duplicate_partition]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-patient_count]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_native_specific_identity_and_patient_boundaries[cnv-row_source]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_partial_native_training_or_coverage_does_not_invent_folds_or_uncertainty[one_available_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_partial_native_training_or_coverage_does_not_invent_folds_or_uncertainty[untrained_fold]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[coverage]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[fold_context]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_rehashed_adapter_results_must_match_native_fold_replay[fusion]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_same_canonical_patient_cannot_be_assigned_to_multiple_folds",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
       "case": "test_two_cnv_estimands_remain_distinct_and_can_both_reach_frozen_fusion",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
@@ -5856,8 +6014,28 @@
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
+      "case": "test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers[False-False]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_partitioned_genomic",
+      "case": "test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers[False-True]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers[False]",
       "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_partitioned_genomic",
+      "case": "test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers[True-False]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_partitioned_genomic",
+      "case": "test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers[True-True]",
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
@@ -5867,62 +6045,62 @@
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_inputs_remain_visible_in_zero_weight_fusion_model_use",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[checkpoint_split]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[core_changed]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[head_missing]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[input_changed]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[missing_controls]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[reassembly_only]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[reassembly_run]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[repinned_predictions]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[seal_changed]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[split]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[stage_only]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/genomic_variable_scope_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_results_workflow",
@@ -7107,10 +7285,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "auxiliary_workflow_r2",
-      "auxiliary_workflow_consumers_r1"
+      "genomic_variable_scope_r2"
     ],
-    "passed": 134,
+    "passed": 74,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

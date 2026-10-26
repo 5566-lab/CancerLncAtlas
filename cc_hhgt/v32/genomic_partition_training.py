@@ -27,6 +27,7 @@ from .genomic_resource_staging import (
     _available_memory_bytes,
     _load_stage,
     _process_rss_bytes,
+    _partition_chunk_rows,
     artifact_sha256,
     seal_genomic_memmap_predictions,
     write_genomic_memmap_partition,
@@ -240,7 +241,7 @@ def _assert_empty_resource_stage(manifest: Mapping[str, Any], stage_root: Path) 
                 raise PartitionedGenomicTrainingError(
                     f"Empty resource memmap shape/dtype drift: {key}"
                 )
-        chunk = int(manifest["candidate_rows_per_cancer"])
+        chunk = _partition_chunk_rows(manifest)
         for start in range(0, expected_shape[2], chunk):
             stop = min(expected_shape[2], start + chunk)
             if np.asarray(arrays["fold_processed"][:, :, start:stop]).any():

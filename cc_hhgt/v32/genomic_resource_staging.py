@@ -70,6 +70,45 @@ def _atomic_json(path: Path, value: Mapping[str, Any]) -> None:
     os.replace(temporary, path)
 
 
+def _scope_integer(value: Any, label: str, *, minimum: int = 1) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
+        raise GenomicResourceError(f"Invalid genomic scope integer: {label}")
+    return value
+
+
+def _scope_counts(scope: Mapping[str, Any]) -> dict[str, int]:
+    """Accept the historical uniform scope or an exact variable cancer count map."""
+    declared = scope.get("formal_cancers", [])
+    if not isinstance(declared, list) or not declared:
+        raise GenomicResourceError("Genomic resource cancer scope is empty")
+    cancers = [str(item).upper() for item in declared]
+    if (len(cancers) != len(set(cancers))
+            or any(not re.fullmatch(r"[A-Z][A-Z0-9_-]*", c) for c in cancers)):
+        raise GenomicResourceError("Genomic resource cancer scope is invalid")
+    counts = scope.get("candidate_rows_by_cancer")
+    uniform = scope.get("candidate_rows_per_cancer")
+    if counts is None:
+        per_cancer = _scope_integer(uniform, "candidate_rows_per_cancer")
+        counts = {c: per_cancer for c in cancers}
+    else:
+        if not isinstance(counts, Mapping) or set(counts) != set(cancers):
+            raise GenomicResourceError("Genomic candidate count map differs from cancer scope")
+        counts = {c: _scope_integer(counts[c], c) for c in cancers}
+        if uniform is not None:
+            per_cancer = _scope_integer(uniform, "candidate_rows_per_cancer")
+            if any(n != per_cancer for n in counts.values()):
+                raise GenomicResourceError("Uniform and per-cancer candidate counts disagree")
+    if _scope_integer(scope.get("candidate_rows"), "candidate_rows") != sum(counts.values()):
+        raise GenomicResourceError("Genomic resource scope is internally inconsistent")
+    return counts
+
+
+def _partition_chunk_rows(manifest: Mapping[str, Any]) -> int:
+    """Use the largest bounded partition, never a presumed uniform cancer size."""
+    return max(_scope_integer(r.get("rows"), "partition rows")
+               for r in manifest["candidate_partitions"])
+
+
 def _validate_budget(value: Mapping[str, Any]) -> dict[str, Any]:
     if value.get("format") != BUDGET_FORMAT:
         raise GenomicResourceError("Genomic resource budget format drift")
@@ -82,12 +121,7 @@ def _validate_budget(value: Mapping[str, Any]) -> dict[str, Any]:
     ):
         if not isinstance(value.get(key), Mapping):
             raise GenomicResourceError(f"Genomic resource budget lacks {key}")
-    scope = value["scope"]
-    cancers = [str(item).upper() for item in scope.get("formal_cancers", [])]
-    rows = int(scope.get("candidate_rows", 0))
-    per_cancer = int(scope.get("candidate_rows_per_cancer", 0))
-    if not cancers or len(cancers) != len(set(cancers)) or rows != len(cancers) * per_cancer:
-        raise GenomicResourceError("Genomic resource scope is internally inconsistent")
+    counts = _scope_counts(value["scope"])
     layout = value["memmap_layout"]
     if (
         tuple(layout.get("modalities", ())) != MODALITIES
@@ -99,7 +133,7 @@ def _validate_budget(value: Mapping[str, Any]) -> dict[str, Any]:
         raise GenomicResourceError("Genomic memmap layout drift")
     adapter = value["adapter_budget"]
     downstream = value["downstream_budget"]
-    if int(adapter.get("max_candidate_partition_rows", 0)) < per_cancer:
+    if int(adapter.get("max_candidate_partition_rows", 0)) < max(counts.values()):
         raise GenomicResourceError("Candidate partition exceeds the declared row budget")
     for key in (
         "max_declared_adapter_peak_rss_bytes",
@@ -303,6 +337,8 @@ def _canonical_partition(
     if missing := sorted(set(TARGET_KEYS) - set(frame.columns)):
         raise GenomicResourceError(f"Candidate partition lacks keys: {missing}")
     result = frame[list(TARGET_KEYS)].copy()
+    if result.isna().any().any() or any(result[k].astype(str).str.strip().eq("").any() for k in TARGET_KEYS):
+        raise GenomicResourceError(f"Candidate partition {cancer} has empty exact keys")
     result["cancer_id"] = result.cancer_id.astype(str).str.upper()
     result["lncrna_id"] = result.lncrna_id.astype(str)
     result["pathway_id"] = result.pathway_id.astype(str)
@@ -321,6 +357,22 @@ def _read_candidate_cancer(path: Path, cancer: str) -> pd.DataFrame:
     return pq.read_table(
         path, columns=list(TARGET_KEYS), filters=[("cancer_id", "=", cancer)]
     ).to_pandas()
+
+
+def _validate_candidate_scope(path: Path, expected: Mapping[str, int]) -> None:
+    """Count one column in bounded batches so undeclared cancers cannot disappear."""
+    import pyarrow.parquet as pq
+
+    counts = {c: 0 for c in expected}
+    for batch in pq.ParquetFile(path).iter_batches(columns=["cancer_id"], batch_size=65536):
+        values = batch.column(0).to_pandas()
+        if values.isna().any() or not values.isin(expected).all():
+            raise GenomicResourceError("Candidate authority contains null or undeclared cancers")
+        for cancer, count in values.value_counts().items():
+            if count:  # Pandas categorical metadata can retain unused cancer categories.
+                counts[cancer] += int(count)
+    if counts != dict(expected):
+        raise GenomicResourceError("Candidate authority per-cancer counts differ from resource scope")
 
 
 def stage_genomic_cancer_memmaps(
@@ -383,7 +435,10 @@ def stage_genomic_cancer_memmaps(
     if enforce_host_budget and not all(host_checks.values()):
         raise GenomicResourceError(f"Host resource budget failed before output creation: {host_checks}")
 
-    rows_per_cancer = int(budget["scope"]["candidate_rows_per_cancer"])
+    counts = _scope_counts(budget["scope"])
+    _validate_candidate_scope(candidate_path, counts)
+    max_partition_rows = max(counts.values())
+    rows_per_cancer = next(iter(counts.values())) if len(set(counts.values())) == 1 else None
     expected_rows = int(budget["scope"]["candidate_rows"])
     staging.mkdir(parents=True)
     partition_root = staging / "candidate_partitions"
@@ -400,9 +455,9 @@ def stage_genomic_cancer_memmaps(
         local_rss = _process_rss_bytes()
         if local_rss is not None:
             observed_process_rss_max = max(observed_process_rss_max or 0, local_rss)
-        if len(frame) != rows_per_cancer:
+        if len(frame) != counts[cancer]:
             raise GenomicResourceError(
-                f"{cancer} candidate rows {len(frame)} != declared {rows_per_cancer}"
+                f"{cancer} candidate rows {len(frame)} != declared {counts[cancer]}"
             )
         memory_bytes = int(frame.memory_usage(index=True, deep=True).sum())
         candidate_memory_sum += memory_bytes
@@ -453,7 +508,7 @@ def stage_genomic_cancer_memmaps(
     processed = np.lib.format.open_memmap(
         processed_path, mode="w+", dtype=np.bool_, shape=shape
     )
-    chunk = max(1, rows_per_cancer)
+    chunk = max_partition_rows
     for start in range(0, expected_rows, chunk):
         stop = min(expected_rows, start + chunk)
         probability[:, :, start:stop] = np.nan
@@ -525,6 +580,8 @@ def stage_genomic_cancer_memmaps(
         },
         "candidate_rows": expected_rows,
         "candidate_rows_per_cancer": rows_per_cancer,
+        "candidate_rows_by_cancer": counts,
+        "max_candidate_partition_rows": max_partition_rows,
         "formal_cancers": cancers,
         "ordered_exact_candidate_key_sha256": ordered_key_sha256,
         "candidate_partitions": records,
@@ -617,12 +674,29 @@ def _validate_stage_manifest_paths(
         if not cnv_path.is_file() or artifact_sha256(cnv_path) != cnv_record["sha256"]:
             raise GenomicResourceError("Bound CNV streaming aggregate content drift")
 
-    expected_cancers = [str(item).upper() for item in budget["scope"]["formal_cancers"]]
+    counts = _scope_counts(budget["scope"])
+    expected_cancers = list(counts)
+    uniform = next(iter(counts.values())) if len(set(counts.values())) == 1 else None
+    if (manifest.get("candidate_rows") != sum(counts.values())
+            or manifest.get("formal_cancers") != expected_cancers
+            or manifest.get("candidate_rows_per_cancer") != uniform
+            or ("candidate_rows_by_cancer" in manifest and manifest["candidate_rows_by_cancer"] != counts)
+            or (uniform is None and manifest.get("candidate_rows_by_cancer") != counts)
+            or ("max_candidate_partition_rows" in manifest
+                and manifest["max_candidate_partition_rows"] != max(counts.values()))):
+        raise GenomicResourceError("Candidate manifest scope differs from bound resource budget")
     records = manifest.get("candidate_partitions", [])
     if not isinstance(records, list) or [item.get("cancer_id") for item in records] != expected_cancers:
         raise GenomicResourceError("Candidate partition scope/order drift")
+    row_start = 0
     for record in records:
         cancer = str(record["cancer_id"])
+        rows = _scope_integer(record.get("rows"), "partition rows")
+        start = _scope_integer(record.get("global_row_start"), "partition start", minimum=0)
+        stop = _scope_integer(record.get("global_row_stop_exclusive"), "partition stop")
+        if rows != counts[cancer] or start != row_start or stop != row_start + rows:
+            raise GenomicResourceError("Candidate partition interval/count differs from resource scope")
+        row_start = stop
         path = Path(str(record.get("path", ""))).resolve()
         expected = stage_root / "candidate_partitions" / f"cancer_id={cancer}" / "part-0.parquet"
         _require_inside(path, stage_root, "Candidate partition")
@@ -636,6 +710,10 @@ def _validate_stage_manifest_paths(
     if set(memmaps) != set(expected_memmaps):
         raise GenomicResourceError("Genomic memmap inventory drift")
     for key, filename in expected_memmaps.items():
+        expected_dtype = "float32" if key == "fold_probability" else "bool"
+        if (memmaps[key].get("shape") != [len(MODALITIES), FOLDS, sum(counts.values())]
+                or memmaps[key].get("dtype") != expected_dtype):
+            raise GenomicResourceError("Genomic memmap declared shape/dtype differs from resource scope")
         path = Path(str(memmaps[key].get("path", ""))).resolve()
         _require_inside(path, stage_root, f"{key} memmap")
         _require_exact_path(path, stage_root / "memmaps" / filename, f"{key} memmap")
@@ -982,7 +1060,7 @@ def reassemble_genomic_memmap_outputs(
         or processed.dtype != np.dtype("bool")
     ):
         raise GenomicResourceError("Sealed genomic memmap shape/dtype drift")
-    chunk = int(manifest["candidate_rows_per_cancer"])
+    chunk = _partition_chunk_rows(manifest)
     for start in range(0, expected_shape[2], chunk):
         stop = min(expected_shape[2], start + chunk)
         if not np.asarray(processed[:, :, start:stop]).all():

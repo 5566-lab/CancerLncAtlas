@@ -14,8 +14,8 @@ from cc_hhgt.v32.native_auxiliary_fusion import materialize_native_auxiliary, lo
 from test_v32_native_auxiliary_fusion import fixture, read, write, record, no_fitting
 
 
-def partitioned(root, existing=None):
-    path, keys = fixture(root) if existing is None else (existing, pd.read_parquet(read(existing)["candidate_authority"]["path"]))
+def partitioned(root, existing=None, candidate_counts=None):
+    path, keys = fixture(root, candidate_counts=candidate_counts) if existing is None else (existing, pd.read_parquet(read(existing)["candidate_authority"]["path"]))
     manifest = read(path); native = root/"native"
     original_inputs = read(native/"LINEAGE.json")["input_artifacts"]
     patients = pd.read_parquet(manifest["patient_folds"]["path"])
@@ -25,8 +25,10 @@ def partitioned(root, existing=None):
         "synthetic_gate_metadata_only_not_a_raw_cnv_validation": True})
     ordered = pd.concat([stage._canonical_partition(keys.loc[keys.cancer_id.eq(c)], c) for c in keys.cancer_id.unique()])
     digest = hashlib.sha256("".join("\t".join(r)+"\n" for r in ordered.itertuples(index=False, name=None)).encode()).hexdigest()
+    counts = {c:len(local) for c,local in keys.groupby("cancer_id", sort=False)}
+    scope_counts = {"candidate_rows_per_cancer": next(iter(counts.values()))} if len(set(counts.values())) == 1 else {"candidate_rows_by_cancer": counts}
     budget = write(root/"budget.json", {"format": stage.BUDGET_FORMAT, "resource_budget_id": "synthetic-small",
-        "scope": {"formal_cancers": list(keys.cancer_id.unique()), "candidate_rows": len(keys), "candidate_rows_per_cancer": 80},
+        "scope": {"formal_cancers": list(counts), "candidate_rows": len(keys), **scope_counts},
         "adapter_budget": {"max_candidate_partition_rows": 80, "max_declared_adapter_peak_rss_bytes": 10**12,
                            "max_memmap_bytes": 10**8, "max_staging_disk_bytes": 10**8},
         "downstream_budget": {"max_declared_process_rss_bytes": 10**12, "minimum_host_available_memory_bytes": 1,
@@ -106,8 +108,10 @@ def repin_training(path):
 
 
 @pytest.mark.parametrize("relative", [False, True])
-def test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers(tmp_path, relative):
-    path, keys = partitioned(tmp_path)
+@pytest.mark.parametrize("variable", [False, True])
+def test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers(tmp_path, relative, variable):
+    counts = {"BRCA":73, "LAML":19} if variable else None
+    path, keys = partitioned(tmp_path, candidate_counts=counts)
     if relative:
         manifest = read(path)
         for key in ("native_receipt", "reassembly_receipt", "candidate_authority", "patient_folds", "core_manifest"):
@@ -115,6 +119,9 @@ def test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers(
         write(path, manifest)
     result = materialize_native_auxiliary(path, tmp_path/"adapter", expected_core_run_id="current-G2")
     frame, audit = load_native_auxiliary(result, expected_sha=record(result)["sha256"], expected_core_run_id="current-G2")
+    assert len(frame) == len(keys)
+    if variable:
+        assert frame.groupby("cancer_id").size().to_dict() == counts
     assert audit["native_status"] == "TRAINING_SUCCESS_PREDICTIONS_SEALED_NOT_RELEASED"
     assert not audit["training_started"] and not audit["native_model_forwards_replayed"]
     assert frame.loc[frame.cancer_id.eq("LAML"), "mutation_context_probability"].isna().all()
