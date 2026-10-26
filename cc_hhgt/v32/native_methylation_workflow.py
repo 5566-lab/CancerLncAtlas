@@ -42,6 +42,9 @@ def plan(manifest,output,*,new=True):
     from .distal_topology import methylation_probe_lineage
     from .methylation_recovery import read_patient_folds
     lineage=methylation_probe_lineage(Path(files["probe_map"]["path"]))
+    if probe_audit.is_file() and "native_probe_preparation" in read(probe_audit):
+        from .native_probe_workflow import validate_map
+        for pin in validate_map(Path(files["probe_map"]["path"])):source_files[pin["path"]]=pin
     read_patient_folds(Path(files["patient_folds"]["path"]))
     raw=(manifest.parent/spec["download_root"]).resolve();batches=None
     if spec["mode"]=="raw":

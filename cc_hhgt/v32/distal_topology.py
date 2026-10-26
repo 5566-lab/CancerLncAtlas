@@ -119,6 +119,9 @@ def methylation_probe_lineage(probe_map: Path) -> dict:
     if not audit_path.is_file():
         return {"predictive_evaluation_eligible": False, "policy": "UNVERIFIED_PROBE_MAP"}
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    if "native_probe_preparation" in audit:
+        from .native_probe_workflow import validate_map
+        validate_map(probe_map)
     if audit.get("output", {}).get("sha256") != sha256(probe_map):
         raise ValueError("Probe-map audit does not match the methylation mapping")
     return audit.get("topology_lineage", {"predictive_evaluation_eligible": False,

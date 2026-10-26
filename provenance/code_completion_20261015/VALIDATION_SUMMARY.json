@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1558,
+  "unique_test_cases_passed": 1566,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -9,7 +9,7 @@
   "r_validation": "SCOPED_SYNTHETIC_EXECUTION",
   "source_sha256": {
     "cc_hhgt/v32/distal_regulatory_mutation_head.py": "670b298627b737733dad5663418216b87dfc792fc13bfd85bd1b3163891ff1d9",
-    "cc_hhgt/v32/distal_topology.py": "5d75f78c240666a8cf9676f4d40f707270ce670a14ef4bf6553c0a2113602dc4",
+    "cc_hhgt/v32/distal_topology.py": "1022df7a50f02bdbb60239035e6efb3a061015e8ad12918ebeb47553e26c572f",
     "cc_hhgt/v32/epigenetic_expression_head.py": "dc8d9785a52d97dd275d69cb8fd255ff36d89e16c3f62e5ab8c0edbf76dcbc3c",
     "cc_hhgt/v32/methylation_recovery.py": "bf44d151c39860f5c0b2cb02c6e74b79965c21da6861dfb745e02d7a86af37aa",
     "cc_hhgt/v32/multimodal_fusion.py": "190268fbcd0b7d9b3c19ffe9a0fd42e255d3b627563139832a6dd1c5a9bf6832",
@@ -20,7 +20,7 @@
     "scripts/materialize_v32_distal_atac_lncrna.R": "aaf1b8e111f3337fba4d57b0800e9fe8229fe90b9025e672428a65280b9e209f",
     "scripts/materialize_v32_distal_mutation_lncrna.py": "bd12db11fc0478705e223b639f90dd05375d485439bc7d2bfa060eca5f6d84bc",
     "scripts/materialize_v32_distal_regulatory_head_input.py": "530a4d190eebdd13d5fa416acaa2b5ee7c6a7fc6b0fdbbbe3248ff48dd58772f",
-    "scripts/materialize_v32_hm450_lncrna_probe_map.py": "a9403a655ca4002d59d8dffe614f4826e86cb6deace19dd228b0363efda3fa1f",
+    "scripts/materialize_v32_hm450_lncrna_probe_map.py": "1cf1d47a5b3ca7a5dc99599d68a1286008f4847d978b4784d6c228050e3d8105",
     "scripts/materialize_v32_methylation_lncrna.py": "94627384841189aa90a9f939a783f5ded7a4a5ccbb099f5dfd3b282329dc9fa1",
     "scripts/materialize_v32_signed_single_cell_fusion.py": "653937c7bbf11c48498c6d7bb9c03a2cd69f1bd3a9245337cc945a15ec384868",
     "scripts/run_v32_current_multimodal_fusion.py": "5bdf12c8ffdc11166970b8ed4d4714f445dba65b87c0eba25c0fdf614c0538c9",
@@ -320,14 +320,14 @@
     "cc_hhgt/v32/native_fusion_workflow.py": "4db4586b92375a807bafc6bd439ebf71938446b3d7bed74970f2b858422c4308",
     "scripts/run_native_fusion_workflow.py": "3a49ff31b7e7600f554fec824fbc2fd902c12a0cbc6a328502525f80cc7ac89a",
     "tests/test_v32_native_fusion_workflow.py": "cdd518687d9d16034908fdcf4373ecf80ef91273deabeb412706665f210a8949",
-    "cc_hhgt/v32/native_workflow_chain.py": "5dede30d8f668556a93f467f26527db3b3472b53aa0a10d21631593c5f7ecc21",
+    "cc_hhgt/v32/native_workflow_chain.py": "085210ebe16b5fa3b72a1a62c09c8400407965da5667c2ae6990483ba1d8f0c2",
     "scripts/run_native_workflow_chain.py": "2cd4a6cb886544982c2cd9151b19f418b4de7371e2211845d6358f91d71f4632",
     "tests/test_v32_native_workflow_chain.py": "9cf167f4311bc9f84cd60f152ab2d2b5219ea7b50332c257fed819027148920a",
     "tests/native_chain_fixture.py": "11b658a39d8d46d9cc7c235c21e94209c68ce182e8c1af008f0aa22f09c168ea",
     "cc_hhgt/v32/native_rbp_workflow.py": "34212991283eb9d412b1234e9362dc104b8cc84ed1bab591c929e7ebfa7d779c",
     "scripts/run_native_rbp_workflow.py": "611d21c386375598255e1a3aeca79c5d98fc8b31510f0d8c1414e882a337fb3b",
     "tests/test_v32_native_rbp_workflow.py": "6be39d181aaa746988f9760b5fc6540217a9b625481c299b421420ed98c34daa",
-    "cc_hhgt/v32/native_methylation_workflow.py": "96ed6761f48aed3687cab9781d1358b9794a11b261f9cf4772d297d1f80a5763",
+    "cc_hhgt/v32/native_methylation_workflow.py": "c01254aba039718172960cf2db302eb99cd8d8663bfaf971492bde9c8cda40d2",
     "scripts/run_native_methylation_workflow.py": "3bf0540e5cd3a471d5156b4025dbbb98c9b81255fa8c7ebc52d61ab00b1905a2",
     "tests/test_v32_native_methylation_workflow.py": "bbeaa1a9ded9d8c8795a1bdab289d5d4fa25f0bdc47b43c3f8a89cd318bfa79d",
     "cc_hhgt/v32/native_distal_workflow.py": "df80db9e68d85a1fe180024d462356f9e4296093339e50f565b7bc4f4b254db6",
@@ -335,7 +335,10 @@
     "tests/test_v32_native_distal_workflow.py": "12ce988cd3ae1a0a99b77891907e6ec6d337d50475f66e6280b66f8471d4d46f",
     "cc_hhgt/v32/native_distal_atac_workflow.py": "82021ff72402063fa02f92d15e99c2406286e6dbbd6a1b24cd5194f425e17c62",
     "scripts/run_native_distal_atac_workflow.py": "8fa19b7fe270cc1aa5fa6d8d4ab8152cb0840bd736819e75abdaeabe8d0f2ab5",
-    "tests/test_v32_native_distal_atac_workflow.py": "b2fe9a7e60554bb017520d91bf056d6a804d0bff3007f5f073bd6d4e8978c255"
+    "tests/test_v32_native_distal_atac_workflow.py": "b2fe9a7e60554bb017520d91bf056d6a804d0bff3007f5f073bd6d4e8978c255",
+    "cc_hhgt/v32/native_probe_workflow.py": "ddf7faee38ebe49e0997022b087b13ebe7a876654d4516ed447437a825a636c2",
+    "scripts/run_native_probe_workflow.py": "e3f6afff0b430dbdc1fcd1f9d9e1908ad6461ff37ece0bdf34d81de91a07c597",
+    "tests/test_v32_native_probe_workflow.py": "8ef33f6cd1bf49da43f84488e6f59245f57574170da2bfb52750c887382085ae"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -491,7 +494,8 @@
     "Cached native ENCODE KD/RBNS workflows now execute in the resumable chain and feed actual rule publication/query and explicit predicted graph admission. New source contracts bind the native manifest/cache and every raw/derived input; actual same-implementation replay checks all outputs and metadata. Rule-query consumption rechecks these native sources rather than trusting only a cached aggregate audit. A real mixed-schema integration error was fixed by canonicalizing relation types before physical/predicted source concatenation. Native comparison loaders and frozen forwards retain their former scientific semantics. Synthetic caches only; no download, fitting, real cohort analysis or deployment. Legacy audits without raw-manifest bindings keep their historical scope. This does not establish biological independence or complete raw acquisition, reference, patient ancestry, remaining statistical branches, public field definitions or final acceptance.",
     "Native methylation raw/recovery execution now joins the resumable chain and actual distal input/publication/query consumers. Same-implementation reconstruction compares every native output and metadata; assembled beta/availability/fold projections are independently compared to the declared producer table. Raw checksums and legacy batch provenance remain separate. Actual synthetic raw inputs cover equal-sample weighting, missing versus measured-zero beta, both unavailable and available nested statistical results, and later source changes. The 60-patient available example runs statistical regressions, not learned neural/L1/auxiliary/fusion optimizer fitting. Probe assignment and other omics inputs are explicit synthetic fixtures; the original official probe-reference producer was not executed. No real 8236-file recovery, download, raw deletion, model training, paid compute or deployment occurred. This does not prove original reference/acquisition or complete cross-module patient ancestry, independent biological validity, real GeneSet effects or final C01/C13/C16 acceptance.",
     "A native distal workflow now calls actual patient input assembly, nested statistical regressions and final closure, and joins the resumable chain as distal.run. It reconstructs all assembled covariates and their metadata before downstream publication/query, numerically replays native statistics, matches full exposed parameters and source identities, and reruns closure. Declared candidate SHA enables exact candidate-scope closure while preserving legacy full33/3300000 checks; candidate identity substitution is rejected even at unchanged row counts. No-available results retain diagnostic artifacts but never receive workflow completion. Sixty synthetic patients exercise actual raw methylation, assembly, statistics, closure and public consumers. Other omics inputs and probe assignment are explicit synthetic fixtures; existing selected core containers are frozen. No real cohort, neural/L1/auxiliary/fusion optimizer, paid compute, download, raw deletion or deployment was run. Raw MC3/liftover, official distal ATAC/probe producers, acquisition/reference and complete cross-module patient ancestry, other branches and final C01/C13/C16 acceptance remain open. Statistical closure is not biological validation or evidence of a changed real GeneSet.",
-    "The native distal ATAC workflow executes the original R aggregation from a supplied normalized matrix, official-shaped mapping and peaks, independent topology, patient authority and candidate scope. It preserves 562709 peaks/full 23 raw-cancer shape and mapping gates, while explicit candidate scope controls output cancers/genes. LNC prefix normalization and pre-cast fractional fold checks are corrected; independent topology coordinates must match matrix peak coordinates. The resumable distal_atac.run operation feeds actual distal assembly/statistics/closure/public queries. Every generated matrix/topology table/input and native metadata is replayed with actual R. A process cache rechecks current input/output/code/environment signatures before reuse. Synthetic official-shaped matrix only, with 60 BRCA patients, technical and aliquot repeats, missing DLBC and an unlinked gene; other omics and frozen core remain explicit synthetic fixtures. No learned-model optimizer, real cohort, downloads, paid compute, deletion or deployment occurred. Supplied normalized-matrix aggregation is verified, not original sequencing/normalization or acquisition/reference ancestry. MC3/liftover, probe-reference preparation, complete cross-module patient ancestry, remaining branches and final C01/C13/C16 acceptance remain open."
+    "The native distal ATAC workflow executes the original R aggregation from a supplied normalized matrix, official-shaped mapping and peaks, independent topology, patient authority and candidate scope. It preserves 562709 peaks/full 23 raw-cancer shape and mapping gates, while explicit candidate scope controls output cancers/genes. LNC prefix normalization and pre-cast fractional fold checks are corrected; independent topology coordinates must match matrix peak coordinates. The resumable distal_atac.run operation feeds actual distal assembly/statistics/closure/public queries. Every generated matrix/topology table/input and native metadata is replayed with actual R. A process cache rechecks current input/output/code/environment signatures before reuse. Synthetic official-shaped matrix only, with 60 BRCA patients, technical and aliquot repeats, missing DLBC and an unlinked gene; other omics and frozen core remain explicit synthetic fixtures. No learned-model optimizer, real cohort, downloads, paid compute, deletion or deployment occurred. Supplied normalized-matrix aggregation is verified, not original sequencing/normalization or acquisition/reference ancestry. MC3/liftover, probe-reference preparation, complete cross-module patient ancestry, remaining branches and final C01/C13/C16 acceptance remain open.",
+    "Native probe.run generates independent coordinate topology and maps the checksum-verified official static GDC HM450 GRCh38 reference to supplied promoter/distal regions. Original MD5 and minimum 450000 valid-probe gates remain unchanged. LNC prefixes, compression inference, strict interval validation and explicit topology/peak coordinate agreement are corrected. Both original producers and complete native mapping/topology metadata are reconstructed; cache hits still recheck current input/output/code bytes. Actual mapping flows through raw methylation and batch recovery to distal assembly/statistics/public queries. Verification uses the cached official reference, synthetic regions and two synthetic patients; other omics/frozen core remain explicit fixtures and the small statistical cohort remains unavailable. No reference gates were relaxed, no optimizer, biological cohort, download, paid compute, deletion or deployment occurred. Supplied promoter annotation derivation, acquisition, MC3/liftover, complete patient ancestry and C01/C13/C16 acceptance remain open."
   ],
   "test_suites": [
     {
@@ -1308,6 +1312,16 @@
       "path": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml",
       "passed": 39,
       "sha256": "c58fb09e1917137031e74681cd3d0ac0807a7a4193bf8c461e59a476e4682476"
+    },
+    {
+      "path": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml",
+      "passed": 27,
+      "sha256": "a6fb578a78dc37658fd6a696b82d66cb9f120fc46782648fba5a8a0629c27b2e"
+    },
+    {
+      "path": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml",
+      "passed": 29,
+      "sha256": "85cf924cf135b67e3884670c169de8f8b37f0c244ec924d09c8a94fb6236bc0e"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -2646,32 +2660,32 @@
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_actual_nested_distal_statistics_and_missing_assay_coverage_reach_members",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_distinct_native_genomic_estimands_and_folds_reach_selected_members",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_explicit_genomic_absence_and_selected_identity_are_enforced",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_rehashed_distal_effect_is_rejected_by_actual_command_replay",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_unavailable_distal_signal_is_retained_without_fabricated_effects",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_unbound_distal_input_cannot_be_presented_as_current",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
@@ -4701,22 +4715,22 @@
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_coordinates_exclude_all_transcript_promoters_and_preserve_uncovered_genes",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_legacy_changed_and_mixed_topologies_cannot_be_formal_inputs",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_real_mutation_materializer_consumes_new_topology_and_preserves_wes_semantics",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_topology_does_not_consume_expression_or_association_columns",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
@@ -6746,57 +6760,57 @@
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_actual_declared_scope_closure_and_chain_resume",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_actual_workflow_result_reaches_publication_and_query",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_closure_rejects_equal_count_wrong_candidate_identity",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_completed_statistics_cannot_be_relabelled_with_different_ridge_settings",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_invalid_parameters_fail_before_output[parameters0]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_invalid_parameters_fail_before_output[parameters1]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_invalid_parameters_fail_before_output[parameters2]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_legacy_closure_still_requires_original_full_cohort",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_no_available_effect_does_not_receive_workflow_completion",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_plan_is_readonly_and_host_gate",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_distal_workflow",
       "case": "test_rehashed_non_methylation_covariate_is_rejected",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_expression_workflow",
@@ -7251,42 +7265,42 @@
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_actual_raw_recovery_chain_preserves_weight_missingness_and_resume",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_legacy_batches_cannot_acquire_predictive_status_or_raw_deletion",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_native_methylation_reaches_actual_distal_publication_without_invented_effect",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_plan_is_readonly_and_host_gate_precedes_output",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_raw_corruption_blocks_raw_validation_but_does_not_fake_reverification_in_recovery",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_raw_patient_covariates_reach_available_nested_statistics_and_public_query",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_rehashed_distal_methylation_projection_is_rejected",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_rehashed_patient_feature_and_audit_cannot_replace_raw_reconstruction",
-      "suite": "provenance/code_completion_20261015/distal_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
@@ -7377,6 +7391,46 @@
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_lifecycle_and_replay_reject_incomplete_or_relabelled_inputs[stage_only]",
       "suite": "provenance/code_completion_20261015/genomic_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_invalid_or_inconsistent_coordinates_rejected[fractional_promoter]",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_invalid_or_inconsistent_coordinates_rejected[negative_promoter]",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_invalid_or_inconsistent_coordinates_rejected[shifted_peak]",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_official_reference_reaches_distal_public_query_without_fabricating_effect",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_plan_and_reference_guard",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_reference_overlap_oracle_and_native_chain",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_rehashed_probe_assignment_rejected_after_cache_hit",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_probe_workflow",
+      "case": "test_source_change_rejected_with_warmed_replay_cache",
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_rbp_workflow",
@@ -7771,97 +7825,97 @@
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_actual_cached_gdc_expression_workflow_through_chain",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_actual_fusion_completion_publication_and_resume",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_external_identity_cannot_be_replaced",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_external_payload_json_file_and_relative_pins",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_failure_keeps_independent_progress_and_retries_in_new_directory",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_host_gate",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[core_run]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[cycle]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[duplicate]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[extra_reference]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[fit]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[forward]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[unknown]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_invalid_or_training_chain_never_creates_output[wrong_collection]",
-      "suite": "provenance/code_completion_20261015/distal_atac_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_live_os_lock_prevents_a_second_coordinator",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_recover_completed_native_output_without_restarting_producer",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_rehashed_stage_declaration_drift_is_rejected[inputs]",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_rehashed_stage_declaration_drift_is_rejected[operation]",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_workflow_chain",
       "case": "test_unfinished_attempt_is_never_inferred_terminal_or_restarted",
-      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
@@ -9111,10 +9165,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "distal_atac_workflow_r1",
-      "distal_atac_workflow_consumers_r1"
+      "probe_workflow_r1",
+      "probe_workflow_consumers_r1"
     ],
-    "passed": 55,
+    "passed": 56,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

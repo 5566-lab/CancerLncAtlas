@@ -1,0 +1,40 @@
+{
+  "method": "OFFICIAL_HM450_REFERENCE_TO_NATIVE_PROBE_AND_METHYLATION_CONSUMERS",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "probe_workflow_r1",
+    "probe_workflow_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 22,
+  "new_operation": "probe.run",
+  "official_static_reference_used": true,
+  "official_reference_md5": "e163fc110043abb5a7ef623816383bb9",
+  "official_reference_sha256": "cb908b2aa8f49b2c92e3698dc04c379607850c36c329f2ff24dc765af655e483",
+  "official_reference_gates_relaxed": false,
+  "valid_reference_probes": 485547,
+  "synthetic_patients": 2,
+  "actual_topology_probe_producers_replayed": true,
+  "probe_mapping_to_distal_public_query_executed": true,
+  "test_substitutes": [
+    "Synthetic promoter/peak/gene regions and patient beta values, official cached static HM450 reference.",
+    "Prepared synthetic mutation/expression/CNV/purity/activity and frozen selected-core data."
+  ],
+  "biological_promoter_derivation_verified": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native probe.run generates independent coordinate topology and maps the checksum-verified official static GDC HM450 GRCh38 reference to supplied promoter/distal regions. Original MD5 and minimum 450000 valid-probe gates remain unchanged. LNC prefixes, compression inference, strict interval validation and explicit topology/peak coordinate agreement are corrected. Both original producers and complete native mapping/topology metadata are reconstructed; cache hits still recheck current input/output/code bytes. Actual mapping flows through raw methylation and batch recovery to distal assembly/statistics/public queries. Verification uses the cached official reference, synthetic regions and two synthetic patients; other omics/frozen core remain explicit fixtures and the small statistical cohort remains unavailable. No reference gates were relaxed, no optimizer, biological cohort, download, paid compute, deletion or deployment occurred. Supplied promoter annotation derivation, acquisition, MC3/liftover, complete patient ancestry and C01/C13/C16 acceptance remain open."
+}

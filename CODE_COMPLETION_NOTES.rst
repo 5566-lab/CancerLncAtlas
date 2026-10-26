@@ -6212,3 +6212,86 @@ Native distal ATAC verification on 149: ``distal_atac_workflow_r1``, ``distal_at
 pass 55 distinct related checks. Actual R aggregation and downstream
 statistical regressions ran only on synthetic inputs. No neural/L1/auxiliary/fusion
 optimizer, real cohort, raw deletion, download, paid compute or deployment ran.
+
+Official HM450 reference preparation (2026-10-26)
+-----------------------------------------------
+
+``scripts.run_native_probe_workflow`` adds ``probe.run`` as operation 22. It
+generates coordinate-only distal candidates from supplied GRCh38 promoters,
+peaks and the complete required-gene universe, then executes the original
+official HM450 interval mapper. It does not consume patients, select links by
+expression/activity, fit a model, acquire data or delete source files.
+
+The manifest accepts exactly four file pins and an optional distance::
+
+    {
+      "format": "NATIVE_PROBE_WORKFLOW_INPUT_V1",
+      "hm450_manifest": {"path": "HM450.hg38.manifest.gencode.v36.tsv.gz", "sha256": "<SHA256>"},
+      "promoters": {"path": "promoters.tsv.gz", "sha256": "<SHA256>"},
+      "required_genes": {"path": "genes.tsv", "sha256": "<SHA256>"},
+      "peak_set": {"path": "peaks.tsv", "sha256": "<SHA256>"},
+      "max_distance_bp": 1000000
+    }
+
+All paths resolve relative to the manifest. The official reference must retain
+MD5 ``e163fc110043abb5a7ef623816383bb9`` and at least 450,000 valid, uniquely
+identified probes. These gates are unchanged, including during verification.
+Promoters require ``chromosome`` (or ``#chrom``), ``start``, ``end``, ``gene_id``;
+coordinates are BED0 half-open. Peak columns are ``seqnames,start,end,name``
+with 1-based inclusive coordinates. Genes require ``gene_id``. Compression is
+inferred; both plain and gzip TSV are accepted. Gene normalization removes an
+optional ``LNC:`` prefix and version suffix. Chromosome prefixes are normalized.
+Nonintegral, missing, negative or empty intervals are rejected before casting.
+
+The fixed-distance topology includes every peak within the configured window
+of any transcript promoter, excluding peaks intersecting any promoter of the
+same gene. Zero-link genes remain in ``GENE_COVERAGE.tsv``. These are proximity
+hypotheses, not validated regulatory links. The wrapper labels promoter inputs
+``INPUT_BED0_PROMOTERS_SOURCE_BOUND``; supplied BED coordinates alone do not prove
+they were derived from the stated GENCODE annotation. The original standalone
+mapper retains its historical promoter-definition default. Eligible independent
+links must carry coordinates matching the supplied peak table, in addition to
+matching names. Probe overlap uses strict half-open comparisons, so touching
+boundaries alone do not count as overlap.
+
+Run on host 149 only::
+
+    python -m scripts.run_native_probe_workflow --manifest /path/probes.json --output /new/probes --plan
+    python -m scripts.run_native_probe_workflow --manifest /path/probes.json --output /new/probes
+
+Plan verifies source pins, the official checksum and parameter/host contracts
+without creating outputs or calculating a map. Coordinate/table validation
+occurs in the actual producers. Execution writes ``LAUNCH_PREFLIGHT.json``,
+``topology``, ``features``, ``stage.log`` and ``NATIVE_PROBE_BINDING.json``. A
+failed run retains diagnostics and does not publish a completed binding.
+The map audit binds ``native_probe_preparation``. Validation reconstructs both
+producers in temporary storage, compares complete topology and coverage files,
+all probe-assignment rows/schema, and native audit metadata. Only generated
+output locations and their dependent audit hash are normalized for comparison.
+
+In a chain, pass ``{"stage_ref":"probes","pointer":"/probe_map"}`` to
+``methylation.run`` as ``probe_map``. ``/topology_links`` provides the same
+coordinate topology for downstream mutation/ATAC producers. Native methylation
+plans and downstream distal public-context inventories preserve the official
+reference, supplied coordinate inputs, topology, code and preparation records.
+A process-local cache avoids repeat reconstruction only after all current
+input/output/code pins are rechecked. A fresh process reconstructs again.
+Legacy maps without a native preparation pointer retain their earlier limited
+validation; they do not acquire source-reconstruction coverage automatically.
+
+Verification uses the cached, checksum-verified official static reference with
+synthetic promoter/peak regions, required genes and patient Beta values. It
+executes actual topology/mapping, raw methylation/recovery, distal assembly and
+public queries. The two-patient statistical example remains explicitly
+unavailable; no association or effect is invented. Original mutation, expression,
+CNV, purity, activity and frozen-core fixtures remain synthetic substitutes.
+This closes reference-to-map reconstruction, not promoter annotation derivation,
+original data acquisition, MC3/liftover, full patient ancestry or biological
+study completion. C01/C13/C16 remain open; no real cohort analysis, optimizer,
+paid compute, raw deletion or deployment is authorized or executed here.
+
+Native official probe verification on 149: ``probe_workflow_r1``, ``probe_workflow_consumers_r1``
+pass 56 distinct related checks. Static official HM450 reference
+was read; all patient values and coordinate regions were synthetic. No neural/L1/
+auxiliary/fusion optimizer, biological cohort, deletion, download, paid compute or
+deployment ran.

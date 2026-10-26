@@ -13,7 +13,7 @@ from pathlib import Path
 import duckdb
 import pandas as pd
 
-from cc_hhgt.v32.distal_topology import topology_lineage
+from cc_hhgt.v32.distal_topology import topology_lineage, gene_core, _intervals
 
 
 EXPECTED_GDC_HM450_MD5 = "e163fc110043abb5a7ef623816383bb9"
@@ -27,7 +27,7 @@ def checksum(path: Path, algorithm: str = "sha256") -> str:
     return digest.hexdigest()
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--hm450-manifest", type=Path, required=True)
     parser.add_argument("--promoters", type=Path, required=True)
@@ -35,7 +35,8 @@ def main() -> int:
     parser.add_argument("--peak-set", type=Path, required=True)
     parser.add_argument("--topology-links", "--datas7-links", dest="datas7_links", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
+    parser.add_argument("--promoter-definition", default="GENCODE_V36_TRANSCRIPT_TSS_MINUS1000_PLUS100")
+    args = parser.parse_args(argv)
     if socket.gethostname() != "149":
         raise RuntimeError("Probe-map preparation must execute on target host 149")
     paths = {
@@ -80,19 +81,21 @@ def main() -> int:
     if len(probes) < 450_000 or probes["probe_id"].duplicated().any():
         raise RuntimeError("GDC HM450 GRCh38 probe coordinates are incomplete or duplicated")
 
-    required = pd.read_csv(paths["required_genes"], sep="\t", compression="gzip")
+    required = pd.read_csv(paths["required_genes"], sep="\t")
     if "gene_id" not in required:
         raise RuntimeError("Required lncRNA table lacks gene_id")
-    required_ids = set(required["gene_id"].astype(str).str.split(".").str[0])
+    required_ids = set(gene_core(required["gene_id"]))
     if len(required_ids) < 1:
         raise RuntimeError("Required lncRNA set is empty")
 
-    promoters = pd.read_csv(paths["promoters"], sep="\t", compression="gzip")
+    promoters = pd.read_csv(paths["promoters"], sep="\t")
     promoters = promoters.rename(columns={"#chrom": "chromosome"})
     required_promoter_columns = {"chromosome", "start", "end", "gene_id"}
     if missing := sorted(required_promoter_columns - set(promoters)):
         raise RuntimeError(f"GENCODE promoter BED lacks columns: {missing}")
-    promoters["gene_id"] = promoters["gene_id"].astype(str).str.split(".").str[0]
+    promoters = _intervals(promoters, "chromosome", "start", "end")
+    promoters["chromosome"] = "chr" + promoters["chromosome"]
+    promoters["gene_id"] = gene_core(promoters["gene_id"])
     promoters = promoters.loc[promoters["gene_id"].isin(required_ids)].copy()
     promoters["promoter_start0"] = pd.to_numeric(promoters["start"], errors="raise").astype("int64")
     promoters["promoter_end0"] = pd.to_numeric(promoters["end"], errors="raise").astype("int64")
@@ -101,17 +104,29 @@ def main() -> int:
     links = pd.read_csv(paths["datas7_links"], sep="\t", compression="gzip")
     if not {"lncrna_id", "peak_name"}.issubset(links):
         raise RuntimeError("DataS7 topology lacks lncRNA/peak keys")
-    links["gene_id"] = links["lncrna_id"].astype(str).str.removeprefix("LNC:").str.split(".").str[0]
-    links = links.loc[links["gene_id"].isin(required_ids), ["gene_id", "peak_name"]].drop_duplicates()
+    links["gene_id"] = gene_core(links["lncrna_id"])
+    links = links.loc[links["gene_id"].isin(required_ids)].copy()
     peaks = pd.read_csv(paths["peak_set"], sep="\t")
     if not {"seqnames", "start", "end", "name"}.issubset(peaks):
         raise RuntimeError("ATAC peak set lacks coordinate keys")
     peaks = peaks.loc[peaks["name"].astype(str).isin(set(links["peak_name"].astype(str)))].copy()
     if set(links["peak_name"]) - set(peaks["name"].astype(str)):
         raise RuntimeError("DataS7 topology includes peaks absent from the official peak set")
-    peaks["chromosome"] = peaks["seqnames"].astype(str)
-    peaks["peak_start0"] = pd.to_numeric(peaks["start"], errors="raise").astype("int64") - 1
-    peaks["peak_end0"] = pd.to_numeric(peaks["end"], errors="raise").astype("int64")
+    peaks = _intervals(peaks, "seqnames", "start", "end", one_based=True)
+    peaks["chromosome"] = "chr" + peaks["seqnames"]
+    peaks["peak_start0"] = peaks["start"]
+    peaks["peak_end0"] = peaks["end"]
+    if lineage.get("predictive_evaluation_eligible") is True:
+        columns = ["chromosome", "peak_start0", "peak_end0"]
+        if not set(columns).issubset(links):
+            raise ValueError("Independent topology lacks explicit peak coordinates")
+        coordinates = _intervals(links, *columns)
+        coordinates["chromosome"] = "chr" + coordinates["chromosome"]
+        checked = coordinates.merge(peaks[["name", *columns]], left_on="peak_name", right_on="name",
+                                    suffixes=("_link", "_peak"), validate="many_to_one")
+        if any(not checked[c+"_link"].eq(checked[c+"_peak"]).all() for c in columns):
+            raise ValueError("Independent topology coordinates differ from peak set")
+    links = links[["gene_id", "peak_name"]].drop_duplicates()
     distal = links.merge(
         peaks[["name", "chromosome", "peak_start0", "peak_end0"]],
         left_on="peak_name",
@@ -162,9 +177,10 @@ def main() -> int:
         "status": "PASS_HM450_LNCRNA_REGION_PROBE_MAP",
         "coordinate_build": "GRCh38",
         "coordinate_contract": "BED0_HALF_OPEN_INTERVAL_OVERLAP",
-        "promoter_definition": "GENCODE_V36_TRANSCRIPT_TSS_MINUS1000_PLUS100",
+        "promoter_definition": args.promoter_definition,
         "distal_definition": "CANDIDATE_LINKED_TCGA_ATAC_PEAK",
         "target_host": "149",
+        "training_started": False,
         "topology_lineage": lineage,
         "gdc_hm450_manifest_md5": observed_md5,
         "valid_hm450_probes": int(probes.probe_id.nunique()),
