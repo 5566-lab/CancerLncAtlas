@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1393,
+  "unique_test_cases_passed": 1426,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -308,7 +308,11 @@
     "tests/test_v32_clinical_numeric_replay.py": "ab9f1ce3f9963404192816d032c1541bc8441829f2172893a2fc84743743a999",
     "cc_hhgt/v32/native_clinical_workflow.py": "2dfe168eb48f5b810083a2ed7a879f5d30b66d655c7c1f10c5a1341dd5526d05",
     "scripts/run_native_clinical_workflow.py": "d27381ab42be9c402771643e9c6c170e56a369bde8e3a179c27d853290760ce5",
-    "tests/test_v32_native_clinical_workflow.py": "2ae4131a1cf31ffb53df0d5efaae396ea9ce24d60783058ec12573fb133246a5"
+    "tests/test_v32_native_clinical_workflow.py": "2ae4131a1cf31ffb53df0d5efaae396ea9ce24d60783058ec12573fb133246a5",
+    "cc_hhgt/v32/single_cell_numeric_replay.py": "b0b498c0cd798db59a50119c1268fd1b2b7c28ebeb72899f2fbe30404c4ebc7d",
+    "scripts/audit_single_cell_numeric_replay_149.py": "e782e91d76acde904013d41939d72eee641364fe67937d16ded2f887da0bc2df",
+    "scripts/train_single_cell_hhgt_149.py": "f659e951367d68fc3dd16c1f1e0112b2bd721dcba399fd89da81be3cdb97585f",
+    "tests/test_v32_single_cell_numeric_replay.py": "df6979da66b82b788aa19bef4ff777c9ff761620cce681d0f3770813327023d5"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -456,7 +460,8 @@
     "Native State publication now reconstructs standardized measurement alignment, original fold-local correlations/labels/counts and frozen private-head OOF probabilities before its existing independent fold aggregation. The actual producer identity state_fold_N is shared with the consumer, and native partitioned Parquet/CSV inputs retain their original hash semantics. Tests use the original outer driver and completion serializer with only the fitting callback replaced by explicitly frozen serialization fixtures. No optimizer ran. Source acquisition/reference ancestry and complete cross-module patient identity remain unverified. State/Clinical/single-cell command consolidation and final per-requirement acceptance remain open.",
     "Native State now has an actual original-CLI no-fit input collector, a separately declared training command and a completed-native-result -> measurement/frozen-forward replay -> selected State context and current publication handoff. Input arrays, patient receipt, full parameters, core parents and program coverage are matched. The current patient authority route is explicit; the legacy frozen default remains. This proves within-State preparation/completion consistency, not original source ancestry or full State/core/cross-module patient closure. Clinical/single-cell command handoffs, complete external acceptance and final per-requirement acceptance remain open. No fitting ran.",
     "Native Clinical risk inputs now replay from the actual XLSX workbook, expression/activity partitions, explicit patient folds and current core embeddings; every full feature table, target/bin/split fingerprint and frozen risk forward is checked. Entity fold statistics now replay from the actual measured patient matrices and outcomes before native meta-analysis. Original producers and serializer are used in synthetic integration fixtures, replacing only private-head fitting with explicit frozen parameters. This establishes same-implementation numeric consistency, not acquisition ancestry, optimizer history, cross-module patient closure or independent predictive performance. Clinical/single-cell command handoffs and final acceptance remain open. No real analysis or fitting ran.",
-    "Native Clinical now has a unified explicit prepare/collect workflow. The original risk CLI collects five fold inputs and the original entity CLI collects its actual patient matrices without computing entity statistics. Separate risk-fitting and entity-calculation commands are recorded and parsed, never dispatched. Collection matches completed native run/configuration, source roles, patient authority and input fingerprints before actual raw numeric replay and selected Clinical publication. The current consumer rechecks the preparation dependency. This proves within-Clinical preparation/completion consistency, not acquisition/reference ancestry, State/core/cross-module patient closure or independent predictive performance. Single-cell command consolidation, complete external acceptance and final code acceptance remain open. No actual fitting or real cohort analysis ran."
+    "Native Clinical now has a unified explicit prepare/collect workflow. The original risk CLI collects five fold inputs and the original entity CLI collects its actual patient matrices without computing entity statistics. Separate risk-fitting and entity-calculation commands are recorded and parsed, never dispatched. Collection matches completed native run/configuration, source roles, patient authority and input fingerprints before actual raw numeric replay and selected Clinical publication. The current consumer rechecks the preparation dependency. This proves within-Clinical preparation/completion consistency, not acquisition/reference ancestry, State/core/cross-module patient closure or independent predictive performance. Single-cell command consolidation, complete external acceptance and final code acceptance remain open. No actual fitting or real cohort analysis ran.",
+    "The original SC-HHGT CLI now collects both arms and all fit/validation/query graph/row inputs without model construction or forward execution. Actual completion serialization binds that preflight. The original optimizer/model-selection block was extracted unchanged (AST verified) so explicit frozen fitting substitutes can exercise the real native serializers. A separate host149 audit runs the unchanged independent structural/history validator, replays prepared tensors, all ten frozen query predictions and best-model validation loss. It detects internally consistent rehashed prediction/derived-value/loss corruption accepted by the old structural validator. This starts from pre-materialized episodes, not raw study acquisition or independently reconstructed metacells/LASSO. The new audit is not yet integrated into the signed-SC fusion/current-publication workflow; those existing consumers retain explicit no-neural-forward semantics. Unified SC command handoff and broader C01/C13/C16 remain open. No actual fitting or real data analysis ran."
   ],
   "test_suites": [
     {
@@ -1163,6 +1168,16 @@
       "path": "provenance/code_completion_20261015/clinical_workflow_consumers_r1_tests.xml",
       "passed": 32,
       "sha256": "128c71bb1f01cd7516cbdb086398448637d882014139c315d6c45158da8f2d25"
+    },
+    {
+      "path": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml",
+      "passed": 18,
+      "sha256": "6142c6ebb1028c7869f480374dc5301c650e7793cedb11729df1e8346267be83"
+    },
+    {
+      "path": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml",
+      "passed": 43,
+      "sha256": "8e079a54213ec9144b8d8219a42749b184c399d331e0f1ba3cd5736fd072c8fa"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1232,6 +1247,106 @@
       "module": "tests.test_prepare_v32_formal_sampler",
       "case": "test_affine_candidate_sampler_rejects_impossible_budget",
       "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_columnar_external_batch_matches_record_edges",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_continuous_feature_intervention_changes_encoding_and_prediction",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_edge_weight_intervention_changes_encoding_without_topology_change",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_fixed_five_node_schema_uses_self_contained_hgtconv",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_many_to_many_pathway_family_membership_preserves_all_edges",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_membership_orientation_and_donor_leak_fail_closed",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_multiple_external_edges_on_same_relation_are_accumulated",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_sparse_lasso_coo_matches_dense_edges_without_dense_allocation",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt",
+      "case": "test_with_and_without_lasso_have_identical_schema",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_episodes",
+      "case": "test_lasso_pair_features_are_signed_edge_aware_and_response_scoped",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_episodes",
+      "case": "test_local_nodes_and_lasso_edges_preserve_global_identity",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_episodes",
+      "case": "test_source_features_allow_two_context_donors_only_when_explicit",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_episodes",
+      "case": "test_source_features_ignore_excluded_rows",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_episodes",
+      "case": "test_sparse_coo_payload_keeps_orientation_and_weights",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_episodes",
+      "case": "test_without_lasso_arm_has_no_lasso_derived_pair_signal",
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_training",
+      "case": "test_episode_rejects_static_duplication_and_lasso_pair_leak",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_training",
+      "case": "test_host_gate_and_outer_only_fit_geometry_fail_closed",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_training",
+      "case": "test_independent_validator_replays_early_stopping",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_training",
+      "case": "test_large_training_inputs_use_receipt_metadata_and_single_load",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_single_cell_hhgt_training",
+      "case": "test_validator_does_not_import_training_implementation",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_stats",
@@ -2656,32 +2771,32 @@
     {
       "module": "tests.test_v32_current_single_cell_context",
       "case": "test_missing_or_insufficient_contexts_keep_nulls_not_false_neutrality[missing]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_single_cell_context",
       "case": "test_missing_or_insufficient_contexts_keep_nulls_not_false_neutrality[sparse]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_single_cell_context",
       "case": "test_native_replay_preserves_opposite_contexts_zero_and_unique_donor_counts",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_single_cell_context",
       "case": "test_public_profile_replay_rejects_rehashed_sign_change",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_single_cell_context",
       "case": "test_rehashed_native_aggregate_cannot_override_actual_donor_rows",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_single_cell_context",
       "case": "test_wrong_candidate_universe_and_selected_identity_fail",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
@@ -7701,112 +7816,177 @@
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_crossfit_passes_declared_transforms_to_all_folds_without_optimizer",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_current_runner_consumes_signed_adapter_without_starting_training[None]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_current_runner_consumes_signed_adapter_without_starting_training[core]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_current_runner_consumes_signed_adapter_without_starting_training[estimand]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_current_runner_consumes_signed_adapter_without_starting_training[run_id]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_current_runner_consumes_signed_adapter_without_starting_training[spec]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_release_keeps_signed_native_measurement_names_without_optimizer",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_signed_adapter_rejects_corrupt_donor_predictions[cross_fold_donor]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_signed_adapter_rejects_corrupt_donor_predictions[duplicates]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_signed_adapter_rejects_corrupt_donor_predictions[missing_crosswalk]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_signed_adapter_rejects_corrupt_donor_predictions[range]",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_signed_hhgt_reaches_actual_fusion_and_preserves_context",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_signed_single_cell_fusion",
       "case": "test_signed_transform_preserves_negative_values_and_parquet_builder_matches",
-      "suite": "provenance/code_completion_20261015/single_cell_sources_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_canonical_donor_alias_leak_is_rejected",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_native_checkpoint_episode_source_and_external_isolation",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[ablation_report_omission]",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[checkpoint_state]",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_rehashed_native_receipts_do_not_hide_semantic_drift[query_identity]",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[checkpoint]",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[episode]",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[missing_training_binding]",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
       "case": "test_signed_source_drift_and_historical_gap[upstream_file]",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_numeric_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_actual_completion_serializer_independent_validator_and_numeric_cli",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_actual_prepare_only_has_both_arms_all_roles_and_no_model",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_insufficient_epoch_coverage_fails_without_training_or_ready",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_invalid_preparation_settings_are_rejected_before_output[epochs-True]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_invalid_preparation_settings_are_rejected_before_output[hidden_channels-1.5]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_invalid_preparation_settings_are_rejected_before_output[learning_rate-nan]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_invalid_preparation_settings_are_rejected_before_output[seed--1]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_numerical_audit_cannot_write_into_training_outputs",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_rehashed_consistent_containers_cannot_replace_actual_frozen_values[absolute_strength]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_rehashed_consistent_containers_cannot_replace_actual_frozen_values[predicted_rho]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_rehashed_consistent_containers_cannot_replace_actual_frozen_values[preflight_tensor]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_rehashed_consistent_containers_cannot_replace_actual_frozen_values[residual]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_numeric_replay",
+      "case": "test_rehashed_consistent_containers_cannot_replace_actual_frozen_values[validation_loss]",
+      "suite": "provenance/code_completion_20261015/sc_numeric_replay_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_state_release",
@@ -8141,10 +8321,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "clinical_workflow_r1",
-      "clinical_workflow_consumers_r1"
+      "sc_numeric_replay_r1",
+      "sc_numeric_consumers_r1"
     ],
-    "passed": 94,
+    "passed": 61,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

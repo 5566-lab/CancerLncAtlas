@@ -1,0 +1,47 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T11:04:44.250682+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/single_cell_numeric_replay.py": "2b60379935e0ee5e5fdec16fafc2c19c02ad3391539c13631d6698dac74c8865",
+    "scripts/audit_single_cell_numeric_replay_149.py": "e782e91d76acde904013d41939d72eee641364fe67937d16ded2f887da0bc2df",
+    "scripts/train_single_cell_hhgt_149.py": "f659e951367d68fc3dd16c1f1e0112b2bd721dcba399fd89da81be3cdb97585f",
+    "tests/test_v32_single_cell_numeric_replay.py": "df6979da66b82b788aa19bef4ff777c9ff761620cce681d0f3770813327023d5"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_single_cell_numeric_replay.py::test_actual_prepare_only_has_both_arms_all_roles_and_no_model",
+    "tests/test_v32_single_cell_numeric_replay.py::test_actual_completion_serializer_independent_validator_and_numeric_cli",
+    "--junitxml=provenance/code_completion_20261015/sc_numeric_smoke_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T11:05:06.464634+00:00"
+}

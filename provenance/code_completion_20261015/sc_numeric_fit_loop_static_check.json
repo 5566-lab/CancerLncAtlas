@@ -1,0 +1,10 @@
+{
+  "scope": "LOCAL_SMALL_STATIC_CHECK_ONLY",
+  "base_commit": "f87f6c8a21ecf461b3a33622eb6c944f400e2b74",
+  "source_file": "scripts/train_single_cell_hhgt_149.py",
+  "current_sha256": "f659e951367d68fc3dd16c1f1e0112b2bd721dcba399fd89da81be3cdb97585f",
+  "optimizer_and_model_selection_block_ast_identical": true,
+  "statement_count": 15,
+  "training_started": false,
+  "optimizer_executed": false
+}

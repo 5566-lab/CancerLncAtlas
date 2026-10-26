@@ -84,6 +84,7 @@ class TrainingSettings:
     num_heads: int = 4
     dropout: float = 0.1
     max_gradient_norm: float = 5.0
+    prepare_only: bool = False
 
 
 @dataclass(frozen=True)
@@ -817,6 +818,16 @@ def load_episode_manifest(
 
 
 def _validate_settings(settings: TrainingSettings) -> None:
+    integers=("seed","epochs","patience","prediction_batch_size","max_rows_per_episode_step",
+              "max_fit_episodes_per_epoch","training_workers","threads_per_worker","hidden_channels","num_layers","num_heads")
+    if any(type(getattr(settings,k)) is not int for k in integers) or type(settings.prepare_only) is not bool:
+        raise RuntimeError("SC-HHGT integer settings cannot be Boolean or fractional")
+    if not 0<=settings.seed<=2**32-1-4*1009:
+        raise RuntimeError("SC-HHGT fold seeds must fit NumPy uint32")
+    for key in ("minimum_validation_improvement","learning_rate","weight_decay","dropout","max_gradient_norm"):
+        value=getattr(settings,key)
+        if type(value) not in (int,float) or not np.isfinite(value):
+            raise RuntimeError("SC-HHGT numeric settings must be finite: "+key)
     if settings.epochs <= 0 or settings.patience <= 0:
         raise RuntimeError("epoch/patience settings must be positive")
     if settings.prediction_batch_size <= 0 or settings.max_rows_per_episode_step <= 0:
@@ -954,23 +965,8 @@ def _prediction_frame(
     return frame
 
 
-def train_fold_arm(
-    settings: TrainingSettings, fold: int, arm: str,
-    descriptors: list[EpisodeDescriptor], output_root: Path, seed: int,
-) -> tuple[dict[str, Any], pd.DataFrame]:
-    fit = [value for value in descriptors if value.role == "fit"]
-    validation = [value for value in descriptors if value.role == "validation"]
-    query = [value for value in descriptors if value.role == "query"]
-    example = load_episode(fit[0], arm)
-    model = _initialize_model(example.graph, settings, example.pair_features.shape[1], seed)
-    edge_schema = [list(value) for value in example.graph.edge_schema]
-    feature_dims = {
-        node_type: int(example.graph.data[node_type].continuous_x.shape[1])
-        for node_type in NODE_TYPES
-    }
-    del example
-    initial_state = _state_hash(model.state_dict())
-    initial_hgt = _state_hash(model.state_dict(), "encoder.layers.")
+def fit_fold_model(settings, fold, arm, fit, validation, model, seed):
+    """Original optimizer/model-selection loop; serialization remains outside."""
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=settings.learning_rate, weight_decay=settings.weight_decay
     )
@@ -1107,6 +1103,31 @@ def train_fold_arm(
     if best_state is None or best_epoch < 0:
         raise RuntimeError("INNER_VALIDATION_DID_NOT_SELECT_A_MODEL")
     model.load_state_dict(best_state, strict=True)
+    return dict(history=history, episode_audits=episode_audits, best_epoch=best_epoch,
+                best_validation=best_validation, first_step=first_step)
+
+
+def train_fold_arm(
+    settings: TrainingSettings, fold: int, arm: str,
+    descriptors: list[EpisodeDescriptor], output_root: Path, seed: int,
+) -> tuple[dict[str, Any], pd.DataFrame]:
+    fit = [value for value in descriptors if value.role == "fit"]
+    validation = [value for value in descriptors if value.role == "validation"]
+    query = [value for value in descriptors if value.role == "query"]
+    example = load_episode(fit[0], arm)
+    model = _initialize_model(example.graph, settings, example.pair_features.shape[1], seed)
+    edge_schema = [list(value) for value in example.graph.edge_schema]
+    feature_dims = {
+        node_type: int(example.graph.data[node_type].continuous_x.shape[1])
+        for node_type in NODE_TYPES
+    }
+    del example
+    initial_state = _state_hash(model.state_dict())
+    initial_hgt = _state_hash(model.state_dict(), "encoder.layers.")
+    fitted = fit_fold_model(settings, fold, arm, fit, validation, model, seed)
+    history, episode_audits, best_epoch, best_validation, first_step = (
+        fitted[key] for key in ("history", "episode_audits", "best_epoch", "best_validation", "first_step")
+    )
     final_state = _state_hash(model.state_dict())
     final_hgt = _state_hash(model.state_dict(), "encoder.layers.")
     if final_state == initial_state or final_hgt == initial_hgt:
@@ -1159,6 +1180,8 @@ def train_fold_arm(
         "source_checkpoint_sha256": None, "history": history,
         "state_dict": {name: value.detach().cpu() for name, value in model.state_dict().items()},
     }
+    fixture_tags={k:fitted[k] for k in ("synthetic_serialization_fixture","optimizer_actually_run") if k in fitted}
+    checkpoint.update(fixture_tags)
     atomic_torch_save(checkpoint_path, checkpoint)
     atomic_json(history_path, {"format": TRAINING_FORMAT, "history": history})
     atomic_parquet(predictions_path, prediction_frame)
@@ -1187,6 +1210,7 @@ def train_fold_arm(
         "maximum_live_episode_graphs": 1,
         "one_graph_encode_per_episode_step": True,
     }
+    report.update(fixture_tags)
     atomic_json(report_path, report)
     files = {
         "checkpoint": file_record(checkpoint_path), "history": file_record(history_path),
@@ -1363,7 +1387,7 @@ def run_training(settings: TrainingSettings, *, hostname: str | None = None) -> 
     atomic_json(
         preflight_path,
         {"format": TRAINING_FORMAT, "status": "PASS", "target_host": "149",
-         "device": "cpu", "paid_compute": False,
+         "device": "cpu", "paid_compute": False,"training_started":False,"prepare_only":settings.prepare_only,
          "episode_manifest": input_lineage["episode_manifest"],
          "graph_asset_manifest": input_lineage["graph_asset_manifest"]},
     )
@@ -1374,6 +1398,12 @@ def run_training(settings: TrainingSettings, *, hostname: str | None = None) -> 
          "model_source": file_record(Path(__file__).resolve().parents[1] / "cc_hhgt" / "v32" / "single_cell_hhgt.py"),
          "old_checkpoint_loaded": False, "source_checkpoint_sha256": None},
     )
+    from cc_hhgt.v32.single_cell_numeric_replay import collect_input_preflight
+    input_preflight_path=output/"INPUT_PREFLIGHT.json"
+    atomic_json(input_preflight_path,collect_input_preflight(settings,descriptors,input_lineage))
+    if settings.prepare_only:
+        return {"status":"PASS_READY","target_host":"149","training_started":False,
+                "input_preflight":file_record(input_preflight_path)}
     reports: list[dict[str, Any]] = []
     if settings.training_workers == 1:
         for fold in range(N_OUTER_FOLDS):
@@ -1419,6 +1449,7 @@ def run_training(settings: TrainingSettings, *, hostname: str | None = None) -> 
         "files": {
             "run_config": file_record(config_path), "preflight": file_record(preflight_path),
             "input_lineage": file_record(lineage_path),
+            "input_preflight": file_record(input_preflight_path),
             "checkpoint_manifest": file_record(checkpoint_path),
             "oof_predictions": file_record(oof_path), "checksums": file_record(checksums),
         },
@@ -1448,6 +1479,7 @@ def parse_args(argv: list[str] | None = None) -> TrainingSettings:
     parser.add_argument("--num-heads", type=int, default=4)
     parser.add_argument("--dropout", type=float, default=0.1)
     parser.add_argument("--max-gradient-norm", type=float, default=5.0)
+    parser.add_argument("--prepare-only", action="store_true")
     values = parser.parse_args(argv)
     return TrainingSettings(**vars(values))
 

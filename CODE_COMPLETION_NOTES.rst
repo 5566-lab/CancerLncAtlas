@@ -5345,3 +5345,67 @@ explicit patient-identity and non-fitting Clinical calculation cases in 94.63
 seconds. All 94 distinct cases pass with no failures or skips. The earlier
 ``clinical_workflow_smoke_r1`` passed six cases and is not counted a second time.
 There was no intermediate failing test receipt in this change.
+
+Native SC-HHGT input collection and frozen numerical replay (2026-10-26)
+---------------------------------------------------------------------
+
+The original ``scripts.train_single_cell_hhgt_149`` CLI now supports
+``--prepare-only``. Use its ordinary explicit ``--episode-root``,
+``--graph-assets-root``, ``--output-root`` and configuration arguments on 149.
+Preparation loads the actual fit, validation and query episode graphs for both
+arms of all five folds, fingerprints their tensors and ordered rows, and writes
+``INPUT_PREFLIGHT.json``. It constructs no neural model and performs no model
+forward or optimization. Input assets are fully hash-verified before and after
+collection, and only one episode graph is retained at a time. Invalid or
+non-finite settings and an epoch budget unable to cover all fit episodes are
+rejected. No completion, checkpoint or OOF prediction is produced by preparation.
+
+Ordinary native completion now binds that preflight. The original 136-line
+optimizer/model-selection block is extracted into ``fit_fold_model`` with its
+15 AST statements unchanged from parent commit ``f87f6c8``; the static comparison
+is recorded in ``sc_numeric_fit_loop_static_check.json``. The actual fitting
+block was not executed. This extraction allows an explicitly marked frozen
+fitting substitute to exercise the original completion serializer in fixtures.
+
+After a separately completed run is available, a new standalone audit runs on
+149, outside its immutable output directory::
+
+    python -m scripts.audit_single_cell_numeric_replay_149 \
+      --training-root /path/completed \
+      --training-success-sha256 <sha256> --output /new/sc_numeric_audit
+
+The audit executes the unchanged independent structural/history validator,
+reconstructs the prepared graph/row tensors, loads all ten frozen native model
+states and reruns query predictions and best-model inner-validation loss.
+Prediction identities, targets, signed rho, absolute strength and residuals must
+match; floating values use absolute tolerance 1e-6 with zero relative tolerance.
+Checkpoint parameters and completed output files must remain unchanged.
+``NUMERIC_REPLAY.json`` binds the actual completion, input preflight, checkpoint
+and prediction files, implementation hashes and numerical checks. Failure leaves
+a diagnostic receipt and cannot produce a passing numerical receipt.
+
+The fixture uses actual native input loaders, the original CLI and completion
+serializer, the independent validator and the new numerical audit. Its 20
+synthetic episode files produce 40 arm-specific episode inputs, ten models and
+40 OOF rows. Only fitting is substituted with explicitly changed frozen HGT
+parameters and marked synthetic optimizer telemetry; neural optimizers are
+forbidden. The preparation test additionally forbids model initialization and
+model calls. This does not prove optimizer execution. The independent validator
+deliberately remains separate from the new same-implementation numerical audit.
+
+Verification on 149: ``sc_numeric_replay_r1`` passes 18 cases in 39.55 seconds;
+``sc_numeric_consumers_r1`` passes 43 cases in 57.52 seconds. All 61 distinct
+cases pass with no failures or skips. One existing test that updates parameters
+through a real optimizer was intentionally deselected. The earlier two-case
+smoke run is not counted again. Consistently rehashed changes to predictions,
+derived fields, validation loss or input tensor fingerprints still pass the old
+structural validator, but are rejected by the new numerical reconstruction.
+
+The new audit is standalone at this stage: signed-SC fusion, model-use inspection
+and current publication still retain their explicit no-neural-forward semantics.
+Their existing regression checks do not establish integration of this new audit.
+Unified SC preparation/completion handoff remains open. Inputs start at prepared
+episodes/static graph assets; raw acquisition, reference, metacell and LASSO
+transformation ancestry, cross-module patient closure and independent predictive
+performance remain unproved. C01/C13/C16 stay in progress. No fitting, real cohort
+analysis, paid compute or deployment was started.

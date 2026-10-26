@@ -1,0 +1,53 @@
+{
+  "method": "NATIVE_SC_HHGT_PREPARE_AND_FROZEN_NUMERICAL_REPLAY",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "sc_numeric_replay_r1",
+    "sc_numeric_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "original_training_cli_prepare_only_executed": true,
+  "actual_native_completion_serializer_executed": true,
+  "optimizer_and_model_selection_block_ast_identical_to_parent": true,
+  "static_check": {
+    "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\provenance\\code_completion_20261015\\sc_numeric_fit_loop_static_check.json",
+    "sha256": "b68f239866d8f9fcbf6e72a915f1f12bf32e879ab28397d05f152e24de6c92bd"
+  },
+  "actual_independent_structural_history_validator_executed": true,
+  "prepared_graph_row_tensors_replayed": true,
+  "frozen_query_predictions_replayed": true,
+  "frozen_inner_validation_loss_replayed": true,
+  "training_outputs_unchanged_verified": true,
+  "preparation_model_construction_forward_and_optimization_forbidden": true,
+  "outer_folds": 5,
+  "arms": 2,
+  "native_episode_files": 20,
+  "arm_episode_inputs": 40,
+  "models": 10,
+  "oof_rows": 40,
+  "test_substitutes": [
+    "Pre-materialized synthetic episode/static graph assets from the existing native input fixture.",
+    "Only the extracted fitting callback is replaced by explicitly changed frozen HGT parameters and marked synthetic optimizer telemetry; all neural optimizers are forbidden."
+  ],
+  "intentionally_not_executed_tests": [
+    "tests/test_single_cell_hhgt.py::test_signed_tanh_output_and_optimizer_step_update_hgt_parameters"
+  ],
+  "current_signed_fusion_and_publication_replay_integrated": false,
+  "optimizer_execution_independently_verified": false,
+  "source_acquisition_ancestry_verified": false,
+  "metacell_and_lasso_transform_ancestry_verified": false,
+  "cross_module_patient_closure_complete": false,
+  "independent_predictive_performance_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The original SC-HHGT CLI now collects both arms and all fit/validation/query graph/row inputs without model construction or forward execution. Actual completion serialization binds that preflight. The original optimizer/model-selection block was extracted unchanged (AST verified) so explicit frozen fitting substitutes can exercise the real native serializers. A separate host149 audit runs the unchanged independent structural/history validator, replays prepared tensors, all ten frozen query predictions and best-model validation loss. It detects internally consistent rehashed prediction/derived-value/loss corruption accepted by the old structural validator. This starts from pre-materialized episodes, not raw study acquisition or independently reconstructed metacells/LASSO. The new audit is not yet integrated into the signed-SC fusion/current-publication workflow; those existing consumers retain explicit no-neural-forward semantics. Unified SC command handoff and broader C01/C13/C16 remain open. No actual fitting or real data analysis ran."
+}
