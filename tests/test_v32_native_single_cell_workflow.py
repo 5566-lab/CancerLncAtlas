@@ -74,6 +74,22 @@ def collected(source,tmp_path_factory):
     return root,prepared,success,result
 
 
+def test_native_chain_single_cell_prepare_collect(source,tmp_path):
+    from native_chain_fixture import exercise
+    result=exercise("single_cell",source,tmp_path,complete)
+    assert result["native_model_forwards_replayed"] and not result["global_pointer_updated"]
+
+
+@pytest.mark.parametrize("field",["preparation","training_success","numeric_replay"])
+def test_native_chain_rejects_unlinked_sc_collection(collected,tmp_path,field):
+    from cc_hhgt.v32 import native_workflow_chain as chain
+    _,_,_,binding=collected;value=read(binding)
+    copied=tmp_path/"copied.json";copied.write_bytes(Path(value[field]["path"]).read_bytes())
+    value[field]=record(copied);path=tmp_path/"COLLECTION.json";write(path,value)
+    with pytest.raises(ValueError,match="SC collection dependency differs"):
+        chain.validate_result("single_cell.collect",record(path),tmp_path)
+
+
 def test_original_cli_preparation_no_model_and_no_fit_dispatch(source,tmp_path,monkeypatch):
     from scripts.run_native_single_cell_workflow import main
     args=["prepare","--manifest",str(source),"--output",str(tmp_path/"prepared")]

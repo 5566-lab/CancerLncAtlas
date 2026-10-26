@@ -232,3 +232,24 @@ def test_actual_prediction_failure_preserves_failed_stage(registered, native_aut
     state = read(tmp_path/"output/STAGE_STATUS.json")
     assert state["status"] == "FAILED" and state["failed_stage"] == "prediction_G0"
     assert not (tmp_path/"output/SUCCESS.json").exists() and not (tmp_path/"output/publication").exists()
+
+
+def test_native_chain_registers_actual_preparation_and_runs_current_results(registered,prepared,native_authority,scoped,tmp_path,monkeypatch):
+    from cc_hhgt.v32 import native_workflow_chain as chain
+    patched_controls(monkeypatch,native_authority,scoped)
+    from test_v32_fold_local_expression import forbidden
+    from cc_hhgt.v32 import native_core_workflow
+    monkeypatch.setattr(native_core_workflow,"run",forbidden)
+    source=read(registered[1]);source["core_preparation"]={"stage_ref":"core"}
+    source["publication_components"]["external"]["input_manifest"]=record(registered[0]/"external.json")
+    core=record(prepared/"NATIVE_CORE_BINDING.json");cnv=read(prepared/"LAUNCH_PREFLIGHT.json")["native_cnv_workflow"]
+    manifest=tmp_path/"chain.json";write(manifest,{"format":chain.INPUT,"chain_id":"native-core-results",
+        "stages":[{"id":"core","operation":"core.accept","inputs":{"binding":core,"cnv_workflow":cnv}},
+            {"id":"results","operation":"results.run","inputs":source}]})
+    output=tmp_path/"chain";chain.initialize(manifest,output);chain.advance(output);state=read(output/"CHAIN.json")
+    assert state["status"]=="DECLARED_STAGES_COMPLETE",state
+    result=read(state["results"]["results"]["path"])
+    assert result["winner"]=="G1" and len(result["predictions"])==6 and not result["training_started"]
+    from cc_hhgt.v32.current_analysis_workflow import validate_current_analysis_workflow
+    _,publication=validate_current_analysis_workflow(result["publication"],output)
+    assert publication["model_use_inventory_completeness_verified"] is False

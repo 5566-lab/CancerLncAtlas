@@ -217,3 +217,89 @@ def run_current_analysis_workflow(manifest_path,output):
         state.update(status="FAILED",failed_stage=stage,error_type=type(error).__name__,error=str(error))
         write(output/"STAGE_STATUS.json",state)
         raise
+
+
+def validate_current_analysis_workflow(item, root):
+    """Reopen the actual selected/component stores and check publication closure."""
+    if socket.gethostname()!="149": raise RuntimeError("Current workflow audit requires target host 149")
+    path=verified_path(item,root); binding=read(path); output=path.parent
+    if (binding.get("format")!=FORMAT or binding.get("status")!="PASS" or binding.get("target_host")!="149"
+            or any(binding.get(k) is not False for k in ("training_started","upstream_training_executed",
+                "production_deployed","independent_external_validation_attested"))):
+        raise ValueError("Incomplete current publication workflow")
+    source=verified_path(binding["input_manifest"],output); manifest,declared=validate_manifest(source)
+    if binding["release_id"]!=manifest["release_id"] or binding["implementation_sha256"]!=implementation_hashes():
+        raise ValueError("Publication identity or implementation changed")
+    for pin in binding["source_inputs"]: verified_path(pin,source.parent)
+    success=read(output/"SUCCESS.json"); state=read(output/"STAGE_STATUS.json")
+    if (success!={"status":"PASS","target_host":"149","binding_path":str(path),"binding_sha256":sha256(path),
+            "web_binding":binding["web_binding"],"stage_status_sha256":sha256(output/"STAGE_STATUS.json"),"training_started":False}
+            or state.get("status")!="PASS" or state.get("stages")!=binding["stages"]):
+        raise ValueError("Publication completion or stages differ")
+    from .selected_genesets import SelectedAnalysisQuery
+    selected=SelectedAnalysisQuery(binding["selected_analysis"]["path"],expected_sha=binding["selected_analysis"]["sha256"])
+    store=CurrentAnalysisWebStore(binding["web_binding"]["path"],expected_sha=binding["web_binding"]["sha256"])
+    if store.binding["component_bindings"]["selected"]!=binding["selected_analysis"]:
+        raise ValueError("Publication selected analysis differs from its website")
+    catalog=verified_path(binding["public_table_catalog"],output)
+    if read(catalog)!=public_table_catalog(store): raise ValueError("Publication table catalog differs")
+    rows=binding["stages"]; by_name={r["stage"]:r for r in rows}
+    expected=list(ORDER)
+    if "model_use" in by_name: expected.insert(expected.index("external"),"model_use")
+    if [r["stage"] for r in rows]!=expected: raise ValueError("Publication stage order differs")
+    from .current_analysis_web import source_tables
+    web_input=verified_path(by_name["web"]["resolved_input"],output)
+    if store.binding["input_manifest"]!=record(web_input):
+        raise ValueError("Publication web input differs from its producer")
+    _,_,_,tables,statuses,bindings=source_tables(web_input)
+    if (statuses!=store.binding["component_status"] or bindings!=store.binding["component_bindings"]
+            or set(tables)!=set(store.binding["tables"])):raise ValueError("Publication native sources differ from website")
+    for name,table in tables.items():
+        if table["files"]!=store.binding["tables"][name]["source_files"]:
+            raise ValueError("Publication public table source differs")
+    refs={}; sources={}
+    for stage in ORDER[:-1]:
+        spec=manifest["selected"] if stage=="selected" else manifest["components"][stage]
+        row=by_name[stage]
+        if spec["status"] in STATUSES:
+            if row!={"stage":stage,**spec} or store.binding["component_status"][stage]!=spec:
+                raise ValueError("Publication missing-component declaration differs")
+            continue
+        pin=row["binding"]; verified_path(pin,output)
+        if row["status"]!=("BUILT" if spec["status"]=="BUILD" else "REUSED"):
+            raise ValueError("Publication stage operation differs")
+        if spec["status"]=="REUSE":
+            if pin!=declared[stage]: raise ValueError("Publication reused binding differs")
+        else:
+            template=verified_path(declared[stage],source.parent)
+            resolved=resolve_template(read(template),template.parent,refs,sources)
+            if stage=="external" and resolved.get("model_use_inventory")=={"derive_from_native_models":True}:
+                use=by_name.get("model_use",{}); use_input=verified_path(use["resolved_input"],output)
+                from .current_model_use import audit_current_model_use, INPUT_FORMAT as USE_INPUT
+                expected_use={"format":USE_INPUT,"models":resolved["models"]}
+                if "patient_identity_crosswalk" in resolved:expected_use["patient_identity_crosswalk"]=resolved["patient_identity_crosswalk"]
+                if read(use_input)!=expected_use:raise ValueError("Publication model-use request differs")
+                audit_current_model_use(use["binding"]["path"],expected_sha=use["binding"]["sha256"])
+                if read(use["binding"]["path"])["input_manifest"]!=record(use_input):
+                    raise ValueError("Publication model-use input differs from its producer")
+                resolved["model_use_inventory"]=use["binding"]
+            resolved_path=verified_path(row["resolved_input"],output)
+            if read(resolved_path)!=resolved:
+                raise ValueError("Publication resolved input differs")
+            if read(pin["path"])["input_manifest"]!=record(resolved_path):
+                raise ValueError("Publication resolved input differs from its producer")
+        if stage=="selected":
+            if pin!=binding["selected_analysis"]:raise ValueError("Publication selected stage differs")
+            refs.update(selected_analysis=pin,selected_score=record(selected.score_binding_path))
+        else:
+            if store.binding["component_bindings"][stage]!=pin:raise ValueError("Publication component differs from website")
+            refs[stage]=pin
+    if by_name["web"]["binding"]!=binding["web_binding"]: raise ValueError("Publication web stage differs")
+    complete=False
+    if "external" in refs:
+        from .external_validation_current import CurrentExternalValidationQuery
+        external=CurrentExternalValidationQuery(refs["external"]["path"],expected_sha=refs["external"]["sha256"])
+        complete=external.binding["model_use_inventory_completeness_verified"]
+    if binding["model_use_inventory_completeness_verified"] is not complete:
+        raise ValueError("Publication source-completeness claim differs")
+    return path,binding

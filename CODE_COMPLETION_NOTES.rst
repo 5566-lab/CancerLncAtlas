@@ -5665,3 +5665,142 @@ corrected. Negative cases reject rehashed input/configuration, commands,
 OOF/metric/contribution/model/lineage changes, invalid publication settings,
 unavailable result references and host/output boundaries. The source-only
 inventory test forbids every neural module call and retains unresolved ancestry.
+
+Resumable native workflow chain (2026-10-26)
+-------------------------------------------
+
+``scripts.run_native_workflow_chain`` connects the current native workflows by
+their actual bindings. It is separate from the unused historical forty-task
+``full_orchestration`` training DAG, whose all-heads-depend-on-core policy does
+not describe independent SC or today's rule Evidence module. The new chain
+never dispatches a fitting function or arbitrary shell command.
+
+The input has exactly ``format=NATIVE_WORKFLOW_CHAIN_INPUT_V1``, ``chain_id``
+and a nonempty ``stages`` list. Each stage has exactly ``id``, ``operation`` and
+``inputs``. IDs start with a lowercase letter and contain at most 64 lowercase
+letters, digits, underscores or hyphens. Stages are declared in dependency
+order; duplicate, forward, self and unknown references are rejected. Supported
+operations are:
+
+* ``expression.run``, ``cnv.run`` and ``results.run`` execute their existing
+  native workflows. Inputs are the corresponding complete native manifest.
+* ``auxiliary.prepare/collect``, ``genomic.prepare/collect``,
+  ``state.prepare/collect``, ``clinical.prepare/collect``,
+  ``single_cell.prepare/collect`` and ``fusion.prepare/collect`` call the
+  existing native handoffs. Preparation inputs are the native manifest;
+  collection inputs are ``preparation`` and ``completed`` pinned records.
+  Clinical collection instead takes ``preparation``, ``risk`` and ``entity``.
+* ``core.accept`` takes a completed ``binding`` and its ``cnv_workflow`` record.
+  It executes the native core and CNV validators and checks their direct link.
+  Native core preparation includes L1 fitting, so it must be executed separately
+  through its existing explicit gate. The chain does not call ``core.run`` or
+  create that preparation on the user's behalf.
+* ``publication.run`` executes the actual current publication workflow with its
+  existing manifest, including all nine explicit component statuses. This can
+  publish a collected fusion selection with subsequently completed State,
+  Clinical, genomic, drug, distal, patient, SC and external contexts.
+
+Nested input values may use the following exact objects:
+
+* ``{"stage_ref":"earlier-id"}`` substitutes that stage's actual result
+  path/SHA256 record. An optional ``pointer`` selects a JSON value from its
+  binding, for example ``/core_export`` or ``/selected_analysis``. JSON pointer
+  escaping uses ``~0`` and ``~1``; list entries use numeric indices.
+* ``{"external_ref":"completed-run"}`` substitutes a registered external
+  path/SHA256 record. Its optional pointer reads a field from that pinned JSON,
+  for example the six completed core run declarations. Relative pinned paths
+  within the selected payload resolve against the external JSON's directory.
+  Payloads cannot inject further undeclared stage/external references.
+* ``{"json_file":{...}}`` resolves a nested template and writes a private,
+  content-addressed JSON file within the stage attempt, returning its pin.
+  Use this when an existing native manifest expects a separate source-config or
+  publication-template file.
+* ``{"project_path":"relative/path"}`` explicitly resolves a plain path
+  against the chain manifest directory. Other plain path strings should be
+  absolute because each native input manifest is written in its own attempt
+  directory. Existing file path/SHA256 records are checked and made absolute.
+  Directory records preserve the native membership-hash declaration; the actual
+  native stage preflight validates it using that producer's directory contract.
+  Structural chain planning does not claim to have validated those datasets.
+
+A minimal fusion continuation, after supplying the full native preparation
+manifest in the first stage, has this shape::
+
+    {
+      "format": "NATIVE_WORKFLOW_CHAIN_INPUT_V1",
+      "chain_id": "current-analysis",
+      "stages": [
+        {"id": "fusion-inputs", "operation": "fusion.prepare",
+         "inputs": {"external_ref": "fusion-manifest", "pointer": "/manifest"}},
+        {"id": "fusion-results", "operation": "fusion.collect",
+         "inputs": {"preparation": {"stage_ref": "fusion-inputs"},
+                    "completed": {"external_ref": "completed-fusion"}}}
+      ]
+    }
+
+In this example the external JSON wraps the native input as
+``{"manifest": <full native input>}``. An empty pointer always returns the file record itself, not its
+JSON body. Alternatively place the native manifest inline as ``inputs``.
+
+Run only on server 149::
+
+    python -m scripts.run_native_workflow_chain plan --manifest /path/chain.json
+    python -m scripts.run_native_workflow_chain init --manifest /path/chain.json --output /new/chain
+    python -m scripts.run_native_workflow_chain advance --output /new/chain
+    python -m scripts.run_native_workflow_chain advance --output /new/chain --external-inputs /path/completions.json
+
+``completions.json`` has exactly ``format=NATIVE_WORKFLOW_CHAIN_EXTERNAL_V1``
+and ``inputs``, a mapping from declared external names to pinned files.
+Registrations are append-only: an existing external name cannot be replaced,
+even by an identical file at a different path. Native validators decide whether
+the registered data are legitimate completed results. No completion is inferred
+from the external name, an optimizer status label or file existence alone.
+
+``plan`` validates the graph and available direct pins; it does not claim that
+every native scientific preflight has run. ``init`` pins the declaration and
+implementation and creates a new chain directory. ``advance`` invokes ready
+stages serially, continues independent stages across missing inputs or a terminal
+stage exception, and records exact failures. Downstream consumers remain blocked
+until their own dependencies pass. Each successful stage is revalidated through
+the existing native consumer on resume, including its original input manifest
+and exact preparation/completion link. Changing source data or implementation
+invalidates the existing chain and requires a new declared run.
+
+Attempts use new numbered directories. A terminal failed attempt retains its
+diagnostics and a later advance can retry in a new directory. A live OS lock
+rejects a concurrent coordinator. An unfinished attempt without a terminal
+failure or committed stage receipt produces ``NEEDS_INSPECTION``; absence of a
+process observation is never treated as permission to rerun scientific work.
+A finished result left by an interrupted coordinator can be adopted explicitly,
+with full native validation and no producer invocation::
+
+    python -m scripts.run_native_workflow_chain recover --output /new/chain \
+      --stage fusion-results --completed /existing/attempt/output/NATIVE_FUSION_BINDING.json \
+      --completed-sha256 <sha256>
+
+Then call ``advance``. Recovery cannot substitute an output outside its original
+attempt. If the committed stage receipt already exists, advance reconciles it
+directly. Recovery does not decide whether an unfinished external job is alive.
+
+``CHAIN.json`` distinguishes READY, ADVANCING, FAILED, WAITING_EXTERNAL,
+NEEDS_INSPECTION and DECLARED_STAGES_COMPLETE. The last means only that the
+explicitly declared native stages passed. It does not claim acquisition coverage,
+all scientific requirements, real optimizer observation, independent predictive
+validation or deployment. ``training_started=false`` refers to this coordinator;
+it does not erase the supplied completed producers' own history.
+
+Publication re-audit now reconstructs all declared stage templates, selected
+and component stores, model-use derivation, table-source inventory and public
+catalog, and compares the actual completion/state records. Fusion collection
+has a reusable validator connecting its prepared matrix/configuration,
+twelve-model frozen replay, selected input and original publication templates.
+These validators make resuming dependent stages meaningful instead of trusting
+only a cached PASS flag. Public schemas are still not complete scientific field
+definitions, and C01/C13/C16 remain in progress.
+
+Native chain verification on 149: ``workflow_chain_r1``, ``workflow_chain_core_r2``, ``workflow_chain_r3``, ``workflow_chain_branches_r3``, ``workflow_chain_publication_r2``
+pass 49 distinct related cases, counting the latest listed suite per
+module. All 17 registered operations execute in separate scoped synthetic
+chains, including both CNV and ATAC auxiliary branches. This is not one full
+real-study execution. The earlier two-case smoke pass is not counted again.
+No real optimizer, real cohort analysis, paid compute or deployment was run.

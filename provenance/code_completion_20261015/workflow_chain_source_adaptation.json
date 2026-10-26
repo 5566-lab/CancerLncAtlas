@@ -1,0 +1,81 @@
+{
+  "method": "RESUMABLE_NATIVE_WORKFLOW_CHAIN_AND_PUBLICATION_REAUDIT",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "workflow_chain_r1",
+    "workflow_chain_core_r2",
+    "workflow_chain_r3",
+    "workflow_chain_branches_r3",
+    "workflow_chain_publication_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "workflow_chain_branches_r1",
+    "workflow_chain_branches_r2"
+  ],
+  "intermediate_failure_causes": [
+    "The chain initially hashed native State/Clinical dataset directories as ordinary files; directory declarations now retain the original membership contract and the native producer performs validation.",
+    "The SC wrapper compared entire records even though signed records additionally contain byte counts; it now verifies path/SHA identity and the exact preparation/completion/numerical-replay links.",
+    "The new bad-directory-hash test initially targeted the single-file State measurement input instead of the partitioned expression dataset; corrected the fixture reference without changing its expected rejection."
+  ],
+  "smoke_receipt": "workflow_chain_smoke_r1",
+  "smoke_not_counted_again": true,
+  "observation_incidents": [
+    {
+      "run": "workflow_chain_r1",
+      "incident": "SSH observation connection closed before pytest completed; receipt transfer initially had no files.",
+      "recovery": "Authorized read-only SSH probe returned 149. Original remote coordinator and pytest PID were still live; no restart or code upload occurred until terminal evidence. Subsequent coordinators use SSH keepalives."
+    }
+  ],
+  "operation_registry_count": 17,
+  "all_registered_operations_exercised_in_separate_synthetic_chains": true,
+  "actual_cached_gdc_two_cancer_expression_executed": true,
+  "actual_local_cnv_workers_executed": true,
+  "actual_core_preparation_registered_without_dispatch": true,
+  "actual_six_group_core_results_executed": true,
+  "actual_native_prepare_collect_families": [
+    "auxiliary_cnv",
+    "auxiliary_atac",
+    "genomic",
+    "state",
+    "clinical",
+    "single_cell",
+    "fusion"
+  ],
+  "actual_selected_publication_and_nine_component_reaudit_executed": true,
+  "native_input_and_completion_identity_checked": true,
+  "directory_hashes_deferred_to_original_native_validator": true,
+  "invalid_directory_hash_rejected_before_stage_acceptance": true,
+  "sc_collection_dependency_substitution_rejected": true,
+  "completed_stages_not_rerun_on_resume": true,
+  "terminal_failure_retained_and_retried_in_new_directory": true,
+  "independent_stage_progress_preserved": true,
+  "incomplete_attempt_never_restarted_without_terminal_evidence": true,
+  "verified_completed_output_recovery_executed": true,
+  "live_os_lock_contention_checked": true,
+  "external_registration_immutable": true,
+  "original_native_algorithms_changed": false,
+  "real_fitting_dispatched": false,
+  "test_substitutes": [
+    "Existing native core fixture uses frozen L1 coefficients, synthetic cohort controls and frozen checkpoint/optimizer-telemetry containers.",
+    "Existing auxiliary/genomic fixtures use frozen prediction containers and actual serializers, not fitted heads.",
+    "State/Clinical/SC fixtures replace only fitting callbacks with explicitly frozen models; actual input collection, numerical replay and serialization run.",
+    "Fusion uses fixed positive weights and zero optimizer steps; actual crossfit bookkeeping and original publication run."
+  ],
+  "source_acquisition_ancestry_verified": false,
+  "cross_module_patient_closure_complete": false,
+  "independent_predictive_performance_verified": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "A new explicit native workflow chain now dispatches the actual current workflows, resolves pinned stage/external references and generated JSON inputs, preserves independent progress, revalidates completed native results on resume and supports verified adoption after coordinator interruption. Arbitrary shell commands, core preparation/L1 fitting and neural/fusion fitting are not dispatchable. Core preparation is accepted only after native validation and matching the declared native CNV workflow. Real cached-GDC expression, local-CNV statistics, registered core results, all six native prepare/collect families, fusion-selected publication and all nine current public contexts are exercised on synthetic data through actual producers and consumers. These are separate scoped integration fixtures, not one real end-to-end study. Original frozen completion/optimizer-telemetry substitutes remain explicitly synthetic; no optimizer was run. Native command-chain execution is implemented; remaining acquisition/statistical branch integration, complete public scientific field definitions and final C01/C13/C16 acceptance remain open. Full raw/reference/metacell/LASSO and cross-module patient ancestry and independent performance remain unproved."
+}

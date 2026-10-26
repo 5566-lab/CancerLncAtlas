@@ -57,6 +57,24 @@ def complete(prepared):
     return prepared.parent/"training/STATE_TRAINING_LINEAGE.json"
 
 
+def test_native_chain_state_prepare_collect(source,tmp_path):
+    from native_chain_fixture import exercise
+    result=exercise("state",source,tmp_path,complete)
+    assert read(result["state_context"]["path"])["private_head_predictions_replayed"]
+
+
+def test_native_chain_defers_dataset_hash_to_native_validator(source,tmp_path):
+    from cc_hhgt.v32 import native_workflow_chain as chain
+    spec=read(source);assert Path(spec["lncrna_expression"]["path"]).is_dir()
+    spec["lncrna_expression"]["sha256"]="0"*64
+    manifest=tmp_path/"chain.json";write(manifest,{"format":chain.INPUT,"chain_id":"state-dataset-check",
+        "stages":[{"id":"prepared","operation":"state.prepare","inputs":spec}]})
+    output=tmp_path/"chain";chain.initialize(manifest,output);chain.advance(output)
+    value=read(output/"CHAIN.json")
+    assert value["status"]=="FAILED" and not value["stages"]
+    assert "State dataset SHA256 mismatch" in value["failures"][0]["error"]
+
+
 def repin_lineage(path,value):
     value.pop("lineage_sha256");value["lineage_sha256"]=canonical_json_sha256(value);write(path,value)
 

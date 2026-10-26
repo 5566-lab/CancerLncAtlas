@@ -62,6 +62,12 @@ def complete(prepared, root):
     return output/"TRAINING_SUCCESS.json"
 
 
+def test_native_chain_genomic_prepare_collect(source,tmp_path):
+    from native_chain_fixture import exercise
+    result=exercise("genomic",source[0],tmp_path,lambda prepared:complete(prepared,tmp_path/"fixture"))
+    assert result["candidate_rows"]==6 and result["fold_rows"]==60
+
+
 def repin_completed(path):
     value=read(path);lp=Path(value["lineage_path"]);lineage=read(lp)
     for name,item in lineage["completion_records"].items():lineage["completion_records"][name]=record(Path(item["path"]))

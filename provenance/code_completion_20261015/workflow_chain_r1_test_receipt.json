@@ -1,0 +1,53 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T12:43:42.024625+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_analysis_workflow.py": "2f460c6682a5168cda7e1adde382ec380b71d0033c1c188208dee46ac2d38976",
+    "cc_hhgt/v32/native_fusion_workflow.py": "4db4586b92375a807bafc6bd439ebf71938446b3d7bed74970f2b858422c4308",
+    "cc_hhgt/v32/native_workflow_chain.py": "c0a48fc2dcb8b2613e14baafe0dceb5eea0cfdc4941e6b588a3b79ebf7f6d946",
+    "scripts/run_native_workflow_chain.py": "2cd4a6cb886544982c2cd9151b19f418b4de7371e2211845d6358f91d71f4632",
+    "tests/test_v32_current_analysis_web.py": "dfd97657e9b2b19803fae5840cb215432bb7aa9fbebaa220d19a397269865441",
+    "tests/test_v32_native_cnv_workflow_gdc.py": "5a490a3d23bd3570a975103c2f74926392d72e4a205e40feaec1063aabc9a215",
+    "tests/test_v32_native_results_workflow.py": "17d5d40bf1c1a09811a48e05018ffe97a29c8912519ac592efebaff6efe964c5",
+    "tests/test_v32_native_workflow_chain.py": "9e95659b87e8baf3ebdc66bbcb5d071c266700ea15c2a656115f128d40ce5c7c"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_workflow_chain.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_native_results_workflow.py::test_native_chain_registers_actual_preparation_and_runs_current_results",
+    "tests/test_v32_native_cnv_workflow_gdc.py::test_native_chain_dispatches_actual_local_cnv_and_preserves_decision",
+    "--junitxml=provenance/code_completion_20261015/workflow_chain_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T12:56:39.077151+00:00"
+}

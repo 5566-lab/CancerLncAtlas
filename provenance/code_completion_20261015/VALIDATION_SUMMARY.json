@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1479,
+  "unique_test_cases_passed": 1517,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -146,7 +146,7 @@
     "website/frontend/assets/current-analysis.js": "c39525409ecb3ab2f3d3a8dac51bcc93dce8ce48a687ba94e1304a132bd288fa",
     "website/frontend/assets/current-analysis.css": "585546ef543374e5c85551ffc898aefeccbec401932bcf3d4611cbbb83b1bf00",
     "website/frontend/assets/mark.svg": "50829b47affe907dd1569d06051925f65c69130570229f1e85ffaa2957d74bc5",
-    "tests/test_v32_current_analysis_web.py": "7dd67a6011367e9468dec7aa299c7c351cf8b22f9a4aaa8f969e488ce6a1f72f",
+    "tests/test_v32_current_analysis_web.py": "b7259e1ea13a54a20142ded2b376c2d1679ff136f1753a7d32e40632c785f4e2",
     "tests/test_v32_main_app_feature_flag.py": "8f7447a9faaa9dbb4f6773fee20b44da570deff122606e7815c2b1e57b508541",
     "requirements/requirements-current-web.txt": "d1bee0579df4a72c08776cd157044cb299c8516d5fafb0e172f10fb667b7afd1",
     "cc_hhgt/v32/context_table_replay.py": "f93f03478bd84238ba81012bca6af719988b26770c0ec5b54f4f9a4dfc7f4f49",
@@ -159,7 +159,7 @@
     "cc_hhgt/v32/current_omics_context.py": "7f2713693a161ba4b896abe9e78dbebc98680df5b74e776398832ba07499e39b",
     "scripts/materialize_v32_current_omics_context.py": "0520e483ff9a6e275b609beafa1f96f830ca7b0e7ce045e141395264416e8b1e",
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
-    "cc_hhgt/v32/current_analysis_workflow.py": "d7bff1a7b3e5e37c5d78a3e66c20ebefa70d5301c0239073a19b86248aa555f7",
+    "cc_hhgt/v32/current_analysis_workflow.py": "f46b2b142b130042f70d436e3dbe27ff3e673b713c18ba9f5ef5fe0db03c279e",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
     "cc_hhgt/v32/current_model_use.py": "77d7bfe780d35161f2883dc9241df21a4bef0d07736e11c58c8ef2920f2bf0e2",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
@@ -245,13 +245,13 @@
     "cc_hhgt/v32/native_cnv_workflow.py": "a1bd46f777dc5f2e900789f756715b73bd88c92ddbba4b2eb92f1269c31914c1",
     "scripts/run_native_cnv_workflow.py": "8cfeb216ef83d4b5b7870937ec38bed9b72bc40696d86854045589363ac5f344",
     "tests/test_v32_native_cnv_workflow.py": "5eb2e95472773f22287fda604ff4230297743b7f9ac0239bd7fcbf69bfe5b449",
-    "tests/test_v32_native_cnv_workflow_gdc.py": "61324683a60328feb290b7c28e657202d3caae48be0cd4ba800740512ceff85d",
+    "tests/test_v32_native_cnv_workflow_gdc.py": "5a490a3d23bd3570a975103c2f74926392d72e4a205e40feaec1063aabc9a215",
     "cc_hhgt/v32/native_core_workflow.py": "ee728ae3806ce371d63012ab981dc9c3bb5f9996708dfdff65f0ca02aa7c5f1a",
     "scripts/run_native_core_workflow.py": "97351b0efba4843be9715ac68eee2a36c5ff2f3f046b479327818d61781ca5f7",
     "tests/test_v32_native_core_workflow.py": "a0d3b1821e5af1ae31e0334573aee6880f7969d6b24448919f085cbd2f679d59",
     "cc_hhgt/v32/native_results_workflow.py": "27c7a80bf634a067d08f7f6618ca6923d9da58256b6694856fb00be300b9140e",
     "scripts/run_native_results_workflow.py": "2c152c7f9ede6864503f6984a0824760b54ab90d62446d48ad2424eac546af80",
-    "tests/test_v32_native_results_workflow.py": "4c99a828289afd57e3939cf8f633c62f591365d3c9ee450ef0d16c6a64099ec3",
+    "tests/test_v32_native_results_workflow.py": "17d5d40bf1c1a09811a48e05018ffe97a29c8912519ac592efebaff6efe964c5",
     "cc_hhgt/v32/model_use_completeness.py": "e3dd5e8c339e781bbf93ad4de56167fe0da3e02346f800fbef7cbf862200a2c8",
     "tests/test_v32_model_use_completeness.py": "d24673372b7b17582d3d2df822e681d978fa1b6898498086487a69e0780daf5c",
     "cc_hhgt/v32/normalization_source_replay.py": "e87bedf21003867eec2410815cf895c0917583db54fd94751a30bbdee2085d05",
@@ -291,7 +291,7 @@
     "cc_hhgt/v32/native_auxiliary_workflow.py": "d1f78cc6a2c3e02467f59300cc97f6b6a3d59bc42fc4ec55f4c74a4fe46329ed",
     "scripts/run_native_auxiliary_workflow.py": "0aea451134af784da2cb2333a79364cd85a780d9cccbbd0057a48c90737c2397",
     "scripts/run_v32_directional_cnv_head_oof.py": "7d6e6df60d42353d8dec3c80033536b59d34a8a6139966948ac57398e46bb25d",
-    "tests/test_v32_native_auxiliary_workflow.py": "ba3e581cd61566506080294fac122dc825c6cdc90aad5f481b9124ba7ffa17d2",
+    "tests/test_v32_native_auxiliary_workflow.py": "09cc6a94c0103a93a7a71d96c7b8af97f05593df8634937f98fa1416aa7a90b6",
     "cc_hhgt/v32/genomic_resource_staging.py": "5e4286f5a01b7d5e9b3435f2e63ea88d722c949e2c11cc269bf0f8cd5fa661f8",
     "tests/test_v32_genomic_resource_scope.py": "3d02ecc870db41d750ca7aae894fcaed060b97d24957dd8d5861e9fc2092910d",
     "cc_hhgt/v32/native_genomic_cnv.py": "f7529e65b20f452bf2b62b3ba542c9fa84ee73e9af40f68f935c624edd52b14d",
@@ -300,26 +300,30 @@
     "tests/test_v32_native_genomic_inputs.py": "02a083c0fa8361d7421c868854577c7eeb3c02d1c813259dd530a79b3f506680",
     "cc_hhgt/v32/native_genomic_workflow.py": "75de5a2fdf32854ee1c8ee8626a6eaedf7dbe607bcfc90a3a97f37e0f19b97d5",
     "scripts/run_native_genomic_workflow.py": "287dd87704efb6b80a0e1546a3aa8704e8a5ea9bbc347077b7934bb379edd5b7",
-    "tests/test_v32_native_genomic_workflow.py": "09e055e403c55490816405599b4fe1a55b4865b71ee6cafd439b42341a7c6783",
+    "tests/test_v32_native_genomic_workflow.py": "56e276b9fd9e9f9cafd11593a9f55d4864b0cdaa51f7a0861847817e44f1aaa4",
     "cc_hhgt/v32/native_state_workflow.py": "089ee010237fe04906977f5e2247a8a572cb5992814ab6f2cd99dbbd14c4162a",
     "scripts/run_native_state_workflow.py": "d5ac7f91fe3d771c44213f815ecb09d20046549f07f9104f1a05329380b4c095",
-    "tests/test_v32_native_state_workflow.py": "5476b72c91c3220e566a04f5bd023574c8391c5784ecb3d319b5898adca701e4",
+    "tests/test_v32_native_state_workflow.py": "c7b09c4e6a1b42f9551c3d013d78396b8ce64cb055acf10916bacfc9da2a6e2a",
     "cc_hhgt/v32/clinical_numeric_replay.py": "049a057f6f1efe5e2fc41aed34bd5f2ac8a2ad9a7d8b7156a6618fb6769252a5",
     "tests/test_v32_clinical_numeric_replay.py": "ab9f1ce3f9963404192816d032c1541bc8441829f2172893a2fc84743743a999",
     "cc_hhgt/v32/native_clinical_workflow.py": "2dfe168eb48f5b810083a2ed7a879f5d30b66d655c7c1f10c5a1341dd5526d05",
     "scripts/run_native_clinical_workflow.py": "d27381ab42be9c402771643e9c6c170e56a369bde8e3a179c27d853290760ce5",
-    "tests/test_v32_native_clinical_workflow.py": "2ae4131a1cf31ffb53df0d5efaae396ea9ce24d60783058ec12573fb133246a5",
+    "tests/test_v32_native_clinical_workflow.py": "95397026a84fba24e5bef03630bc74fe651e1584908b0f3399ef5e25dcb7fd42",
     "cc_hhgt/v32/single_cell_numeric_replay.py": "b0b498c0cd798db59a50119c1268fd1b2b7c28ebeb72899f2fbe30404c4ebc7d",
     "scripts/audit_single_cell_numeric_replay_149.py": "e782e91d76acde904013d41939d72eee641364fe67937d16ded2f887da0bc2df",
     "scripts/train_single_cell_hhgt_149.py": "f659e951367d68fc3dd16c1f1e0112b2bd721dcba399fd89da81be3cdb97585f",
     "tests/test_v32_single_cell_numeric_replay.py": "df6979da66b82b788aa19bef4ff777c9ff761620cce681d0f3770813327023d5",
     "cc_hhgt/v32/native_single_cell_workflow.py": "79f4bb3b216e947991d0fb9567d77a9dc0e79aa8c8bf9cd7fe8b9e5eac394811",
     "scripts/run_native_single_cell_workflow.py": "ca4a39b82cd6f29ff3db4424d9b9f216adf34dc2d7e89be7e77ea54c6a864c72",
-    "tests/test_v32_native_single_cell_workflow.py": "1a575b2f8c79f1ac8b62c90f2b2f51907f878f0a41a7cd0b746656708023a7a8",
+    "tests/test_v32_native_single_cell_workflow.py": "e9f7e142b81cf0c238668081a369e0b393f009fd1d5282cc8376f9d110c191a0",
     "cc_hhgt/v32/fusion_numeric_replay.py": "1ec0887d758d686c260ffc11630579b2009d018194a6c4b8ecc80c4d6f86417d",
-    "cc_hhgt/v32/native_fusion_workflow.py": "03a47ff229914d2885af253ab2e55ed09ee11031922c707e9a62a5aea09de409",
+    "cc_hhgt/v32/native_fusion_workflow.py": "4db4586b92375a807bafc6bd439ebf71938446b3d7bed74970f2b858422c4308",
     "scripts/run_native_fusion_workflow.py": "3a49ff31b7e7600f554fec824fbc2fd902c12a0cbc6a328502525f80cc7ac89a",
-    "tests/test_v32_native_fusion_workflow.py": "cdd518687d9d16034908fdcf4373ecf80ef91273deabeb412706665f210a8949"
+    "tests/test_v32_native_fusion_workflow.py": "cdd518687d9d16034908fdcf4373ecf80ef91273deabeb412706665f210a8949",
+    "cc_hhgt/v32/native_workflow_chain.py": "a57b80e26c6a640d44cdc98641f3212b64c6dc19a421f9f480f2661e99bbcc98",
+    "scripts/run_native_workflow_chain.py": "2cd4a6cb886544982c2cd9151b19f418b4de7371e2211845d6358f91d71f4632",
+    "tests/test_v32_native_workflow_chain.py": "9cf167f4311bc9f84cd60f152ab2d2b5219ea7b50332c257fed819027148920a",
+    "tests/native_chain_fixture.py": "11b658a39d8d46d9cc7c235c21e94209c68ce182e8c1af008f0aa22f09c168ea"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -470,7 +474,8 @@
     "Native Clinical now has a unified explicit prepare/collect workflow. The original risk CLI collects five fold inputs and the original entity CLI collects its actual patient matrices without computing entity statistics. Separate risk-fitting and entity-calculation commands are recorded and parsed, never dispatched. Collection matches completed native run/configuration, source roles, patient authority and input fingerprints before actual raw numeric replay and selected Clinical publication. The current consumer rechecks the preparation dependency. This proves within-Clinical preparation/completion consistency, not acquisition/reference ancestry, State/core/cross-module patient closure or independent predictive performance. Single-cell command consolidation, complete external acceptance and final code acceptance remain open. No actual fitting or real cohort analysis ran.",
     "The original SC-HHGT CLI now collects both arms and all fit/validation/query graph/row inputs without model construction or forward execution. Actual completion serialization binds that preflight. The original optimizer/model-selection block was extracted unchanged (AST verified) so explicit frozen fitting substitutes can exercise the real native serializers. A separate host149 audit runs the unchanged independent structural/history validator, replays prepared tensors, all ten frozen query predictions and best-model validation loss. It detects internally consistent rehashed prediction/derived-value/loss corruption accepted by the old structural validator. This starts from pre-materialized episodes, not raw study acquisition or independently reconstructed metacells/LASSO. The new audit is not yet integrated into the signed-SC fusion/current-publication workflow; those existing consumers retain explicit no-neural-forward semantics. Unified SC command handoff and broader C01/C13/C16 remain open. No actual fitting or real data analysis ran.",
     "Native SC workflow preparation now executes the original no-fit input collector, binds full configuration, prepared graph/row inputs and canonical donor partitions, and records but never dispatches the original fitting command. Collection verifies the exact prepared completion, runs the unchanged independent validator and actual frozen forwards, then produces a scoped pointer and signed fusion binding without global promotion. Current selected/publication consumers repeat frozen replay for new workflow bindings. Source-only model-use inspection explicitly disables neural replay while checking all numerical dependencies. The actual native serializers and consumers run on synthetic pre-materialized episodes; fitting alone uses a marked frozen substitute, and fusion serialization uses existing fixed zero weights. This verifies no real optimization, new ranking benefit, acquisition/reference/metacell/LASSO ancestry or complete cross-module patient closure. Overall command orchestration, public scientific field definitions and final C01/C13/C16 acceptance remain open.",
-    "Native fusion prepare/collect now joins actual native primary labels and auxiliary/signed-SC bindings through the original input collector, pins the private matrix and full configuration, and records but never dispatches fitting. Immutable completion collection reconstructs twelve frozen residual models using the unchanged native crossfit bookkeeping and release serializer: bounded samples, training centres, inner-validation loss, OOF/final scores, metrics, contributions and metadata. Existing selected/external/model-use consumers reconstruct these inputs and outputs for the new native contract without starting upstream neural forwards. Dedicated collection requests full upstream replay and feeds the actual selected GeneSet and website workflow. Verification uses 80 synthetic candidates, frozen core checkpoints, synthetic genomic completion and SC OOF data with a legacy pointer; only fusion fitting is replaced by fixed positive weights and zero optimizer steps. Upstream optimizer/raw ancestry and independent performance are unproved; legacy SC does not acquire a neural replay guarantee. Two existing actual-fit tests are intentionally deselected. Overall orchestration, public field definitions, acquisition/reference/metacell/LASSO ancestry, full per-pair/State-core/cross-module patient closure and final C01/C13/C16 acceptance remain open."
+    "Native fusion prepare/collect now joins actual native primary labels and auxiliary/signed-SC bindings through the original input collector, pins the private matrix and full configuration, and records but never dispatches fitting. Immutable completion collection reconstructs twelve frozen residual models using the unchanged native crossfit bookkeeping and release serializer: bounded samples, training centres, inner-validation loss, OOF/final scores, metrics, contributions and metadata. Existing selected/external/model-use consumers reconstruct these inputs and outputs for the new native contract without starting upstream neural forwards. Dedicated collection requests full upstream replay and feeds the actual selected GeneSet and website workflow. Verification uses 80 synthetic candidates, frozen core checkpoints, synthetic genomic completion and SC OOF data with a legacy pointer; only fusion fitting is replaced by fixed positive weights and zero optimizer steps. Upstream optimizer/raw ancestry and independent performance are unproved; legacy SC does not acquire a neural replay guarantee. Two existing actual-fit tests are intentionally deselected. Overall orchestration, public field definitions, acquisition/reference/metacell/LASSO ancestry, full per-pair/State-core/cross-module patient closure and final C01/C13/C16 acceptance remain open.",
+    "A new explicit native workflow chain now dispatches the actual current workflows, resolves pinned stage/external references and generated JSON inputs, preserves independent progress, revalidates completed native results on resume and supports verified adoption after coordinator interruption. Arbitrary shell commands, core preparation/L1 fitting and neural/fusion fitting are not dispatchable. Core preparation is accepted only after native validation and matching the declared native CNV workflow. Real cached-GDC expression, local-CNV statistics, registered core results, all six native prepare/collect families, fusion-selected publication and all nine current public contexts are exercised on synthetic data through actual producers and consumers. These are separate scoped integration fixtures, not one real end-to-end study. Original frozen completion/optimizer-telemetry substitutes remain explicitly synthetic; no optimizer was run. Native command-chain execution is implemented; remaining acquisition/statistical branch integration, complete public scientific field definitions and final C01/C13/C16 acceptance remain open. Full raw/reference/metacell/LASSO and cross-module patient ancestry and independent performance remain unproved."
   ],
   "test_suites": [
     {
@@ -1212,6 +1217,31 @@
       "path": "provenance/code_completion_20261015/fusion_workflow_preflight_r1_tests.xml",
       "passed": 26,
       "sha256": "61c6f3ddc9091b0a4daee7befc4adba645cdf172646696d6facd2ae98d116f2b"
+    },
+    {
+      "path": "provenance/code_completion_20261015/workflow_chain_r1_tests.xml",
+      "passed": 36,
+      "sha256": "0d5255b8296f184e08006825b7ec814396343f036bab1f4f6fc2b426b93ee8be"
+    },
+    {
+      "path": "provenance/code_completion_20261015/workflow_chain_core_r2_tests.xml",
+      "passed": 2,
+      "sha256": "b6d684fb51ff2ba19f1ba0a18c775bbb364f70fcfe213f8b416b0daaa3a2ebba"
+    },
+    {
+      "path": "provenance/code_completion_20261015/workflow_chain_r3_tests.xml",
+      "passed": 19,
+      "sha256": "9e5fced4ae17c70f2af7d18bdcf76d52da3551e9332439dc1b5e6fa776801a97"
+    },
+    {
+      "path": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml",
+      "passed": 10,
+      "sha256": "bbcac9e598ce2955c5ad8dbea8fe3c90052b45a384a54bc9fc6b92f9062d3185"
+    },
+    {
+      "path": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml",
+      "passed": 37,
+      "sha256": "579af4a23285073e778a6f4e406440915ce8e877458761ea83799139a35c87a8"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1835,57 +1865,92 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_full_publication_native_reaudit_reconstructs_all_components",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[catalog]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[completeness]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[model_use_input]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[resolved_input]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[stage]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_analysis_web",
+      "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[web_input]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -5714,6 +5779,16 @@
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
+      "case": "test_native_chain_auxiliary_prepare_collect[atac]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_auxiliary_workflow",
+      "case": "test_native_chain_auxiliary_prepare_collect[cnv]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_rehashed_audit_cannot_be_substituted[atac]",
       "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
     },
@@ -5964,6 +6039,11 @@
     },
     {
       "module": "tests.test_v32_native_clinical_workflow",
+      "case": "test_native_chain_clinical_prepare_collect",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_clinical_workflow",
       "case": "test_preparation_failure_keeps_diagnostics_and_no_ready_binding",
       "suite": "provenance/code_completion_20261015/clinical_workflow_r1_tests.xml"
     },
@@ -6146,6 +6226,11 @@
       "module": "tests.test_v32_native_cnv_workflow_gdc",
       "case": "test_expression_binding_does_not_allow_a_different_patient_map",
       "suite": "provenance/code_completion_20261015/local_cnv_replay_upstream_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_cnv_workflow_gdc",
+      "case": "test_native_chain_dispatches_actual_local_cnv_and_preserves_decision",
+      "suite": "provenance/code_completion_20261015/workflow_chain_core_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
@@ -6969,6 +7054,11 @@
     },
     {
       "module": "tests.test_v32_native_genomic_workflow",
+      "case": "test_native_chain_genomic_prepare_collect",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_genomic_workflow",
       "case": "test_repinned_preparation_controls_fail_semantic_recheck[budget]",
       "suite": "provenance/code_completion_20261015/genomic_workflow_r1_tests.xml"
     },
@@ -7123,6 +7213,11 @@
       "suite": "provenance/code_completion_20261015/native_directional_publication_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_native_results_workflow",
+      "case": "test_native_chain_registers_actual_preparation_and_runs_current_results",
+      "suite": "provenance/code_completion_20261015/workflow_chain_core_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_native_single_cell_workflow",
       "case": "test_actual_collection_cli_signed_context_and_existing_publication",
       "suite": "provenance/code_completion_20261015/sc_workflow_r1_tests.xml"
@@ -7181,6 +7276,26 @@
       "module": "tests.test_v32_native_single_cell_workflow",
       "case": "test_invalid_plan_fails_before_output[unknown]",
       "suite": "provenance/code_completion_20261015/sc_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_single_cell_workflow",
+      "case": "test_native_chain_rejects_unlinked_sc_collection[numeric_replay]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_single_cell_workflow",
+      "case": "test_native_chain_rejects_unlinked_sc_collection[preparation]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_single_cell_workflow",
+      "case": "test_native_chain_rejects_unlinked_sc_collection[training_success]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_single_cell_workflow",
+      "case": "test_native_chain_single_cell_prepare_collect",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_workflow",
@@ -7354,6 +7469,16 @@
     },
     {
       "module": "tests.test_v32_native_state_workflow",
+      "case": "test_native_chain_defers_dataset_hash_to_native_validator",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_state_workflow",
+      "case": "test_native_chain_state_prepare_collect",
+      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_state_workflow",
       "case": "test_rehashed_preparation_still_replays_actual_collector[authority]",
       "suite": "provenance/code_completion_20261015/state_workflow_r1_tests.xml"
     },
@@ -7371,6 +7496,101 @@
       "module": "tests.test_v32_native_state_workflow",
       "case": "test_rehashed_preparation_still_replays_actual_collector[split]",
       "suite": "provenance/code_completion_20261015/state_workflow_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_actual_cached_gdc_expression_workflow_through_chain",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_actual_fusion_completion_publication_and_resume",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_external_identity_cannot_be_replaced",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_external_payload_json_file_and_relative_pins",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_failure_keeps_independent_progress_and_retries_in_new_directory",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_host_gate",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[core_run]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[cycle]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[duplicate]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[extra_reference]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[fit]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[forward]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[unknown]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_invalid_or_training_chain_never_creates_output[wrong_collection]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_live_os_lock_prevents_a_second_coordinator",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_recover_completed_native_output_without_restarting_producer",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_rehashed_stage_declaration_drift_is_rejected[inputs]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_rehashed_stage_declaration_drift_is_rejected[operation]",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_workflow_chain",
+      "case": "test_unfinished_attempt_is_never_inferred_terminal_or_restarted",
+      "suite": "provenance/code_completion_20261015/workflow_chain_publication_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_normalization_source_replay",
@@ -8620,11 +8840,13 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "fusion_workflow_r2",
-      "fusion_workflow_consumers_r1",
-      "fusion_workflow_preflight_r1"
+      "workflow_chain_r1",
+      "workflow_chain_core_r2",
+      "workflow_chain_r3",
+      "workflow_chain_branches_r3",
+      "workflow_chain_publication_r2"
     ],
-    "passed": 137,
+    "passed": 49,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

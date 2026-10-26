@@ -105,3 +105,14 @@ def test_expression_binding_does_not_allow_a_different_patient_map(cnv_input,tmp
     spec["patient_map"]=record(clone);copied=tmp_path/"changed.json";write(copied,spec)
     with pytest.raises(ValueError,match="differ from the native expression workflow"):workflow.preflight(copied,tmp_path/"bad")
     assert not (tmp_path/"bad").exists()
+
+
+def test_native_chain_dispatches_actual_local_cnv_and_preserves_decision(cnv_input,tmp_path):
+    from cc_hhgt.v32 import native_workflow_chain as chain
+    _,source,_=cnv_input;manifest=tmp_path/"chain.json"
+    write(manifest,{"format":chain.INPUT,"chain_id":"native-cnv-chain",
+        "stages":[{"id":"association","operation":"cnv.run","inputs":read(source)}]})
+    output=tmp_path/"chain";chain.initialize(manifest,output);chain.advance(output);state=read(output/"CHAIN.json")
+    assert state["status"]=="DECLARED_STAGES_COMPLETE",state
+    _,binding=workflow.validate(state["results"]["association"],output)
+    assert binding["decision"]=="LOCAL_CNV_SENSITIVITY_ONLY_REVIEW" and not binding["corrected_inputs_available"]

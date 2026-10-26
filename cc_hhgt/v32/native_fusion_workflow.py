@@ -154,6 +154,51 @@ def prepare(manifest,output):
         write(output/"RUN_FAILED.json",{"target_host":"149","training_started":False,"error":str(error)});raise
 
 
+def validate(item,root):
+    require_host();path=verified_path(item,root);binding=read(path)
+    if (binding.get("format")!=FORMAT or binding.get("status")!="PASS" or binding.get("target_host")!="149"
+            or any(binding.get(k) is not False for k in ("training_started","source_ancestry_complete",
+                "independent_predictive_performance_verified","production_deployed"))):
+        raise ValueError("Incomplete native fusion collection")
+    prepared,_,value,frame,audit=validate_preparation(binding["preparation"],path.parent)
+    completed=verified_path(binding["completed"],path.parent)
+    if completed!=prepared.parent/"training/release/MULTIMODAL_FUSION_BINDING.json":
+        raise ValueError("Fusion collected completion differs from its prepared location")
+    trained=read(completed);parent=read(completed.parent.parent/"SUCCESS.json")
+    if (parent.get("binding_sha256")!=binding["completed"]["sha256"] or parent.get("target_host")!="149"
+            or read(verified_path(trained["artifacts"]["fusion_input_audit"],completed.parent))!=audit):
+        raise ValueError("Fusion completed inputs differ from preparation")
+    same_frame(pd.read_parquet(verified_path(trained["artifacts"]["fusion_input_private"],completed.parent)),frame,"collected input matrix")
+    numeric=verified_path(binding["numeric_replay"],path.parent)
+    if read(numeric)!=replay_release(completed,expected_sha=binding["completed"]["sha256"]):
+        raise ValueError("Fusion saved numerical replay differs")
+    expected={"format":"CURRENT_SELECTED_ANALYSIS_INPUT_V1","selected_model":{
+        "model_id":"native-fusion","producer_kind":"fusion_release","producer_binding":binding["completed"],
+        "run_id":value["fusion_input"]["fusion_run_id"],"score_column":value["selected_score_column"]},
+        "reference_exact_model":value["reference_exact_model"],"selection":{"kind":"EXPLICIT_SOURCE_REGISTRATION",
+            "rationale":value["selection_rationale"]},"geneset":value["geneset"],"subtype":value["subtype"]}
+    if "rule_evidence_binding" in value["fusion_input"]:expected["rule_evidence_binding"]=value["fusion_input"]["rule_evidence_binding"]
+    if read(verified_path(binding["selected_input"],path.parent))!=expected:
+        raise ValueError("Fusion collected selected input differs from preparation")
+    from .current_analysis_workflow import validate_current_analysis_workflow
+    _,publication=validate_current_analysis_workflow(binding["publication"],path.parent)
+    if (publication["input_manifest"]!=binding["publication_input"] or publication["selected_analysis"]!=binding["selected_analysis"]
+            or publication["web_binding"]!=binding["web_binding"]):raise ValueError("Fusion publication handoff differs")
+    source=read(verified_path(binding["publication_input"],path.parent))
+    if source["selected"]!={"status":"BUILD","input_manifest":binding["selected_input"]}:
+        raise ValueError("Fusion publication did not build its declared selection")
+    from .native_results_workflow import result_references
+    refs={"selected_model":expected["selected_model"],"core_run_id":value["fusion_input"]["core_run_id"],
+        "core_prediction":value["reference_exact_model"]["producer_binding"],"primary_fusion":value["fusion_input"]["primary_binding_audit"]}
+    components={k:dict(v) for k,v in value["publication_components"].items()}
+    for name,template in value["publication_templates"].items():
+        manifest=path.parent/(name+"_input.json")
+        if read(manifest)!=result_references(template,refs):raise ValueError("Fusion collected context template differs")
+        components[name]={"status":"BUILD","input_manifest":record(manifest)}
+    if source["components"]!=components:raise ValueError("Fusion collected publication components differ")
+    return path,binding
+
+
 def validate_preparation(item,root):
     require_host();path=verified_path(item,root);binding=read(path)
     if (binding.get("format")!=PREPARED or binding.get("status")!="PASS_READY" or binding.get("target_host")!="149"

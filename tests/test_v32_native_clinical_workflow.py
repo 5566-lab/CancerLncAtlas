@@ -44,6 +44,12 @@ def complete(prepared):
     return prepared.parent/"risk_training/MODULE_LINEAGE.json",prepared.parent/"entity_calculation/ENTITY_CLINICAL_LINEAGE.json"
 
 
+def test_native_chain_clinical_prepare_collect(source,tmp_path):
+    from native_chain_fixture import exercise
+    result=exercise("clinical",source,tmp_path,complete)
+    assert read(result["clinical_context"]["path"])["raw_patient_feature_projection_replayed"]
+
+
 def test_actual_both_preparation_collectors_and_existing_publication(source,tmp_path,monkeypatch):
     from scripts.run_native_clinical_workflow import main
     args=["prepare","--manifest",str(source),"--output",str(tmp_path/"prepared")]

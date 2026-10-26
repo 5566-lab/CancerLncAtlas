@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="6" time="143.779" timestamp="2026-10-26T20:59:13.035294+08:00" hostname="149"><testcase classname="tests.test_v32_native_auxiliary_workflow" name="test_native_chain_auxiliary_prepare_collect[cnv]" time="29.200" /><testcase classname="tests.test_v32_native_auxiliary_workflow" name="test_native_chain_auxiliary_prepare_collect[atac]" time="71.493" /><testcase classname="tests.test_v32_native_genomic_workflow" name="test_native_chain_genomic_prepare_collect" time="8.379" /><testcase classname="tests.test_v32_native_state_workflow" name="test_native_chain_state_prepare_collect" time="5.167"><failure message="IsADirectoryError: [Errno 21] Is a directory: '/tmp/pytest-of-dengsc/pytest-153/current_state_parent0/native_state_1kb90194/expression_dataset'">tests/test_v32_native_state_workflow.py:62: in test_native_chain_state_prepare_collect
+    result=exercise("state",source,tmp_path,complete)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/native_chain_fixture.py:13: in exercise
+    output=root/"chain";chain.initialize(source,output);chain.advance(output);state=read(output/"CHAIN.json")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:120: in initialize
+    value = plan(manifest); root = Path(output).resolve()
+            ^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:92: in plan
+    inputs = normalize(row["inputs"], path.parent, dependencies, externals)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:76: in normalize
+    return {k: normalize(v, root, dependencies, externals) for k,v in value.items()}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:76: in &lt;dictcomp&gt;
+    return {k: normalize(v, root, dependencies, externals) for k,v in value.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:75: in normalize
+    return {**value, **record(verified_path(value, root))}
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_export.py:37: in verified_path
+    if sha256(path) != checked_sha(record.get("sha256"), str(path)):
+       ^^^^^^^^^^^^
+cc_hhgt/v32/current_core_export.py:22: in sha256
+    with Path(path).open("rb") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   IsADirectoryError: [Errno 21] Is a directory: '/tmp/pytest-of-dengsc/pytest-153/current_state_parent0/native_state_1kb90194/expression_dataset'</failure></testcase><testcase classname="tests.test_v32_native_clinical_workflow" name="test_native_chain_clinical_prepare_collect" time="8.191"><failure message="IsADirectoryError: [Errno 21] Is a directory: '/tmp/pytest-of-dengsc/pytest-153/native_clinical_workflow0/native/activity'">tests/test_v32_native_clinical_workflow.py:49: in test_native_chain_clinical_prepare_collect
+    result=exercise("clinical",source,tmp_path,complete)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/native_chain_fixture.py:13: in exercise
+    output=root/"chain";chain.initialize(source,output);chain.advance(output);state=read(output/"CHAIN.json")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:120: in initialize
+    value = plan(manifest); root = Path(output).resolve()
+            ^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:92: in plan
+    inputs = normalize(row["inputs"], path.parent, dependencies, externals)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:76: in normalize
+    return {k: normalize(v, root, dependencies, externals) for k,v in value.items()}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:76: in &lt;dictcomp&gt;
+    return {k: normalize(v, root, dependencies, externals) for k,v in value.items()}
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_workflow_chain.py:75: in normalize
+    return {**value, **record(verified_path(value, root))}
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_core_export.py:37: in verified_path
+    if sha256(path) != checked_sha(record.get("sha256"), str(path)):
+       ^^^^^^^^^^^^
+cc_hhgt/v32/current_core_export.py:22: in sha256
+    with Path(path).open("rb") as handle:
+         ^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/pathlib.py:1044: in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   IsADirectoryError: [Errno 21] Is a directory: '/tmp/pytest-of-dengsc/pytest-153/native_clinical_workflow0/native/activity'</failure></testcase><testcase classname="tests.test_v32_native_single_cell_workflow" name="test_native_chain_single_cell_prepare_collect" time="14.306"><failure message="AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '960fa03d9a4e3efd60fd6961797f341f5391f575fa85ab4a17dc35c9bc31cfea'}, 'stages': {'prepared': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/prepared/0001/STAGE_BINDING.json', 'sha256': '71d02a91e040bd45e7ee8e7ff084ffbdeab39aade0b01b83852a5ed553e45229'}}, 'externals': {'completed': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/prepared/0001/output/training/SUCCESS.json', 'sha256': '8f73633ab20eca0e016dc19ac4f64473c9c1cda9336d99a289c5622417e0d472'}}, 'status': 'FAILED', 'completion_scope': 'DECLARED_NATIVE_WORKFLOW_STAGES_ONLY', 'production_deployed': False, 'waiting': [], 'failures': [{'stage': 'collected', 'attempt': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/collected/0001', 'error_type': 'ValueError', 'error': 'SC collection pointer differs'}], 'results': {'prepared': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/prepared/0001/output/PREPARED.json', 'sha256': '0806c9e7daeeb7148e5ffb32a1207f9991fa431087f0f6de21f6584d8fc2c70b'}}}">tests/test_v32_native_single_cell_workflow.py:79: in test_native_chain_single_cell_prepare_collect
+    result=exercise("single_cell",source,tmp_path,complete)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/native_chain_fixture.py:21: in exercise
+    assert state["status"]=="DECLARED_STAGES_COMPLETE",state
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: {'format': 'NATIVE_WORKFLOW_CHAIN_V1', 'target_host': '149', 'training_started': False, 'plan': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/LAUNCH_PREFLIGHT.json', 'sha256': '960fa03d9a4e3efd60fd6961797f341f5391f575fa85ab4a17dc35c9bc31cfea'}, 'stages': {'prepared': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/prepared/0001/STAGE_BINDING.json', 'sha256': '71d02a91e040bd45e7ee8e7ff084ffbdeab39aade0b01b83852a5ed553e45229'}}, 'externals': {'completed': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/prepared/0001/output/training/SUCCESS.json', 'sha256': '8f73633ab20eca0e016dc19ac4f64473c9c1cda9336d99a289c5622417e0d472'}}, 'status': 'FAILED', 'completion_scope': 'DECLARED_NATIVE_WORKFLOW_STAGES_ONLY', 'production_deployed': False, 'waiting': [], 'failures': [{'stage': 'collected', 'attempt': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/collected/0001', 'error_type': 'ValueError', 'error': 'SC collection pointer differs'}], 'results': {'prepared': {'path': '/tmp/pytest-of-dengsc/pytest-153/test_native_chain_single_cell_0/chain/stages/prepared/0001/output/PREPARED.json', 'sha256': '0806c9e7daeeb7148e5ffb32a1207f9991fa431087f0f6de21f6584d8fc2c70b'}}}</failure></testcase></testsuite></testsuites>

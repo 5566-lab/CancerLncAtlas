@@ -446,3 +446,35 @@ def test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout(live_si
                 "real_browser":"Chromium via Playwright 1.52.0","version":version,"page_errors":errors,
                 "screenshots":["current_web_desktop.png","current_web_mobile.png"],"production_deployed":False})
         finally:browser.close()
+
+
+def test_full_publication_native_reaudit_reconstructs_all_components(web_release):
+    from cc_hhgt.v32.current_analysis_workflow import validate_current_analysis_workflow
+    root=web_release[0];path=root/"CURRENT_WORKFLOW_BINDING.json"
+    _,value=validate_current_analysis_workflow(record(path),root)
+    assert len(value["stages"])==12 and not value["independent_external_validation_attested"]
+
+
+@pytest.mark.parametrize("fault",["catalog","stage","completeness","resolved_input","web_input","model_use_input"])
+def test_rehashed_publication_metadata_cannot_override_native_consumers(web_release,fault):
+    from cc_hhgt.v32.current_analysis_workflow import validate_current_analysis_workflow
+    root=web_release[0];path=root/"CURRENT_WORKFLOW_BINDING.json";value=read_json(path)
+    catalog=Path(value["public_table_catalog"]["path"]);status=root/"STAGE_STATUS.json";success=root/"SUCCESS.json"
+    original={p:p.read_bytes() for p in (path,catalog,status,success)}
+    try:
+        if fault=="catalog":
+            data=read_json(catalog);data["scope"]="COMPLETE_BIOLOGICAL_VALIDATION";write(catalog,data);value["public_table_catalog"]=record(catalog)
+        elif fault=="stage":
+            next(s for s in value["stages"] if s["stage"]=="selected")["status"]="REUSED"
+            data=read_json(status);data["stages"]=value["stages"];write(status,data)
+        elif fault in {"resolved_input","web_input","model_use_input"}:
+            name={"resolved_input":"selected","web_input":"web","model_use_input":"model_use"}[fault]
+            row=next(s for s in value["stages"] if s["stage"]==name)
+            copied=root/("copied_"+fault+".json");copied.write_bytes(Path(row["resolved_input"]["path"]).read_bytes())
+            row["resolved_input"]=record(copied)
+            data=read_json(status);data["stages"]=value["stages"];write(status,data)
+        else:value["model_use_inventory_completeness_verified"]=True
+        write(path,value);data=read_json(success);data["binding_sha256"]=sha256(path);data["stage_status_sha256"]=sha256(status);write(success,data)
+        with pytest.raises(ValueError,match="Publication .*differ"):validate_current_analysis_workflow(record(path),root)
+    finally:
+        for p,data in original.items():p.write_bytes(data)

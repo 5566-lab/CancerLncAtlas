@@ -68,6 +68,13 @@ def branch(request, cnv_native, atac_native):
     return request.param, cnv_native if request.param == "cnv" else atac_native
 
 
+def test_native_chain_auxiliary_prepare_collect(branch,tmp_path):
+    from native_chain_fixture import exercise
+    kind,fixture=branch;source=specification(kind,fixture,tmp_path/"input.json")
+    result=exercise("auxiliary",source,tmp_path,lambda prepared:complete(kind,fixture,prepared,tmp_path))
+    assert result["producer_kind"]==kind and not result["formal_increment_established"]
+
+
 def test_actual_prepare_collect_cli_independent_audit_and_fusion(branch, tmp_path):
     from scripts.run_native_auxiliary_workflow import main
     from cc_hhgt.v32.native_auxiliary_fusion import load_native_auxiliary
