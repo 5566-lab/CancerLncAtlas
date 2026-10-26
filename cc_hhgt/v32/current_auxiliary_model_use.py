@@ -35,6 +35,8 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
     if not source.get("path") or not path.exists():
         inventory.authority(source,root,model,role,fold);return
     path=inventory.bind(source,root,model,role,fold)
+    from .native_genomic_annotation_workflow import inspect as inspect_genomic_annotation
+    if inspect_genomic_annotation(inventory,path,model,role,fold):return
     from .native_single_cell_annotation_workflow import inspect as inspect_sc_annotation
     if inspect_sc_annotation(inventory,path,model,role,fold):return
     from .native_annotation_workflow import inspect as inspect_annotation

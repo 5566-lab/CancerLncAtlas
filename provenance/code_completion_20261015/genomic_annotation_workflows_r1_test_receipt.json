@@ -1,0 +1,61 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T22:07:02.845412+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "75394b3766a40f742cdc483b2030b15c59267b85d170e2f21b816c7b3324d76f",
+    "cc_hhgt/v32/current_model_use.py": "fefba6352e0ba1503c16d357fbf71586137503922bd986d9c157c953eb55917d",
+    "cc_hhgt/v32/native_directional_cnv.py": "787875dc69977d0b0a5e3da1252145f3717f968da350b098b403449b7f9fd5a7",
+    "cc_hhgt/v32/native_genomic_annotation_workflow.py": "fa5085032f766fd360192f0143f09981b0479417270f653ee972e95229e9dc12",
+    "cc_hhgt/v32/native_genomic_cnv.py": "698f3a6620a2b8fbf35ce2e35eb67d94d2635aab6f8b1c7ef6a6065a1d1c3908",
+    "cc_hhgt/v32/native_workflow_chain.py": "cb8f975590cab47423811d9a2cf601d3c7c3cd91da7c4a3e9b99cd98332b7515",
+    "scripts/run_native_genomic_annotation_workflow.py": "cd4ff2c4c31cce4106214c63d8624b03110dac8fd9cba6febe8ccaac79df7c6d",
+    "tests/test_v32_native_genomic_annotation_workflow.py": "4331e70cd302f82a4d7cde2c358f87fd4c012499542914da72f450ded2abb03b"
+  },
+  "source_code_uploaded": false,
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--tb=short",
+    "tests/test_v32_native_genomic_workflow.py",
+    "tests/test_v32_native_single_cell_annotation_workflow.py",
+    "--junitxml=provenance/code_completion_20261015/genomic_annotation_workflows_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T22:09:11.041267+00:00"
+}

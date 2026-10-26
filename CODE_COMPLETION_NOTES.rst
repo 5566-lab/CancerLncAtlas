@@ -7140,3 +7140,9 @@ pass 79 distinct related checks. Actual H5 mapping and completed-model
 input inspection follow the original annotation producer to GTF; chain operation 31.
 Reference study exposure is separate from the H5 cohort. Raw/QC/geometry/LASSO
 and whole-project acceptance remain open; no fitting or real-data analysis ran.
+
+GENCODE interval-to-CNV verification on149: ``genomic_annotation_consumers_r1``, ``genomic_annotation_workflows_r1``, ``genomic_annotation_sources_r3``
+pass 130 distinct related checks. Original coordinates now feed both signed
+and compact genomic CNV, including their actual source inspectors; chain operation 32.
+Segment reference declarations do not establish alignment veracity. Missing membership
+coordinates remain unavailable, not zero. No fitting or real-data analysis ran.

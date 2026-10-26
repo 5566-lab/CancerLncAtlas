@@ -1,0 +1,66 @@
+{
+  "method": "GENCODE_COORDINATES_TO_NATIVE_DIRECTIONAL_AND_GENOMIC_CNV",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "genomic_annotation_consumers_r1",
+    "genomic_annotation_workflows_r1",
+    "genomic_annotation_sources_r3"
+  ],
+  "earlier_successful_receipts": [
+    "genomic_annotation_sources_r2"
+  ],
+  "native_annotation_cli_plan_and_run_verified": true,
+  "intermediate_failed_receipts": [
+    "genomic_annotation_sources_r1"
+  ],
+  "intermediate_failure_causes": [
+    "Test expected the first gene on GTF line 2 but the fixture has three header lines; corrected to original line 4.",
+    "Fixture expected CLI main() to return 0 although the existing directional CLI returns None on success; test now verifies its actual SUCCESS receipt."
+  ],
+  "implementation_files": [
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/native_directional_cnv.py",
+    "cc_hhgt/v32/native_genomic_annotation_workflow.py",
+    "cc_hhgt/v32/native_genomic_cnv.py",
+    "cc_hhgt/v32/native_workflow_chain.py",
+    "scripts/run_native_genomic_annotation_workflow.py",
+    "tests/test_v32_native_genomic_annotation_workflow.py"
+  ],
+  "original_gtf_coordinates_reconstructed": true,
+  "actual_original_cnv_clis_executed": true,
+  "original_signed_and_absolute_estimands_preserved": true,
+  "midpoint_boundary_independently_checked": true,
+  "actual_both_native_source_inspectors_reach_gtf": true,
+  "missing_members_preserved_and_counted": true,
+  "byte_equivalent_bound_reference_locations_accepted": true,
+  "native_chain_operations": 32,
+  "legacy_undeclared_coordinate_behavior_preserved": true,
+  "reference_authenticity_verified": false,
+  "segment_alignment_reference_independently_verified": false,
+  "pathway_member_identifier_transformation_complete": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/GENOMIC_GENCODE_INTERVALS_20261027.rst",
+      "sha256": "85a4ab08abdc39456ba9e7e2d12b32d33caabda8770eb18f1057d7671ca935d0"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic GTF/GDC/count/segment/membership sources; original R and CNV numerical producers.",
+    "Genomic dependency uses explicitly marked frozen core export/receipt serialization; no encoder/head/optimizer execution in the new integration."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Added genomic_annotation.run to produce bound entity intervals from original GENCODE coordinates. The original directional and compact genomic CNV CLIs now verify this producer, match candidate annotation bytes, and require an explicit matching one-based closed segment reference declaration. Identical bound reference copies at different locations remain accepted. Original midpoint mapping, signed pathway means, absolute genomic burden sums and event-or-all-members callability are unchanged. Missing-coordinate members remain in the original membership/availability logic and are counted, not dropped or zero-filled. Actual native source inspectors trace intervals back to GTF without inventing patient-study metadata. Native chain now has 32 operations. Reference authenticity, independently verified segment alignment/build, membership identifier/resource transformations and full external acceptance remain open. Tests used synthetic sources/original numerical producers and frozen core export serialization; no optimizer, real cohorts, acquisition, paid compute or deployment ran."
+}

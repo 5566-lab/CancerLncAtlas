@@ -14,6 +14,7 @@ import pandas as pd
 from .cnv_input_sources import require_host
 from .current_core_export import verified_path
 from .formal_expression_sources import read, write, record
+from .native_genomic_annotation_workflow import CODE as ANNOTATION_CODE
 
 INPUT = "NATIVE_DIRECTIONAL_CNV_INPUT_V1"
 PARTITION = "NATIVE_DIRECTIONAL_CNV_PARTITION_V1"
@@ -23,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CODE = ("cc_hhgt/v32/native_directional_cnv.py", "scripts/materialize_v32_directional_cnv.py",
         "cc_hhgt/v32/directional_cnv.py", "cc_hhgt/v32/segment_cnv_streaming.py",
         "cc_hhgt/v32/local_cnv_cohort.py", "cc_hhgt/v32/fold_local_scope.py",
-        "scripts/prepare_v32_formal.py")
+        "scripts/prepare_v32_formal.py", *ANNOTATION_CODE)
 ARRAYS = tuple(f"{kind}_{feature}.npy" for kind in ("lncrna", "pathway")
     for feature in (("signed_mean", "callable", "amplification", "deletion", "neutral")
         + (("amplification_fraction", "deletion_fraction") if kind == "pathway" else ())))
@@ -36,7 +37,7 @@ def implementations(): return {name:record(ROOT/name) for name in CODE}
 def load_manifest(item, root):
     require_host(); path = verified_path(item, root); value = read(path)
     required = {"format", "candidate_definition", "candidates", "patient_map", "intervals", "membership", "segments"}
-    if (not required <= set(value) or set(value)-required-{"event_threshold", "max_segment_rows"}
+    if (not required <= set(value) or set(value)-required-{"event_threshold", "max_segment_rows", "segment_reference"}
             or value["format"] != INPUT or not isinstance(value["segments"], list)):
         raise ValueError("Invalid native directional CNV manifest")
     files = {key:verified_path(value[key], path.parent) for key in required-{"format", "segments"}}
@@ -82,7 +83,19 @@ def load_manifest(item, root):
     patients, intervals, membership = _normalise_shared_inputs(patients, intervals, membership)
     if intervals.start.lt(0).any() or intervals.end.lt(intervals.start).any():
         raise ValueError("Native CNV intervals have invalid coordinates")
-    return path, value, files, cohort, patients, intervals, membership, records
+    loaded = path, value, files, cohort, patients, intervals, membership, records
+    reference_context(loaded)
+    return loaded
+
+
+def reference_context(loaded):
+    from .native_genomic_annotation_workflow import consumer
+    return consumer(loaded[2]["intervals"], loaded[1]["candidate_definition"], loaded[6], loaded[0].parent,
+                    loaded[1].get("segment_reference"))
+
+
+def coordinate_system(value):
+    return (value.get("segment_reference") or {}).get("coordinate_system")
 
 
 def layout(loaded, cancer):
@@ -99,7 +112,7 @@ def layout(loaded, cancer):
     return patient_ids, lncs, pathways, genes, positions, lnc_intervals, gene_intervals
 
 
-def read_segment(row, base, limit):
+def read_segment(row, base, limit, *, coordinate_system=None):
     if row["status"] == "typed_unavailable": return None
     path = verified_path(row["file"], base)
     frame = pd.read_csv(path, sep="\t", nrows=limit+1)
@@ -121,6 +134,10 @@ def read_segment(row, base, limit):
             raise ValueError("Native segment coordinates must be finite nonnegative integers")
         frame[c] = number.astype(np.int64)
     if frame.end.lt(frame.start).any(): raise ValueError("Native segment endpoints are reversed")
+    if coordinate_system not in (None, "1_BASED_CLOSED"):
+        raise ValueError("Unsupported native segment coordinate convention")
+    if coordinate_system == "1_BASED_CLOSED" and frame.start.lt(1).any():
+        raise ValueError("Declared one-based segments contain a zero start")
     for _, group in frame.sort_values(["chromosome", "start", "end"]).groupby("chromosome"):
         if (group.start.to_numpy()[1:] <= group.end.to_numpy()[:-1]).any():
             raise ValueError("Native segment intervals overlap within a chromosome")
@@ -188,7 +205,8 @@ def materialize(item, root, output, cancer):
             dtype = np.float32 if "mean" in name or "fraction" in name else np.uint8
             arrays[name] = np.lib.format.open_memmap(building/name, mode="w+", dtype=dtype, shape=size)
         for i, patient in enumerate(patients):
-            segment = read_segment(records[(cancer, patient)], path.parent, value.get("max_segment_rows", 2_000_000))
+            segment = read_segment(records[(cancer, patient)], path.parent, value.get("max_segment_rows", 2_000_000),
+                                   coordinate_system=coordinate_system(value))
             for name, row in row_arrays(segment, shape, value.get("event_threshold", .30)).items(): arrays[name][i] = row
         for array in arrays.values(): array.flush()
         del array, arrays
@@ -205,6 +223,8 @@ def materialize(item, root, output, cancer):
             "absolute_burden_used_as_continuous":False, "amplification_deletion_separate":True,
             "raw_study_ancestry_complete":False,
             "files":{name:record(building/name)["sha256"] for name in (*IDS, *ARRAYS, "SOURCE_FILES.json")}}
+        annotation = reference_context(loaded)
+        if annotation is not None: receipt["interval_reference"] = annotation
         write(building/"SUCCESS.json", receipt); (building/"INCOMPLETE.json").unlink()
         from .gdc_segment_cnv import _rename_directory_noreplace
         _rename_directory_noreplace(building, final)
@@ -225,6 +245,7 @@ def validate_partition(item, root, *, replay=False, cache=None):
         raise ValueError("Invalid native directional partition contract")
     loaded = load_manifest(value["input"], path.parent)
     if value["cohort"] != loaded[3]: raise ValueError("Directional partition cohort differs")
+    if value.get("interval_reference") != reference_context(loaded): raise ValueError("Directional interval reference differs")
     shape = layout(loaded, value["cancer_id"]); patients, lncs, pathways, genes = shape[:4]
     raw = sources(loaded, value["cancer_id"])
     for name, digest in value["files"].items(): verified_path({"path":str(path.parent/name), "sha256":digest}, path.parent)
@@ -244,7 +265,8 @@ def validate_partition(item, root, *, replay=False, cache=None):
     if replay and (cache is None or key not in cache):
         for i, patient in enumerate(patients):
             row = loaded[7][(value["cancer_id"], patient)]
-            segment = read_segment(row, loaded[0].parent, loaded[1].get("max_segment_rows", 2_000_000))
+            segment = read_segment(row, loaded[0].parent, loaded[1].get("max_segment_rows", 2_000_000),
+                                   coordinate_system=coordinate_system(loaded[1]))
             expected = row_arrays(segment, shape, value["event_threshold"])
             for name in ARRAYS:
                 if not np.array_equal(arrays[name][i], expected[name], equal_nan=True):

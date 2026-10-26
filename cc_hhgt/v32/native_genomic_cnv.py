@@ -47,6 +47,8 @@ def load(item, root):
         "max_segment_rows":loaded[1].get("max_segment_rows",2_000_000),
         "raw_segments":sources, "candidate_loading":"CANCER_FILTERED_NO_GLOBAL_OBJECT_TABLE",
         "observed_process_memory_gate_enforced":True, "source_ancestry_complete":False}
+    annotation = raw.reference_context(loaded)
+    if annotation is not None: context["interval_reference"] = annotation
     context["context_sha256"] = streaming._json_sha(context)
     return path, spec, loaded, context
 
@@ -54,7 +56,8 @@ def load(item, root):
 def reader(loaded):
     def consume(cancer, patient):
         row = loaded[7][(cancer,patient)]
-        frame = raw.read_segment(row, loaded[0].parent, loaded[1].get("max_segment_rows",2_000_000))
+        frame = raw.read_segment(row, loaded[0].parent, loaded[1].get("max_segment_rows",2_000_000),
+                                 coordinate_system=raw.coordinate_system(loaded[1]))
         if frame is None: return None, None
         return frame, {"patient_id":patient, **record(verified_path(row["file"],loaded[0].parent)),
                        "study_metadata":row.get("study_metadata",{})}
