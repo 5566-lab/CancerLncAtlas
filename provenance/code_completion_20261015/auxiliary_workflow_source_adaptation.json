@@ -1,0 +1,57 @@
+{
+  "method": "NATIVE_CNV_ATAC_PREPARATION_COMPLETION_AUDIT_FUSION_WORKFLOW",
+  "target_host": "149",
+  "training_started": false,
+  "training_commands_executed": false,
+  "auxiliary_forward_started": false,
+  "fusion_fitting_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "auxiliary_workflow_r2",
+    "auxiliary_workflow_consumers_r1"
+  ],
+  "superseded_pass_receipts": [
+    "auxiliary_workflow_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "verification_transport_interrupted": true,
+  "remote_test_job_restarted": false,
+  "original_terminal_remote_receipt_recovered": true,
+  "remote_observed_hostname": "149",
+  "ioa_relogin_performed": false,
+  "original_input_collectors_executed": true,
+  "original_training_parsers_executed_without_dispatch": true,
+  "original_independent_auditors_executed": true,
+  "native_fusion_aggregation_and_replay_executed": true,
+  "actual_current_fusion_preparer_executed": true,
+  "downstream_independent_audit_dependencies_rechecked": true,
+  "cnv_audit_separate_output_keeps_training_package_unchanged": true,
+  "producer_kinds": [
+    "cnv",
+    "atac"
+  ],
+  "cnv_candidates": 6,
+  "atac_candidates": 240,
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_substitutes": [
+    "Explicit frozen checkpoint serialization containers and synthetic optimizer telemetry; no optimizer actually runs.",
+    "Final fusion handoff uses synthetic primary scores and legacy hash-listed labels; fitting eligibility remains false."
+  ],
+  "full_native_primary_label_chain_in_this_new_fixture": false,
+  "biological_ancestry_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "A native CNV/ATAC workflow now invokes actual five-fold no-fit input collectors, records exact training argv parsed by the original CLI, and reconciles separately completed result containers against the same run, inputs and full settings. Actual independent auditors and native fusion adapters execute during collection; subsequent fusion loading rechecks bound preparation and audit sources. CNV audits support a separate new directory without changing the training package. Tests use explicitly marked frozen checkpoint containers and synthetic optimizer telemetry; no optimizer, auxiliary forward, real cohort analysis, paid compute or deployment was executed. The final fusion preparer check uses synthetic primary scores and legacy hash-listed labels, retaining unverified label authority and fitting ineligibility. This verifies auxiliary handoff, not native-primary label reconstruction, full source ancestry or scientific gain. Other producer orchestration and complete native-to-external acceptance remain open."
+}

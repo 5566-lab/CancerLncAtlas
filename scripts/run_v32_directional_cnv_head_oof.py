@@ -9,7 +9,7 @@ from cc_hhgt.v32.cnv_only_training_v2 import run_directional_cnv_only_oof
 from cc_hhgt.v32.genomic_training import GenomicTrainingConfig
 
 
-def main() -> None:
+def _parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("--candidates", required=True)
     parser.add_argument("--patient-folds", required=True)
@@ -30,7 +30,11 @@ def main() -> None:
     parser.add_argument("--max-train-rows", type=int, default=200_000)
     parser.add_argument("--max-validation-rows", type=int, default=100_000)
     parser.add_argument("--prediction-batch-size", type=int, default=16_384)
-    args = parser.parse_args()
+    return parser
+
+
+def main(argv=None) -> None:
+    args = _parser().parse_args(argv)
     config = GenomicTrainingConfig(
         seed=args.seed, epochs=args.epochs, batch_size=args.batch_size,
         hidden_features=args.hidden_features, dropout=args.dropout,

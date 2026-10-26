@@ -148,14 +148,21 @@ def main(argv=None) -> None:
     parser.add_argument("--patient-folds", required=True, type=Path)
     parser.add_argument("--association-root", required=True, type=Path)
     parser.add_argument("--expected-training-run-id")
+    parser.add_argument("--output-root", type=Path,
+                        help="Optional new audit directory; leaves the completed training package unchanged")
     args = parser.parse_args(argv)
     from cc_hhgt.v32.cnv_input_sources import require_host
     from cc_hhgt.v32.cnv_head_association import association_contract
     require_host()
     root = args.root.resolve()
-    if (root / "SUCCESS.json").exists():
+    output = args.output_root.resolve() if args.output_root is not None else root
+    if args.output_root is not None:
+        if output == root or output.exists(): raise FileExistsError("Use a new separate CNV audit directory")
+        output.mkdir(parents=True)
+    if (output / "SUCCESS.json").exists():
         raise RuntimeError("immutable CNV head SUCCESS already exists")
-    write_json(root/"AUDIT_PREFLIGHT.json", {"target_host": "149", "training_started": False,
+    (output/"PRIVATE_EVALUATION").mkdir(exist_ok=True)
+    write_json(output/"AUDIT_PREFLIGHT.json", {"target_host": "149", "training_started": False,
         "expected_training_run_id": args.expected_training_run_id})
     association_authority = association_contract(args.association_root,
         candidates=args.candidates, patient_map=args.patient_folds)
@@ -346,12 +353,12 @@ def main(argv=None) -> None:
         "fold_mean": pd.DataFrame(fold_rows).select_dtypes(include=[np.number]).mean().to_dict(),
         "fold_std": pd.DataFrame(fold_rows).select_dtypes(include=[np.number]).std(ddof=1).to_dict(),
     }
-    part.to_csv(root / "PRIVATE_EVALUATION" / "cnv_oof_metrics_cancer_fold.tsv", sep="\t", index=False)
-    pd.DataFrame(fold_rows).to_csv(root / "cnv_oof_metrics_fold.tsv", sep="\t", index=False)
-    pd.DataFrame(cancer_rows).to_csv(root / "cnv_oof_metrics_cancer.tsv", sep="\t", index=False)
-    pd.DataFrame(calibration).to_csv(root / "cnv_calibration.tsv", sep="\t", index=False)
-    pd.DataFrame(interpretation).to_csv(root / "PRIVATE_EVALUATION" / "availability_interpretation.tsv", sep="\t", index=False)
-    write_json(root / "cnv_oof_metrics_global.json", global_metrics)
+    part.to_csv(output / "PRIVATE_EVALUATION" / "cnv_oof_metrics_cancer_fold.tsv", sep="\t", index=False)
+    pd.DataFrame(fold_rows).to_csv(output / "cnv_oof_metrics_fold.tsv", sep="\t", index=False)
+    pd.DataFrame(cancer_rows).to_csv(output / "cnv_oof_metrics_cancer.tsv", sep="\t", index=False)
+    pd.DataFrame(calibration).to_csv(output / "cnv_calibration.tsv", sep="\t", index=False)
+    pd.DataFrame(interpretation).to_csv(output / "PRIVATE_EVALUATION" / "availability_interpretation.tsv", sep="\t", index=False)
+    write_json(output / "cnv_oof_metrics_global.json", global_metrics)
 
     audit = {
         "format": "CC_HHGT_V3_2_CNV_OOF_INDEPENDENT_AUDIT_V1", "status": "PASS",
@@ -365,9 +372,9 @@ def main(argv=None) -> None:
                    "metrics_recomputed_from_unseen_oof_labels": True,
                    "mutation_used": False, "router_used": False, "sealed_test_read": False},
         "oof_manifest_sha256": sha256(manifest_path),
-        "global_metrics_sha256": sha256(root / "cnv_oof_metrics_global.json"),
+        "global_metrics_sha256": sha256(output / "cnv_oof_metrics_global.json"),
     }
-    write_json(root / "CNV_OOF_INDEPENDENT_AUDIT.json", audit)
+    write_json(output / "CNV_OOF_INDEPENDENT_AUDIT.json", audit)
     report = (
         "# CancerLncAtlas V3.2 directional CNV head\n\n"
         "Status: **PASS** (independently audited)\n\n"
@@ -378,15 +385,15 @@ def main(argv=None) -> None:
         "- CNV_NOT_IN_PRIMARY_HHGT\n- CNV_NOT_USED_TO_REDEFINE_TARGET\n"
         "- No Mutation, router, old checkpoint, or sealed test was used.\n"
     )
-    (root / "CNV_HEAD_REPORT.md").write_text(report, encoding="utf-8")
-    write_json(root / "SUCCESS.json", {
+    (output / "CNV_HEAD_REPORT.md").write_text(report, encoding="utf-8")
+    write_json(output / "SUCCESS.json", {
         "format": "CC_HHGT_V3_2_DIRECTIONAL_CNV_HEAD_OOF_FINAL_V1", "status": "SUCCESS",
         "training_run_id": expected_run, "checkpoint_count": 5, "prediction_file_count": 5*len(cancers),
         **({"cohort": cohort} if cohort is not None else {}),
         "CNV_HEAD_OOF_COMPLETE": True, "CNV_ROUTER_INCREMENT_NOT_TESTED": True,
         "CNV_NOT_IN_PRIMARY_HHGT": True, "CNV_NOT_USED_TO_REDEFINE_TARGET": True,
-        "independent_audit_sha256": sha256(root / "CNV_OOF_INDEPENDENT_AUDIT.json"),
-        "metrics_sha256": sha256(root / "cnv_oof_metrics_global.json"),
+        "independent_audit_sha256": sha256(output / "CNV_OOF_INDEPENDENT_AUDIT.json"),
+        "metrics_sha256": sha256(output / "cnv_oof_metrics_global.json"),
     })
     print(json.dumps({"status": "SUCCESS", "folds": 5, "partitions": 5*len(cancers)}, sort_keys=True))
 

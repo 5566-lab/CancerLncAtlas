@@ -7,7 +7,7 @@ and distinct availability fields.  No Mutation input exists in this API.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 import hashlib
 import json
 import math
@@ -547,6 +547,7 @@ def run_directional_cnv_only_oof(
         "old_checkpoint_loaded": False, "old_predictions_used": False,
         "validation_metrics_path": str(private_root / "validation_metrics.tsv"),
         "consumed_sources": consumed_sources,
+        "training_config": asdict(settings),
         **input_hashes, **scope,
     }
     _atomic_json(output / "OOF_MANIFEST.json", manifest_payload)

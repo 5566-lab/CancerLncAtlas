@@ -4576,3 +4576,125 @@ publication fixture uses frozen synthetic checkpoint containers and declared
 synthetic optimizer telemetry; it does not execute an optimizer or establish
 performance. Its unchanged biological ancestry gaps remain visible. Only the
 existing Torch/Starlette deprecation warnings remain.
+
+Native CNV/ATAC preparation and completed-result handoff (2026-10-26)
+------------------------------------------------------------------
+
+``scripts.run_native_auxiliary_workflow`` connects the existing native CNV and
+ATAC input collectors, training CLI arguments, independent result auditors and
+native fusion adapters. Its prepare/collect phases never call a trainer. This
+entry starts from completed directional-CNV/association or ATAC accessibility
+inputs; it does not acquire raw data, perform core selection, or orchestrate
+the separate genomic, State, Clinical and single-cell producers.
+
+The manifest uses ``format: NATIVE_AUXILIARY_WORKFLOW_INPUT_V1`` with
+``producer_kind`` equal to ``cnv`` or ``atac``, an explicit ``native_run_id``,
+``core_run_id``, and ``{path, sha256}`` bindings for ``candidate_authority`` and
+``patient_folds``. CNV also requires ``directional_success``,
+``association_success`` and ``core_manifest``. The two CNV success files must
+be aggregate SUCCESS.json files; the completed association must declare its
+native annotation-defined cohort. ATAC instead requires
+``materialization_success`` and ``pathway_membership``. Its accessibility
+success must carry the native candidate/patient/input contract. Existing
+legacy producer interfaces remain available separately.
+
+CNV consumes the selected core embeddings and verifies the core run. ATAC is
+an independent model: its core_run_id selects the intended comparison/fusion
+context and does not assert that core embeddings were used by ATAC fitting.
+The adapter retains this distinction in ``core_dependency``.
+
+Optional ``config`` contains overrides of the original GenomicTrainingConfig
+or AtacTrainingConfig fields exposed by the corresponding trainer CLI. Unknown
+fields, boolean numeric parameters, fractional integer parameters and nonfinite
+values are rejected. CNV's unused cnv_event_threshold and ATAC's historical
+expected_rows_per_cancer are not override fields here. Native coverage comes
+from the actual candidate/cohort contracts. All remaining defaults are expanded
+and saved before generating commands; sampling uses exactly the corresponding
+subset of this same configuration.
+
+Plan or prepare on 149::
+
+  python -m scripts.run_native_auxiliary_workflow prepare \
+    --manifest /absolute/path/auxiliary_input.json \
+    --output /absolute/path/new_auxiliary_preparation --plan
+
+  python -m scripts.run_native_auxiliary_workflow prepare \
+    --manifest /absolute/path/auxiliary_input.json \
+    --output /absolute/path/new_auxiliary_preparation
+
+The plan is non-writing. Actual preparation writes LAUNCH_PREFLIGHT.json, calls
+the original no-fit preflight and collects all five folds' features/labels.
+It preserves the original CNV two-class sampling and the ATAC >=100-row/two-class
+readiness gates. It validates the native cohort, source matrices, actual core
+export and captured input bytes, then writes PREPARED.json, HEAD_PREFLIGHT.json
+and TRAINING_COMMAND.json. The latter contains the exact trainer argv plus
+``execution_mode: CODE_ONLY`` and ``automatically_executed: false``. The actual
+trainer parser checks these arguments without invoking its execution function.
+The workflow dispatcher accepts only preparation and independent-audit modules;
+it rejects training dispatch. No training output directory is created by prepare.
+
+The generated trainer command is a separate future action requiring explicit
+execution. It points to ``<preparation>/training`` and uses the declared run ID,
+input paths and expanded settings. This code-only change did not execute it.
+The directional CNV producer now saves its actual GenomicTrainingConfig in
+OOF_MANIFEST.json. ATAC already saves its settings under ``training`` in the
+hash-bound RUN_CONFIG.json. A completed result lacking these required settings
+cannot be retroactively claimed to match a workflow preparation. Original
+standalone consumers of historical results retain their earlier behavior.
+
+After a separately completed training run, collect its explicit receipt into
+a new directory::
+
+  python -m scripts.run_native_auxiliary_workflow collect \
+    --preparation /absolute/path/new_auxiliary_preparation/PREPARED.json \
+    --preparation-sha256 <actual-preparation-sha256> \
+    --completed /absolute/path/new_auxiliary_preparation/training/OOF_MANIFEST.json \
+    --completed-sha256 <actual-completed-receipt-sha256> \
+    --output /absolute/path/new_auxiliary_collection
+
+For ATAC, completed is ``training/SUCCESS.json``. The result must be at the
+prepared output location; changing its run ID, input authority, core, consumed
+association/materialization or training settings is rejected. Preparation/code
+and all captured sources are rechecked. Source hashes alone do not attest that
+optimization happened; the original result auditors retain their own checkpoint
+and split checks, with the same limitations as those original implementations.
+
+Collection executes the actual independent auditor, writes the resolved native
+adapter manifest, calls the existing fusion adapter and replays its five-fold
+aggregation. Directional CNV auditing now accepts an optional new output-root,
+so this workflow writes audit products separately and leaves the completed
+training package unchanged. The original default audit location is preserved.
+Failures retain RUN_FAILED.json and stage logs without publishing a completed
+workflow binding. Successful collection writes NATIVE_AUXILIARY_BINDING.json.
+
+The final adapter manifest binds both workflow_preparation and workflow_audit.
+The actual native fusion loader validates the preparation, completed parameters,
+independent audit/success identities and their source receipt every time this
+workflow's outputs are consumed. CNV global audit metrics are also hash-bound.
+Thus later fusion preparation follows the audited result instead of relying
+only on an earlier workflow status. ``fusion_experts`` points to the generated
+FUSION_EXPERTS.json entries accepted by the existing current fusion manifest;
+the final workflow validator checks their exact specification, run, estimand,
+prediction and producer binding. This handoff does not fit the fusion model.
+
+Synthetic verification uses actual two-cancer native CNV associations and actual
+R-generated native ATAC accessibility inputs. Preparation/collection and the
+independent auditors run through their production functions. Completed model
+containers and optimizer telemetry are explicitly marked serialization fixtures;
+no optimizer, CNV/ATAC forward or fusion fitting is permitted. The final fusion
+preparation check uses explicit synthetic primary probabilities and legacy
+hash-listed labels; it must retain unverified label authority and fitting
+ineligibility. That check proves auxiliary handoff, not native primary-label
+reconstruction or scientific gain. Earlier native-primary tests have their own
+separate scope. Raw acquisition/reference ancestry and per-pair/cross-module
+patient closure remain open; these workflow bindings keep source_ancestry_complete
+and formal_increment_established false.
+
+Final verification on 149: 63 direct/native CNV/native ATAC checks and 71
+downstream source, auxiliary-fusion and partitioned-genomic regression checks
+pass (134 distinct cases). The initial 55-check pass predates the final audit
+dependency hardening and is superseded for those modules. The final direct run
+completed remotely with exit 0 after its observing SSH connection closed; its
+original XML/log/receipt were recovered after a successful hostname/process
+probe. The test job was not restarted. No model fitting or real cohort run was
+started during recovery. The broader C01/C13/C16 acceptance remains unfinished.

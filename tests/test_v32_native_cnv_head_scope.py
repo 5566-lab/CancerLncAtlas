@@ -123,8 +123,7 @@ def test_actual_native_scope_consumed_by_frozen_auxiliary_adapter(native, tmp_pa
     assert len(data) == 6 and audit["fold_rows"] == 30 and not audit["training_started"]
 
 
-def test_independent_auditor_uses_same_declared_scope_and_explicit_run(native, tmp_path):
-    from scripts.audit_v32_directional_cnv_head_oof import main
+def auditable_package(native, tmp_path):
     args, _ = native; path = frozen_package(native, tmp_path)
     manifest = read(path); rp = Path(manifest["native_receipt"]["path"]); receipt = read(rp)
     # The auditor inspects completed checkpoint containers. These are explicit
@@ -159,6 +158,13 @@ def test_independent_auditor_uses_same_declared_scope_and_explicit_run(native, t
     write(rp.parent/"PACKAGE_READY.json", {"status": "READY_FOR_INDEPENDENT_AUDIT",
         "training_run_id": receipt["training_run_id"], "cohort": receipt["cohort"], "oof_manifest_sha256": record(rp)["sha256"]})
     (rp.parent/"PRIVATE_EVALUATION").mkdir()
+    return path
+
+
+def test_independent_auditor_uses_same_declared_scope_and_explicit_run(native, tmp_path):
+    from scripts.audit_v32_directional_cnv_head_oof import main
+    args, _ = native; path = auditable_package(native, tmp_path)
+    rp = Path(read(path)["native_receipt"]["path"]); receipt = read(rp)
     argv = ["--root", str(rp.parent), "--candidates", str(args.candidates), "--patient-folds", str(args.patient_map),
         "--association-root", str(args.output_root)]
     with pytest.raises(ValueError, match="expected-training-run-id"): main(argv)

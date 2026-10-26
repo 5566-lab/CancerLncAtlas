@@ -233,9 +233,13 @@ def native_sources(manifest_path, *, expected_core_run_id):
     specs = [ExpertSpec("cnv_event" if m=="cnv" and kind in {"genomic","cnv_event"} else m,
         f"{m}_context_probability", f"{m}_available", ("discovery", "confidence"),
         "patient", source_role="current_v32_oof_prediction") for m in modalities]
-    return dict(manifest=manifest, sources=sources, candidates_path=candidates_path, patients=patients,
+    context = dict(manifest=manifest, sources=sources, candidates_path=candidates_path, patients=patients,
         native=native, lineage=lineage, kind=kind, modalities=modalities, fold_records=bound_folds,
         typed_path=typed_path, core_path=core_path, checkpoint_map=checkpoint_map, specs=specs, consumed=consumed)
+    if "workflow_preparation" in manifest:
+        from .native_auxiliary_workflow import validate_completed
+        validate_completed(manifest, context, root)
+    return context
 
 
 def _analyse(context, output=None, verify_fold_path=None):
