@@ -150,21 +150,33 @@ def _typed_feature(
         raise ValueError(f"{feature} violates typed-null availability")
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--formal-expression-root", type=Path, required=True)
     parser.add_argument("--distal-mutation", type=Path, required=True)
     parser.add_argument("--distal-atac-root", type=Path, required=True)
     parser.add_argument("--methylation", type=Path, required=True)
+    parser.add_argument("--methylation-workflow",type=Path)
+    parser.add_argument("--methylation-workflow-sha256")
     parser.add_argument("--local-cnv", type=Path, required=True)
     parser.add_argument("--purity-covariates", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--cancers", default=",".join(FORMAL_CANCERS))
     parser.add_argument("--allow-cohort-selected-topology", action="store_true",
                         help="Materialize diagnostic inputs only; the formal prediction runner rejects these")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if socket.gethostname() != "149":
         raise RuntimeError("Distal head inputs must be prepared on target host 149")
+    if bool(args.methylation_workflow)!=bool(args.methylation_workflow_sha256):
+        raise ValueError("Methylation workflow path and SHA256 must be supplied together")
+    methylation_workflow=None
+    if args.methylation_workflow:
+        from cc_hhgt.v32.native_methylation_workflow import validate
+        from cc_hhgt.v32.current_core_export import verified_path
+        methylation_workflow={"path":str(args.methylation_workflow.resolve()),"sha256":args.methylation_workflow_sha256}
+        _,binding=validate(methylation_workflow,Path.cwd())
+        if verified_path(binding["outputs"]["patient_features"],Path.cwd())!=args.methylation.resolve():
+            raise ValueError("Distal input uses a different methylation workflow")
 
     sources = {
         "distal_mutation": args.distal_mutation.resolve(),
@@ -341,6 +353,10 @@ def main() -> int:
         "outputs": output_files,
     }
     audit_path = output / "AUDIT.json"
+    if methylation_workflow:
+        from cc_hhgt.v32.native_methylation_workflow import validate_distal_input
+        audit["methylation_workflow"]=methylation_workflow
+        validate_distal_input(audit,output)
     audit_path.write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"status": "PASS", "audit": str(audit_path)}, indent=2))
     return 0

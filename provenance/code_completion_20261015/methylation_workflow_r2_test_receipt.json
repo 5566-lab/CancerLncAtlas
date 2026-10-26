@@ -1,0 +1,52 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T14:04:48.615181+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_omics_context.py": "25a3be0f1ccd11ce136682a1634302a0bc33dfb9e0bbc31938b4362ae910ed06",
+    "cc_hhgt/v32/native_methylation_workflow.py": "96ed6761f48aed3687cab9781d1358b9794a11b261f9cf4772d297d1f80a5763",
+    "cc_hhgt/v32/native_workflow_chain.py": "d95bfa52d383f2dd9dc16add58d497074dfd2ff1f0d90494a3c5ae980be1345c",
+    "scripts/materialize_v32_distal_regulatory_head_input.py": "530a4d190eebdd13d5fa416acaa2b5ee7c6a7fc6b0fdbbbe3248ff48dd58772f",
+    "scripts/run_native_methylation_workflow.py": "3bf0540e5cd3a471d5156b4025dbbb98c9b81255fa8c7ebc52d61ab00b1905a2",
+    "tests/test_v32_native_methylation_workflow.py": "bbeaa1a9ded9d8c8795a1bdab289d5d4fa25f0bdc47b43c3f8a89cd318bfa79d"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_methylation_workflow.py",
+    "tests/test_v32_methylation_recovery.py",
+    "tests/test_v32_methylation_lncrna.py",
+    "tests/test_v32_distal_regulatory_head_input.py",
+    "tests/test_v32_independent_distal_topology.py",
+    "--junitxml=provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T14:05:16.325529+00:00"
+}

@@ -5884,3 +5884,114 @@ Native RBP verification on 149: ``rbp_workflow_r1``, ``rbp_workflow_native_compa
 pass 119 distinct related checks (latest listed suite per module).
 The initial failed smoke receipt is retained with the mixed-source schema fix.
 No fitting, downloads, real cohort analysis, paid compute or deployment ran.
+
+Native methylation workflow and distal consumption (2026-10-26)
+--------------------------------------------------------------
+
+``scripts.run_native_methylation_workflow`` invokes the existing HM450
+materializer or completed-batch recovery on host 149. ``methylation.run`` is
+the nineteenth operation in the resumable native chain. This entry point
+does not download data, delete raw inputs or fit any learned model. It
+preserves the existing sample weighting and beta missingness semantics.
+
+The manifest has these fields::
+
+    {
+      "format": "NATIVE_METHYLATION_WORKFLOW_INPUT_V1",
+      "mode": "raw",
+      "selected_files": {"path": "selected.tsv", "sha256": "<SHA256>"},
+      "probe_map": {"path": "probe/probes.parquet", "sha256": "<SHA256>"},
+      "patient_folds": {"path": "folds.tsv", "sha256": "<SHA256>"},
+      "download_root": "raw",
+      "workers": 8,
+      "batch_size": 64
+    }
+
+Artifact paths and cache/batch directory paths resolve against the manifest.
+``workers`` and ``batch_size`` are optional positive integers, with defaults
+shown above. Raw mode requires every selected file at
+``download_root/file_id/file_name`` with matching MD5 and byte size. Preflight
+also pins SHA256 for each file, the probe map, its existing audit, and the
+patient-fold authority. Selected TSV columns are ``file_id``, ``file_name``,
+``md5sum``, ``file_size``, ``cancer_id``, ``patient_id`` and ``sample_id``.
+Probe rows identify ``probe_id``, ``lncrna_id`` and promoter/distal region;
+patient rows identify cancer, canonical patient and ``patient_fold_id``.
+The original producer remains responsible for validating beta/probe values.
+
+For recovery use ``mode=recovery`` and additionally supply
+``batches={"path":".../sample_feature_batches","sha256":"<directory SHA256>"}``.
+The directory digest follows ``input_lineage.artifact_sha256``. Existing
+``BATCH_INPUT_AUTHORITY.json`` and ``SAMPLE_PROCESSING_RECORDS.parquet`` are
+read from the batch directory's parent and pinned separately. Recovery does
+not require or read raw beta files; ``download_root`` is retained as a location
+record only. A legacy batch without input authority remains ineligible for
+predictive topology validation. Neither recovery nor its replay re-verifies
+the original raw MD5, reconstructs missing original provenance, or authorizes
+raw deletion. Changed raw files therefore invalidate raw-mode validation,
+while a separately declared recovery can still validate unchanged batches.
+
+Run on 149::
+
+    python -m scripts.run_native_methylation_workflow --manifest /path/hm450.json --output /new/hm450 --plan
+    python -m scripts.run_native_methylation_workflow --manifest /path/hm450.json --output /new/hm450
+
+Planning writes no output. Execution requires a new directory outside raw and
+batch inputs. It writes ``LAUNCH_PREFLIGHT.json``, ``stage.log``, the original
+``features`` outputs and ``NATIVE_METHYLATION_BINDING.json``; exceptions preserve
+``RUN_FAILED.json``. In a chain, use ``operation=methylation.run`` with the full
+manifest as ``inputs``. ``/outputs/patient_features`` selects the patient table,
+``/audit`` the original audit and ``/batch_root`` the directory binding accepted
+by a subsequent recovery stage. Resume revalidates results without rerunning
+the completed producer into its existing output directory.
+
+The original command is rerun in isolated temporary storage during validation.
+All native metadata and output inventories must match. Patient features,
+sample records and, in raw mode, output batches are compared by keys with
+exact schemas/missingness and absolute floating tolerance 1e-12 (rtol=0).
+Raw mode also compares the generated batch authority. Files are checked again
+before workflow acceptance. ``native_numerical_replay_verified`` means this
+same-implementation reconstruction, not independent biological validation.
+Repeated raw validation incurs the cost of reading and aggregating the full
+cache again; recovery incurs the cost of aggregating the existing batches.
+
+Patient beta is the mean within each exact sample across its file replicates,
+followed by equal sample weighting within patient. A beta of zero is a measured
+value; unavailable beta is null with ``__available=false``. Probe counts retain
+their original meaning, mean informative probes per file then per sample.
+``raw_checksum_reverified`` is true only in raw mode. Workflow fields
+``raw_deletion_executed``, ``source_ancestry_complete``, ``training_started`` and
+``production_deployed`` remain false. The original raw audit's conditional
+deletion-readiness field does not dispatch deletion or waive its separate
+distal-head/independent-closure prerequisites.
+
+The actual distal input assembler now accepts the paired options::
+
+    --methylation-workflow /new/hm450/NATIVE_METHYLATION_BINDING.json
+    --methylation-workflow-sha256 <SHA256>
+
+Its existing ``--methylation`` must identify that workflow's exact patient
+feature output. The assembler validates the workflow and compares all assembled
+promoter/distal beta values, availability and matching patient folds to the
+native table. Current distal publication and later context-query validation
+repeat this check and retain its original inputs in the source inventory.
+Rehashing an altered assembled table therefore does not bypass the comparison.
+Legacy assembler calls without the optional workflow retain their former scope;
+they are not retroactively granted raw methylation replay coverage.
+
+Verification uses actual raw-file and batch aggregation, actual coordinate
+topology construction, the existing distal assembler/statistical CLI and the
+current publication/query consumer. Two-patient tests preserve unavailable
+results; a 60-patient synthetic example reaches an available negative pathway
+association with measured promoter beta and absent distal beta. Statistical
+regressions execute only on synthetic data; neural/L1/auxiliary/fusion optimizer
+fitting is prohibited. Probe-region assignment is an explicit synthetic fixture,
+not a run of the official reference-to-probe mapping producer. Mutation,
+expression and covariates are synthetic; the selected core uses existing frozen
+synthetic containers. These checks do not recover the real 8,236-file run,
+establish methylation causality, improve a real GeneSet, complete upstream
+reference or cross-module patient ancestry, or finish C01/C13/C16 acceptance.
+
+Native methylation verification on 149: ``methylation_workflow_r2``, ``methylation_workflow_consumers_r1``
+pass 60 distinct related checks. The earlier failed fixture
+receipt is retained. No neural/L1/auxiliary/fusion optimizer, real cohort
+analysis, raw deletion, download, paid compute or deployment was run.

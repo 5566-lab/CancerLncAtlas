@@ -1,0 +1,55 @@
+{
+  "method": "NATIVE_METHYLATION_RAW_RECOVERY_AND_DISTAL_CONSUMER_REPLAY",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "methylation_workflow_r2",
+    "methylation_workflow_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "methylation_workflow_r1"
+  ],
+  "intermediate_failure_causes": [
+    "A numerical tampering test used pandas to rewrite a DuckDB-produced parquet and unintentionally changed its schema. Production correctly rejected schema drift first. The fixture now uses the original Arrow schema so the test actually verifies numerical replay; the expected rejection was not weakened."
+  ],
+  "operation_registry_count": 19,
+  "new_operation": "methylation.run",
+  "actual_native_producers": [
+    "raw_methylation_materializer",
+    "completed_batch_recovery",
+    "distal_input_assembler",
+    "nested_distal_statistics"
+  ],
+  "original_analysis_algorithms_changed": false,
+  "native_outputs_and_metadata_replayed": true,
+  "assembled_methylation_projection_revalidated": true,
+  "legacy_batch_raw_reverification_claimed": false,
+  "raw_deletion_dispatched": false,
+  "statistical_regressions_executed_on_synthetic_only": true,
+  "numerical_tolerances": {
+    "rtol": 0,
+    "atol": 1e-12
+  },
+  "test_substitutes": [
+    "Synthetic Beta files with actual selected-file MD5/size records.",
+    "Actual independent coordinate topology; explicit synthetic probe-region assignment, not official reference materialization.",
+    "Synthetic mutation/expression/CNV/purity/pathway measurements, 60 patients for available statistics and two for unavailable statistics.",
+    "Current selected-analysis parent uses existing explicitly frozen synthetic core containers."
+  ],
+  "biological_independence_verified": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native methylation raw/recovery execution now joins the resumable chain and actual distal input/publication/query consumers. Same-implementation reconstruction compares every native output and metadata; assembled beta/availability/fold projections are independently compared to the declared producer table. Raw checksums and legacy batch provenance remain separate. Actual synthetic raw inputs cover equal-sample weighting, missing versus measured-zero beta, both unavailable and available nested statistical results, and later source changes. The 60-patient available example runs statistical regressions, not learned neural/L1/auxiliary/fusion optimizer fitting. Probe assignment and other omics inputs are explicit synthetic fixtures; the original official probe-reference producer was not executed. No real 8236-file recovery, download, raw deletion, model training, paid compute or deployment occurred. This does not prove original reference/acquisition or complete cross-module patient ancestry, independent biological validity, real GeneSet effects or final C01/C13/C16 acceptance."
+}

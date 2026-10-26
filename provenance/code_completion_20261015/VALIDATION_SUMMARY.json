@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1529,
+  "unique_test_cases_passed": 1537,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -19,7 +19,7 @@
     "scripts/extract_v32_datas7_lnc_topology.py": "d906da3a5d7f390486166cb564587c4a19200511d1b46c95d53041d6e00a32e7",
     "scripts/materialize_v32_distal_atac_lncrna.R": "a3c0186b4c9dba5a282495f372ec3485a1ef181db2f51a8216a77c14ab5347da",
     "scripts/materialize_v32_distal_mutation_lncrna.py": "bd12db11fc0478705e223b639f90dd05375d485439bc7d2bfa060eca5f6d84bc",
-    "scripts/materialize_v32_distal_regulatory_head_input.py": "d979b72a340ef95c655fd35e9288188c5c57eaea710c2ef581173dfb0e6f910b",
+    "scripts/materialize_v32_distal_regulatory_head_input.py": "530a4d190eebdd13d5fa416acaa2b5ee7c6a7fc6b0fdbbbe3248ff48dd58772f",
     "scripts/materialize_v32_hm450_lncrna_probe_map.py": "a9403a655ca4002d59d8dffe614f4826e86cb6deace19dd228b0363efda3fa1f",
     "scripts/materialize_v32_methylation_lncrna.py": "94627384841189aa90a9f939a783f5ded7a4a5ccbb099f5dfd3b282329dc9fa1",
     "scripts/materialize_v32_signed_single_cell_fusion.py": "653937c7bbf11c48498c6d7bb9c03a2cd69f1bd3a9245337cc945a15ec384868",
@@ -156,7 +156,7 @@
     "scripts/materialize_v32_current_patient_context.py": "7338f2e6037f7c642b3634867eb6c3cc2f86fbeae6f23438f33c9478cbe07db2",
     "tests/test_v32_current_single_cell_context.py": "e521d4bbe10d1ca4d7065c570c80d16085d625def01b05c2f558d43425e7785f",
     "tests/test_v32_current_patient_context.py": "045876ee80237766c68b151dc5d18991d6f009b1da9c32ec1ab572d4851dc665",
-    "cc_hhgt/v32/current_omics_context.py": "7f2713693a161ba4b896abe9e78dbebc98680df5b74e776398832ba07499e39b",
+    "cc_hhgt/v32/current_omics_context.py": "25a3be0f1ccd11ce136682a1634302a0bc33dfb9e0bbc31938b4362ae910ed06",
     "scripts/materialize_v32_current_omics_context.py": "0520e483ff9a6e275b609beafa1f96f830ca7b0e7ce045e141395264416e8b1e",
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "f46b2b142b130042f70d436e3dbe27ff3e673b713c18ba9f5ef5fe0db03c279e",
@@ -320,13 +320,16 @@
     "cc_hhgt/v32/native_fusion_workflow.py": "4db4586b92375a807bafc6bd439ebf71938446b3d7bed74970f2b858422c4308",
     "scripts/run_native_fusion_workflow.py": "3a49ff31b7e7600f554fec824fbc2fd902c12a0cbc6a328502525f80cc7ac89a",
     "tests/test_v32_native_fusion_workflow.py": "cdd518687d9d16034908fdcf4373ecf80ef91273deabeb412706665f210a8949",
-    "cc_hhgt/v32/native_workflow_chain.py": "aae3afc0ea7a678aa45484c6178d823e86cca17428f5e994982ea65108a0c490",
+    "cc_hhgt/v32/native_workflow_chain.py": "d95bfa52d383f2dd9dc16add58d497074dfd2ff1f0d90494a3c5ae980be1345c",
     "scripts/run_native_workflow_chain.py": "2cd4a6cb886544982c2cd9151b19f418b4de7371e2211845d6358f91d71f4632",
     "tests/test_v32_native_workflow_chain.py": "9cf167f4311bc9f84cd60f152ab2d2b5219ea7b50332c257fed819027148920a",
     "tests/native_chain_fixture.py": "11b658a39d8d46d9cc7c235c21e94209c68ce182e8c1af008f0aa22f09c168ea",
     "cc_hhgt/v32/native_rbp_workflow.py": "34212991283eb9d412b1234e9362dc104b8cc84ed1bab591c929e7ebfa7d779c",
     "scripts/run_native_rbp_workflow.py": "611d21c386375598255e1a3aeca79c5d98fc8b31510f0d8c1414e882a337fb3b",
-    "tests/test_v32_native_rbp_workflow.py": "6be39d181aaa746988f9760b5fc6540217a9b625481c299b421420ed98c34daa"
+    "tests/test_v32_native_rbp_workflow.py": "6be39d181aaa746988f9760b5fc6540217a9b625481c299b421420ed98c34daa",
+    "cc_hhgt/v32/native_methylation_workflow.py": "96ed6761f48aed3687cab9781d1358b9794a11b261f9cf4772d297d1f80a5763",
+    "scripts/run_native_methylation_workflow.py": "3bf0540e5cd3a471d5156b4025dbbb98c9b81255fa8c7ebc52d61ab00b1905a2",
+    "tests/test_v32_native_methylation_workflow.py": "bbeaa1a9ded9d8c8795a1bdab289d5d4fa25f0bdc47b43c3f8a89cd318bfa79d"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -479,7 +482,8 @@
     "Native SC workflow preparation now executes the original no-fit input collector, binds full configuration, prepared graph/row inputs and canonical donor partitions, and records but never dispatches the original fitting command. Collection verifies the exact prepared completion, runs the unchanged independent validator and actual frozen forwards, then produces a scoped pointer and signed fusion binding without global promotion. Current selected/publication consumers repeat frozen replay for new workflow bindings. Source-only model-use inspection explicitly disables neural replay while checking all numerical dependencies. The actual native serializers and consumers run on synthetic pre-materialized episodes; fitting alone uses a marked frozen substitute, and fusion serialization uses existing fixed zero weights. This verifies no real optimization, new ranking benefit, acquisition/reference/metacell/LASSO ancestry or complete cross-module patient closure. Overall command orchestration, public scientific field definitions and final C01/C13/C16 acceptance remain open.",
     "Native fusion prepare/collect now joins actual native primary labels and auxiliary/signed-SC bindings through the original input collector, pins the private matrix and full configuration, and records but never dispatches fitting. Immutable completion collection reconstructs twelve frozen residual models using the unchanged native crossfit bookkeeping and release serializer: bounded samples, training centres, inner-validation loss, OOF/final scores, metrics, contributions and metadata. Existing selected/external/model-use consumers reconstruct these inputs and outputs for the new native contract without starting upstream neural forwards. Dedicated collection requests full upstream replay and feeds the actual selected GeneSet and website workflow. Verification uses 80 synthetic candidates, frozen core checkpoints, synthetic genomic completion and SC OOF data with a legacy pointer; only fusion fitting is replaced by fixed positive weights and zero optimizer steps. Upstream optimizer/raw ancestry and independent performance are unproved; legacy SC does not acquire a neural replay guarantee. Two existing actual-fit tests are intentionally deselected. Overall orchestration, public field definitions, acquisition/reference/metacell/LASSO ancestry, full per-pair/State-core/cross-module patient closure and final C01/C13/C16 acceptance remain open.",
     "A new explicit native workflow chain now dispatches the actual current workflows, resolves pinned stage/external references and generated JSON inputs, preserves independent progress, revalidates completed native results on resume and supports verified adoption after coordinator interruption. Arbitrary shell commands, core preparation/L1 fitting and neural/fusion fitting are not dispatchable. Core preparation is accepted only after native validation and matching the declared native CNV workflow. Real cached-GDC expression, local-CNV statistics, registered core results, all six native prepare/collect families, fusion-selected publication and all nine current public contexts are exercised on synthetic data through actual producers and consumers. These are separate scoped integration fixtures, not one real end-to-end study. Original frozen completion/optimizer-telemetry substitutes remain explicitly synthetic; no optimizer was run. Native command-chain execution is implemented; remaining acquisition/statistical branch integration, complete public scientific field definitions and final C01/C13/C16 acceptance remain open. Full raw/reference/metacell/LASSO and cross-module patient ancestry and independent performance remain unproved.",
-    "Cached native ENCODE KD/RBNS workflows now execute in the resumable chain and feed actual rule publication/query and explicit predicted graph admission. New source contracts bind the native manifest/cache and every raw/derived input; actual same-implementation replay checks all outputs and metadata. Rule-query consumption rechecks these native sources rather than trusting only a cached aggregate audit. A real mixed-schema integration error was fixed by canonicalizing relation types before physical/predicted source concatenation. Native comparison loaders and frozen forwards retain their former scientific semantics. Synthetic caches only; no download, fitting, real cohort analysis or deployment. Legacy audits without raw-manifest bindings keep their historical scope. This does not establish biological independence or complete raw acquisition, reference, patient ancestry, remaining statistical branches, public field definitions or final acceptance."
+    "Cached native ENCODE KD/RBNS workflows now execute in the resumable chain and feed actual rule publication/query and explicit predicted graph admission. New source contracts bind the native manifest/cache and every raw/derived input; actual same-implementation replay checks all outputs and metadata. Rule-query consumption rechecks these native sources rather than trusting only a cached aggregate audit. A real mixed-schema integration error was fixed by canonicalizing relation types before physical/predicted source concatenation. Native comparison loaders and frozen forwards retain their former scientific semantics. Synthetic caches only; no download, fitting, real cohort analysis or deployment. Legacy audits without raw-manifest bindings keep their historical scope. This does not establish biological independence or complete raw acquisition, reference, patient ancestry, remaining statistical branches, public field definitions or final acceptance.",
+    "Native methylation raw/recovery execution now joins the resumable chain and actual distal input/publication/query consumers. Same-implementation reconstruction compares every native output and metadata; assembled beta/availability/fold projections are independently compared to the declared producer table. Raw checksums and legacy batch provenance remain separate. Actual synthetic raw inputs cover equal-sample weighting, missing versus measured-zero beta, both unavailable and available nested statistical results, and later source changes. The 60-patient available example runs statistical regressions, not learned neural/L1/auxiliary/fusion optimizer fitting. Probe assignment and other omics inputs are explicit synthetic fixtures; the original official probe-reference producer was not executed. No real 8236-file recovery, download, raw deletion, model training, paid compute or deployment occurred. This does not prove original reference/acquisition or complete cross-module patient ancestry, independent biological validity, real GeneSet effects or final C01/C13/C16 acceptance."
   ],
   "test_suites": [
     {
@@ -1261,6 +1265,16 @@
       "path": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml",
       "passed": 58,
       "sha256": "0a47e5c04e702eb94c96e393d53b7c7d8bbe70ae0d8eef7d2efbadec297d22ac"
+    },
+    {
+      "path": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml",
+      "passed": 31,
+      "sha256": "83cdab636c14bb97ece87fe551542d56bc3568f744f6567847440399ed9774ff"
+    },
+    {
+      "path": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml",
+      "passed": 29,
+      "sha256": "a24aa30d139b88b35ac59c648e1b4679b1f5468bcb0535c4a59a29fa5207f8d4"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1884,92 +1898,92 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_publication_native_reaudit_reconstructs_all_components",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[catalog]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[completeness]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[model_use_input]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[resolved_input]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[stage]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[web_input]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -2599,32 +2613,32 @@
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_actual_nested_distal_statistics_and_missing_assay_coverage_reach_members",
-      "suite": "provenance/code_completion_20261015/current_omics_context_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_distinct_native_genomic_estimands_and_folds_reach_selected_members",
-      "suite": "provenance/code_completion_20261015/current_omics_context_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_explicit_genomic_absence_and_selected_identity_are_enforced",
-      "suite": "provenance/code_completion_20261015/current_omics_context_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_rehashed_distal_effect_is_rejected_by_actual_command_replay",
-      "suite": "provenance/code_completion_20261015/current_omics_context_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_unavailable_distal_signal_is_retained_without_fabricated_effects",
-      "suite": "provenance/code_completion_20261015/current_omics_context_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
       "case": "test_unbound_distal_input_cannot_be_presented_as_current",
-      "suite": "provenance/code_completion_20261015/current_omics_context_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
@@ -3124,47 +3138,47 @@
     {
       "module": "tests.test_v32_distal_regulatory_head_input",
       "case": "test_atac_aliquot_means_are_order_independent_and_id_collisions_rejected",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_head_input",
       "case": "test_feature_availability_strings_cannot_be_silently_cast_to_true",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_head_input",
       "case": "test_materializer_preserves_typed_missingness_and_patient_keys[False]",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_head_input",
       "case": "test_materializer_preserves_typed_missingness_and_patient_keys[True]",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_mutation_head",
       "case": "test_component_typed_null_contract_fails_closed",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_mutation_head",
       "case": "test_heldout_pathway_change_affects_metric_not_its_fold_fit",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_mutation_head",
       "case": "test_independent_pathway_head_is_patient_oof_and_typed",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_mutation_head",
       "case": "test_nested_expression_excludes_outer_heldout_expression_from_every_fit",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_distal_regulatory_mutation_head",
       "case": "test_nested_head_consumes_the_matching_outer_fold_component",
-      "suite": "provenance/code_completion_20261015/current_omics_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_drug_attribution",
@@ -4654,22 +4668,22 @@
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_coordinates_exclude_all_transcript_promoters_and_preserve_uncovered_genes",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_legacy_changed_and_mixed_topologies_cannot_be_formal_inputs",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_real_mutation_materializer_consumes_new_topology_and_preserves_wes_semantics",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_independent_distal_topology",
       "case": "test_topology_does_not_consume_expression_or_association_columns",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_local_cnv_cohort",
@@ -5129,77 +5143,77 @@
     {
       "module": "tests.test_v32_methylation_lncrna",
       "case": "test_single_beta_file_maps_promoter_and_distal_without_zero_imputation",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_lncrna",
       "case": "test_single_beta_file_rejects_out_of_range_beta",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_conflicting_patient_folds_rejected",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[beta]",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[count]",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[duplicate]",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[incomplete]",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[patient]",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_corrupt_or_incomplete_batches_cannot_produce_success[unknown_lnc]",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_fresh_cli_reaches_final_audit_and_matches_recovery",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_raw_cleanup_eligibility_cannot_be_inferred_from_feature_success",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_recovers_without_raw_and_preserves_patient_weight_and_missingness",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_recovery_cannot_replace_the_original_aggregation_map",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_recovery_refuses_overwrite_and_non149_host",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_methylation_recovery",
       "case": "test_zero_probe_file_requires_processing_evidence",
-      "suite": "provenance/code_completion_20261015/methylation_distal_tests.xml"
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_and_graph",
@@ -7097,6 +7111,46 @@
       "suite": "provenance/code_completion_20261015/genomic_workflow_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_actual_raw_recovery_chain_preserves_weight_missingness_and_resume",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_legacy_batches_cannot_acquire_predictive_status_or_raw_deletion",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_native_methylation_reaches_actual_distal_publication_without_invented_effect",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_plan_is_readonly_and_host_gate_precedes_output",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_raw_corruption_blocks_raw_validation_but_does_not_fake_reverification_in_recovery",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_raw_patient_covariates_reach_available_nested_statistics_and_public_query",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_rehashed_distal_methylation_projection_is_rejected",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_methylation_workflow",
+      "case": "test_rehashed_patient_feature_and_audit_cannot_replace_raw_reconstruction",
+      "suite": "provenance/code_completion_20261015/methylation_workflow_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_native_partitioned_genomic",
       "case": "test_partitioned_completed_outputs_reach_actual_native_and_fusion_consumers[False-False]",
       "suite": "provenance/code_completion_20261015/genomic_workflow_r1_tests.xml"
@@ -8919,11 +8973,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "rbp_workflow_r1",
-      "rbp_workflow_native_comparison_r1",
-      "rbp_workflow_r2"
+      "methylation_workflow_r2",
+      "methylation_workflow_consumers_r1"
     ],
-    "passed": 119,
+    "passed": 60,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

@@ -124,6 +124,9 @@ def distal_sources(context,*,replay):
     if set(inputs)!={"head_input_audit","candidates"}:raise ValueError("Distal source inventory differs")
     same_candidates(context["candidates"],inputs["candidates"])
     prepared=read(inputs["head_input_audit"])
+    if "methylation_workflow" in prepared:
+        from .native_methylation_workflow import validate_distal_input
+        for item in validate_distal_input(prepared,inputs["head_input_audit"].parent):bound.bind(item,path.parent)
     lineage=require_shared_predictive_topology(prepared.get("topology_lineage",{}),native.get("topology_lineage",{}))
     if (sha256(inputs["head_input_audit"])!=native["head_input_audit_sha256"]
             or sha256(inputs["candidates"])!=native["candidate_universe_sha256"]):raise ValueError("Distal source aliases differ")
