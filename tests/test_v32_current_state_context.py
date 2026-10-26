@@ -67,6 +67,19 @@ def current_sources(tmp_path_factory):
 from cc_hhgt.v32.state_training import train_state_models as native_state_driver
 
 
+def frozen_state_fold(train,validation,core,*,fold,config):
+    """Explicit completed-head fixture; no fitting or fabricated input counts."""
+    import cc_hhgt.v32.state_training as native
+    _,design=native.prepare_state_head_inputs(train,validation,core,fold=fold)
+    head,init=native.build_state_private_head(fold,design["core_features"],design["domain_features"],config)
+    with torch.no_grad(): next(head.parameters()).add_(.01)
+    lineage={"patient_fold":fold,"seed":config.seed+fold,"initialization":init.as_dict(),
+        "final_parameter_sha256":module_state_sha256(head),**design,
+        "history":[{"epoch":0,"training_loss":.7,"validation_loss":.6}],"epochs_completed":1,
+        "synthetic_serialization_fixture":True,"no_optimizer_actually_run":True}
+    return head,lineage,design["max_train_pairs"]
+
+
 def native_fixture(root,current_sources,*,input_style="files"):
     import tempfile
     import cc_hhgt.v32.state_training as native
@@ -94,26 +107,6 @@ def native_fixture(root,current_sources,*,input_style="files"):
         "state_measurement":pd.DataFrame(state,columns=["sample_id","cancer_id","patient_id","state_id","state_value"])
     }.items(): frame.to_parquet(raw/(name+".parquet"),index=False)
 
-    def frozen_fold(train,validation,core,*,fold,config):
-        maximum=int(train.n_pairs.max()); counts={}
-        for role,stats in [("train",train),("validation",validation)]:
-            frame,columns,_,domain,labels=native._model_arrays(stats,core,max_train_pairs=maximum)
-            eligible=frame.available.to_numpy(bool)&frame.core_embedding_available.to_numpy(bool)&np.isfinite(labels)
-            counts[role]=int(eligible.sum())
-            if role=="train": positives=int(labels[eligible].sum())
-        head,init=native.build_state_private_head(fold,len(columns),domain.shape[1],config)
-        # A changed frozen container, never a learned/trained model.
-        with torch.no_grad(): next(head.parameters()).add_(.01)
-        fallback=not counts["validation"]
-        lineage={"patient_fold":fold,"seed":cfg.seed+fold,"initialization":init.as_dict(),
-            "final_parameter_sha256":module_state_sha256(head),"core_features":len(columns),"domain_features":domain.shape[1],
-            "max_train_pairs":maximum,"trainable_candidates":counts["train"],
-            "validation_candidates":counts["train"] if fallback else counts["validation"],
-            "validation_fallback_to_training":fallback,"positive_candidates":positives,
-            "negative_candidates":counts["train"]-positives,
-            "history":[{"epoch":0,"training_loss":.7,"validation_loss":.6}],"epochs_completed":1,
-            "synthetic_serialization_fixture":True,"no_optimizer_actually_run":True}
-        return head,lineage,maximum
     expression_path=raw/"expression.parquet"; patient_path=raw/"patients.parquet"
     if input_style=="dataset":
         table=pd.read_parquet(expression_path); expression_path=raw/"expression_dataset"
@@ -125,7 +118,7 @@ def native_fixture(root,current_sources,*,input_style="files"):
     with pytest.MonkeyPatch.context() as patch:
         for name in ("Adam","AdamW","SGD"): patch.setattr(torch.optim,name,no_training)
         patch.setattr(native,"train_state_models",native_state_driver)
-        patch.setattr(native,"train_fold_private_head",frozen_fold)
+        patch.setattr(native,"train_fold_private_head",frozen_state_fold)
         result=native.run_state_training_from_paths(state_measurements_path=raw/"state_measurement.parquet",
             fold_manifest_path=patient_path,lncrna_expression_path=expression_path,
             core_embedding_manifest_path=core_path,output_root=root,repo_root=root,run_id="v32-state-synthetic",config=cfg)

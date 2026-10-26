@@ -119,6 +119,13 @@ class StateTrainingConfig:
     device: str = "auto"
 
     def validate(self) -> None:
+        for name in ("seed", "n_folds", "validation_offset", "min_pairs", "max_epochs", "patience",
+                     "batch_size", "hidden_features", "min_available_folds"):
+            if type(getattr(self, name)) is not int: raise StateTrainingError("State integer configuration: " + name)
+        for name in ("effect_threshold", "learning_rate", "weight_decay", "dropout"):
+            value = getattr(self, name)
+            if type(value) not in (int, float) or not math.isfinite(value):
+                raise StateTrainingError("State finite numeric configuration: " + name)
         if int(self.n_folds) != N_FOLDS:
             raise StateTrainingError("V3.2 State training requires exactly five patient folds")
         if not 0 < int(self.validation_offset) < N_FOLDS:
@@ -676,18 +683,8 @@ def build_state_private_head(fold, core_features, domain_features, config):
     )
 
 
-def train_fold_private_head(
-    train_statistics: pd.DataFrame,
-    validation_statistics: pd.DataFrame,
-    core_embeddings: pd.DataFrame,
-    *,
-    fold: int,
-    config: StateTrainingConfig,
-) -> tuple[Any, dict[str, Any], int]:
-    """Train one freshly initialised head; no checkpoint argument exists."""
-
-    import torch
-
+def prepare_state_head_inputs(train_statistics, validation_statistics, core_embeddings, *, fold):
+    """Original training/validation arrays and fallback; no model construction."""
     max_train_pairs = int(pd.to_numeric(train_statistics.n_pairs, errors="coerce").max())
     train_frame, core_columns, train_core, train_domain, train_labels = _model_arrays(
         train_statistics, core_embeddings, max_train_pairs=max_train_pairs
@@ -720,8 +717,43 @@ def train_fold_private_head(
     positives = float(train_labels[train_indices].sum())
     negatives = float(len(train_indices) - positives)
     positive_weight = 1.0 if positives <= 0 or negatives <= 0 else min(negatives / positives, 20.0)
+    arrays = dict(train_core=train_core, train_domain=train_domain, train_labels=train_labels,
+        train_indices=train_indices, val_core=val_core, val_domain=val_domain,
+        val_labels=val_labels, validation_indices=validation_indices)
+    hashes = {}
+    for name, values in arrays.items():
+        values = np.ascontiguousarray(values)
+        hashes[name] = {"shape": list(values.shape), "dtype": str(values.dtype),
+                        "sha256": hashlib.sha256(values.tobytes()).hexdigest()}
+    description = {"trainable_candidates": len(train_indices), "validation_candidates": len(validation_indices),
+        "validation_fallback_to_training": validation_fallback, "positive_candidates": int(positives),
+        "negative_candidates": int(negatives), "positive_weight": float(positive_weight),
+        "core_features": len(core_columns), "domain_features": int(train_domain.shape[1]),
+        "max_train_pairs": max_train_pairs, "training_input_sha256": canonical_json_sha256(hashes)}
+    return arrays, description
+
+
+def train_fold_private_head(
+    train_statistics: pd.DataFrame,
+    validation_statistics: pd.DataFrame,
+    core_embeddings: pd.DataFrame,
+    *,
+    fold: int,
+    config: StateTrainingConfig,
+) -> tuple[Any, dict[str, Any], int]:
+    """Train one freshly initialised head; no checkpoint argument exists."""
+
+    import torch
+
+    arrays, design = prepare_state_head_inputs(train_statistics, validation_statistics, core_embeddings, fold=fold)
+    train_core, train_domain, train_labels, train_indices = (arrays[k] for k in
+        ("train_core", "train_domain", "train_labels", "train_indices"))
+    val_core, val_domain, val_labels, validation_indices = (arrays[k] for k in
+        ("val_core", "val_domain", "val_labels", "validation_indices"))
+    positive_weight = design["positive_weight"]
+    max_train_pairs = design["max_train_pairs"]
     fold_seed = int(config.seed) + int(fold)
-    head, initialization = build_state_private_head(fold, len(core_columns), train_domain.shape[1], config)
+    head, initialization = build_state_private_head(fold, design["core_features"], design["domain_features"], config)
     device = _resolve_device(config.device)
     head.to(device)
     optimizer = torch.optim.AdamW(
@@ -799,19 +831,11 @@ def train_fold_private_head(
         "source_checkpoint_sha256": None,
         "core_embeddings_detached": True,
         "core_parameters_frozen": True,
-        "trainable_candidates": int(len(train_indices)),
-        "validation_candidates": int(len(validation_indices)),
-        "validation_fallback_to_training": validation_fallback,
-        "positive_candidates": int(positives),
-        "negative_candidates": int(negatives),
-        "positive_weight": float(positive_weight),
+        **design,
         "best_epoch": int(best_epoch),
         "best_validation_loss": float(best_loss),
         "epochs_completed": len(history),
         "history": history,
-        "core_features": len(core_columns),
-        "domain_features": int(train_domain.shape[1]),
-        "max_train_pairs": max_train_pairs,
     }
     return head, lineage, max_train_pairs
 
@@ -1137,13 +1161,38 @@ def prepare_state_inputs(state_measurements, fold_manifest, core_embeddings_by_f
     return state, expression, folds, cores, counts
 
 
-def state_fold_statistics(state, expression, folds, fold, cfg):
+def state_fold_statistics(state, expression, folds, fold, cfg, *, splits=("train", "validation", "test")):
     """Original train/validation/test statistics, shared with numerical replay."""
     split_manifest = assign_outer_split(folds, fold, n_folds=N_FOLDS, validation_offset=int(cfg.validation_offset))
     statistics = {split: compute_fold_local_associations(state, expression, split_manifest, split=split,
         min_pairs=int(cfg.min_pairs), effect_threshold=float(cfg.effect_threshold),
-        expression_value_column=cfg.expression_value_column) for split in ("train", "validation", "test")}
+        expression_value_column=cfg.expression_value_column) for split in splits}
     return split_manifest, statistics
+
+
+def preflight_state_inputs(state_measurements, fold_manifest, cores, expression, cfg, core_lineage):
+    """Run all original five-fold input collectors without fitting or test statistics."""
+    state, expression, folds, cores, alignment = prepare_state_inputs(
+        state_measurements, fold_manifest, cores, expression, cfg)
+    rows = []
+    for fold in range(N_FOLDS):
+        split, statistics = state_fold_statistics(state, expression, folds, fold, cfg, splits=("train", "validation"))
+        _, design = prepare_state_head_inputs(statistics["train"], statistics["validation"], cores[fold], fold=fold)
+        rows.append({"patient_fold": fold, **design, **core_lineage[fold], "alignment_counts": alignment,
+            "split_manifest_sha256": dataframe_sha256(split, ["cancer_id", "sample_id", "outer_fold"])})
+    observed = [sid for sid in HISTORICAL_STATE_IDS if state.state_id.eq(sid).any()]
+    return {"folds": rows, "observed_state_ids": observed,
+            "missing_state_ids": [sid for sid in HISTORICAL_STATE_IDS if sid not in observed]}
+
+
+def state_patient_authority(manifest, receipt, mode):
+    from .patient_fold_authority import validate_frozen_v32_patient_fold_binding, validate_patient_fold_authority
+    if mode not in {"frozen", "current"}: raise StateTrainingError("Unknown State patient authority mode")
+    validate = validate_frozen_v32_patient_fold_binding if mode == "frozen" else validate_patient_fold_authority
+    return {"format": "NATIVE_STATE_PATIENT_AUTHORITY_V1", "mode": mode,
+        "patient_map": {"path": str(Path(manifest).resolve()), "sha256": file_sha256(manifest)},
+        "receipt": {"path": str(Path(receipt).resolve()), "sha256": file_sha256(receipt)},
+        "audit": validate(manifest, receipt)}
 
 
 def train_state_models(
@@ -1251,11 +1300,21 @@ def run_state_training_from_paths(
     repo_root: str | Path,
     run_id: str,
     config: StateTrainingConfig | None = None,
+    prepare_only: bool = False,
+    patient_authority: Mapping[str, Any] | None = None,
+    expected_core_run_id: str | None = None,
 ) -> dict[str, Any]:
+    from .cnv_input_sources import require_host
+    require_host()
     cfg = config or StateTrainingConfig()
     cfg.validate()
     if not re.fullmatch(r"v32-[a-z0-9][a-z0-9._-]*", str(run_id).strip()):
         raise StateTrainingError("run_id must be a non-empty lowercase v32-* identifier")
+    output = Path(output_root).resolve()
+    if output.exists() and any(output.iterdir()): raise FileExistsError("Use a new State output directory")
+    output.mkdir(parents=True, exist_ok=True)
+    _atomic_json(output/"LAUNCH_PREFLIGHT.json", {"target_host": "149", "training_started": False,
+        "run_id": str(run_id), "core_run_id": expected_core_run_id, "prepare_only": prepare_only, "config": asdict(cfg)})
     input_paths = {
         "tumor_state_long_measurement": reject_forbidden_input_path(
             state_measurements_path, "tumor_state_long measurement"
@@ -1270,6 +1329,19 @@ def run_state_training_from_paths(
             lncrna_expression_path, "lncRNA expression"
         ),
     }
+    input_records = [{"role": role, "path": str(path.resolve()), "sha256": path_sha256(path)} for role, path in input_paths.items()]
+    if patient_authority is not None:
+        from .current_core_export import verified_path
+        declared = verified_path(patient_authority["patient_map"], Path.cwd())
+        receipt = verified_path(patient_authority["receipt"], Path.cwd())
+        if (declared != input_paths["v32_patient_fold_manifest"].resolve()
+                or patient_authority != state_patient_authority(declared, receipt, patient_authority["mode"])):
+            raise StateTrainingError("State patient authority differs from actual input")
+        if patient_authority["mode"] == "current" and not expected_core_run_id:
+            raise StateTrainingError("Current State patient authority requires expected core run ID")
+    if expected_core_run_id:
+        from .current_core_export import validate_current_export
+        validate_current_export(input_paths["v32_core_embedding_manifest"], expected_run_id=expected_core_run_id)
     state = read_table(input_paths["tumor_state_long_measurement"], "tumor_state_long measurement")
     historical_mask = state["state_id"].astype(str).isin(HISTORICAL_STATE_IDS)
     state_input_audit = {
@@ -1296,6 +1368,18 @@ def run_state_training_from_paths(
         fold: file_sha256(core_lineage[fold]["core_embedding_path"])
         for fold in range(N_FOLDS)
     }
+    if prepare_only:
+        design = preflight_state_inputs(state, folds, cores, expression, cfg, core_lineage)
+        for item in input_records:
+            if path_sha256(item["path"]) != item["sha256"]: raise StateTrainingError("State input changed during preparation")
+        if any(file_sha256(core_lineage[f]["core_embedding_path"]) != core_hashes_before[f] for f in range(N_FOLDS)):
+            raise StateTrainingError("State core export changed during preparation")
+        ready = {"format": "NATIVE_STATE_HEAD_PREFLIGHT_V1", "status": "PASS_READY", "target_host": "149",
+            "training_started": False, "model_forward_started": False, "test_statistics_computed": False,
+            "run_id": str(run_id), "core_run_id": expected_core_run_id, "config": asdict(cfg),
+            "patient_authority": patient_authority, "input_artifacts": input_records, **design}
+        path = output/"HEAD_PREFLIGHT.json"; _atomic_json(path, ready)
+        return {"status": "PASS_READY", "target_host": "149", "training_started": False, "preflight": str(path)}
     result = train_state_models(
         state,
         folds,
@@ -1310,6 +1394,8 @@ def run_state_training_from_paths(
     }
     if core_hashes_before != core_hashes_after:
         raise StateTrainingError("A supposedly frozen V3.2 core embedding artifact changed")
+    for item in input_records:
+        if path_sha256(item["path"]) != item["sha256"]: raise StateTrainingError("State input changed during execution")
     for fold in range(N_FOLDS):
         result.fold_lineage[fold].update(
             {
@@ -1402,6 +1488,7 @@ def run_state_training_from_paths(
         "training_status": "SUCCESS",
         "model_version": "V3.2",
         "folds": N_FOLDS,
+        "patient_authority": patient_authority,
         "seeds": [int(cfg.seed) + fold for fold in range(N_FOLDS)],
         "initialization_policy": "FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH",
         "private_head_trained_from_scratch": True,
@@ -1461,11 +1548,15 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--state-measurements", required=True)
     parser.add_argument("--patient-fold-manifest", required=True)
     parser.add_argument("--patient-fold-authority-receipt", required=True)
+    parser.add_argument("--patient-authority-mode", choices=["frozen", "current"], default="frozen")
+    parser.add_argument("--expected-core-run-id")
+    parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--core-embedding-manifest", required=True)
     parser.add_argument("--lncrna-expression", required=True)
     parser.add_argument("--output-root", required=True)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--seed", type=int, default=20260726)
+    parser.add_argument("--validation-offset", type=int, default=1)
     parser.add_argument("--min-pairs", type=int, default=10)
     parser.add_argument("--effect-threshold", type=float, default=0.20)
     parser.add_argument("--max-epochs", type=int, default=50)
@@ -1483,14 +1574,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_arg_parser().parse_args(argv)
-    from .patient_fold_authority import validate_frozen_v32_patient_fold_binding
-
-    validate_frozen_v32_patient_fold_binding(
-        args.patient_fold_manifest,
-        args.patient_fold_authority_receipt,
-    )
+    from .cnv_input_sources import require_host
+    require_host()
+    authority = state_patient_authority(args.patient_fold_manifest, args.patient_fold_authority_receipt, args.patient_authority_mode)
+    if args.patient_authority_mode == "current" and not args.expected_core_run_id:
+        raise StateTrainingError("Current State authority requires --expected-core-run-id")
     config = StateTrainingConfig(
         seed=args.seed,
+        validation_offset=args.validation_offset,
         min_pairs=args.min_pairs,
         effect_threshold=args.effect_threshold,
         max_epochs=args.max_epochs,
@@ -1513,6 +1604,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         repo_root=args.repo_root,
         run_id=args.run_id,
         config=config,
+        prepare_only=args.prepare_only,
+        patient_authority=authority,
+        expected_core_run_id=args.expected_core_run_id,
     )
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
     return 0

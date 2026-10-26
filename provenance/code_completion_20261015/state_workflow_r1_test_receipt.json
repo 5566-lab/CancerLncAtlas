@@ -1,0 +1,47 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T09:51:44.488724+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_state_context.py": "ce975bd2417b767ebc8a69badbe5ed75e5bcff0e0cec895eebeb5d99287e9bd6",
+    "cc_hhgt/v32/native_state_workflow.py": "089ee010237fe04906977f5e2247a8a572cb5992814ab6f2cd99dbbd14c4162a",
+    "cc_hhgt/v32/state_training.py": "7ed653cfa3f9ac8a61437c4087bd5f422ab5651a22669099e6d8d88d13cb494f",
+    "scripts/run_native_state_workflow.py": "d5ac7f91fe3d771c44213f815ecb09d20046549f07f9104f1a05329380b4c095",
+    "tests/test_v32_current_state_context.py": "43f18e6371e675915e55c3f27ee55e2db9fd3da1a0ef52eab0282ecee2f005c3",
+    "tests/test_v32_native_state_workflow.py": "5476b72c91c3220e566a04f5bd023574c8391c5784ecb3d319b5898adca701e4"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_state_workflow.py",
+    "tests/test_v32_current_state_context.py",
+    "--junitxml=provenance/code_completion_20261015/state_workflow_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T09:55:47.413423+00:00"
+}

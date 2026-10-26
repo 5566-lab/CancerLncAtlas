@@ -5034,3 +5034,103 @@ superseded by r2 after native directory/CSV support was added. The first source
 upload failed before execution; a read-only SSH reprobe returned hostname 149,
 with no iOA login/reconnect and no duplicate job. No model fitting, real cohort
 analysis, paid compute or deployment was performed.
+
+Native State prepare/collect command handoff (2026-10-26)
+=======================================================
+
+The existing State CLI now has an actual ``--prepare-only`` mode. Both fitting
+and preparation use ``prepare_state_head_inputs`` for the original training
+and validation arrays, masks, normalization and validation fallback. A hash of
+the array values, shapes and dtypes is included in the fold description. This
+refactoring preserves the original features, labels, sampling and optimizer
+behavior. Preparation constructs no State private head, invokes no optimizer
+and computes no held-out test association statistic. It writes
+``HEAD_PREFLIGHT.json`` with the five fold descriptions and actual input hashes.
+
+The CLI continues to default to the original frozen patient authority. The
+explicit ``--patient-authority-mode current`` route validates the original
+patient-first authority receipt and requires ``--expected-core-run-id``. Both
+the original authority validator and current-core export validator execute;
+no fixed count/hash constants are patched. The actual patient authority record
+is retained in completed State lineage and checked again by the current State
+consumer. The CLI also exposes the previously API-only validation offset.
+Numeric configuration rejects booleans, fractional integer fields and nonfinite
+values. The path runner now requires host 149, writes a launch receipt before
+input processing and refuses a nonempty output directory before execution.
+
+The consolidated entry is ``scripts.run_native_state_workflow``. Its manifest
+has format ``NATIVE_STATE_WORKFLOW_INPUT_V1`` and the following fields:
+
+* ``state_run_id``: lowercase ``v32-*`` identifier; ``core_run_id``: the expected
+  completed current core identity.
+* Hash-bound ``state_measurements``, ``patient_folds``,
+  ``patient_authority_receipt``, ``core_manifest``, ``lncrna_expression`` and
+  ``selected_analysis`` inputs. Standardized measurement/expression directories
+  use the original State dataset-tree hash. The patient authority uses its
+  original TSV map and receipt; it is not replaced by inferred barcode IDs.
+* Optional ``config`` fields from ``StateTrainingConfig`` and optional
+  ``state_sets`` fields from ``StateSetConfig``. Defaults are expanded and bound,
+  so the complete configuration is carried into preparation and collection.
+
+All commands below run from the development checkout on server 149::
+
+    python -m scripts.run_native_state_workflow prepare \
+      --manifest /path/state_workflow.json --output /new/state_prepared --plan
+
+    python -m scripts.run_native_state_workflow prepare \
+      --manifest /path/state_workflow.json --output /new/state_prepared
+
+The plan validates source/core/selected identities and the actual training CLI
+arguments without creating output. Preparation invokes the original CLI with
+``--prepare-only``, replays its numerical input collection and writes
+``PREPARED.json`` plus ``TRAINING_COMMAND.json``. The latter is a complete,
+parsed command for ``scripts.run_v32_state_training`` whose output is
+``state_prepared/training``. The workflow cannot dispatch that command: its
+dispatcher accepts the training module only when ``--prepare-only`` is present.
+Fitting remains a separate operation outside this code-only goal.
+
+After a separately completed native State run exists::
+
+    python -m scripts.run_native_state_workflow collect \
+      --preparation /new/state_prepared/PREPARED.json \
+      --preparation-sha256 <sha256> \
+      --completed /new/state_prepared/training/STATE_TRAINING_LINEAGE.json \
+      --completed-sha256 <sha256> --output /new/state_collected
+
+Collection revalidates the original preparation and every captured input/code
+file. It requires identical run/configuration, patient authority, input records,
+five core parents, split hashes, array fingerprints, fold counts and program
+coverage. It then invokes the actual current State publisher, including raw
+standardized-measurement and frozen-head numerical replay. The collected input
+contains ``workflow_preparation``; the State auditor follows this dependency
+and repeats preparation/completion matching. Training outputs are immutable
+during collection. ``NATIVE_STATE_BINDING.json`` links the resulting
+``state_context`` binding, which is accepted by the existing overall publication
+workflow as the State component's ``REUSE`` binding.
+
+This handoff validates the State authority itself, its consistency across
+preparation/completion and its selected core identity. It does not prove that
+all State source patients have the correct ancestry relative to every fitted
+core graph or every other module. Original acquisition/reference ancestry,
+complete cross-module patient closure and independent predictive performance
+remain C13 work; all corresponding completion/performance flags stay false.
+The current-mode authority option is explicit and does not relabel a legacy
+frozen receipt or silently weaken the default legacy entry point.
+
+The fixture uses the actual patient-authority builder for 40 patients and 41
+aliquots, the actual State preparation/training CLI, original outer driver and
+completion serializer. Only the private fitting callback is replaced by
+explicitly frozen parameters and synthetic telemetry. The preparation test
+forbids head construction, forward calls, optimizer construction and test-split
+statistics. Collection runs the actual five-head forwards and existing complete
+publication workflow with other producer stages explicitly absent in this
+scoped fixture. It is not evidence of actual cohort training or biological
+increment.
+
+Verification on 149: state_workflow_r1 passes 60 workflow/current-State cases;
+state_workflow_consumers_r1 passes 51 publication, Clinical/patient, explicit
+patient-identity and non-fitting State input/statistic cases. All 111 distinct
+cases pass with no failures or skips. No model fitting, real cohort analysis,
+paid compute or deployment ran. State command handoff is implemented; Clinical
+and single-cell handoffs, complete source/patient closure, public scientific
+field definitions and final requirement acceptance remain outstanding.

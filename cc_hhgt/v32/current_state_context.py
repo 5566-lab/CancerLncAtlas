@@ -89,13 +89,8 @@ def bind_state_input(sources, record, root):
     return path
 
 
-def state_sources(manifest_path):
-    """Bind actual State heads, native tables and their selected current core."""
-    import torch
-    path = Path(manifest_path).resolve(); manifest = _json(path); root = path.parent
-    if manifest.get("format") != INPUT_FORMAT or not manifest.get("core_run_id") or not manifest.get("state_run_id"):
-        raise ValueError("Invalid current State manifest")
-    sources = Sources()
+def state_core_sources(manifest, root, sources):
+    """Bind selected scores and all five actual core parents before any State run."""
     selected_path = sources.bind(manifest["selected_analysis"], root)
     selected = SelectedAnalysisQuery(selected_path, expected_sha=manifest["selected_analysis"]["sha256"])
     audit_selected_analysis(selected_path, expected_sha=selected.binding_sha256)
@@ -120,6 +115,17 @@ def state_sources(manifest_path):
             raise ValueError("State and selected scores use different current core checkpoints")
         sources.bind({"path": parent["core_embedding_path"], "sha256": parent["core_embedding_sha256"]}, core_path.parent)
         sources.bind(core["folds"][str(fold)]["training_receipt"], core_path.parent)
+    return selected, score, core, cores, core_lineage
+
+
+def state_sources(manifest_path):
+    """Bind actual State heads, native tables and their selected current core."""
+    import torch
+    path = Path(manifest_path).resolve(); manifest = _json(path); root = path.parent
+    if manifest.get("format") != INPUT_FORMAT or not manifest.get("core_run_id") or not manifest.get("state_run_id"):
+        raise ValueError("Invalid current State manifest")
+    sources = Sources()
+    selected, score, core, cores, core_lineage = state_core_sources(manifest, root, sources)
     lineage_path, lineage = sources.document(manifest["state_training_lineage"], root)
     if (lineage.get("training_format") != STATE_TRAINING_FORMAT or lineage.get("module_id") != "state"
             or lineage.get("training_status") != "SUCCESS" or lineage.get("folds") != 5
@@ -143,6 +149,17 @@ def state_sources(manifest_path):
         raise ValueError("Native State inputs are incomplete or duplicated")
     if sha256(inputs["v32_core_embedding_manifest"]) != manifest["core_manifest"]["sha256"]:
         raise ValueError("Native State used a different core export")
+    authority = lineage.get("patient_authority")
+    if authority is not None:
+        from .state_training import state_patient_authority
+        patient_path = sources.bind(authority["patient_map"], lineage_path.parent)
+        receipt = sources.bind(authority["receipt"], lineage_path.parent)
+        if (patient_path != inputs["v32_patient_fold_manifest"]
+                or authority != state_patient_authority(patient_path, receipt, authority["mode"])):
+            raise ValueError("State completed patient authority differs")
+    if "workflow_preparation" in manifest:
+        from .native_state_workflow import validate_completed
+        validate_completed(manifest["workflow_preparation"], manifest, lineage_path, lineage, sources, root)
     from .state_training import read_table, validate_fold_manifest
     patients = validate_fold_manifest(read_table(inputs["v32_patient_fold_manifest"], "V3.2 patient fold manifest"))
     if patients.groupby("patient_id").patient_fold_id.nunique().gt(1).any():
@@ -422,7 +439,8 @@ def _gmt(tables, context):
 def implementation_hashes():
     root = Path(__file__).resolve().parent
     return {name: sha256(root/name) for name in ["current_state_context.py", "state_training.py", "state_gene_set_release.py",
-        "integrated_model.py", "current_core_export.py", "native_auxiliary_fusion.py"]}
+        "integrated_model.py", "current_core_export.py", "native_auxiliary_fusion.py",
+        "native_state_workflow.py", "patient_folds.py", "patient_fold_authority.py"]}
 
 
 def materialize_current_state_context(manifest_path, output):
