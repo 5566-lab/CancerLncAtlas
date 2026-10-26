@@ -5534,3 +5534,134 @@ The smoke tests passed; their SCP receipt return failed once with an SSH banner
 error. The first handoff archive upload later encountered the same error. Each
 authorized read-only probe returned hostname 149; the original receipts and
 handoff transfer resumed without rerunning tests, changing login or opening UI.
+
+Native fusion preparation, frozen completion and selected publication (2026-10-26)
+--------------------------------------------------------------------------------
+
+``scripts.run_native_fusion_workflow`` joins the native primary-label binding and
+native auxiliary/signed single-cell bindings through the original current
+fusion input collector. Preparation never dispatches the recorded fitting
+command. Collection requires an existing completion, reconstructs all native
+inputs and twelve frozen residual models, and calls the existing selected
+GeneSet and current publication workflow. This closes the fusion command
+handoff; it does not establish real optimization, an independently validated
+winner or a complete acquisition-to-publication command chain.
+
+The input format is ``NATIVE_FUSION_WORKFLOW_INPUT_V1``. Required fields are:
+
+* ``fusion_run_id``: ``V32-FUSION-`` followed by 8--85 uppercase letters, digits,
+  underscores or hyphens, compatible with the publication release identifier.
+* ``primary_fusion``: a path/SHA256 record for the native current primary fusion
+  binding, including all five native validation-label views.
+* ``experts``: nonempty list of path/SHA256 records for native auxiliary or
+  signed single-cell bindings. Their actual producer declarations determine
+  every expert channel and its estimand. Duplicate expert IDs are rejected.
+* ``selected_score_column``: ``discovery_adjusted_probability`` or
+  ``fused_confidence_probability``; ``selection_rationale`` must explain this
+  explicit source registration. The workflow does not select a winning model.
+* ``geneset`` and ``subtype``: the existing selected-analysis configurations.
+* ``publication_components``: all nine current publication components, each
+  with ``BUILD`` and a pinned ``input_manifest``, ``REUSE`` and a pinned
+  ``binding``, or an existing explicit unavailable status and a nonempty reason.
+
+Optional ``training_config`` accepts the original ``ResidualFusionConfig``
+fields and defaults: seed, five folds, optimization limits, learning rate,
+regularization, sampling limits, evaluation interval, tolerance, clipping and
+increment threshold. Counts must be integers, numeric settings finite, and
+thresholds nonnegative. Optional ``rule_evidence_binding`` remains an annotation
+and never becomes a fitted neural Evidence expert.
+
+BUILD templates support existing ``workflow_ref`` references, including
+``selected_analysis``, and the following ``result_ref`` values:
+``selected_model``, ``core_run_id``, ``core_prediction`` and ``primary_fusion``.
+An auxiliary context needing a core embedding export must pin that existing
+export explicitly; this workflow does not create or resolve ``core_export``.
+Unsupported result references and invalid GeneSet/subtype configurations are
+rejected during planning, before any preparation output is created.
+
+Run from the development checkout on server 149::
+
+    python -m scripts.run_native_fusion_workflow prepare \
+      --manifest /path/fusion_workflow.json --output /new/fusion_prepared --plan
+
+    python -m scripts.run_native_fusion_workflow prepare \
+      --manifest /path/fusion_workflow.json --output /new/fusion_prepared
+
+Planning validates native bindings, configuration and publication templates
+without creating output. Preparation runs the original CLI without ``--fit``
+and independently reconstructs its private matrix and input audit. Native
+available labels must cover all five pair folds. Missing expert values retain
+their masks and typed nulls. Preparation may replay already completed upstream
+single-cell models while validating their binding; it performs no new fusion
+forward or fitting. The private plan, normalized manifest, matrix, audit, ready
+receipt and non-dispatched ``EXECUTION_COMMAND.json`` are pinned by
+``PREPARED.json``. A failed preparation has diagnostics but no successful
+workflow binding. These artifacts are private, not website payloads.
+
+After the separately recorded native fitting command has completed::
+
+    python -m scripts.run_native_fusion_workflow collect \
+      --preparation /new/fusion_prepared/PREPARED.json \
+      --preparation-sha256 <sha256> \
+      --completed /new/fusion_prepared/training/release/MULTIMODAL_FUSION_BINDING.json \
+      --completed-sha256 <sha256> --output /new/fusion_collected
+
+Collection checks the exact prepared output directory, configuration, sources,
+matrix and completion hashes. The original crossfit bookkeeping is shared by
+training and frozen replay through a model-provider callback; the original
+optimizer body and crossfit driver statements are unchanged apart from this
+callback. ``fusion_workflow_fit_static_check.json`` records the AST comparison.
+Frozen replay verifies five fold models and one final model for each of the
+discovery and confidence endpoints. It reconstructs the native bounded samples,
+training centres, seeded initial-parameter hashes, final-parameter hashes and
+regularized inner-validation loss, then every OOF prediction, fold/aggregate
+metric, final score, contribution, availability value and serialized metadata.
+It uses the original release serializer in a temporary directory and compares
+its full outputs to the completion. It never calls the optimizer.
+
+New current-fusion outputs bind ``CURRENT_FUSION_NATIVE_INPUTS_V1``. Existing
+selected-score, external-validation and model-use consumers detect this
+contract and repeat input and residual-output reconstruction. Source-only
+inspection disables upstream neural forwards; full workflow collection
+requests upstream numerical replay. Legacy fusion outputs keep their prior
+validation scope. Legacy SC pointers do not acquire a native checkpoint replay
+guarantee merely by entering this workflow.
+
+Successful collection creates ``NUMERIC_REPLAY.json``, the actual selected
+analysis, configured contexts, current publication/web binding and
+``NATIVE_FUSION_BINDING.json``. It does not deploy the website or alter a global
+pointer. Collection uses a new directory outside the training results and
+leaves completed artifacts unchanged. Primary validation reuse remains labeled
+``DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED`` throughout selection and GeneSet
+members. Numerical agreement does not independently establish optimizer
+execution, provenance completeness or biological predictive performance.
+
+The end-to-end synthetic fixture has 80 candidates, 79 available primary labels,
+four native expert channels and both endpoints; actual selected and website
+consumers run, and the single-cell context must use the same binding as the
+selected fusion. The fixture uses frozen native core checkpoints, a synthetic
+genomic auxiliary completion and explicitly synthetic SC OOF correlations with
+a legacy pointer. It does not prove those upstream optimizer or raw-data paths.
+Only the fusion fitting callback is substituted with declared fixed positive
+weights and zero optimizer steps. The native crossfit driver, serializer,
+selection and publication execute unchanged. Neural optimizers and the actual
+fusion optimizer are forbidden. Two existing tests that execute real fusion
+optimization are intentionally deselected in this no-training verification.
+
+Acquisition/reference/metacell/LASSO ancestry, complete per-pair/State-core and
+cross-module patient closure, complete external acceptance, overall command
+orchestration, public scientific field definitions and final C01/C13/C16
+acceptance remain open. No real cohort analysis, fitting, paid compute or
+deployment was started.
+
+Fusion workflow verification on 149: ``fusion_workflow_r2``,
+``fusion_workflow_consumers_r1`` and ``fusion_workflow_preflight_r1`` pass
+137 distinct related cases with no failures or skips. The final workflow
+module run supersedes its earlier cases when counting this total. Two
+actual-optimizer tests are intentionally deselected. The earlier one-case
+smoke pass is not counted again. Failed smoke r1 and main r1 receipts are
+retained: their fixture tuple unpacking and expected exception type were
+corrected. Negative cases reject rehashed input/configuration, commands,
+OOF/metric/contribution/model/lineage changes, invalid publication settings,
+unavailable result references and host/output boundaries. The source-only
+inventory test forbids every neural module call and retains unresolved ancestry.

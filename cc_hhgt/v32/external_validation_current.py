@@ -85,6 +85,12 @@ def producer_scores(spec, root, *, cache=None):
             raise ValueError("Unsupported fusion score")
         paths = {key: verified_path(record, binding_path.parent) for key, record in binding["artifacts"].items()}
         for source in binding["source_inputs"]: verified_path(source, binding_path.parent)
+        if "fusion_input_audit" in paths and _json(paths["fusion_input_audit"]).get("native_input_contract"):
+            from .fusion_numeric_replay import replay_release
+            # Source inspection must not silently start upstream neural
+            # forwards. Reconstruct native inputs and every frozen residual
+            # fusion output; the dedicated workflow also replays SC models.
+            replay_release(binding_path,expected_sha=spec["producer_binding"]["sha256"],replay_expert_models=False)
         path = paths["secondary_scores"]; observed = pd.read_parquet(path)
         checkpoint = _json(paths["checkpoint"])
         endpoint = "discovery" if column == "discovery_adjusted_probability" else "confidence"

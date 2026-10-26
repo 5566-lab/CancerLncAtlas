@@ -11,37 +11,29 @@ import argparse
 import json
 import socket
 from pathlib import Path
+from dataclasses import asdict
 
 from cc_hhgt.v32.multimodal_fusion import (ExpertSpec, ResidualFusionConfig, artifact_sha256,
     build_pair_aggregated_fusion_frame_from_parquet, materialize_multimodal_fusion_release,
     train_pair_blocked_crossfit_fusion)
 
 
-def main(argv=None):
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--manifest",type=Path,required=True)
-    parser.add_argument("--expected-core-run-id",required=True)
-    parser.add_argument("--output",type=Path,required=True)
-    parser.add_argument("--fit",action="store_true",help="Explicitly fit five pair-blocked fusion folds and final models")
-    args=parser.parse_args(argv)
-    if socket.gethostname()!="149":
-        raise RuntimeError("Current fusion preparation and execution require target host 149")
-    manifest=json.loads(args.manifest.read_text(encoding="utf-8"))
+def collect_inputs(manifest_path,*,expected_core_run_id,temp_directory=None,require_fit_ready=False,replay_expert_models=True):
+    """Original native source readers/joins, without fitting or output publication."""
+    if socket.gethostname()!="149":raise RuntimeError("Fusion input collection requires target host 149")
+    manifest_path=Path(manifest_path).resolve()
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest.get("format")!="CURRENT_MULTIMODAL_FUSION_MANIFEST_V1":
         raise ValueError("Unknown current fusion manifest")
-    if manifest.get("core_run_id")!=args.expected_core_run_id:
+    if manifest.get("core_run_id")!=expected_core_run_id:
         raise ValueError("Fusion manifest does not select the requested current core")
-    args.output.mkdir(parents=True,exist_ok=False)
-    (args.output/"LAUNCH_PREFLIGHT.json").write_text(json.dumps({
-        "target_host":"149","observed_host":socket.gethostname(),"fit_requested":args.fit,
-        "training_started":False,"core_run_id":args.expected_core_run_id,
-        "manifest_sha256":artifact_sha256(args.manifest)},indent=2))
+    config=ResidualFusionConfig(**manifest.get("training_config",{}));config.validate()
     declarations=[]
     verified={}
 
     def bound(record,role="current_v32_oof_prediction"):
         path=Path(record["path"])
-        if not path.is_absolute():path=args.manifest.resolve().parent/path
+        if not path.is_absolute():path=manifest_path.resolve().parent/path
         path=path.resolve()
         if path not in verified:
             verified[path]=artifact_sha256(path)
@@ -58,10 +50,10 @@ def main(argv=None):
     native_labels=core_binding.get("format")==FORMAT
     if native_labels:
         core_binding=load_primary_fusion_inputs(core_binding_path,expected_sha=verified[core_binding_path],
-                                              expected_core_run_id=args.expected_core_run_id)
-    elif args.fit:
+                                              expected_core_run_id=expected_core_run_id)
+    elif require_fit_ready:
         raise ValueError("Fitting requires replayed native primary validation labels; bare label hash lists are unverified")
-    if (core_binding.get("run_id")!=args.expected_core_run_id or core_binding.get("status")!="PASS"
+    if (core_binding.get("run_id")!=expected_core_run_id or core_binding.get("status")!="PASS"
             or core_binding.get("prediction",{}).get("sha256")!=verified[primary]):
         raise ValueError("Primary prediction is not bound to the requested current core run")
     fold_records=manifest["primary_folds"]
@@ -95,27 +87,26 @@ def main(argv=None):
             from cc_hhgt.v32.native_auxiliary_fusion import load_native_auxiliary
             if audit_path not in native_audits:
                 _,native_audits[audit_path]=load_native_auxiliary(audit_path,
-                    expected_sha=verified[audit_path],expected_core_run_id=args.expected_core_run_id)
+                    expected_sha=verified[audit_path],expected_core_run_id=expected_core_run_id)
             audit=native_audits[audit_path]
         elif audit.get("format")=="SC_HHGT_SIGNED_FUSION_BINDING_V1":
             from cc_hhgt.v32.single_cell_signed_fusion import load_signed_sc_fusion
             if audit_path not in native_audits:
-                native_audits[audit_path]=load_signed_sc_fusion(audit_path,expected_sha=verified[audit_path])[0]
+                native_audits[audit_path]=load_signed_sc_fusion(audit_path,expected_sha=verified[audit_path],replay_model=replay_expert_models)[0]
             audit=native_audits[audit_path]
         if audit.get("run_id")!=item["run_id"] or audit.get("estimand")!=item["estimand"]:
             raise ValueError(f"{spec.expert_id} run identity or estimand differs from its producer audit")
         dependency=audit.get("core_dependency")
         if dependency=="CURRENT_CORE_EMBEDDINGS":
-            if audit.get("core_run_id")!=args.expected_core_run_id:
+            if audit.get("core_run_id")!=expected_core_run_id:
                 raise ValueError(f"{spec.expert_id} was produced from a different core")
             from cc_hhgt.v32.current_core_export import validate_current_export
             source_core=bound(audit["core_manifest"],"provenance_audited_standardized_source")
-            validate_current_export(source_core,expected_run_id=args.expected_core_run_id)
+            validate_current_export(source_core,expected_run_id=expected_core_run_id)
         elif dependency not in {"INDEPENDENT_MODEL","CORE_INDEPENDENT_EVIDENCE"}:
             raise ValueError(f"{spec.expert_id} lacks an explicit core dependency")
         approved_specs=audit.get("expert_specs",[])
         # JSON normalization changes tuple endpoint roles into list form.
-        from dataclasses import asdict
         if json.loads(json.dumps(asdict(spec))) not in approved_specs:
             raise ValueError(f"{spec.expert_id} semantics differ from its producer declaration")
         record=item["prediction"]
@@ -133,7 +124,7 @@ def main(argv=None):
             "prediction":{"path":str(experts[spec]),"sha256":verified[experts[spec]]},
             "binding_audit":{"path":str(audit_path),"sha256":verified[audit_path]}}
     frame,audit=build_pair_aggregated_fusion_frame_from_parquet(primary,folds,experts,
-        temp_directory=args.output/"duckdb_tmp",native_validation_labels=native_labels)
+        temp_directory=temp_directory,native_validation_labels=native_labels)
     available_pair_folds=(set(frame.loc[frame.fusion_target_available,"fusion_pair_fold"])
                           if native_labels else set())
     fit_ready=native_labels and available_pair_folds==set(range(5))
@@ -147,11 +138,39 @@ def main(argv=None):
         rule_binding = {"path": str(path), "sha256": verified[path]}
         frame = attach_rule_annotations(frame, binding_path=path, expected_sha=verified[path])
         audit.update(rule_evidence_binding=rule_binding, rule_evidence_used_as_model_input=False)
+    audit.update(core_run_id=expected_core_run_id,manifest_sha256=artifact_sha256(manifest_path),
+                 training_started=False,primary_source_sha256=verified[primary],expert_bindings=expert_bindings,
+                 expert_order=list(expert_bindings),
+                 native_input_contract={"format":"CURRENT_FUSION_NATIVE_INPUTS_V1",
+                     "manifest":{"path":str(manifest_path),"sha256":artifact_sha256(manifest_path)}},
+                 training_config={"parameters":asdict(config),"runner_sha256":artifact_sha256(Path(__file__)),
+                     "implementation_sha256":artifact_sha256(Path(__file__).resolve().parents[1]/"cc_hhgt/v32/multimodal_fusion.py")})
+    for path,digest in verified.items():
+        if artifact_sha256(path)!=digest:raise ValueError("Fusion sources changed during input collection")
+    return frame,audit,declarations,rule_binding
+
+
+def main(argv=None):
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--manifest",type=Path,required=True)
+    parser.add_argument("--expected-core-run-id",required=True)
+    parser.add_argument("--output",type=Path,required=True)
+    parser.add_argument("--fit",action="store_true",help="Explicitly fit five pair-blocked fusion folds and final models")
+    args=parser.parse_args(argv)
+    if socket.gethostname()!="149":
+        raise RuntimeError("Current fusion preparation and execution require target host 149")
+    args.manifest=args.manifest.resolve()
+    manifest=json.loads(args.manifest.read_text(encoding="utf-8"))
+    args.output.mkdir(parents=True,exist_ok=False)
+    (args.output/"LAUNCH_PREFLIGHT.json").write_text(json.dumps({
+        "target_host":"149","observed_host":socket.gethostname(),"fit_requested":args.fit,
+        "training_started":False,"core_run_id":args.expected_core_run_id,
+        "manifest_sha256":artifact_sha256(args.manifest)},indent=2))
+    frame,audit,declarations,rule_binding=collect_inputs(args.manifest,
+        expected_core_run_id=args.expected_core_run_id,temp_directory=args.output/"duckdb_tmp",require_fit_ready=args.fit)
+    fit_ready=audit["eligible_for_current_fitting"]
     frame_path=args.output/"PRIVATE_FUSION_INPUT.parquet"
     frame.to_parquet(frame_path,index=False)
-    audit.update(core_run_id=args.expected_core_run_id,manifest_sha256=artifact_sha256(args.manifest),
-                 training_started=False,primary_source_sha256=verified[primary],
-                 expert_bindings=expert_bindings)
     (args.output/"INPUT_AUDIT.json").write_text(json.dumps(audit,indent=2)+"\n")
     if not args.fit:
         receipt={"status":"PREPARED_NOT_TRAINED","target_host":"149","training_started":False,
@@ -163,7 +182,8 @@ def main(argv=None):
     if not fit_ready:
         raise ValueError("Native available fusion labels do not cover all five pair folds; fitting did not start")
     config=ResidualFusionConfig(**manifest.get("training_config",{}))
-    specs=tuple(experts)
+    specs=tuple(ExpertSpec(**{**item["spec"],"endpoint_roles":tuple(item["spec"]["endpoint_roles"])})
+        for item in audit["expert_bindings"].values())
     discovery=train_pair_blocked_crossfit_fusion(frame,specs,endpoint="discovery",config=config)
     confidence=train_pair_blocked_crossfit_fusion(frame,specs,endpoint="confidence",config=config)
     result=materialize_multimodal_fusion_release(args.output/"release",frame,discovery,confidence,

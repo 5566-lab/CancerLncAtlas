@@ -121,6 +121,14 @@ class ResidualFusionConfig:
     increment_logloss_delta: float = 1.0e-4
 
     def validate(self) -> None:
+        counts=("seed","folds","max_steps","patience","max_train_rows","max_validation_rows","batch_size","evaluation_interval")
+        if any(type(getattr(self,k)) is not int for k in counts) or self.seed<0:
+            raise MultimodalFusionError("Fusion counts and seed must be nonnegative integers")
+        continuous=("learning_rate","l2","tolerance","clip_probability","increment_logloss_delta")
+        if any(type(getattr(self,k)) not in (int,float) or not math.isfinite(getattr(self,k)) for k in continuous):
+            raise MultimodalFusionError("Fusion continuous settings must be finite numbers")
+        if self.tolerance<0 or self.increment_logloss_delta<0:
+            raise MultimodalFusionError("Fusion tolerances cannot be negative")
         if self.folds != N_FOLDS:
             raise MultimodalFusionError("Formal V3.2 fusion requires exactly five folds")
         if not 0 < self.learning_rate <= 1 or self.l2 < 0:
@@ -1105,10 +1113,16 @@ def fusion_supervision(frame: pd.DataFrame) -> tuple[pd.Series, str | None]:
     return available, SCOPE
 
 
-def train_pair_blocked_crossfit_fusion(
+def train_pair_blocked_crossfit_fusion(frame, specs, *, endpoint, config=None):
+    """Train five pair-blocked models and one final model through the native driver."""
+    return _pair_blocked_fusion(frame,specs,endpoint=endpoint,config=config,model_provider=fit_residual_fusion_model)
+
+
+def _pair_blocked_fusion(
     frame: pd.DataFrame,
     specs: Sequence[ExpertSpec],
     *,
+    model_provider,
     endpoint: str,
     config: ResidualFusionConfig | None = None,
 ) -> CrossfitFusionResult:
@@ -1145,7 +1159,7 @@ def train_pair_blocked_crossfit_fusion(
         ]
         validation = development.loc[development[FUSION_FOLD_COLUMN].eq(validation_fold)]
         test = frame.loc[frame[FUSION_FOLD_COLUMN].eq(heldout)]
-        model = fit_residual_fusion_model(
+        model = model_provider(
             train,
             validation,
             expert_ids,
@@ -1214,7 +1228,7 @@ def train_pair_blocked_crossfit_fusion(
         status = "DEVELOPMENT_ONLY_PRIMARY_VALIDATION_REUSED"
 
     final_validation_fold = N_FOLDS - 1
-    final_model = fit_residual_fusion_model(
+    final_model = model_provider(
         development.loc[~development[FUSION_FOLD_COLUMN].eq(final_validation_fold)],
         development.loc[development[FUSION_FOLD_COLUMN].eq(final_validation_fold)],
         expert_ids,

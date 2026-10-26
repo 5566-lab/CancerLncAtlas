@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="12.658" timestamp="2026-10-26T19:56:31.649814+08:00" hostname="149"><testcase classname="tests.test_v32_native_fusion_workflow" name="test_original_cli_preparation_and_frozen_completion_to_selected_web" time="8.612"><error message="failed on setup with &quot;TypeError: expected str, bytes or os.PathLike object, not tuple&quot;">tests/test_v32_native_fusion_workflow.py:96: in source
+    auxiliary_binding=materialize_native_auxiliary(auxiliary,root/"genomic_fusion",expected_core_run_id=spec["core_run_id"])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/native_auxiliary_fusion.py:370: in materialize_native_auxiliary
+    path = Path(manifest_path).resolve(); digest = sha256(path); output = Path(output).resolve()
+           ^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/pathlib.py:871: in __new__
+    self = cls._from_parts(args)
+           ^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/pathlib.py:509: in _from_parts
+    drv, root, parts = self._parse_args(args)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/pathlib.py:493: in _parse_args
+    a = os.fspath(a)
+        ^^^^^^^^^^^^
+E   TypeError: expected str, bytes or os.PathLike object, not tuple</error></testcase></testsuite></testsuites>

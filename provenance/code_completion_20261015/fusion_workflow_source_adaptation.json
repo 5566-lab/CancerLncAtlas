@@ -1,0 +1,75 @@
+{
+  "method": "NATIVE_FUSION_PREPARE_COLLECT_FROZEN_REPLAY_AND_SELECTED_PUBLICATION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "fusion_workflow_r2",
+    "fusion_workflow_consumers_r1",
+    "fusion_workflow_preflight_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "fusion_workflow_smoke_r1",
+    "fusion_workflow_r1"
+  ],
+  "intermediate_failure_causes": [
+    "Smoke r1 used an auxiliary fixture tuple as a Path; corrected unpacking before native consumption.",
+    "Main r1 correctly rejected five invalid configurations with native MultimodalFusionError; tests incorrectly expected ValueError. Corrected assertions without weakening validation."
+  ],
+  "observation_incidents": [
+    {
+      "stage": "test_coordinator_argument_parsing",
+      "incident": "The local coordinator passed -k as the value following --test; argparse rejected the command before upload or remote execution.",
+      "recovery": "Changed coordinator to --test=value and launched the intended no-training suite."
+    }
+  ],
+  "smoke_passed_receipt": "fusion_workflow_smoke_r2",
+  "smoke_not_counted_again": true,
+  "deliberately_deselected_actual_optimizer_tests": [
+    "test_pair_blocked_fusion_preserves_primary_and_trains_secondary_scores",
+    "test_fusion_release_is_hash_bound_and_keeps_oof_targets_private"
+  ],
+  "original_input_collector_executed": true,
+  "actual_crossfit_driver_executed": true,
+  "actual_release_serializer_executed": true,
+  "actual_selected_geneset_and_web_consumers_executed": true,
+  "full_native_input_and_output_replay": true,
+  "inner_validation_regularized_loss_replayed": true,
+  "source_only_model_use_neural_forwards_executed": false,
+  "training_outputs_unchanged_verified": true,
+  "candidate_rows": 80,
+  "available_primary_label_rows": 79,
+  "expert_channels": 4,
+  "endpoints": 2,
+  "fold_models": 10,
+  "final_models": 2,
+  "fit_callback_optimizer_steps": 0,
+  "original_optimizer_ast_unchanged": true,
+  "crossfit_driver_ast_unchanged_except_model_provider": true,
+  "static_fit_check": {
+    "path": "D:\\model\\CancerLncAtlas_code_completion_20261015\\provenance\\code_completion_20261015\\fusion_workflow_fit_static_check.json",
+    "sha256": "0d40aafeb9b7050457221ba67afd6a24a5fa463950ed6674bfa03e63d513525a"
+  },
+  "test_substitutes": [
+    "Frozen synthetic native core checkpoints/prepared graph and validation-label views.",
+    "Synthetic genomic auxiliary completion; no raw genomic producer or optimizer executed.",
+    "Synthetic signed SC OOF correlations and legacy pointer; no native SC checkpoint replay guarantee.",
+    "Fusion fitting callback only uses fixed positive weights and zero optimizer steps; actual crossfit/serialization/consumers run."
+  ],
+  "optimizer_execution_independently_verified": false,
+  "source_acquisition_ancestry_verified": false,
+  "metacell_and_lasso_transform_ancestry_verified": false,
+  "cross_module_patient_closure_complete": false,
+  "independent_predictive_performance_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native fusion prepare/collect now joins actual native primary labels and auxiliary/signed-SC bindings through the original input collector, pins the private matrix and full configuration, and records but never dispatches fitting. Immutable completion collection reconstructs twelve frozen residual models using the unchanged native crossfit bookkeeping and release serializer: bounded samples, training centres, inner-validation loss, OOF/final scores, metrics, contributions and metadata. Existing selected/external/model-use consumers reconstruct these inputs and outputs for the new native contract without starting upstream neural forwards. Dedicated collection requests full upstream replay and feeds the actual selected GeneSet and website workflow. Verification uses 80 synthetic candidates, frozen core checkpoints, synthetic genomic completion and SC OOF data with a legacy pointer; only fusion fitting is replaced by fixed positive weights and zero optimizer steps. Upstream optimizer/raw ancestry and independent performance are unproved; legacy SC does not acquire a neural replay guarantee. Two existing actual-fit tests are intentionally deselected. Overall orchestration, public field definitions, acquisition/reference/metacell/LASSO ancestry, full per-pair/State-core/cross-module patient closure and final C01/C13/C16 acceptance remain open."
+}
