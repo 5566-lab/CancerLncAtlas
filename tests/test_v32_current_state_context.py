@@ -62,65 +62,76 @@ def current_sources(tmp_path_factory):
     return root/"core"/"CORE_EMBEDDING_MANIFEST.json",Path(result["binding_path"]),run
 
 
-def native_fixture(root,current_sources):
+# Preserve the actual non-optimizer driver for the serialization fixture. Its
+# sole fitting callback is replaced locally; the global optimizer guard stays on.
+from cc_hhgt.v32.state_training import train_state_models as native_state_driver
+
+
+def native_fixture(root,current_sources,*,input_style="files"):
+    import tempfile
+    import cc_hhgt.v32.state_training as native
     root.mkdir(); core_path,selected_path,run = current_sources
-    cores, parents, _ = load_v32_core_embeddings(core_path,repo_root=root)
-    cfg = StateTrainingConfig(hidden_features=4,min_pairs=2,min_available_folds=3,max_epochs=1)
-    checkpoints = {}; folds = {}; rows = []
+    # Measurement loaders prohibit historical-result path tokens, including
+    # those in pytest case names. Keep raw fixtures in an explicitly raw folder.
+    raw = Path(tempfile.mkdtemp(prefix="native_state_",dir=core_path.parent.parent))
+    cfg = StateTrainingConfig(hidden_features=4,min_pairs=2,min_available_folds=3,max_epochs=1,device="cpu")
+    patient=[]; expression=[]; state=[]
     for fold in range(5):
-        width = len([c for c in cores[fold] if c.startswith("core_feature_")])
-        head, init = build_private_auxiliary_head("state",core_features=width,domain_features=11,
-            hidden_features=cfg.hidden_features,dropout=cfg.dropout,seed=cfg.seed+fold)
-        # Serialization of a changed tiny head, explicitly no optimizer/training.
+        for j,x in enumerate([-3.,-2.,-1.,0.,0.,1.,2.,3.]):
+            identity=f"P{fold}_{j}"
+            for aliquot in range(2 if (fold,j)==(0,0) else 1):
+                sample=f"{identity}_A{aliquot}"
+                delta=(-.5 if aliquot==0 else .5) if (fold,j)==(0,0) else 0.
+                patient.append(("BRCA",sample,identity,fold))
+                expression.append(("BRCA",sample,"LNC:Z",x+delta))
+                for i,sid in enumerate(HISTORICAL_STATE_IDS):
+                    if i==2: continue
+                    value=x*x if i==1 else -x if i==3 else x
+                    state.append((sample,"BRCA",identity,sid,value+delta))
+    for name,frame in {
+        "patients":pd.DataFrame(patient,columns=["cancer_id","sample_id","patient_id","patient_fold_id"]),
+        "expression":pd.DataFrame(expression,columns=["cancer_id","sample_id","lncrna_id","logcpm"]),
+        "state_measurement":pd.DataFrame(state,columns=["sample_id","cancer_id","patient_id","state_id","state_value"])
+    }.items(): frame.to_parquet(raw/(name+".parquet"),index=False)
+
+    def frozen_fold(train,validation,core,*,fold,config):
+        maximum=int(train.n_pairs.max()); counts={}
+        for role,stats in [("train",train),("validation",validation)]:
+            frame,columns,_,domain,labels=native._model_arrays(stats,core,max_train_pairs=maximum)
+            eligible=frame.available.to_numpy(bool)&frame.core_embedding_available.to_numpy(bool)&np.isfinite(labels)
+            counts[role]=int(eligible.sum())
+            if role=="train": positives=int(labels[eligible].sum())
+        head,init=native.build_state_private_head(fold,len(columns),domain.shape[1],config)
+        # A changed frozen container, never a learned/trained model.
         with torch.no_grad(): next(head.parameters()).add_(.01)
-        digest = module_state_sha256(head)
-        checkpoint = {"checkpoint_format":STATE_CHECKPOINT_FORMAT,"analysis_version":"CancerLncAtlas_V3.2_STATE_FRESH",
-            "module_id":"state","patient_fold":fold,"run_id":"v32-state-synthetic","model_state":head.state_dict(),
-            "initialization":init.as_dict(),"final_parameter_sha256":digest,"source_checkpoint_sha256":None,
-            "private_head_trained_from_scratch":True,"core_parameters_frozen":True,"historical_predictions_used":False,
-            "state_ids":list(HISTORICAL_STATE_IDS),"config":asdict(cfg),"synthetic_serialization_fixture":True,
-            "no_optimizer_actually_run":True}
-        path = root/f"state{fold}.pt"; torch.save(checkpoint,path); checkpoints[str(fold)] = record(path)
-        parent = parents[fold]
-        folds[str(fold)] = {**parent,"patient_fold":fold,"seed":cfg.seed+fold,"initialization":init.as_dict(),
-            "final_parameter_sha256":digest,"core_parameters_before_sha256":parent["core_parameter_sha256"],
-            "core_parameters_after_sha256":parent["core_parameter_sha256"],
-            "core_embedding_sha256_before":parent["core_embedding_sha256"],"core_embedding_sha256_after":parent["core_embedding_sha256"],
-            "core_embedding_artifact_unchanged":True,"fold_local_features_and_labels":True,"test_measurements_used_for_training":False,
+        fallback=not counts["validation"]
+        lineage={"patient_fold":fold,"seed":cfg.seed+fold,"initialization":init.as_dict(),
+            "final_parameter_sha256":module_state_sha256(head),"core_features":len(columns),"domain_features":domain.shape[1],
+            "max_train_pairs":maximum,"trainable_candidates":counts["train"],
+            "validation_candidates":counts["train"] if fallback else counts["validation"],
+            "validation_fallback_to_training":fallback,"positive_candidates":positives,
+            "negative_candidates":counts["train"]-positives,
             "history":[{"epoch":0,"training_loss":.7,"validation_loss":.6}],"epochs_completed":1,
-            "core_features":width,"domain_features":11}
-        for i,state_id in enumerate(HISTORICAL_STATE_IDS):
-            available = i!=2
-            p = fold*.1 if i==0 else .7
-            effect = 0. if i==1 else -.2 if i==3 else .3
-            rows.append({"patient_fold_id":fold,"cancer_id":"BRCA","lncrna_id":"LNC:Z","state_id":state_id,
-                "state_membership_probability":p if available else None,"state_effect":effect if available else None,
-                "association_direction":("positive" if effect>0 else "negative" if effect<0 else "neutral") if available else None,
-                "availability":available,"availability_reason":None if available else "state_measurement_unavailable",
-                "test_n_pairs":fold+2,"train_n_pairs":20,"model_version":"V3.2",
-                "probability_source":"fresh_fold_private_state_head","effect_source":"held_out_patient_fold_measurement"})
-    oof = pd.DataFrame(rows); aggregate = aggregate_oof_predictions(oof,min_available_folds=3)
-    oof_path = root/"oof.parquet"; oof.to_parquet(oof_path,index=False)
-    aggregate_path = root/"aggregate.parquet"; aggregate.to_parquet(aggregate_path,index=False)
-    patient = pd.DataFrame({"cancer_id":["BRCA"]*5,"patient_id":[f"S{i}" for i in range(5)],"patient_fold_id":range(5)})
-    patient_path = root/"patients.parquet"; patient.to_parquet(patient_path,index=False)
-    state_path = root/"state_measurement.parquet"; pd.DataFrame({"synthetic":[True]}).to_parquet(state_path,index=False)
-    expression_path = root/"expression.parquet"; pd.DataFrame({"synthetic":[True]}).to_parquet(expression_path,index=False)
-    lineage = {"training_format":STATE_TRAINING_FORMAT,"module_id":"state","training_status":"SUCCESS","folds":5,
-        "training_run_id":"v32-state-synthetic","historical_state_ids":list(HISTORICAL_STATE_IDS),
-        "private_head_trained_from_scratch":True,"core_parameters_frozen":True,"core_embeddings_detached":True,
-        "fold_local_association_features_and_labels":True,"old_checkpoint_loaded":False,"old_predictions_used_as_features":False,
-        "old_rankings_used_as_outputs":False,"test_measurements_used_for_training":False,"unavailable_sentinel_values_used":False,
-        "config":asdict(cfg),"config_sha256":canonical_json_sha256(asdict(cfg)),"fold_lineage":folds,
-        "new_private_head_checkpoints":checkpoints,
-        "input_artifacts":[{"role":role,**record(path)} for role,path in [
-            ("v32_core_embedding_manifest",core_path),("v32_patient_fold_manifest",patient_path),
-            ("tumor_state_long_measurement",state_path),("lncrna_expression",expression_path)]],
-        "outputs":{"oof_predictions":{**record(oof_path),"rows":len(oof)},"lncrna_state_release":{**record(aggregate_path),"rows":len(aggregate)}}}
-    lineage["lineage_sha256"] = canonical_json_sha256(lineage)
-    lineage_path = write(root/"STATE_TRAINING_LINEAGE.json",lineage)
-    manifest = {"format":INPUT_FORMAT,"core_run_id":run,"state_run_id":"v32-state-synthetic",
-        "core_manifest":record(core_path),"selected_analysis":record(selected_path),"state_training_lineage":record(lineage_path),
+            "synthetic_serialization_fixture":True,"no_optimizer_actually_run":True}
+        return head,lineage,maximum
+    expression_path=raw/"expression.parquet"; patient_path=raw/"patients.parquet"
+    if input_style=="dataset":
+        table=pd.read_parquet(expression_path); expression_path=raw/"expression_dataset"
+        for part in range(2):
+            folder=expression_path/"cancer_id=BRCA"; folder.mkdir(parents=True,exist_ok=True)
+            table.iloc[part::2].to_parquet(folder/f"part{part}.parquet",index=False)
+    if input_style=="csv":
+        patient_path=raw/"patients.csv"; pd.read_parquet(raw/"patients.parquet").to_csv(patient_path,index=False)
+    with pytest.MonkeyPatch.context() as patch:
+        for name in ("Adam","AdamW","SGD"): patch.setattr(torch.optim,name,no_training)
+        patch.setattr(native,"train_state_models",native_state_driver)
+        patch.setattr(native,"train_fold_private_head",frozen_fold)
+        result=native.run_state_training_from_paths(state_measurements_path=raw/"state_measurement.parquet",
+            fold_manifest_path=patient_path,lncrna_expression_path=expression_path,
+            core_embedding_manifest_path=core_path,output_root=root,repo_root=root,run_id="v32-state-synthetic",config=cfg)
+    manifest={"format":INPUT_FORMAT,"core_run_id":run,"state_run_id":"v32-state-synthetic",
+        "core_manifest":record(core_path),"selected_analysis":record(selected_path),
+        "state_training_lineage":record(Path(result["lineage"])),
         "state_sets":{"minimum_set_members":1,"pan_cancer_min_cancers":1}}
     return write(root/"INPUT.json",manifest)
 
@@ -134,13 +145,17 @@ def test_existing_cli_current_native_route_profiles_neutral_missing_and_queries(
     rows = query.query()["rows"]; json.dumps(rows,allow_nan=False)
     assert len(rows)==7
     rna = next(r for r in rows if r["state_id"]==HISTORICAL_STATE_IDS[0])
-    assert rna["mean_state_membership_probability"]==pytest.approx(np.average(np.arange(5)*.1,weights=np.arange(5)+2))
+    oof=pd.read_parquet(tmp_path/"inputs/v32_state_oof_predictions.parquet")
+    measured=oof.loc[oof.state_id.eq(HISTORICAL_STATE_IDS[0])]
+    assert rna["mean_state_membership_probability"]==pytest.approx(measured.state_membership_probability.mean())
+    assert rna["mean_held_out_state_effect"]==pytest.approx(1.)
     assert rna["selected_weight_coverage"]==1
     zero = next(r for r in rows if r["state_id"]==HISTORICAL_STATE_IDS[1])
     assert zero["descriptive_effect_direction"]=="neutral" and zero["mean_held_out_state_effect"]==0
     absent = next(r for r in rows if r["state_id"]==HISTORICAL_STATE_IDS[2])
     assert absent["mean_held_out_state_effect"] is None and not absent["availability"]
-    assert not binding["private_head_predictions_replayed"] and not binding["raw_measurement_statistics_replayed"]
+    assert binding["private_head_predictions_replayed"] and binding["raw_measurement_statistics_replayed"]
+    assert binding["native_numeric_replay"]["folds"][0]["alignment_counts"]["analysis_patients"]==40
     assert not binding["training_started"] and not binding["context_changes_ranking"]
     gmt = Path(query.download("gmt")["path"]).read_text()
     assert HISTORICAL_STATE_IDS[1] not in gmt and "Z\n" in gmt
@@ -180,8 +195,8 @@ def test_native_five_fold_recomputation_and_null_semantics(tmp_path,current_sour
     if fault=="partial_folds": data = data.iloc[1:]; context["lineage"]["outputs"]["oof_predictions"]["rows"]-=1
     if fault=="string_bool": data.availability=data.availability.astype(str)
     if fault=="bad_effect": data.loc[0,"state_effect"]=2.
-    if fault=="bad_direction": data.loc[0,"association_direction"]="negative"
-    if fault=="sentinel": data.loc[2,"state_membership_probability"]=0.
+    if fault=="bad_direction": data.loc[data.state_id.eq(HISTORICAL_STATE_IDS[0]),"association_direction"]="negative"
+    if fault=="sentinel": data.loc[~data.availability,"state_membership_probability"]=0.
     if fault=="aggregate":
         release_path = context["native_paths"]["lncrna_state_release"]; release = pd.read_parquet(release_path)
         release.loc[0,"state_membership_probability"]=.9; release.to_parquet(release_path,index=False)
@@ -264,3 +279,97 @@ def test_materializer_enforces_server149_before_writing(tmp_path,monkeypatch):
     monkeypatch.setattr("socket.gethostname",lambda:"local")
     with pytest.raises(RuntimeError,match="149"): materialize_current_state_context(tmp_path/"missing",tmp_path/"out")
     assert not (tmp_path/"out").exists()
+
+
+@pytest.mark.parametrize("fault", ["raw_state", "raw_expression", "patient_split", "alignment",
+    "normalizer", "train_counts", "state_inventory", "head_identity", "frozen_head", "oof_probability", "oof_effect", "oof_pairs"])
+def test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate(tmp_path,current_sources,fault):
+    path=native_fixture(tmp_path/"inputs",current_sources); manifest=json.loads(path.read_text())
+    lp=Path(manifest["state_training_lineage"]["path"]); lineage=json.loads(lp.read_text())
+    if fault in {"raw_state","raw_expression","patient_split"}:
+        role={"raw_state":"tumor_state_long_measurement","raw_expression":"lncrna_expression",
+            "patient_split":"v32_patient_fold_manifest"}[fault]
+        source=next(r for r in lineage["input_artifacts"] if r["role"]==role)
+        raw=Path(source["path"]); data=pd.read_parquet(raw)
+        if fault=="raw_state": data.loc[0,"state_value"]+=20.
+        elif fault=="raw_expression": data.loc[0,"logcpm"]+=20.
+        else: data.loc[data.patient_id.eq("P0_0"),"patient_fold_id"]=1
+        data.to_parquet(raw,index=False); source["sha256"]=sha256(raw)
+    elif fault=="alignment": lineage["fold_lineage"]["0"]["alignment_counts"]["analysis_patients"]+=1
+    elif fault=="normalizer": lineage["fold_lineage"]["0"]["max_train_pairs"]+=1
+    elif fault=="train_counts": lineage["fold_lineage"]["0"]["positive_candidates"]+=1
+    elif fault=="state_inventory": lineage["missing_state_ids"]=[]
+    elif fault in {"head_identity","frozen_head"}:
+        cp=Path(lineage["new_private_head_checkpoints"]["0"]["path"]); checkpoint=torch.load(cp,weights_only=True)
+        if fault=="head_identity":
+            checkpoint["initialization"]["module_id"]="state"
+            lineage["fold_lineage"]["0"]["initialization"]=checkpoint["initialization"]
+        else:
+            # Repin every tensor checksum; only the frozen forward can detect
+            # that this changed head no longer produces the recorded OOF table.
+            from types import SimpleNamespace
+            next(reversed(checkpoint["model_state"].values())).add_(3.)
+            digest=module_state_sha256(SimpleNamespace(state_dict=lambda:checkpoint["model_state"]))
+            checkpoint["final_parameter_sha256"]=digest; lineage["fold_lineage"]["0"]["final_parameter_sha256"]=digest
+        torch.save(checkpoint,cp); lineage["new_private_head_checkpoints"]["0"].update(record(cp))
+    else:
+        oof=Path(lineage["outputs"]["oof_predictions"]["path"]); data=pd.read_parquet(oof)
+        index=data.index[data.availability][0]
+        if fault=="oof_probability": data.loc[index,"state_membership_probability"]+=.01
+        elif fault=="oof_pairs": data.loc[index,"test_n_pairs"]+=1
+        else:
+            data.loc[index,"state_effect"]=-.2; data.loc[index,"association_direction"]="negative"
+        data.to_parquet(oof,index=False); lineage["outputs"]["oof_predictions"].update(record(oof))
+        aggregate=Path(lineage["outputs"]["lncrna_state_release"]["path"])
+        aggregate_oof_predictions(data,min_available_folds=3).to_parquet(aggregate,index=False)
+        lineage["outputs"]["lncrna_state_release"].update(record(aggregate))
+    lineage.pop("lineage_sha256"); lineage["lineage_sha256"]=canonical_json_sha256(lineage)
+    write(lp,lineage); manifest["state_training_lineage"]=record(lp); write(path,manifest)
+    with pytest.raises(ValueError,match="State.*(replay|inventory|initialization)"):
+        state_sources(path)
+
+
+def test_real_serialization_patient_alignment_and_measured_effect_oracles(tmp_path,current_sources):
+    path=native_fixture(tmp_path/"inputs",current_sources); context=state_sources(path)
+    replay=context["replay"]
+    assert replay["rows"]==35 and replay["same_implementation_replay"]
+    assert not replay["training_started"] and not replay["independent_predictive_performance_verified"]
+    for row in replay["folds"]:
+        assert row["max_train_pairs"]==24 and row["trainable_candidates"]==6
+        assert row["positive_candidates"]==5 and row["negative_candidates"]==1
+        assert row["alignment_counts"]["expression_rows_collapsed_to_patient"]==1
+        assert row["alignment_counts"]["state_rows_collapsed_to_patient"]==6
+        native=context["lineage"]["fold_lineage"][str(row["fold"])]
+        assert native["initialization"]["module_id"]==f"state_fold_{row['fold']}"
+        assert native["no_optimizer_actually_run"]
+    data=pd.read_parquet(context["native_paths"]["oof_predictions"])
+    assert data.loc[data.availability,"test_n_pairs"].eq(8).all()
+    for index,effect in [(0,1.),(1,0.),(3,-1.)]:
+        assert data.loc[data.state_id.eq(HISTORICAL_STATE_IDS[index]),"state_effect"].eq(effect).all()
+    assert not data.loc[data.state_id.eq(HISTORICAL_STATE_IDS[2]),"availability"].any()
+
+
+@pytest.mark.parametrize("input_style", ["dataset","csv"])
+def test_native_file_and_partition_formats_reach_actual_publication(tmp_path,current_sources,input_style):
+    path=native_fixture(tmp_path/"inputs",current_sources,input_style=input_style)
+    result=materialize_current_state_context(path,tmp_path/"release")
+    binding=json.loads(Path(result["binding_path"]).read_text())
+    assert binding["native_numeric_replay"]["rows"]==35
+    assert all(Path(row["path"]).is_file() for row in binding["source_artifacts"])
+    if input_style=="dataset":
+        assert sum("expression_dataset" in r["path"] for r in binding["source_artifacts"])==2
+
+
+@pytest.mark.parametrize("change", ["added","modified","deleted"])
+def test_dataset_tree_membership_remains_pinned_during_audit(tmp_path,current_sources,change):
+    path=native_fixture(tmp_path/"inputs",current_sources,input_style="dataset")
+    result=materialize_current_state_context(path,tmp_path/"release")
+    manifest=json.loads(path.read_text()); lineage=json.loads(Path(manifest["state_training_lineage"]["path"]).read_text())
+    tree=Path(next(r for r in lineage["input_artifacts"] if r["role"]=="lncrna_expression")["path"])
+    first=next(tree.rglob("*.parquet"))
+    if change=="added": (tree/"unexpected.txt").write_text("new unrelated member",encoding="utf-8")
+    elif change=="deleted": first.unlink()
+    else:
+        frame=pd.read_parquet(first); frame.loc[0,"logcpm"]+=2.; frame.to_parquet(first,index=False)
+    with pytest.raises(ValueError,match="dataset SHA256"):
+        audit_current_state_context(result["binding_path"],expected_sha=result["binding_sha256"])

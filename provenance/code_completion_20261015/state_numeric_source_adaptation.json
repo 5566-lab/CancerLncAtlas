@@ -1,0 +1,49 @@
+{
+  "method": "NATIVE_STATE_MEASUREMENT_AND_FROZEN_HEAD_REPLAY",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "state_numeric_replay_r2",
+    "state_numeric_consumers_r2"
+  ],
+  "intermediate_failed_receipts": [],
+  "superseded_successful_receipts": [
+    "state_numeric_replay_r1",
+    "state_numeric_consumers_r1"
+  ],
+  "coordination_interruptions": [
+    "Initial source upload failed before test execution; SSH read-only reprobe returned 149. No login/reconnect or duplicate job was used."
+  ],
+  "actual_outer_state_driver_executed": true,
+  "actual_completion_serializer_executed": true,
+  "actual_five_frozen_head_forwards_executed": true,
+  "actual_current_publication_workflow_executed": true,
+  "actual_browser_http_download_consumers_checked": true,
+  "within_patient_aliquots_collapsed": true,
+  "original_state_initializer_identity_shared": true,
+  "partitioned_native_inputs_supported": true,
+  "patient_count": 40,
+  "sample_count": 41,
+  "states": 7,
+  "folds": 5,
+  "oof_rows": 35,
+  "test_substitutes": [
+    "Only the State fitting callback is replaced with changed frozen parameters and explicitly synthetic telemetry; no optimizer or learned model fit.",
+    "Current core parent uses existing frozen synthetic serialization fixtures."
+  ],
+  "same_implementation_replay": true,
+  "independent_predictive_performance_verified": false,
+  "source_acquisition_ancestry_verified": false,
+  "cross_module_patient_closure_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native State publication now reconstructs standardized measurement alignment, original fold-local correlations/labels/counts and frozen private-head OOF probabilities before its existing independent fold aggregation. The actual producer identity state_fold_N is shared with the consumer, and native partitioned Parquet/CSV inputs retain their original hash semantics. Tests use the original outer driver and completion serializer with only the fitting callback replaced by explicitly frozen serialization fixtures. No optimizer ran. Source acquisition/reference ancestry and complete cross-module patient identity remain unverified. State/Clinical/single-cell command consolidation and final per-requirement acceptance remain open."
+}

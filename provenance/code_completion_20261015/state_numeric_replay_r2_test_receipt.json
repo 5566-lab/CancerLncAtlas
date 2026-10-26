@@ -1,0 +1,43 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T09:31:19.115923+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_state_context.py": "0aed5120e6b158536588808b258e8d8c99f3d9f990c656b536a83592d1e8de0b",
+    "cc_hhgt/v32/state_training.py": "9862b1a73656a6d752c3ae6511c032b8b4c4ae406db4e15affd243ba096f966e",
+    "tests/test_v32_current_state_context.py": "18070b486806978c6a540bec6a9f39fddbf43f13d628b6a574e0825f56dcfcee"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_current_state_context.py",
+    "--junitxml=provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T09:33:28.486330+00:00"
+}

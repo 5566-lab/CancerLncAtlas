@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1296,
+  "unique_test_cases_passed": 1318,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -37,7 +37,7 @@
     "scripts/export_v32_current_core_embeddings.py": "29dc4479c955224b052033c3a06d5cdd2b9674de9fae316be7c863c6efadc9e4",
     "cc_hhgt/v32/genomic_training.py": "6869b6ce3882f63543902538d57cc3a85f3a34d332ed6cf8a0526de448620d2e",
     "cc_hhgt/v32/drug_training.py": "4ff035d5ad4ffd8585ceb67d50aae38469c094224245117bc424a954210e412c",
-    "cc_hhgt/v32/state_training.py": "366ee11c149dfb6c36efd55dbd3aba9de96fc9d380404a3b8fe61a8352ef1ec5",
+    "cc_hhgt/v32/state_training.py": "9862b1a73656a6d752c3ae6511c032b8b4c4ae406db4e15affd243ba096f966e",
     "cc_hhgt/v32/clinical_training.py": "5d6809206186a3258fa55deec285549b73222e515d04184812ea34653c0125c6",
     "scripts/run_v32_clinical_training.py": "9a8e0cab52b403efff5588eb22889e7be1d6f5da03e3f549892c4882d9064184",
     "tests/test_v32_current_core_export.py": "0c74407675c483f4a3d37de9ce1c3a5d22d3955b189d61829e14f5b3b54412d1",
@@ -106,9 +106,9 @@
     "cc_hhgt/v32/cnv_only_training.py": "113302a4ef55d310fa357b01c7930fb40beafb8f343bcd68fc46bd2603505bd0",
     "scripts/materialize_v32_native_auxiliary_fusion.py": "9320612a5d10eb35207ed409a2b48aca953d0e2008905019679ba30f9284f971",
     "tests/test_v32_native_auxiliary_fusion.py": "941208599aef783bd7d18ef80b702bbd1c683ff8b6ffdb3c116114091f7ddc4c",
-    "cc_hhgt/v32/current_state_context.py": "16aea238d32ff49e02295964d7e345ff7268acf7aea6a062a6cc2fd6e9bf5045",
+    "cc_hhgt/v32/current_state_context.py": "0aed5120e6b158536588808b258e8d8c99f3d9f990c656b536a83592d1e8de0b",
     "scripts/materialize_v32_state_gene_sets.py": "4fd6948aa7e374e5fb3fa5110e268485bef02c61453e7f2ccd45f78df4d1c3eb",
-    "tests/test_v32_current_state_context.py": "4d44b84477bc51a5591107ab1caf5b736098cfb2d9b2207c31fecef4e7c2b687",
+    "tests/test_v32_current_state_context.py": "18070b486806978c6a540bec6a9f39fddbf43f13d628b6a574e0825f56dcfcee",
     "cc_hhgt/v32/current_clinical_sources.py": "eee4a872c796b17b7e7686890a3482610625a8ed3e83b5f67d83610fce029c1f",
     "cc_hhgt/v32/current_clinical_context.py": "aa6a453cf9f38b1a3ec212cc1159e8e7aa9cd292fee36ee5e2d89ec82c937d6b",
     "scripts/materialize_v32_current_clinical_context.py": "3402b58f4671bac9f5fc3be152e318aaa3a732c727f6da87e6b0123d69b532a8",
@@ -444,7 +444,8 @@
     "A native CNV/ATAC workflow now invokes actual five-fold no-fit input collectors, records exact training argv parsed by the original CLI, and reconciles separately completed result containers against the same run, inputs and full settings. Actual independent auditors and native fusion adapters execute during collection; subsequent fusion loading rechecks bound preparation and audit sources. CNV audits support a separate new directory without changing the training package. Tests use explicitly marked frozen checkpoint containers and synthetic optimizer telemetry; no optimizer, auxiliary forward, real cohort analysis, paid compute or deployment was executed. The final fusion preparer check uses synthetic primary scores and legacy hash-listed labels, retaining unverified label authority and fitting ineligibility. This verifies auxiliary handoff, not native-primary label reconstruction, full source ancestry or scientific gain. Other producer orchestration and complete native-to-external acceptance remain open.",
     "The actual genomic resource stage, trainer empty-stage check, write/seal/reassembly and native auxiliary/fusion consumers now support explicit unequal candidate counts by cancer. Bounded full cancer-count inspection prevents undeclared candidate rows from disappearing; manifest scope and contiguous partition intervals are checked before any prediction write. Historical uniform scope remains readable. Actual CLI, synthetic fold arrays, frozen checkpoint containers and source/fusion adapters were exercised on 149 without an optimizer. Streaming-CNV gate metadata is synthetic and no raw streaming preparation or neural forward is asserted. The upstream streaming producer and frozen patient-fold trainer CLI still need native workflow reconciliation; complete source/patient ancestry and C01/C13/C16 acceptance remain open.",
     "Native genomic CNV now uses explicitly bound segment/patient/candidate inputs with the original six-array streaming producer and event/absolute-burden estimand. Declared cancer subsets resume to an exact aggregate. The actual partition training CLI accepts annotation-defined authority and supports --prepare-only through its original ten train/validation collectors without an optimizer or forward. Shared-map patients outside the declared cohort do not enter split traces. Completed native outputs are checked against the same cohort/core/event threshold/source bindings, and actual model-use source traversal numerically reconstructs raw CNV arrays while preserving acquisition/reference/patient gaps. Synthetic raw files and frozen completed checkpoint containers verify code only; no real analysis, fitting, paid compute or deployment occurred. Unified genomic prepare/collect orchestration and complete native producer/core/fusion/external positive acceptance remain open.",
-    "Native genomic preparation now runs actual raw CNV materialization/reconstruction, derives the candidate resource budget, stages mutable prediction arrays and executes the original no-fit ten-group input collector. An explicit parsed training command is recorded but cannot be dispatched by this workflow. Collection checks separately completed output identity, complete settings, input hashes, resource stage and sample counts, then executes actual reassembly and native fusion aggregation. The collection audit and expert declarations are rechecked by actual consumers. Preparation pins immutable inputs while allowing the trainer destination arrays to change under their later seal. Tests use actual synthetic raw data and explicit frozen checkpoint/probability substitutes; no fitting or real cohort run occurred. The final fusion handoff uses synthetic primary scores and legacy labels and remains fitting-ineligible. Collection audits are numerical/structural, not independent performance or biological proof. Other producer command consolidation and full source/patient/external acceptance remain C01/C13/C16."
+    "Native genomic preparation now runs actual raw CNV materialization/reconstruction, derives the candidate resource budget, stages mutable prediction arrays and executes the original no-fit ten-group input collector. An explicit parsed training command is recorded but cannot be dispatched by this workflow. Collection checks separately completed output identity, complete settings, input hashes, resource stage and sample counts, then executes actual reassembly and native fusion aggregation. The collection audit and expert declarations are rechecked by actual consumers. Preparation pins immutable inputs while allowing the trainer destination arrays to change under their later seal. Tests use actual synthetic raw data and explicit frozen checkpoint/probability substitutes; no fitting or real cohort run occurred. The final fusion handoff uses synthetic primary scores and legacy labels and remains fitting-ineligible. Collection audits are numerical/structural, not independent performance or biological proof. Other producer command consolidation and full source/patient/external acceptance remain C01/C13/C16.",
+    "Native State publication now reconstructs standardized measurement alignment, original fold-local correlations/labels/counts and frozen private-head OOF probabilities before its existing independent fold aggregation. The actual producer identity state_fold_N is shared with the consumer, and native partitioned Parquet/CSV inputs retain their original hash semantics. Tests use the original outer driver and completion serializer with only the fitting callback replaced by explicitly frozen serialization fixtures. No optimizer ran. Source acquisition/reference ancestry and complete cross-module patient identity remain unverified. State/Clinical/single-cell command consolidation and final per-requirement acceptance remain open."
   ],
   "test_suites": [
     {
@@ -1111,6 +1112,16 @@
       "path": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml",
       "passed": 76,
       "sha256": "2bc1f2355d6fc77929751e2d780b687ca86b50e0c1a79149b57af4e4dadc39e1"
+    },
+    {
+      "path": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml",
+      "passed": 37,
+      "sha256": "fb135aec35f14b8800a7b3fa294b4b2cbbfde94e5698ae6dab28b6b550b7ff17"
+    },
+    {
+      "path": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml",
+      "passed": 41,
+      "sha256": "2f4c8155264b772dcf49ba89346b59ecb9a03db9816933adfc4e9b65f99da124"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1569,57 +1580,57 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/model_control_public_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -1734,107 +1745,107 @@
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_actual_native_readers_cli_selected_consumers_queries_and_replay",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[candidate]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[dfs]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[invalid_se]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[missing_fold]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[patient_counts]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[summary]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[threshold]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_entity_source_recomputation_requires_full_native_scope[wrong_roles]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_materializer_enforces_149_without_writing",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_older_native_outputs_keep_explicit_nonreplay_and_hash_bound_config",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_coverage_keeps_unrepresented_patients_and_observed_zero",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[changed_feature]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[changed_prediction]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[checkpoint_run]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[nonboolean]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[patient_fold]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[private_label]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_patient_risk_sources_reject_changed_identity_or_predictions[wrong_core]",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_selected_weights_change_support_without_inventing_joint_hr_or_retesting_fdr",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_clinical_context",
       "case": "test_unavailable_native_risk_must_be_null_not_an_unparseable_string",
-      "suite": "provenance/code_completion_20261015/current_clinical_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_comparison_sources",
@@ -2274,22 +2285,22 @@
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_missing_group_policy_is_not_guessed_and_source_changes_are_rejected",
-      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_native_patient_statistics_reach_members_with_original_uncertainty_and_fdr",
-      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_rehashed_native_statistics_cannot_replace_source_replay",
-      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_patient_context",
       "case": "test_selected_identity_and_analysis_inventory_are_enforced",
-      "suite": "provenance/code_completion_20261015/current_patient_sc_web_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_primary_fusion",
@@ -2564,97 +2575,187 @@
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_current_cli_does_not_allow_fixture_authority_or_missing_inputs",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_dataset_tree_membership_remains_pinned_during_audit[added]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_dataset_tree_membership_remains_pinned_during_audit[deleted]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_dataset_tree_membership_remains_pinned_during_audit[modified]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_empty_selected_sets_keep_seven_state_coverage_without_invented_profiles",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_existing_cli_current_native_route_profiles_neutral_missing_and_queries",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_materializer_enforces_server149_before_writing",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_minimum_available_fold_count_preserves_distinct_missing_reasons",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_file_and_partition_formats_reach_actual_publication[csv]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_native_file_and_partition_formats_reach_actual_publication[dataset]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_five_fold_recomputation_and_null_semantics[aggregate]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_five_fold_recomputation_and_null_semantics[bad_direction]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_five_fold_recomputation_and_null_semantics[bad_effect]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_five_fold_recomputation_and_null_semantics[partial_folds]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_five_fold_recomputation_and_null_semantics[sentinel]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_five_fold_recomputation_and_null_semantics[string_bool]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_source_identity_and_actual_tensors_are_required[checkpoint_run]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_source_identity_and_actual_tensors_are_required[checkpoint_tensor]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_source_identity_and_actual_tensors_are_required[fold_parent]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_source_identity_and_actual_tensors_are_required[frozen]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_source_identity_and_actual_tensors_are_required[missing_input]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_native_source_identity_and_actual_tensors_are_required[state_run]",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[alignment]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[frozen_head]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[head_identity]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[normalizer]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[oof_effect]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[oof_pairs]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[oof_probability]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[patient_split]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[raw_expression]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[raw_state]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[state_inventory]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_numeric_replay_rejects_repinned_sources_and_self_consistent_aggregate[train_counts]",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_current_state_context",
+      "case": "test_real_serialization_patient_alignment_and_measured_effect_oracles",
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_same_run_id_cannot_substitute_a_different_selected_core_checkpoint",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_state_context",
       "case": "test_selected_scores_change_profiles_and_missing_weight_is_not_a_zero_effect",
-      "suite": "provenance/code_completion_20261015/current_state_native_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_replay_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_directional_cnv",
@@ -7304,7 +7405,27 @@
     {
       "module": "tests.test_v32_state_training",
       "case": "test_core_loader_reads_only_fresh_v32_embedding_tables",
-      "suite": "provenance/code_completion_20261015/current_core_export_tests.xml"
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_state_training",
+      "case": "test_fold_local_statistics_do_not_read_outer_test_measurements",
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_state_training",
+      "case": "test_non_historical_metadata_with_missing_cancer_is_excluded_before_state_id_validation",
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_state_training",
+      "case": "test_partitioned_expression_dataset_is_a_supported_raw_input",
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_state_training",
+      "case": "test_state_contract_is_exactly_the_seven_historical_programs",
+      "suite": "provenance/code_completion_20261015/state_numeric_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_streaming_cnv_independent_audit",
@@ -7604,10 +7725,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "genomic_workflow_r1",
-      "genomic_workflow_consumers_r1"
+      "state_numeric_replay_r2",
+      "state_numeric_consumers_r2"
     ],
-    "passed": 145,
+    "passed": 78,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

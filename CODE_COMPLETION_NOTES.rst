@@ -4959,3 +4959,78 @@ Verification on 149: genomic_workflow_r1 passes 69 direct/native-genomic/
 partition checks; genomic_workflow_consumers_r1 passes 76 fusion, model-use,
 resource-scope and existing CNV/ATAC workflow checks (145 distinct cases).
 No failed or skipped case, model fitting or real cohort execution occurred.
+
+Native State producer compatibility and numerical replay (2026-10-26)
+===================================================================
+
+The current State context previously rebuilt each completed private head with
+the module identity ``state``. The actual native trainer initializes
+``state_fold_0`` through ``state_fold_4``. Their initialization receipts differ,
+so actual producer results could fail despite passing manually authored
+serialization fixtures. Training and loading now share
+``state_training.build_state_private_head`` with the original native names,
+seeds and architecture. The original training algorithm is unchanged.
+
+The actual State outer driver now exposes its existing input validation,
+within-patient alignment and fold-local statistics through
+``prepare_state_inputs`` and ``state_fold_statistics``. Current State context
+calls the same functions with the recorded standardized measurements,
+expression, patient map and five current core exports. It verifies:
+
+* Measured/missing program inventory, aliquot collapse and excluded-row counts.
+* Original patient split hashes, train/validation candidate counts, class
+  counts, fallback declaration, input dimensions and training pair normalizer.
+* Every native OOF row through the recorded frozen private head on CPU, including
+  pair counts, measured held-out effects, availability, reasons and identities.
+* The existing independent pair-count-weighted five-fold aggregation, selected
+  member profiles, State GeneSets and public downloads.
+
+Only neural probabilities permit float32 device roundoff (absolute and relative
+tolerance 1e-6). Missingness must match exactly; the existing table comparison
+retains zero relative tolerance and 1e-12 absolute tolerance for the other
+numeric fields. No optimizer or training entry point is called during replay.
+
+Native training also accepts partitioned Parquet inputs and CSV patient maps.
+The State consumer now follows those original formats instead of treating every
+input as a single Parquet/TSV file. Directory checks use the producer's original
+``path_sha256`` tree hash, including file membership and relative names. Each
+member is retained separately in the private source inventory. Adding, deleting
+or changing a member invalidates the original completed lineage.
+
+Current State bindings and their recomputation audits now contain
+``native_numeric_replay``, and both ``raw_measurement_statistics_replayed`` and
+``private_head_predictions_replayed`` are true. Here "raw measurement" means
+the standardized measurement table consumed by the native trainer; this does
+not verify its original acquisition or reference ancestry. The replay explicitly
+declares ``same_implementation_replay`` and keeps
+``source_acquisition_ancestry_verified`` and
+``independent_predictive_performance_verified`` false.
+
+This supersedes the earlier aggregate-only State-context limitations above.
+Existing aggregate-only context bindings must be regenerated from their actual
+completed native inputs under the new implementation; no fitting is necessary
+to regenerate the context. No old scientific artifacts were changed here.
+The existing ``materialize_v32_state_gene_sets.py --current-manifest`` and
+``CURRENT_ANALYSIS_WORKFLOW_INPUT_V1`` State stage remain the entry points.
+State/Clinical/single-cell producer command consolidation, full cross-module
+patient/source closure and final requirement acceptance remain outstanding.
+
+The integration fixture now uses the actual native outer driver, original
+association/forward code and original completion serializer. Only its fitting
+callback is replaced by explicitly changed frozen parameters and synthetic
+telemetry; optimizers are forbidden. It includes 40 patients, 41 aliquots,
+seven programs, five folds and 35 OOF rows. Independent hand-constructed values
+check positive/negative/unit correlations, a measured zero correlation, eight
+held-out pairs and a wholly missing program. Tests reject changed raw values,
+split/count/normalizer receipts, repinned frozen parameters and altered OOF
+tables even when the aggregate and every declared hash are updated consistently.
+
+Final verification on 149: state_numeric_replay_r2 passes 37 cases;
+state_numeric_consumers_r2 passes 41 cases, including the existing complete
+publication workflow, HTTP/browser/download consumers, Clinical/patient
+contexts and five non-fitting State input/statistic checks. All 78 distinct
+cases pass with no failures or skips. Earlier r1 runs also passed and are
+superseded by r2 after native directory/CSV support was added. The first source
+upload failed before execution; a read-only SSH reprobe returned hostname 149,
+with no iOA login/reconnect and no duplicate job. No model fitting, real cohort
+analysis, paid compute or deployment was performed.

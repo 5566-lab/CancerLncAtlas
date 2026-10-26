@@ -1,0 +1,53 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T09:27:51.678351+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_state_context.py": "99ab91215ba6839433f93cf65762596feca0d33ae1b95b136f4c183ac32c061c",
+    "cc_hhgt/v32/state_training.py": "9862b1a73656a6d752c3ae6511c032b8b4c4ae406db4e15affd243ba096f966e",
+    "tests/test_v32_current_state_context.py": "249a8247c08174e1818bbbface747391b3781f7fe509119b4db92e9f60f58282"
+  },
+  "source_code_uploaded": false,
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--tb=short",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_current_clinical_context.py",
+    "tests/test_v32_current_patient_context.py",
+    "tests/test_v32_state_training.py::test_state_contract_is_exactly_the_seven_historical_programs",
+    "tests/test_v32_state_training.py::test_non_historical_metadata_with_missing_cancer_is_excluded_before_state_id_validation",
+    "tests/test_v32_state_training.py::test_fold_local_statistics_do_not_read_outer_test_measurements",
+    "tests/test_v32_state_training.py::test_core_loader_reads_only_fresh_v32_embedding_tables",
+    "tests/test_v32_state_training.py::test_partitioned_expression_dataset_is_a_supported_raw_input",
+    "--junitxml=provenance/code_completion_20261015/state_numeric_consumers_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T09:30:25.586566+00:00"
+}

@@ -18,13 +18,13 @@ import numpy as np
 import pandas as pd
 
 from .contracts import canonical_json_sha256
-from .current_core_export import sha256, verified_path, validate_current_export
-from .integrated_model import module_state_sha256, build_private_auxiliary_head
+from .current_core_export import sha256, verified_path, validate_current_export, checked_sha
+from .integrated_model import module_state_sha256
 from .multimodal_fusion import _duckdb_literal as literal
-from .native_auxiliary_fusion import Sources, _folds
+from .native_auxiliary_fusion import Sources
 from .selected_genesets import SelectedAnalysisQuery, audit_selected_analysis
 from .state_training import (HISTORICAL_STATE_IDS, STATE_TRAINING_FORMAT,
-    STATE_CHECKPOINT_FORMAT, StateTrainingConfig, load_v32_core_embeddings)
+    STATE_CHECKPOINT_FORMAT, StateTrainingConfig, load_v32_core_embeddings, build_state_private_head)
 
 INPUT_FORMAT = "CURRENT_STATE_CONTEXT_INPUT_V1"
 FORMAT = "CURRENT_STATE_CONTEXT_RELEASE_V1"
@@ -71,6 +71,24 @@ class StateSetConfig:
             raise ValueError("Invalid current State GeneSet policy")
 
 
+def bind_state_input(sources, record, root):
+    """Honor the native producer's file-or-dataset hash contract.
+
+    Keep individual files in the public context's private source inventory;
+    the complete directory membership hash remains bound by training lineage.
+    """
+    from .state_training import path_sha256
+    path = (root / record["path"]).resolve()
+    if not path.is_dir(): return sources.bind(record, root)
+    if record["role"] == "v32_core_embedding_manifest": raise ValueError("State core manifest must be a file")
+    expected = checked_sha(record.get("sha256"), "State dataset")
+    if path_sha256(path) != expected: raise ValueError("State dataset SHA256 mismatch")
+    for part in sorted(p for p in path.rglob("*") if p.is_file()):
+        sources.bind({"path": str(part), "sha256": sha256(part)}, path)
+    if path_sha256(path) != expected: raise ValueError("State dataset changed during binding")
+    return path
+
+
 def state_sources(manifest_path):
     """Bind actual State heads, native tables and their selected current core."""
     import torch
@@ -91,7 +109,7 @@ def state_sources(manifest_path):
         raise ValueError("State and selected analysis have different current core runs")
     core_path = sources.bind(manifest["core_manifest"], root)
     core, _, _ = validate_current_export(core_path, expected_run_id=manifest["core_run_id"])
-    _, core_lineage, _ = load_v32_core_embeddings(core_path, repo_root=core_path.parent)
+    cores, core_lineage, _ = load_v32_core_embeddings(core_path, repo_root=core_path.parent)
     primary_folds = {r["patient_fold"]: r for r in primary["ensemble_source_records"]}
     if set(primary_folds) != set(range(5)):
         raise ValueError("Selected current core lacks five folds")
@@ -119,15 +137,19 @@ def state_sources(manifest_path):
     if canonical_json_sha256(asdict(cfg)) != lineage.get("config_sha256"):
         raise ValueError("Native State configuration hash differs")
     input_records = lineage["input_artifacts"]
-    inputs = {r["role"]: sources.bind(r, lineage_path.parent) for r in input_records}
+    inputs = {r["role"]: bind_state_input(sources, r, lineage_path.parent) for r in input_records}
     required = {"tumor_state_long_measurement", "v32_patient_fold_manifest", "lncrna_expression", "v32_core_embedding_manifest"}
     if len(inputs) != len(input_records) or set(inputs) != required:
         raise ValueError("Native State inputs are incomplete or duplicated")
     if sha256(inputs["v32_core_embedding_manifest"]) != manifest["core_manifest"]["sha256"]:
         raise ValueError("Native State used a different core export")
-    patients = _folds(inputs["v32_patient_fold_manifest"])
+    from .state_training import read_table, validate_fold_manifest
+    patients = validate_fold_manifest(read_table(inputs["v32_patient_fold_manifest"], "V3.2 patient fold manifest"))
+    if patients.groupby("patient_id").patient_fold_id.nunique().gt(1).any():
+        raise ValueError("One canonical patient crosses native State folds")
     if set(lineage["fold_lineage"]) != {str(i) for i in range(5)} or set(lineage["new_private_head_checkpoints"]) != {str(i) for i in range(5)}:
         raise ValueError("Native State requires five actual private heads")
+    heads = {}
     for fold in range(5):
         row = lineage["fold_lineage"][str(fold)]; parent = core_lineage[fold]
         for key in ("core_run_id", "core_parameter_sha256", "v32_core_checkpoint_sha256", "core_checkpoint_format"):
@@ -158,18 +180,81 @@ def state_sources(manifest_path):
         digest = module_state_sha256(SimpleNamespace(state_dict=lambda: tensors))
         if digest != checkpoint.get("final_parameter_sha256") or digest != row.get("final_parameter_sha256"):
             raise ValueError("State private-head tensor fingerprint differs")
-        # Validate real native architecture without any fitting or forward pass.
-        head, initialization = build_private_auxiliary_head("state", core_features=row["core_features"],
-            domain_features=row["domain_features"], hidden_features=cfg.hidden_features, dropout=cfg.dropout, seed=row["seed"])
-        if initialization.as_dict() != row["initialization"] or digest == initialization.initial_parameter_sha256:
+        head, initialization = build_state_private_head(fold, row["core_features"], row["domain_features"], cfg)
+        if (row.get("seed") != cfg.seed + fold or initialization.as_dict() != row["initialization"]
+                or digest == initialization.initial_parameter_sha256):
             raise ValueError("Native State initialization or parameter update receipt differs")
         head.load_state_dict(tensors, strict=True)
+        heads[fold] = head
     native_paths = {name: sources.bind(record, lineage_path.parent) for name,record in lineage["outputs"].items()}
     if set(native_paths) != {"oof_predictions", "lncrna_state_release"}:
         raise ValueError("Unknown native State output inventory")
     policy = StateSetConfig(**manifest.get("state_sets", {})); policy.validate()
+    replay = replay_native_state(inputs, cores, heads, cfg, lineage, native_paths)
     return dict(manifest=manifest, sources=sources, selected=selected, score=score, lineage=lineage,
-        native_paths=native_paths, min_folds=cfg.min_available_folds, patients=patients, policy=policy)
+        native_paths=native_paths, min_folds=cfg.min_available_folds, patients=patients, policy=policy, replay=replay)
+
+
+def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths):
+    """Replay the native measurement-to-OOF calculation with frozen CPU heads.
+
+    This verifies the recorded transformation, not acquisition ancestry or
+    model performance. The original training statistics/forward code is used;
+    no optimizer, label fitting or independent-statistic claim is involved.
+    """
+    from .state_training import (read_table, prepare_state_inputs, state_fold_statistics,
+        build_fold_oof_predictions, _model_arrays, dataframe_sha256)
+    state, expression, folds, cores, alignment = prepare_state_inputs(
+        read_table(inputs["tumor_state_long_measurement"], "tumor_state_long measurement"),
+        read_table(inputs["v32_patient_fold_manifest"], "V3.2 patient fold manifest"), cores,
+        read_table(inputs["lncrna_expression"], "lncRNA expression"), cfg)
+    observed = [s for s in HISTORICAL_STATE_IDS if state.state_id.eq(s).any()]
+    if (lineage.get("observed_state_ids") != observed
+            or lineage.get("missing_state_ids") != [s for s in HISTORICAL_STATE_IDS if s not in observed]):
+        raise ValueError("State measured-program inventory differs")
+    replayed = []; fold_checks = []
+    for fold in range(5):
+        split, statistics = state_fold_statistics(state, expression, folds, fold, cfg)
+        maximum = int(statistics["train"].n_pairs.max())
+        counts = {}; dimensions = None
+        for role in ("train", "validation"):
+            frame, columns, _, domain, labels = _model_arrays(statistics[role], cores[fold], max_train_pairs=maximum)
+            eligible = frame.available.to_numpy(bool) & frame.core_embedding_available.to_numpy(bool) & np.isfinite(labels)
+            counts[role] = int(eligible.sum())
+            if role == "train":
+                positives = int(labels[eligible].sum()); dimensions = (len(columns), domain.shape[1])
+        if counts["train"] < 2: raise ValueError("State replay has fewer than two trainable candidates")
+        fallback = not counts["validation"]
+        expected = {"max_train_pairs": maximum, "core_features": dimensions[0], "domain_features": dimensions[1],
+            "trainable_candidates": counts["train"], "validation_candidates": counts["train"] if fallback else counts["validation"],
+            "validation_fallback_to_training": fallback, "positive_candidates": positives,
+            "negative_candidates": counts["train"] - positives, "alignment_counts": alignment,
+            "split_manifest_sha256": dataframe_sha256(split, ["cancer_id", "sample_id", "outer_fold"])}
+        row = lineage["fold_lineage"][str(fold)]
+        if any(row.get(k) != value for k, value in expected.items()):
+            raise ValueError("State replay split, alignment or feature counts differ at fold " + str(fold))
+        predictions = build_fold_oof_predictions(heads[fold].cpu(), statistics["train"], statistics["test"], cores[fold],
+            fold=fold, max_train_pairs=maximum, config=cfg)
+        replayed.append(predictions)
+        fold_checks.append({"fold": fold, **expected, "oof_rows": len(predictions)})
+    expected = pd.concat(replayed, ignore_index=True).sort_values(["patient_fold_id", *KEYS]).reset_index(drop=True)
+    observed = pd.read_parquet(native_paths["oof_predictions"])
+    if set(observed.columns) != set(expected.columns): raise ValueError("State replay OOF schema differs")
+    observed = observed[expected.columns].sort_values(["patient_fold_id", *KEYS]).reset_index(drop=True)
+    try:
+        pd.testing.assert_frame_equal(observed.isna(), expected.isna(), check_dtype=False)
+        # Allow float32 CPU/device roundoff for neural probability only. Effects,
+        # pair counts, availability and all identities retain stricter comparison.
+        probability = "state_membership_probability"
+        _assert_same_table(observed.drop(columns=probability), expected.drop(columns=probability))
+        np.testing.assert_allclose(observed[probability].to_numpy(dtype=float, na_value=np.nan),
+            expected[probability].to_numpy(dtype=float, na_value=np.nan), atol=1e-6, rtol=1e-6, equal_nan=True)
+    except AssertionError as error:
+        raise ValueError("State raw measurement or frozen-head OOF replay differs") from error
+    return {"format": "NATIVE_STATE_NUMERIC_REPLAY_V1", "folds": fold_checks, "rows": len(expected),
+        "raw_measurement_statistics_replayed": True, "private_head_predictions_replayed": True,
+        "same_implementation_replay": True, "source_acquisition_ancestry_verified": False,
+        "independent_predictive_performance_verified": False, "training_started": False}
 
 
 def native_aggregate(context):
@@ -357,7 +442,8 @@ def materialize_current_state_context(manifest_path, output):
         "selected_analysis":context["manifest"]["selected_analysis"],"selected_score_run_id":context["selected"].binding["selected_score_run_id"],
         "core_run_id":context["manifest"]["core_run_id"],"state_training_run_id":context["manifest"]["state_run_id"],
         "state_set_config":asdict(context["policy"]),"outputs":outputs,"source_artifacts":list(context["sources"].records.values()),
-        "state_fold_aggregate_recomputed":True,"raw_measurement_statistics_replayed":False,"private_head_predictions_replayed":False,
+        "state_fold_aggregate_recomputed":True,"raw_measurement_statistics_replayed":True,"private_head_predictions_replayed":True,
+        "native_numeric_replay":context["replay"],
         "context_changes_ranking":False,"gene_set_effect_inference_performed":False,"production_deployed":False,
         "implementation_sha256":implementation_hashes()}
     path = output/"CURRENT_STATE_CONTEXT_BINDING.json"; _write(path,binding)
@@ -373,8 +459,8 @@ def _load(binding_path, expected_sha):
             or binding.get("training_started") is not False or binding.get("context_changes_ranking") is not False
             or binding.get("gene_set_effect_inference_performed") is not False
             or binding.get("state_fold_aggregate_recomputed") is not True
-            or binding.get("raw_measurement_statistics_replayed") is not False
-            or binding.get("private_head_predictions_replayed") is not False
+            or binding.get("raw_measurement_statistics_replayed") is not True
+            or binding.get("private_head_predictions_replayed") is not True
             or binding.get("production_deployed") is not False):
         raise ValueError("Invalid current State context binding")
     paths = {name:verified_path(r,path.parent) for name,r in binding["outputs"].items()}
@@ -390,7 +476,8 @@ def audit_current_state_context(binding_path, *, expected_sha):
             or binding["state_training_run_id"] != context["manifest"]["state_run_id"]
             or binding["selected_score_run_id"] != context["selected"].binding["selected_score_run_id"]
             or binding["state_set_config"] != asdict(context["policy"])
-            or binding["source_artifacts"] != list(context["sources"].records.values())):
+            or binding["source_artifacts"] != list(context["sources"].records.values())
+            or binding.get("native_numeric_replay") != context["replay"]):
         raise ValueError("State context input identity or policy drift")
     tables = _tables(context)
     if set(outputs) != set(tables)|{"gmt"}: raise ValueError("State context output inventory drift")
@@ -402,7 +489,8 @@ def audit_current_state_context(binding_path, *, expected_sha):
     if outputs["gmt"].read_text(encoding="utf-8") != _gmt(tables,context): raise ValueError("State GMT source replay differs")
     return {"status":"PASS","binding_sha256":expected_sha,"native_fold_aggregate_independently_recomputed":True,
         "selected_member_profiles_recomputed":True,"profile_same_implementation_replay":True,
-        "private_head_predictions_replayed":False,"raw_measurement_statistics_replayed":False,"training_started":False}
+        "private_head_predictions_replayed":True,"raw_measurement_statistics_replayed":True,
+        "native_numeric_replay":context["replay"],"training_started":False}
 
 
 class CurrentStateContextQuery:

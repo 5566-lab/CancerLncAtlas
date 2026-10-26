@@ -667,6 +667,15 @@ def _evaluate_bce(
     return total / len(indices)
 
 
+def build_state_private_head(fold, core_features, domain_features, config):
+    """One native identity/architecture for training and completed-head loading."""
+    return build_private_auxiliary_head(
+        f"state_fold_{fold}", core_features=core_features, domain_features=domain_features,
+        hidden_features=int(config.hidden_features), dropout=float(config.dropout),
+        seed=int(config.seed) + int(fold),
+    )
+
+
 def train_fold_private_head(
     train_statistics: pd.DataFrame,
     validation_statistics: pd.DataFrame,
@@ -712,14 +721,7 @@ def train_fold_private_head(
     negatives = float(len(train_indices) - positives)
     positive_weight = 1.0 if positives <= 0 or negatives <= 0 else min(negatives / positives, 20.0)
     fold_seed = int(config.seed) + int(fold)
-    head, initialization = build_private_auxiliary_head(
-        f"state_fold_{fold}",
-        core_features=len(core_columns),
-        domain_features=train_domain.shape[1],
-        hidden_features=int(config.hidden_features),
-        dropout=float(config.dropout),
-        seed=fold_seed,
-    )
+    head, initialization = build_state_private_head(fold, len(core_columns), train_domain.shape[1], config)
     device = _resolve_device(config.device)
     head.to(device)
     optimizer = torch.optim.AdamW(
@@ -1119,6 +1121,31 @@ def _align_source_tables(
     return state_patient, expression_patient, patient_folds, counts
 
 
+def prepare_state_inputs(state_measurements, fold_manifest, core_embeddings_by_fold, lncrna_expression, cfg):
+    """Shared native validation and within-patient alignment; no fitting."""
+    cfg.validate()
+    state = validate_state_measurements(state_measurements)
+    folds = validate_fold_manifest(fold_manifest)
+    expression = validate_lncrna_expression(lncrna_expression, value_column=cfg.expression_value_column)
+    if set(core_embeddings_by_fold) != set(range(N_FOLDS)):
+        raise StateTrainingError("Exactly five V3.2 fold core-embedding tables are required")
+    cores = {fold: validate_core_embedding_frame(core_embeddings_by_fold[fold], fold) for fold in range(N_FOLDS)}
+    if len({sum(str(c).startswith("core_feature_") for c in frame) for frame in cores.values()}) != 1:
+        raise StateTrainingError("Core embedding width changes across folds")
+    state, expression, folds, counts = _align_source_tables(
+        state, expression, folds, expression_value_column=cfg.expression_value_column)
+    return state, expression, folds, cores, counts
+
+
+def state_fold_statistics(state, expression, folds, fold, cfg):
+    """Original train/validation/test statistics, shared with numerical replay."""
+    split_manifest = assign_outer_split(folds, fold, n_folds=N_FOLDS, validation_offset=int(cfg.validation_offset))
+    statistics = {split: compute_fold_local_associations(state, expression, split_manifest, split=split,
+        min_pairs=int(cfg.min_pairs), effect_threshold=float(cfg.effect_threshold),
+        expression_value_column=cfg.expression_value_column) for split in ("train", "validation", "test")}
+    return split_manifest, statistics
+
+
 def train_state_models(
     state_measurements: pd.DataFrame,
     fold_manifest: pd.DataFrame,
@@ -1131,30 +1158,8 @@ def train_state_models(
     """Train all five private heads from frames, suitable for tests or orchestration."""
 
     cfg = config or StateTrainingConfig()
-    cfg.validate()
-    state = validate_state_measurements(state_measurements)
-    folds = validate_fold_manifest(fold_manifest)
-    expression = validate_lncrna_expression(
-        lncrna_expression, value_column=cfg.expression_value_column
-    )
-    if set(map(int, core_embeddings_by_fold)) != set(range(N_FOLDS)):
-        raise StateTrainingError("Exactly five V3.2 fold core-embedding tables are required")
-    cores = {
-        fold: validate_core_embedding_frame(core_embeddings_by_fold[fold], fold)
-        for fold in range(N_FOLDS)
-    }
-    widths = {
-        sum(str(column).startswith("core_feature_") for column in frame.columns)
-        for frame in cores.values()
-    }
-    if len(widths) != 1:
-        raise StateTrainingError("Core embedding width changes across folds")
-    state, expression, folds, alignment_counts = _align_source_tables(
-        state,
-        expression,
-        folds,
-        expression_value_column=cfg.expression_value_column,
-    )
+    state, expression, folds, cores, alignment_counts = prepare_state_inputs(
+        state_measurements, fold_manifest, core_embeddings_by_fold, lncrna_expression, cfg)
     observed = tuple(state_id for state_id in HISTORICAL_STATE_IDS if state.state_id.eq(state_id).any())
     missing = tuple(state_id for state_id in HISTORICAL_STATE_IDS if state_id not in observed)
 
@@ -1162,24 +1167,7 @@ def train_state_models(
     heads: dict[int, Any] = {}
     lineage: dict[int, dict[str, Any]] = {}
     for fold in range(N_FOLDS):
-        split_manifest = assign_outer_split(
-            folds,
-            fold,
-            n_folds=N_FOLDS,
-            validation_offset=int(cfg.validation_offset),
-        )
-        statistics = {
-            split: compute_fold_local_associations(
-                state,
-                expression,
-                split_manifest,
-                split=split,
-                min_pairs=int(cfg.min_pairs),
-                effect_threshold=float(cfg.effect_threshold),
-                expression_value_column=cfg.expression_value_column,
-            )
-            for split in ("train", "validation", "test")
-        }
+        split_manifest, statistics = state_fold_statistics(state, expression, folds, fold, cfg)
         head, fold_lineage, max_train_pairs = train_fold_private_head(
             statistics["train"],
             statistics["validation"],
