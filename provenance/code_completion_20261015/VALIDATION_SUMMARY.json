@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1695,
+  "unique_test_cases_passed": 1707,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -350,7 +350,7 @@
     "tests/test_v32_native_single_cell_mapping_workflow.py": "3d8338b4c5a4b632512c3c9d4ca25110579aa3db8b81704790f66912ab717f37",
     "tests/test_v32_single_cell_r7_streaming.py": "a0818b47ae99006f66fc4de01a5056112489b2b08568c12127d432b46cb915ed",
     "cc_hhgt/v32/native_single_cell_donors_workflow.py": "cbeac33f5bbea0187fbda3309996254e1690243d8c4d28c02107b8b8c307acd2",
-    "scripts/materialize_single_cell_nested_hhgt_episodes_149.py": "adcc30d560b44ac59cb1e75900024bb17843bbbdd9f3b2e88d27fb3774468ce3",
+    "scripts/materialize_single_cell_nested_hhgt_episodes_149.py": "15b9919ed57b903ea36459ce07cc2d537767326597e4761486bfa33fef385562",
     "scripts/run_native_single_cell_donors_workflow.py": "657180ee040ea27520f84431a8340fc2ca24f4f51a6f57aa836c0c95dc15db83",
     "tests/test_v32_native_single_cell_donors_workflow.py": "9f21ec15c24668035c8360a13385e7631d8d34ca6535f95f295dc6bad8bb7c61",
     "tests/test_v32_canonical_metacell_consumer.py": "b3e67d4800894e55f834c0880a4532b407a6228d898d6a393b7c1295c9a8d3cd",
@@ -363,13 +363,15 @@
     "scripts/materialize_single_cell_hhgt_training_episodes_149.py": "399c3c7d2fc6bdab07c19f1c0eb70026c9ed23519392d840a0538f6584a41117",
     "scripts/run_native_single_cell_graph_workflow.py": "74317c02f5156a6dea7380e9fdd2dcb37eb55edb4350307910298fb2606160db",
     "tests/test_v32_native_single_cell_graph_workflow.py": "16bafd4abbbd15f1b4eea8578107c60d7bd2b7e425125ba484612dd615079f67",
-    "cc_hhgt/v32/native_single_cell_episode_sources.py": "9c0a60cbf947c96a6633235cd6ffc6965fa43bdaeee2274a18da873eb5606811",
+    "cc_hhgt/v32/native_single_cell_episode_sources.py": "3d7082c7b2fbab18b180e96c948f915cbf423135ed33d6dbb577348cca0d5fdf",
     "tests/test_v32_native_single_cell_episode_sources.py": "f8ed3f74c171036f21e18dceb03e559215f260c6150a2f8e90d2edfc00e4d7a3",
-    "cc_hhgt/v32/native_single_cell_episodes_workflow.py": "ac612d1a49de437ced3008674a3817fa5dfe84df0678f5582f33fe812f5609de",
+    "cc_hhgt/v32/native_single_cell_episodes_workflow.py": "f73ecf78cc436dfaf70ee51467ee74ebfc986a2b72a3a31037d62f450f29bcfd",
     "scripts/run_native_single_cell_episodes_workflow.py": "4ba688e58719d4c1e41417780e9df9855cc818257a4183c4201166410341c013",
     "tests/test_v32_native_single_cell_episodes_workflow.py": "3157f04ecc1ee5806ad40cfda752e76aaa5fb23cf128fc39ce78f7b1c2fa7ccd",
     "pyproject.toml": "5ce16d7da24638477b05b854d17afb365984b58fbe5eb13d111cfe5c333267a0",
-    "requirements/requirements-base.txt": "df8b678aae5c43b0141fc687f240706427298a7de485ba00d57fd16d3afadc93"
+    "requirements/requirements-base.txt": "df8b678aae5c43b0141fc687f240706427298a7de485ba00d57fd16d3afadc93",
+    "cc_hhgt/v32/single_cell_nested_numeric_replay.py": "fc84a2e1abbe8c50db2ea8597c18f3710313a67c7acb50e05a33a0b8b8357d95",
+    "tests/test_v32_single_cell_nested_numeric_replay.py": "34a0dc47418664b63f0d5409d991928181d0267c1603b2c4d4a256bbe9d2399d"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -534,7 +536,8 @@
     "Native single_cell_static.run now calls the original global evidence and cancer static graph producers from explicit native H5 mapping, family hierarchy and external evidence. Actual generated static assets enter canonical donor preparation, removing its test-only static-asset prerequisite from the new positive path. Original all-2135-pathway membership, explicit unassigned families, experimental/nonpredicted physical binding and separate typed sensitivity semantics remain. Parquet evidence flags must be typed booleans. All tables, sparse matrices, ordered identities, metadata and source links are reconstructed; original static/nested cache consumers validate the preparation marker and reject repinned corruption. Synthetic sources only, no fitted geometry, LASSO or neural optimizer. Existing query tests use explicit frozen geometry as previously recorded. This proves static production and source consistency, not biological reference truth, fold-graph production, estimable nested outputs, complete LASSO/episode ancestry or cross-module independence. C01/C13/C16 remain open.",
     "Native single_cell_graph.run consumes matching explicit donor/static preparations and completed canonical metacell receipts. The original fold graph producer now reaggregates canonical cells with frozen memberships, verifies per-group donor/context/count identities, and produces actual matrices, UCell activities, LASSO source/query masks, context scopes and target/static bindings. A dedicated read-only metacell completion validator cannot fall back to geometry fitting. All active fold graphs and static outputs are reconstructed from mapped measurements and frozen memberships. Original cached graph and query-episode consumers enforce the preparation proof, rejecting repinned matrix, activity and LASSO-mask corruption. The synthetic positive chain uses actual H5 mapping/static/donor production and original outer statistics, with only upstream geometry replaced by fixed projection and manual within-donor groups. The graph stage has no numerical substitutes. Original query assembly loads all five folds and computes source features before an explicit test boundary replaces episode fitting/serialization. This does not independently validate fitted geometry, original target statistics, biological donors or complete LASSO/episode ancestry. C01/C13/C16 remain open.",
     "The original SC episode assembler now has an explicit --native-graph-binding path and a --prepare-only mode. Completed canonical nested partitions, identities, donor roles, target scope and node order are verified and pinned before assembly, with no fallback geometry or LASSO. The historical full-28 gate remains for historical mode. Native launch/finalization preserves all-five-fold fit/validation/query role coverage and binds cached payloads/sidecars to the preflight, checking actual bytes. The positive integration executes original nested statistics, episode serialization, finalization and both-arm training-input graph collection. Synthetic PCA/grouping and LASSO outputs are explicit fixed substitutes; no geometry/LASSO/neural fitting or real cohort is executed. Nested fitted numeric ancestry and full acceptance remain open.",
-    "The closed native chain now has 29 operations, including single_cell_episodes.prepare/collect. Preparation calls the original assembler prepare-only and records separately executable LASSO assembly/finalization argument arrays. Collection requires the exact prepared completion path, rederives its full manifest through original read-only finalization, and loads both-arm graph inputs without a model. The original single_cell.prepare can require the collection binding, matches all four input identities and propagates its source inventory. The synthetic actual chain waits for an external completion, collects original serialized episodes, prepares SC inputs and resumes without redispatch; collection preserves input bytes and mtimes. Geometry and LASSO outputs are explicit frozen substitutes. Existing neural/fusion regression fixtures use frozen test models without optimizer fitting. Fitted numeric/biological ancestry and full requirement acceptance remain open; no real cohort, training, acquisition or deployment runs."
+    "The closed native chain now has 29 operations, including single_cell_episodes.prepare/collect. Preparation calls the original assembler prepare-only and records separately executable LASSO assembly/finalization argument arrays. Collection requires the exact prepared completion path, rederives its full manifest through original read-only finalization, and loads both-arm graph inputs without a model. The original single_cell.prepare can require the collection binding, matches all four input identities and propagates its source inventory. The synthetic actual chain waits for an external completion, collects original serialized episodes, prepares SC inputs and resumes without redispatch; collection preserves input bytes and mtimes. Geometry and LASSO outputs are explicit frozen substitutes. Existing neural/fusion regression fixtures use frozen test models without optimizer fitting. Fitted numeric/biological ancestry and full requirement acceptance remain open; no real cohort, training, acquisition or deployment runs.",
+    "Native nested statistics are reconstructed from mapped measured cells and supplied frozen memberships, with exact comparisons of coding/lnc aggregates, UCell, observation/source masks, candidate universe, signed donor and source statistics, node features, context coverage and receipt summaries. The original producer validates complete and partial native caches; complete reuse preserves bytes and timestamps. Current source/output bytes are verified before reusing per-plan proofs. Implementation pins propagate through episode collection and the original SC input workflow. Synthetic fixed geometry and LASSO substitutes remain explicit. Fitted geometry and LASSO coefficients, biological identity and complete scientific acceptance remain open. No real cohort, fitting, acquisition, paid compute or deployment ran."
   ],
   "test_suites": [
     {
@@ -1446,6 +1449,21 @@
       "path": "provenance/code_completion_20261015/single_cell_episodes_workflow_regression_r2_tests.xml",
       "passed": 50,
       "sha256": "36c22babc0cf2a94c76e25392474cc5def4e1efa5b4632b328faf58abe6c18b3"
+    },
+    {
+      "path": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml",
+      "passed": 14,
+      "sha256": "9593bf2ce2a68c2a8c9caf5b4ecc4b287c8866f81c844d05c651398ea971042d"
+    },
+    {
+      "path": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml",
+      "passed": 12,
+      "sha256": "71a12ab14c509ac74a0dbd4c6dd60e4437555e40640fdc9cb287393c9b5a4ea9"
+    },
+    {
+      "path": "provenance/code_completion_20261015/single_cell_nested_numeric_chain_r2_tests.xml",
+      "passed": 1,
+      "sha256": "a7748139cabc4315db89d8f4c34c6fbc8b2cc254201d3eb90b7a03ce3f9f862f"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1529,12 +1547,12 @@
     {
       "module": "tests.test_materialize_single_cell_nested_hhgt_episodes",
       "case": "test_scratch_deletion_check_uses_receipt_metadata_without_rehash",
-      "suite": "provenance/code_completion_20261015/single_cell_episode_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
     },
     {
       "module": "tests.test_materialize_single_cell_nested_hhgt_episodes",
       "case": "test_selected_ints_normalizes_numpy_fold_ids_for_json_receipts",
-      "suite": "provenance/code_completion_20261015/single_cell_episode_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
     },
     {
       "module": "tests.test_prepare_v32_formal_sampler",
@@ -7974,67 +7992,67 @@
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_actual_native_episodes_reach_training_input_collection_without_model",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_changed_lasso_policy_cannot_reuse_native_preflight",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_completed_nested_sources_are_checked_before_cached_episodes[missing_outer]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_completed_nested_sources_are_checked_before_cached_episodes[node_order]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_completed_nested_sources_are_checked_before_cached_episodes[partition]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_completed_nested_sources_are_checked_before_cached_episodes[target_source]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_native_cached_episode_checks_actual_bytes",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_native_cancer_cache_checks_sources_without_fitting",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_native_preflight_rejects_different_sources_and_invalid_deadline[cancer_id]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_native_preflight_rejects_different_sources_and_invalid_deadline[deadline]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_native_preflight_rejects_different_sources_and_invalid_deadline[nested_asset_root]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episode_sources",
       "case": "test_native_preflight_rejects_different_sources_and_invalid_deadline[source_result_root]",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_sources_regression_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_sources_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episodes_workflow",
       "case": "test_collected_native_episodes_reach_actual_sc_prepare_and_resume",
-      "suite": "provenance/code_completion_20261015/single_cell_episodes_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_chain_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_episodes_workflow",
@@ -9442,6 +9460,66 @@
       "suite": "provenance/code_completion_20261015/fusion_workflow_consumers_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_cache_rechecks_output_bytes_and_raw_inputs",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_original_complete_cache_reconstructs_and_preserves_inputs",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_partial_cache_checks_numeric_values_before_any_fitting",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[candidate]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[coding]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[coverage]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[lncrna]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[node_features]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[source_rho]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[summary]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[target_rho]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_nested_numeric_replay",
+      "case": "test_rehashed_numeric_corruption_fails_original_cached_producer[ucell]",
+      "suite": "provenance/code_completion_20261015/single_cell_nested_numeric_r1_tests.xml"
+    },
+    {
       "module": "tests.test_v32_single_cell_numeric_replay",
       "case": "test_actual_completion_serializer_independent_validator_and_numeric_cli",
       "suite": "provenance/code_completion_20261015/sc_workflow_r1_tests.xml"
@@ -9934,11 +10012,11 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "single_cell_episodes_workflow_r1",
-      "single_cell_episodes_sources_regression_r2",
-      "single_cell_episodes_workflow_regression_r2"
+      "single_cell_nested_numeric_r1",
+      "single_cell_nested_numeric_sources_r1",
+      "single_cell_nested_numeric_chain_r2"
     ],
-    "passed": 78,
+    "passed": 27,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

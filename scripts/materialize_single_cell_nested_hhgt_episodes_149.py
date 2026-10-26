@@ -688,6 +688,11 @@ def materialize_plan(
         / f"inner_target_fold={plan.inner_target_fold_id}"
     )
     if receipt := _verify_complete(destination, plan):
+        preflight = json.loads((settings.output_root / "LAUNCH_PREFLIGHT.json").read_text(encoding="utf-8"))
+        if "native_donor_preparation" in preflight:
+            from cc_hhgt.v32.single_cell_nested_numeric_replay import verify_plan
+            verify_plan(settings, plan, mapped, matrices, ids, bulk, family_membership,
+                        static_root, matrix_identity_receipt, destination, receipt)
         return receipt
     staging = _prepare_staging(destination, plan)
     partition = {
@@ -914,6 +919,15 @@ def run_cancer(settings) -> list[dict]:
         raise SystemExit("DEADLINE_EXPIRED")
     preflight = validate_preflight(settings)
     cancer_id = settings.cancer_id.upper()
+    cancer_root = settings.output_root / "cancers" / cancer_id
+    if "native_donor_preparation" in preflight and (cancer_root / "SUCCESS.json").is_file():
+        from cc_hhgt.v32 import native_single_cell_episode_sources as sources
+        from cc_hhgt.v32.formal_expression_sources import read
+        donor_path = Path(preflight["native_donor_preparation"]["path"])
+        value = read(read(donor_path)["preflight"]["path"])
+        sources.nested_inventory(value, donor_path)
+        return [read(episode["path"]) for outer in read(cancer_root / "SUCCESS.json")["outer_fold_receipts"]
+                for episode in read(outer["path"])["episode_receipts"]]
     folds, source_cancer_receipt = _validate_source_cancer(settings, cancer_id)
     active = sorted(pd.to_numeric(folds.outer_fold_id, errors="raise").astype(int).unique())
     requested_outer = _selected_ints(settings.outer_fold, active, "OUTER_FOLD")

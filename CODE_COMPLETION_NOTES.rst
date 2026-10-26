@@ -6919,8 +6919,9 @@ revalidates the native results rather than dispatching fitting or rewriting
 the immutable episode preparation.
 
 These checks establish serialization, provenance binding and actual graph
-input interoperability. They do not independently establish the correctness
-of fitted PCA/grouping, nested numeric targets or LASSO coefficients. The
+input interoperability. The subsequent frozen-group reconstruction described
+below checks nested numeric targets; fitted PCA/grouping and LASSO coefficients
+still lack independent verification. The
 collection explicitly retains ``source_ancestry_complete=false`` and
 ``fitted_lasso_numerics_verified=false``. The workflow has one declared cancer
 from the graph preparation and preserves the original five-fold role gates.
@@ -6942,3 +6943,49 @@ Native episode workflow-chain verification on 149: ``single_cell_episodes_workfl
 pass 78 distinct related checks. The actual native chain reaches
 SC input preparation and resumes without fitting; frozen substitutes and
 separate frozen-model regression scope are described above.
+
+Nested measured-value reconstruction (2026-10-27)
+------------------------------------------------
+
+The scoped field dictionary is
+``docs/NESTED_SINGLE_CELL_FIELDS_20261027.rst``. It defines target/source
+statistics, feature weighting and shapes, state pooling, unavailable states
+and the distinction between code consistency and biological validation.
+
+Native episode preflight now reconstructs nested statistics from the pinned
+mapped measurements, canonical donor metadata, supplied frozen cell groups,
+bulk candidates and static pathway membership. It uses the original production
+statistical functions and compares exact values, dtypes, row order and keys for
+coding/lncRNA aggregates, UCell activity, LASSO observation/source masks,
+candidate universe, signed donor targets and source effects, source node
+features, context metadata/coverage and receipt summaries. Static identity
+bindings and unavailable donor partitions are checked as well.
+
+The original nested producer applies the same check before returning a full
+native cache, without rewriting receipts or timestamps. A partially completed
+cancer must also verify each existing plan before reuse. Failure raises an
+error rather than falling back to geometry fitting. Legacy historical paths
+retain their existing behavior.
+
+Successful per-plan reconstructions can be reused within the same process
+only after checking current source, implementation and output bytes. Inputs
+and outputs are checked again after reconstruction before caching the proof.
+The episode preflight records ``nested_frozen_statistics_replayed=true`` and
+the reconstruction implementation pins; these pins propagate through episode
+collection to downstream SC input preparation. It retains
+``nested_fitted_numerics_replayed=false`` and
+``fitted_geometry_independently_verified=false`` where reported: supplied
+membership is not independently proved to be the output of the declared PCA
+and radius fitting. This also does not reconstruct fitted LASSO coefficients
+or establish raw biological identity. C01/C13/C16 remain open.
+
+Verification uses synthetic cells and references with explicitly frozen
+geometry. Intentional changes to aggregate values, UCell, target/source rho,
+candidate flags, node features, context coverage and receipt counts must fail
+even after all affected receipt hashes are recomputed. No real cohort,
+geometry fitting, LASSO, neural training, acquisition, paid compute or
+deployment is dispatched by this verification.
+
+Nested numeric reconstruction verification on 149: ``single_cell_nested_numeric_r1``, ``single_cell_nested_numeric_sources_r1``, ``single_cell_nested_numeric_chain_r2``
+pass 27 distinct related checks. Fixed grouping and LASSO
+substitutes are disclosed above; these checks do not establish fitted geometry.

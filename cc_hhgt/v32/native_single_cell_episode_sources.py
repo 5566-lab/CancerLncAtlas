@@ -1,6 +1,7 @@
 """Read-only native episode source checks; never dispatch geometry or LASSO."""
 from pathlib import Path
 import math
+import time
 
 import numpy as np
 import pandas as pd
@@ -9,19 +10,20 @@ from .cnv_input_sources import require_host
 from .formal_expression_sources import read, record
 from . import native_single_cell_graph_workflow as graph
 from . import native_single_cell_donors_workflow as donors
+from . import single_cell_nested_numeric_replay as replay
 from .single_cell_nested_episodes import nested_fold_plans, lasso_observations, validate_nested_isolation, donor_roles
 from .single_cell_graph_assets import align_frozen_membership, validate_frozen_metacell_metadata
 
 
 def nested_inventory(value, donor_path):
-    """Check complete canonical partitions and identities, not fitted numerics."""
+    """Check canonical partitions and rebuild statistics with frozen grouping."""
     from scripts import materialize_single_cell_nested_hhgt_episodes_149 as native
     output = donor_path.parent / 'nested'
-    settings, _ = donors.build_settings(value, donor_path.parent)
+    settings, _ = donors.build_settings(value, donor_path.parent, time.time()+3600)
     native.validate_preflight(settings)
     metadata, folds, _ = donors.derived(value)
     cancer = value['cancer_id']; root = output / 'cancers' / cancer
-    pins = {}
+    pins = {}; numeric_plans = []
 
     def checked(path, pin=None):
         path = Path(path)
@@ -72,6 +74,7 @@ def nested_inventory(value, donor_path):
             raise ValueError('Native nested episode coverage differs')
         for plan, episode_path in zip(plans, episode_paths):
             current = checked(episode_path); folder = episode_path.parent
+            numeric_plans.append((plan, folder, current))
             if native._verify_complete(folder, plan) is None:
                 raise ValueError('Completed native nested episode is missing; fitting is forbidden')
             state = current.get('state')
@@ -123,6 +126,7 @@ def nested_inventory(value, donor_path):
                     or not targets.inner_target_fold_id.eq(plan.inner_target_fold_id).all()
                     or not targets.episode_role.eq(plan.role).all() or not targets.dataset_id.eq(value['dataset_id']).all()):
                 raise ValueError('Native nested target identities differ')
+    replay.verify_completed(value, donor_path, settings, metadata, numeric_plans)
     return sorted(pins.values(), key=lambda p:p['path']), ordered
 
 
@@ -154,6 +158,7 @@ def preflight_sources(settings):
         'nested_preflight':record(settings.nested_asset_root/'LAUNCH_PREFLIGHT.json'),
         'nested_sources':pins, 'authorized_cancers':[value['cancer_id']],
         'source_ancestry_complete':False, 'nested_fitted_numerics_replayed':False,
+        'nested_frozen_statistics_replayed':True, 'nested_numeric_implementations':replay.implementations(),
         'source_validator':record(Path(__file__))}
 
 

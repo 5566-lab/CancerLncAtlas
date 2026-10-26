@@ -1,0 +1,55 @@
+{
+  "method": "NATIVE_NESTED_FROZEN_MEASUREMENT_STATISTICS_RECONSTRUCTION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "single_cell_nested_numeric_r1",
+    "single_cell_nested_numeric_sources_r1",
+    "single_cell_nested_numeric_chain_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "single_cell_nested_numeric_chain_r1_timeout.json"
+  ],
+  "intermediate_failure_causes": [
+    "The full positive chain exceeded the inadequate 900-second wrapper limit; PID 4010521 was confirmed terminal before a 1800-second rerun. No assertion outcome or complete test report was available for the timed-out run."
+  ],
+  "operation_registry_count": 29,
+  "nested_frozen_statistics_replayed": true,
+  "full_original_cache_numeric_checks": true,
+  "partial_original_cache_numeric_checks": true,
+  "completed_source_bytes_mtimes_unchanged": true,
+  "current_bytes_checked_before_proof_reuse": true,
+  "original_sc_prepare_consumed_collection": true,
+  "resume_without_redispatch_verified": true,
+  "fitted_geometry_independently_verified": false,
+  "nested_fitted_numerics_replayed": false,
+  "lasso_coefficients_independently_verified": false,
+  "biological_identity_verified": false,
+  "documentation": [
+    {
+      "path": "docs/NESTED_SINGLE_CELL_FIELDS_20261027.rst",
+      "sha256": "0b0352fab712f390d8408aa27356051303d07ed14160a56637975ef9efb5501c",
+      "review": "Manual comparison with the current producer and statistics functions; not an additional automated test."
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic raw/reference/donor inputs with fixed geometry in upstream fixtures.",
+    "Existing episode regression and chain use explicit frozen LASSO coefficients; original serialization and input loading run."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native nested statistics are reconstructed from mapped measured cells and supplied frozen memberships, with exact comparisons of coding/lnc aggregates, UCell, observation/source masks, candidate universe, signed donor and source statistics, node features, context coverage and receipt summaries. The original producer validates complete and partial native caches; complete reuse preserves bytes and timestamps. Current source/output bytes are verified before reusing per-plan proofs. Implementation pins propagate through episode collection and the original SC input workflow. Synthetic fixed geometry and LASSO substitutes remain explicit. Fitted geometry and LASSO coefficients, biological identity and complete scientific acceptance remain open. No real cohort, fitting, acquisition, paid compute or deployment ran."
+}

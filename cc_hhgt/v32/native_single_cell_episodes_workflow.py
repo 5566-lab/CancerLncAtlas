@@ -17,7 +17,7 @@ MODULE = 'scripts.materialize_single_cell_hhgt_training_episodes_149'
 INPUT = 'NATIVE_SINGLE_CELL_EPISODES_INPUT_V1'
 PREPARED = 'NATIVE_SINGLE_CELL_EPISODES_PREPARED_V1'
 FORMAT = 'NATIVE_SINGLE_CELL_EPISODES_RESULTS_V1'
-CODE = (*numeric.CODE, 'cc_hhgt/v32/native_single_cell_episodes_workflow.py',
+CODE = (*numeric.CODE, *sources.replay.CODE, 'cc_hhgt/v32/native_single_cell_episodes_workflow.py',
         'scripts/run_native_single_cell_episodes_workflow.py',
         'scripts/materialize_single_cell_hhgt_training_episodes_149.py',
         'cc_hhgt/v32/native_single_cell_episode_sources.py',
@@ -162,12 +162,14 @@ def result_value(prepared, preparation, value, completed, audit):
     pins = [record(prepared),record(completed),record(audit),*files.values(),*value['implementations'],value['input'],
         *[preparation[k] for k in ('plan','episode_preflight','execution_commands')],
         *value['source_bindings']['nested_sources'],
+        *value['source_bindings']['nested_numeric_implementations'],
         *[value['source_bindings'][k] for k in ('native_graph_binding','native_donor_preparation','nested_preflight','source_validator')],
         *read(audit)['source_files']]
     inventory = {str(verified_path(p,prepared.parent)):record(verified_path(p,prepared.parent)) for p in pins}
     return {'format':FORMAT,'status':'PASS','target_host':'149','training_started':False,'lasso_fitted':False,
         'preparation':record(prepared),'completed':record(completed),'input_preflight':record(audit),'files':files,
         'both_arm_input_graphs_loaded':True,'model_constructed':False,'source_ancestry_complete':False,
+        'nested_frozen_statistics_replayed':True,'fitted_geometry_independently_verified':False,
         'fitted_lasso_numerics_verified':False,'source_files':sorted(inventory.values(),key=lambda p:p['path'])}
 
 
