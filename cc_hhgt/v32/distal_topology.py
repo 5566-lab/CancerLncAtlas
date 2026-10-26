@@ -146,6 +146,9 @@ def feature_topology_lineage(path: Path, *, kind: str) -> dict:
     if kind == "atac" and "native_distal_atac_preparation" in audit:
         from .native_distal_atac_workflow import validate_features
         validate_features({"path":str(audit_path),"sha256":sha256(audit_path)},audit_path.parent)
+    if kind in {"mutation", "distal_mutation"} and "native_distal_mutation_preparation" in audit:
+        from .native_distal_mutation_workflow import validate_features
+        validate_features(path)
     lineage = audit.get("topology_lineage", {"predictive_evaluation_eligible": False,
                                             "policy": "LEGACY_FEATURES"})
     if lineage.get("predictive_evaluation_eligible") is not True:

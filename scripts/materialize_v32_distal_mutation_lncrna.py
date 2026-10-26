@@ -20,7 +20,7 @@ from pathlib import Path
 import duckdb
 import pandas as pd
 
-from cc_hhgt.v32.distal_topology import topology_lineage
+from cc_hhgt.v32.distal_topology import topology_lineage, _intervals
 
 
 EXPECTED_MC3_SHA256 = "cb0caa0e3a80a24cc4ccaaacc95c690a4032cc87c8ac78519a5b33f3aa3f6b81"
@@ -39,7 +39,7 @@ def sql_path(path: Path) -> str:
     return str(path.resolve(strict=True)).replace("'", "''").replace("\\", "/")
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mc3", type=Path, required=True)
     parser.add_argument("--variant-events", type=Path, required=True)
@@ -50,7 +50,7 @@ def main() -> int:
     parser.add_argument("--topology-links", "--datas7-links", dest="datas7_links", type=Path, required=True)
     parser.add_argument("--patient-folds", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if socket.gethostname() != "149":
         raise RuntimeError("Distal mutation preparation must execute on target host 149")
 
@@ -83,7 +83,6 @@ def main() -> int:
     links = pd.read_csv(paths["datas7_links"], sep="\t", compression="gzip")
     if not {"lncrna_id", "peak_name"}.issubset(links):
         raise RuntimeError("DataS7 topology lacks lncRNA/peak identifiers")
-    links = links[["lncrna_id", "peak_name"]].drop_duplicates()
     links["gene_id"] = (
         links["lncrna_id"].astype(str).str.removeprefix("LNC:").str.split(".").str[0]
     )
@@ -93,9 +92,18 @@ def main() -> int:
     peaks = peaks.loc[peaks["name"].astype(str).isin(set(links["peak_name"].astype(str)))].copy()
     if peaks["name"].duplicated().any() or set(links["peak_name"]) - set(peaks["name"]):
         raise RuntimeError("DataS7 topology does not map uniquely to the ATAC peak set")
-    peaks["chromosome_grch38"] = peaks["seqnames"].astype(str).str.removeprefix("chr")
-    peaks["peak_start0"] = pd.to_numeric(peaks["start"], errors="raise").astype("int64") - 1
-    peaks["peak_end0"] = pd.to_numeric(peaks["end"], errors="raise").astype("int64")
+    peaks = _intervals(peaks, "seqnames", "start", "end", one_based=True)
+    peaks["chromosome_grch38"] = peaks["seqnames"]
+    peaks["peak_start0"] = peaks["start"]
+    peaks["peak_end0"] = peaks["end"]
+    if lineage.get("predictive_evaluation_eligible") is True:
+        coordinates = _intervals(links, "chromosome", "peak_start0", "peak_end0")
+        checked = coordinates.merge(peaks[["name", "chromosome_grch38", "peak_start0", "peak_end0"]],
+                                    left_on="peak_name", right_on="name", suffixes=("_link", "_peak"), validate="many_to_one")
+        if (not checked.chromosome.eq(checked.chromosome_grch38).all()
+                or any(not checked[c+"_link"].eq(checked[c+"_peak"]).all() for c in ("peak_start0", "peak_end0"))):
+            raise ValueError("Independent topology coordinates differ from mutation peak set")
+    links = links[["lncrna_id", "peak_name", "gene_id"]].drop_duplicates()
     peak_links = links.merge(
         peaks[["name", "chromosome_grch38", "peak_start0", "peak_end0"]],
         left_on="peak_name",
@@ -106,15 +114,8 @@ def main() -> int:
     if peak_links.empty or peak_links.duplicated().any():
         raise RuntimeError("Linked distal peak coordinate table is empty or duplicated")
 
-    folds = pd.read_csv(paths["patient_folds"], sep="\t")
-    if not {"cancer_id", "patient_id", "patient_fold_id"}.issubset(folds):
-        raise RuntimeError("Frozen patient-fold authority lacks required columns")
-    folds["cancer_id"] = folds["cancer_id"].astype(str).str.upper()
-    folds["patient_id"] = folds["patient_id"].astype(str).str[:12]
-    folds["patient_fold_id"] = pd.to_numeric(folds["patient_fold_id"], errors="raise").astype("int8")
-    folds = folds[["cancer_id", "patient_id", "patient_fold_id"]].drop_duplicates()
-    if folds.duplicated(["cancer_id", "patient_id"]).any() or set(folds.patient_fold_id) != set(range(5)):
-        raise RuntimeError("Frozen patient-fold authority is not unique and exact folds 0..4")
+    from cc_hhgt.v32.mc3_sources import patient_authority
+    folds = patient_authority(paths["patient_folds"])
 
     con = duckdb.connect()
     con.execute("PRAGMA threads=8")
@@ -333,6 +334,7 @@ def main() -> int:
         },
         "source_policy": "MC3_WES_REPORTED_EVENTS_OVERLAPPING_CANDIDATE_GRCH38_ATAC_PEAKS",
         "target_host": "149",
+        "training_started": False,
         "topology_lineage": lineage,
         "zero_semantics": "NO_REPORTED_MC3_WES_EVENT_IN_LINKED_ATAC_PEAKS_NOT_CONFIRMED_LOCUS_WILDTYPE",
         "locus_callability_claimed": False,

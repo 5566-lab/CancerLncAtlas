@@ -1,0 +1,58 @@
+{
+  "method": "RAW_MC3_COMPLETE_BLOCK_LIFT_AND_NATIVE_DISTAL_CONSUMER_REPLAY",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "distal_mutation_workflow_r1",
+    "distal_mutation_workflow_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 23,
+  "new_operation": "distal_mutation.run",
+  "historical_sources_inspected": [
+    {
+      "path": "D:\\model\\CC_HHGT_v2_7_mutation\\src\\cc_hhgt_v27\\variants.py",
+      "sha256": "fd0d68aa7ad762db3efb6ec7573d4c85ca00f8381f7547cb47a61d0d9ed24a41"
+    },
+    {
+      "path": "D:\\model\\CC_HHGT_v2_7_mutation\\src\\cc_hhgt_v27\\lncrna_annotation.py",
+      "sha256": "5205d583877258b1292677f1874ad2e25fdb670c04f107b56116b5a4af986cf4"
+    },
+    {
+      "path": "D:\\model\\CC_HHGT_v2_7_mutation\\src\\cc_hhgt_v27\\context.py",
+      "sha256": "2787911e852e500fdfc53bcb7e7f7c95e670a8bab3cf9d8e590c86a597c58dbf"
+    }
+  ],
+  "chain_format_source": "https://genome.ucsc.edu/goldenPath/help/chain.html",
+  "official_chain_sha256": "5c0598e500ceb5a78c73086929e8ef993aec309bcafb595139b53d440b125a1d",
+  "original_production_mc3_sha256": "cb0caa0e3a80a24cc4ccaaacc95c690a4032cc87c8ac78519a5b33f3aa3f6b81",
+  "production_checksum_gates_changed": false,
+  "synthetic_patients": 60,
+  "observed_assay_patients": 59,
+  "endpoint_only_lift_replaced": true,
+  "unmapped_variants_quarantined": true,
+  "neural_optimizer_executed": false,
+  "actual_raw_to_distal_closure_and_public_query_executed": true,
+  "test_substitutes": [
+    "Synthetic MAF digest substituted only inside the test process after checking default rejection; official chain unchanged.",
+    "Synthetic promoter/peak regions, patient Beta values and probe assignment, expression/CNV/purity/activity and frozen selected core."
+  ],
+  "original_patient_maf_processed": false,
+  "independent_assay_coverage_verified": false,
+  "target_reference_alleles_validated": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native distal_mutation.run streams supplied MC3 MAF records under an explicit patient authority, uses the pinned official UCSC chain for unique complete-block coordinate conversion, retains unmapped/ambiguous/cross-gap variants as quarantined, derives observed-assay crosswalks and invokes the existing distal mutation producer. Native replay reconstructs source and feature tables; public consumers verify assembled mutation projection and retain raw source dependencies. Original production MC3 and chain SHA guards remain unchanged. Test execution first rejects the synthetic MAF under the production guard, then substitutes only its expected digest inside the test process; actual cached official chain, producers and consumers are used. Sixty synthetic patients reach nested statistics, closure and public query. No real MC3 patient data, optimizer, download, paid compute, deletion or deployment ran. MAF-observed assay is not independent assay coverage and zeros are not confirmed locus wild type. Acquisition, full annotation/metacell/LASSO branches, cross-module patient ancestry and C01/C13/C16 acceptance remain open."
+}

@@ -6295,3 +6295,108 @@ pass 56 distinct related checks. Static official HM450 reference
 was read; all patient values and coordinate regions were synthetic. No neural/L1/
 auxiliary/fusion optimizer, biological cohort, deletion, download, paid compute or
 deployment ran.
+
+Raw MC3 distal mutation preparation (2026-10-26)
+----------------------------------------------
+
+``scripts.run_native_distal_mutation_workflow`` adds operation 23,
+``distal_mutation.run``. It prepares actual supplied MC3 MAF rows, lifts their
+coordinates, generates the patient assay-observation table and invokes the
+existing distal mutation materializer. It consumes no expression/pathway
+outcomes and does not train a learned model. All execution is on host 149.
+
+The manifest contains exactly these fields::
+
+    {
+      "format": "NATIVE_DISTAL_MUTATION_WORKFLOW_INPUT_V1",
+      "mc3": {"path": "mc3.v0.2.8.PUBLIC.maf.gz", "sha256": "<SHA256>"},
+      "chain": {"path": "hg19ToHg38.over.chain.gz", "sha256": "<SHA256>"},
+      "patient_folds": {"path": "patient_folds.tsv", "sha256": "<SHA256>"},
+      "peak_set": {"path": "peaks.tsv", "sha256": "<SHA256>"},
+      "topology_links": {"path": "INDEPENDENT_DISTAL_LINKS.tsv.gz", "sha256": "<SHA256>"}
+    }
+
+Original production SHA256 guards are unchanged: MC3
+``cb0caa0e3a80a24cc4ccaaacc95c690a4032cc87c8ac78519a5b33f3aa3f6b81``
+and the UCSC hg19-to-hg38 chain
+``5c0598e500ceb5a78c73086929e8ef993aec309bcafb595139b53d440b125a1d``.
+There is no runtime option to bypass these guards or substitute a synthetic
+source profile. Planning verifies pins, host, independent topology and patient
+authority without writing outputs or parsing patient variants.
+
+Run on 149::
+
+    python -m scripts.run_native_distal_mutation_workflow --manifest /path/mutation.json --output /new/mutation --plan
+    python -m scripts.run_native_distal_mutation_workflow --manifest /path/mutation.json --output /new/mutation
+
+The source adapter follows the genomic/allele identity and MAF-observed assay
+semantics located in the historical ``CC_HHGT_v2_7_mutation``
+``src/cc_hhgt_v27/variants.py`` and ``context.py``. It prepares the fields needed
+for distal analysis, not the historical coding/transcript/protein annotations.
+Raw MAF rows are streamed, required fields validated and source row numbers
+retained. GRCh37, positive integral 1-based inclusive intervals, complete
+alleles and canonical TCGA tumor aliquots are mandatory. Only declared
+patients enter event outputs; counts of excluded out-of-cohort rows remain in
+``SOURCE_AUDIT.json``. No MAF FILTER row selection is introduced. A canonical
+patient cannot occur in multiple cancers, and fractional folds are rejected
+before casting. The complete authority must contain folds 0 through 4.
+
+Variant IDs retain the v2.7 genomic-coordinate/allele SHA256 prefix convention;
+chromosome prefixes and integer formatting are canonicalized. Repeat aliquots
+and repeat event rows share a variant identity. The generated event table
+retains every selected source row, while coordinates are unique by variant and
+the distal materializer counts unique patient/variant/gene observations.
+
+The chain parser uses UCSC zero-based half-open coordinates and reverse-query
+conversion as documented at https://genome.ucsc.edu/goldenPath/help/chain.html.
+The source interval must fit completely inside exactly one aligned block.
+Reverse-strand mappings retain their strand and chain ID. Cross-gap, absent and
+ambiguous mappings remain present with null target coordinates and explicit
+failure reasons. This replaces historical endpoint pairing, which did not
+prove the interior mapped continuously. The stricter policy can quarantine
+historically accepted intervals and is recorded as
+``UNIQUE_COMPLETE_ALIGNED_BLOCK_GRCH37_TO_GRCH38``. These are positional
+overlaps, not allele/reference validation against target FASTA.
+
+Assay availability means a patient was observed in selected MAF records. A
+patient absent from those records remains unavailable; an independently assayed
+patient with zero MAF records cannot be discovered from this source alone.
+All locus callability flags remain false. A zero burden means no reported
+event overlapped a linked peak, not confirmed locus-level wild type. Source
+quarantine counts remain explicit. The existing ``log1p`` unique-variant burden
+and descriptive within-cancer site recurrence are unchanged; the formal
+statistical head continues to use burden, not the whole-cohort recurrence
+descriptor. Predictive topology coordinates must match the actual peak table.
+
+Execution writes ``inputs`` (events, lifted coordinates, crosswalk and audit),
+``features`` (the original four feature tables and audit), preflight/log and
+``NATIVE_DISTAL_MUTATION_BINDING.json``. The audit binds
+``native_distal_mutation_preparation``. Validation reconstructs source tables
+from MAF/chain, reruns the existing materializer and compares complete typed
+tables and metadata. A process cache rechecks every current input/output/code
+pin before reuse; fresh processes reconstruct again. Failed execution retains
+diagnostics without a completed binding, and never deletes source files.
+
+Pass ``/distal_mutation`` from this stage to the matching field of ``distal.run``.
+Feature readers and native distal planning validate the source reconstruction;
+public-context consumers also compare actual assembled mutation values, flags
+and patient folds with the source producer. Raw MAF, chain, patient/peak/topology,
+generated inputs and code records reach the private source inventory. Legacy
+feature audits without the preparation pointer retain their narrower validation.
+
+Verification uses the unchanged cached official chain with synthetic MAF rows,
+regions and 60 patients. The test first proves production rejects the synthetic
+MAF, then substitutes only its expected digest inside the test process. This is
+an explicit test substitution, not execution against official MC3 patient rows.
+Synthetic probe assignments and other omics/frozen-core fixtures remain. Tests
+cover actual raw preparation, native distal statistics/closure/public query,
+duplicate aliquots, missing assays, strand/gap/ambiguity cases, chunk invariance
+and rehashed corruption. No real cohort, optimizer, download, paid compute,
+raw deletion or deployment ran. Raw acquisition, complete annotation/metacell/
+LASSO branches, patient ancestry and final C01/C13/C16 acceptance remain open.
+
+Native raw MC3 verification on 149: ``distal_mutation_workflow_r1``, ``distal_mutation_workflow_consumers_r1``
+pass 55 distinct related checks. Actual static official chain and
+synthetic MAF/other omics were used, with the test-only MAF digest substitution
+described above. No neural/L1/auxiliary/fusion optimizer, biological cohort,
+deletion, download, paid compute or deployment ran.

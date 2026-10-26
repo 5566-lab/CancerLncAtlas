@@ -64,6 +64,9 @@ def plan(manifest,output,*,new=True):
     mutation_audit=Path(files["distal_mutation"]["path"]).parent/"AUDIT.json"
     sources[str(mutation_audit)]=record(mutation_audit)
     mutation=read(mutation_audit)
+    if "native_distal_mutation_preparation" in mutation:
+        from .native_distal_mutation_workflow import validate_features
+        for item in validate_features(Path(files["distal_mutation"]["path"])):sources[item["path"]]=item
     if (mutation.get("status")!="PASS_DISTAL_MUTATION_FEATURES" or mutation.get("locus_callability_claimed") is not False
             or mutation.get("missing_assay_assumed_zero") is not False):raise ValueError("Invalid native distal mutation semantics")
     from .distal_topology import feature_topology_lineage,require_shared_predictive_topology

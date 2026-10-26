@@ -124,6 +124,8 @@ def distal_sources(context,*,replay):
     if set(inputs)!={"head_input_audit","candidates"}:raise ValueError("Distal source inventory differs")
     same_candidates(context["candidates"],inputs["candidates"])
     prepared=read(inputs["head_input_audit"])
+    from .native_distal_mutation_workflow import validate_distal_input
+    for item in validate_distal_input(prepared,inputs["head_input_audit"].parent):bound.bind(item,path.parent)
     if prepared.get("distal_atac_root"):
         atac_audit=Path(prepared["distal_atac_root"])/"DISTAL_ATAC_AUDIT.json"
         if atac_audit.is_file() and "native_distal_atac_preparation" in read(atac_audit):
