@@ -6783,3 +6783,67 @@ pass 68 distinct related checks. Synthetic upstream geometry uses
 explicit frozen substitutes; graph reaggregation and numerical reconstruction
 are original code. No PCA/LASSO/neural fitting, real cohort, scientific download,
 real-data deletion or deployment was executed.
+
+Native episode launch and finalization (2026-10-27)
+-------------------------------------------------
+
+The original ``scripts.materialize_single_cell_hhgt_training_episodes_149``
+now accepts ``--native-graph-binding`` and ``--prepare-only``. This provides
+an explicit path from the native canonical graph and completed nested assets
+to the original episode assembler. Without the native option, the historical
+full-28-cancer materialization prerequisite is unchanged.
+
+On host 149, source-only preparation is::
+
+    python -m scripts.materialize_single_cell_hhgt_training_episodes_149 \
+      --run-id NEW_RUN_ID \
+      --source-result-root /path/donor-preparation/metacells \
+      --graph-asset-root /path/native-fold-graphs \
+      --nested-asset-root /path/donor-preparation/nested \
+      --native-graph-binding /path/native-fold-graphs/NATIVE_SINGLE_CELL_GRAPH_BINDING.json \
+      --output-root /path/new-episodes \
+      --cancer-id BRCA --deadline UNIX_DEADLINE --prepare-only
+
+The command validates actual completed inputs and writes only
+``LAUNCH_PREFLIGHT.json``. It does not build a model, call LASSO, serialize
+episodes or launch geometry. Missing completed nested partitions cause
+failure rather than triggering a producer. The graph binding determines the
+authorized cancer and canonical donor preparation; both source roots must
+match that preparation. The output must be separate from source directories.
+
+Removing ``--prepare-only`` explicitly invokes the original assembler,
+including its LASSO fitting step. That command was not executed with a real
+fitter in this code-completion task. After a separately executed assembly,
+use the same arguments with ``--finalize`` instead of ``--cancer-id BRCA``.
+Finalization retains all five folds and the requirement for fit, validation
+and query episodes in every fold. The command does not relax sparse-donor
+or missing-validation states into a training-ready manifest.
+
+Native preflight verifies the canonical nested plans and their exact outer
+and inner receipt coverage, complete output inventories, donor partitions,
+retained cell identities, group donor/context/counts, source-only LASSO masks,
+target identities and matrix column ordering. Nested and query static node
+orders must agree despite residing in separate output directories. It pins
+all nested artifacts and implementation bytes; changing them after preparation
+invalidates resume. Geometry audit declarations are checked against the plan,
+but this does not replay the fitted geometry, nested numeric matrices,
+target statistics or LASSO coefficients. Source completeness remains false.
+
+Native episode payloads, their sidecars and cancer completion receipts bind
+the episode preflight. Cached native payloads receive content-hash checks,
+and native finalization also verifies sidecar and static-asset bindings.
+Legacy receipt-only performance behavior remains unchanged.
+
+The positive integration uses actual H5 mapping, static/outer graph production,
+canonical donors and the original nested producer, episode serialization,
+finalization and both-arm training-input collection. Upstream PCA/grouping
+uses fixed projection/manual groups; the LASSO fitter alone returns explicit
+frozen synthetic coefficients. No geometry/LASSO fitting, neural model,
+optimizer, real cohort, paid compute, data download, deletion or deployment
+is dispatched. This verifies command and serialization interoperability;
+fitted numerical ancestry and the remaining C01/C13/C16 acceptance are open.
+
+Native episode launch verification on 149: ``single_cell_episode_sources_r1``, ``single_cell_episode_consumers_r1``
+pass 63 distinct related checks. PCA/grouping and LASSO use explicit
+frozen synthetic substitutes; original nested statistics, serialization,
+finalization and both-arm graph input collection execute without a neural model.

@@ -1,0 +1,50 @@
+{
+  "method": "NATIVE_EPISODE_SOURCE_PREFLIGHT_AND_ORIGINAL_FINALIZATION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "model_constructed": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "single_cell_episode_sources_r1",
+    "single_cell_episode_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 27,
+  "native_episode_prepare_only_verified": true,
+  "original_nested_statistics_executed": true,
+  "synthetic_episode_count": 25,
+  "synthetic_target_rows": 972,
+  "synthetic_role_counts": {
+    "fit": 15,
+    "validation": 5,
+    "query": 5
+  },
+  "original_episode_serialization_executed": true,
+  "original_episode_finalization_executed": true,
+  "original_both_arm_training_inputs_collected": true,
+  "all_five_fold_role_gate_retained": true,
+  "fitted_geometry_independently_verified": false,
+  "nested_fitted_numerics_replayed": false,
+  "lasso_coefficients_independently_verified": false,
+  "biological_identity_verified": false,
+  "test_substitutes": [
+    "Synthetic raw H5, annotation/QC, static references and donor crosswalk.",
+    "Fixed PCA projection and manual within-donor groups in outer and nested geometry.",
+    "Explicit frozen synthetic LASSO coefficients replace only the fitter; original episode serialization and graph collection execute."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The original SC episode assembler now has an explicit --native-graph-binding path and a --prepare-only mode. Completed canonical nested partitions, identities, donor roles, target scope and node order are verified and pinned before assembly, with no fallback geometry or LASSO. The historical full-28 gate remains for historical mode. Native launch/finalization preserves all-five-fold fit/validation/query role coverage and binds cached payloads/sidecars to the preflight, checking actual bytes. The positive integration executes original nested statistics, episode serialization, finalization and both-arm training-input graph collection. Synthetic PCA/grouping and LASSO outputs are explicit fixed substitutes; no geometry/LASSO/neural fitting or real cohort is executed. Nested fitted numeric ancestry and full acceptance remain open."
+}

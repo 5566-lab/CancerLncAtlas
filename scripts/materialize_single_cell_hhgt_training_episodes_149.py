@@ -238,16 +238,25 @@ def _initialize_preflight(settings) -> dict[str, Any]:
     source_validation = settings.source_result_root / "MATERIALIZATION_VALIDATION.json"
     graph_preflight = settings.graph_asset_root / "LAUNCH_PREFLIGHT.json"
     nested_preflight = settings.nested_asset_root / "LAUNCH_PREFLIGHT.json"
-    for path in (source_validation, graph_preflight, nested_preflight):
-        if not path.is_file():
-            raise RuntimeError(f"EPISODE_PREFLIGHT_INPUT_MISSING:{path}")
-    source = read_json(source_validation)
-    if (
-        source.get("target_host") != "149"
-        or source.get("status") != "PASS"
-        or source.get("closure_status") != "PASS_FULL_28_CANCER_MATERIALIZATION_CLOSURE"
-    ):
-        raise RuntimeError("EPISODE_SOURCE_MATERIALIZATION_NOT_VALIDATED")
+    native_sources = None
+    if getattr(settings, "native_graph_binding", None) is not None:
+        from cc_hhgt.v32.native_single_cell_episode_sources import preflight_sources
+        native_sources = preflight_sources(settings)
+        bindings = native_sources
+    else:
+        for path in (source_validation, graph_preflight, nested_preflight):
+            if not path.is_file():
+                raise RuntimeError(f"EPISODE_PREFLIGHT_INPUT_MISSING:{path}")
+        source = read_json(source_validation)
+        if (
+            source.get("target_host") != "149"
+            or source.get("status") != "PASS"
+            or source.get("closure_status") != "PASS_FULL_28_CANCER_MATERIALIZATION_CLOSURE"
+        ):
+            raise RuntimeError("EPISODE_SOURCE_MATERIALIZATION_NOT_VALIDATED")
+        bindings = {"source_validation": file_record(source_validation),
+                    "graph_preflight": file_record(graph_preflight),
+                    "nested_preflight": file_record(nested_preflight)}
     value = {
         "format": EPISODE_PREFLIGHT_FORMAT,
         "run_id": settings.run_id,
@@ -259,11 +268,8 @@ def _initialize_preflight(settings) -> dict[str, Any]:
         "graph_asset_root": str(settings.graph_asset_root.resolve()),
         "nested_asset_root": str(settings.nested_asset_root.resolve()),
         "output_root": str(settings.output_root.resolve()),
-        "bindings": {
-            "source_validation": file_record(source_validation),
-            "graph_preflight": file_record(graph_preflight),
-            "nested_preflight": file_record(nested_preflight),
-        },
+        "bindings": bindings,
+        **({"native_episode_sources": True} if native_sources is not None else {}),
         # Normalize tuples before comparing against a JSON round-trip. Without
         # this, an identical persisted policy is misclassified as drift.
         "lasso": _jsonable(lasso_policy_receipt(settings.lasso_policy)),
@@ -491,6 +497,21 @@ def _episode_identity(cancer_id: str, outer: int, role: str, inner: int | None, 
     return f"{cancer_id}_outer{outer}_{role}_inner{target}_context{context}"
 
 
+def _native_cache_binding(settings):
+    if getattr(settings, "native_graph_binding", None) is None:
+        return {}
+    from cc_hhgt.v32.native_single_cell_episode_sources import cache_binding
+    return cache_binding(settings)
+
+
+def _verify_native_cache(settings, receipt):
+    expected = _native_cache_binding(settings)
+    if expected and any(receipt.get(key) != value for key, value in expected.items()):
+        raise RuntimeError("NATIVE_EPISODE_CACHE_SOURCE_DRIFT")
+    if expected and "episode" in receipt:
+        verify_record(receipt["episode"], Path(receipt["episode"]["path"]), "NATIVE_EPISODE_BYTES")
+
+
 def _cached_episode(
     settings,
     cancer_id: str,
@@ -509,6 +530,7 @@ def _cached_episode(
     if not receipt_path.is_file():
         return None
     receipt = read_json(receipt_path)
+    _verify_native_cache(settings, receipt)
     verify_record_metadata(receipt["episode"], destination, "CACHED_EPISODE")
     return receipt
 
@@ -617,6 +639,7 @@ def _write_episode(
     excluded = sorted({str(value) for value in excluded_donors})
     payload = {
         "format": EPISODE_FORMAT,
+        **_native_cache_binding(settings),
         "episode_id": episode_id,
         "cancer_id": cancer_id,
         "outer_fold_id": int(outer_fold_id),
@@ -670,6 +693,7 @@ def _write_episode(
     atomic_torch_save(destination, payload)
     receipt = {
         "format": EPISODE_SUCCESS_FORMAT,
+        **_native_cache_binding(settings),
         "target_host": "149",
         "state": "EPISODE_READY",
         "episode_id": episode_id,
@@ -909,10 +933,17 @@ def run_cancer(settings) -> dict[str, Any]:
     destination = settings.output_root / "cancers" / cancer_id / "SUCCESS.json"
     if destination.is_file():
         cached = read_json(destination)
+        _verify_native_cache(settings, cached)
         if cached.get("state") != "CANCER_EPISODES_COMPLETE":
             raise RuntimeError("CACHED_CANCER_EPISODE_STATE_DRIFT")
         for record in cached.get("episodes", []):
             verify_record(record, Path(record["path"]), "CACHED_CANCER_EPISODE")
+        if _native_cache_binding(settings):
+            verify_record(cached["static_asset"], Path(cached["static_asset"]["path"]), "NATIVE_STATIC_ASSET")
+            for record in cached["episode_receipts"]:
+                path = Path(record["path"])
+                verify_record(record, path, "NATIVE_EPISODE_RECEIPT")
+                _verify_native_cache(settings, read_json(path))
         return cached
     static = _load_cancer_static(settings, cancer_id)
     static_path = _ensure_shared_static(settings, cancer_id, static)
@@ -973,6 +1004,7 @@ def run_cancer(settings) -> dict[str, Any]:
     }
     value = {
         "format": EPISODE_SUCCESS_FORMAT,
+        **_native_cache_binding(settings),
         "target_host": "149",
         "state": "CANCER_EPISODES_COMPLETE",
         "cancer_id": cancer_id,
@@ -999,6 +1031,9 @@ def run_cancer(settings) -> dict[str, Any]:
 
 
 def _authorized_cancers(settings) -> list[str]:
+    if getattr(settings, "native_graph_binding", None) is not None:
+        value = read_json(settings.output_root / "LAUNCH_PREFLIGHT.json")
+        return list(value["bindings"]["authorized_cancers"])
     report = read_json(
         settings.source_result_root / "MATERIALIZATION_VALIDATION.json"
     )
@@ -1021,11 +1056,24 @@ def finalize(settings) -> dict[str, Any]:
     for cancer_id in cancers:
         cancer_success = settings.output_root / "cancers" / cancer_id / "SUCCESS.json"
         value = _read_success(cancer_success, "CANCER_EPISODES_COMPLETE")
+        _verify_native_cache(settings, value)
+        if _native_cache_binding(settings):
+            verify_record(value["static_asset"], Path(value["static_asset"]["path"]), "NATIVE_STATIC_ASSET")
+            if len(value["episodes"]) != len(value["episode_receipts"]):
+                raise RuntimeError("NATIVE_EPISODE_RECEIPT_COVERAGE")
+            for item, sidecar in zip(value["episodes"], value["episode_receipts"]):
+                path = Path(sidecar["path"])
+                verify_record(sidecar, path, "NATIVE_EPISODE_RECEIPT")
+                receipt = read_json(path)
+                if receipt["episode"] != item or path != Path(item["path"]).with_suffix(".json"):
+                    raise RuntimeError("NATIVE_EPISODE_RECEIPT_IDENTITY")
+                _verify_native_cache(settings, receipt)
         static_records.append(value["static_asset"])
         for record in value["episodes"]:
             path = Path(record["path"])
             verify_record_metadata(record, path, "FINAL_EPISODE")
             payload = torch.load(path, map_location="cpu", weights_only=True)
+            _verify_native_cache(settings, payload)
             fold = int(payload["outer_fold_id"])
             folds[fold].append(record)
             role = str(payload["role"])
@@ -1121,6 +1169,10 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--output-root", required=True, type=Path)
     result.add_argument("--cancer-id")
     result.add_argument("--finalize", action="store_true")
+    result.add_argument("--native-graph-binding", type=Path,
+                        help="Use verified canonical graph/nested sources instead of historical full-28 closure")
+    result.add_argument("--prepare-only", action="store_true",
+                        help="Validate completed source assets and write preflight without LASSO or episode serialization")
     result.add_argument("--deadline", required=True, type=float)
     result.add_argument("--lasso-alphas", default="0.3,0.1,0.03,0.01")
     result.add_argument("--lasso-max-genes", type=int, default=1000)
@@ -1152,8 +1204,12 @@ def main() -> int:
     settings = settings_from_args(parser().parse_args())
     if settings.finalize == bool(settings.cancer_id):
         raise SystemExit("EXACTLY_ONE_OF_CANCER_ID_OR_FINALIZE_IS_REQUIRED")
-    settings.output_root.mkdir(parents=True, exist_ok=True)
-    result = finalize(settings) if settings.finalize else run_cancer(settings)
+    _require_host_149()
+    if settings.prepare_only:
+        result = _initialize_preflight(settings)
+    else:
+        settings.output_root.mkdir(parents=True, exist_ok=True)
+        result = finalize(settings) if settings.finalize else run_cancer(settings)
     print(json.dumps(result, sort_keys=True))
     return 0
 
