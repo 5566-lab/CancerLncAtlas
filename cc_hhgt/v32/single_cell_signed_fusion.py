@@ -41,7 +41,8 @@ def _bound_record(value: dict, label: str) -> Path:
 
 
 def materialize_signed_sc_fusion(pointer_path: Path, candidates_path: Path, donor_crosswalk: Path,
-                                 output: Path, *, min_donors: int = 3, arm: str | None = None) -> dict:
+                                 output: Path, *, min_donors: int = 3, arm: str | None = None,
+                                 replay_native_model: bool = True) -> dict:
     """Stream the activated model's actual OOF rows to auditable fusion inputs.
 
     The crosswalk has dataset_id, query_donor_id, canonical_donor_id. It must
@@ -53,11 +54,20 @@ def materialize_signed_sc_fusion(pointer_path: Path, candidates_path: Path, dono
     if isinstance(min_donors, bool) or int(min_donors) != min_donors or min_donors < 2:
         raise ValueError("At least two independent donors are required")
     pointer = json.loads(pointer_path.read_text(encoding="utf-8"))
-    if (pointer.get("status") != "PASS_ACTIVATED_SC_HHGT"
+    from .native_single_cell_workflow import STATUS as WORKFLOW_STATUS,validate_pointer
+    numerical=pointer.get("status")==WORKFLOW_STATUS
+    if (pointer.get("status") not in {"PASS_ACTIVATED_SC_HHGT",WORKFLOW_STATUS}
             or pointer.get("estimand") != "signed_within_donor_metacell_spearman_rho"
             or pointer.get("split_policy") != "donor_blocked_outer_oof_with_nested_inner_validation"
             or pointer.get("training_complete") is not True or pointer.get("outer_folds") != 5):
         raise ValueError("An activated, donor-OOF signed SC-HHGT pointer is required")
+    if numerical:
+        prepared,_=validate_pointer(pointer_path,replay=replay_native_model)
+        for key,path in (("candidates",candidates_path),("donor_crosswalk",donor_crosswalk)):
+            expected=prepared["files"][key]
+            if str(path.resolve())!=expected["path"] or artifact_sha256(path)!=expected["sha256"]:
+                raise ValueError("SC fusion inputs differ from native preparation")
+        if min_donors!=prepared["min_donors"]:raise ValueError("SC donor minimum differs from native preparation")
     selected_arm = arm or pointer.get("primary_arm")
     if selected_arm not in {"with_lasso", "without_lasso"}:
         raise ValueError("Unknown single-cell arm")
@@ -165,6 +175,7 @@ def materialize_signed_sc_fusion(pointer_path: Path, candidates_path: Path, dono
         "run_id":run_id,"source_model_run_id":pointer.get("run_id"),
         "estimand":"DONOR_BALANCED_SIGNED_ASSOCIATION_STRENGTH","core_dependency":"INDEPENDENT_MODEL",
         "training_started":False,"inputs":inputs,"outputs":artifacts,"arm":selected_arm,
+        "native_numeric_replay_bound":numerical,
         "rows":counts[0],"available_rows":counts[1],"donor_context_rows":context_rows,
         "min_donors":min_donors,"aggregation":"EQUAL_CONTEXT_WEIGHT_WITHIN_CANONICAL_DONOR_THEN_EQUAL_DONOR_WEIGHT",
         "direction_preserved":True,"raw_rho_treated_as_probability":False,"observed_rho_used_as_feature":False,
@@ -175,8 +186,12 @@ def materialize_signed_sc_fusion(pointer_path: Path, candidates_path: Path, dono
     return audit
 
 
-def load_signed_sc_fusion(binding_path, *, expected_sha, replay=True):
-    """Replay native signed aggregation, without fitting or model inference."""
+def load_signed_sc_fusion(binding_path, *, expected_sha, replay=True, replay_model=True):
+    """Replay signed aggregation and, for new workflow inputs, frozen models.
+
+    Source-only model-use inspection explicitly disables the neural replay;
+    every recorded numerical dependency remains hash-bound in that mode.
+    """
     import tempfile
     from .current_core_export import verified_path
     from .context_table_replay import compare_tables
@@ -198,13 +213,20 @@ def load_signed_sc_fusion(binding_path, *, expected_sha, replay=True):
     if set(inputs)!={"pointer","predictions","candidates","donor_crosswalk"} or set(outputs)!={"donor_cell_context","cell_context_summary","single_cell_signed_fusion"}:
         raise ValueError("Unknown native signed single-cell artifact inventory")
     pointer=json.loads(inputs["pointer"].read_text(encoding="utf-8"))
+    from .native_single_cell_workflow import STATUS as WORKFLOW_STATUS,validate_pointer
+    numerical=pointer.get("status")==WORKFLOW_STATUS
+    if native.get("native_numeric_replay_bound",False) is not numerical:
+        raise ValueError("SC numerical binding semantics differ from pointer")
+    if numerical:
+        _,dependencies=validate_pointer(inputs["pointer"],replay=False)
+        for item in dependencies:bind(item)
     for key in ("oof_predictions","independent_validation"):bind(pointer[key],inputs["pointer"].parent)
     if native["inputs"]["predictions"]["sha256"]!=pointer["oof_predictions"]["sha256"]:
         raise ValueError("Signed single-cell prediction alias differs from pointer")
     if replay:
         with tempfile.TemporaryDirectory(prefix="signed_sc_replay_") as tmp:
             expected=materialize_signed_sc_fusion(inputs["pointer"],inputs["candidates"],inputs["donor_crosswalk"],
-                Path(tmp)/"native",min_donors=native["min_donors"],arm=native["arm"])
+                Path(tmp)/"native",min_donors=native["min_donors"],arm=native["arm"],replay_native_model=replay_model)
             expected=json.loads(json.dumps(expected))
             for key,value in expected.items():
                 if key!="outputs" and native.get(key)!=value:

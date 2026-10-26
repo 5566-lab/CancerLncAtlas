@@ -1,0 +1,67 @@
+{
+  "method": "NATIVE_SINGLE_CELL_PREPARE_COLLECT_SIGNED_FUSION_AND_CURRENT_PUBLICATION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "sc_workflow_r1",
+    "sc_workflow_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "observation_incidents": [
+    {
+      "receipt": "sc_workflow_smoke_r1",
+      "test_exit_code": 0,
+      "test_cases_passed": 3,
+      "incident": "SCP receipt return failed once with SSH banner invalid format after successful tests.",
+      "recovery": "Authorized read-only SSH hostname probe returned 149; original receipts were copied without rerunning tests, login or UI changes."
+    },
+    {
+      "stage": "handoff_sync",
+      "incident": "Initial SCP of handoff archive failed once with SSH banner invalid format.",
+      "recovery": "Authorized read-only SSH hostname probe returned 149; handoff upload resumed without rerunning any test or logging in again."
+    }
+  ],
+  "original_training_cli_prepare_only_executed": true,
+  "actual_native_completion_serializer_executed": true,
+  "canonical_episode_donor_partitions_checked": true,
+  "all_native_episode_donor_ids_require_unambiguous_mapping": true,
+  "actual_independent_structural_history_validator_executed": true,
+  "frozen_query_and_validation_values_replayed": true,
+  "actual_signed_fusion_consumer_executed": true,
+  "actual_current_context_and_publication_executed": true,
+  "actual_fusion_model_use_executed": true,
+  "model_use_neural_forwards_executed": false,
+  "training_outputs_unchanged_verified": true,
+  "preparation_model_construction_forward_and_optimization_forbidden": true,
+  "outer_folds": 5,
+  "arms": 2,
+  "native_episode_files": 20,
+  "arm_episode_inputs": 40,
+  "models": 10,
+  "oof_rows": 40,
+  "signed_fixture_available_pairs": 1,
+  "signed_fixture_query_donors": 5,
+  "test_substitutes": [
+    "Synthetic pre-materialized native episodes/static graphs; input generator sets BRCA/LNC:Z identities before model use.",
+    "Only extracted native fitting callback replaced with marked frozen HGT parameters and synthetic optimizer telemetry; all neural optimizers forbidden.",
+    "Existing actual fusion completion serializer uses fixed zero weights, not fitted fusion or claimed benefit."
+  ],
+  "current_signed_fusion_and_publication_replay_integrated": true,
+  "optimizer_execution_independently_verified": false,
+  "source_acquisition_ancestry_verified": false,
+  "metacell_and_lasso_transform_ancestry_verified": false,
+  "cross_module_patient_closure_complete": false,
+  "independent_predictive_performance_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native SC workflow preparation now executes the original no-fit input collector, binds full configuration, prepared graph/row inputs and canonical donor partitions, and records but never dispatches the original fitting command. Collection verifies the exact prepared completion, runs the unchanged independent validator and actual frozen forwards, then produces a scoped pointer and signed fusion binding without global promotion. Current selected/publication consumers repeat frozen replay for new workflow bindings. Source-only model-use inspection explicitly disables neural replay while checking all numerical dependencies. The actual native serializers and consumers run on synthetic pre-materialized episodes; fitting alone uses a marked frozen substitute, and fusion serialization uses existing fixed zero weights. This verifies no real optimization, new ranking benefit, acquisition/reference/metacell/LASSO ancestry or complete cross-module patient closure. Overall command orchestration, public scientific field definitions and final C01/C13/C16 acceptance remain open."
+}

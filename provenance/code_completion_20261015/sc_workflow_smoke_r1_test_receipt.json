@@ -1,0 +1,50 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T11:25:02.103592+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "da526aba000b4cf0d16de07cbc4d4eab7d2fca7eddbfbc79e8d555003da7913f",
+    "cc_hhgt/v32/current_single_cell_context.py": "2b9fec7cbe80ab455127fbcde8066124e0dcd4f2d417d671d57739974f5d707c",
+    "cc_hhgt/v32/native_single_cell_workflow.py": "d67f9e95e0ad0f5f75a354bf8a63be1d9b6ca76352ada22207c81c8daea6dd33",
+    "cc_hhgt/v32/single_cell_signed_fusion.py": "3a412e01548e4b9943da277d4d1f51c552a27b68a235fefedc51edc2d57c4fa2",
+    "scripts/run_native_single_cell_workflow.py": "ca4a39b82cd6f29ff3db4424d9b9f216adf34dc2d7e89be7e77ea54c6a864c72",
+    "tests/test_v32_native_single_cell_workflow.py": "fcf6550a227e34ebfe29c241fa7f775265332931524dc50a443a025368e8da46"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_single_cell_workflow.py::test_original_cli_preparation_no_model_and_no_fit_dispatch",
+    "tests/test_v32_native_single_cell_workflow.py::test_actual_collection_cli_signed_context_and_existing_publication",
+    "tests/test_v32_native_single_cell_workflow.py::test_actual_fusion_model_use_keeps_no_forward_and_complete_numeric_dependencies",
+    "--junitxml=provenance/code_completion_20261015/sc_workflow_smoke_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T11:26:40.391634+00:00"
+}

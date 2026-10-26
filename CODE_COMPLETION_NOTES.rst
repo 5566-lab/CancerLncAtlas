@@ -4092,6 +4092,7 @@ to the superseded source version and is not counted as final validation.
 Only dependency deprecation warnings remain. No neural/L1 fitting, real cohort
 analysis, paid compute or deployment was started.
 
+
 Partitioned genomic results: training, reassembly and fusion handoff
 ------------------------------------------------------------------
 
@@ -5409,3 +5410,127 @@ episodes/static graph assets; raw acquisition, reference, metacell and LASSO
 transformation ancestry, cross-module patient closure and independent predictive
 performance remain unproved. C01/C13/C16 stay in progress. No fitting, real cohort
 analysis, paid compute or deployment was started.
+
+Native single-cell preparation, completion and signed publication (2026-10-26)
+----------------------------------------------------------------------------
+
+``scripts.run_native_single_cell_workflow`` connects the original SC-HHGT CLI
+input collector to completed native serialization, frozen numerical replay,
+signed fusion features and the existing selected/publication consumers. It
+starts at pre-materialized episodes and static graph manifests. It does not
+produce raw-study, metacell or LASSO inputs and never dispatches fitting.
+
+The input format is ``NATIVE_SINGLE_CELL_WORKFLOW_INPUT_V1``. Required fields
+are a nonempty safe ``run_id`` and four path/SHA256 records: ``episode_manifest``
+(``SC_HHGT_EPISODE_MANIFEST.json``), ``graph_asset_manifest``
+(``GRAPH_ASSET_MANIFEST.json``), ``candidates`` and ``donor_crosswalk``.
+Candidates have unique ``cancer_id,lncrna_id,pathway_id`` rows. The crosswalk has
+unique ``dataset_id,query_donor_id`` rows and nonempty ``canonical_donor_id``.
+Both tables must be nonempty. ``min_donors`` defaults to three and must be an
+integer of at least two. The full declared candidate universe is preserved;
+unsupported candidates retain missing values and explicit reasons.
+
+Optional ``training_config`` accepts the original native CLI parameters:
+``seed``, ``epochs``, ``patience``, ``minimum_validation_improvement``,
+``prediction_batch_size``, ``max_rows_per_episode_step``,
+``max_fit_episodes_per_epoch``, ``training_workers``, ``threads_per_worker``,
+``learning_rate``, ``weight_decay``, ``hidden_channels``, ``num_layers``,
+``num_heads``, ``dropout`` and ``max_gradient_norm``. Omitted values use the
+original producer defaults and the expanded configuration is recorded.
+Unknown fields, Boolean/fractional counts and non-finite values are rejected
+by the native configuration checks. The five folds and both LASSO arms remain
+mandatory; the primary arm is ``with_lasso``.
+
+Native episode donor arrays contain unqualified IDs. This workflow therefore
+requires every consumed donor ID to map unambiguously across the crosswalk,
+including fit, validation, source and excluded donors, not only query donors.
+Canonical outer-training/query and source/excluded partitions must be disjoint,
+and each canonical query donor must remain in one outer fold. These checks
+verify consistency of the supplied identity map; they do not independently
+establish patient identity or close cross-module patient ancestry.
+
+Run from the development checkout on server 149::
+
+    python -m scripts.run_native_single_cell_workflow prepare \
+      --manifest /path/sc_workflow.json --output /new/sc_prepared --plan
+
+    python -m scripts.run_native_single_cell_workflow prepare \
+      --manifest /path/sc_workflow.json --output /new/sc_prepared
+
+The plan checks hashes, native manifest geometry, canonical donor partitions,
+configuration, candidate/crosswalk tables and actual CLI argument parsing.
+It creates no output. Preparation dispatches only the original CLI's
+``--prepare-only`` command and compares its actual ``INPUT_PREFLIGHT.json``
+against a reconstruction of both arms' graph/row inputs. It builds no model,
+performs no forward or optimization and produces no trained completion.
+``PREPARED.json`` binds the plan, numerical input description and
+``EXECUTION_COMMAND.json``. The latter records the parsed original fitting
+command targeting ``sc_prepared/training``; it is never executed by this
+workflow. A dispatcher rejects a command lacking ``--prepare-only`` before
+opening its log. These receipts contain private donor paths and identifiers.
+
+After a separately completed native run exists::
+
+    python -m scripts.run_native_single_cell_workflow collect \
+      --preparation /new/sc_prepared/PREPARED.json \
+      --preparation-sha256 <sha256> \
+      --completed /new/sc_prepared/training/SUCCESS.json \
+      --completed-sha256 <sha256> --output /new/sc_collected
+
+Collection requires the exact declared completion directory, configuration and
+prepared graph/row fingerprints. It executes the independent structural/history
+validator and all ten frozen models' query/inner-validation reconstruction.
+The saved numerical receipt is also rechecked when generating signed features.
+Output uses a scoped ``PASS_SC_HHGT_WORKFLOW`` pointer, explicitly separate from
+historical activation. No global pointer or historical result is rewritten.
+``NATIVE_SINGLE_CELL_BINDING.json`` binds preparation, native completion,
+numerical replay and ``signed/AUDIT.json``. Failed collection retains diagnostic
+receipts without a successful final binding. Output directories must be new and
+collection cannot write into completed training results.
+
+The signed binding is accepted by the existing fusion preparer. Its two expert
+channels retain positive and negative association strengths, equal context
+weight within canonical donor and equal weight across donors. These strengths
+are not probabilities. To attach it to an existing selected analysis, use the
+existing ``CURRENT_SINGLE_CELL_CONTEXT_INPUT_V1`` manifest with
+``selected_analysis`` pointing to that selected binding and ``native_binding``
+pointing to ``sc_collected/signed/AUDIT.json``. Then run the existing
+``scripts.materialize_v32_current_single_cell_context`` CLI. Its resulting
+context binding is accepted by the overall publication workflow's single-cell
+``REUSE`` stage. If selected fusion actually uses SC, the consumer requires this
+same SC binding; adding a context to an unrelated selected score does not claim
+that SC changed its ranking.
+
+New workflow signed bindings carry ``native_numeric_replay_bound=true``.
+Current-context generation and full re-audits repeat frozen neural forwards and
+report that scope explicitly. Legacy pointers retain their existing aggregate
+replay semantics and do not acquire a numerical-model guarantee. Model-use
+inspection deliberately passes ``replay_model=false``: it reconstructs signed
+aggregation, checks the preparation and every bound numerical dependency, then
+inspects actual checkpoints and episode inputs without constructing/calling a
+model. Its existing ``model_forwards_executed=false`` remains truthful.
+The new receipt does not prove optimizer execution or independent performance.
+
+Verification uses the actual original CLI, actual completion serializers and
+real current fusion/context/publication consumers with synthetic prepared graph
+inputs. Only the extracted fitting callback uses explicitly marked frozen
+parameters and synthetic optimizer telemetry; Adam, AdamW and SGD are forbidden.
+The existing fusion serialization fixture uses frozen zero weights, not fitted
+weights or evidence of benefit. Source acquisition, reference/metacell/LASSO
+ancestry, full patient closure, complete external acceptance, overall command
+orchestration and final C01/C13/C16 acceptance remain open. No fitting, real
+cohort analysis, paid compute or deployment was started.
+
+
+Single-cell workflow verification on 149: ``sc_workflow_r1`` passes 68 cases in
+222.15 seconds and ``sc_workflow_consumers_r1`` passes 39 cases in 115.31 seconds.
+All 107 distinct related cases pass, with no failures or skips. The earlier
+three-case smoke run is not counted again. Negative cases cover rehashed
+commands/tensor counts/configuration, prediction and numerical receipt
+corruption, donor aliases/missing mappings, mismatched source identity/minimums
+and output/host boundaries.
+
+The smoke tests passed; their SCP receipt return failed once with an SSH banner
+error. The first handoff archive upload later encountered the same error. Each
+authorized read-only probe returned hostname 149; the original receipts and
+handoff transfer resumed without rerunning tests, changing login or opening UI.

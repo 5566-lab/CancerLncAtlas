@@ -124,7 +124,7 @@ def inspect_fusion_expert(inventory,path,binding,audit,frame,expert,model,endpoi
         except AssertionError as error:raise ValueError("Fusion snapshot differs from the declared native expert input") from error
     from .single_cell_signed_fusion import FORMAT as SIGNED_FORMAT,load_signed_sc_fusion
     if native.get("format")==SIGNED_FORMAT:
-        native,inputs,outputs,sources=load_signed_sc_fusion(audit_path,expected_sha=sha256(audit_path))
+        native,inputs,outputs,sources=load_signed_sc_fusion(audit_path,expected_sha=sha256(audit_path),replay_model=False)
         if sha256(outputs["single_cell_signed_fusion"])!=sha256(prediction):
             raise ValueError("Fusion expert consumed prediction differs from signed SC aggregate")
         compare_snapshot(pd.read_parquet(outputs["single_cell_signed_fusion"]))

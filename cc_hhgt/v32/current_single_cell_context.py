@@ -2,7 +2,7 @@
 
 Public summaries retain cell and dataset context, donor counts and spread.
 Private donor rows remain bound to the release, not exposed by its downloads.
-Preparation replays the existing aggregation, never a model fit or forward.
+Preparation replays aggregation and any bound new-workflow frozen models.
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from .drug_sparse_query import _bounded_duckdb
 from .context_table_replay import relation, compare_tables
 from .current_drug_sources import same_relation
 from .selected_genesets import SelectedAnalysisQuery
-from .single_cell_signed_fusion import materialize_signed_sc_fusion
+from .single_cell_signed_fusion import load_signed_sc_fusion
 
 INPUT_FORMAT = "CURRENT_SINGLE_CELL_CONTEXT_INPUT_V1"
 FORMAT = "CURRENT_SINGLE_CELL_CONTEXT_RELEASE_V1"
@@ -61,18 +61,8 @@ def sources(manifest_path,*,replay):
         same_relation(f"SELECT {','.join(KEYS)} FROM {relation(candidates)}",
                       f"SELECT {','.join(KEYS)} FROM {relation(inputs['candidates'])}")
     except ValueError as error:raise ValueError("Single-cell candidate universe differs from selected analysis") from error
-    pointer=read(inputs["pointer"])
-    for key in ("oof_predictions","independent_validation"):bind(pointer[key],inputs["pointer"].parent)
-    if replay:
-        with tempfile.TemporaryDirectory(prefix="single_cell_context_replay_") as tmp:
-            expected=materialize_signed_sc_fusion(inputs["pointer"],inputs["candidates"],inputs["donor_crosswalk"],
-                Path(tmp)/"native",min_donors=native["min_donors"],arm=native["arm"])
-            expected=json.loads(json.dumps(expected))
-            for key,value in expected.items():
-                if key!="outputs" and native.get(key)!=value: raise ValueError("Single-cell native policy or lineage differs: "+key)
-            for name,keys in (("donor_cell_context",KEYS+["dataset_id","cell_key","query_donor_id"]),
-                              ("cell_context_summary",KEYS+["cell_key"]),("single_cell_signed_fusion",KEYS)):
-                compare_tables(outputs[name],expected["outputs"][name]["path"],keys)
+    native,inputs,outputs,dependencies=load_signed_sc_fusion(native_path,expected_sha=sha256(native_path),replay=replay)
+    for item in dependencies:bind(item,native_path.parent)
     # If SC actually contributes to the selected fusion, the webpage cannot
     # show another SC run with an otherwise identical candidate universe.
     chosen_path=bind(score["sources"]["selected_producer"]["producer_binding"],score_path.parent)
@@ -154,7 +144,7 @@ def materialize_current_single_cell_context(manifest_path,output):
         "selected_analysis":context["manifest"]["selected_analysis"],"native_binding":context["manifest"]["native_binding"],
         "single_cell_run_id":context["native"]["run_id"],"min_donors":context["native"]["min_donors"],
         "source_artifacts":list(context["sources"].values()),"outputs":outputs,"implementation_sha256":implementation_hashes(),
-        "native_aggregation_replayed":True,"native_model_forwards_replayed":False,
+        "native_aggregation_replayed":True,"native_model_forwards_replayed":context["native"].get("native_numeric_replay_bound",False),
         "used_in_selected_score":context["used_in_selected_score"],"joint_geneset_effect_estimated":False,
         "donor_sd_is_confidence_interval":False,"donor_identifiers_in_public_tables":False,
         "training_started":False,"production_deployed":False}
@@ -170,10 +160,13 @@ def load(binding_path,expected_sha,selected_analysis_sha):
     path=verified_path({"path":str(binding_path),"sha256":expected_sha},Path.cwd()); binding=read(path)
     if (binding.get("format")!=FORMAT or binding.get("status")!="PASS" or binding.get("target_host")!="149"
             or binding["selected_analysis"]["sha256"]!=selected_analysis_sha):raise ValueError("Invalid or different selected single-cell context")
-    for field in ("native_model_forwards_replayed","joint_geneset_effect_estimated","donor_sd_is_confidence_interval",
+    for field in ("joint_geneset_effect_estimated","donor_sd_is_confidence_interval",
                   "donor_identifiers_in_public_tables","training_started","production_deployed"):
         if binding.get(field) is not False:raise ValueError("Invalid single-cell context semantics: "+field)
     if binding.get("native_aggregation_replayed") is not True:raise ValueError("Native single-cell aggregation was not verified")
+    native=read(verified_path(binding["native_binding"],path.parent))
+    if binding.get("native_model_forwards_replayed") is not native.get("native_numeric_replay_bound",False):
+        raise ValueError("Single-cell frozen forward semantics differ from native binding")
     paths={name:verified_path(item,path.parent) for name,item in binding["outputs"].items()}
     return path,binding,paths
 
@@ -201,6 +194,7 @@ def audit_current_single_cell_context(binding_path,*,expected_sha,replay_native=
             compare_tables(paths[name],item["path"],keys)
             if item["rows"]!=binding["outputs"][name]["rows"]:raise ValueError("Single-cell context row count changed")
     return {"status":"PASS","binding_sha256":expected_sha,"native_aggregation_replayed_in_this_audit":replay_native,
+        "native_model_forwards_replayed_in_this_audit":replay_native and binding["native_model_forwards_replayed"],
         "public_tables_recomputed":True,"training_started":False,"independent_biological_validation":False}
 
 
