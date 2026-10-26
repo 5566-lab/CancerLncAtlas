@@ -7134,3 +7134,9 @@ GENCODE native annotation verification on149: ``annotation_sources_r1``, ``annot
 pass 97 distinct related checks. Raw GTF feeds actual bulk candidate/activity
 consumers and model-use reconstruction; annotation.run is chain operation 30.
 Reference authenticity and all-module acceptance remain open. No fitting or real cohorts ran.
+
+Original single-cell GTF annotation verification on149: ``sc_annotation_sources_r2``, ``sc_annotation_model_r1``, ``sc_annotation_consumers_r1``
+pass 79 distinct related checks. Actual H5 mapping and completed-model
+input inspection follow the original annotation producer to GTF; chain operation 31.
+Reference study exposure is separate from the H5 cohort. Raw/QC/geometry/LASSO
+and whole-project acceptance remain open; no fitting or real-data analysis ran.

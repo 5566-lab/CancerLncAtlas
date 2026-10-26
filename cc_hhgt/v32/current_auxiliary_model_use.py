@@ -35,6 +35,8 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
     if not source.get("path") or not path.exists():
         inventory.authority(source,root,model,role,fold);return
     path=inventory.bind(source,root,model,role,fold)
+    from .native_single_cell_annotation_workflow import inspect as inspect_sc_annotation
+    if inspect_sc_annotation(inventory,path,model,role,fold):return
     from .native_annotation_workflow import inspect as inspect_annotation
     if inspect_annotation(inventory,path,item,root,model,role,fold):return
     if path.suffix==".json":

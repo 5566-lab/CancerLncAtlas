@@ -17,6 +17,7 @@ from .formal_expression_sources import read,record
 from .current_analysis_workflow import write
 from .context_table_replay import compare_tables
 from .input_lineage import artifact_sha256
+from .native_single_cell_annotation_workflow import CODE as ANNOTATION_CODE
 
 ROOT=Path(__file__).resolve().parents[2]
 INPUT="NATIVE_SINGLE_CELL_MAPPING_WORKFLOW_INPUT_V1"
@@ -25,7 +26,7 @@ CODE=("cc_hhgt/v32/native_single_cell_mapping_workflow.py","scripts/run_native_s
       "scripts/materialize_single_cell_metacell_149.py","scripts/run_v32_single_cell_verified_streaming.py",
       "cc_hhgt/v32/single_cell_r7_streaming.py","cc_hhgt/v32/single_cell_cell_level.py",
       "cc_hhgt/v32/single_cell_preprocessing.py","cc_hhgt/v32/single_cell_verified_metadata.py",
-      "cc_hhgt/v32/context_table_replay.py")
+      "cc_hhgt/v32/context_table_replay.py", *ANNOTATION_CODE)
 SPARSE=("CODING_MEASURED.npz","LNC_MEASURED.npz","CODING_LOG_FOR_GROUPING.npz","EXACT_SIGNATURE_MATRIX.npz")
 ARRAYS=("ALL_GENE_LIBRARY.npy","SIGNATURE_GENE_COUNTS.npy","MISSING_GENE_COUNTS.npy")
 FILES={*SPARSE,*ARRAYS,"IDS.json","CELL_METADATA.parquet"}
@@ -57,6 +58,7 @@ def plan(manifest,output,*,new=True):
     _,bundle,_=upstream(value)
     value["cancer_id"]=bundle["cancer_id"]
     sources=[*bundle["input_paths"].values(),root/"TRAINING_HANDOFF.json",root/"dataset_manifest_33c.parquet"]
+    sources.extend(Path(pin["path"]) for pin in bundle.get("gene_annotation_sources", []))
     if any(output==Path(p).resolve() or output in Path(p).resolve().parents for p in sources):
         raise ValueError("Single-cell output must not contain raw sources")
     return {**value,"input":record(manifest),"target_host":"149","training_started":False,

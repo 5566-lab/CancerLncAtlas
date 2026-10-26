@@ -123,8 +123,15 @@ def inspect(inventory, episode_path, graph_path, model, role):
     # unresolved. Patient identities remain inside PatientUse's private map.
     tokens=metadata_tokens({'dataset_id':bundle['dataset_id']})
     raw_paths={Path(p).resolve() for p in bundle['input_paths'].values()}
+    from .native_single_cell_annotation_workflow import inspect as inspect_annotation
+    annotation_path=Path(bundle['input_paths']['annotation']).resolve()
+    annotation_verified=inspect_annotation(inventory,annotation_path,model,role+'.native.gene_annotation')
+    reference_paths={Path(pin['path']).resolve() for pin in bundle.get('gene_annotation_sources',[])}
     for index,pin in enumerate(mapping_value['source_files']):
         path=bind(pin,'raw_source.'+str(index))
+        if annotation_verified and path in reference_paths:
+            handled.add((str(path),pin['sha256']))
+            continue
         if path.suffix in {'.parquet','.tsv','.csv'}:
             source_metadata(inventory,path,model,role+'.native.raw_source.'+str(index),upstream_tokens=tokens)
         if path in raw_paths and path.suffix!='.json':handled.add((str(path),pin['sha256']))

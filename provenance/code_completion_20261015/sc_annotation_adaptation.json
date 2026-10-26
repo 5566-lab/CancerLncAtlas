@@ -1,0 +1,61 @@
+{
+  "method": "ORIGINAL_GENCODE_SINGLE_CELL_CACHE_TO_NATIVE_MODEL_INPUTS",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "sc_annotation_sources_r2",
+    "sc_annotation_model_r1",
+    "sc_annotation_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "sc_annotation_sources_r1"
+  ],
+  "intermediate_failure_causes": [
+    "Two actual native-mapping cases exposed the fixed historical r7 annotation directory guard. Original H5 loader now admits only fully reconstructed native gene annotations outside it; legacy guards remain tested."
+  ],
+  "implementation_files": [
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/native_single_cell_annotation_workflow.py",
+    "cc_hhgt/v32/native_single_cell_mapping_workflow.py",
+    "cc_hhgt/v32/native_single_cell_model_sources.py",
+    "cc_hhgt/v32/native_workflow_chain.py",
+    "cc_hhgt/v32/single_cell_partition_builder.py",
+    "scripts/run_native_single_cell_annotation_workflow.py",
+    "scripts/run_v32_single_cell_verified_streaming.py",
+    "tests/test_v32_native_single_cell_annotation_workflow.py",
+    "tests/test_v32_single_cell_annotation_model_use.py"
+  ],
+  "original_annotation_producer_invoked": true,
+  "scientific_columns_and_mapping_rules_unchanged": true,
+  "actual_three_stage_chain_verified": true,
+  "actual_frozen_model_input_inspector_reaches_gtf": true,
+  "reference_files_do_not_inherit_h5_study_tokens": true,
+  "native_chain_operations": 31,
+  "legacy_raw_and_membership_source_guards_preserved": true,
+  "reference_authenticity_verified": false,
+  "cell_type_and_qc_authority_reconstructed": false,
+  "fitted_geometry_or_lasso_verified": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/SINGLE_CELL_GENCODE_INPUT_20261027.rst",
+      "sha256": "6c2242835b4287b18c6454fc8f2b2f8c3c823cf07c68b6ce0799a6bd4ce3f025"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic GTF/H5/metadata sources; original annotation/mapping/statistical producers.",
+    "Existing full-model-input fixture uses explicit frozen geometry, LASSO, checkpoints and completion telemetry; no fitting."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native single-cell annotation now calls the original GTF cache producer from the bound native reference, preserving original primary-contig, biotype, duplicate, symbol uniqueness and terminal-version ID rules. Optional Parquet metadata binds its preflight without changing scientific columns. Original H5 contract loading verifies the raw GTF reconstruction and admits the new producer independently of the historical r7 authority directory; all unmarked/raw/membership paths keep existing guards. Actual H5 mapping and native completed-model input inspection follow reference and producer dependencies. Reference sources no longer inherit raw H5 patient-study tokens. The new native chain has 31 operations. Geometry/LASSO/model completion fixtures remain explicit frozen substitutes; no fitting, real cohorts, downloads, paid compute or deployment ran. Reference authenticity, cell QC/type authority, genomic annotation ancestry and full cross-module/external acceptance remain open."
+}

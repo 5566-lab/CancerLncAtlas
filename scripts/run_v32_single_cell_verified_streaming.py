@@ -424,7 +424,13 @@ def _load_contract(args: argparse.Namespace) -> dict[str, Any]:
         "annotation": Path(record["annotation_path"]),
         "membership": Path(record["exact_membership_path"]),
     }
+    from cc_hhgt.v32.native_single_cell_annotation_workflow import source_files as annotation_sources
+    gene_annotation, gene_annotation_sources = annotation_sources(input_paths["annotation"])
     for role, path in input_paths.items():
+        # Native GTF reconstruction establishes this producer's source route;
+        # it need not impersonate the historical r7 authority directory.
+        if role == "annotation" and gene_annotation is not None:
+            continue
         assert_fresh_r7_source(path, role={"h5": "raw_h5"}.get(role, role))
     input_shas = {
         "h5_sha256": _validate_sha(input_paths["h5"], record["h5_sha256"], "raw H5"),
@@ -670,6 +676,10 @@ def _load_contract(args: argparse.Namespace) -> dict[str, Any]:
         "historical_predictions_used": False,
         "historical_sc_trajectory_used": False,
     }
+    if gene_annotation is not None:
+        from cc_hhgt.v32.native_single_cell_annotation_workflow import BINDING
+        from cc_hhgt.v32.formal_expression_sources import record as annotation_record
+        contract_payload["gene_annotation_preparation"] = annotation_record(input_paths["annotation"].parent / BINDING)
     contract_sha = _canonical_sha(contract_payload)
     return {
         "contract": contract_payload,
@@ -679,6 +689,7 @@ def _load_contract(args: argparse.Namespace) -> dict[str, Any]:
         "measurement_scale": measurement_scale,
         "input_paths": input_paths,
         "input_shas": input_shas,
+        "gene_annotation_sources": gene_annotation_sources,
         "shape": shape,
         "nnz": nnz,
         "metadata": metadata,

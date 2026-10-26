@@ -142,6 +142,7 @@ def prepare_gencode_annotation(
     gtf_path: str | Path,
     output_parquet: str | Path,
     provenance_path: str | Path,
+    native_annotation_preflight: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Create a stable-ID/symbol annotation cache directly from a GENCODE GTF."""
 
@@ -187,6 +188,12 @@ def prepare_gencode_annotation(
     symbol_counts = frame.groupby("gene_symbol", observed=True).gene_id.nunique()
     frame["unique_symbol"] = frame.gene_symbol.map(symbol_counts).eq(1)
     frame = frame.sort_values(["gene_class", "gene_id"], kind="stable").reset_index(drop=True)
+    if native_annotation_preflight is not None:
+        from .cnv_input_sources import require_host
+        from .current_core_export import verified_path
+        from .formal_expression_sources import record
+        require_host()
+        frame.attrs["native_gene_annotation_preflight"] = record(verified_path(native_annotation_preflight, output.parent))
     _atomic_parquet(frame, output)
     payload = {
         "format": ANNOTATION_FORMAT,
@@ -203,6 +210,8 @@ def prepare_gencode_annotation(
         "historical_rankings_used": False,
         "historical_checkpoints_used": False,
     }
+    if native_annotation_preflight is not None:
+        payload["native_gene_annotation_preflight"] = frame.attrs["native_gene_annotation_preflight"]
     payload["contract_sha256"] = _canonical_sha256(payload)
     _atomic_json(provenance, payload)
     return payload
