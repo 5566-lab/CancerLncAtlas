@@ -42,6 +42,9 @@ def load_sources(specs, root):
             if (audit.get("format") != "RBNS_SEQUENCE_ANALYSIS_AUDIT_V1" or audit.get("status") != "PASS"
                     or audit.get("lncrna_binding_measured") is not False or not audit.get("annotation_id")):
                 raise ValueError("RBNS admission requires the completed sequence-analysis audit")
+            if "source_contract" in audit or "input_manifest" in audit:
+                from cc_hhgt.v32.native_rbp_workflow import replay_audit
+                replay_audit(source["audit"],root)
             path = verified_path(source["binding"], root)
             if source["binding"]["sha256"] != audit["outputs"]["RBNS_TYPED_BINDING.parquet"]["sha256"]:
                 raise ValueError("RBNS binding table does not belong to the audited sequence analysis")

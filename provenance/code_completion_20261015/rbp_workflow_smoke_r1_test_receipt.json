@@ -1,0 +1,51 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T13:30:26.440059+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/evidence_rule_sources.py": "1dceed67ca004c8564c7b1512d90f5161f5337f3d1cbd9992224d25fb0a0ff8b",
+    "cc_hhgt/v32/native_rbp_workflow.py": "34212991283eb9d412b1234e9362dc104b8cc84ed1bab591c929e7ebfa7d779c",
+    "cc_hhgt/v32/native_workflow_chain.py": "aae3afc0ea7a678aa45484c6178d823e86cca17428f5e994982ea65108a0c490",
+    "scripts/analyze_v32_encode_functional.py": "904bb35721969844d2606063810ef6bffbc9f91c5240728ebec61bd8895a5386",
+    "scripts/analyze_v32_rbns_sequences.py": "6ca08e1ebb672691d6698bd17495af57f9ff5db5b202783873e0b9a655f78a7f",
+    "scripts/prepare_v32_current_binding_comparison.py": "5bf8153640cbb22c0f74f2624bc8d28172a73bf8d8b449a6690ca4d3ade0f1eb",
+    "scripts/run_native_rbp_workflow.py": "611d21c386375598255e1a3aeca79c5d98fc8b31510f0d8c1414e882a337fb3b",
+    "tests/test_v32_native_rbp_workflow.py": "f15540c99df4a2d5f0ba3b78c031fe4647fcac6340e2758f727dbc6d6c75a86c"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_rbp_workflow.py::test_cached_analyses_reach_rule_query_and_actual_publication",
+    "tests/test_v32_native_rbp_workflow.py::test_actual_rbns_output_enters_only_predicted_graph_arm",
+    "--junitxml=provenance/code_completion_20261015/rbp_workflow_smoke_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-26T13:30:45.406969+00:00"
+}

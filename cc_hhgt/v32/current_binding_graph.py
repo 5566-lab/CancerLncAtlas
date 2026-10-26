@@ -15,7 +15,7 @@ import pandas as pd
 from .contracts import dataframe_sha256
 from .formal_graph import (TYPED_BINDING_ROLES, build_formal_graph_authority,
                            materialize_typed_lnc_protein_binding)
-from .rbp_assay import classify_assay
+from .rbp_assay import classify_assay, graph_assay_relation_type
 from .safe_graph import EDGE_KEYS, build_safe_graph
 from ..relation_sampling import RuntimeSamplingPolicy, runtime_chunk_positions, schedule_runtime_edges
 
@@ -113,6 +113,13 @@ def normalize_binding_source(frame, *, source_id, predicted_weight_cap=.25):
     if values.is_context_specific.any() or values.cancer_id.notna().any(): raise ValueError("Expansion cannot silently globalize context-specific evidence")
     if not values.graph_assay_class.isin(PHYSICAL_CLASSES | {"predicted"}).all(): raise ValueError("Expansion contains nonphysical or untyped evidence")
     if values[list(required-{"cancer_id"})].isna().any().any(): raise ValueError("Incomplete expansion binding")
+    relations=values.graph_assay_class.map(graph_assay_relation_type)
+    if "relation_type" in values and not values.relation_type.eq(relations).all():
+        raise ValueError("Expansion relation type contradicts its assay class")
+    # Native October tables omit this optional field while RBNS supplies it.
+    # Normalize before concatenation so one source does not acquire null types
+    # merely because another source explicitly declares its canonical relation.
+    values["relation_type"]=relations
     if (not values.lncrna_id.astype(str).str.startswith("LNC:").all()
             or not values.protein_id.astype(str).str.startswith(("UNIPROT:", "PROTEIN:")).all()):
         raise ValueError("Expansion endpoints must use registered lncRNA/protein namespaces")

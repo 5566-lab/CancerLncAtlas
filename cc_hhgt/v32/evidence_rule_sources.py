@@ -159,6 +159,9 @@ def load_rule_sources(specs, root, members):
             audit = json.loads(audit_path.read_text(encoding="utf-8"))
             expected = "ENCODE_FUNCTIONAL_ANALYSIS_AUDIT_V1" if kind == "encode_functional" else "RBNS_SEQUENCE_ANALYSIS_AUDIT_V1"
             if audit.get("format") != expected or audit.get("status") != "PASS": raise ValueError("Incomplete upstream evidence analysis")
+            if "source_contract" in audit or "input_manifest" in audit:
+                from .native_rbp_workflow import replay_audit
+                replay_audit(spec["audit"],root)
             name = "FUNCTIONAL_EVIDENCE.parquet" if kind == "encode_functional" else "GENE_SEQUENCE_PREFERENCE.parquet"
             path = verified_path(spec["table"], root)
             if spec["table"]["sha256"] != audit["outputs"][name]["sha256"]: raise ValueError("Evidence table belongs to a different upstream run")

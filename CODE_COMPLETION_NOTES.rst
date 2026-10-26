@@ -5804,3 +5804,83 @@ module. All 17 registered operations execute in separate scoped synthetic
 chains, including both CNV and ATAC auxiliary branches. This is not one full
 real-study execution. The earlier two-case smoke pass is not counted again.
 No real optimizer, real cohort analysis, paid compute or deployment was run.
+
+Cached native RBP evidence workflow (2026-10-26)
+-----------------------------------------------
+
+``scripts.run_native_rbp_workflow`` executes the existing ENCODE depletion or
+RBNS sequence analysis from a verified local cache on host 149. The current
+chain registry now has 18 operations, adding ``rbp.run`` to the preceding 17.
+RBP analyses have no core dependency; stages depend only on explicitly declared
+references. No neural/L1/fusion fitting, downloads, graph activation or global
+pointer changes are dispatched. Existing native acquisition commands retain
+their separate explicit ``--download`` option for future authorized execution.
+
+The workflow manifest has exactly ``format=NATIVE_RBP_WORKFLOW_INPUT_V1``,
+``kind`` (``encode_functional`` or ``rbns_sequence``), ``analysis`` (the pinned
+native analysis JSON) and ``cache`` (a directory path). RBNS additionally accepts
+positive integer ``chunk_rows`` (default 50000); ENCODE does not use this option.
+The native analysis schemas, selected concentrations/contrasts, input artifact
+roles and scientific thresholds are unchanged. The original analysis JSON's
+relative artifact paths resolve against its own directory. The cache resolves
+against the wrapper manifest, and must already contain every selected released
+ENCODE file with matching size and MD5. Planning also pins each raw file's SHA256.
+An absent cache or selected file fails before creating workflow output.
+
+Run on 149::
+
+    python -m scripts.run_native_rbp_workflow --manifest /path/rbp.json --output /new/rbp --plan
+    python -m scripts.run_native_rbp_workflow --manifest /path/rbp.json --output /new/rbp
+
+In a native chain use ``operation=rbp.run`` and the full wrapper manifest as
+``inputs``. ``/audit`` selects the original producer audit; ``/outputs/<name>``
+selects a native output record. These references can populate an actual
+``publication.run`` Evidence BUILD template via ``json_file``. ENCODE supplies
+``FUNCTIONAL_EVIDENCE.parquet`` for an ``encode_functional`` rule source; RBNS
+supplies ``GENE_SEQUENCE_PREFERENCE.parquet`` for ``rbns_sequence`` rule evidence
+and ``RBNS_TYPED_BINDING.parquet`` for an explicit predicted expansion source.
+Both retain the original required ``source_id`` and ``audit`` fields.
+
+Each new native audit binds ``source_contract=CACHED_RAW_RBP_ANALYSIS_V1``, its
+original input manifest and cache root; RBNS also binds chunk size. The workflow
+replays the actual native command into an isolated temporary directory on 149,
+checks every metadata field and output inventory, and compares all parquet
+columns and rows (floating tolerance rtol=1e-10, atol=1e-12). Source bytes are
+rechecked before and after replay. ``raw_numerical_replay_verified`` means this
+same-implementation reconstruction, not independent biological validation.
+Collection uses a new output directory outside inputs/cache, with launch and
+failure receipts. The original cached inputs and completed producer outputs
+remain unchanged.
+
+The current rule-source reader, rule-release query loader and RBNS comparison
+source loader now perform this replay for the new contract. A saved rule-summary
+audit does not exempt a native KD/RBNS source from later raw-file checks. Legacy
+audits without raw-manifest binding keep their explicitly narrower historical
+scope; merely loading them does not grant raw reconstruction. Fully re-auditing
+large native releases can be expensive: this implementation reconstructs the
+analysis rather than trusting a cached numerical PASS.
+
+Actual native RBNS output exposed a mixed-source graph issue: RBNS declares a
+``relation_type`` column while native October physical tables omit it. Source
+normalization now derives the canonical relation from every assay class before
+concatenation and rejects conflicting explicit declarations. Thus missing
+optional columns cannot create null relationship types. The existing predicted
+weight cap and three-arm policy are unchanged; predicted edges remain absent
+from the current-C and experimental-only arms.
+
+KD remains an RBP depletion/pathway overrepresentation result bridged through
+same-biosample physical binding. It is not an observed lncRNA perturbation.
+RBNS remains transcript-sequence preference with complete registered isoform
+coverage, an independent-base-frequency comparator and unavailable values for
+unscorable transcripts. Its score is neither measured lncRNA binding nor a
+probability. The integration fixture uses actual cached synthetic files and
+native analysis/aggregation/graph/publication code; only the pre-existing core
+checkpoints are explicitly frozen synthetic containers. No real cohort analysis,
+parameter fitting, download, paid compute or deployment was executed. Remaining
+acquisition/statistical branches, full source/patient ancestry, public field
+definitions and final C01/C13/C16 acceptance remain open.
+
+Native RBP verification on 149: ``rbp_workflow_r1``, ``rbp_workflow_native_comparison_r1``, ``rbp_workflow_r2``
+pass 119 distinct related checks (latest listed suite per module).
+The initial failed smoke receipt is retained with the mixed-source schema fix.
+No fitting, downloads, real cohort analysis, paid compute or deployment ran.

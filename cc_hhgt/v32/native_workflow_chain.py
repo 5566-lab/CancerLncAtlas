@@ -23,8 +23,8 @@ EXTERNAL = "NATIVE_WORKFLOW_CHAIN_EXTERNAL_V1"
 STAGE = "NATIVE_WORKFLOW_CHAIN_STAGE_V1"
 SLUG = re.compile(r"[a-z][a-z0-9_-]{0,63}")
 MODULES = {name: "cc_hhgt.v32.native_"+name+"_workflow" for name in
-           ("expression", "cnv", "core", "results", "auxiliary", "genomic", "state", "clinical", "single_cell", "fusion")}
-RUNS = {"expression.run": "expression", "cnv.run": "cnv", "results.run": "results"}
+           ("expression", "cnv", "core", "results", "auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "rbp")}
+RUNS = {"expression.run": "expression", "cnv.run": "cnv", "results.run": "results", "rbp.run":"rbp"}
 PAIRED = ("auxiliary", "genomic", "state", "clinical", "single_cell", "fusion")
 OPERATIONS = {*RUNS, "core.accept", "publication.run", *[n+"."+p for n in PAIRED for p in ("prepare", "collect")]}
 

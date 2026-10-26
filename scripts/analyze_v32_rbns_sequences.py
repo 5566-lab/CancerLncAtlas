@@ -130,6 +130,8 @@ def main(argv=None):
         "run_id": run_id, "implementation_sha256": code_hashes, "core_dependency": "CORE_INDEPENDENT_EVIDENCE",
         "estimand": "TRANSCRIPT_SEQUENCE_RBNS_KMER_PREFERENCE_PREDICTION",
         "manifest_sha256": manifest_sha, "annotation_id": manifest["annotation_id"], "source_files": sources,
+        "source_contract": "CACHED_RAW_RBP_ANALYSIS_V1", "chunk_rows": args.chunk_rows,
+        "input_manifest": {"path": str(args.manifest.resolve()), "sha256": manifest_sha}, "cache_root": str(args.cache.resolve()),
         "outputs": outputs, "scoring": settings, "binding_materialization": binding_audit, "transcript_profile_rows": total_rows,
         "available_gene_profiles": int(genes.available.sum()), "unavailable_gene_profiles": int((~genes.available).sum()),
         "isoform_aggregation": "EQUAL_WEIGHT_REGISTERED_ISOFORMS_NO_EXPRESSION_WEIGHTING",

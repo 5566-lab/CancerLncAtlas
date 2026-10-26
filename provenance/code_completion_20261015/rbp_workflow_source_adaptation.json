@@ -1,0 +1,53 @@
+{
+  "method": "NATIVE_CACHED_RBP_WORKFLOW_RAW_REPLAY_AND_CONSUMER_INTEGRATION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "download_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "rbp_workflow_r1",
+    "rbp_workflow_native_comparison_r1",
+    "rbp_workflow_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "rbp_workflow_smoke_r1"
+  ],
+  "intermediate_failure_causes": [
+    "Actual native RBNS output supplied relation_type while physical sources omitted it; concatenation generated null declared relations. Fixed production source normalization rather than removing real RBNS fields or substituting simplified test data."
+  ],
+  "operation_registry_count": 18,
+  "new_operation": "rbp.run",
+  "actual_native_producers": [
+    "encode_functional",
+    "rbns_sequence"
+  ],
+  "actual_raw_cache_and_every_output_replayed": true,
+  "rule_query_revalidates_raw_dependencies": true,
+  "actual_native_publication_and_graph_consumers_executed": true,
+  "predicted_edges_absent_from_first_two_arms": true,
+  "original_analysis_algorithms_changed": false,
+  "graph_relation_schema_normalized_before_concatenation": true,
+  "numerical_tolerances": {
+    "rtol": 1e-10,
+    "atol": 1e-12
+  },
+  "test_substitutes": [
+    "Synthetic ENCODE tables, native RBNS k-mer profiles and version-matched synthetic RNA sequences.",
+    "Current selected-publication parent uses existing explicitly frozen synthetic core checkpoint containers; no optimizer.",
+    "Separate existing native graph regression fixtures retain frozen L1/cohort controls and their declared synthetic completion scope."
+  ],
+  "legacy_raw_replay_coverage_upgraded": false,
+  "biological_independence_verified": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Cached native ENCODE KD/RBNS workflows now execute in the resumable chain and feed actual rule publication/query and explicit predicted graph admission. New source contracts bind the native manifest/cache and every raw/derived input; actual same-implementation replay checks all outputs and metadata. Rule-query consumption rechecks these native sources rather than trusting only a cached aggregate audit. A real mixed-schema integration error was fixed by canonicalizing relation types before physical/predicted source concatenation. Native comparison loaders and frozen forwards retain their former scientific semantics. Synthetic caches only; no download, fitting, real cohort analysis or deployment. Legacy audits without raw-manifest bindings keep their historical scope. This does not establish biological independence or complete raw acquisition, reference, patient ancestry, remaining statistical branches, public field definitions or final acceptance."
+}

@@ -115,6 +115,8 @@ def main(argv=None):
         "run_id": run_id, "implementation_sha256": code_hashes, "core_dependency": "CORE_INDEPENDENT_EVIDENCE",
         "estimand": "RBP_DEPLETION_PATHWAY_OVERREPRESENTATION_AND_CONTEXT_MATCHED_LNCRNA_BINDING_BRIDGE",
         "training_started": False, "manifest_sha256": manifest_sha, "source_files": source_records,
+        "source_contract": "CACHED_RAW_RBP_ANALYSIS_V1",
+        "input_manifest": {"path": str(args.manifest.resolve()), "sha256": manifest_sha}, "cache_root": str(args.cache.resolve()),
         "outputs": output_records, "contrasts": specs, "reference_annotation_id": manifest["reference_annotation_id"],
         "analysis": settings, "primary_graph_changed": False, "lncrna_perturbation_claimed": False,
         "independent_external_validation": False, "biological_experiments": len({c.experiment_accession for c in contrasts}),

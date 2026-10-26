@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="16.186" timestamp="2026-10-26T21:30:26.801191+08:00" hostname="149"><testcase classname="tests.test_v32_native_rbp_workflow" name="test_cached_analyses_reach_rule_query_and_actual_publication" time="12.682" /><testcase classname="tests.test_v32_native_rbp_workflow" name="test_actual_rbns_output_enters_only_predicted_graph_arm" time="0.581"><failure message="RuntimeError: declared relation_type disagrees with graph_assay_class: [(nan, 'binds_protein_rip')]">tests/test_v32_native_rbp_workflow.py:100: in test_actual_rbns_output_enters_only_predicted_graph_arm
+    arms=build_current_binding_arms(current_bundle(),tables,fold=0,edge_chunk_size=2)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/current_binding_graph.py:176: in build_current_binding_arms
+    new_edges = materialize_typed_lnc_protein_binding(accepted, include_predicted=True, require_global_binding=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/formal_graph.py:465: in materialize_typed_lnc_protein_binding
+    raise RuntimeError(
+E   RuntimeError: declared relation_type disagrees with graph_assay_class: [(nan, 'binds_protein_rip')]</failure></testcase></testsuite></testsuites>

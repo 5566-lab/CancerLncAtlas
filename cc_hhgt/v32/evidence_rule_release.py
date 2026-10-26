@@ -87,6 +87,21 @@ def load_rule_release(path, *, expected_sha):
     if (audit.get("status") != "PASS" or audit.get("binding_sha256") != expected_sha
             or audit.get("summary_recomputed_by_independent_sql") is not True):
         raise ValueError("Rule summary independent audit did not pass")
+    # A cached aggregate audit cannot hide changes to the KD/RBNS raw inputs.
+    # Legacy source audits retain their historical scope; native releases bind
+    # the source manifest and must reconstruct it at subsequent consumption.
+    source_path=verified_path(binding["input_manifest"],path.parent)
+    for source in json.loads(source_path.read_text(encoding="utf-8"))["sources"]:
+        if source["kind"] not in {"encode_functional","rbns_sequence"}:continue
+        upstream_path=verified_path(source["audit"],source_path.parent)
+        upstream=json.loads(upstream_path.read_text(encoding="utf-8"))
+        if "source_contract" in upstream or "input_manifest" in upstream:
+            from .native_rbp_workflow import replay_audit
+            replay_audit(source["audit"],source_path.parent)
+            name="FUNCTIONAL_EVIDENCE.parquet" if source["kind"]=="encode_functional" else "GENE_SEQUENCE_PREFERENCE.parquet"
+            verified_path(source["table"],source_path.parent)
+            if source["table"]["sha256"]!=upstream["outputs"][name]["sha256"]:
+                raise ValueError("Rule source table differs from replayed native analysis")
     return binding, artifacts, events, contexts
 
 
