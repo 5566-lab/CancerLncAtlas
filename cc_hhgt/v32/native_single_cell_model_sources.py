@@ -14,6 +14,7 @@ from . import native_single_cell_static_workflow as static
 from . import native_single_cell_graph_workflow as graph
 from . import native_single_cell_donors_workflow as donors
 from . import single_cell_nested_numeric_replay as nested
+from . import single_cell_outer_numeric_replay as outer
 
 FORMAT = 'NATIVE_SC_NESTED_FROZEN_STATISTICS_REPLAY_V1'
 ASSEMBLY = 'NATIVE_SC_EPISODE_MANIFEST_RECONSTRUCTION_V1'
@@ -110,6 +111,8 @@ def inspect(inventory, episode_path, graph_path, model, role):
     replay(static_path,'static',static.FORMAT,0,derived(pins,'static'))
     replay(graph_binding_path,'fold_graph',graph.FORMAT,len(graph_value['folds']),
            derived(graph.inventory(graph_value,graph_path.parent),'fold_graph'))
+    replay(Path(graph_value['metacell_success']['path']),'outer_statistics',outer.FORMAT,len(graph_value['folds']),
+           derived(graph_value['source_files'],'outer_statistics'))
     derived(donor_binding['files'].values(),'canonical_donors')
     replay(Path(bindings['nested_preflight']['path']),'nested_statistics',FORMAT,len(graph_value['folds']),
            derived(bindings['nested_sources'],'nested_statistics'))

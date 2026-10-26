@@ -7020,10 +7020,9 @@ PCA/grouping correctness, LASSO coefficient reconstruction, bulk-candidate
 and external-reference ancestry, and cross-module patient closure. These
 remain blocking. No independence attestation or positive real-cohort
 external-validation result is inferred from the new reconstruction rows.
-The nested statistic proof covers fit/validation targets. The separate
-outer-query producer currently checks donor identities and file integrity;
-its original target correlations are not numerically reconstructed by this
-new inventory adapter. Generic ancestry gaps for those source tables remain.
+At this stage the nested statistic proof covered fit/validation targets;
+outer-query numerical reconstruction was still open. The following outer
+reconstruction section records the subsequent implementation and its scope.
 
 The integration fixture uses actual native H5/static/donor/outer/nested/episode
 production with explicit fixed grouping and LASSO outputs. It then surrounds
@@ -7036,3 +7035,42 @@ and provenance records, not neural prediction accuracy or optimizer history.
 Native SC model-use source verification on 149: ``single_cell_model_sources_r1``, ``single_cell_model_sources_regression_r1``, ``single_cell_model_sources_core_r1``
 pass 51 distinct related checks. Checkpoint containers are explicit
 synthetic fixtures; no fitting or independent biological validation was run.
+
+Original outer single-cell target reconstruction (2026-10-27)
+------------------------------------------------------------
+
+``single_cell_outer_numeric_replay`` closes the separate outer train/query
+numeric-source gap. The original producer's context statistics now share a
+deterministic helper with read-only reconstruction; production progress is
+an optional callback. The underlying screening, donor targets, source
+features and train-row selection retain their original algorithms.
+
+On complete or partial native fold reuse, the checker validates the exact
+output inventory, frozen cell/group identities and current measured inputs.
+It reaggregates coding/lncRNA values with the original measurement scale and
+library, recalculates UCell, and reconstructs the candidate universe plus
+every train/query column and row order. Context coverage and summary counts
+are compared. Successful proofs are cached by actual input/output/code
+hashes and scientific settings; cache hits still recheck current file bytes.
+The supplied grouping and geometry-fit declarations are not independent
+proof that the original PCA/radius fit was correct.
+
+The native fold-graph validator already calls the original completed-cancer
+gate. It now provides a finite current reconstruction deadline and pins the
+new implementation. The actual signed model-use inspector records a sixth
+scope, ``NATIVE_SC_OUTER_FROZEN_STATISTICS_REPLAY_V1``, and binds the exact
+verified outer source tables. Only those identities bypass generic unknown
+transformation gaps. Fitted geometry/LASSO, raw acquisition/QC/reference,
+candidate ancestry and cross-module patient completeness remain unresolved.
+
+Verification uses synthetic measured cells with fixed geometry. It includes
+independent Spearman/Fisher and leave-one-donor-out reference values, query
+perturbation isolation, and rehashed target/source/candidate/count changes.
+The native model-use integration uses frozen checkpoint/prediction containers
+without construction/forward/fitting during inspection. No real-cohort
+analysis, neural/LASSO/PCA fitting, download, paid compute or deployment runs.
+The separate existing core model-use regression executes frozen forwards;
+this is distinct from the SC source inspector's no-forward scope.
+
+Outer SC reconstruction verification on 149: ``single_cell_outer_graph_regression_r2``, ``single_cell_outer_numeric_r2``, ``single_cell_outer_model_sources_r2``, ``single_cell_outer_core_regression_r1``
+pass 67 distinct related checks. No fitting or real-data analysis ran.

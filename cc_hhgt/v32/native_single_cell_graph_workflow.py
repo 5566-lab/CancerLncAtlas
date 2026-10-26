@@ -2,6 +2,7 @@
 from pathlib import Path
 import math
 import tempfile
+import time
 
 import numpy as np
 import pandas as pd
@@ -13,6 +14,7 @@ from .formal_expression_sources import read, record
 from .current_analysis_workflow import write
 from . import native_single_cell_donors_workflow as donors
 from . import native_single_cell_static_workflow as static
+from . import single_cell_outer_numeric_replay as outer
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUT = 'NATIVE_SINGLE_CELL_GRAPH_INPUT_V1'
@@ -20,7 +22,7 @@ PREFLIGHT = 'NATIVE_SINGLE_CELL_GRAPH_PREFLIGHT_V1'
 FORMAT = 'NATIVE_SINGLE_CELL_GRAPH_RESULTS_V1'
 CODE = ('cc_hhgt/v32/native_single_cell_graph_workflow.py', 'scripts/run_native_single_cell_graph_workflow.py',
         'scripts/materialize_single_cell_hhgt_assets_149.py', 'cc_hhgt/v32/single_cell_graph_assets.py',
-        'scripts/materialize_single_cell_hhgt_training_episodes_149.py')
+        'scripts/materialize_single_cell_hhgt_training_episodes_149.py', *outer.CODE)
 _CACHE = {}
 
 
@@ -43,7 +45,7 @@ def plan(manifest, output, *, new=True):
         if output == source or output in source.parents or source in output.parents:
             raise ValueError('SC graph output overlaps a source directory')
     if output == manifest or output in manifest.parents: raise ValueError('SC graph output contains its manifest')
-    settings, _ = donors.build_metacell_settings(donor_value, donor_path.parent)
+    settings, _ = donors.build_metacell_settings(donor_value, donor_path.parent, time.time()+3600)
     completed = base.validate_completed_cancer(settings)
     sources = [record(success), *[record(p['path']) for p in completed['files'].values()]]
     folds = sorted(map(int, completed['fold_receipt_sha256']))

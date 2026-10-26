@@ -420,114 +420,10 @@ def _validate_canonical_fold(root, receipt, canonical, fold):
             raise RuntimeError("canonical fold target donor drift")
 
 
-def _write_fold(
-    cancer_id: str,
-    fold: int,
-    cancer_output: Path,
-    scratch: Path,
-    candidates_path: Path,
-    settings,
-    *,
-    cached_only: bool = False,
-) -> dict[str, object]:
-    canonical = _canonical_donors(settings)
-    provenance = canonical[2] if canonical is not None else {}
-    fold_output = cancer_output / f"outer_fold={fold}"
-    success = fold_output / "SUCCESS.json"
-    if success.is_file():
-        receipt = json.loads(success.read_text())
-        if any(receipt.get(key) != value for key, value in provenance.items()):
-            raise RuntimeError("canonical fold preparation drift")
-        for record in receipt["files"].values():
-            path = Path(record["path"])
-            if not path.is_file() or sha256(path) != record["sha256"]:
-                raise RuntimeError("fold artifact drift")
-        if canonical is not None:
-            _validate_canonical_fold(fold_output, receipt, canonical, fold)
-        return receipt
-    if cached_only:
-        raise RuntimeError("required completed canonical fold is absent; fitting is forbidden")
-    if fold_output.exists():
-        if canonical is not None:
-            raise RuntimeError("native partial fold retained; use a new preparation output")
-        resolved = fold_output.resolve()
-        if cancer_output.resolve() not in resolved.parents:
-            raise RuntimeError("refusing unsafe partial fold cleanup")
-        shutil.rmtree(resolved)
-    fold_output.mkdir(parents=True)
-    metadata = canonical[0] if canonical is not None else pd.read_parquet(scratch / "CELL_METADATA.parquet")
-    coding = sparse.load_npz(scratch / "CODING_MEASURED.npz")
-    lnc = sparse.load_npz(scratch / "LNC_MEASURED.npz")
-    coding_log = sparse.load_npz(scratch / "CODING_LOG_FOR_GROUPING.npz")
-    library = np.load(scratch / "ALL_GENE_LIBRARY.npy")
-    ids = json.loads((scratch / "IDS.json").read_text())
-    signature = sparse.load_npz(scratch / "EXACT_SIGNATURE_MATRIX.npz")
-    signature_counts = np.load(scratch / "SIGNATURE_GENE_COUNTS.npy")
-    missing_counts = np.load(scratch / "MISSING_GENE_COUNTS.npy")
-    mapped_receipt = json.loads((scratch / "MAPPED_SUCCESS.json").read_text())
-    folds = canonical[1] if canonical is not None else donor_folds(cancer_id, metadata.donor_id, folds=5, seed=settings.seed)
-    query_donors = set(
-        folds.loc[folds.outer_fold_id.eq(fold), "donor_id"].astype(str)
-    )
-    if not query_donors:
-        raise RuntimeError("requested outer fold has no query donors")
-    source_donors = set(folds.donor_id.astype(str)) - query_donors
-    if len(source_donors) < 3:
-        raise RuntimeError("fewer than three source donors")
-    space = LocalSpace.fit(
-        coding_log,
-        metadata.donor_id,
-        source_donors,
-        max_genes=settings.pca_genes,
-        components=settings.pca_components,
-        max_cells_per_donor=settings.pca_cells_per_donor,
-        seed=settings.seed + fold,
-    )
-    coordinates = space.transform(coding_log)
-    assignments, geometry = local_disjoint_groups(
-        coordinates,
-        metadata[["donor_id", "cell_type", "state_id"]],
-        target_size=settings.target_size,
-        min_size=settings.min_metacell_size,
-        radius_quantile=settings.radius_quantile,
-        allowed_training_donors=source_donors,
-        seed=settings.seed + 100 + fold,
-    )
-    metacell_coding, group_ids, aggregation_policy = aggregate_measurements(
-        coding,
-        assignments,
-        scale=mapped_receipt["measurement_scale"],
-        total_library=library,
-    )
-    metacell_lnc, other_ids, other_policy = aggregate_measurements(
-        lnc,
-        assignments,
-        scale=mapped_receipt["measurement_scale"],
-        total_library=library,
-    )
-    if not np.array_equal(group_ids, other_ids) or aggregation_policy != other_policy:
-        raise RuntimeError("metacell aggregation order/policy mismatch")
-    first_rows = np.asarray([np.flatnonzero(assignments == group)[0] for group in group_ids])
-    metacell_metadata = metadata.iloc[first_rows][
-        ["dataset_id", "cancer_id", "donor_id", "cell_type", "state_id"]
-    ].reset_index(drop=True)
-    metacell_metadata["metacell_id"] = group_ids
-    sizes = np.bincount(assignments[assignments >= 0])
-    metacell_metadata["n_cells"] = sizes[group_ids]
-    membership = metadata[["cell_id", "donor_id", "cell_type", "state_id"]].copy()
-    membership["metacell_id"] = assignments
-    membership.to_parquet(fold_output / "METACELL_MEMBERSHIP.parquet", index=False)
-    metacell_metadata.to_parquet(fold_output / "METACELL_METADATA.parquet", index=False)
-    activity = _ucell_from_metacells(
-        metacell_coding,
-        signature,
-        signature_counts,
-        missing_counts,
-        settings.deadline,
-    )
-    bulk = _bulk_candidates(
-        candidates_path, cancer_id, ids["lncrna_ids"], ids["pathway_ids"]
-    )
+def _context_targets(metacell_lnc, activity, metacell_metadata, ids, bulk,
+                     source_donors, query_donors, mapped_receipt, cancer_id,
+                     fold, settings, *, on_context=None):
+    """Original deterministic screening/targets; optional production progress sink."""
     all_train: list[pd.DataFrame] = []
     all_query: list[pd.DataFrame] = []
     all_universe: list[pd.DataFrame] = []
@@ -631,6 +527,125 @@ def _write_fold(
                 "query_rows": len(query),
             }
         )
+        if on_context is not None:
+            on_context(context_reports, cell_key)
+    train_frame = pd.concat(all_train, ignore_index=True) if all_train else pd.DataFrame()
+    query_frame = pd.concat(all_query, ignore_index=True) if all_query else pd.DataFrame()
+    universe_frame = pd.concat(all_universe, ignore_index=True) if all_universe else pd.DataFrame()
+    return train_frame, query_frame, universe_frame, context_reports
+
+
+def _write_fold(
+    cancer_id: str,
+    fold: int,
+    cancer_output: Path,
+    scratch: Path,
+    candidates_path: Path,
+    settings,
+    *,
+    cached_only: bool = False,
+) -> dict[str, object]:
+    canonical = _canonical_donors(settings)
+    provenance = canonical[2] if canonical is not None else {}
+    fold_output = cancer_output / f"outer_fold={fold}"
+    success = fold_output / "SUCCESS.json"
+    if success.is_file():
+        receipt = json.loads(success.read_text())
+        if any(receipt.get(key) != value for key, value in provenance.items()):
+            raise RuntimeError("canonical fold preparation drift")
+        for record in receipt["files"].values():
+            path = Path(record["path"])
+            if not path.is_file() or sha256(path) != record["sha256"]:
+                raise RuntimeError("fold artifact drift")
+        if canonical is not None:
+            _validate_canonical_fold(fold_output, receipt, canonical, fold)
+            from cc_hhgt.v32.single_cell_outer_numeric_replay import verify_completed_fold
+            verify_completed_fold(settings, canonical, fold, fold_output, receipt)
+        return receipt
+    if cached_only:
+        raise RuntimeError("required completed canonical fold is absent; fitting is forbidden")
+    if fold_output.exists():
+        if canonical is not None:
+            raise RuntimeError("native partial fold retained; use a new preparation output")
+        resolved = fold_output.resolve()
+        if cancer_output.resolve() not in resolved.parents:
+            raise RuntimeError("refusing unsafe partial fold cleanup")
+        shutil.rmtree(resolved)
+    fold_output.mkdir(parents=True)
+    metadata = canonical[0] if canonical is not None else pd.read_parquet(scratch / "CELL_METADATA.parquet")
+    coding = sparse.load_npz(scratch / "CODING_MEASURED.npz")
+    lnc = sparse.load_npz(scratch / "LNC_MEASURED.npz")
+    coding_log = sparse.load_npz(scratch / "CODING_LOG_FOR_GROUPING.npz")
+    library = np.load(scratch / "ALL_GENE_LIBRARY.npy")
+    ids = json.loads((scratch / "IDS.json").read_text())
+    signature = sparse.load_npz(scratch / "EXACT_SIGNATURE_MATRIX.npz")
+    signature_counts = np.load(scratch / "SIGNATURE_GENE_COUNTS.npy")
+    missing_counts = np.load(scratch / "MISSING_GENE_COUNTS.npy")
+    mapped_receipt = json.loads((scratch / "MAPPED_SUCCESS.json").read_text())
+    folds = canonical[1] if canonical is not None else donor_folds(cancer_id, metadata.donor_id, folds=5, seed=settings.seed)
+    query_donors = set(
+        folds.loc[folds.outer_fold_id.eq(fold), "donor_id"].astype(str)
+    )
+    if not query_donors:
+        raise RuntimeError("requested outer fold has no query donors")
+    source_donors = set(folds.donor_id.astype(str)) - query_donors
+    if len(source_donors) < 3:
+        raise RuntimeError("fewer than three source donors")
+    space = LocalSpace.fit(
+        coding_log,
+        metadata.donor_id,
+        source_donors,
+        max_genes=settings.pca_genes,
+        components=settings.pca_components,
+        max_cells_per_donor=settings.pca_cells_per_donor,
+        seed=settings.seed + fold,
+    )
+    coordinates = space.transform(coding_log)
+    assignments, geometry = local_disjoint_groups(
+        coordinates,
+        metadata[["donor_id", "cell_type", "state_id"]],
+        target_size=settings.target_size,
+        min_size=settings.min_metacell_size,
+        radius_quantile=settings.radius_quantile,
+        allowed_training_donors=source_donors,
+        seed=settings.seed + 100 + fold,
+    )
+    metacell_coding, group_ids, aggregation_policy = aggregate_measurements(
+        coding,
+        assignments,
+        scale=mapped_receipt["measurement_scale"],
+        total_library=library,
+    )
+    metacell_lnc, other_ids, other_policy = aggregate_measurements(
+        lnc,
+        assignments,
+        scale=mapped_receipt["measurement_scale"],
+        total_library=library,
+    )
+    if not np.array_equal(group_ids, other_ids) or aggregation_policy != other_policy:
+        raise RuntimeError("metacell aggregation order/policy mismatch")
+    first_rows = np.asarray([np.flatnonzero(assignments == group)[0] for group in group_ids])
+    metacell_metadata = metadata.iloc[first_rows][
+        ["dataset_id", "cancer_id", "donor_id", "cell_type", "state_id"]
+    ].reset_index(drop=True)
+    metacell_metadata["metacell_id"] = group_ids
+    sizes = np.bincount(assignments[assignments >= 0])
+    metacell_metadata["n_cells"] = sizes[group_ids]
+    membership = metadata[["cell_id", "donor_id", "cell_type", "state_id"]].copy()
+    membership["metacell_id"] = assignments
+    membership.to_parquet(fold_output / "METACELL_MEMBERSHIP.parquet", index=False)
+    metacell_metadata.to_parquet(fold_output / "METACELL_METADATA.parquet", index=False)
+    activity = _ucell_from_metacells(
+        metacell_coding,
+        signature,
+        signature_counts,
+        missing_counts,
+        settings.deadline,
+    )
+    bulk = _bulk_candidates(
+        candidates_path, cancer_id, ids["lncrna_ids"], ids["pathway_ids"]
+    )
+    def on_context(context_reports, cell_key):
         atomic_json(
             fold_output / "STATUS.json",
             {
@@ -643,9 +658,9 @@ def _write_fold(
                 "time": time.time(),
             },
         )
-    train_frame = pd.concat(all_train, ignore_index=True) if all_train else pd.DataFrame()
-    query_frame = pd.concat(all_query, ignore_index=True) if all_query else pd.DataFrame()
-    universe_frame = pd.concat(all_universe, ignore_index=True) if all_universe else pd.DataFrame()
+    train_frame, query_frame, universe_frame, context_reports = _context_targets(
+        metacell_lnc, activity, metacell_metadata, ids, bulk, source_donors,
+        query_donors, mapped_receipt, cancer_id, fold, settings, on_context=on_context)
     train_frame.to_parquet(fold_output / "TRAIN_ROWS.parquet", index=False)
     query_frame.to_parquet(fold_output / "QUERY_ROWS.parquet", index=False)
     universe_frame.to_parquet(fold_output / "UNIVERSE.parquet", index=False)

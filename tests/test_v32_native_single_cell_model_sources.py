@@ -43,10 +43,12 @@ def test_actual_signed_model_inspector_records_native_reconstructions(completed,
     monkeypatch.setattr(assembler,'fit_context_lasso',forbidden)
     inventory=inspect_model(binding,root)
     replayed=pd.DataFrame(inventory.transform_replays)
-    assert set(replayed['format'])=={sources.mapping.FORMAT,sources.static.FORMAT,sources.graph.FORMAT,sources.FORMAT,sources.ASSEMBLY}
+    assert set(replayed['format'])=={sources.mapping.FORMAT,sources.static.FORMAT,sources.graph.FORMAT,
+                                    sources.FORMAT,sources.ASSEMBLY,sources.outer.FORMAT}
     assert replayed.model_training_started.eq(False).all()
     assert set(replayed.dependency_context)=={'FUSION_EXPERT:single_cell_positive'}
     assert replayed.loc[replayed['format'].eq(sources.FORMAT),'folds_recomputed'].tolist()==[5]
+    assert replayed.loc[replayed['format'].eq(sources.outer.FORMAT),'folds_recomputed'].tolist()==[5]
     assert replayed.outputs_compared.gt(0).all()
     dependencies={r['path'] for r in inventory.dependencies}
     mapped=Path(value['mapped_success']['path'])
@@ -54,6 +56,10 @@ def test_actual_signed_model_inspector_records_native_reconstructions(completed,
     assert {p['path'] for p in mapping_value['source_files']}<=dependencies
     reconstructed={r['sha256'] for r in inventory.dependencies if '.native.mapping.' in r['role']}
     assert reconstructed
+    outer_reconstructed={r['sha256'] for r in inventory.dependencies if '.native.outer_statistics.' in r['role']}
+    assert outer_reconstructed
+    assert not any(r['sha256'] in outer_reconstructed and r['reason']=='RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED'
+                   for r in inventory.gaps)
     assert not any(r['sha256'] in reconstructed and r['reason']=='SC_RAW_ARRAY_TRANSFORM_ANCESTRY_NOT_RECONSTRUCTED' for r in inventory.gaps)
     reasons={r['reason'] for r in inventory.gaps}
     assert {'SC_FITTED_GEOMETRY_NOT_INDEPENDENTLY_VERIFIED','SC_FITTED_LASSO_COEFFICIENTS_NOT_RECONSTRUCTED',
@@ -65,7 +71,7 @@ def test_actual_signed_model_inspector_records_native_reconstructions(completed,
     assert set(sources.CODE)<=set(implementations())
 
 
-@pytest.mark.parametrize('fault',['native_marker','manifest_counts','other_graph','mapped_bytes','nested_bytes'])
+@pytest.mark.parametrize('fault',['native_marker','manifest_counts','other_graph','mapped_bytes','nested_bytes','outer_bytes'])
 def test_native_source_inspection_rejects_broken_or_downgraded_bindings(completed,tmp_path,monkeypatch,fault):
     _,settings,_,value,_=completed
     episode,graph=paths(completed); launch=settings.output_root/'LAUNCH_PREFLIGHT.json'
@@ -81,6 +87,8 @@ def test_native_source_inspection_rejects_broken_or_downgraded_bindings(complete
             other=tmp_path/'GRAPH_ASSET_MANIFEST.json';other.write_bytes(graph.read_bytes());graph=other
         else:
             if fault=='mapped_bytes':target=Path(value['mapped_success']['path']).parent/'CODING_MEASURED.npz'
+            elif fault=='outer_bytes':
+                target=completed[2].parent/'metacells/cancers/BRCA/outer_fold=0/QUERY_ROWS.parquet'
             else:
                 root=Path(value['mapped_success']['path'])
                 donor=completed[2]

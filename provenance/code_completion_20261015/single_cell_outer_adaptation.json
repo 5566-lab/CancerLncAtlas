@@ -1,0 +1,74 @@
+{
+  "method": "ORIGINAL_OUTER_SC_STATISTICS_RECONSTRUCTION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "raw_deletion_executed": false,
+  "successful_validation_receipts": [
+    "single_cell_outer_graph_regression_r2",
+    "single_cell_outer_numeric_r2",
+    "single_cell_outer_model_sources_r2",
+    "single_cell_outer_core_regression_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "single_cell_outer_graph_regression_r1"
+  ],
+  "intermediate_failure_causes": [
+    "Regression command referenced a nonexistent test filename; pytest collected zero tests. Corrected to the existing original screen/universe/materialization tests."
+  ],
+  "earlier_successful_receipts": [
+    "single_cell_outer_numeric_r1",
+    "single_cell_outer_model_sources_r1"
+  ],
+  "final_thread_limit_receipts": [
+    "single_cell_outer_numeric_r2",
+    "single_cell_outer_model_sources_r2",
+    "single_cell_outer_core_regression_r1"
+  ],
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "operation_registry_count": 29,
+  "native_model_use_reconstruction_stages": 6,
+  "outer_complete_and_partial_cache_numeric_replay": true,
+  "actual_current_bytes_checked_on_cache_hits": true,
+  "independent_spearman_fisher_leave_one_out_reference": true,
+  "query_perturbation_isolation_checked": true,
+  "raw_files_in_model_dependency_inventory": true,
+  "inspection_model_constructed": false,
+  "inspection_model_forward_started": false,
+  "source_bytes_and_mtimes_preserved_on_complete_replay": true,
+  "frozen_fixture_models_constructed": true,
+  "regression_frozen_forwards_executed": true,
+  "model_use_inventory_complete": false,
+  "fitted_geometry_independently_verified": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/NESTED_SINGLE_CELL_FIELDS_20261027.rst",
+      "sha256": "84fce10c53d39250cd4ea4979e06ef559790c6c8f17afe0ca148c3944cdb5bed"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic native raw/reference/donor inputs with explicit fixed geometry and LASSO outputs.",
+    "Fixed model-state, prediction and telemetry containers around actual native episode artifacts; no optimizer or neural correctness claim.",
+    "Existing core regression uses frozen forwards; source inspection itself forbids construction and evaluation."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Original native outer complete/partial cache reuse now reconstructs coding/lncRNA aggregation and UCell from mapped measured cells with supplied frozen groups, then compares original source-only screening, candidate universe, all train/query target/source columns and row order, context coverage and receipt counts. Actual graph validation and signed model-use inspection consume this check and record a sixth reconstruction scope. Cache hits still verify actual raw/output bytes. Synthetic Spearman/Fisher and leave-one-out reference values and query perturbation test the estimator boundary independently. Supplied grouping remains unproved as a fitted geometry result. Model fixtures use fixed LASSO/checkpoint/prediction containers, not optimizer history; inspection forbids model construction and forwards. No real cohort, fitting, acquisition, paid compute or deployment ran. Core regression uses frozen forwards, without fitting. C01/C13/C16 remain open."
+}

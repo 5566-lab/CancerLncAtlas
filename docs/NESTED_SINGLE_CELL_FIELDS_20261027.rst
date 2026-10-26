@@ -1,7 +1,7 @@
-Native nested single-cell fields and verification boundaries
-===========================================================
+Native single-cell fields and verification boundaries
+====================================================
 
-This dictionary describes the current native nested producer and its
+This dictionary describes the current native nested/outer producers and their
 measured-value reconstruction. It is a code contract, not a record of a new
 real-cohort analysis. All execution belongs on host 149. The verification
 fixtures use synthetic inputs and explicitly frozen grouping/LASSO outputs.
@@ -169,7 +169,7 @@ Implementation references
 -------------------------
 
 The actual model-use inspector now follows native launch bindings and writes
-``transformation_replays`` rows for mapping, static/fold graphs, nested
+``transformation_replays`` rows for mapping, static/fold graphs, outer/nested
 statistics and episode-manifest reconstruction. Each row identifies the
 evaluated model and dependency context, source release hash, comparison
 count and recomputed fold count. A global stage uses patient fold -1; this
@@ -180,15 +180,41 @@ not whether a historical supplied model was fitted.
 Only exact handled source identities bypass generic unknown-transformation
 messages. Acquisition, supplied QC/annotation, geometry, LASSO and
 cross-module patient limits remain explicit; the overall model-use inventory
-can still be incomplete after all five reconstruction stages pass.
-The nested proof concerns fit/validation target statistics. The separate
-outer-query target tables retain their existing identity/hash checks and
-unresolved numeric-source scope; the nested proof does not cover their rho.
+can still be incomplete after all six reconstruction stages pass.
+
+The outer reconstruction separately covers ``TRAIN_ROWS.parquet``,
+``QUERY_ROWS.parquet`` and ``UNIVERSE.parquet`` from the original metacell
+producer. It rebuilds aggregation and UCell from the mapped measurements,
+all-gene library and exact signatures, using supplied frozen membership.
+The original context estimator then repeats source-only screening and
+donor-specific Spearman targets. It compares every table column and row
+order, group metadata, context coverage and completion counts. Both complete
+and partial original caches execute this check before reusing a fold. A
+cached successful proof still checks current input/output bytes and code.
+
+Outer contexts pool by cell type, preserving state only in the grouping.
+The outer ``association_target`` is abs(rho); signed rho remains a separate
+column. ``source_meta_rho`` is the equally weighted Fisher mean across source
+donors with estimable targets, using rho clipped to +/-0.999999 before
+arctanh. A train target excludes its own donor from this mean and its source
+count; a query target uses all eligible source donors. At least two source
+donors remain after this exclusion. ``source_direction_consistency`` is the
+larger of positive and nonpositive donor counts divided by source count.
+Train rows are limited per pair by deterministic donor-hash order.
+
+The model-use row ``NATIVE_SC_OUTER_FROZEN_STATISTICS_REPLAY_V1`` records this
+scope separately from nested fit/validation targets. The native graph
+validator calls the original completed-cancer gate, so downstream source
+inspection cannot substitute receipt hashes for the outer numerical check.
+The comparison proves consistency with the original statistical code and
+supplied measurements/grouping; it does not independently validate that
+estimator, fitted geometry, LASSO, acquisition or biological identity.
 
 See ``scripts/materialize_single_cell_nested_hhgt_episodes_149.py``,
 ``cc_hhgt/v32/single_cell_nested_episodes.py``,
 ``cc_hhgt/v32/single_cell_metacell_screen.py``,
 ``cc_hhgt/v32/single_cell_metacells.py`` and
 ``cc_hhgt/v32/single_cell_nested_numeric_replay.py`` and
+``cc_hhgt/v32/single_cell_outer_numeric_replay.py`` and
 ``cc_hhgt/v32/native_single_cell_model_sources.py``. The end-to-end handoff
 and verification scope are recorded in ``CODE_COMPLETION_NOTES.rst``.
