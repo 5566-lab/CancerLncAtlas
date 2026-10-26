@@ -53,7 +53,7 @@ def require(condition: bool, message: str) -> None:
         raise RuntimeError(message)
 
 
-def main() -> int:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--head-root", type=Path, required=True)
     parser.add_argument("--head-input-root", type=Path, required=True)
@@ -61,7 +61,11 @@ def main() -> int:
     parser.add_argument("--distal-mutation-root", type=Path, required=True)
     parser.add_argument("--candidate-universe", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
+    parser.add_argument("--candidate-scope-sha256", help="Explicit native candidate scope; legacy full33 checks remain the default")
+    args = parser.parse_args(argv)
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    from scripts.materialize_v32_distal_regulatory_head_input import FORMAL_CANCERS
+    require_host()
 
     head_root = args.head_root.resolve()
     input_root = args.head_input_root.resolve()
@@ -69,6 +73,8 @@ def main() -> int:
     mutation_root = args.distal_mutation_root.resolve()
     candidate_path = args.candidate_universe.resolve()
     output = args.output.resolve()
+    if args.candidate_scope_sha256:
+        require(sha256(candidate_path) == args.candidate_scope_sha256, "Declared candidate scope checksum differs")
     if output.exists():
         raise FileExistsError(f"Closure output reuse refused: {output}")
     output.mkdir(parents=True)
@@ -116,7 +122,7 @@ def main() -> int:
     # Recovered features are valid analysis inputs without claiming a new raw
     # checksum audit. Their analysis can close while raw deletion stays disabled.
     from cc_hhgt.v32.methylation_recovery import raw_deletion_eligible
-    raw_delete_ready = raw_deletion_eligible(methylation)
+    raw_delete_ready = raw_deletion_eligible(methylation) and not bool(args.candidate_scope_sha256)
     require(mutation.get("status") == "PASS_DISTAL_MUTATION_FEATURES", "Distal mutation audit not PASS")
     require(mutation.get("locus_callability_claimed") is False, "Invalid locus-callability claim")
     require(mutation.get("missing_assay_assumed_zero") is False, "Mutation missingness zero-filled")
@@ -128,10 +134,16 @@ def main() -> int:
         require(sha256(path) == artifact.get("sha256"), f"Head sha256 drift: {path}")
 
     candidates = pd.read_parquet(candidate_path)
+    keys = ["cancer_id", "lncrna_id", "pathway_id"]
+    require(not candidates.empty and set(keys).issubset(candidates), "Invalid candidate scope")
+    require(not candidates[keys].isna().any().any() and not candidates.duplicated(keys).any(), "Candidate keys must be unique and complete")
     candidates["cancer_id"] = candidates.cancer_id.astype(str).str.upper()
     expected = candidates.groupby("cancer_id", observed=True).size().to_dict()
-    require(len(expected) == 33, "Candidate universe is not full33")
-    require(int(sum(expected.values())) == 3_300_000, "Candidate universe is not 3.3M")
+    if not args.candidate_scope_sha256:
+        require(len(expected) == 33, "Candidate universe is not full33")
+        require(int(sum(expected.values())) == 3_300_000, "Candidate universe is not 3.3M")
+    require(head.get("candidate_universe_sha256") == sha256(candidate_path), "Head candidate authority differs")
+    require(head.get("head_input_audit_sha256") == sha256(input_audit_path), "Head input authority differs")
     cancer_records = []
     total_available = 0
     for cancer in sorted(expected):
@@ -143,6 +155,9 @@ def main() -> int:
             require(path.is_file(), f"Required cancer artifact missing: {path}")
         score = pd.read_parquet(head_path)
         require(len(score) == int(expected[cancer]), f"Candidate row count mismatch: {cancer}")
+        require(set(map(tuple, score[keys].itertuples(index=False,name=None))) ==
+                set(map(tuple, candidates.loc[candidates.cancer_id.eq(cancer),keys].itertuples(index=False,name=None))),
+                f"Candidate identities differ: {cancer}")
         require(
             not score.duplicated(["cancer_id", "lncrna_id", "pathway_id"]).any(),
             f"Candidate key duplication: {cancer}",
@@ -240,7 +255,10 @@ def main() -> int:
         "format": "CANCERLNCATLAS_V32_DISTAL_REGULATORY_MUTATION_CLOSURE_NESTED_OOF_V2",
         "status": "PASS",
         "completed_at_utc": datetime.now(timezone.utc).isoformat(),
-        "full33": True,
+        "full33": set(expected) == set(FORMAL_CANCERS),
+        "candidate_scope_policy": "DECLARED_CANDIDATE_FILE" if args.candidate_scope_sha256 else "LEGACY_FULL33_3300000",
+        "candidate_scope_sha256": sha256(candidate_path),
+        "target_host": "149",
         "topology_lineage": topology,
         "candidate_rows": int(sum(expected.values())),
         "candidate_available_rows": total_available,

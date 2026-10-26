@@ -1,6 +1,7 @@
-"""Resume a declared graph of native scientific workflows without fitting.
+"""Resume native scientific workflows without learned-model optimizer training.
 
-Only the closed operation registry below is executable. Completed fitting is
+Only the closed operation registry below is executable. Registered statistical
+workflows can run regressions. Completed neural/L1/auxiliary/fusion fitting is
 supplied as pinned external data and checked by the original native consumers.
 An OS file lock prevents two coordinators from advancing the same chain.
 """
@@ -23,8 +24,8 @@ EXTERNAL = "NATIVE_WORKFLOW_CHAIN_EXTERNAL_V1"
 STAGE = "NATIVE_WORKFLOW_CHAIN_STAGE_V1"
 SLUG = re.compile(r"[a-z][a-z0-9_-]{0,63}")
 MODULES = {name: "cc_hhgt.v32.native_"+name+"_workflow" for name in
-           ("expression", "cnv", "core", "results", "auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "rbp", "methylation")}
-RUNS = {"expression.run": "expression", "cnv.run": "cnv", "results.run": "results", "rbp.run":"rbp", "methylation.run":"methylation"}
+           ("expression", "cnv", "core", "results", "auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "rbp", "methylation", "distal")}
+RUNS = {"expression.run": "expression", "cnv.run": "cnv", "results.run": "results", "rbp.run":"rbp", "methylation.run":"methylation", "distal.run":"distal"}
 PAIRED = ("auxiliary", "genomic", "state", "clinical", "single_cell", "fusion")
 OPERATIONS = {*RUNS, "core.accept", "publication.run", *[n+"."+p for n in PAIRED for p in ("prepare", "collect")]}
 

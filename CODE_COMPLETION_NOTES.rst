@@ -5995,3 +5995,113 @@ Native methylation verification on 149: ``methylation_workflow_r2``, ``methylati
 pass 60 distinct related checks. The earlier failed fixture
 receipt is retained. No neural/L1/auxiliary/fusion optimizer, real cohort
 analysis, raw deletion, download, paid compute or deployment was run.
+
+Native distal statistics and declared-scope closure (2026-10-26)
+---------------------------------------------------------------
+
+``scripts.run_native_distal_workflow`` joins the existing patient input
+assembler, nested two-stage statistical command and final closure auditor.
+The resumable registry now contains 20 operations, including ``distal.run``.
+Every operation executes on 149. The new path does not launch neural/L1/
+auxiliary/fusion optimizers, acquire missing raw datasets or delete files.
+It does execute the original ridge regressions as a declared statistical
+analysis; this is not a plan-only preparation command.
+
+The exact manifest fields are::
+
+    {
+      "format": "NATIVE_DISTAL_WORKFLOW_INPUT_V1",
+      "methylation_workflow": {"path": "hm450/NATIVE_METHYLATION_BINDING.json", "sha256": "<SHA256>"},
+      "formal_expression_root": {"path": "expression", "sha256": "<directory SHA256>"},
+      "distal_mutation": {"path": "mutation/features.parquet", "sha256": "<SHA256>"},
+      "distal_atac_root": {"path": "atac", "sha256": "<directory SHA256>"},
+      "local_cnv": {"path": "cnv.parquet", "sha256": "<SHA256>"},
+      "purity_covariates": {"path": "purity.parquet", "sha256": "<SHA256>"},
+      "pathway_activity_root": {"path": "activity", "sha256": "<directory SHA256>"},
+      "candidate_universe": {"path": "candidates.parquet", "sha256": "<SHA256>"},
+      "parameters": {
+        "ridge_alpha_expression": 1.0,
+        "ridge_alpha_pathway": 1.0,
+        "min_expression_train_patients": 20,
+        "min_pathway_train_patients": 20
+      }
+    }
+
+Paths resolve against the manifest. Directory hashes use
+``input_lineage.artifact_sha256`` and bind all files, including source metadata.
+Directories must be nonempty; an ATAC directory without selected cancer
+matrices may contain its explicit unavailable-source record. Missing cancer
+ATAC files keep the original assembler's unavailable semantics. Present
+ATAC files require their topology-bound native audit. Mutation features
+require their adjacent native audit, and mutation, methylation and any
+present ATAC matrix must share outcome-independent distal topology.
+No diagnostic/cohort-selected-topology override is exposed by this workflow.
+
+Candidate keys are cancer, lncRNA and exact pathway. They must be complete
+and unique, with canonical cancer IDs. The candidate file determines the
+requested cancers; expression and activity require each corresponding
+``cancer_id=<ID>/part-0.parquet``. Other table schemas and sample-merging rules
+are those of the original assembler. Parameters are optional with defaults
+shown above; ridge penalties must be finite and nonnegative, patient-count
+thresholds integers of at least five. Unrecognized options are rejected.
+
+Run explicitly on 149::
+
+    python -m scripts.run_native_distal_workflow --manifest /path/distal.json --output /new/distal --plan
+    python -m scripts.run_native_distal_workflow --manifest /path/distal.json --output /new/distal
+
+Planning validates sources without writing output or fitting regressions.
+Execution requires new output outside input directories and records the host,
+inputs, implementations and parameters before analysis. It writes ``head_input``,
+``statistics`` and ``closure`` directories, ``stage.log``, and finally
+``NATIVE_DISTAL_BINDING.json``. Exceptions retain ``RUN_FAILED.json``. In a
+chain use ``operation=distal.run`` and the manifest as ``inputs``. A preceding
+``methylation.run`` result can populate ``methylation_workflow`` by stage
+reference. The result's ``/audit`` is the native statistical binding accepted
+by the existing distal publication template; ``/closure`` identifies its final
+auditor record. No neural or fusion fitting stage is implicitly dispatched.
+
+The input audit binds ``native_distal_preparation`` to the immutable workflow
+preflight. Validation reconstructs the entire assembled patient table from
+the registered expression, mutation, ATAC, methylation, CNV and purity sources
+in temporary storage on 149. Metadata, partition identity, every column,
+patient keys, availability and numerical values must agree; float tolerance
+is absolute 1e-12, with exact missingness and schemas. This extends the earlier
+methylation-only projection check to all assembled covariates. Current distal
+publication/query consumes this source contract and retains these dependencies.
+The original statistical command is also replayed, and its actual input roots,
+candidate authority and four exposed parameter values must match preparation.
+
+The closure auditor now accepts ``--candidate-scope-sha256`` for a declared
+candidate file. It compares exact output candidate identities as well as row
+counts; matching counts with substituted pathway IDs are rejected. Without
+that option its historical 33-cancer/3,300,000-candidate constraints remain.
+The audit reports the actual scope and ``full33`` truthfully. Declared-scope
+closure never authorizes raw methylation deletion. Its original requirement
+for at least one available result remains: a statistically uninformative input
+may produce completed native statistics but will not receive successful
+closure or a completed workflow binding. It is not converted into a positive
+scientific result. Successful closure is rerun and compared during workflow
+validation, excluding only its timestamp.
+
+The current estimand is the mutation-associated expression component after
+adjusting for ATAC, methylation, local CNV and purity, followed by its nested
+OOF relationship to pathway activity. ATAC and methylation are covariates here;
+their inclusion does not estimate their separate causal effects. Patient
+isolation, sign, missingness, ridge defaults and all availability thresholds
+are unchanged. Closure verifies internal consistency and coverage; it is not
+independent biological validation or proof of improved final GeneSets.
+
+Tests use sixty synthetic patients, actual raw methylation aggregation, native
+assembly/statistics/closure and current publication/query. Mutation, expression,
+CNV, purity and activity are synthetic prepared inputs; probe assignment is an
+explicit fixture. Existing frozen core containers supply the selected result.
+No raw MC3/liftover, official distal ATAC or official probe-reference producer
+is exercised by this new workflow. Those upstream acquisition/reference
+contracts, complete cross-module patient ancestry, remaining branch orchestration
+and final C01/C13/C16 acceptance remain open. No real cohort was analyzed.
+
+Native distal verification on 149: ``distal_workflow_r1``, ``distal_workflow_consumers_r1``, ``distal_workflow_r2``
+pass 67 distinct related checks. Statistical regression executed
+only on synthetic data. No neural/L1/auxiliary/fusion optimizer, real cohort
+analysis, raw deletion, download, paid compute or deployment was run.

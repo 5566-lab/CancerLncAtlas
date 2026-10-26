@@ -1,0 +1,53 @@
+{
+  "method": "NATIVE_DISTAL_ASSEMBLY_NESTED_STATISTICS_DECLARED_CLOSURE_AND_PUBLICATION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "distal_workflow_r1",
+    "distal_workflow_consumers_r1",
+    "distal_workflow_r2"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 20,
+  "new_operation": "distal.run",
+  "actual_native_producers": [
+    "patient_input_assembler",
+    "nested_distal_statistical_command",
+    "distal_closure_auditor"
+  ],
+  "original_regression_algorithms_changed": false,
+  "declared_candidate_scope_supported": true,
+  "legacy_full33_scope_retained": true,
+  "exact_candidate_identity_checked": true,
+  "all_assembled_covariates_reconstructed": true,
+  "actual_statistical_output_replay": true,
+  "declared_scope_raw_deletion_authorized": false,
+  "unavailable_analysis_marked_workflow_complete": false,
+  "statistical_regressions_executed_on_synthetic_only": true,
+  "numerical_tolerances": {
+    "rtol": 0,
+    "atol": 1e-12
+  },
+  "test_substitutes": [
+    "Sixty synthetic patients; native raw methylation aggregation with real MD5/size/SHA checks.",
+    "Synthetic prepared mutation, expression, CNV, purity and pathway activity; explicit missing ATAC inventory.",
+    "Actual coordinate topology with explicit synthetic probe assignment and native-shape mutation audit; official raw feature producers were not run.",
+    "Existing explicitly frozen synthetic selected-core containers."
+  ],
+  "biological_independence_verified": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "A native distal workflow now calls actual patient input assembly, nested statistical regressions and final closure, and joins the resumable chain as distal.run. It reconstructs all assembled covariates and their metadata before downstream publication/query, numerically replays native statistics, matches full exposed parameters and source identities, and reruns closure. Declared candidate SHA enables exact candidate-scope closure while preserving legacy full33/3300000 checks; candidate identity substitution is rejected even at unchanged row counts. No-available results retain diagnostic artifacts but never receive workflow completion. Sixty synthetic patients exercise actual raw methylation, assembly, statistics, closure and public consumers. Other omics inputs and probe assignment are explicit synthetic fixtures; existing selected core containers are frozen. No real cohort, neural/L1/auxiliary/fusion optimizer, paid compute, download, raw deletion or deployment was run. Raw MC3/liftover, official distal ATAC/probe producers, acquisition/reference and complete cross-module patient ancestry, other branches and final C01/C13/C16 acceptance remain open. Statistical closure is not biological validation or evidence of a changed real GeneSet."
+}
