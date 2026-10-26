@@ -234,7 +234,9 @@ def _deadline(settings) -> None:
         raise TimeoutError("SC_HHGT_EPISODE_DEADLINE_REACHED")
 
 
-def _initialize_preflight(settings) -> dict[str, Any]:
+def _initialize_preflight(settings, *, read_only: bool = False) -> dict[str, Any]:
+    if read_only and not (settings.output_root / "LAUNCH_PREFLIGHT.json").is_file():
+        raise RuntimeError("READ_ONLY_EPISODE_PREFLIGHT_MISSING")
     source_validation = settings.source_result_root / "MATERIALIZATION_VALIDATION.json"
     graph_preflight = settings.graph_asset_root / "LAUNCH_PREFLIGHT.json"
     nested_preflight = settings.nested_asset_root / "LAUNCH_PREFLIGHT.json"
@@ -301,6 +303,8 @@ def _initialize_preflight(settings) -> dict[str, Any]:
             differing = sorted(
                 key for key in set(left) | set(right) if left.get(key) != right.get(key)
             )
+            if read_only:
+                raise RuntimeError(f"READ_ONLY_EPISODE_PREFLIGHT_DRIFT:{','.join(differing)}")
             detail = ""
             if differing == ["lasso"]:
                 detail = ":" + json.dumps(
@@ -1043,9 +1047,9 @@ def _authorized_cancers(settings) -> list[str]:
     return cancers
 
 
-def finalize(settings) -> dict[str, Any]:
+def finalize(settings, *, read_only: bool = False) -> dict[str, Any]:
     _require_host_149()
-    preflight = _initialize_preflight(settings)
+    preflight = _initialize_preflight(settings, read_only=read_only)
     cancers = _authorized_cancers(settings)
     graph_records, graph_fold_records, static_records, episode_records = [], [], [], []
     folds: dict[int, list[dict[str, Any]]] = {fold: [] for fold in range(5)}
@@ -1128,6 +1132,8 @@ def finalize(settings) -> dict[str, Any]:
             if old.get(key) != graph_manifest[key]:
                 raise RuntimeError("GRAPH_ASSET_MANIFEST_DRIFT")
     else:
+        if read_only:
+            raise RuntimeError("READ_ONLY_GRAPH_MANIFEST_MISSING")
         atomic_json(graph_manifest_path, graph_manifest)
     manifest_path = settings.output_root / "SC_HHGT_EPISODE_MANIFEST.json"
     manifest = {
@@ -1154,6 +1160,8 @@ def finalize(settings) -> dict[str, Any]:
         "preflight_sha256": canonical_hash(preflight),
         "finished_unix": time.time(),
     }
+    if read_only:
+        return manifest
     if manifest_path.exists():
         raise RuntimeError("EPISODE_MANIFEST_ALREADY_EXISTS")
     atomic_json(manifest_path, manifest)
@@ -1200,8 +1208,8 @@ def settings_from_args(args):
     return args
 
 
-def main() -> int:
-    settings = settings_from_args(parser().parse_args())
+def main(argv=None) -> int:
+    settings = settings_from_args(parser().parse_args(argv))
     if settings.finalize == bool(settings.cancer_id):
         raise SystemExit("EXACTLY_ONE_OF_CANCER_ID_OR_FINALIZE_IS_REQUIRED")
     _require_host_149()

@@ -9,6 +9,7 @@ description = "CancerLncAtlas V3.2 exact-pathway ranked-subtype CC-HHGT pilot"
 requires-python = ">=3.10"
 dependencies = [
   "numpy>=1.26",
+  "h5py>=3.16",
   "pandas>=2.1",
   "pyarrow>=15",
   "duckdb>=1.1",

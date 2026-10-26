@@ -1,0 +1,14 @@
+{
+  "format": "SCOPED_TEST_COORDINATOR_TIMEOUT_V1",
+  "target_host": "149",
+  "training_started": false,
+  "tag": "single_cell_episodes_consumers_r1",
+  "pytest_pid": 3929355,
+  "pid_confirmed_missing": true,
+  "coordinator_exit_code": 1,
+  "timeout_seconds": 900,
+  "complete_test_receipt_available": false,
+  "passed_cases_claimed": 0,
+  "scope": "Combined regression exceeded its wall-time bound; split reruns required.",
+  "tool_output": "Traceback (most recent call last):\n  File \"<stdin>\", line 23, in <module>\n  File \"/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/subprocess.py\", line 550, in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/subprocess.py\", line 1209, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/subprocess.py\", line 2116, in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n  File \"/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/subprocess.py\", line 1253, in _check_timeout\n    raise TimeoutExpired(\nsubprocess.TimeoutExpired: Command '['/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python', '-m', 'pytest', '-q', '-p', 'no:cacheprovider', '--tb=short', 'tests/test_v32_native_single_cell_episode_sources.py', 'tests/test_v32_native_single_cell_workflow.py', 'tests/test_v32_native_workflow_chain.py', '--junitxml=provenance/code_completion_20261015/single_cell_episodes_consumers_r1_tests.xml']' timed out after 900 seconds\nscp: /dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/provenance/code_completion_20261015/single_cell_episodes_consumers_r1_test*: No such file or directory\r\nTraceback (most recent call last):\r\n  File \"D:\\model\\audit\\requirements_status_20261015\\run_verified_source_checks_20261019.py\", line 47, in <module>\r\n    subprocess.run(['scp',f'MyLabServer:{remote}{tag}_test*',str(destination)],check=True)\r\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Administrator.DESKTOP-Q0HM6B0\\miniconda3\\Lib\\subprocess.py\", line 577, in run\r\n    raise CalledProcessError(retcode, process.args,\r\n                             output=stdout, stderr=stderr)\r\nsubprocess.CalledProcessError: Command '['scp', 'MyLabServer:/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/provenance/code_completion_20261015/single_cell_episodes_consumers_r1_test*', 'D:\\\\model\\\\CancerLncAtlas_code_completion_20261015\\\\provenance\\\\code_completion_20261015']' returned non-zero exit status 1.\r\n"
+}

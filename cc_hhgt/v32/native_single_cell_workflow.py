@@ -64,7 +64,7 @@ def plan(manifest,output,*,new=True):
     from .context_table_replay import relation
     require_host();manifest=Path(manifest).resolve();output=Path(output).resolve();spec=read(manifest)
     required={"format","run_id",*FILES}
-    if (set(spec)-required-{"training_config","min_donors"} or not required<=set(spec)
+    if (set(spec)-required-{"training_config","min_donors","episode_workflow"} or not required<=set(spec)
             or spec["format"]!=INPUT or not isinstance(spec["run_id"],str)
             or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*",spec["run_id"])):
         raise ValueError("Invalid native single-cell workflow input")
@@ -72,6 +72,14 @@ def plan(manifest,output,*,new=True):
     minimum=spec.get("min_donors",3)
     if type(minimum) is not int or minimum<2:raise ValueError("SC minimum donors must be an integer at least two")
     paths={k:verified_path(spec[k],manifest.parent) for k in sorted(FILES)}
+    episode_sources=[]; episode_binding=None
+    if 'episode_workflow' in spec:
+        from . import native_single_cell_episodes_workflow as episodes
+        episode_path,episode_value=episodes.validate(spec['episode_workflow'],manifest.parent)
+        if episode_value['files']!={key:record(path) for key,path in paths.items()}:
+            raise ValueError('SC training inputs differ from collected native episodes')
+        episode_binding=record(episode_path)
+        episode_sources=[episode_binding,*episode_value['source_files']]
     for key,name in (("episode_manifest","SC_HHGT_EPISODE_MANIFEST.json"),("graph_asset_manifest","GRAPH_ASSET_MANIFEST.json")):
         if paths[key].name!=name:raise ValueError("Native SC CLI requires "+name)
         if output==paths[key].parent or paths[key].parent in output.parents:
@@ -84,6 +92,8 @@ def plan(manifest,output,*,new=True):
     native._validate_settings(settings)
     descriptors,lineage=native.load_episode_manifest(settings)
     sources={item["path"]:record(item["path"]) for item in numeric.source_inventory(lineage)}
+    for item in episode_sources:
+        path=verified_path(item,manifest.parent);sources[str(path)]=record(path)
     with _bounded_duckdb() as con:
         for key,columns in (("candidates",["cancer_id","lncrna_id","pathway_id"]),
                             ("donor_crosswalk",["dataset_id","query_donor_id","canonical_donor_id"])):
@@ -104,7 +114,10 @@ def plan(manifest,output,*,new=True):
         "donor_partitions":donor_check,
         "sources":sorted(sources.values(),key=lambda r:r["path"]),"prepare_command":prepare,
         "execution_command":{"argv":fit,"operation":"SC_HHGT_FITTING","automatically_executed":False,
-            "requires_separate_explicit_execution":True},"source_boundary":"PREMATERIALIZED_NATIVE_EPISODES_AND_STATIC_GRAPHS"}
+            "requires_separate_explicit_execution":True},
+        **({'episode_workflow':episode_binding} if episode_binding is not None else {}),
+        "source_boundary":"COLLECTED_CANONICAL_EPISODES_WITH_FROZEN_LASSO" if episode_binding is not None
+                          else "PREMATERIALIZED_NATIVE_EPISODES_AND_STATIC_GRAPHS"}
 
 
 def expected_preflight(value):

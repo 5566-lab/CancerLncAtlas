@@ -36,7 +36,7 @@ def frozen_lasso(coding, lncrna, observations, *, response_global_indices, lncrn
 
 
 @pytest.fixture(scope='module')
-def completed(graph_completed):
+def nested_inputs(graph_completed):
     root, _, spec, graph_pin, graph_out = graph_completed
     donor = Path(spec['donor_preparation']['path']); value = read(read(donor)['preflight']['path'])
     nested_settings, _ = donors.build_settings(value, donor.parent, time.time()+600)
@@ -50,6 +50,12 @@ def completed(graph_completed):
         patch.setattr(nested_geometry,'local_disjoint_groups',grouping)
         receipts = nested.run_cancer(nested_settings)
     assert any(r['state']=='NESTED_EPISODE_ASSETS_READY' and r['role']=='validation' for r in receipts)
+    return root,donor,value,graph_pin,graph_out
+
+
+@pytest.fixture(scope='module')
+def completed(nested_inputs):
+    root,donor,value,graph_pin,graph_out=nested_inputs
     out = root/'episodes'
     argv=['--run-id','native-synthetic','--source-result-root',str(donor.parent/'metacells'),
           '--graph-asset-root',str(graph_out),'--nested-asset-root',str(donor.parent/'nested'),

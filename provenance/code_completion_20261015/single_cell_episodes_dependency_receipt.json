@@ -1,0 +1,16 @@
+{
+  "format": "NATIVE_SINGLE_CELL_DEPENDENCY_METADATA_CHECK_V1",
+  "status": "PASS",
+  "target_host": "149",
+  "training_started": false,
+  "source_sha256": {
+    "pyproject.toml": "5ce16d7da24638477b05b854d17afb365984b58fbe5eb13d111cfe5c333267a0",
+    "requirements/requirements-base.txt": "df8b678aae5c43b0141fc687f240706427298a7de485ba00d57fd16d3afadc93"
+  },
+  "h5py_requirement": "h5py>=3.16",
+  "observed_h5py_version": "3.16.0",
+  "observed_h5py_requires_python": ">=3.10",
+  "fresh_install_executed": false,
+  "scope": "DECLARATION_CONSISTENCY_AND_EXISTING_VERIFICATION_ENVIRONMENT_ONLY",
+  "checked_utc": "2026-10-26T18:07:21.371115+00:00"
+}

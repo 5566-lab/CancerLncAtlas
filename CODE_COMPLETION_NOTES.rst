@@ -6847,3 +6847,98 @@ Native episode launch verification on 149: ``single_cell_episode_sources_r1``, `
 pass 63 distinct related checks. PCA/grouping and LASSO use explicit
 frozen synthetic substitutes; original nested statistics, serialization,
 finalization and both-arm graph input collection execute without a neural model.
+
+Native episode workflow handoff (2026-10-27)
+------------------------------------------
+
+``single_cell_episodes.prepare`` and ``single_cell_episodes.collect`` extend
+the closed native registry to 29 operations. They wrap the original native
+episode assembler without dispatching its LASSO fitting command. Preparation
+consumes completed canonical graph and nested assets, not unexecuted geometry
+commands. Its manifest is::
+
+    {
+      "format": "NATIVE_SINGLE_CELL_EPISODES_INPUT_V1",
+      "run_id": "NEW_EPISODE_RUN",
+      "graph_workflow": {
+        "path": "/path/NATIVE_SINGLE_CELL_GRAPH_BINDING.json",
+        "sha256": "<SHA256>"
+      },
+      "lasso_config": {"alphas": [0.3, 0.1, 0.03, 0.01], "stability_threshold": 0.5}
+    }
+
+``lasso_config`` is optional. Allowed overrides are ``alphas``, ``max_genes``,
+``min_donors``, ``inner_folds``, ``bootstraps``, ``response_batch_size``,
+``max_iter``, ``tolerance`` and ``stability_threshold``. Unknown parameters,
+Boolean/fractional integer dimensions and non-finite scalars are rejected;
+the original LASSO policy validator retains its scientific bounds. Arguments
+are parsed by the original CLI, not interpreted as shell text.
+
+On 149, run::
+
+    python -m scripts.run_native_single_cell_episodes_workflow prepare \
+      --manifest INPUT.json --output NEW_PREPARATION
+
+``--plan`` verifies sources and configuration without creating the output.
+Preparation calls the original assembler with ``--prepare-only``. It writes
+``PREPARED.json``, ``EXECUTION_COMMANDS.json`` and the original launch
+preflight under ``episodes/``. The command document contains separate
+``assemble`` and ``finalize`` argument arrays, with an explicit
+``<UNIX_DEADLINE>`` placeholder. Only assemble calls LASSO; neither command is
+automatically executed. No neural fitting command is dispatched.
+
+After separately completing assembly and finalization in that exact
+``episodes/`` directory, collect the pinned manifest::
+
+    python -m scripts.run_native_single_cell_episodes_workflow collect \
+      --preparation NEW_PREPARATION/PREPARED.json --preparation-sha256 SHA256 \
+      --completed NEW_PREPARATION/episodes/SC_HHGT_EPISODE_MANIFEST.json \
+      --completed-sha256 SHA256 --output NEW_COLLECTION
+
+Collection repeats the original finalization in read-only mode. It verifies
+the preparation, sources, policy, cancer/fold/role counts, ordered episode
+inventory and static/sidecar bindings, then loads every actual episode graph
+for both training arms without constructing a neural model. Read-only
+preflight/finalization cannot create missing manifests or perform compatibility
+migrations. Output collection must be separate from the immutable preparation,
+canonical donor preparation and graph source directories.
+
+``NATIVE_SINGLE_CELL_EPISODES_BINDING.json`` binds the completed manifest,
+``EPISODE_INPUT_PREFLIGHT.json`` and source inventory. Its ``files`` field
+provides the four inputs for ``single_cell.prepare``: ``episode_manifest``,
+``graph_asset_manifest``, ``candidates`` and ``donor_crosswalk``. Pass the
+collection binding as that next stage's optional ``episode_workflow`` field;
+the actual SC workflow revalidates it, requires all four inputs to match,
+and retains its source inventory in subsequent preparation records.
+
+In a chain, use an external reference for the completed episode manifest.
+The coordinator stops at ``WAITING_EXTERNAL`` until the exact completion is
+registered, then performs collect and downstream SC input preparation.
+Stage references to ``/files/<name>`` select the four input pins. Resuming
+revalidates the native results rather than dispatching fitting or rewriting
+the immutable episode preparation.
+
+These checks establish serialization, provenance binding and actual graph
+input interoperability. They do not independently establish the correctness
+of fitted PCA/grouping, nested numeric targets or LASSO coefficients. The
+collection explicitly retains ``source_ancestry_complete=false`` and
+``fitted_lasso_numerics_verified=false``. The workflow has one declared cancer
+from the graph preparation and preserves the original five-fold role gates.
+
+The synthetic positive chain uses actual mapping, static/outer/nested
+producers and original assembly/finalization. Geometry and LASSO outputs
+remain explicit frozen test substitutes. Original SC input collection runs
+without fitting; separate existing SC/fusion regression fixtures may construct
+frozen test models and replay forwards, with optimizers forbidden. No real
+cohort, live data acquisition, paid compute, deletion or deployment is run.
+
+The H5 mapping/revalidation path imports ``h5py``. Its previously missing
+dependency is now declared consistently as ``h5py>=3.16`` in project metadata
+and base requirements. The existing 149 verification environment uses 3.16.0
+with Python >=3.10 support. A separate metadata receipt checks declaration
+consistency against that environment; it does not claim a fresh installation.
+
+Native episode workflow-chain verification on 149: ``single_cell_episodes_workflow_r1``, ``single_cell_episodes_sources_regression_r2``, ``single_cell_episodes_workflow_regression_r2``
+pass 78 distinct related checks. The actual native chain reaches
+SC input preparation and resumes without fitting; frozen substitutes and
+separate frozen-model regression scope are described above.

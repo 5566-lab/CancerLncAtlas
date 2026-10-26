@@ -30,7 +30,8 @@ MODULES["single_cell_static"] = "cc_hhgt.v32.native_single_cell_static_workflow"
 RUNS["single_cell_static.run"] = "single_cell_static"
 MODULES["single_cell_graph"] = "cc_hhgt.v32.native_single_cell_graph_workflow"
 RUNS["single_cell_graph.run"] = "single_cell_graph"
-PAIRED = ("auxiliary", "genomic", "state", "clinical", "single_cell", "fusion")
+MODULES["single_cell_episodes"] = "cc_hhgt.v32.native_single_cell_episodes_workflow"
+PAIRED = ("auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "single_cell_episodes")
 OPERATIONS = {*RUNS, "core.accept", "publication.run", *[n+"."+p for n in PAIRED for p in ("prepare", "collect")]}
 
 
@@ -195,7 +196,7 @@ def dispatch(operation, inputs, folder):
 def validate_result(operation, item, folder):
     name, phase = operation.split(".")
     if phase=="prepare": module(name).validate_preparation(item, folder)
-    elif operation in RUNS or name in ("auxiliary", "genomic", "state", "clinical", "core"):
+    elif operation in RUNS or name in ("auxiliary", "genomic", "state", "clinical", "core", "single_cell_episodes"):
         module(name).validate(item, folder)
     elif name=="single_cell":
         path = verified_path(item, folder); value = read(path)

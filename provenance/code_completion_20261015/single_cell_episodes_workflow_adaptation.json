@@ -1,0 +1,60 @@
+{
+  "method": "NATIVE_EPISODE_WORKFLOW_CHAIN_AND_SC_INPUT_HANDOFF",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "episode_workflow_constructed_model": false,
+  "regression_frozen_models_executed": true,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "single_cell_episodes_workflow_r1",
+    "single_cell_episodes_sources_regression_r2",
+    "single_cell_episodes_workflow_regression_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "single_cell_episodes_consumers_r1_timeout.json"
+  ],
+  "intermediate_failure_causes": [
+    "Combined regression exceeded 900 seconds without a complete result; terminal PID verified, then split into independent bounded reruns."
+  ],
+  "operation_registry_count": 29,
+  "dependency_metadata_receipt": {
+    "path": "provenance/code_completion_20261015/single_cell_episodes_dependency_receipt.json",
+    "sha256": "720111d1ff097335ac9b4b526c7b00405eb15bfa67326a6107f1ab14da4d536f"
+  },
+  "fresh_dependency_install_executed": false,
+  "new_operations": [
+    "single_cell_episodes.prepare",
+    "single_cell_episodes.collect"
+  ],
+  "original_prepare_only_dispatched": true,
+  "external_completion_wait_verified": true,
+  "original_read_only_finalization_executed": true,
+  "both_arm_graph_inputs_loaded": true,
+  "original_sc_prepare_consumed_collection": true,
+  "completed_source_bytes_mtimes_unchanged": true,
+  "resume_without_redispatch_verified": true,
+  "fitted_geometry_independently_verified": false,
+  "nested_fitted_numerics_replayed": false,
+  "lasso_coefficients_independently_verified": false,
+  "biological_identity_verified": false,
+  "test_substitutes": [
+    "Synthetic raw/reference/donor inputs and fixed geometry in upstream fixtures.",
+    "Explicit frozen LASSO result at the fitter boundary; original assembly/finalization execute.",
+    "Existing SC/fusion regressions construct frozen test models and replay forwards; no optimizer fitting."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The closed native chain now has 29 operations, including single_cell_episodes.prepare/collect. Preparation calls the original assembler prepare-only and records separately executable LASSO assembly/finalization argument arrays. Collection requires the exact prepared completion path, rederives its full manifest through original read-only finalization, and loads both-arm graph inputs without a model. The original single_cell.prepare can require the collection binding, matches all four input identities and propagates its source inventory. The synthetic actual chain waits for an external completion, collects original serialized episodes, prepares SC inputs and resumes without redispatch; collection preserves input bytes and mtimes. Geometry and LASSO outputs are explicit frozen substitutes. Existing neural/fusion regression fixtures use frozen test models without optimizer fitting. Fitted numeric/biological ancestry and full requirement acceptance remain open; no real cohort, training, acquisition or deployment runs."
+}
