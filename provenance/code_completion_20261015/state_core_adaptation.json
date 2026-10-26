@@ -1,0 +1,58 @@
+{
+  "method": "NATIVE_STATE_CORE_INPUT_AND_PATIENT_IDENTITY_TRAVERSAL",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "state_core_sources_r2",
+    "state_core_consumers_r2"
+  ],
+  "earlier_successful_receipts": [
+    "state_core_sources_r1",
+    "state_core_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "implementation_files": [
+    "cc_hhgt/v32/current_state_context.py",
+    "cc_hhgt/v32/current_state_model_use.py",
+    "cc_hhgt/v32/native_state_workflow.py",
+    "cc_hhgt/v32/state_training.py",
+    "tests/test_v32_current_analysis_web.py",
+    "tests/test_v32_native_state_workflow.py",
+    "tests/test_v32_state_core_model_use.py"
+  ],
+  "actual_parent_core_input_inspector_connected": true,
+  "core_neural_model_reconstructed_during_inspection": false,
+  "exact_state_paired_authority_rows_mapped": true,
+  "explicit_crosswalk_required_for_identity": true,
+  "native_text_identity_leading_zeros_preserved": true,
+  "source_locators_require_actual_consumption": true,
+  "private_inventory_reconstructed": true,
+  "public_coverage_separates_mapping_and_ancestry": true,
+  "complete_parent_population_ancestry_verified": false,
+  "raw_aliquot_contributions_reconstructed": false,
+  "optimizer_patient_use_attested": false,
+  "all_modules_patient_usage_complete": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/STATE_PATIENT_SCOPES_20261027.rst",
+      "sha256": "40fec85d9ec65477dc416bee95c9ea50a5516984aa6f20718f8e2ca5feaea5ad"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic raw/static sources and original production serializers/loaders.",
+    "Frozen core/head parameters and marked completion telemetry; no optimizer execution."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Completed State contexts now invoke the actual frozen-core export input inspector, including original prepared/checkpoint/receipt loading, preparation construction and graph source inspection. Separate STATE_CORE and STATE_HEAD contexts join core file-qualified identities with exact State paired-authority rows through an optional explicit crosswalk. Native prepare/collect preserves relocations and namespace; unused locators are rejected. Native text-table identity columns retain leading zeros. Full dependency, gap, patient-token, overlap and replay inventories remain private and are reconstructed; only aggregate coverage is public. Unknown source ancestry remains blocking even with complete registered identity mapping. This connects parent training-source traversal, not complete upstream populations, raw aliquot contributions, historical optimizer use, leakage diagnosis or independent biological validation. Synthetic original producers and frozen neural fixtures ran on149 without fitting, real cohorts, acquisition, paid compute or deployment."
+}

@@ -101,3 +101,85 @@ fit the parent core. Head input eligibility is not proof of optimizer execution.
 Neither source replay nor a matching patient scope demonstrates independent
 predictive performance or a causal lncRNA--State mechanism. The full project
 requirements C01, C13 and C16 therefore remain open.
+
+Core training inputs and explicit patient identity
+-------------------------------------------------
+
+The completed State context now automatically calls the existing native core
+input inspector on its actual bound core export. The original prepared loader,
+checkpoint/receipt checks, candidate collection, construction replay and graph
+source inspection execute for each available parent fold. The inspector itself
+does not construct another neural core or run an optimizer. Existing State
+statistics and frozen-head forwards remain a separate calculation.
+
+Records distinguish ``STATE_CORE`` from ``STATE_HEAD``. Missing original files,
+unknown study ancestry and unsupported historical controls remain explicit
+dependencies or gaps. A core export hash alone cannot mark them reconstructed.
+The State head's raw expression and State measurement ancestry also remains
+unresolved; neither these declarations nor matching statistics waive it.
+
+An optional ``source_inventory`` object is supported by both the current State
+input manifest and the native State workflow manifest::
+
+    {
+      "source_inventory": {
+        "artifact_locations": [
+          {"path": "/absolute/relocated_native_source.parquet", "sha256": "..."}
+        ],
+        "patient_identity_crosswalk": {
+          "path": "identity.parquet",
+          "sha256": "...",
+          "namespace": "explicit-study-identity-authority"
+        }
+      }
+    }
+
+Paths resolve relative to the declaring manifest. The workflow pins resolved
+locations and preserves them through preparation, external completion and State
+publication. A locator must be consumed by the actual core input traversal;
+unrelated or unused files cannot be added as evidence. Dataset hashes are
+verified, while individual files enter the State source artifact inventory.
+
+The crosswalk uses the existing columns ``source_file_sha256``,
+``identity_column``, ``raw_id`` and ``canonical_patient_id``. The explicit
+namespace and canonical identity determine a private patient token. State
+statistical cohorts map the original authority ``patient_id`` values at their
+recorded row positions. Core inputs use their actual file-qualified identities
+through the existing source inspectors. Equal identifiers in different files
+are not assumed to identify one person; a supplied alias can explicitly link
+different strings. Unmapped values remain unresolved.
+The native CSV/TSV reader retains identity columns as strings, preserving leading
+zeros such as ``001`` and keeping that patient distinct from ``1``. Numeric
+measurement and fold columns retain their existing validation/conversion path.
+
+The additional ``state_model_use_*`` tables are all private. They contain native
+entity/study exposure, file dependencies, gaps, transformation replays, mapped
+patient tokens, mapping counts, overlap counts and source-completeness results.
+The State auditor reconstructs every table from the actual sources. Private
+flags, the exact table inventory and content hashes are checked; all private
+tables remain outside public State queries, downloads and website registration.
+
+The public ``state_input_coverage`` table contains one row per dependency
+context. Its base fields follow the existing model-use completeness calculation:
+dependency counts, unresolved dependency count, entity/study source counts,
+unverified study sources, blocking gaps and ``inventory_complete``. Additional
+fields are:
+
+``observed_identity_context_count``, ``unmapped_identity_context_count``
+  Sums of observed/unmapped identities across recorded source/role/fold scopes.
+  They are not unique patient totals and can count a patient in several scopes.
+``registered_patient_mapping_complete``
+  True only when at least one identity is observed and every recorded identity
+  in that context maps. This does not imply that all upstream sources or all
+  historical patient use have been recovered.
+``patient_identity_namespace``
+  The supplied authority namespace, or null when no crosswalk was supplied.
+``optimizer_patient_use_attested``, ``independent_performance_verified``
+  Both remain false. Source reconstruction cannot prove either claim.
+
+Cross-context overlap is a lower bound from mapped identities. It is not itself
+a fold leakage finding: it includes statistical, held-out and whole-file source
+roles, and does not claim that all recorded rows trained a model. Source ancestry
+and identity mapping are separately reported, so complete mapping cannot hide
+unknown raw sources. Parent training source traversal is now connected; complete
+parent population ancestry and cross-module identity coverage remain open.

@@ -252,7 +252,7 @@ def test_version_mismatch_invalid_queries_and_private_downloads_are_rejected(web
         assert client.post(route,json={"version":version,**payload}).status_code==422
     assert client.get("/api/current/downloads/selected.gmt/0").status_code==422
     assert client.get("/api/current/downloads/selected.gmt/0",params={"version":"f"*64}).status_code==409
-    for identity in ("drug.PRIVATE_DOSE_MEASUREMENT_DISPOSITION","scores.checkpoint","clinical.patient_risk","single_cell.donor_cell_context","patient.patient_oof","distal.nested_outer_expression_components","genomic.checkpoint","../INPUT.json"):
+    for identity in ("state.state_patient_scopes_private","state.state_model_use_patient_usage_private","state.state_model_use_dependencies","drug.PRIVATE_DOSE_MEASUREMENT_DISPOSITION","scores.checkpoint","clinical.patient_risk","single_cell.donor_cell_context","patient.patient_oof","distal.nested_outer_expression_components","genomic.checkpoint","../INPUT.json"):
         assert client.get(f"/api/current/downloads/{identity}/0",params={"version":version}).status_code in {404,422}
 
 

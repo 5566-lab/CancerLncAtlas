@@ -7124,3 +7124,8 @@ pass 132 distinct related checks. No fitting or real-data analysis ran.
 State statistical patient scopes on 149: ``state_patient_scopes_r1``, ``state_patient_consumers_r1``
 pass 90 distinct related checks. Private scopes bind exact paired patients and frozen core parents;
 parent-core training ancestry and full cross-module coverage remain open. No fitting or real-cohort analysis ran.
+
+State-core input-source verification on149: ``state_core_sources_r2``, ``state_core_consumers_r2``
+pass 100 distinct related checks. Actual parent training sources and explicit
+patient mappings are connected; complete ancestry and all-module acceptance remain open.
+Native CSV/TSV identities preserve leading zeros. No fitting or real cohort analysis ran.

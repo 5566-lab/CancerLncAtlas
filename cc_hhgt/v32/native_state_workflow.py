@@ -28,7 +28,9 @@ CODE = ("cc_hhgt/v32/native_state_workflow.py", "scripts/run_native_state_workfl
     "cc_hhgt/v32/state_training.py", "scripts/run_v32_state_training.py",
     "cc_hhgt/v32/current_state_context.py", "cc_hhgt/v32/patient_fold_authority.py",
     "cc_hhgt/v32/patient_folds.py", "cc_hhgt/v32/integrated_model.py",
-    "cc_hhgt/v32/current_core_export.py", "cc_hhgt/v32/selected_genesets.py", "cc_hhgt/v32/state_patient_use.py")
+    "cc_hhgt/v32/current_core_export.py", "cc_hhgt/v32/selected_genesets.py", "cc_hhgt/v32/state_patient_use.py",
+    "cc_hhgt/v32/current_state_model_use.py", "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/current_core_model_use.py", "cc_hhgt/v32/patient_source_identity.py")
 
 
 def arguments(values): return [part for key,value in values.items() for part in ("--"+key.replace("_","-"),str(value))]
@@ -37,7 +39,7 @@ def arguments(values): return [part for key,value in values.items() for part in 
 def plan(manifest, output, *, new=True):
     require_host(); manifest=Path(manifest).resolve(); output=Path(output).resolve(); spec=read(manifest)
     required={"format","state_run_id","core_run_id","selected_analysis","patient_authority_receipt",*ROLES}
-    if (set(spec)-required-{"config","state_sets"} or not required <= set(spec) or spec["format"]!=INPUT
+    if (set(spec)-required-{"config","state_sets","source_inventory"} or not required <= set(spec) or spec["format"]!=INPUT
             or not re.fullmatch(r"v32-[a-z0-9][a-z0-9._-]*",str(spec["state_run_id"]))
             or not isinstance(spec["core_run_id"],str) or not spec["core_run_id"].strip()):
         raise ValueError("Invalid native State workflow input")
@@ -50,6 +52,8 @@ def plan(manifest, output, *, new=True):
     for key in ("selected_analysis","patient_authority_receipt"):
         files[key]=record(sources.bind(spec[key],manifest.parent))
     _,_,_,_,parents=state_core_sources({**spec,**files},manifest.parent,sources)
+    from .current_state_model_use import options
+    source_inventory=options(spec.get("source_inventory",{}),manifest.parent,sources)
     authority=native.state_patient_authority(files["patient_folds"]["path"],files["patient_authority_receipt"]["path"],"current")
     defaults=asdict(native.StateTrainingConfig()); override=spec.get("config",{})
     if not isinstance(override,dict) or set(override)-set(defaults): raise ValueError("Unknown State training configuration")
@@ -67,7 +71,7 @@ def plan(manifest, output, *, new=True):
     sources.bind(record(manifest),manifest.parent)
     return {"target_host":"149","training_started":False,"input":record(manifest),"files":files,
         "state_run_id":spec["state_run_id"],"core_run_id":spec["core_run_id"],"config":config,"state_sets":asdict(policy),
-        "patient_authority":authority,"core_lineage":{str(k):v for k,v in parents.items()},
+        "patient_authority":authority,"core_lineage":{str(k):v for k,v in parents.items()},"source_inventory":source_inventory,
         "sources":sorted(sources.records.values(),key=lambda r:r["path"]),"prepare_command":prepare,
         "training_command":{"argv":command,"execution_mode":"CODE_ONLY","automatically_executed":False,
                             "requires_separate_explicit_execution":True}}
@@ -131,7 +135,7 @@ def validate_completed(preparation, manifest, completed_path, completed, sources
     path,binding,value,ready=validate_preparation(preparation,root)
     if Path(completed_path).resolve()!=path.parent/"training/STATE_TRAINING_LINEAGE.json":
         raise ValueError("Completed State result is outside the prepared output")
-    for key in ("state_run_id","core_run_id","state_sets"):
+    for key in ("state_run_id","core_run_id","state_sets","source_inventory"):
         if manifest.get(key)!=value[key]: raise ValueError("Completed State publication settings differ: "+key)
     for key in ("core_manifest","selected_analysis"):
         actual=verified_path(manifest[key],root)
@@ -164,7 +168,8 @@ def collect(preparation, completed, output):
     from .current_state_context import INPUT_FORMAT, materialize_current_state_context
     manifest={"format":INPUT_FORMAT,"core_run_id":value["core_run_id"],"state_run_id":value["state_run_id"],
         "core_manifest":value["files"]["core_manifest"],"selected_analysis":value["files"]["selected_analysis"],
-        "state_sets":value["state_sets"],"state_training_lineage":record(completed_path),"workflow_preparation":record(path)}
+        "state_sets":value["state_sets"],"source_inventory":value["source_inventory"],
+        "state_training_lineage":record(completed_path),"workflow_preparation":record(path)}
     validate_completed(preparation,manifest,completed_path,read(completed_path),Sources(),ROOT)
     output.mkdir(parents=True)
     write(output/"LAUNCH_PREFLIGHT.json",{"target_host":"149","training_started":False,

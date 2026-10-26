@@ -1,0 +1,61 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T20:44:00.318836+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_state_context.py": "a0bf8e6ca5ee9077c461331661fa5df5b7a6dd805cd7e25ca6c6441e84e9769f",
+    "cc_hhgt/v32/current_state_model_use.py": "ad9eff0b1fe57a5ee84305b31ba0bbfe2ef3dbcee8be4eaeb5968cb8bb94d9b3",
+    "cc_hhgt/v32/native_state_workflow.py": "70a1b8e25c1c0ba7f3cc0746e80c7fbcf43b98cb54edf9c5e9cbb7529ed2fcb3",
+    "cc_hhgt/v32/state_training.py": "0d5f345dbda7566e361a919b3b0c4aa3cdb34b0007a5c0c97d9343ff6f3d09ec",
+    "tests/test_v32_current_analysis_web.py": "1e818c071e601908dd4cc53fb67fd54b8c25f686f9050f058087c668940df0f0",
+    "tests/test_v32_native_state_workflow.py": "bd5a8e3a1d9b3329f265a95497d4aa673f1164c917a75d744ae6c295382423f5",
+    "tests/test_v32_state_core_model_use.py": "178ee3eb7eec1c6ecb2256baff5b9778159efb4739af6aa8c993f84b459a91c2"
+  },
+  "source_code_uploaded": false,
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--tb=short",
+    "tests/test_v32_native_state_workflow.py",
+    "tests/test_v32_current_state_context.py",
+    "tests/test_v32_current_analysis_web.py",
+    "--junitxml=provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T20:50:37.838752+00:00"
+}

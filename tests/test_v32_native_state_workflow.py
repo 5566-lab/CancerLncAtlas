@@ -197,6 +197,27 @@ def test_current_cli_requires_core_identity_and_preserves_frozen_default(source,
     assert not (tmp_path/"ready").exists()
 
 
+def test_explicit_patient_identity_crosswalk_reaches_completed_state_context(source,tmp_path):
+    spec=read(source); patient=spec["patient_folds"]
+    patients=native.read_table(patient["path"],"patient authority")
+    crosswalk=tmp_path/"identity.parquet"
+    pd.DataFrame([(patient["sha256"],"patient_id",raw,"PERSON:"+raw) for raw in patients.patient_id.unique()],
+        columns=["source_file_sha256","identity_column","raw_id","canonical_patient_id"]).to_parquet(crosswalk,index=False)
+    spec["source_inventory"]={"patient_identity_crosswalk":{**record(crosswalk),"path":crosswalk.name,"namespace":"STATE_WORKFLOW"}}
+    manifest=tmp_path/"input.json";write(manifest,spec)
+    prepared=workflow.prepare(manifest,tmp_path/"ready")
+    value=read(prepared.parent/"LAUNCH_PREFLIGHT.json")
+    assert value["source_inventory"]["patient_identity_crosswalk"]["path"]==str(crosswalk)
+    result=read(workflow.collect(record(prepared),record(complete(prepared)),tmp_path/"out"))
+    context=read(result["state_context"]["path"])
+    coverage=pd.read_parquet(context["outputs"]["state_input_coverage"]["path"])
+    head=coverage.loc[coverage.dependency_context.eq("STATE_HEAD")].iloc[0]
+    assert head.registered_patient_mapping_complete and not head.inventory_complete
+    assert head.patient_identity_namespace=="STATE_WORKFLOW"
+    private=context["private_outputs"]["state_model_use_patient_usage_private"]
+    assert private["private"] is True and len(pd.read_parquet(private["path"]))>0
+
+
 def test_host_and_existing_output_guards_precede_work(source,tmp_path,monkeypatch):
     with monkeypatch.context() as patch:
         patch.setattr(socket,"gethostname",lambda:"local")

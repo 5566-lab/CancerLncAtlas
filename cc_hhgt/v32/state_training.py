@@ -231,9 +231,11 @@ def read_table(path: str | Path, role: str) -> pd.DataFrame:
     if suffix in {".parquet", ".pq"}:
         return pd.read_parquet(source)
     if suffix == ".csv":
-        return pd.read_csv(source)
+        return pd.read_csv(source, dtype={column: str for column in
+            ("sample_id", "patient_id", "cancer_id", "lncrna_id", "state_id", "node_id")})
     if suffix in {".tsv", ".txt"}:
-        return pd.read_csv(source, sep="\t")
+        return pd.read_csv(source, sep="\t", dtype={column: str for column in
+            ("sample_id", "patient_id", "cancer_id", "lncrna_id", "state_id", "node_id")})
     raise StateTrainingError(f"Unsupported {role} table format: {source}")
 
 

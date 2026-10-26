@@ -212,9 +212,12 @@ def state_sources(manifest_path):
     patient_trace = Trace(raw_patients, next(r for r in input_records if r["role"] == "v32_patient_fold_manifest"),
         cores, core_lineage, cfg.validation_offset)
     replay = replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, patient_trace=patient_trace)
+    from .current_state_model_use import derive
+    scopes = patient_trace.table()
+    input_use, input_coverage = derive(manifest, root, sources, lineage_path, lineage, raw_patients, scopes)
     return dict(manifest=manifest, sources=sources, selected=selected, score=score, lineage=lineage,
         native_paths=native_paths, min_folds=cfg.min_available_folds, patients=patients, policy=policy, replay=replay,
-        statistical_patient_scopes=patient_trace.table())
+        statistical_patient_scopes=scopes, input_use=input_use, input_coverage=input_coverage)
 
 
 def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, *, patient_trace=None):
@@ -420,7 +423,8 @@ def _tables(context):
     selected = context["selected"]
     members = pd.read_parquet(selected.paths["geneset_members"])
     coverage = pd.read_parquet(selected.paths["geneset_coverage"])
-    tables = {"native_state_aggregate": aggregate, **selected_state_tables(members, coverage, aggregate),
+    tables = {"native_state_aggregate": aggregate, "state_input_coverage": context["input_coverage"].copy(),
+              **selected_state_tables(members, coverage, aggregate),
               **native_state_sets(aggregate, context["policy"])}
     for data in tables.values():
         data["state_training_run_id"] = context["manifest"]["state_run_id"]
@@ -444,9 +448,10 @@ def _gmt(tables, context):
 
 def implementation_hashes():
     root = Path(__file__).resolve().parent
-    return {name: sha256(root/name) for name in ["current_state_context.py", "state_training.py", "state_gene_set_release.py",
+    from .current_model_use import implementations
+    return {**implementations(), **{name: sha256(root/name) for name in ["current_state_context.py", "state_training.py", "state_gene_set_release.py",
         "integrated_model.py", "current_core_export.py", "native_auxiliary_fusion.py",
-        "native_state_workflow.py", "patient_folds.py", "patient_fold_authority.py", "state_patient_use.py"]}
+        "native_state_workflow.py", "patient_folds.py", "patient_fold_authority.py", "state_patient_use.py", "current_state_model_use.py"]}}
 
 
 def materialize_current_state_context(manifest_path, output):
@@ -457,10 +462,10 @@ def materialize_current_state_context(manifest_path, output):
         "input_manifest_sha256":sha256(manifest_path)})
     context = state_sources(manifest_path); tables = _tables(context); outputs = {}
     from .state_patient_use import TABLE
-    private_path = output/(TABLE+".parquet")
-    context["statistical_patient_scopes"].to_parquet(private_path, index=False)
-    private_outputs = {TABLE: {"path": str(private_path), "sha256": sha256(private_path),
-        "rows": len(context["statistical_patient_scopes"]), "private": True}}
+    private_outputs = {}
+    for name, data in {TABLE: context["statistical_patient_scopes"], **context["input_use"]}.items():
+        private_path = output/(name+".parquet"); data.to_parquet(private_path, index=False)
+        private_outputs[name] = {"path": str(private_path), "sha256": sha256(private_path), "rows": len(data), "private": True}
     for name, data in tables.items():
         path = output/(name+".parquet"); data.to_parquet(path,index=False)
         outputs[name] = {"path":str(path), "sha256":sha256(path), "rows":len(data)}
@@ -494,11 +499,13 @@ def _load(binding_path, expected_sha):
             or binding.get("production_deployed") is not False):
         raise ValueError("Invalid current State context binding")
     from .state_patient_use import TABLE
+    from .current_state_model_use import PRIVATE_NAMES
     private = binding.get("private_outputs", {})
-    if (set(private) != {TABLE} or private[TABLE].get("private") is not True or TABLE in binding["outputs"]
-            or any(r.get("sha256") == private[TABLE]["sha256"] for r in binding["outputs"].values())):
+    if (set(private) != {TABLE}|PRIVATE_NAMES or any(r.get("private") is not True for r in private.values())
+            or set(private) & set(binding["outputs"])
+            or {r.get("sha256") for r in private.values()} & {r.get("sha256") for r in binding["outputs"].values()}):
         raise ValueError("State patient scopes must remain private")
-    verified_path(private[TABLE], path.parent)
+    for item in private.values(): verified_path(item, path.parent)
     paths = {name:verified_path(r,path.parent) for name,r in binding["outputs"].items()}
     return path,binding,paths
 
@@ -517,11 +524,12 @@ def audit_current_state_context(binding_path, *, expected_sha):
         raise ValueError("State context input identity or policy drift")
     tables = _tables(context)
     from .state_patient_use import TABLE
-    private = binding["private_outputs"][TABLE]
-    observed = pd.read_parquet(verified_path(private, path.parent))
-    if len(observed) != private["rows"]: raise ValueError("State private patient scope row count drift")
-    try: _assert_same_table(observed, context["statistical_patient_scopes"])
-    except AssertionError as error: raise ValueError("State private patient scope replay differs") from error
+    for name, expected in {TABLE: context["statistical_patient_scopes"], **context["input_use"]}.items():
+        private = binding["private_outputs"][name]
+        observed = pd.read_parquet(verified_path(private, path.parent))
+        if len(observed) != private["rows"]: raise ValueError("State private patient scope row count drift")
+        try: _assert_same_table(observed, expected)
+        except AssertionError as error: raise ValueError("State private patient scope replay differs: "+name) from error
     if set(outputs) != set(tables)|{"gmt"}: raise ValueError("State context output inventory drift")
     for name,expected in tables.items():
         observed = pd.read_parquet(outputs[name])
