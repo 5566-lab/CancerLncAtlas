@@ -1,0 +1,60 @@
+{
+  "method": "NATIVE_LOCAL_CNV_STATISTICAL_PATIENT_SCOPES",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "raw_deletion_executed": false,
+  "successful_validation_receipts": [
+    "local_cnv_patient_scopes_r2",
+    "local_cnv_patient_consumers_r1",
+    "local_cnv_patient_statistics_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "earlier_successful_receipts": [
+    "local_cnv_patient_scopes_r1"
+  ],
+  "operation_registry_count": 29,
+  "statistical_patient_scopes_reconstructed": true,
+  "raw_patient_map_rows_used_for_identity_mapping": true,
+  "private_scope_table_required": true,
+  "private_scope_table_excluded_from_external_public_outputs": true,
+  "observer_preserves_original_statistical_outputs": true,
+  "statistical_cache_rechecks_actual_source_bytes": true,
+  "scope_records_reconstructed_per_dependency_context": true,
+  "source_bytes_and_mtimes_preserved_during_replay": true,
+  "regression_frozen_forwards_executed": true,
+  "all_modules_patient_usage_complete": false,
+  "optimizer_patient_use_attested": false,
+  "model_use_inventory_complete": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/LOCAL_CNV_PATIENT_SCOPES_20261027.rst",
+      "sha256": "dc4a4b0853870a88a969aeb4f00e03a7911da9dea42be31e08c10cd3ad4e7ffa"
+    }
+  ],
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "test_substitutes": [
+    "Synthetic native measured inputs and reference/control authorities; actual original workers/closeout/statistics.",
+    "Existing core/external consumer regression fixtures use frozen forwards/containers, without optimizer execution."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Actual native local-CNV statistical functions now expose optional observation hooks for A0 train/validation, shared covariate construction, pair-specific A1 and A2 cohorts, validation A1 and graph callability/variance/tested Cartesian scopes. Numerical replay captures them into a private model-use table without expanding patient-by-candidate products. Original raw patient-map rows feed explicit identity crosswalks; normalization of IDs does not assert biological identity. Cached scopes remain byte/code/parent checked and context-specific. Private flags are mandatory and external public tables do not include the new scope table. Statistical scopes do not attest optimizer use, earlier raw assay ancestry, State-core/cross-module patient completeness or external validation. Synthetic original workers/closeout and consumer regressions ran on 149; existing consumer fixtures use frozen forwards/containers. No learned-model fitting, real-data execution, acquisition, paid compute or deployment ran."
+}

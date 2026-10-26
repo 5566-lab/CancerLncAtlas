@@ -159,8 +159,10 @@ def inspect(inventory,binding,root,model,role,fold):
     phase="MODEL_SELECTION" if matches[0]["output_kind"]=="validation" else "FEATURE_CONSTRUCTION"
     inspect_bound_sources(inventory,biological,path.parent,model,role+".upstream",fold,phase=phase)
     from .local_cnv_source_replay import inspect as inspect_replay
-    inspect_replay(inventory,binding,root,model,role,fold)
-    inventory.gap(model,role,"LOCAL_CNV_ROW_LEVEL_USAGE_AND_EARLIER_RAW_ANCESTRY_UNVERIFIED",fold,binding["sources"]["sha256"])
+    reconstructed = inspect_replay(inventory,binding,root,model,role,fold)
+    reason = ("LOCAL_CNV_EARLIER_RAW_ANCESTRY_AND_CROSS_MODULE_PATIENT_IDENTITY_UNVERIFIED" if reconstructed else
+              "LOCAL_CNV_ROW_LEVEL_USAGE_AND_EARLIER_RAW_ANCESTRY_UNVERIFIED")
+    inventory.gap(model,role,reason,fold,binding["sources"]["sha256"])
 
 
 def inspect_corrected_graph(inventory,receipt_path,consumed,model,role,fold):

@@ -60,7 +60,7 @@ def implementations():
         "cc_hhgt/v32/current_single_cell_model_use.py","cc_hhgt/v32/single_cell_signed_fusion.py",
         "cc_hhgt/v32/current_core_model_use.py","cc_hhgt/v32/integrated_model.py",
         "cc_hhgt/v32/patient_source_identity.py",
-        "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_source_replay.py","cc_hhgt/v32/local_cnv_confounding.py","cc_hhgt/v32/local_cnv_cohort.py",
+        "cc_hhgt/v32/local_cnv_sources.py","cc_hhgt/v32/local_cnv_source_replay.py","cc_hhgt/v32/local_cnv_patient_use.py","cc_hhgt/v32/local_cnv_confounding.py","cc_hhgt/v32/local_cnv_cohort.py",
         "scripts/run_v32_local_cnv_confounding_audit_r2.py","scripts/materialize_v32_local_cnv_validation_associations.py",
         "cc_hhgt/v32/associations.py","cc_hhgt/v32/bulk_coexpression_release.py",
         "cc_hhgt/v32/formal_expression_sources.py","scripts/convert_formal_lncrna_rds.py",
@@ -101,6 +101,7 @@ class Inventory:
     def __init__(self,locations,root,patient_crosswalk=None):
         self.sources={};self.dependencies=[];self.gaps=[];self.usage=[];self.visited=set();self.locations={};self.used_locations=set()
         self.transform_replays=[]
+        self.statistical_patient_scopes=[];self.statistical_patient_cache={}
         self.context_id="SELECTED_SCORE"
         from .patient_source_identity import IdentityMap,PatientUse
         self.patient_use=PatientUse(IdentityMap(patient_crosswalk,root))
@@ -430,6 +431,8 @@ def inventory_tables(inventory,models):
         "dependencies":pd.DataFrame(inventory.dependencies,columns=DEPENDENCIES).drop_duplicates().reset_index(drop=True),
         "gaps":pd.DataFrame(inventory.gaps,columns=GAPS).drop_duplicates().reset_index(drop=True)}
     tables.update(inventory.patient_use.tables())
+    from .local_cnv_patient_use import TABLE,COLUMNS
+    tables[TABLE]=pd.DataFrame(inventory.statistical_patient_scopes,columns=COLUMNS).drop_duplicates().reset_index(drop=True)
     tables["transformation_replays"]=pd.DataFrame(inventory.transform_replays,columns=REPLAYS).drop_duplicates().reset_index(drop=True)
     tables["usage"]["usage_record_kind"]=tables["usage"].usage_record_kind.fillna(STUDY)
     for field in ("mapped","is_experimental","is_predicted"):tables["usage"][field]=tables["usage"][field].astype(bool)
@@ -464,7 +467,7 @@ def materialize_current_model_use(manifest_path,output):
     manifest,models,tables,sources=derive_manifest(source);outputs={}
     for name,frame in tables.items():
         path=output/(name.upper()+".parquet");frame.to_parquet(path,index=False);outputs[name]={**record(path),"rows":len(frame),
-            "private":name=="patient_usage_private"}
+            "private":name in {"patient_usage_private","local_cnv_patient_scopes_private"}}
     from .model_use_completeness import is_complete
     binding={"format":FORMAT,"status":"PASS_DERIVED_INVENTORY","target_host":"149","input_manifest":record(source),
         "models":models,"outputs":outputs,"source_inputs":sources,"implementation_sha256":implementations(),
@@ -488,6 +491,8 @@ def load_current_model_use(path,*,expected_sha,models=None,root=None,replay=True
     if binding["implementation_sha256"]!=implementations():raise ValueError("Model-use implementation changed")
     if binding["outputs"].get("patient_usage_private",{}).get("private") is not True:
         raise ValueError("Patient identity usage must remain private")
+    if binding["outputs"].get("local_cnv_patient_scopes_private",{}).get("private") is not True:
+        raise ValueError("Statistical patient scopes must remain private")
     for source in binding["source_inputs"]:verified_source(source,path.parent)
     tables={name:pd.read_parquet(verified_path(item,path.parent)) for name,item in binding["outputs"].items()}
     if binding.get("model_forwards_executed") is not linear_replay_executed(tables):

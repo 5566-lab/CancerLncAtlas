@@ -151,11 +151,15 @@ def _validation_a1(
     cnv: DirectionalCNVStore,
     patients: list[str],
     design: np.ndarray,
+    patient_trace=None,
 ) -> pd.DataFrame:
     common = sorted(set(patients) & set(lnc.index) & set(pathway.index) & set(cnv.patient_ids))
     if design.ndim != 2 or design.shape[0] != len(common):
         raise ValueError("validation covariate design is not aligned to common patients")
     out = pairs.copy().reset_index(drop=True)
+    if patient_trace is not None:
+        patient_trace.emit('MATCHED_SHARED_COVARIATE_DESIGN','validation',common,out.lncrna_id,out.pathway_id,
+                           'pathway','ALIGNED_PAIRS',True)
     lnc_ids = sorted(out.lncrna_id.astype(str).unique())
     pathway_ids = sorted(out.pathway_id.astype(str).unique())
     lmap = {value: index for index, value in enumerate(lnc_ids)}
@@ -195,6 +199,7 @@ def _validation_a1(
             design,
             local_callable=callable_value,
             pathway_callable=np.zeros_like(callable_value),
+            patient_observer=patient_trace.matched(out.iloc[start:stop], common, 'validation', only_a1=True) if patient_trace is not None else None,
         )
         rho[start:stop] = result["rho_a1_local"]
         pvalue[start:stop] = result["p_a1_local"]
@@ -234,7 +239,7 @@ def _validation_a1(
     return mark_excluded(mark_excluded(out, pathway, entity="pathway_id"), lnc)
 
 
-def validation_fold(cancer, fold, pairs, lnc, pathway, patient_map, cnv, covariates, *, run_id, audit_success_sha256):
+def validation_fold(cancer, fold, pairs, lnc, pathway, patient_map, cnv, covariates, *, run_id, audit_success_sha256, patient_trace=None):
     """Construct one complete validation partition and its statistical metadata."""
     validation_fold_id = (fold + 1) % 5
     patients = sorted(patient_map.loc[patient_map.cancer_id.eq(cancer)
@@ -242,7 +247,7 @@ def validation_fold(cancer, fold, pairs, lnc, pathway, patient_map, cnv, covaria
     common = sorted(set(patients) & set(lnc.index) & set(pathway.index) & set(cnv.patient_ids))
     design, covariates_used, missing_covariate_patients = bulk._covariate_design(
         covariates, cancer=cancer, patients=common, columns=DEFAULT_COVARIATES)
-    result = _validation_a1(pairs, lnc, pathway, cnv, patients, design)
+    result = _validation_a1(pairs, lnc, pathway, cnv, patients, design, patient_trace=patient_trace)
     result.insert(3, "fold_id", int(fold))
     result.insert(4, "split_role", "validation_label_only")
     result["validation_patient_fold_id"] = validation_fold_id

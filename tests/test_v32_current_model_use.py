@@ -62,6 +62,7 @@ def test_native_training_selection_and_graph_inputs_are_derived_with_masks(nativ
     monkeypatch.setattr(exporter,"_build_model",forbidden)
     _,models,path=native_inventory
     binding,tables=load_current_model_use(path,expected_sha=sha256(path),models=models)
+    assert binding['outputs']['local_cnv_patient_scopes_private']['private'] is True
     usage=tables["usage"]
     train=usage.loc[usage.phase.eq("TRAINING")]
     validation=usage.loc[usage.phase.eq("MODEL_SELECTION")]
@@ -124,6 +125,7 @@ def test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenan
     assert not rows[0]["provenance_held_out"] and "NATIVE_DEPENDENCIES_INCOMPLETE" in rows[0]["isolation_reasons_json"]
     assert query.query()["isolation_scope"]==SCOPE
     assert "path" not in pd.read_parquet(query.paths["model_dependencies"]).columns
+    assert 'local_cnv_patient_scopes_private' not in query.paths
     assert len(pd.read_parquet(query.paths["model_dependency_gaps"]))>0
     coverage=query.query(table="model_use_completeness")["rows"]
     assert coverage and not all(r["inventory_complete"] for r in coverage)
@@ -140,6 +142,17 @@ def test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inven
     file=tmp_path/"unused.txt";file.write_text("not a native dependency")
     source=tmp_path/"INPUT.json";write(source,{"format":INPUT_FORMAT,"models":models,"artifact_locations":[record(file)]})
     with pytest.raises(ValueError,match="Unused model-use artifact locator"):derive_manifest(source)
+
+
+@pytest.mark.parametrize('declaration',[False,None])
+def test_statistical_patient_scopes_cannot_be_made_public(native_inventory,tmp_path,declaration):
+    _,_,path=native_inventory
+    value=read(path);item=value['outputs']['local_cnv_patient_scopes_private']
+    if declaration is None:item.pop('private')
+    else:item['private']=declaration
+    changed=tmp_path/'MODEL_USE_BINDING.json';write(changed,value)
+    with pytest.raises(ValueError,match='Statistical patient scopes must remain private'):
+        load_current_model_use(changed,expected_sha=sha256(changed),replay=False)
 
 
 def test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use(native_inventory,tmp_path):

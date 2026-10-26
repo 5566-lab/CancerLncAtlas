@@ -7074,3 +7074,49 @@ this is distinct from the SC source inspector's no-forward scope.
 
 Outer SC reconstruction verification on 149: ``single_cell_outer_graph_regression_r2``, ``single_cell_outer_numeric_r2``, ``single_cell_outer_model_sources_r2``, ``single_cell_outer_core_regression_r1``
 pass 67 distinct related checks. No fitting or real-data analysis ran.
+
+Local-CNV statistical patient scopes (2026-10-27)
+----------------------------------------------
+
+The actual native local-CNV numerical reconstruction now captures the
+patient populations used by its statistical functions. Optional observer
+hooks preserve the existing calculations and return values. They record
+train/validation A0 cohorts, shared covariate-design populations, exact
+A0-matched/A1 masks, the separate A1-on-A2/A2 masks, validation A1 and
+graph callability/variance/tested Cartesian scopes. Missing-feature matched
+calculations retain an explicit empty scope. Eligibility is distinct from a
+finite/estimable association. No test/OOF patient enters these scopes.
+
+``local_cnv_patient_scopes_private`` stores shared patient-map row sets and
+aligned pair lists or Cartesian feature sets. It binds the actual consumed
+partition, source receipt, model/context, patient map and implementation.
+The data represent statistical construction of the consumed partition, not
+proof of per-patient optimizer updates. Original broad input exposure stays
+present because normalization and shared covariate construction can depend
+on more patients than one matched pair.
+
+The source inspector follows the actual patient-map rows through the
+explicit file-qualified identity crosswalk. Native canonicalization does
+not invent biological identities; unresolved aliases stay unresolved. A
+numeric-only cached proof cannot stand in for a missing patient trace, and
+captured trace reuse still checks current input/output/code bytes and the
+validation closeout. Traces are attributed separately to each model context.
+
+Normal model-use serialization and reconstruction include the new private
+table. Its private flag is mandatory, and current external evaluation does
+not publish it. Existing public mapping/overlap summaries remain available.
+The local statistical row-scope gap is replaced only where actual numeric
+reconstruction succeeds; historical unsupported receipts retain it. Earlier
+raw ancestry, cross-module identity, State-core dependencies and final
+external acceptance remain open. See
+``docs/LOCAL_CNV_PATIENT_SCOPES_20261027.rst`` for field semantics.
+
+Synthetic native workers and independent closeout feed the scope tests;
+direct mask/neutral-zero/missingness checks compare observer and original
+numerical outputs. Alias, cache, privacy and existing statistical/core/
+external consumers are verified. Existing consumer fixtures use frozen
+forwards and explicit frozen containers. No learned-model fitting, real
+cohort analysis, acquisition, paid compute or production deployment ran.
+
+Local-CNV patient-scope verification on 149: ``local_cnv_patient_scopes_r2``, ``local_cnv_patient_consumers_r1``, ``local_cnv_patient_statistics_r1``
+pass 132 distinct related checks. No fitting or real-data analysis ran.

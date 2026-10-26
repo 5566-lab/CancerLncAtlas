@@ -276,6 +276,7 @@ def fold_local_pair_models(
     local_callable: np.ndarray,
     pathway_callable: np.ndarray,
     min_patients: int = MIN_MATCHED_PATIENTS,
+    patient_observer=None,
 ) -> dict[str, np.ndarray]:
     """Vectorized exact matched-patient A0_MATCHED/A1/A2 calculation.
 
@@ -460,6 +461,8 @@ def fold_local_pair_models(
         )
     # Preserve the per-group availability computed above.  Do not recompute
     # it from rho alone: that would re-introduce finite-rho/NaN-p rows.
+    if patient_observer is not None:
+        patient_observer(complete, complete_a2, result, int(min_patients))
     return result
 
 

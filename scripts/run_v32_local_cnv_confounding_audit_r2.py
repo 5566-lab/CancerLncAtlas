@@ -210,10 +210,12 @@ def fdr_and_labels(frame: pd.DataFrame, prefix: str) -> None:
 
 def a0_full(
     lnc: pd.DataFrame, pathway: pd.DataFrame, pairs: pd.DataFrame, patients: list[str],
-    *, covariates: pd.DataFrame, cancer: str,
+    *, covariates: pd.DataFrame, cancer: str, patient_observer=None,
 ) -> tuple[np.ndarray, np.ndarray, int, int]:
     common = sorted(set(patients) & set(lnc.index) & set(pathway.index))
     if len(common) < 5:
+        if patient_observer is not None:
+            patient_observer(pairs, common, False, np.zeros(len(pairs), dtype=bool))
         return np.full(len(pairs), np.nan), np.full(len(pairs), np.nan), len(common), 0
     lnc_ids = sorted(pairs.lncrna_id.astype(str).unique())
     pathway_ids = sorted(pairs.pathway_id.astype(str).unique())
@@ -249,13 +251,15 @@ def a0_full(
     rho[~(x_estimable[li] & y_estimable[pi])] = np.nan
     residual_rank = design_rank(design)
     p = correlation_p_values(rho, len(common), residual_design_rank=residual_rank)
+    if patient_observer is not None:
+        patient_observer(pairs, common, True, np.isfinite(rho) & np.isfinite(p))
     return rho, p, len(common), residual_rank
 
 
 def association_fold(
     cancer: str, fold: int, pairs: pd.DataFrame, lnc: pd.DataFrame,
     pathway: pd.DataFrame, patient_map: pd.DataFrame, cnv: DirectionalCNVStore,
-    covariates: pd.DataFrame, *, run_id: str | None = None,
+    covariates: pd.DataFrame, *, run_id: str | None = None, patient_trace=None,
 ) -> pd.DataFrame:
     declared = split_patients(patient_map, cancer, fold)
     common = sorted(set(declared) & set(lnc.index) & set(pathway.index) & set(cnv.patient_ids))
@@ -263,8 +267,12 @@ def association_fold(
         covariates, cancer=cancer, patients=common, columns=DEFAULT_COVARIATES,
     )
     out = pairs.copy().reset_index(drop=True)
+    if patient_trace is not None:
+        patient_trace.emit('MATCHED_SHARED_COVARIATE_DESIGN','train',common,out.lncrna_id,out.pathway_id,
+                           'pathway','ALIGNED_PAIRS',True)
     rho_full, p_full, n_full, a0_train_design_rank = a0_full(
-        lnc, pathway, out, declared, covariates=covariates, cancer=cancer
+        lnc, pathway, out, declared, covariates=covariates, cancer=cancer,
+        patient_observer=patient_trace.full('train') if patient_trace is not None else None,
     )
     # Preserve the current formal preparation contract for the downstream
     # CNV-only head: train associations are discovery targets and the adjacent
@@ -289,6 +297,7 @@ def association_fold(
     rho_validation, p_validation, n_validation, a0_validation_design_rank = a0_full(
         lnc, pathway, out, validation_patients,
         covariates=covariates, cancer=cancer,
+        patient_observer=patient_trace.full('validation') if patient_trace is not None else None,
     )
     out["fold_id"] = int(fold)
     out["split_role"] = "train"
@@ -354,6 +363,8 @@ def association_fold(
         li = out.lncrna_id.iloc[start:stop].astype(str).map(lmap).fillna(-1).to_numpy(int)
         pi = out.pathway_id.iloc[start:stop].astype(str).map(pmap).fillna(-1).to_numpy(int)
         valid = (li >= 0) & (pi >= 0)
+        if patient_trace is not None and (~valid).any():
+            patient_trace.absent(out.iloc[start+np.flatnonzero(~valid)], 'train')
         if not valid.any():
             continue
         destination = start + np.flatnonzero(valid)
@@ -362,6 +373,7 @@ def association_fold(
             lnc_matrix[:, lix], pathway_matrix[:, pix], local_signed[:, lix],
             pathway_signed[:, pix], design, local_callable=local_callable[:, lix],
             pathway_callable=pathway_callable[:, pix],
+            patient_observer=patient_trace.matched(out.iloc[destination], common, 'train') if patient_trace is not None else None,
         )
         mapping = {
             "n_A0_matched": "n_a0_matched", "n_A1_local": "n_a1_local",
@@ -503,7 +515,7 @@ def select_edges(candidates: pd.DataFrame, total_tests: int, model: str) -> pd.D
 def g0_fold(
     cancer: str, fold: int, lnc: pd.DataFrame, gene: pd.DataFrame,
     patient_map: pd.DataFrame, covariates: pd.DataFrame, cnv: DirectionalCNVStore,
-    allowed_genes: set[str], *, run_id: str | None = None,
+    allowed_genes: set[str], *, run_id: str | None = None, patient_trace=None,
 ) -> pd.DataFrame:
     declared = split_patients(patient_map, cancer, fold)
     common = sorted(set(declared) & set(lnc.index) & set(gene.index) & set(cnv.patient_ids))
@@ -524,13 +536,21 @@ def g0_fold(
     for group in range(int(inverse.max()) + 1 if len(inverse) else 0):
         columns = np.flatnonzero(inverse == group)
         mask = callable_matrix[:, columns[0]]
+        if patient_trace is not None:
+            patient_trace.graph('G0_CALLABILITY_SCREEN', np.asarray(common)[mask].tolist(),
+                [lnc_ids[i] for i in columns], gene_ids, int(mask.sum()) >= 40)
         if int(mask.sum()) < 40:
             continue
         patients = np.asarray(common)[mask].tolist()
         x_frame, _ = bulk._variance_filter(lnc_local.iloc[mask, columns], 0.01)
         g_frame, _ = bulk._variance_filter(gene_local.iloc[mask], 0.01)
+        if patient_trace is not None:
+            patient_trace.graph('G0_VARIANCE_SCREEN', patients, [lnc_ids[i] for i in columns], gene_ids, True)
         if x_frame.empty or g_frame.empty:
             continue
+        if patient_trace is not None:
+            patient_trace.graph('E0_E1_TESTED_CARTESIAN', patients,
+                list(x_frame.columns.astype(str)), list(g_frame.columns.astype(str)), True)
         kept = np.asarray([lnc_ids.index(value) for value in x_frame.columns], dtype=int)
         z = signed_matrix[np.ix_(mask, kept)]
         design, _, _ = bulk._covariate_design(

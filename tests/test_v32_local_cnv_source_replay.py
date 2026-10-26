@@ -124,7 +124,8 @@ def test_inventory_replays_and_preserves_earlier_ancestry_gap(completed, tmp_pat
     rows = pd.DataFrame(inventory.transform_replays)
     rows = rows.loc[rows.format.eq(FORMAT)]
     assert len(rows) == 3 and rows.outputs_compared.eq(1).all()
-    assert {r["reason"] for r in inventory.gaps} >= {"LOCAL_CNV_ROW_LEVEL_USAGE_AND_EARLIER_RAW_ANCESTRY_UNVERIFIED"}
+    assert {r["reason"] for r in inventory.gaps} >= {"LOCAL_CNV_EARLIER_RAW_ANCESTRY_AND_CROSS_MODULE_PATIENT_IDENTITY_UNVERIFIED"}
+    assert inventory.statistical_patient_scopes
     assert "LOCAL_CNV_NUMERIC_REPLAY_NOT_BOUND" not in {r["reason"] for r in inventory.gaps}
     assert sum(".validation_parent." in r["role"] for r in inventory.dependencies) == 3
 
@@ -169,7 +170,7 @@ def test_wrong_host_stops_before_reading_inputs(monkeypatch):
 
 
 def test_historical_eight_implementation_receipt_keeps_explicit_gap(completed, tmp_path):
-    excluded = {"local_cnv_source_replay.py", "associations.py", "fold_local_expression.py", "fold_local_activity.py",
+    excluded = {"local_cnv_source_replay.py", "local_cnv_patient_use.py", "associations.py", "fold_local_expression.py", "fold_local_activity.py",
                 "local_cnv_core_preparation.py"}
     def change(frame, target, sources):
         sources.pop("numeric_replay_format")

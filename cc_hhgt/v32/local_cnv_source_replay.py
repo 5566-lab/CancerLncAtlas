@@ -1,7 +1,7 @@
 """Recompute native local-CNV statistics from the files actually consumed.
 
-This verifies numerical transformations, not original segment acquisition,
-per-pair patient ancestry, or learned model parameters. It writes no partitions.
+This verifies numerical transformations and can capture statistical patient
+scopes, not original segment acquisition or learned model parameters.
 """
 from pathlib import Path
 
@@ -23,7 +23,7 @@ def code_paths(producer):
         "cc_hhgt/v32/bulk_coexpression_release.py", "cc_hhgt/v32/directional_cnv.py",
         "cc_hhgt/v32/cnv_input_sources.py", "cc_hhgt/stats.py", "cc_hhgt/v32/associations.py",
         "cc_hhgt/v32/fold_local_expression.py", "cc_hhgt/v32/fold_local_activity.py",
-        "cc_hhgt/v32/local_cnv_core_preparation.py"]
+        "cc_hhgt/v32/local_cnv_core_preparation.py", "cc_hhgt/v32/local_cnv_patient_use.py"]
     return [ROOT/name for name in names]
 
 
@@ -40,7 +40,7 @@ def compare(actual, expected):
             raise ValueError("Local-CNV numerical replay differs: "+column) from error
 
 
-def replay(binding, root, *, cache=None):
+def replay(binding, root, *, cache=None, patient_capture=None, patient_cache=None):
     require_host()
     from .local_cnv_sources import validate
     receipt_path = verified_path(binding["receipt"], root); receipt = read(receipt_path)
@@ -72,7 +72,10 @@ def replay(binding, root, *, cache=None):
         if validate_local_cnv_audit(parent["root"], expected_success_sha256=parent["success_sha256"]) != parent:
             raise ValueError("Local-CNV numerical replay validation parent differs")
     key = (FORMAT, binding["sources"]["sha256"], binding["receipt"]["sha256"], binding["output"]["sha256"])
-    if cache is not None and key in cache: return result
+    if cache is not None and key in cache:
+        if patient_capture is None: return result
+        if patient_cache is not None and key in patient_cache:
+            patient_capture(patient_cache[key]); return result
     sources = value["records"]; cancer = value["cancer_id"]
     def source(role):
         found = [r for r in sources if r["role"] == role and r.get("fold", -1) in {-1, fold}]
@@ -80,6 +83,10 @@ def replay(binding, root, *, cache=None):
         return verified_path(found[0], path.parent)
     config_path = source("source_config"); config = read(config_path)
     patient_path = source("patient_map")
+    trace = None
+    if patient_capture is not None:
+        from .local_cnv_patient_use import Trace
+        trace = Trace(patient_path, record(patient_path), cancer, fold)
     patients = pd.read_csv(patient_path, sep="\t")
     from .local_cnv_confounding import canonical_patient
     patients["cancer_id"] = patients.cancer_id.astype(str)
@@ -116,7 +123,8 @@ def replay(binding, root, *, cache=None):
         require_receipt(receipt, cohort)
         pathway = matrix("pathway_activity", "pathway_activity_root", "pathway_id", "activity_score")
     if kind == "pair":
-        expected = association.association_fold(cancer, fold, pairs, lnc, pathway, patients, cnv, covariates, run_id=receipt["run_id"])
+        expected = association.association_fold(cancer, fold, pairs, lnc, pathway, patients, cnv, covariates,
+                                                run_id=receipt["run_id"], patient_trace=trace)
         fields = ("covariates_used", "missing_covariate_patients", "base_design_rank",
             "a0_train_design_rank", "a0_validation_design_rank", "validation_covariates_used",
             "validation_missing_covariate_patients", "validation_base_design_rank")
@@ -126,14 +134,15 @@ def replay(binding, root, *, cache=None):
         allowed = set()
         for name in ("signed_membership", "protein_gene_encoding"):
             allowed.update(pd.read_parquet(source(name), columns=["gene_id"]).gene_id.astype(str))
-        expected = association.g0_fold(cancer, fold, lnc, genes, patients, covariates, cnv, allowed, run_id=receipt["run_id"])
+        expected = association.g0_fold(cancer, fold, lnc, genes, patients, covariates, cnv, allowed,
+                                      run_id=receipt["run_id"], patient_trace=trace)
         train_n = len(association.split_patients(patients, cancer, fold))
         metadata = {"rows": len(expected), "declared_train_patients": train_n,
             "status": "TYPED_UNAVAILABLE_INSUFFICIENT_TRAIN_PATIENTS" if train_n < 40 else
                 "PASS_EMPTY_NO_SIGNIFICANT_EDGES" if expected.empty else "PASS_REAL_G0_EDGE_COMPARISON"}
     else:
         expected, metadata = validation.validation_fold(cancer, fold, pairs, lnc, pathway, patients, cnv, covariates,
-            run_id=receipt["run_id"], audit_success_sha256=parent["success_sha256"])
+            run_id=receipt["run_id"], audit_success_sha256=parent["success_sha256"], patient_trace=trace)
     compare(pd.read_parquet(output), expected)
     if any(target.get(k) != v for k,v in metadata.items()):
         raise ValueError("Local-CNV numerical replay statistical metadata differs")
@@ -145,11 +154,18 @@ def replay(binding, root, *, cache=None):
     for p in code_paths(value["producer"]):
         if record(p)["sha256"] != expected_code[p.name]: raise ValueError("Local-CNV replay implementation changed")
     if cache is not None: cache.add(key)
+    if trace is not None:
+        captured = trace.payload()
+        if patient_cache is not None: patient_cache[key] = captured
+        patient_capture(captured)
     return result
 
 
 def inspect(inventory, binding, root, model, role, fold):
-    result = replay(binding, root, cache=inventory.visited)
+    from .local_cnv_patient_use import attach
+    result = replay(binding, root, cache=inventory.visited,
+        patient_capture=lambda payload:attach(inventory,payload,binding,root,model,role,fold),
+        patient_cache=inventory.statistical_patient_cache)
     if result is None:
         inventory.gap(model, role, "LOCAL_CNV_NUMERIC_REPLAY_NOT_BOUND", fold, binding["sources"]["sha256"])
         return False
