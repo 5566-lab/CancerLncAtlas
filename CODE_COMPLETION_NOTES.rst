@@ -6400,3 +6400,100 @@ pass 55 distinct related checks. Actual static official chain and
 synthetic MAF/other omics were used, with the test-only MAF digest substitution
 described above. No neural/L1/auxiliary/fusion optimizer, biological cohort,
 deletion, download, paid compute or deployment ran.
+
+Single-cell raw matrix mapping (2026-10-26)
+-----------------------------------------
+
+``scripts.run_native_single_cell_mapping_workflow`` adds operation 24,
+``single_cell_mapping.run``. It calls the original r7/r11 input-contract reader
+and original metacell matrix mapper using an explicit upstream root, instead
+of looking up a fixed historical active-run directory. It writes measured
+coding/lncRNA matrices, coding grouping-scale values, full-gene library totals,
+exact pathway signature arrays, identifiers and H5-aligned retained metadata.
+It does not fit PCA, LASSO or neural models, infer QC/cell annotations, acquire
+scientific data, delete scratch data or promote a current result pointer.
+
+Manifest fields are::
+
+    {
+      "format": "NATIVE_SINGLE_CELL_MAPPING_WORKFLOW_INPUT_V1",
+      "cancer_id": "BRCA",
+      "r7_root": "/path/to/upstream_capsule",
+      "run_status": {"path": "/path/RUN_STATUS.json", "sha256": "<SHA256>"},
+      "server_preflight": {"path": "/path/SERVER_PREFLIGHT.json", "sha256": "<SHA256>"},
+      "max_rank": 1500
+    }
+
+``max_rank`` is optional and defaults to 1500. All paths resolve relative to
+the manifest. The upstream preflight must name target host 149. The existing
+r7/r11 contract remains mandatory: declared formal cancer, source-generation
+paths, complete metadata, H5/metadata barcode alignment, explicit tumour/
+doublet/source-review/preprocessing masks, annotation and exact membership
+hashes, and all 2,135 pathways. The wrapper does not fabricate historical
+receipts or relax pathway/source gates. ``TRAINING_HANDOFF.json`` and the
+dataset manifest in the supplied root remain bound dependencies. Where a
+source-review policy is declared, the reader now retains its path as well as
+its checked hash in the actual dependency inventory.
+
+Run on 149::
+
+    python -m scripts.run_native_single_cell_mapping_workflow --manifest /path/mapping.json --output /new/mapping --plan
+    python -m scripts.run_native_single_cell_mapping_workflow --manifest /path/mapping.json --output /new/mapping
+
+Planning reads and verifies the upstream contract, metadata and H5 identity
+arrays, but does not write output matrices. Execution writes preflight/log,
+``mapped/<cancer>/MAPPED_SUCCESS.json`` with its actual native files, and
+``NATIVE_SINGLE_CELL_MAPPING_BINDING.json``. Failures retain diagnostics
+without a completed binding. The ``/mapped_root`` output is a directory pin;
+its ``path`` is the ``--scratch-root`` input for existing metacell/nested
+preparation commands. Other prerequisites for those commands remain required.
+This stage alone does not produce training episodes or signed predictions.
+
+The original mapper gains an optional explicit upstream bundle while its
+historical default stays available. When it encounters a cached mapped result
+with ``native_mapping_preparation``, it calls the new source validator before
+returning the cache. Thus existing downstream callers of this mapper receive
+reconstructed raw-source validation automatically. Legacy cached results
+without this pointer retain their earlier hash-only contract.
+
+Validation reopens the actual raw H5 and reconstructs the original mapping in
+temporary storage. It compares every sparse/array value, shape and dtype,
+identifier order, native metadata and the complete retained cell table in
+row order. Order matters because each matrix row represents that cell. A
+process cache rechecks current raw inputs, policies, output bytes and code
+before reusing an earlier reconstruction. Duplicate raw barcodes are now
+rejected even when dimensions and repinned source hashes appear consistent.
+
+For raw counts, duplicate stable gene rows are summed, coding grouping values
+use log1p of counts normalized by the library across ALL original features,
+and metacell aggregation remains sum-then-normalize/log1p. Unmapped features
+still contribute to the library. Provided log-normalized input is preserved
+on its supplied scale; duplicate mapped gene rows are rejected rather than
+summed, and no exponential inversion is introduced. Tumour, doublet and
+source-review exclusions retain exact H5 order; donor/cell-type contexts remain
+in the native metadata. Supplied QC and annotation declarations are checked
+for consistency but their independent biological correctness is not proved.
+
+Verification uses synthetic raw-count and log-normalized H5 files, shuffled
+metadata, 123 cells with 120 retained across ten donors, duplicate raw-count
+gene rows, unmapped library features and all 2,135 pathway identities. Actual
+mapping reaches the original cached metacell-input reader, aggregation and
+UCell scorer. PCA/LASSO/optimizer entry points are disabled during these checks.
+This is supplied-H5-to-mapped-matrix reconstruction, not nested episode/LASSO
+completion, raw acquisition, annotation inference or independent donor identity.
+Those branches and final C01/C13/C16 acceptance remain open.
+
+The existing r7 publication regression now launches the real producer in a
+child process because its finalization uses ``os.execve``. The parent pytest
+process checks the resulting summaries and independent association reference.
+Only an isolated test copy redirects historical authorized output roots to
+its private temporary directory; production restrictions are unchanged. This
+tests the actual exec, PID, file-hash and atomic publication handoff. The
+synthetic contract now explicitly carries its cancer ID for handoff checks.
+
+Native single-cell mapping verification on 149: ``single_cell_mapping_workflow_r2``, ``single_cell_mapping_workflow_consumers_r2``
+pass 69 distinct related checks. The initial collection-only failure
+was missing h5py; version 3.16.0 was installed only in the isolated verification
+directory on 149. Synthetic H5/metadata and existing frozen-consumer fixtures
+were used. No LASSO/neural optimizer, biological cohort, raw deletion, scientific
+data download, paid compute or deployment ran.

@@ -2,6 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 import importlib.util
+import json
+import os
+import pickle
+import subprocess
+import sys
 from types import SimpleNamespace
 import warnings
 
@@ -385,6 +390,7 @@ def test_per_cancer_materializer_publishes_summaries_not_cell_pathway_rows(
         "contract_sha256": "c" * 64,
         "contract": {
             "format": "synthetic",
+            "cancer_id": "HNSC",
             "cell_level_pathway_matrix_persisted": False,
             "historical_checkpoints_used": False,
         },
@@ -416,8 +422,37 @@ def test_per_cancer_materializer_publishes_summaries_not_cell_pathway_rows(
         association_pathway_block=2,
         resume=False,
     )
-    result = runner._materialize_outputs(bundle, accumulator, work, args)
+    # The real producer replaces its process image for BH finalization. Keep
+    # pytest outside that process and exercise the actual exec/PID/SHA handoff.
+    # This legacy script pins historical publication roots. Only the isolated
+    # test copy points to tmp_path; repository production policy is unchanged.
+    isolated_runner = tmp_path / "synthetic_r7_runner.py"
+    source = Path(runner.__file__).read_text(encoding="utf-8")
+    start = source.index("AUTHORIZED_OUTPUT_PREFIXES = (")
+    end = source.index("\n)", start) + 2
+    source = (source[:start] + "AUTHORIZED_OUTPUT_PREFIXES = "
+              + repr((str(tmp_path.resolve()).replace("\\", "/") + "/",))
+              + source[end:])
+    isolated_runner.write_text(source, encoding="utf-8")
+    payload = tmp_path / "synthetic_producer.pkl"
+    with payload.open("wb") as stream:
+        pickle.dump((bundle, accumulator, work, args), stream)
+    environment = dict(os.environ)
+    environment["PYTHONPATH"] = os.pathsep.join(
+        [str(Path(__file__).resolve().parents[1]), environment.get("PYTHONPATH", "")]
+    )
+    child = subprocess.run(
+        [sys.executable, "-c",
+         "import pickle,runpy,sys; "
+         "module=runpy.run_path(sys.argv[1]); "
+         "payload=pickle.load(open(sys.argv[2],'rb')); "
+         "module['_materialize_outputs'](*payload)",
+         str(isolated_runner), str(payload)],
+        env=environment, capture_output=True, text=True, timeout=180,
+    )
+    assert child.returncode == 0, child.stdout + child.stderr
     final = output_parent / "cancer_id=HNSC"
+    result = json.loads((final / "SUCCESS.json").read_text(encoding="utf-8"))
     assert result["status"] == "SUCCESS"
     assert result["cell_level_pathway_rows_written"] == 0
     assert not (final / "cell_level_ucell").exists()

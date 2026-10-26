@@ -1,0 +1,53 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T16:06:52.607048+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/native_single_cell_mapping_workflow.py": "9f545c9fb0a0d95420d2254717c5601edb911e9df60fa34e058de27344a30fda",
+    "cc_hhgt/v32/native_workflow_chain.py": "9cf58cb5b7355a7d86a69d717442d0656e5cf17e143823a75a6a335604826f90",
+    "scripts/materialize_single_cell_metacell_149.py": "9e364c2643bd62b21cac1d3a0bc2977d5bf0e260f04c1dcd2542336d14facb31",
+    "scripts/run_native_single_cell_mapping_workflow.py": "7092c748024f1a6680beb7d96e610bdf3cecaf6f75eff1441fbbfa26da6513f1",
+    "scripts/run_v32_single_cell_verified_streaming.py": "846bee8e4f3a6dfed81247c1564d0560289c22719dc0773173b7dba3b178a5aa",
+    "tests/test_v32_native_single_cell_mapping_workflow.py": "3d8338b4c5a4b632512c3c9d4ca25110579aa3db8b81704790f66912ab717f37",
+    "tests/test_v32_single_cell_r7_streaming.py": "a0818b47ae99006f66fc4de01a5056112489b2b08568c12127d432b46cb915ed"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_single_cell_workflow.py",
+    "tests/test_v32_single_cell_r7_streaming.py",
+    "tests/test_materialize_single_cell_nested_hhgt_episodes.py",
+    "tests/test_validate_metacell_materialization.py",
+    "--junitxml=provenance/code_completion_20261015/single_cell_mapping_workflow_consumers_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T16:10:10.999859+00:00"
+}

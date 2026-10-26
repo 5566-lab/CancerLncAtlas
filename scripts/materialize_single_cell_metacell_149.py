@@ -153,10 +153,15 @@ def _materialize_mapped_matrices(
     scratch: Path,
     repair_root: Path,
     deadline: float,
+    *,
+    upstream=None,
 ) -> dict[str, object]:
     success = scratch / "MAPPED_SUCCESS.json"
     if success.is_file():
         receipt = json.loads(success.read_text())
+        if "native_mapping_preparation" in receipt:
+            from cc_hhgt.v32.native_single_cell_mapping_workflow import validate_mapped
+            validate_mapped(success)
         for record in receipt["files"].values():
             path = Path(record["path"])
             if not path.is_file() or sha256(path) != record["sha256"]:
@@ -165,7 +170,7 @@ def _materialize_mapped_matrices(
     if scratch.exists():
         raise RuntimeError(f"partial scratch exists without success: {scratch}")
     scratch.mkdir(parents=True)
-    module, bundle, job = _load_upstream_bundle(
+    module, bundle, job = upstream if upstream is not None else _load_upstream_bundle(
         cancer_id, repair_root, scratch / "UPSTREAM_CAPSULE"
     )
     metadata = bundle["metadata"].loc[bundle["keep_mask"]].reset_index(drop=True).copy()

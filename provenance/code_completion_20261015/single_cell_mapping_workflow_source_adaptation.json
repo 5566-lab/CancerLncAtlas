@@ -1,0 +1,63 @@
+{
+  "method": "EXPLICIT_SINGLE_CELL_H5_TO_NATIVE_MAPPED_MATRIX_RECONSTRUCTION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "single_cell_mapping_workflow_r2",
+    "single_cell_mapping_workflow_consumers_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "single_cell_mapping_workflow_r1",
+    "single_cell_mapping_workflow_consumers_r1"
+  ],
+  "intermediate_failure_causes": [
+    "Initial test collection could not import h5py in the isolated 149 verification environment.",
+    "Legacy r7 materializer test invoked the production os.execve transition inside pytest, replacing the test process; no complete XML report was produced. The test now runs the actual producer/finalizer in a child process and retains output assertions."
+  ],
+  "verification_dependency": {
+    "name": "h5py",
+    "version": "3.16.0",
+    "scope": ".verification_packages/current_web",
+    "installed_on_host": "149",
+    "global_environment_modified": false,
+    "software_wheel_downloaded": true
+  },
+  "operation_registry_count": 24,
+  "new_operation": "single_cell_mapping.run",
+  "exact_pathway_count": 2135,
+  "synthetic_input_cells": 123,
+  "synthetic_retained_cells": 120,
+  "synthetic_donors": 10,
+  "raw_and_provided_log_inputs_verified": true,
+  "raw_h5_barcode_uniqueness_required": true,
+  "cell_row_order_replayed": true,
+  "source_review_policy_in_dependency_inventory": true,
+  "native_metacell_cache_consumer_executed": true,
+  "actual_metacell_aggregation_and_ucell_executed": true,
+  "new_mapping_checks_run_pca": false,
+  "new_mapping_checks_run_lasso": false,
+  "test_substitutes": [
+    "Synthetic H5 and shuffled metadata, source-review/QC/annotation declarations and all-2135-pathway membership.",
+    "Manual within-donor group assignments for downstream aggregation check; no nested geometry or LASSO produced.",
+    "Existing explicit frozen SC consumer fixtures; no optimizer.",
+    "Legacy r7 streaming subprocess test copies its runner and replaces only historical authorized output roots with its private temporary directory; production output restrictions are unchanged. The synthetic contract explicitly includes its cancer ID."
+  ],
+  "source_generation_gates_relaxed": false,
+  "annotation_biological_truth_verified": false,
+  "nested_episode_ancestry_complete": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native single_cell_mapping.run now calls the original r7/r11 contract reader and matrix mapper using explicit upstream paths rather than the historical active-run lookup. It reconstructs mapped coding/lncRNA values, full-feature library totals, grouping log scale, exact pathway signatures and H5-aligned retained metadata. Current raw sources, review policy, metadata and implementation pins are rechecked before cached proof reuse. The original metacell/nested mapped-cache reader follows the native preparation pointer and rejects rehashed value or cell-order corruption. Duplicate raw barcodes now fail even after source repinning. Synthetic raw/log H5 fixtures retain all 2135 pathway identities, with 123 cells/120 retained/10 donors; actual mapping, original cache consumer, aggregation and UCell scoring run without PCA, LASSO or neural fitting. Existing native SC frozen-consumer and streaming regressions are separately checked. This verifies supplied H5 mapping, not raw acquisition, inferred QC/annotation, nested episode/LASSO ancestry or independent donor identity. C01/C13/C16 remain open."
+}

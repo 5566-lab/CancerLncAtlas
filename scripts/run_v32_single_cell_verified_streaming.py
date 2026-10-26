@@ -464,6 +464,7 @@ def _load_contract(args: argparse.Namespace) -> dict[str, Any]:
             raise R7StreamingRunError("preprocessing receipt does not cover this cancer")
     if "source_review_include" in metadata:
         policy_path = Path(record["source_review_policy_path"])
+        input_paths["source_review_policy"] = policy_path
         input_shas["source_review_policy_sha256"] = _validate_sha(
             policy_path, record["source_review_policy_sha256"], "source review policy"
         )
@@ -515,6 +516,8 @@ def _load_contract(args: argparse.Namespace) -> dict[str, Any]:
         nnz = int(group["data"].shape[0])
     if shape != (len(feature_ids), len(barcodes)) or len(metadata) != len(barcodes):
         raise R7StreamingRunError("H5/metadata dimensions disagree")
+    if len(set(barcodes)) != len(barcodes):
+        raise R7StreamingRunError("H5 barcodes are duplicated")
     indexer = pd.Index(metadata.cell_id.astype(str)).get_indexer(barcodes)
     if (indexer < 0).any():
         raise R7StreamingRunError("H5 barcodes are not one-to-one with metadata")
