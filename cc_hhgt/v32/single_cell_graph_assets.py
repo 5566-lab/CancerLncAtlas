@@ -81,6 +81,25 @@ def align_frozen_membership(
     return assignments
 
 
+def validate_frozen_metacell_metadata(cell_metadata, assignments, frozen_metadata):
+    """Prove every frozen group has the declared donor/context and cell count."""
+    labels = np.asarray(assignments, dtype=np.int64)
+    if len(labels) != len(cell_metadata): raise ValueError("FROZEN_GROUP_CELL_COUNT_DRIFT")
+    keys = ['donor_id', 'cell_type', 'state_id']
+    keys += [k for k in ('dataset_id', 'cancer_id') if k in cell_metadata]
+    if not set(['metacell_id', 'n_cells', *keys]) <= set(frozen_metadata):
+        raise ValueError("FROZEN_GROUP_METADATA_COLUMNS")
+    source = cell_metadata[keys].copy(); source['metacell_id'] = labels
+    source = source.loc[source.metacell_id.ge(0)]
+    groups = source.groupby('metacell_id', sort=True)
+    if (groups[keys].nunique(dropna=False) != 1).any().any():
+        raise ValueError("FROZEN_GROUP_MIXES_DONOR_OR_CONTEXT")
+    expected = groups[keys].first(); expected['n_cells'] = groups.size()
+    observed = frozen_metadata.set_index('metacell_id')[[*keys, 'n_cells']].sort_index()
+    try: pd.testing.assert_frame_equal(expected, observed, check_dtype=False, check_exact=True)
+    except AssertionError as error: raise ValueError("FROZEN_GROUP_METADATA_DRIFT") from error
+
+
 def aggregate_frozen_measurements(
     coding: sparse.spmatrix,
     lncrna: sparse.spmatrix,

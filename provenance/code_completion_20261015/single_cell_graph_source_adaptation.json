@@ -1,0 +1,46 @@
+{
+  "method": "ORIGINAL_CANONICAL_FOLD_GRAPH_REAGGREGATION_AND_QUERY_CONSUMER",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "single_cell_graph_workflow_r1",
+    "single_cell_graph_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 27,
+  "new_operation": "single_cell_graph.run",
+  "synthetic_retained_cells": 1200,
+  "canonical_donors": 9,
+  "folds_produced": 5,
+  "metacells_per_fold": 400,
+  "pathways": 2135,
+  "graph_stage_geometry_recomputed": false,
+  "original_query_source_features_executed": true,
+  "episode_fitting_serialization_executed": false,
+  "frozen_source_numerical_reconstruction_verified": true,
+  "biological_identity_verified": false,
+  "fitted_geometry_independently_verified": false,
+  "full_original_target_statistics_replayed": false,
+  "test_substitutes": [
+    "Synthetic raw H5, annotation/QC declarations, family/evidence and donor crosswalk.",
+    "Upstream metacell geometry uses fixed projection and manual three-cell within-donor groups; original statistics execute.",
+    "No numerical substitutes in fold graph aggregation/reconstruction.",
+    "Original query assembler runs loading and source features, then a test boundary replaces _write_episode before LASSO/serialization."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native single_cell_graph.run consumes matching explicit donor/static preparations and completed canonical metacell receipts. The original fold graph producer now reaggregates canonical cells with frozen memberships, verifies per-group donor/context/count identities, and produces actual matrices, UCell activities, LASSO source/query masks, context scopes and target/static bindings. A dedicated read-only metacell completion validator cannot fall back to geometry fitting. All active fold graphs and static outputs are reconstructed from mapped measurements and frozen memberships. Original cached graph and query-episode consumers enforce the preparation proof, rejecting repinned matrix, activity and LASSO-mask corruption. The synthetic positive chain uses actual H5 mapping/static/donor production and original outer statistics, with only upstream geometry replaced by fixed projection and manual within-donor groups. The graph stage has no numerical substitutes. Original query assembly loads all five folds and computes source features before an explicit test boundary replaces episode fitting/serialization. This does not independently validate fitted geometry, original target statistics, biological donors or complete LASSO/episode ancestry. C01/C13/C16 remain open."
+}

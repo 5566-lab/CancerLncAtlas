@@ -35,6 +35,7 @@ from cc_hhgt.v32.single_cell_graph_assets import (  # noqa: E402
     UNASSIGNED_PATHWAY_FAMILY_ID,
     aggregate_frozen_measurements,
     align_frozen_membership,
+    validate_frozen_metacell_metadata,
     context_feature_scope,
     gene_by_pathway_membership,
     lasso_observations,
@@ -110,6 +111,10 @@ def validate_preflight(settings) -> dict[str, object]:
     if not path.is_file():
         raise RuntimeError("GRAPH_ASSET_LAUNCH_PREFLIGHT_MISSING")
     receipt = json.loads(path.read_text(encoding="utf-8"))
+    if receipt.get("format") == "NATIVE_SINGLE_CELL_GRAPH_PREFLIGHT_V1":
+        from cc_hhgt.v32.native_single_cell_graph_workflow import context
+        context(settings, receipt)
+        return receipt
     expected = {
         "format": PREFLIGHT_FORMAT,
         "target_host": "149",
@@ -499,7 +504,8 @@ def materialize_fold(settings) -> dict[str, object]:
         raise SystemExit("WRONG_HOST")
     if time.time() >= settings.deadline:
         raise SystemExit("DEADLINE_EXPIRED")
-    validate_preflight(settings)
+    preflight = validate_preflight(settings)
+    native_context = preflight.get("format") == "NATIVE_SINGLE_CELL_GRAPH_PREFLIGHT_V1"
     cancer_id = settings.cancer_id.upper()
     fold = int(settings.outer_fold)
     source_fold = (
@@ -512,6 +518,9 @@ def materialize_fold(settings) -> dict[str, object]:
         if not success.is_file():
             raise RuntimeError("GRAPH_ASSET_DESTINATION_EXISTS_INCOMPLETE")
         receipt = json.loads(success.read_text(encoding="utf-8"))
+        if native_context:
+            from cc_hhgt.v32.native_single_cell_graph_workflow import validate_outputs
+            validate_outputs(settings.output_root)
         for name, record in receipt.get("files", {}).items():
             _verify_record(record, destination / name, f"graph asset {name}")
         return receipt
@@ -529,9 +538,13 @@ def materialize_fold(settings) -> dict[str, object]:
         cancer_id, scratch, settings.repair_root, settings.deadline
     )
     cell_metadata = pd.read_parquet(scratch / "CELL_METADATA.parquet")
+    if native_context:
+        from cc_hhgt.v32.native_single_cell_graph_workflow import context
+        cell_metadata = context(settings, preflight)
     frozen_membership = pd.read_parquet(source_fold / "METACELL_MEMBERSHIP.parquet")
     frozen_metadata = pd.read_parquet(source_fold / "METACELL_METADATA.parquet")
     assignments = align_frozen_membership(cell_metadata, frozen_membership)
+    validate_frozen_metacell_metadata(cell_metadata, assignments, frozen_metadata)
 
     coding = sparse.load_npz(scratch / "CODING_MEASURED.npz")
     lncrna = sparse.load_npz(scratch / "LNC_MEASURED.npz")
@@ -608,6 +621,7 @@ def materialize_fold(settings) -> dict[str, object]:
         "format": ASSET_FORMAT,
         "target_host": "149",
         "state": "FOLD_GRAPH_ASSETS_READY",
+        **({"native_graph_preparation": file_record(settings.output_root / "LAUNCH_PREFLIGHT.json")} if native_context else {}),
         "cancer_id": cancer_id,
         "outer_fold_id": fold,
         "source_donors": source_receipt["source_donors"],

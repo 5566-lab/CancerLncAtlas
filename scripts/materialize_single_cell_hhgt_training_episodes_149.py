@@ -697,6 +697,13 @@ def _write_episode(
 def _query_episodes(
     settings, cancer_id: str, static, static_path: Path, graph_success: Mapping[str, Any]
 ) -> list[dict[str, Any]]:
+    if "native_graph_preparation" in graph_success:
+        from cc_hhgt.v32.native_single_cell_graph_workflow import validate_outputs
+        preflight = Path(graph_success["native_graph_preparation"]["path"])
+        verify_record(graph_success["native_graph_preparation"], preflight, "NATIVE_GRAPH_PREPARATION")
+        validate_outputs(preflight.parent)
+        if preflight.parent != settings.graph_asset_root.resolve():
+            raise RuntimeError("NATIVE_GRAPH_ASSET_ROOT_DRIFT")
     result = []
     fold_success_paths = []
     for record in graph_success["outer_fold_successes"]:

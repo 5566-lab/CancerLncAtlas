@@ -427,6 +427,8 @@ def _write_fold(
     scratch: Path,
     candidates_path: Path,
     settings,
+    *,
+    cached_only: bool = False,
 ) -> dict[str, object]:
     canonical = _canonical_donors(settings)
     provenance = canonical[2] if canonical is not None else {}
@@ -443,6 +445,8 @@ def _write_fold(
         if canonical is not None:
             _validate_canonical_fold(fold_output, receipt, canonical, fold)
         return receipt
+    if cached_only:
+        raise RuntimeError("required completed canonical fold is absent; fitting is forbidden")
     if fold_output.exists():
         if canonical is not None:
             raise RuntimeError("native partial fold retained; use a new preparation output")
@@ -684,6 +688,32 @@ def _write_fold(
     return receipt
 
 
+def validate_completed_cancer(settings, canonical=None):
+    """Read-only native completion gate; never falls back to geometry fitting."""
+    canonical = _canonical_donors(settings) if canonical is None else canonical
+    if canonical is None:
+        raise RuntimeError("canonical donor preparation is required")
+    cancer_id = settings.cancer_id.upper()
+    cancer_output = settings.output_root / "cancers" / cancer_id
+    cached = json.loads((cancer_output / "SUCCESS.json").read_text(encoding="utf-8"))
+    if (cached.get("state") != "CANCER_METACELL_OOF_INPUTS_COMPLETE" or cached.get("cancer_id") != cancer_id
+            or any(cached.get(key) != value for key, value in canonical[2].items())):
+        raise RuntimeError("canonical cancer preparation drift")
+    expected = {str(int(f)) for f in canonical[1].outer_fold_id.unique()}
+    if set(cached.get("fold_receipt_sha256", {})) != expected:
+        raise RuntimeError("canonical cancer fold coverage drift")
+    if (cached.get("donors") != len(canonical[1]) or cached.get("eligible_cells") != len(canonical[0])
+            or cached.get("files") != {"DONOR_FOLDS.parquet": file_record(cancer_output / "DONOR_FOLDS.parquet")}):
+        raise RuntimeError("canonical cancer donor metadata drift")
+    pd.testing.assert_frame_equal(pd.read_parquet(cancer_output / "DONOR_FOLDS.parquet"), canonical[1], check_exact=True)
+    for fold in sorted(map(int, expected)):
+        receipt_path = cancer_output / f"outer_fold={fold}" / "SUCCESS.json"
+        if sha256(receipt_path) != cached["fold_receipt_sha256"][str(fold)]:
+            raise RuntimeError("canonical cancer fold receipt drift")
+        _write_fold(cancer_id, fold, cancer_output, settings.scratch_root / cancer_id, settings.candidates, settings, cached_only=True)
+    return cached
+
+
 def run_cancer(settings) -> None:
     if socket.gethostname() != "149":
         raise SystemExit("WRONG_HOST")
@@ -698,22 +728,7 @@ def run_cancer(settings) -> None:
     cancer_success = cancer_output / "SUCCESS.json"
     if cancer_success.is_file():
         if canonical is not None:
-            cached = json.loads(cancer_success.read_text(encoding="utf-8"))
-            if (cached.get("state") != "CANCER_METACELL_OOF_INPUTS_COMPLETE" or cached.get("cancer_id") != cancer_id
-                    or any(cached.get(key) != value for key, value in canonical[2].items())):
-                raise RuntimeError("canonical cancer preparation drift")
-            expected = {str(int(f)) for f in canonical[1].outer_fold_id.unique()}
-            if set(cached.get("fold_receipt_sha256", {})) != expected:
-                raise RuntimeError("canonical cancer fold coverage drift")
-            if (cached.get("donors") != len(canonical[1]) or cached.get("eligible_cells") != len(canonical[0])
-                    or cached.get("files") != {"DONOR_FOLDS.parquet": file_record(cancer_output / "DONOR_FOLDS.parquet")}):
-                raise RuntimeError("canonical cancer donor metadata drift")
-            pd.testing.assert_frame_equal(pd.read_parquet(cancer_output / "DONOR_FOLDS.parquet"), canonical[1], check_exact=True)
-            for fold in sorted(map(int, expected)):
-                receipt_path = cancer_output / f"outer_fold={fold}" / "SUCCESS.json"
-                if sha256(receipt_path) != cached["fold_receipt_sha256"][str(fold)]:
-                    raise RuntimeError("canonical cancer fold receipt drift")
-                _write_fold(cancer_id, fold, cancer_output, settings.scratch_root / cancer_id, settings.candidates, settings)
+            validate_completed_cancer(settings, canonical)
         print(json.dumps({"cancer_id": cancer_id, "state": "ALREADY_COMPLETE"}), flush=True)
         return
     cancer_output.mkdir(parents=True, exist_ok=True)

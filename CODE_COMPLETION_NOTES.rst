@@ -6705,3 +6705,81 @@ pass 62 distinct related checks. Original static producers and
 source reconstruction ran on synthetic inputs. Existing outer-query tests
 retain explicit frozen geometry. No PCA/LASSO/neural fitting, real cohort,
 scientific download, real-data deletion or deployment was executed.
+
+Canonical fold graph reaggregation (2026-10-27)
+---------------------------------------------
+
+``single_cell_graph.run`` is operation 27. It calls the original graph-asset
+materializer on completed canonical metacells, reusing frozen cell membership.
+It aligns canonical cell identities, reaggregates coding/lncRNA measurements,
+recomputes UCell activity and writes source/query LASSO observation masks,
+context scopes and static/target bindings. PCA, grouping and LASSO fitting
+are not dispatched.
+
+The manifest is::
+
+    {
+      "format": "NATIVE_SINGLE_CELL_GRAPH_INPUT_V1",
+      "donor_preparation": {"path": "/path/NATIVE_SINGLE_CELL_DONORS_BINDING.json", "sha256": "<SHA256>"},
+      "metacell_success": {"path": "/path/metacells/cancers/BRCA/SUCCESS.json", "sha256": "<SHA256>"},
+      "static_workflow": {"path": "/path/NATIVE_SINGLE_CELL_STATIC_BINDING.json", "sha256": "<SHA256>"}
+    }
+
+Use ``python -m scripts.run_native_single_cell_graph_workflow --manifest INPUT.json --output NEW_DIRECTORY``
+on 149; ``--plan`` verifies without writing. Sources must identify the same
+raw mapping, static preparation, canonical donors and completed metacell
+cancer. All active folds are required. A read-only completion validator
+checks source receipts and artifacts; a missing fold cannot trigger geometry
+fitting. The original historical full-28-cancer entry remains separate.
+
+Each original fold materializer receives reconstructed canonical metadata,
+so frozen canonical memberships no longer fail against original donor aliases.
+An additional original-producer check derives every group's donor, cell type,
+state, dataset/cancer where supplied, and cell count from its actual member
+cells. Mixed donor/context groups and mislabelled aggregate metadata fail
+before matrix aggregation. This check also applies to newly produced
+historical graph assets.
+
+The output contains original per-cancer STATIC and five-or-fewer active fold
+directories, ``cancers/<cancer>/SUCCESS.json``, ``GRAPH_ASSET_MANIFEST.json``
+and ``NATIVE_SINGLE_CELL_GRAPH_BINDING.json``. Static assets are regenerated
+from the same explicit references in the new graph directory. The completion
+envelopes retain original formats and declared fold coverage. All families
+from the original many-to-many normalizer are retained; this native path
+does not impose the old batch launcher's one-family-edge-per-pathway check.
+
+Validation reconstructs static assets and every fold from the original raw
+mapped matrices and frozen memberships in temporary storage. It compares
+all sparse matrices, activity arrays, ordered observation/scope tables,
+metadata, target bindings and verified static links. Current sources, code,
+file inventories, hashes and sizes are checked before process-local proof
+cache reuse. Original fold-cache readers and the original query-episode
+consumer enforce the native preparation marker. Repinning coding values,
+UCell values or query-allowed LASSO flags cannot bypass reconstruction.
+The first validation in a process repeats graph production for every active
+fold and needs temporary storage for those outputs. It is a computational
+audit, not a cheap receipt-only check; unchanged proof-cache hits still
+verify current source and output bytes.
+
+The source membership is a supplied completed geometry result; reaggregation
+does not independently establish that PCA/grouping were originally fitted
+correctly. It also does not independently recompute the original target
+statistics or prove biological donor equivalence. Those limits remain in
+the source-completeness declaration.
+
+The positive integration uses synthetic H5, actual static production,
+canonical donor preparation and five-fold outer target production. Only
+the upstream geometry uses the previously documented fixed projection and
+three-cell within-donor groups. The graph stage itself uses the original
+algorithms without numerical substitutes: 1,200 retained cells become 400
+metacells, nine canonical donors, five coding genes and all 2,135 pathways
+in each fold. The original query assembler loads generated static data,
+observations and targets and computes source-context features for all five
+folds; an explicit test boundary replaces episode fitting/serialization.
+Full native episode launch/finalization and LASSO result ancestry remain open.
+
+Native fold graph verification on 149: ``single_cell_graph_workflow_r1``, ``single_cell_graph_consumers_r1``
+pass 68 distinct related checks. Synthetic upstream geometry uses
+explicit frozen substitutes; graph reaggregation and numerical reconstruction
+are original code. No PCA/LASSO/neural fitting, real cohort, scientific download,
+real-data deletion or deployment was executed.
