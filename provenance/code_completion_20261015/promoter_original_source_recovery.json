@@ -1,0 +1,10 @@
+{
+  "source_path": "D:\\model\\exports\\v3_1_target_context_assets\\provenance\\derive_gencode_promoters.py",
+  "source_sha256": "b234faafdafa9ae21b48daf563395e6cdb245fb7e1def69275a0787aa1436051",
+  "recovered_path": "scripts/derive_gencode_promoters.py",
+  "recovered_sha256": "b234faafdafa9ae21b48daf563395e6cdb245fb7e1def69275a0787aa1436051",
+  "byte_identical": true,
+  "original_script_modified": false,
+  "real_reference_recomputed": false,
+  "training_started": false
+}

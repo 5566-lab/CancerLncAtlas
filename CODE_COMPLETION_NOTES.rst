@@ -7161,3 +7161,10 @@ GMT/GENCODE membership. Existing observed-gene means and coverage are preserved.
 Initial regression selection accidentally executed five synthetic logistic fits; that
 interrupted run is excluded, its receipt corrected and evidence retained. Final runs
 block fitting at session scope. No real cohort or paid compute ran.
+
+Original transcript promoter guarded verification on149: ``promoter_atac_consumers_r1``, ``promoter_probe_consumers_r1``, ``promoter_sources_r2``
+pass 72 distinct related checks. The recovered original producer
+now feeds native ATAC and probe/methylation workflows, retaining transcript geometry
+and original IDs while preserving stable PAR_Y identities downstream. Operation 34
+and actual source inspectors are verified; reference authenticity remains unresolved.
+No fitting or real cohort execution ran in this change; earlier incidents stay recorded.

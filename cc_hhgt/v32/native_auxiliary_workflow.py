@@ -17,6 +17,7 @@ from .cnv_input_sources import require_host
 from .current_core_export import verified_path, validate_current_export
 from .formal_expression_sources import read, write, record
 from .native_pathway_membership_workflow import CODE as MEMBERSHIP_CODE
+from .native_promoter_workflow import CODE as PROMOTER_CODE
 
 ROOT = Path(__file__).resolve().parents[2]
 INPUT = "NATIVE_AUXILIARY_WORKFLOW_INPUT_V1"
@@ -36,7 +37,7 @@ CODE = ("cc_hhgt/v32/native_auxiliary_workflow.py", "scripts/run_native_auxiliar
     "cc_hhgt/v32/cnv_only_training_v2.py", "cc_hhgt/v32/cnv_head_association.py",
     "cc_hhgt/v32/cnv_input_sources.py", "cc_hhgt/v32/genomic_training.py",
     "cc_hhgt/v32/atac_training.py", "cc_hhgt/v32/atac_cohort.py",
-    "cc_hhgt/v32/atac_materialization.py", *MEMBERSHIP_CODE,
+    "cc_hhgt/v32/atac_materialization.py", *MEMBERSHIP_CODE, *PROMOTER_CODE,
     "cc_hhgt/v32/native_auxiliary_fusion.py", "cc_hhgt/v32/current_core_export.py",
     *(module.replace(".", "/")+".py" for modules in MODULES.values() for module in modules))
 

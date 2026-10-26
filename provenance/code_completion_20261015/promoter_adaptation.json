@@ -1,0 +1,67 @@
+{
+  "method": "ORIGINAL_TRANSCRIPT_PROMOTERS_TO_NATIVE_ATAC_PROBES_AND_METHYLATION",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "promoter_atac_consumers_r1",
+    "promoter_probe_consumers_r1",
+    "promoter_sources_r2"
+  ],
+  "earlier_successful_receipts": [
+    "promoter_sources_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "original_source_recovery": {
+    "path": "provenance/code_completion_20261015/promoter_original_source_recovery.json",
+    "sha256": "27f282ab15def5006e77df1acc73bfacaae170b033d85c215820197f9551a058"
+  },
+  "implementation_files": [
+    "cc_hhgt/v32/atac_cohort.py",
+    "cc_hhgt/v32/atac_materialization.py",
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/native_auxiliary_workflow.py",
+    "cc_hhgt/v32/native_probe_workflow.py",
+    "cc_hhgt/v32/native_promoter_workflow.py",
+    "cc_hhgt/v32/native_workflow_chain.py",
+    "scripts/derive_gencode_promoters.py",
+    "scripts/run_native_promoter_workflow.py",
+    "tests/test_v32_native_atac_membership.py",
+    "tests/test_v32_native_atac_scope.py",
+    "tests/test_v32_native_promoter_workflow.py"
+  ],
+  "recovered_original_producer_byte_identical": true,
+  "original_geometry_reconstructed": true,
+  "original_strand_and_transcript_multiplicity_preserved": true,
+  "stable_PAR_Y_identity_preserved": true,
+  "actual_ATAC_R_and_five_fold_features": true,
+  "actual_current_fusion_expert_inspector": true,
+  "actual_probe_and_methylation_chain": true,
+  "immutable_resume_verified": true,
+  "native_chain_operations": 34,
+  "reference_authenticity_verified": false,
+  "raw_ATAC_normalization_reconstructed": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/NATIVE_TRANSCRIPT_PROMOTERS_20261027.rst",
+      "sha256": "83e3eec156df79caeec4a6700c3438eeba6148a744139e8bfeab551d0b7b1267"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic GTF/GMT/ATAC/beta/patient input and original R/Python numerical producers.",
+    "Frozen auxiliary/core/primary model-result and label serialization; no parameter fitting.",
+    "Official static HM450 manifest read under the existing MD5 gate; no real patient cohort processed."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Recovered the original transcript-promoter script byte-for-byte and added promoter.run as chain operation 34. The original strand-aware inclusive -1000/+100 geometry, reference chromosome selection, multiple transcript retention and deterministic gzip remain unchanged. Native output preserves raw versioned IDs and GTF row positions while exposing stable gene IDs that retain PAR_Y through existing consumers. Actual ATAC R materialization, all-five-fold feature preparation, auxiliary collection/current fusion source inspection consume the new promoter proof. Actual annotation/promoter/probe/methylation chain reconstructs original coordinate overlaps and synthetic beta values; parent GTF/code pins propagate downstream. Candidate annotation mismatch, proof removal, copied markers, changed raw inputs and rehashed geometry/identity substitutions are rejected. Reference authenticity, raw ATAC normalization, remaining upstream/patient ancestry and complete acceptance remain open. All checks in this change use the session fitting guard, synthetic cohort input and frozen model-result containers; the official static HM450 reference is read under its unchanged checksum gate. No fitting, real cohort, acquisition, paid compute or deployment ran. The earlier ATAC synthetic-fitting selection incident stays recorded in verification_scope_deviations; it is not removed or reused."
+}

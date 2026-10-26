@@ -35,6 +35,8 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
     if not source.get("path") or not path.exists():
         inventory.authority(source,root,model,role,fold);return
     path=inventory.bind(source,root,model,role,fold)
+    from .native_promoter_workflow import inspect as inspect_promoters
+    if inspect_promoters(inventory,path,model,role,fold):return
     from .native_pathway_membership_workflow import inspect as inspect_membership
     if inspect_membership(inventory,path,model,role,fold):return
     from .native_genomic_annotation_workflow import inspect as inspect_genomic_annotation

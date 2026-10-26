@@ -165,7 +165,8 @@ def frozen_package(native, root):
     typed["module_id"] = atac.MODULE_ID; typed["changes_primary_ranking"] = False
     tp = root/"typed.parquet"; typed.to_parquet(tp, index=False)
     ia = root/"INPUT_LINEAGE_AUDIT.json"
-    write(ia, {"input_artifacts": [{**record(p), "role": role} for role,p in
+    write(ia, {"materialization_raw_input_artifacts": result["input_artifacts"],
+        "input_artifacts": [{**record(p), "role": role} for role,p in
         (("candidates", paths["candidates"]), ("folds", paths["patient_folds"]),
          ("membership", paths["pathway_membership"]), ("materialization_success", materialized))]})
     lp = root/"LINEAGE.json"

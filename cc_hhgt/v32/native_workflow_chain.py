@@ -39,6 +39,8 @@ MODULES["genomic_annotation"] = "cc_hhgt.v32.native_genomic_annotation_workflow"
 RUNS["genomic_annotation.run"] = "genomic_annotation"
 MODULES["pathway_membership"] = "cc_hhgt.v32.native_pathway_membership_workflow"
 RUNS["pathway_membership.run"] = "pathway_membership"
+MODULES["promoter"] = "cc_hhgt.v32.native_promoter_workflow"
+RUNS["promoter.run"] = "promoter"
 PAIRED = ("auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "single_cell_episodes")
 OPERATIONS = {*RUNS, "core.accept", "publication.run", *[n+"."+p for n in PAIRED for p in ("prepare", "collect")]}
 

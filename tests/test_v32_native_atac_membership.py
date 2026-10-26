@@ -8,6 +8,7 @@ import pytest
 
 from cc_hhgt.v32 import native_annotation_workflow as reference
 from cc_hhgt.v32 import native_pathway_membership_workflow as members
+from cc_hhgt.v32 import native_promoter_workflow as promoter
 from cc_hhgt.v32 import atac_training as atac
 from cc_hhgt.v32.atac_cohort import membership_reference, materialization_cohort
 from cc_hhgt.v32.atac_materialization import run_atac_materialization, INPUT_CONTRACT_FORMAT
@@ -24,10 +25,13 @@ def native(legacy_atac,tmp_path_factory):
     lines=gtf_text().splitlines()[:3]
     for i,gene in enumerate(genes):
         kind='lncRNA' if i<120 else 'protein_coding';symbol=f'L{i}' if i<120 else f'G{i-119}'
-        lines.append(f'chr1\tHAVANA\tgene\t{i*100+1}\t{i*100+90}\t.\t+\t.\tgene_id "{gene}.1"; gene_type "{kind}"; gene_name "{symbol}";')
+        attrs=f'gene_id "{gene}.1"; gene_type "{kind}"; gene_name "{symbol}";'
+        lines.append(f'chr1\tHAVANA\tgene\t{i*20+1}\t{i*20+10}\t.\t+\t.\t{attrs}')
+        lines.append(f'chr1\tHAVANA\ttranscript\t{i*20+1}\t{i*20+10}\t.\t+\t.\t{attrs} transcript_id "ENST{i+200000:011}.1";')
     # A second G3 gene lacks a measured promoter; do not collapse its ID into
     # the autosomal copy or imply that it was observed.
     lines.append(f'chrY\tHAVANA\tgene\t1\t90\t.\t+\t.\tgene_id "{genes[-1]}.1_PAR_Y"; gene_type "protein_coding"; gene_name "G3";')
+    lines.append(f'chrY\tHAVANA\ttranscript\t1\t90\t.\t+\t.\tgene_id "{genes[-1]}.1_PAR_Y"; gene_type "protein_coding"; gene_name "G3"; transcript_id "ENST00000200122.1_PAR_Y";')
     source=reference_input(root/'raw',text='\n'.join(lines)+'\n');ref=reference.run(source,root/'reference')
     gmt=root/'sets.gmt';gmt.write_text('P1\tsynthetic\tG1\tG2\tG3\tUNKNOWN\n')
     gm=root/'gmt.json';write(gm,{'format':'SSGSEA_GMT_INPUT_V1','collections':[{'collection':'HALLMARK','file':record(gmt)}]})
@@ -38,8 +42,8 @@ def native(legacy_atac,tmp_path_factory):
         'implementations':[record(ROOT/p) for p in ('cc_hhgt/v32/fold_local_scope.py','scripts/materialize_fold_local_scope.py','scripts/prepare_v32_formal.py')]}
     candidate=root/'candidates.parquet';candidate_frame(definition,root).to_parquet(candidate,index=False)
     definition['output']=record(candidate);write(root/'CANDIDATE_SOURCES.json',definition)
-    promoters=root/'promoters.bed.gz';frame=pd.read_csv(old['promoters'],sep='\t');frame['gene_id']=genes
-    frame.to_csv(promoters,sep='\t',index=False,compression='gzip')
+    promoter_request=root/'PROMOTERS.json';write(promoter_request,{'format':promoter.INPUT,'reference_annotation':record(ref)})
+    promoters=Path(read(promoter.run(promoter_request,root/'promoters'))['promoters']['path'])
     paths={**old,'candidates':candidate,'pathway_membership':membership,'promoters':promoters}
     contract=root/'contract.json';write_contract(contract,paths,record(root/'CANDIDATE_SOURCES.json'))
     from scripts.run_v32_atac_materialization import main
@@ -62,6 +66,8 @@ def write_contract(path,paths,definition):
 def test_original_R_and_all_fold_features_use_actual_native_membership(native):
     root,paths,_,result=native;prepared=prepare(native)
     proof=result['membership_reference'];assert proof==read(root/'materialized/LAUNCH_PREFLIGHT.json')['membership_reference']
+    assert result['promoter_reference']==read(root/'materialized/LAUNCH_PREFLIGHT.json')['promoter_reference']
+    assert result['promoter_reference']['metadata']['n_transcript_promoters']==124
     assert proof['metadata']['unmapped_symbol_memberships']==1 and proof['metadata']['one_to_many_symbol_memberships']==1
     assert not proof['missing_member_imputed_zero'] and not proof['reference_authenticity_verified']
     required=pd.read_csv(root/'materialized/intermediate/required_gene_ids.tsv.gz',sep='\t').gene_id
@@ -92,6 +98,7 @@ def test_actual_auxiliary_and_fusion_preparation_inspect_reference_sources(nativ
     inventory=Inventory([],tmp_path)
     inspect_fusion_expert(inventory,tmp_path/'prepared_binding.json',{'source_inputs':declarations},audit,frame,'atac','fusion','discovery')
     assert any(row['format']==members.FORMAT for row in inventory.transform_replays)
+    assert any(row['format']==promoter.FORMAT for row in inventory.transform_replays)
     launch=read(members.discover(native[1]['pathway_membership'])['preflight']['path'])
     paths={row['path'] for row in inventory.dependencies}
     assert launch['gtf']['path'] in paths and launch['gmt_sources']['HALLMARK']['path'] in paths
@@ -124,14 +131,15 @@ def test_materializer_rejects_mismatched_native_membership_before_R(native,tmp_p
     assert not (tmp_path/'forbidden').exists()
 
 
-@pytest.mark.parametrize('fault',['missing_reference','changed_reference','removed_scope'])
+@pytest.mark.parametrize('fault',['missing_reference','changed_reference','removed_scope','promoter_reference'])
 def test_training_preparation_rejects_rehashed_downgraded_member_proof(native,tmp_path,fault):
     root,paths,_,result=native;value=deepcopy(result)
     if fault=='missing_reference':value.pop('membership_reference')
     elif fault=='changed_reference':value['membership_reference']['metadata']['unmapped_symbol_memberships']=0
+    elif fault=='promoter_reference':value.pop('promoter_reference')
     else:
         value.pop('cohort');value.pop('input_contract_path');value.pop('membership_reference')
     path=tmp_path/'SUCCESS.json';write(path,value)
-    with pytest.raises(ValueError,match='membership'):
+    with pytest.raises(ValueError,match='membership|promoter'):
         atac.prepare_atac_inputs(candidates_path=paths['candidates'],patient_folds_path=paths['patient_folds'],
             pathway_membership_path=paths['pathway_membership'],materialization_success_path=path)

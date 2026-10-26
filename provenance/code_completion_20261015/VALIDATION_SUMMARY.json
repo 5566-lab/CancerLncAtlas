@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1865,
+  "unique_test_cases_passed": 1886,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -161,7 +161,7 @@
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
     "cc_hhgt/v32/current_analysis_workflow.py": "f46b2b142b130042f70d436e3dbe27ff3e673b713c18ba9f5ef5fe0db03c279e",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
-    "cc_hhgt/v32/current_model_use.py": "77646fe3d4bda1524196eb73351e3b5463a5b9c8b4623d4950c686d2523991fb",
+    "cc_hhgt/v32/current_model_use.py": "b8b35e40932cde923e1f236a70d553cabc9e78e9ea34c76240120668cf0a244f",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
     "tests/test_v32_current_model_use.py": "bb4b580cbd74c6447a0d11bfbc5824028186fe8c4e248f209ca96909c26b5b33",
     "cc_hhgt/v32/preparation_sources.py": "3297f61c5f0ec8c9cb450e027993a815618658d8b2953b2095e41bc0f4897be2",
@@ -173,7 +173,7 @@
     "artifacts/v32_patient_fold_authority_20260829_r1/PATIENT_FOLD_AUTHORITY_RECEIPT.json": "1ef32bda9d14d87997f3b81c34b8aacce172de390db5c29aee011ca73ba317e0",
     "cc_hhgt/v32/g012_winner_lock.py": "18c055d2f0d7d8e8cbb273a2afcbe09edf32103de43ba2a1f69b4ec950d2fc07",
     "tests/test_v32_current_comparison_sources.py": "75e0d36c54285084fd9d51b7974593200466c292cf8789d350c180ffb1800421",
-    "cc_hhgt/v32/current_auxiliary_model_use.py": "4e69314b1bc339bad98e1bf1546910627ef36c1ea928f14dd3748170f80a7531",
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "85146b7763e9b356e204f82344ed459d2ac8a12b460f1e47cdb30b56eedfe58e",
     "tests/test_v32_auxiliary_model_use.py": "2cdd8a129044b3bb7d3ab6cff45334df07b1b9bbdf87591ae385db33c3342845",
     "cc_hhgt/v32/current_single_cell_model_use.py": "c86a63fab7ff85427c275457729f12ef59af3b88c484227256df837a8c9fa208",
     "tests/test_v32_single_cell_model_use.py": "e56170fff069c6a9d0f2d877b3612c662c3c676d9325e6efe2656b9964afd179",
@@ -268,8 +268,8 @@
     "scripts/audit_v32_directional_cnv_head_oof.py": "c58a31e3b3aea2322a017db4ad3638f49b09625f4b7a967a8e931ddcf65b572c",
     "scripts/preflight_v32_directional_cnv_head.py": "0d3567d983d5e1aabcfb6476bcd49967fc0c46121d83c1205b0685784043d2d0",
     "tests/test_v32_native_cnv_head_scope.py": "e0ae5386036fb78d1e8e906ef154bd26a67ea701d213a110a2ab288f88a5b3ce",
-    "cc_hhgt/v32/atac_cohort.py": "6425c85fc65daa3569a3a055b3f547e229cc29e2cfdce13034c12ca820647e52",
-    "cc_hhgt/v32/atac_materialization.py": "01c788c58c45ebc4ffd5f0034f5f15f9ddb339ab2782ead14bd17ca12572237b",
+    "cc_hhgt/v32/atac_cohort.py": "e6f3937b0554234c7e9ddbc66a060cbec3f049cc8f9ebe0f011cd7dd161b0a7e",
+    "cc_hhgt/v32/atac_materialization.py": "57be23e66808acc465cd238424c731c87b607bd86cdbfdde9fa0e5ccf3a20487",
     "cc_hhgt/v32/atac_training.py": "cce806583e1ad6d03effc48e4529a1f15b577a0f67d6d3e0c1878c6cad62b69e",
     "scripts/audit_v32_atac_fresh_oof_result.py": "b460f3bfab61f60c783cda36740db264bdb17037b726dd7e849e5e598891c469",
     "scripts/audit_v32_atac_readiness.py": "66836c371d164f5f962bd80701d47a07a67529a5840887de0675f4f52bbedd4c",
@@ -277,7 +277,7 @@
     "scripts/preflight_v32_atac_training.py": "290b870abab01360479a4219e1145019de81bde2d7cdf34fc6eee3d82506c0ec",
     "scripts/run_v32_atac_materialization.py": "14bf988f2b7c52fdc18cd1a564098e2c8f5612e16318a9c58384ca83ae014e8f",
     "scripts/run_v32_atac_training.py": "f3d96cff8359c16c277dfb23b783516989b0d612e70f92271d02fb2ec5c0895f",
-    "tests/test_v32_native_atac_scope.py": "8b7a60736588503bfe6788ca5cc03af5e8ec901408cb07f7c64f9ddc66ae9f52",
+    "tests/test_v32_native_atac_scope.py": "39e954b42b17ad84bed8e85874f90983bcb67d1073cd8fa842fe271d26924001",
     "cc_hhgt/v32/prepared_construction.py": "2d174f3b14f9cd9b509da810ed17ee8ea6805d172050aa80c66ef3fa8c4f21c2",
     "scripts/audit_prepared_construction.py": "c3fc11a062a12e25f1aec92130c2e0439d741a5d618dac1e5541be00f6c90a0d",
     "tests/frozen_formal_baseline.py": "0c4697330e1372dafcd4e7a4201a36f00b827013e78b4236f06bede9ebc533b0",
@@ -288,7 +288,7 @@
     "cc_hhgt/v32/native_directional_cnv.py": "df248305e13d2a814e5e543548cce6d8cc92980289d6060b5c09625f59ab5ea2",
     "scripts/audit_native_directional_cnv.py": "c7a6123037ff0de1926bb6968d75b46de34fa8dd8dafc3c8058af017f8eecda2",
     "tests/test_v32_native_directional_cnv.py": "7cbc457baa3f1a6fcbc3dd1beabbb84d2562aed18b8c973c5762804cd0ac6edf",
-    "cc_hhgt/v32/native_auxiliary_workflow.py": "f7d3036f657710020e65d4d74a42842a6dffa57cbcfce9c5d8dd675c24070995",
+    "cc_hhgt/v32/native_auxiliary_workflow.py": "eb5a7c72ed7d61ab15aa6ef8c94f58076584852635273180ef61ba398dc2bc07",
     "scripts/run_native_auxiliary_workflow.py": "0aea451134af784da2cb2333a79364cd85a780d9cccbbd0057a48c90737c2397",
     "scripts/run_v32_directional_cnv_head_oof.py": "7d6e6df60d42353d8dec3c80033536b59d34a8a6139966948ac57398e46bb25d",
     "tests/test_v32_native_auxiliary_workflow.py": "09cc6a94c0103a93a7a71d96c7b8af97f05593df8634937f98fa1416aa7a90b6",
@@ -320,7 +320,7 @@
     "cc_hhgt/v32/native_fusion_workflow.py": "4db4586b92375a807bafc6bd439ebf71938446b3d7bed74970f2b858422c4308",
     "scripts/run_native_fusion_workflow.py": "3a49ff31b7e7600f554fec824fbc2fd902c12a0cbc6a328502525f80cc7ac89a",
     "tests/test_v32_native_fusion_workflow.py": "cdd518687d9d16034908fdcf4373ecf80ef91273deabeb412706665f210a8949",
-    "cc_hhgt/v32/native_workflow_chain.py": "0f3eeb242e357a3126cb8e145cac9a5c4938d2dab03c72439612dc301b0a0170",
+    "cc_hhgt/v32/native_workflow_chain.py": "c3208f8cdff10ae12ed8445a7fc3b4dc9eac830bbea7c9450e2d7440b90b5a27",
     "scripts/run_native_workflow_chain.py": "2cd4a6cb886544982c2cd9151b19f418b4de7371e2211845d6358f91d71f4632",
     "tests/test_v32_native_workflow_chain.py": "9cf167f4311bc9f84cd60f152ab2d2b5219ea7b50332c257fed819027148920a",
     "tests/native_chain_fixture.py": "11b658a39d8d46d9cc7c235c21e94209c68ce182e8c1af008f0aa22f09c168ea",
@@ -336,7 +336,7 @@
     "cc_hhgt/v32/native_distal_atac_workflow.py": "82021ff72402063fa02f92d15e99c2406286e6dbbd6a1b24cd5194f425e17c62",
     "scripts/run_native_distal_atac_workflow.py": "8fa19b7fe270cc1aa5fa6d8d4ab8152cb0840bd736819e75abdaeabe8d0f2ab5",
     "tests/test_v32_native_distal_atac_workflow.py": "b2fe9a7e60554bb017520d91bf056d6a804d0bff3007f5f073bd6d4e8978c255",
-    "cc_hhgt/v32/native_probe_workflow.py": "ddf7faee38ebe49e0997022b087b13ebe7a876654d4516ed447437a825a636c2",
+    "cc_hhgt/v32/native_probe_workflow.py": "6c1ca0ee782036977949249164392ed3150492d30cc33e033e895a855ee4f487",
     "scripts/run_native_probe_workflow.py": "e3f6afff0b430dbdc1fcd1f9d9e1908ad6461ff37ece0bdf34d81de91a07c597",
     "tests/test_v32_native_probe_workflow.py": "8ef33f6cd1bf49da43f84488e6f59245f57574170da2bfb52750c887382085ae",
     "cc_hhgt/v32/mc3_sources.py": "0949cadb3e475b3d74c7286273b95719366171abccc3b026b97f31137c68d12c",
@@ -398,8 +398,12 @@
     "scripts/run_native_pathway_membership_workflow.py": "8a1bdf232e0383aee32f083ef5ca0a9cacadb4b64fefdb8944777bf1c46ac6a2",
     "tests/test_v32_native_pathway_membership_workflow.py": "b78c3c37a9aa4b9b3413317a92e524fb2db31fc1c69f3e2922abe26d8c677e0b",
     "tests/conftest.py": "a6609c29c12d0847deab498993d112555c0b156be6d65e9dd03941c02d647eed",
-    "tests/test_v32_native_atac_membership.py": "78f7e51ac2f869df5d5587b8ac45e44b5e27009c67916da9d5c6a76f6d781a72",
-    "tests/test_v32_atac_no_fit_guard.py": "2bee205b564d70197bf06720556e7e6cc4b2db4a5f358cbdf9b841479359de31"
+    "tests/test_v32_native_atac_membership.py": "1090b6ca7b9a9b02b82f1adddfb28388892503b7771f86257ce7745e75864429",
+    "tests/test_v32_atac_no_fit_guard.py": "2bee205b564d70197bf06720556e7e6cc4b2db4a5f358cbdf9b841479359de31",
+    "cc_hhgt/v32/native_promoter_workflow.py": "ff94a4f8898c96be9a66adfbf564ac793f8e3ac9b1efa8ff2464f0dab496bb23",
+    "scripts/derive_gencode_promoters.py": "b234faafdafa9ae21b48daf563395e6cdb245fb7e1def69275a0787aa1436051",
+    "scripts/run_native_promoter_workflow.py": "1b897559d24f0f829a3deff8d622b7ef546b0e3a55e61d6c423a69cc2dd6be9a",
+    "tests/test_v32_native_promoter_workflow.py": "a3da3f3c3446f3ae4c6431d99f50a1ef8b6f706c82dfebd2deca14da1fb6f3b6"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -575,7 +579,8 @@
     "Native single-cell annotation now calls the original GTF cache producer from the bound native reference, preserving original primary-contig, biotype, duplicate, symbol uniqueness and terminal-version ID rules. Optional Parquet metadata binds its preflight without changing scientific columns. Original H5 contract loading verifies the raw GTF reconstruction and admits the new producer independently of the historical r7 authority directory; all unmarked/raw/membership paths keep existing guards. Actual H5 mapping and native completed-model input inspection follow reference and producer dependencies. Reference sources no longer inherit raw H5 patient-study tokens. The new native chain has 31 operations. Geometry/LASSO/model completion fixtures remain explicit frozen substitutes; no fitting, real cohorts, downloads, paid compute or deployment ran. Reference authenticity, cell QC/type authority, genomic annotation ancestry and full cross-module/external acceptance remain open.",
     "Added genomic_annotation.run to produce bound entity intervals from original GENCODE coordinates. The original directional and compact genomic CNV CLIs now verify this producer, match candidate annotation bytes, and require an explicit matching one-based closed segment reference declaration. Identical bound reference copies at different locations remain accepted. Original midpoint mapping, signed pathway means, absolute genomic burden sums and event-or-all-members callability are unchanged. Missing-coordinate members remain in the original membership/availability logic and are counted, not dropped or zero-filled. Actual native source inspectors trace intervals back to GTF without inventing patient-study metadata. Native chain now has 32 operations. Reference authenticity, independently verified segment alignment/build, membership identifier/resource transformations and full external acceptance remain open. Tests used synthetic sources/original numerical producers and frozen core export serialization; no optimizer, real cohorts, acquisition, paid compute or deployment ran.",
     "Added pathway_membership.run to reconstruct actual native CNV membership from original GMT and GENCODE. The original coding-preferred, exact-case, many-to-many mapping is reused; the legacy standalone builder remains unchanged in behavior. The new native output preserves every unmatched source symbol in an explicit unavailable namespace instead of discarding it. Both original CNV consumers enforce matching annotation bytes and named GMT collection hashes against their actual candidates, record mapping coverage and retain original unique-gene signed/absolute estimands and event-or-all-members callability. Both actual model-use inspectors follow the membership back to GMT/GTF without inventing study or patient identities. The four-stage reference/interval/membership/expression chain resumes immutably; registry has 33 operations. Reference acquisition/authenticity, other membership consumers, remaining source/patient coverage and full external acceptance remain open. Only synthetic inputs, actual original R/CNV computation and explicitly frozen core-export serialization were exercised; no learned fitting, real-cohort processing, downloads, paid compute or deployment ran.",
-    "Native GMT/GENCODE membership now enters original ATAC R materialization, all-five-fold feature preparation, auxiliary prepare/collect, current fusion preparation and the actual expert source inspector. Candidates and marked membership must share annotation bytes and named GMT content before R can start; materializer/preparation/completed-result paths reconstruct the membership reference and reject removed or changed proofs. Original ATAC prefix/dot ID normalization, observed-promoter-gene mean/minimum coverage and raw cancer gaps remain unchanged. Missing/PAR_Y members stay in the source and required gene list, without synthetic zero measurements. Reference authenticity, raw normalization, promoter annotation production and full patient/aliquot ancestry remain open. Final successful verification is session-guarded and uses synthetic raw input, original R/Python statistics and frozen results without fitting. An initial misselected legacy regression test did execute five synthetic NumPy logistic fits of 12 iterations each; that interrupted run is excluded from successful validation and its corrected receipt and evidence are preserved. No real cohort, paid compute, download or deployment ran. Registry remains 33 operations; C01/C13/C16 remain open."
+    "Native GMT/GENCODE membership now enters original ATAC R materialization, all-five-fold feature preparation, auxiliary prepare/collect, current fusion preparation and the actual expert source inspector. Candidates and marked membership must share annotation bytes and named GMT content before R can start; materializer/preparation/completed-result paths reconstruct the membership reference and reject removed or changed proofs. Original ATAC prefix/dot ID normalization, observed-promoter-gene mean/minimum coverage and raw cancer gaps remain unchanged. Missing/PAR_Y members stay in the source and required gene list, without synthetic zero measurements. Reference authenticity, raw normalization, promoter annotation production and full patient/aliquot ancestry remain open. Final successful verification is session-guarded and uses synthetic raw input, original R/Python statistics and frozen results without fitting. An initial misselected legacy regression test did execute five synthetic NumPy logistic fits of 12 iterations each; that interrupted run is excluded from successful validation and its corrected receipt and evidence are preserved. No real cohort, paid compute, download or deployment ran. Registry remains 33 operations; C01/C13/C16 remain open.",
+    "Recovered the original transcript-promoter script byte-for-byte and added promoter.run as chain operation 34. The original strand-aware inclusive -1000/+100 geometry, reference chromosome selection, multiple transcript retention and deterministic gzip remain unchanged. Native output preserves raw versioned IDs and GTF row positions while exposing stable gene IDs that retain PAR_Y through existing consumers. Actual ATAC R materialization, all-five-fold feature preparation, auxiliary collection/current fusion source inspection consume the new promoter proof. Actual annotation/promoter/probe/methylation chain reconstructs original coordinate overlaps and synthetic beta values; parent GTF/code pins propagate downstream. Candidate annotation mismatch, proof removal, copied markers, changed raw inputs and rehashed geometry/identity substitutions are rejected. Reference authenticity, raw ATAC normalization, remaining upstream/patient ancestry and complete acceptance remain open. All checks in this change use the session fitting guard, synthetic cohort input and frozen model-result containers; the official static HM450 reference is read under its unchanged checksum gate. No fitting, real cohort, acquisition, paid compute or deployment ran. The earlier ATAC synthetic-fitting selection incident stays recorded in verification_scope_deviations; it is not removed or reused."
   ],
   "test_suites": [
     {
@@ -1642,6 +1647,21 @@
       "path": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml",
       "passed": 8,
       "sha256": "faeff6fc2cb299e36febaeb9757ffbd3e7149e407c89441be3804d598b3ebe09"
+    },
+    {
+      "path": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml",
+      "passed": 28,
+      "sha256": "b68087b332334fd3889620fd338ea37f5bf9c23df55099e95cf9d80ebd30b097"
+    },
+    {
+      "path": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml",
+      "passed": 16,
+      "sha256": "f894e18b7bb22dbc9b8e4291b7dcc3e636940e1d316f3bfdaf811e2b1a9232c6"
+    },
+    {
+      "path": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml",
+      "passed": 28,
+      "sha256": "52458599870d66b0004946e5cb6d1c6fd232774fcc0763a7b14a0374ec45c4e3"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -2010,42 +2030,42 @@
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[AdamW]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[Adam]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[SGD]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[atac]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[cnv]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[crossfit]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[fusion]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_no_fit_guard",
       "case": "test_code_only_session_rejects_parameter_fitting[genomic]",
-      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_readiness",
@@ -6240,137 +6260,142 @@
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_actual_auxiliary_and_fusion_preparation_inspect_reference_sources",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_materializer_rejects_mismatched_native_membership_before_R[annotation]",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_materializer_rejects_mismatched_native_membership_before_R[gmt]",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_materializer_rejects_mismatched_native_membership_before_R[missing_definition]",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_original_R_and_all_fold_features_use_actual_native_membership",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_training_preparation_rejects_rehashed_downgraded_member_proof[changed_reference]",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_training_preparation_rejects_rehashed_downgraded_member_proof[missing_reference]",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_training_preparation_rejects_rehashed_downgraded_member_proof[promoter_reference]",
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_membership",
       "case": "test_training_preparation_rejects_rehashed_downgraded_member_proof[removed_scope]",
-      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_actual_R_promoter_aggregation_cohort_and_trainer_features",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[-1]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[0.5]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[5]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[None]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_frozen_results_independent_audit_and_actual_fusion_adapter",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[checkpoint_cohort]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[fold_identity]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[fold_keys]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[removed_completion_cohort]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[typed_mean]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_legacy_33_cancer_preparation_unchanged_without_fit",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[contract_duplicate]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[coverage]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[different_candidates]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[different_patients]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[raw_changed]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[removed_cohort]",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_readiness_cli_accepts_same_candidate_authority",
-      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_atac_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
@@ -8195,42 +8220,42 @@
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_actual_raw_recovery_chain_preserves_weight_missingness_and_resume",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_legacy_batches_cannot_acquire_predictive_status_or_raw_deletion",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_native_methylation_reaches_actual_distal_publication_without_invented_effect",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_plan_is_readonly_and_host_gate_precedes_output",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_raw_corruption_blocks_raw_validation_but_does_not_fake_reverification_in_recovery",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_raw_patient_covariates_reach_available_nested_statistics_and_public_query",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_rehashed_distal_methylation_projection_is_rejected",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_rehashed_patient_feature_and_audit_cannot_replace_raw_reconstruction",
-      "suite": "provenance/code_completion_20261015/probe_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
@@ -8390,42 +8415,142 @@
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_invalid_or_inconsistent_coordinates_rejected[fractional_promoter]",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_invalid_or_inconsistent_coordinates_rejected[negative_promoter]",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_invalid_or_inconsistent_coordinates_rejected[shifted_peak]",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_official_reference_reaches_distal_public_query_without_fabricating_effect",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_plan_and_reference_guard",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_reference_overlap_oracle_and_native_chain",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_rehashed_probe_assignment_rejected_after_cache_hit",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
     },
     {
       "module": "tests.test_v32_native_probe_workflow",
       "case": "test_source_change_rejected_with_warmed_replay_cache",
-      "suite": "provenance/code_completion_20261015/probe_workflow_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_ATAC_promoter_reference_identity_is_checked_independently_of_membership[different_annotation]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_ATAC_promoter_reference_identity_is_checked_independently_of_membership[same_content]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_ATAC_promoter_reference_identity_is_checked_independently_of_membership[unscoped]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_actual_cli_source_tamper_and_copied_marker",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_actual_reference_promoter_probe_methylation_chain_preserves_sources",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_bad_transcript_contract_rejected_before_output[attribute]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_bad_transcript_contract_rejected_before_output[duplicate]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_bad_transcript_contract_rejected_before_output[empty]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_bad_transcript_contract_rejected_before_output[outside_gene]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_bad_transcript_contract_rejected_before_output[strand]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_bad_transcript_contract_rejected_before_output[unknown_parent]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_original_both_strands_clipping_all_transcripts_and_par_identity[False]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_original_both_strands_clipping_all_transcripts_and_par_identity[True]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_rehashed_outputs_cannot_replace_original_transcript_replay[coordinate]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_rehashed_outputs_cannot_replace_original_transcript_replay[gene_id]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_rehashed_outputs_cannot_replace_original_transcript_replay[marker]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_rehashed_outputs_cannot_replace_original_transcript_replay[metadata]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_rehashed_outputs_cannot_replace_original_transcript_replay[omit]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_rehashed_outputs_cannot_replace_original_transcript_replay[original]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_promoter_workflow",
+      "case": "test_rehashed_outputs_cannot_replace_original_transcript_replay[versioned]",
+      "suite": "provenance/code_completion_20261015/promoter_sources_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_rbp_workflow",
@@ -10980,11 +11105,11 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "atac_membership_sources_r2",
-      "atac_membership_consumers_r2",
-      "atac_membership_guard_r1"
+      "promoter_atac_consumers_r1",
+      "promoter_probe_consumers_r1",
+      "promoter_sources_r2"
     ],
-    "passed": 80,
+    "passed": 72,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

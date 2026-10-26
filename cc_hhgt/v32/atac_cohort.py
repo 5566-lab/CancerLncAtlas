@@ -33,6 +33,20 @@ def reject_unscoped_native_membership(payload, root):
         raise ValueError("Native ATAC membership reference lacks candidate scope")
 
 
+def promoter_reference(path, definition, root):
+    from .native_promoter_workflow import discover, consumer
+    path = Path(path); path = path if path.is_absolute() else Path(root)/path
+    if discover(path) is None: return None
+    if definition is None: raise ValueError("Native ATAC promoters require a candidate definition")
+    return consumer(path, definition, root)
+
+
+def reject_unscoped_native_promoters(payload, root):
+    for item in payload.get("input_artifacts", []):
+        if item.get("role") == "promoters": promoter_reference(item["path"], None, root)
+    if payload.get("promoter_reference") is not None: raise ValueError("Native promoter reference lacks candidate scope")
+
+
 def from_definition(item, root, candidates, patient_map):
     from .atac_training import FORMAL_CANCERS, RAW_COVERED_CANCERS, normalise_patient_folds
     path, definition = validate_candidates(item, root, candidates, replay=True)
@@ -79,11 +93,13 @@ def materialization_cohort(payload, root, *, candidates=None, patient_map=None, 
     if contract_path is None:
         if item is not None: raise ValueError("Native ATAC cohort lacks input contract")
         reject_unscoped_native_membership(payload, root)
+        reject_unscoped_native_promoters(payload, root)
         return None
     path = verified_path({"path": contract_path, "sha256": payload["input_contract_sha256"]}, root)
     contract = read(path)
     if contract.get("candidate_definition") is None and item is None:
         reject_unscoped_native_membership(payload, root)
+        reject_unscoped_native_promoters(payload, root)
         return None
     if item is None or contract.get("candidate_definition") is None:
         raise ValueError("ATAC native cohort was removed from materialization/contract")
@@ -98,6 +114,8 @@ def materialization_cohort(payload, root, *, candidates=None, patient_map=None, 
     reference = membership_reference(paths["pathway_membership"], contract["candidate_definition"], path.parent)
     if payload.get("membership_reference") != reference:
         raise ValueError("ATAC membership reference differs from consumed input")
+    if payload.get("promoter_reference") != promoter_reference(paths["promoters"], contract["candidate_definition"], path.parent):
+        raise ValueError("ATAC promoter reference differs from consumed input")
     expected = from_definition(contract["candidate_definition"], path.parent, paths["candidates"], paths["patient_folds"])
     if expected != cohort or (membership is not None and paths["pathway_membership"] != Path(membership).resolve()):
         raise ValueError("ATAC materialization inputs differ from cohort/training inputs")

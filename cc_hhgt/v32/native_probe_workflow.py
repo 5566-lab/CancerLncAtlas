@@ -12,6 +12,7 @@ from .current_core_export import verified_path
 from .formal_expression_sources import read, record
 from .current_analysis_workflow import write
 from .context_table_replay import compare_tables
+from .native_promoter_workflow import CODE as PROMOTER_CODE, consumer as promoter_reference, source_files as promoter_sources
 
 ROOT=Path(__file__).resolve().parents[2]
 INPUT="NATIVE_PROBE_WORKFLOW_INPUT_V1"
@@ -20,7 +21,7 @@ LINKS="INDEPENDENT_DISTAL_LINKS.tsv.gz"
 MAP="HM450_LNCRNA_REGION_PROBES.parquet"
 CODE=("cc_hhgt/v32/native_probe_workflow.py","scripts/run_native_probe_workflow.py",
       "scripts/build_v32_independent_distal_topology.py","scripts/materialize_v32_hm450_lncrna_probe_map.py",
-      "cc_hhgt/v32/distal_topology.py","cc_hhgt/v32/context_table_replay.py")
+      "cc_hhgt/v32/distal_topology.py","cc_hhgt/v32/context_table_replay.py",*PROMOTER_CODE)
 _REPLAY_CACHE={}
 
 
@@ -38,11 +39,13 @@ def plan(manifest,output,*,new=True):
         raise ValueError("Official GDC HM450 manifest MD5 mismatch")
     if any(output==Path(pin["path"]) or output in Path(pin["path"]).parents for pin in files.values()):
         raise ValueError("Probe output must not contain input files")
+    promoter=promoter_reference(files["promoters"]["path"])
     return {"input":record(manifest),"target_host":"149","training_started":False,
             "files":files,"max_distance_bp":distance,"coordinate_build":"GRCh38",
             "promoter_definition":"INPUT_BED0_PROMOTERS_SOURCE_BOUND",
             "implementations":[record(ROOT/name) for name in CODE],
-            "source_ancestry_complete":False,"raw_deletion_executed":False}
+            "source_ancestry_complete":False,"raw_deletion_executed":False,
+            **({"promoter_reference":promoter} if promoter is not None else {})}
 
 
 def invoke(value,output):
@@ -95,6 +98,7 @@ def validate_map(probe_map):
     sources=[record(preflight),value["input"],*value["files"].values(),*value["implementations"],
             record(audit_path),record(probe_map),record(output/"topology"/LINKS),
             record(output/"topology"/(LINKS+".audit.json")),record(output/"topology/GENE_COVERAGE.tsv")]
+    sources+=promoter_sources(value["files"]["promoters"]["path"])
     # Always re-read every input/output/code byte pin before reusing an in-process
     # proof. Never persist a cache token that could replace reconstruction.
     signature={"value":value,"sources":sources}
