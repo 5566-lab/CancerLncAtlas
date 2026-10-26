@@ -6105,3 +6105,110 @@ Native distal verification on 149: ``distal_workflow_r1``, ``distal_workflow_con
 pass 67 distinct related checks. Statistical regression executed
 only on synthetic data. No neural/L1/auxiliary/fusion optimizer, real cohort
 analysis, raw deletion, download, paid compute or deployment was run.
+
+Native distal ATAC matrix preparation (2026-10-26)
+------------------------------------------------
+
+``scripts.run_native_distal_atac_workflow`` now runs the original R distal-peak
+aggregation from the official normalized TCGA ATAC matrix and its identifier
+and peak tables. The registry adds ``distal_atac.run`` as operation 21. The
+workflow does not acquire data, run sequence alignment, fit a model, delete
+inputs, or activate global results. It executes on host 149 using
+``/usr/bin/Rscript`` and records its executable hash, R version and versions of
+``data.table``, ``Matrix`` and ``jsonlite``.
+
+The input manifest has exactly these fields::
+
+    {
+      "format": "NATIVE_DISTAL_ATAC_WORKFLOW_INPUT_V1",
+      "matrix": {"path": "matrix.rds", "sha256": "<SHA256>"},
+      "mapping": {"path": "mapping.tsv", "sha256": "<SHA256>"},
+      "peak_set": {"path": "peak_set.tsv", "sha256": "<SHA256>"},
+      "topology_links": {"path": "INDEPENDENT_DISTAL_LINKS.tsv.gz", "sha256": "<SHA256>"},
+      "patient_folds": {"path": "patient_folds.tsv", "sha256": "<SHA256>"},
+      "candidate_universe": {"path": "candidates.parquet", "sha256": "<SHA256>"}
+    }
+
+All paths resolve against the manifest. Native candidates require unique,
+complete cancer/lncRNA/exact-pathway keys. Their cancer set and union of lncRNAs
+define aggregation scope. Candidate gene IDs accept the formal ``LNC:`` prefix
+and version suffix; the R producer now normalizes them consistently with the
+topology file. The original patient authority is pinned, then restricted to
+declared cancers in a separately written input. Every declared cancer must
+retain folds 0 through 4; fractional fold IDs and patients assigned to multiple
+declared cancers are rejected. Patients outside the declared cancer scope are
+not passed into the R aggregation.
+
+The original R command still accepts its eight arguments. A ninth, optional
+JSON argument declares ``format=DISTAL_ATAC_COHORT_V1``, requested ``cancers``,
+``covered_cancers`` and ``raw_gap_cancers``. Native coverage must be exactly
+the intersection of requested cancers and the official raw 23-cancer set.
+Without this ninth argument the historical full33 scope remains. The wrapper
+generates the declaration, required genes and scoped folds in ``inputs``.
+
+The raw input requirements are unchanged: the matrix is a data frame with
+562,709 peaks and seven leading metadata columns; the sample mapping must
+contain all official 23 cancers and uniquely account for every sample column.
+Every matrix peak must match the accompanying peak table by name, chromosome
+and coordinates. Predictive independent-topology links additionally must
+carry matching chromosome, BED0 start and end for the actual matrix peaks.
+This prevents matching names from concealing coordinate-version drift. The
+existing independent-topology policy remains mandatory for the native workflow;
+legacy diagnostic topology is not promoted by deleting statistical columns.
+
+Run explicitly on 149::
+
+    python -m scripts.run_native_distal_atac_workflow --manifest /path/atac.json --output /new/atac --plan
+    python -m scripts.run_native_distal_atac_workflow --manifest /path/atac.json --output /new/atac
+
+Planning writes no output and performs no matrix aggregation. It verifies
+declared inputs, candidates, folds and topology, and queries installed R/package
+versions. Execution writes a preflight, generated inputs, ``r.log``, the original
+``features`` outputs and ``NATIVE_DISTAL_ATAC_BINDING.json``. Failures retain
+``RUN_FAILED.json`` and the R log without a completed workflow binding. All raw
+inputs remain unchanged. In a native chain use ``operation=distal_atac.run``;
+``/feature_root`` is the directory pin accepted by ``distal.run`` as its
+``distal_atac_root``. This connects original matrix aggregation to patient
+assembly, nested statistics and final closure without manual path substitution.
+
+The native feature audit binds ``native_distal_atac_preparation``. Validation
+reruns the R command into temporary storage and compares its metadata, every
+accessibility matrix, the lncRNA/peak mapping table, and all generated inputs.
+TSV table values use absolute tolerance 1e-12, preserving types, row/column
+identity and missingness. File MD5/SHA records and exact cancer inventory are
+also checked. A process-local replay cache can avoid another R aggregation
+only after current raw input bytes, generated inputs, output bytes, audit,
+implementation hashes and R/package versions reproduce the verified signature.
+Even a cache hit rechecks source content; changed mapping bytes or a jointly
+rewritten output/audit cannot reuse the cached proof. Full input hashing remains
+an I/O cost on every validation; a fresh process must reconstruct the R outputs.
+
+The feature-topology reader, native distal planner and current distal
+publication/query now honor this contract. Raw matrix/mapping/peak inputs,
+candidate scope, patient authority, topology and implementation records reach
+the downstream private source inventory. Legacy feature audits without the
+native preparation pointer retain their previous, narrower coverage.
+
+Aggregation semantics remain: technical replicates are averaged within exact
+aliquot; aliquots receive equal weight within patient; linked peaks receive
+equal weight within lncRNA. A measured zero remains a value. Raw-gap cancers
+produce no accessibility matrix, and candidates without linked peaks are absent
+from the matrix rather than assigned zero; the distal assembler retains them
+as explicitly unavailable. ATAC values remain normalized accessibility signals,
+not binary openness, calibrated probabilities or causal effects.
+
+Verification uses a synthetic matrix retaining all 562,709 peaks and all 23 raw
+cancer mappings. Sixty BRCA patients plus technical/aliquot repeats test exact
+weighting; declared DLBC coverage remains missing and an unlinked candidate is
+not filled with zeros. The actual R producer reaches native distal statistics,
+closure and public queries with the previous synthetic omics/frozen-core
+fixtures. This is not a biological cohort analysis, official-asset download,
+or reconstruction from sequencing reads. The new path verifies aggregation
+from supplied normalized matrices; upstream normalization/acquisition, official
+reference ancestry, MC3/liftover, probe-reference preparation and full cross-module
+patient coverage remain separate unfinished requirements. C01/C13/C16 remain open.
+
+Native distal ATAC verification on 149: ``distal_atac_workflow_r1``, ``distal_atac_workflow_consumers_r1``
+pass 55 distinct related checks. Actual R aggregation and downstream
+statistical regressions ran only on synthetic inputs. No neural/L1/auxiliary/fusion
+optimizer, real cohort, raw deletion, download, paid compute or deployment ran.

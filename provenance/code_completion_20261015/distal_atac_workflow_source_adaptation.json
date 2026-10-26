@@ -1,0 +1,49 @@
+{
+  "method": "NATIVE_DISTAL_ATAC_R_MATRIX_AGGREGATION_AND_CONSUMER_REPLAY",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "distal_atac_workflow_r1",
+    "distal_atac_workflow_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 21,
+  "new_operation": "distal_atac.run",
+  "actual_r_script": "scripts/materialize_v32_distal_atac_lncrna.R",
+  "raw_matrix_peak_count": 562709,
+  "raw_mapping_cancer_count": 23,
+  "synthetic_brca_patients": 60,
+  "raw_shape_gates_relaxed": false,
+  "original_aggregation_weights_changed": false,
+  "required_gene_namespace_fixed": true,
+  "topology_coordinates_match_matrix": true,
+  "fractional_folds_rejected_before_integer_cast": true,
+  "process_cache_rechecks_current_source_output_code_and_r_environment": true,
+  "actual_distal_statistics_closure_and_publication_executed": true,
+  "numerical_tolerances": {
+    "rtol": 0,
+    "atol": 1e-12
+  },
+  "test_substitutes": [
+    "Synthetic normalized RDS with full official peak shape and 23-cancer mapping; no official cohort observations.",
+    "Actual independent coordinate topology, synthetic beta/probe assignment and prepared mutation/expression/CNV/purity/activity.",
+    "Existing explicitly frozen synthetic selected-core containers; no optimizer."
+  ],
+  "sequencing_normalization_reconstructed": false,
+  "biological_independence_verified": false,
+  "whole_real_study_executed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The native distal ATAC workflow executes the original R aggregation from a supplied normalized matrix, official-shaped mapping and peaks, independent topology, patient authority and candidate scope. It preserves 562709 peaks/full 23 raw-cancer shape and mapping gates, while explicit candidate scope controls output cancers/genes. LNC prefix normalization and pre-cast fractional fold checks are corrected; independent topology coordinates must match matrix peak coordinates. The resumable distal_atac.run operation feeds actual distal assembly/statistics/closure/public queries. Every generated matrix/topology table/input and native metadata is replayed with actual R. A process cache rechecks current input/output/code/environment signatures before reuse. Synthetic official-shaped matrix only, with 60 BRCA patients, technical and aliquot repeats, missing DLBC and an unlinked gene; other omics and frozen core remain explicit synthetic fixtures. No learned-model optimizer, real cohort, downloads, paid compute, deletion or deployment occurred. Supplied normalized-matrix aggregation is verified, not original sequencing/normalization or acquisition/reference ancestry. MC3/liftover, probe-reference preparation, complete cross-module patient ancestry, remaining branches and final C01/C13/C16 acceptance remain open."
+}

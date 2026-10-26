@@ -9,11 +9,11 @@ args <- commandArgs(trailingOnly = TRUE)
 if (!identical(unname(Sys.info()["nodename"]), "149")) {
   stop("Distal ATAC preparation must execute on target host 149")
 }
-if (length(args) != 8L) {
+if (!length(args) %in% c(8L, 9L)) {
   stop(paste(
     "usage: materialize_v32_distal_atac_lncrna.R",
     "<matrix.rds> <mapping.tsv> <peak_set.tsv> <topology_links.tsv.gz>",
-    "<required_genes.tsv.gz> <patient_folds.tsv> <output_dir> <contract>"
+    "<required_genes.tsv.gz> <patient_folds.tsv> <output_dir> <contract> [declared_cohort.json]"
   ))
 }
 matrix_path <- normalizePath(args[[1L]], mustWork = TRUE)
@@ -61,6 +61,19 @@ expected_covered <- c(
   "HNSC", "KIRC", "KIRP", "LGG", "LIHC", "LUAD", "LUSC", "MESO",
   "PCPG", "PRAD", "SKCM", "STAD", "TGCT", "THCA", "UCEC"
 )
+raw_covered <- expected_covered
+if (length(args) == 9L) {
+  cohort <- fromJSON(normalizePath(args[[9L]], mustWork = TRUE))
+  if (!identical(cohort$format, "DISTAL_ATAC_COHORT_V1") ||
+      length(cohort$cancers) == 0L || anyDuplicated(cohort$cancers) ||
+      !all(cohort$cancers %in% formal_cancers)) stop("invalid declared distal ATAC cohort")
+  formal_cancers <- sort(cohort$cancers)
+  expected_covered <- intersect(formal_cancers, raw_covered)
+  if (!setequal(cohort$covered_cancers, expected_covered) ||
+      !setequal(cohort$raw_gap_cancers, setdiff(formal_cancers, raw_covered))) {
+    stop("distal ATAC cohort availability differs from official asset")
+  }
+}
 expected_gaps <- setdiff(formal_cancers, expected_covered)
 
 atomic_fwrite <- function(value, path) {
@@ -78,11 +91,15 @@ if (!all(c("cancer_id", "patient_id", "patient_fold_id") %in% names(folds))) {
 }
 folds[, cancer_id := toupper(as.character(cancer_id))]
 folds[, patient_id := substr(as.character(patient_id), 1L, 12L)]
+if (anyNA(folds$patient_fold_id) || !all(folds$patient_fold_id %in% 0:4)) stop("invalid patient fold ID")
 folds[, patient_fold_id := as.integer(patient_fold_id)]
 if (!identical(sort(unique(folds$cancer_id)), sort(formal_cancers)) ||
     !identical(sort(unique(folds$patient_fold_id)), 0:4) ||
     folds[, anyDuplicated(paste(cancer_id, patient_id, sep = "\t"))] > 0L) {
-  stop("canonical patient folds are not exact 33 cancers x folds 0..4")
+  stop("canonical patient folds differ from declared cancers x folds 0..4")
+}
+if (!all(folds[, .(ok = setequal(patient_fold_id, 0:4)), by = cancer_id]$ok)) {
+  stop("each declared cancer must contain all five folds")
 }
 
 mapping <- fread(mapping_path)
@@ -93,7 +110,7 @@ mapping[, cancer_id := sub("x$", "", sub("-.*$", "", as.character(bam_prefix)))]
 mapping[, aliquot_id := as.character(aliquot_id)]
 mapping[, patient_id := substr(aliquot_id, 1L, 12L)]
 mapping[, expected_matrix_column := gsub("-", "_", bam_prefix, fixed = TRUE)]
-if (!identical(sort(unique(mapping$cancer_id)), sort(expected_covered))) {
+if (!identical(sort(unique(mapping$cancer_id)), sort(raw_covered))) {
   stop("official ATAC cancer coverage differs from exact 23")
 }
 mapping <- merge(
@@ -103,15 +120,23 @@ mapping <- merge(
 )
 unaligned <- unique(mapping[is.na(patient_fold_id), .(cancer_id, patient_id)])
 
-required_genes <- sort(unique(sub("\\..*$", "", as.character(
+required_genes <- sort(unique(sub("\\..*$", "", sub("^LNC:", "", as.character(
   fread(required_gene_path)$gene_id
-))))
+)))))
 if (length(required_genes) < 1L) stop("required distal lncRNA list is empty")
 links <- fread(link_path)
 if (!all(c("lncrna_id", "peak_name") %in% names(links))) {
   stop("DataS7 static topology is malformed")
 }
 links[, gene_id := sub("\\..*$", "", sub("^LNC:", "", as.character(lncrna_id)))]
+coordinate_links <- NULL
+if (isTRUE(topology_lineage$predictive_evaluation_eligible)) {
+  if (!all(c("chromosome", "peak_start0", "peak_end0") %in% names(links))) {
+    stop("Predictive topology lacks explicit peak coordinates")
+  }
+  coordinate_links <- unique(links[gene_id %in% required_genes,
+    .(peak_name, chromosome, peak_start0, peak_end0)])
+}
 links <- unique(links[gene_id %in% required_genes, .(gene_id, peak_name = as.character(peak_name))])
 if (nrow(links) < 1L) stop("DataS7 has no topology for required lncRNAs")
 
@@ -140,6 +165,16 @@ if (anyNA(peak_order) ||
     !identical(as.integer(peaks$end[peak_order]), as.integer(atac$end)) ||
     !identical(as.character(peaks$seqnames[peak_order]), as.character(atac$seqnames))) {
   stop("official peak coordinates differ from the ATAC matrix")
+}
+if (!is.null(coordinate_links)) {
+  linked_order <- match(coordinate_links$peak_name, as.character(peaks$name))
+  if (anyNA(linked_order) ||
+      !identical(sub("^chr", "", as.character(coordinate_links$chromosome)),
+                 sub("^chr", "", as.character(peaks$seqnames[linked_order]))) ||
+      !identical(as.numeric(coordinate_links$peak_start0), as.numeric(peaks$start[linked_order]) - 1) ||
+      !identical(as.numeric(coordinate_links$peak_end0), as.numeric(peaks$end[linked_order]))) {
+    stop("Topology peak coordinates differ from the official ATAC matrix")
+  }
 }
 
 peak_name_index <- setNames(seq_len(nrow(atac)), as.character(atac$name))
@@ -206,11 +241,19 @@ audit <- list(
   format = "CANCERLNCATLAS_V32_DISTAL_ATAC_LNCRNA_MATERIALIZATION_V1",
   covered_cancers = expected_covered,
   raw_gap_cancers = expected_gaps,
+  requested_cancers = formal_cancers,
+  raw_covered_cancers = raw_covered,
+  scope_policy = if (length(args) == 9L) "DECLARED_CANDIDATE_SCOPE" else "LEGACY_FULL33",
   required_lncrnas = length(required_genes),
   distal_linked_lncrnas = length(covered_gene_index),
   unique_distal_peak_links = nrow(links),
   source_policy = "CANDIDATE_LINKED_PEAK_MEAN_ACCESSIBILITY",
   target_host = "149",
+  training_started = FALSE,
+  matrix_rows = nrow(atac),
+  r_version = as.character(getRversion()),
+  package_versions = setNames(lapply(c("data.table", "Matrix", "jsonlite"), function(p) as.character(packageVersion(p))),
+                              c("data.table", "Matrix", "jsonlite")),
   topology_lineage = topology_lineage,
   output_md5 = as.list(tools::md5sum(list.files(output_dir, pattern = "distal_accessibility.tsv.gz$", full.names = TRUE))),
   patient_fold_aligned = TRUE,

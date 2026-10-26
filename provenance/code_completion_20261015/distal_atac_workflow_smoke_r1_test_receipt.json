@@ -1,0 +1,51 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T14:40:45.101852+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_omics_context.py": "784d883385d256108fea6b3e6389f3501e2f2ff5ff53e78e1ce80600979da2c3",
+    "cc_hhgt/v32/distal_topology.py": "5d75f78c240666a8cf9676f4d40f707270ce670a14ef4bf6553c0a2113602dc4",
+    "cc_hhgt/v32/native_distal_atac_workflow.py": "82021ff72402063fa02f92d15e99c2406286e6dbbd6a1b24cd5194f425e17c62",
+    "cc_hhgt/v32/native_distal_workflow.py": "df80db9e68d85a1fe180024d462356f9e4296093339e50f565b7bc4f4b254db6",
+    "cc_hhgt/v32/native_workflow_chain.py": "5dede30d8f668556a93f467f26527db3b3472b53aa0a10d21631593c5f7ecc21",
+    "scripts/materialize_v32_distal_atac_lncrna.R": "ebafe44c48a58fcef734c1fff1659f8efa682ceb73261aa450debd49c52b517b",
+    "scripts/run_native_distal_atac_workflow.py": "8fa19b7fe270cc1aa5fa6d8d4ab8152cb0840bd736819e75abdaeabe8d0f2ab5",
+    "tests/test_v32_native_distal_atac_workflow.py": "5e3002a38671c7e273944cd12d3500760e8e55c627666440c0c46158cc69e103"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_distal_atac_workflow.py::test_actual_r_aggregation_retains_patient_weight_and_raw_gaps",
+    "tests/test_v32_native_distal_atac_workflow.py::test_actual_raw_atac_reaches_public_source_inventory_and_coverage",
+    "--junitxml=provenance/code_completion_20261015/distal_atac_workflow_smoke_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T14:43:58.182794+00:00"
+}

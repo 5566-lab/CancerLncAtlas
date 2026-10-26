@@ -55,6 +55,10 @@ def plan(manifest,output,*,new=True):
         for child in sorted(path.rglob("*")):
             if child.is_file():sources[str(child)]=record(child)
     from .native_methylation_workflow import validate as validate_methylation
+    atac_audit=Path(directories["distal_atac_root"]["path"])/"DISTAL_ATAC_AUDIT.json"
+    if atac_audit.is_file() and "native_distal_atac_preparation" in read(atac_audit):
+        from .native_distal_atac_workflow import validate_features
+        for item in validate_features(record(atac_audit),manifest.parent):sources[item["path"]]=item
     methylation_path,methylation=validate_methylation(spec["methylation_workflow"],manifest.parent)
     methylation_features=record(verified_path(methylation["outputs"]["patient_features"],methylation_path.parent))
     mutation_audit=Path(files["distal_mutation"]["path"]).parent/"AUDIT.json"

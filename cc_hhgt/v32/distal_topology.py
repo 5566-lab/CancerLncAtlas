@@ -140,6 +140,9 @@ def feature_topology_lineage(path: Path, *, kind: str) -> dict:
     if not audit_path.is_file():
         return {"predictive_evaluation_eligible": False, "policy": "FEATURE_AUDIT_ABSENT"}
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    if kind == "atac" and "native_distal_atac_preparation" in audit:
+        from .native_distal_atac_workflow import validate_features
+        validate_features({"path":str(audit_path),"sha256":sha256(audit_path)},audit_path.parent)
     lineage = audit.get("topology_lineage", {"predictive_evaluation_eligible": False,
                                             "policy": "LEGACY_FEATURES"})
     if lineage.get("predictive_evaluation_eligible") is not True:
