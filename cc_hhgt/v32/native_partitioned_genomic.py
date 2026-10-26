@@ -78,6 +78,8 @@ def load_partitioned(sources, manifest, native_path, native, patient_path, *, ma
         raise ValueError("Partitioned candidate/patient inputs differ")
     # Recompute train/validation/test identities from the actual patient map.
     patients = normalise_patient_folds(read_table(patient_path))
+    if original.get("cohort") is not None:
+        patients = patients.loc[patients.cancer_id.isin(original["cohort"]["cancers"])].copy()
     traces = [_patient_split_trace({s: _split_patients(patients, fold, s) for s in ("train", "validation", "test")}, fold, modality)
               for fold in range(5) for modality in ("mutation", "cnv")]
     policy = completed["SPLIT_POLICY.json"]
@@ -109,6 +111,28 @@ def load_partitioned(sources, manifest, native_path, native, patient_path, *, ma
     stage_path = sources.bind({"path": original["resource_stage_success_path"],
                                "sha256": original["resource_stage_success_sha256"]}, root)
     _, stage = _load_stage(stage_path, verify_external_hashes=True)
+    _, stage_cnv = sources.document(stage["cnv_streaming_aggregate_success"], root)
+    if ("native_input" in stage_cnv) != (original.get("cohort") is not None):
+        raise ValueError("Native genomic cohort declaration is missing or mismatched")
+    if original.get("cohort") is not None:
+        from .local_cnv_cohort import replay
+        from .segment_cnv_streaming import validate_streaming_store
+        cohort=replay(original["cohort"],root,candidates=Path(stage["candidate_authority"]["path"]),patient_map=patient_path)
+        cnv_path=sources.bind(stage["cnv_streaming_aggregate_success"],root)
+        cnv=validate_streaming_store(cnv_path,expected_bindings={"candidates":stage["candidate_authority"]["path"],
+            "patient_folds":patient_path,"core_embedding_manifest":sources.bind(manifest["core_manifest"],manifest_root)})
+        if cnv.get("cohort") != cohort or original.get("core_run_id") != manifest["core_run_id"]:
+            raise ValueError("Native genomic training cohort/core context differs")
+        context=sources.document({"path":str(cnv_path.parent/"RUN_CONTEXT.json"),"sha256":cnv["run_context_sha256"]},root)[1]
+        if original.get("configuration",{}).get("cnv_event_threshold") != context["event_threshold"]:
+            raise ValueError("Native genomic trained event threshold differs")
+        input_hashes={r["sha256"] for r in inputs}
+        for name in ("candidates","patient_folds","pathway_membership","sample_gene_mutation","sample_lncrna_mutation","mc3"):
+            if context["bindings"][name]["sha256"] not in input_hashes:
+                raise ValueError("Native genomic streaming and training inputs differ")
+        for item in (context["native_input"],context["segment_manifest"],cohort["candidate_definition"],
+                     *context["bindings"].values(),*[r for rows in context["raw_segments"].values() for r in rows]):
+            sources.bind(item,cnv_path.parent)
     if (ready_path.parent != stage_path.parent
             or stage["candidate_authority"]["sha256"] != manifest["candidate_authority"]["sha256"]
             or original.get("ordered_exact_candidate_key_sha256") != stage["ordered_exact_candidate_key_sha256"]):

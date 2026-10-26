@@ -35,6 +35,13 @@ def input_source(inventory,item,root,model,role,fold=-1,*,phase="FEATURE_CONSTRU
     if not source.get("path") or not path.exists():
         inventory.authority(source,root,model,role,fold);return
     path=inventory.bind(source,root,model,role,fold)
+    if path.suffix==".json":
+        document=read(path)
+        from .segment_cnv_streaming import FORMAT as STREAMING_FORMAT
+        if isinstance(document,dict) and document.get("format")==STREAMING_FORMAT and "native_input" in document:
+            from .native_genomic_cnv import inspect
+            inspect(inventory,source,root,model,role+".native_genomic_cnv",fold,phase=phase)
+            return
     start=len(inventory.usage)
     derived=any(item.get(k) for k in ("upstream_expression","upstream_activity","upstream_scope","upstream_candidates"))
     if item.get("upstream_expression"):

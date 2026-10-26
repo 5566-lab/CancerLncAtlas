@@ -14,12 +14,15 @@ from cc_hhgt.v32.native_auxiliary_fusion import materialize_native_auxiliary, lo
 from test_v32_native_auxiliary_fusion import fixture, read, write, record, no_fitting
 
 
-def partitioned(root, existing=None, candidate_counts=None):
+def partitioned(root, existing=None, candidate_counts=None, streaming_success=None):
     path, keys = fixture(root, candidate_counts=candidate_counts) if existing is None else (existing, pd.read_parquet(read(existing)["candidate_authority"]["path"]))
     manifest = read(path); native = root/"native"
     original_inputs = read(native/"LINEAGE.json")["input_artifacts"]
-    patients = pd.read_parquet(manifest["patient_folds"]["path"])
-    cnv = write(root/"streaming.json", {"format": stage.CNV_STREAMING_FORMAT, "status": "SUCCESS",
+    from cc_hhgt.v32.evidence_rule_sources import read_table
+    patients = read_table(Path(manifest["patient_folds"]["path"]))
+    if streaming_success is not None:
+        patients = patients.loc[patients.cancer_id.isin(read(streaming_success)["cohort"]["cancers"])].copy()
+    cnv = streaming_success if streaming_success is not None else write(root/"streaming.json", {"format": stage.CNV_STREAMING_FORMAT, "status": "SUCCESS",
         "cancers": {c: {} for c in keys.cancer_id.unique()}, "required_cancers": list(keys.cancer_id.unique()),
         "patient_folds": 5, "typed_unavailable_is_never_zero": True,
         "synthetic_gate_metadata_only_not_a_raw_cnv_validation": True})
@@ -82,6 +85,8 @@ def partitioned(root, existing=None, candidate_counts=None):
         "split_policy": policy, "predictions_ready_path": str(ready), "predictions_ready_sha256": record(ready)["sha256"],
         "resource_stage_success_path": str(stage_success), "resource_stage_success_sha256": record(stage_success)["sha256"],
         "ordered_exact_candidate_key_sha256": digest, "fixture_no_optimizer_run": True}
+    if streaming_success is not None:
+        lineage.update(cohort=read(cnv)["cohort"],core_run_id=manifest["core_run_id"],configuration={"cnv_event_threshold":.30})
     success = {"format": trainer.TRAINING_FORMAT, "status": "TRAINING_SUCCESS_PREDICTIONS_SEALED_NOT_RELEASED",
         "training_run_id": manifest["native_run_id"], "lineage_path": str(native/"LINEAGE.json"),
         "checkpoint_manifest_path": str(native/"CHECKPOINT_MANIFEST.json"), "predictions_ready_path": str(ready),

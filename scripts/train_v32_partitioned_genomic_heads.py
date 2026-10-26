@@ -13,7 +13,12 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--repo-root", default=".")
     parser.add_argument("--resource-staging-success", required=True)
     parser.add_argument("--patient-folds", required=True)
-    parser.add_argument("--patient-fold-authority-receipt", required=True)
+    authority = parser.add_mutually_exclusive_group(required=True)
+    authority.add_argument("--patient-fold-authority-receipt")
+    authority.add_argument("--candidate-definition")
+    parser.add_argument("--candidate-definition-sha256")
+    parser.add_argument("--expected-core-run-id")
+    parser.add_argument("--prepare-only", action="store_true", help="collect all five fold inputs without fitting or prediction")
     parser.add_argument("--pathway-gene-membership", required=True)
     parser.add_argument("--sample-gene-mutation", required=True)
     parser.add_argument("--sample-lncrna-mutation", required=True)
@@ -61,8 +66,18 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     patient_folds = _resolve(root, args.patient_folds)
-    patient_fold_receipt = _resolve(root, args.patient_fold_authority_receipt)
-    validate_frozen_v32_patient_fold_binding(patient_folds, patient_fold_receipt)
+    candidate_definition = None
+    if args.candidate_definition:
+        from cc_hhgt.v32.current_core_export import verified_path
+        if not args.candidate_definition_sha256 or not args.expected_core_run_id:
+            raise ValueError("Native genomic mode requires candidate definition SHA256 and expected core run")
+        candidate_definition = {"path":str(_resolve(root,args.candidate_definition)),"sha256":args.candidate_definition_sha256}
+        verified_path(candidate_definition,root)
+    else:
+        if args.candidate_definition_sha256 or args.expected_core_run_id:
+            raise ValueError("Native genomic options require --candidate-definition")
+        patient_fold_receipt = _resolve(root, args.patient_fold_authority_receipt)
+        validate_frozen_v32_patient_fold_binding(patient_folds, patient_fold_receipt)
 
     config = GenomicTrainingConfig(
         seed=args.seed,
@@ -102,6 +117,9 @@ def main(argv: list[str] | None = None) -> int:
         config=config,
         enforce_host_budget=True,
         allow_development_long_cnv=False,
+        candidate_definition=candidate_definition,
+        expected_core_run_id=args.expected_core_run_id,
+        prepare_only=args.prepare_only,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
     return 0

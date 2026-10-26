@@ -12,7 +12,7 @@ import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 import pandas as pd
@@ -234,6 +234,7 @@ def materialize_cancer_partition(
     membership: pd.DataFrame, selected_rows: Mapping[tuple[str, str], Mapping[str, str]],
     context_sha256: str, event_threshold: float = 0.30,
     max_memory_bytes: int = 536_870_912, max_segment_rows: int = 2_000_000,
+    segment_reader: Callable | None = None,
 ) -> dict[str, Any]:
     cancer = str(cancer_id).upper()
     final = output_root / f"cancer={cancer}"
@@ -307,18 +308,35 @@ def materialize_cancer_partition(
             arrays["pathway_event.npy"][patient_row] = 0
             arrays["pathway_callable.npy"][patient_row] = 0
             arrays["pathway_burden.npy"][patient_row] = np.nan
-            manifest_row = selected_rows.get((cancer, patient_id))
-            if manifest_row is None:
-                typed_unavailable += 1
-                continue
-            path = selected_segment_target(manifest_row, staging_root)
-            if not path.is_file():
-                raise StreamingCNVError(f"Staged segment disappeared: {path}")
-            source_sha = sha256_file(path)
-            segment = pd.read_csv(path, sep="\t")
-            if sha256_file(path) != source_sha:
-                raise StreamingCNVError("CNV segment changed while reading")
-            consumed_segments.append({"path":str(path.resolve()), "sha256":source_sha})
+            if segment_reader is not None:
+                segment, source = segment_reader(cancer, patient_id)
+                if segment is None:
+                    typed_unavailable += 1
+                    continue
+                consumed_segments.append(source)
+            else:
+                manifest_row = selected_rows.get((cancer, patient_id))
+                if manifest_row is None:
+                    typed_unavailable += 1
+                    continue
+                path = selected_segment_target(manifest_row, staging_root)
+                if not path.is_file():
+                    raise StreamingCNVError(f"Staged segment disappeared: {path}")
+                source_sha = sha256_file(path)
+                segment = pd.read_csv(path, sep="\t")
+                if sha256_file(path) != source_sha:
+                    raise StreamingCNVError("CNV segment changed while reading")
+                consumed_segments.append({"path":str(path.resolve()), "sha256":source_sha})
+                columns = {str(column).lower(): column for column in segment.columns}
+                try:
+                    segment = segment[[columns["chromosome"], columns["start"], columns["end"], columns["segment_mean"]]].copy()
+                except KeyError as exc:
+                    raise StreamingCNVError(f"Malformed segment columns: {path}") from exc
+                segment.columns = ["chromosome", "start", "end", "value"]
+                segment["chromosome"] = segment.chromosome.astype(str).str.replace(r"^chr", "", regex=True)
+                segment["start"] = pd.to_numeric(segment.start, errors="raise").astype(np.int64)
+                segment["end"] = pd.to_numeric(segment.end, errors="raise").astype(np.int64)
+                segment["value"] = pd.to_numeric(segment.value, errors="coerce")
             max_observed_rows = max(max_observed_rows, len(segment))
             if len(segment) > int(max_segment_rows):
                 raise StreamingCNVError(
@@ -329,16 +347,6 @@ def materialize_cancer_partition(
                 raise StreamingCNVError(
                     f"MEMORY_GATE: observed transient bytes {observed_transient_bytes} > {max_memory_bytes}"
                 )
-            columns = {str(column).lower(): column for column in segment.columns}
-            try:
-                segment = segment[[columns["chromosome"], columns["start"], columns["end"], columns["segment_mean"]]].copy()
-            except KeyError as exc:
-                raise StreamingCNVError(f"Malformed segment columns: {path}") from exc
-            segment.columns = ["chromosome", "start", "end", "value"]
-            segment["chromosome"] = segment.chromosome.astype(str).str.replace(r"^chr", "", regex=True)
-            segment["start"] = pd.to_numeric(segment.start, errors="raise").astype(np.int64)
-            segment["end"] = pd.to_numeric(segment.end, errors="raise").astype(np.int64)
-            segment["value"] = pd.to_numeric(segment.value, errors="coerce")
             gene_iv = local_intervals.loc[local_intervals.entity_type.eq("gene")]
             lnc_iv = local_intervals.loc[local_intervals.entity_type.eq("lncrna")]
             ge, gc, gb = _mapped_entities(segment, gene_iv, genes, event_threshold)
@@ -541,6 +549,9 @@ def validate_streaming_store(
     root = success.parent
     context_path = root / "RUN_CONTEXT.json"
     context = json.loads(context_path.read_text(encoding="utf-8"))
+    if "native_input" in context:
+        from .native_genomic_cnv import validate
+        return validate(success, expected_bindings=expected_bindings)
     if payload.get("format") != FORMAT or payload.get("status") != "SUCCESS":
         raise StreamingCNVError("Streaming aggregate is not SUCCESS")
     if payload.get("run_context_sha256") != sha256_file(context_path):

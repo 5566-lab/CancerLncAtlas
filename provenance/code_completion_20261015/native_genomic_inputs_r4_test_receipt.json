@@ -1,0 +1,53 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T08:40:54.887451+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "41c25c938583c4a7a15538dbd019e9897761dc5bb49e8544cce16a53a7ca33d8",
+    "cc_hhgt/v32/current_model_use.py": "712b980e7c10faa775c5b7ef2799d2adf14eb4eeefc26c37f30e069439596b22",
+    "cc_hhgt/v32/genomic_partition_training.py": "a012524a143692b03552066998cea1b00ed9b6ec3555f6c6e7ef69f6b8cc8b03",
+    "cc_hhgt/v32/native_genomic_cnv.py": "f7529e65b20f452bf2b62b3ba542c9fa84ee73e9af40f68f935c624edd52b14d",
+    "cc_hhgt/v32/native_partitioned_genomic.py": "4cefddefa6c4bb09f25d914bde8c20eb4913d9cfa78b78e7eb6e7f04adf314a6",
+    "cc_hhgt/v32/segment_cnv_streaming.py": "e68648015a48d93fd3144e7ff1830f7530df57d565627fdaedd90c37df979f05",
+    "scripts/materialize_native_genomic_cnv.py": "9bb67e537003ac31d343bff9ab3dcea039ae83917ce954fed3c1db8818dfe968",
+    "scripts/train_v32_partitioned_genomic_heads.py": "63a6370d93a99e830de12d5a212d2be011d48456d67d703bd47df54f34f3cb0c",
+    "tests/test_v32_native_genomic_inputs.py": "02a083c0fa8361d7421c868854577c7eeb3c02d1c813259dd530a79b3f506680",
+    "tests/test_v32_native_partitioned_genomic.py": "ec1a56938fbb732465c13c029b82a6070796be7329e6d77f299b43334d3573d1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_genomic_inputs.py",
+    "tests/test_v32_segment_cnv_streaming.py",
+    "tests/test_v32_genomic_partition_training.py",
+    "tests/test_v32_native_partitioned_genomic.py",
+    "--junitxml=provenance/code_completion_20261015/native_genomic_inputs_r4_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T08:41:43.592455+00:00"
+}

@@ -1,0 +1,53 @@
+{
+  "method": "NATIVE_GENOMIC_STREAMING_AND_ORIGINAL_TRAINER_NO_FIT_PREFLIGHT",
+  "target_host": "149",
+  "training_started": false,
+  "genomic_model_forward_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "native_genomic_inputs_r4",
+    "native_genomic_consumers_r2"
+  ],
+  "superseded_pass_receipts": [
+    "native_genomic_inputs_r1",
+    "native_genomic_inputs_r2",
+    "native_genomic_inputs_r3",
+    "native_genomic_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "actual_raw_segment_materializer_executed": true,
+  "original_event_absolute_burden_estimand_preserved": true,
+  "actual_partition_trainer_collectors_executed": true,
+  "actual_training_cli_prepare_only_executed": true,
+  "legacy_frozen_authority_rejection_retained": true,
+  "native_to_legacy_validation_downgrade_rejected": true,
+  "actual_native_fusion_adapter_executed": true,
+  "actual_model_use_source_reconstruction_executed": true,
+  "synthetic_declared_cancers": [
+    "BRCA",
+    "LUAD"
+  ],
+  "synthetic_declared_patients": 40,
+  "shared_authority_unused_patients": 5,
+  "synthetic_raw_segment_files": 38,
+  "candidate_rows": 6,
+  "fold_modality_collections": 10,
+  "numerically_reconstructed_arrays": 12,
+  "memmap_unchanged_after_prepare": true,
+  "checkpoint_or_prediction_written_during_prepare": false,
+  "test_substitutes": [
+    "Synthetic raw segment/mutation/reference data and a fixture MC3 file.",
+    "Frozen core/completed head containers and explicit fold probabilities; no optimizer or genomic forward."
+  ],
+  "unified_native_genomic_workflow_complete": false,
+  "biological_ancestry_complete": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native genomic CNV now uses explicitly bound segment/patient/candidate inputs with the original six-array streaming producer and event/absolute-burden estimand. Declared cancer subsets resume to an exact aggregate. The actual partition training CLI accepts annotation-defined authority and supports --prepare-only through its original ten train/validation collectors without an optimizer or forward. Shared-map patients outside the declared cohort do not enter split traces. Completed native outputs are checked against the same cohort/core/event threshold/source bindings, and actual model-use source traversal numerically reconstructs raw CNV arrays while preserving acquisition/reference/patient gaps. Synthetic raw files and frozen completed checkpoint containers verify code only; no real analysis, fitting, paid compute or deployment occurred. Unified genomic prepare/collect orchestration and complete native producer/core/fusion/external positive acceptance remain open."
+}

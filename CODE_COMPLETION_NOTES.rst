@@ -4757,3 +4757,112 @@ the original streaming-CNV producer has separate input requirements. A complete
 native genomic prepare/collect workflow must reconcile those upstream contracts;
 this change does not claim that broader handoff is complete. C01/C13/C16 retain
 their outstanding integration and evidence requirements.
+
+Native genomic raw inputs and the no-fit trainer entry (2026-10-26)
+-----------------------------------------------------------------
+
+The historical streaming-CNV aggregate and its launcher required the frozen
+33-cancer patient authority. An explicit native path now reuses the original
+compact six-array producer for the annotation-defined cohort. The existing
+partition training CLI accepts that cohort and can collect every train/validation
+input without fitting. The legacy frozen-authority entry remains available and
+retains its original validation.
+
+The new genomic CNV input JSON has these fields, with every file represented by
+an explicit path/SHA256 record::
+
+    format: NATIVE_GENOMIC_CNV_INPUT_V1
+    segment_manifest: <NATIVE_DIRECTIONAL_CNV_INPUT_V1 JSON record>
+    sample_gene_mutation: <standardized mutation table record>
+    sample_lncrna_mutation: <standardized mutation table record>
+    mc3: <raw MC3 file record>
+    core_manifest: <current frozen core export record>
+    core_run_id: <the exact current core run identity>
+    max_memory_bytes: <optional positive integer; default 536870912>
+
+The reused segment manifest supplies candidate definition, candidates, patient
+map, reference intervals, exact pathway membership, explicit available/unavailable
+patient segment files, event threshold and row limit. Reuse concerns source and
+patient identity: genomic CNV still uses event presence and absolute burden,
+whereas directional local-CNV uses signed means. Opposite signed segments retain
+genomic event/burden; they are not substituted with a zero signed mean.
+
+On 149, from the repository directory::
+
+    python -m scripts.materialize_native_genomic_cnv prepare \
+      --manifest <native-genomic-input.json> --output <new-streaming-directory>
+
+An optional --cancers list permits resumable subsets of the declared cohort.
+The command returns 2/INCOMPLETE until every declared partition is present;
+only then does it publish aggregate SUCCESS.json. Context changes prevent
+reuse. Every raw file is checked against its explicit patient/file declaration.
+Memory/row limits and typed unavailability use the original compact producer.
+The output records host149/no-training preflight before materialization.
+
+An explicit audit reruns that producer and compares all six arrays per cancer::
+
+    python -m scripts.materialize_native_genomic_cnv audit \
+      --success <streaming-directory/SUCCESS.json> \
+      --expected-sha256 <sha256> --output <new-audit.json>
+
+This numerical reconstruction is separate from biological source verification.
+Acquisition and reference ancestry remain unverified where no evidence exists.
+
+Use the existing resource staging command with this completed streaming SUCCESS
+and the declared candidate budget. Then the actual training entry supports::
+
+    python -m scripts.train_v32_partitioned_genomic_heads \
+      --resource-staging-success <resource-stage/SUCCESS.json> \
+      --patient-folds <patient-map.tsv> \
+      --candidate-definition <CANDIDATE_SOURCES.json> \
+      --candidate-definition-sha256 <sha256> \
+      --expected-core-run-id <current-core-run-id> \
+      --pathway-gene-membership <exact-membership.parquet> \
+      --sample-gene-mutation <gene-mutation.parquet> \
+      --sample-lncrna-mutation <lncrna-mutation.parquet> \
+      --mc3 <raw-mc3-file> --core-embedding-manifest <core-export.json> \
+      --cnv-streaming-success <streaming-directory/SUCCESS.json> \
+      --output-root <new-preflight-directory> --training-run-id <v32-run-id> \
+      --prepare-only
+
+Use actual scientific sampling parameters when overriding defaults. The native
+candidate definition and historical --patient-fold-authority-receipt options
+are mutually exclusive. Native mode requires the current core identity and
+candidate-definition hash; it validates the cohort against both the resource
+stage and the streaming source. Its event threshold must match the materializer.
+Patients in other cancers of the shared map do not enter this run's split trace.
+
+The --prepare-only mode uses the same source loading and global partition
+sampling as training. It checks two-class train and validation rows for both
+modalities and all five folds, then writes HEAD_PREFLIGHT.json with counts,
+split identities, source hashes, full settings and resource observations.
+It creates no checkpoint, optimizer, prediction, write receipt or training
+SUCCESS, and leaves resource memmaps unchanged. Failed preparation retains its
+staging/preflight evidence and never publishes a PASS_READY output. Fitting is
+still a separate execution and was not performed here.
+
+The native completed-result adapter now checks the actual training cohort,
+core run, CNV threshold and required mutation/membership/source bindings against
+the native streaming context. It retains original source files in the consumer
+inventory. Native streaming identity requires the native cohort declaration;
+removing it cannot select legacy validation, even after repinning all split
+policy and checkpoint records. Actual auxiliary model-use traversal numerically reconstructs native
+streaming arrays, follows raw segment study declarations and records declared
+file patients. Counts remain file exposure, not per-pair fitted patient usage;
+SEGMENT_ACQUISITION_AND_REFERENCE_ANCESTRY_UNVERIFIED remains a blocking gap.
+
+Direct verification uses 40 declared synthetic patients in two cancers plus
+five patients in an unused cancer of the shared map. Thirty-eight synthetic
+segment files produce six arrays per cancer. An independent parity oracle checks
+event/burden and typed missingness; production replay checks all twelve arrays.
+The actual training CLI collects ten two-class input groups with optimizers and
+prediction calls forbidden. Completed-model checks use explicitly synthetic
+checkpoint containers and fold probabilities, not a claimed training run.
+Native raw acquisition, unified genomic prepare/collect orchestration and the
+complete native-core/fusion/external positive-metric acceptance remain open.
+Final verification: native_genomic_inputs_r4 passes 51 direct/partition checks;
+native_genomic_consumers_r2 passes 120 related source, directional-CNV, fusion,
+resource-scope, independent audit and patient-authority checks (171 distinct
+cases). Earlier direct and consumer passes precede the final scope/control and
+validation-downgrade checks and are superseded for those modules. No fitting or
+real cohort run occurred.

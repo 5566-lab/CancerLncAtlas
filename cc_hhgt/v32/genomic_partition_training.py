@@ -301,9 +301,14 @@ def run_partitioned_genomic_training(
     config: GenomicTrainingConfig | None = None,
     enforce_host_budget: bool = True,
     allow_development_long_cnv: bool = False,
+    candidate_definition: Mapping[str, Any] | None = None,
+    expected_core_run_id: str | None = None,
+    prepare_only: bool = False,
 ) -> dict[str, Any]:
-    """Train ten global private heads and write cancer partitions to memmap."""
+    """Collect actual inputs, optionally stopping before all fitting/prediction."""
 
+    from .cnv_input_sources import require_host
+    require_host()
     settings = config or GenomicTrainingConfig()
     settings.validate()
     if not training_run_id or not str(training_run_id).startswith("v32-"):
@@ -408,6 +413,23 @@ def run_partitioned_genomic_training(
         )
     rss_limit = int(downstream_budget["max_declared_process_rss_bytes"])
     resource_samples: list[dict[str, Any]] = []
+    output_staging.mkdir(parents=True)
+    _atomic_json(output_staging / "LAUNCH_PREFLIGHT.json", {
+        "target_host": "149", "training_started": False,
+        "operation": "PREPARE_ONLY" if prepare_only else "PARTITIONED_GENOMIC_TRAINING",
+        "training_run_id": str(training_run_id),
+    })
+    cohort = None
+    if candidate_definition is not None:
+        from .local_cnv_cohort import from_definition
+        from .current_core_export import validate_current_export
+        if not expected_core_run_id:
+            raise PartitionedGenomicTrainingError("Native genomic input requires the current core run identity")
+        cohort = from_definition(candidate_definition, Path.cwd(), paths["candidates"], paths["patient_folds"])
+        validate_current_export(paths["core_manifest"], expected_run_id=expected_core_run_id)
+        if (cohort["cancers"] != resource_manifest["formal_cancers"]
+                or cohort["candidate_rows_by_cancer"] != {r["cancer_id"]:r["rows"] for r in resource_manifest["candidate_partitions"]}):
+            raise PartitionedGenomicTrainingError("Native genomic cohort differs from resource partitions")
 
     def observe(stage: str) -> None:
         rss = _process_rss_bytes()
@@ -438,6 +460,8 @@ def run_partitioned_genomic_training(
         paths["core_manifest"]
     )
     folds = normalise_patient_folds(_read_table(paths["patient_folds"]))
+    if cohort is not None:
+        folds = folds.loc[folds.cancer_id.isin(cohort["cancers"])].copy()
     membership = normalise_exact_membership(_read_table(paths["membership"]))
     formal_cancers = tuple(str(value) for value in resource_manifest["formal_cancers"])
     missing_cancers = sorted(set(formal_cancers) - set(folds.cancer_id))
@@ -488,6 +512,13 @@ def run_partitioned_genomic_training(
                 "core_embedding_manifest": paths["core_manifest"],
             },
         )
+        if "native_input" in streaming_payload and cohort is None:
+            raise PartitionedGenomicTrainingError("Native genomic streaming inputs require the candidate definition")
+        if cohort is not None:
+            context = json.loads((optional_paths["cnv_streaming_success"].parent/"RUN_CONTEXT.json").read_text())
+            if (streaming_payload.get("cohort") != cohort or "native_input" not in context
+                    or context.get("event_threshold") != settings.cnv_event_threshold):
+                raise PartitionedGenomicTrainingError("Native genomic CNV cohort/threshold differs from training inputs")
         compact_cnv = open_streaming_partitions(optional_paths["cnv_streaming_success"])
         cnv_lnc_by_cancer: Mapping[str, Any] = compact_cnv
         cnv_path_by_cancer: Mapping[str, Any] = compact_cnv
@@ -540,10 +571,12 @@ def run_partitioned_genomic_training(
     }
     observe("all_sources_ready")
 
-    output_staging.mkdir(parents=True)
+    if cohort is not None and streaming_payload is None:
+        raise PartitionedGenomicTrainingError("Native genomic inputs require the native streaming CNV release")
     checkpoint_root = output_staging / "checkpoints"
-    checkpoint_root.mkdir()
+    if not prepare_only: checkpoint_root.mkdir()
     checkpoint_rows: list[dict[str, Any]] = []
+    prepared_rows: list[dict[str, Any]] = []
     split_traces: list[dict[str, Any]] = []
     core_hashes_before: dict[str, str] = {}
     partitions = resource_manifest["candidate_partitions"]
@@ -604,6 +637,16 @@ def run_partitioned_genomic_training(
                     "train-loss checkpoint fallback is forbidden"
                 )
             split_trace = _patient_split_trace(split_maps, fold, modality)
+            if prepare_only:
+                prepared_rows.append({"patient_fold":fold, "modality":modality,
+                    "train_rows":len(train_labels), "validation_rows":len(validation_labels),
+                    "train_positive_rows":int(np.count_nonzero(train_labels)),
+                    "validation_positive_rows":int(np.count_nonzero(validation_labels)),
+                    "core_features":int(train_core.shape[1]), "domain_features":int(train_domain.shape[1]),
+                    "split_policy":split_trace})
+                observe(f"prepared:{modality}:fold={fold}")
+                del train_core, train_domain, train_labels, validation_core, validation_domain, validation_labels
+                continue
             head, metadata, mean, scale, history = _fit_head(
                 train_core,
                 train_domain,
@@ -733,7 +776,7 @@ def run_partitioned_genomic_training(
             del train_core, train_domain, train_labels
             del validation_core, validation_domain, validation_labels, head
 
-    if len(checkpoint_rows) != len(MODALITIES) * N_FOLDS:
+    if not prepare_only and len(checkpoint_rows) != len(MODALITIES) * N_FOLDS:
         raise PartitionedGenomicTrainingError("Exactly ten genomic checkpoints are required")
     for path_text, before in core_hashes_before.items():
         if _file_sha256(path_text) != before:
@@ -744,6 +787,28 @@ def run_partitioned_genomic_training(
         raise PartitionedGenomicTrainingError(
             "Core embedding manifest changed during partition training"
         )
+    if prepare_only:
+        for item in source_audit["artifacts"]:
+            if _file_sha256(item["path"]) != item["sha256"]:
+                raise PartitionedGenomicTrainingError("Genomic source changed during preparation")
+        _load_stage(stage_success_path, verify_external_hashes=True)
+        _assert_empty_resource_stage(resource_manifest, stage_root)
+        if streaming_payload is not None:
+            if validate_streaming_store(optional_paths["cnv_streaming_success"]) != streaming_payload:
+                raise PartitionedGenomicTrainingError("Genomic streaming inputs changed during preparation")
+        ready = {"format":"CC_HHGT_V3_2_PARTITIONED_GENOMIC_PREFLIGHT_V1", "status":"PASS_READY",
+            "target_host":"149", "training_started":False,"model_forwards_executed":False,
+            "training_run_id":str(training_run_id),"core_run_id":expected_core_run_id,"configuration":asdict(settings),
+            "cohort":cohort,"candidate_rows":resource_manifest["candidate_rows"],
+            "candidate_rows_by_cancer":{r["cancer_id"]:r["rows"] for r in partitions},
+            "resource_staging_success":{"path":str(stage_success_path),"sha256":artifact_sha256(stage_success_path)},
+            "input_lineage_audit":source_audit,"core_manifest":{"path":str(paths["core_manifest"]),"sha256":core_manifest_sha},
+            "core_input_hashes":core_hashes_before,"folds":prepared_rows,
+            "host_checks":host_checks,"host_checks_enforced":bool(enforce_host_budget),"resource_samples":resource_samples,
+            "predictions_written":False,"training_success_emitted":False,"source_ancestry_complete":False}
+        _atomic_json(output_staging/"HEAD_PREFLIGHT.json",ready)
+        os.replace(output_staging,output)
+        return ready
     try:
         predictions_ready = seal_genomic_memmap_predictions(
             staging_success_path=stage_success_path
@@ -802,6 +867,8 @@ def run_partitioned_genomic_training(
         "checkpoint_count": len(checkpoint_rows),
         "global_cross_cancer_heads": True,
         "configuration": asdict(settings),
+        "cohort": cohort,
+        "core_run_id": expected_core_run_id,
         "core_manifest_sha256": core_manifest_sha,
         "core_parameter_composite_sha256": core_parameter_composite,
         "core_parameters_before_sha256": core_hashes_before,
