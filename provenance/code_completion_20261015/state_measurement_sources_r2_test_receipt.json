@@ -1,0 +1,57 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T23:29:21.068145+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_state_context.py": "18856d477affb91725c36d47c0c32cd9f370487100bd6487c734fcba5ccd7499",
+    "cc_hhgt/v32/native_state_workflow.py": "e252abcd09fb575b53b50df991ca0b1b73ee24d651044d5d93a1414d0fdd3c79",
+    "cc_hhgt/v32/state_measurement_use.py": "1e291d550442b84fcf0a99640f891a4e59708f1c1aacedd100a61582eba782ad",
+    "cc_hhgt/v32/state_training.py": "85aef66e80d7d8be3ca7f96453176a2e6775e2ff8b73e1b8853fefcc27b0d5c4",
+    "tests/test_v32_state_measurement_use.py": "9e51ce2ec2a459a8578774d7c8c77742ccdc5e3f2472588acc87590cf41acb44"
+  },
+  "parameter_fitting_guard": "SESSION_ATAC_AUXILIARY_AND_TORCH_OPTIMIZERS",
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_state_measurement_use.py",
+    "tests/test_v32_atac_no_fit_guard.py",
+    "tests/test_v32_native_state_workflow.py::test_native_chain_state_prepare_collect",
+    "--junitxml=provenance/code_completion_20261015/state_measurement_sources_r2_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T23:31:10.797490+00:00"
+}

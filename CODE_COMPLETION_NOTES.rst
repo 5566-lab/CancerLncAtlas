@@ -7168,3 +7168,9 @@ now feeds native ATAC and probe/methylation workflows, retaining transcript geom
 and original IDs while preserving stable PAR_Y identities downstream. Operation 34
 and actual source inspectors are verified; reference authenticity remains unresolved.
 No fitting or real cohort execution ran in this change; earlier incidents stay recorded.
+
+State measurement contribution guarded verification on149: ``state_measurement_consumers_r1``, ``state_measurement_sources_r2``
+pass 77 distinct related checks. Actual raw aliquot rows and native
+within-patient means now link to each original paired statistical mask in two
+private replayed tables. Supplied-measurement ancestry is not acquisition proof.
+No fitting or real cohort execution ran; earlier scope deviations remain recorded.

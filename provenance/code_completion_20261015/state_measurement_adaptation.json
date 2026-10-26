@@ -1,0 +1,50 @@
+{
+  "method": "ORIGINAL_STATE_ALIQUOT_MEANS_TO_PAIRED_MASK_CONTRIBUTIONS",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "state_measurement_consumers_r1",
+    "state_measurement_sources_r2"
+  ],
+  "earlier_successful_receipts": [
+    "state_measurement_sources_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "implementation_files": [
+    "cc_hhgt/v32/current_state_context.py",
+    "cc_hhgt/v32/native_state_workflow.py",
+    "cc_hhgt/v32/state_measurement_use.py",
+    "cc_hhgt/v32/state_training.py",
+    "tests/test_v32_state_measurement_use.py"
+  ],
+  "original_means_and_statistical_results_unchanged": true,
+  "actual_raw_row_positions_preserved": true,
+  "finite_missing_partitions_and_means_replayed": true,
+  "actual_fold_candidate_pair_mask_links": true,
+  "private_tables_and_public_alias_rejection": true,
+  "actual_current_context_and_native_state_consumers": true,
+  "acquisition_and_normalization_ancestry_verified": false,
+  "complete_patient_ancestry_verified": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/STATE_MEASUREMENT_CONTRIBUTIONS_20261027.rst",
+      "sha256": "b0c0d8a4f39d7b736d1269dc9950b9c5f20a92639d00cffa65fa9e0670f51f97"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic State/expression/patient inputs and unchanged original statistical code.",
+    "Explicit frozen core/private-head result containers and original serializers; no optimizer or fitting."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "State current-context replay now observes the actual original within-patient mean joins and outputs, records loaded raw row positions, finite versus skipped missing measurements, patient authority positions and native means, then links every original split/candidate paired mask to its actual contribution groups. State canonical patient joins and expression aliquot-authority joins retain their distinct original semantics. Both new tables remain private and are numerically/source replayed; rehashed row/link substitutions and public aliases fail. Tests verify identical original means/statistics on synthetic multi-aliquot data and actual frozen-context/native workflow consumers. All checks use a fitting guard; no real cohort, parameter fitting, acquisition, paid compute or deployment ran. Supplied measurement acquisition/normalization and complete parent-core/cross-module ancestry remain unknown and blocking. This does not replace the global State expression input with a fold-local product. Earlier scope deviations remain recorded."
+}

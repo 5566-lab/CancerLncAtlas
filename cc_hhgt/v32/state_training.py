@@ -1083,6 +1083,7 @@ def _align_source_tables(
     folds: pd.DataFrame,
     *,
     expression_value_column: str,
+    alignment_observer=None,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict[str, int]]:
     """Align sample-resolution inputs to leakage-safe patient fold units.
 
@@ -1144,6 +1145,9 @@ def _align_source_tables(
         .mean()
         .rename(columns={"patient_id": "sample_id"})
     )
+    if alignment_observer is not None:
+        alignment_observer("tumor_state_long_measurement", state_joined, state_patient, "state_id", "state_value")
+        alignment_observer("lncrna_expression", expression_joined, expression_patient, "lncrna_id", expression_value_column)
     if state_patient.empty or expression_patient.empty:
         raise StateTrainingError("State/expression inputs do not overlap the V3.2 fold manifest")
     counts = {
@@ -1156,7 +1160,7 @@ def _align_source_tables(
     return state_patient, expression_patient, patient_folds, counts
 
 
-def prepare_state_inputs(state_measurements, fold_manifest, core_embeddings_by_fold, lncrna_expression, cfg):
+def prepare_state_inputs(state_measurements, fold_manifest, core_embeddings_by_fold, lncrna_expression, cfg, *, alignment_observer=None):
     """Shared native validation and within-patient alignment; no fitting."""
     cfg.validate()
     state = validate_state_measurements(state_measurements)
@@ -1168,7 +1172,7 @@ def prepare_state_inputs(state_measurements, fold_manifest, core_embeddings_by_f
     if len({sum(str(c).startswith("core_feature_") for c in frame) for frame in cores.values()}) != 1:
         raise StateTrainingError("Core embedding width changes across folds")
     state, expression, folds, counts = _align_source_tables(
-        state, expression, folds, expression_value_column=cfg.expression_value_column)
+        state, expression, folds, expression_value_column=cfg.expression_value_column, alignment_observer=alignment_observer)
     return state, expression, folds, cores, counts
 
 

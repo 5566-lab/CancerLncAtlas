@@ -211,16 +211,20 @@ def state_sources(manifest_path):
     from .state_patient_use import Trace
     patient_trace = Trace(raw_patients, next(r for r in input_records if r["role"] == "v32_patient_fold_manifest"),
         cores, core_lineage, cfg.validation_offset)
-    replay = replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, patient_trace=patient_trace)
+    from .state_measurement_use import MeasurementTrace
+    measurement_trace = MeasurementTrace(raw_patients, {r["role"]: r for r in input_records})
+    replay = replay_native_state(inputs, cores, heads, cfg, lineage, native_paths,
+        patient_trace=patient_trace, measurement_trace=measurement_trace)
     from .current_state_model_use import derive
     scopes = patient_trace.table()
     input_use, input_coverage = derive(manifest, root, sources, lineage_path, lineage, raw_patients, scopes)
     return dict(manifest=manifest, sources=sources, selected=selected, score=score, lineage=lineage,
         native_paths=native_paths, min_folds=cfg.min_available_folds, patients=patients, policy=policy, replay=replay,
-        statistical_patient_scopes=scopes, input_use=input_use, input_coverage=input_coverage)
+        statistical_patient_scopes=scopes, measurement_contributions=measurement_trace.tables(scopes),
+        input_use=input_use, input_coverage=input_coverage)
 
 
-def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, *, patient_trace=None):
+def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, *, patient_trace=None, measurement_trace=None):
     """Replay the native measurement-to-OOF calculation with frozen CPU heads.
 
     This verifies the recorded transformation, not acquisition ancestry or
@@ -229,10 +233,15 @@ def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, *, pat
     """
     from .state_training import (read_table, prepare_state_inputs, state_fold_statistics,
         build_fold_oof_predictions, _model_arrays, dataframe_sha256)
+    raw_state = read_table(inputs["tumor_state_long_measurement"], "tumor_state_long measurement")
+    raw_expression = read_table(inputs["lncrna_expression"], "lncRNA expression")
+    if measurement_trace is not None:
+        measurement_trace.register("tumor_state_long_measurement", raw_state, "state_id")
+        measurement_trace.register("lncrna_expression", raw_expression, "lncrna_id")
     state, expression, folds, cores, alignment = prepare_state_inputs(
-        read_table(inputs["tumor_state_long_measurement"], "tumor_state_long measurement"),
+        raw_state,
         read_table(inputs["v32_patient_fold_manifest"], "V3.2 patient fold manifest"), cores,
-        read_table(inputs["lncrna_expression"], "lncRNA expression"), cfg)
+        raw_expression, cfg, alignment_observer=None if measurement_trace is None else measurement_trace.observe)
     observed = [s for s in HISTORICAL_STATE_IDS if state.state_id.eq(s).any()]
     if (lineage.get("observed_state_ids") != observed
             or lineage.get("missing_state_ids") != [s for s in HISTORICAL_STATE_IDS if s not in observed]):
@@ -451,7 +460,7 @@ def implementation_hashes():
     from .current_model_use import implementations
     return {**implementations(), **{name: sha256(root/name) for name in ["current_state_context.py", "state_training.py", "state_gene_set_release.py",
         "integrated_model.py", "current_core_export.py", "native_auxiliary_fusion.py",
-        "native_state_workflow.py", "patient_folds.py", "patient_fold_authority.py", "state_patient_use.py", "current_state_model_use.py"]}}
+        "native_state_workflow.py", "patient_folds.py", "patient_fold_authority.py", "state_patient_use.py", "state_measurement_use.py", "current_state_model_use.py"]}}
 
 
 def materialize_current_state_context(manifest_path, output):
@@ -463,7 +472,7 @@ def materialize_current_state_context(manifest_path, output):
     context = state_sources(manifest_path); tables = _tables(context); outputs = {}
     from .state_patient_use import TABLE
     private_outputs = {}
-    for name, data in {TABLE: context["statistical_patient_scopes"], **context["input_use"]}.items():
+    for name, data in {TABLE: context["statistical_patient_scopes"], **context["measurement_contributions"], **context["input_use"]}.items():
         private_path = output/(name+".parquet"); data.to_parquet(private_path, index=False)
         private_outputs[name] = {"path": str(private_path), "sha256": sha256(private_path), "rows": len(data), "private": True}
     for name, data in tables.items():
@@ -500,8 +509,9 @@ def _load(binding_path, expected_sha):
         raise ValueError("Invalid current State context binding")
     from .state_patient_use import TABLE
     from .current_state_model_use import PRIVATE_NAMES
+    from .state_measurement_use import PRIVATE_NAMES as MEASUREMENT_PRIVATE
     private = binding.get("private_outputs", {})
-    if (set(private) != {TABLE}|PRIVATE_NAMES or any(r.get("private") is not True for r in private.values())
+    if (set(private) != {TABLE}|PRIVATE_NAMES|MEASUREMENT_PRIVATE or any(r.get("private") is not True for r in private.values())
             or set(private) & set(binding["outputs"])
             or {r.get("sha256") for r in private.values()} & {r.get("sha256") for r in binding["outputs"].values()}):
         raise ValueError("State patient scopes must remain private")
@@ -524,7 +534,7 @@ def audit_current_state_context(binding_path, *, expected_sha):
         raise ValueError("State context input identity or policy drift")
     tables = _tables(context)
     from .state_patient_use import TABLE
-    for name, expected in {TABLE: context["statistical_patient_scopes"], **context["input_use"]}.items():
+    for name, expected in {TABLE: context["statistical_patient_scopes"], **context["measurement_contributions"], **context["input_use"]}.items():
         private = binding["private_outputs"][name]
         observed = pd.read_parquet(verified_path(private, path.parent))
         if len(observed) != private["rows"]: raise ValueError("State private patient scope row count drift")
