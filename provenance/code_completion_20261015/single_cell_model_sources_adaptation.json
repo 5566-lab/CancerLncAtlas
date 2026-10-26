@@ -1,0 +1,49 @@
+{
+  "method": "NATIVE_SC_RECONSTRUCTION_TO_ACTUAL_MODEL_USE",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "raw_deletion_executed": false,
+  "successful_validation_receipts": [
+    "single_cell_model_sources_r1",
+    "single_cell_model_sources_regression_r1",
+    "single_cell_model_sources_core_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 29,
+  "native_model_use_reconstruction_stages": 5,
+  "raw_files_in_model_dependency_inventory": true,
+  "native_marker_downgrade_rejected": true,
+  "inspection_model_constructed": false,
+  "inspection_model_forward_started": false,
+  "source_bytes_and_mtimes_preserved": true,
+  "frozen_fixture_models_constructed": true,
+  "regression_frozen_forwards_executed": true,
+  "model_use_inventory_complete": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/NESTED_SINGLE_CELL_FIELDS_20261027.rst",
+      "sha256": "908f38c63a7a08f1a70e3e1116d8320dbe66ff8862366b7aa6659282aa561e76"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic native raw/reference/donor inputs with explicit fixed geometry and LASSO outputs.",
+    "Fixed model-state, prediction and telemetry containers around actual native episode artifacts; no optimizer or neural correctness claim.",
+    "Existing core regression executes frozen forwards; source inspection itself forbids model construction and evaluation."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The actual signed SC model-use inspector now revalidates native episode launch bindings and original read-only finalization, then records mapping/static/fold/nested-statistic/episode-manifest reconstruction evidence and binds their actual raw source files. Only exact handled path/hash identities bypass generic unknown-transformation warnings. Native marker removal, wrong roots, altered counts and source bytes fail. Raw acquisition/QC/reference, fitted geometry/LASSO, candidate/reference ancestry and cross-module patient gaps remain explicit and blocking. Integration uses actual synthetic native producers with frozen geometry and LASSO; fixed checkpoint/prediction/telemetry containers test source inspection, not prediction correctness or optimizer history. No models are constructed or forwarded during that inspection. Existing core regression fixtures use frozen forwards; no real cohort, fitting, acquisition, paid compute or deployment ran."
+}

@@ -53,6 +53,13 @@ def native_fixture(root,*,canonical_alias=False):
             payload["source_receipts"]=[_record(upstream)]
             torch.save(payload,path);item.update(_record(path))
     write(manifest_path,manifest)
+    return checkpoint_fixture(root,episode_root,graph_root,canonical_alias=canonical_alias),raw
+
+
+def checkpoint_fixture(root,episode_root,graph_root,*,canonical_alias=False,candidates=None):
+    """Freeze checkpoint containers around actual supplied episode artifacts."""
+    torch.set_num_threads(1);root.mkdir(parents=True,exist_ok=True)
+    manifest_path=episode_root/'SC_HHGT_EPISODE_MANIFEST.json'
     output=root/"training";output.mkdir()
     settings=_tiny_settings(episode_root,graph_root,output)
     descriptors,lineage=trainer.load_episode_manifest(settings)
@@ -120,10 +127,11 @@ def native_fixture(root,*,canonical_alias=False):
         # Distinct raw IDs pass the native loader but represent the same person.
         crosswalk.loc[crosswalk.query_donor_id.eq("C1_F0_D2"),"canonical_donor_id"]="CANONICAL_C1_F0_Q0"
     crosswalk.to_parquet(root/"crosswalk.parquet",index=False)
-    keys=pd.DataFrame([("C1",f"L{i}",p) for i in range(80) for p in ("P0","P1")],columns=["cancer_id","lncrna_id","pathway_id"])
+    keys=(pd.read_parquet(candidates) if candidates is not None else
+          pd.DataFrame([("C1",f"L{i}",p) for i in range(80) for p in ("P0","P1")],columns=["cancer_id","lncrna_id","pathway_id"]))
     keys.to_parquet(root/"candidates.parquet",index=False)
     materialize_signed_sc_fusion(pointer,root/"candidates.parquet",root/"crosswalk.parquet",root/"adapter")
-    return root/"adapter/AUDIT.json",raw
+    return root/"adapter/AUDIT.json"
 
 
 def fusion_fixture(root,binding_path):

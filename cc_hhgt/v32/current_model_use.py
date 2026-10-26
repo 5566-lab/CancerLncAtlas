@@ -81,7 +81,8 @@ def implementations():
         "cc_hhgt/v32/activity_source_replay.py","cc_hhgt/v32/model_control_sources.py",
         "cc_hhgt/v32/patient_fold_authority.py","cc_hhgt/v32/current_binding_overlay.py",
         "scripts/compare_fold_local_normalization.R"]
-    return {name:sha256(root/name) for name in names}
+    from .native_single_cell_model_sources import CODE as sc_sources
+    return {name:sha256(root/name) for name in dict.fromkeys([*names,*sc_sources])}
 
 
 def model_identities(models,root):

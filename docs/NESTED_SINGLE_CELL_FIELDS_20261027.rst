@@ -168,9 +168,27 @@ result complete.
 Implementation references
 -------------------------
 
+The actual model-use inspector now follows native launch bindings and writes
+``transformation_replays`` rows for mapping, static/fold graphs, nested
+statistics and episode-manifest reconstruction. Each row identifies the
+evaluated model and dependency context, source release hash, comparison
+count and recomputed fold count. A global stage uses patient fold -1; this
+does not merge the donor partitions validated inside that stage. The
+``model_training_started`` field reports the inspection's execution scope,
+not whether a historical supplied model was fitted.
+
+Only exact handled source identities bypass generic unknown-transformation
+messages. Acquisition, supplied QC/annotation, geometry, LASSO and
+cross-module patient limits remain explicit; the overall model-use inventory
+can still be incomplete after all five reconstruction stages pass.
+The nested proof concerns fit/validation target statistics. The separate
+outer-query target tables retain their existing identity/hash checks and
+unresolved numeric-source scope; the nested proof does not cover their rho.
+
 See ``scripts/materialize_single_cell_nested_hhgt_episodes_149.py``,
 ``cc_hhgt/v32/single_cell_nested_episodes.py``,
 ``cc_hhgt/v32/single_cell_metacell_screen.py``,
 ``cc_hhgt/v32/single_cell_metacells.py`` and
-``cc_hhgt/v32/single_cell_nested_numeric_replay.py``. The end-to-end handoff
+``cc_hhgt/v32/single_cell_nested_numeric_replay.py`` and
+``cc_hhgt/v32/native_single_cell_model_sources.py``. The end-to-end handoff
 and verification scope are recorded in ``CODE_COMPLETION_NOTES.rst``.

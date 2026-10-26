@@ -70,6 +70,8 @@ def inspect_signed_sources(inventory,native,inputs,outputs,model,role):
         episode_root=episode_path.parent,graph_assets_root=graph_path.parent,output_root=root))
     for name in ("episode_manifest","graph_asset_manifest","episode_assets","shared_static_assets"):
         if lineage.get(name)!=observed[name]:raise ValueError("SC training input inventory differs: "+name)
+    from .native_single_cell_model_sources import inspect as inspect_native_sources
+    native_handled=inspect_native_sources(inventory,episode_path,graph_path,model,role)
 
     manifest=read(files["checkpoint_manifest"])
     records=manifest.get("models",[])
@@ -131,6 +133,7 @@ def inspect_signed_sources(inventory,native,inputs,outputs,model,role):
         identity=(str(path),record["sha256"])
         if identity in visited:return
         visited.add(identity)
+        if identity in native_handled:return
         if path.suffix==".json":
             document=read(path)
             def visit(value,prefix):

@@ -6989,3 +6989,50 @@ deployment is dispatched by this verification.
 Nested numeric reconstruction verification on 149: ``single_cell_nested_numeric_r1``, ``single_cell_nested_numeric_sources_r1``, ``single_cell_nested_numeric_chain_r2``
 pass 27 distinct related checks. Fixed grouping and LASSO
 substitutes are disclosed above; these checks do not establish fitted geometry.
+
+Native SC reconstruction in model-use inspection (2026-10-27)
+------------------------------------------------------------
+
+``native_single_cell_model_sources.inspect`` connects completed native SC
+episode sources to the actual ``current_single_cell_model_use`` inspector.
+It recognizes the hash-bound native launch preflight in the consumed episode
+manifest, requires matching graph/source roots, and repeats original read-only
+finalization. A native graph cannot fall back to generic legacy inspection
+after its episode marker is removed.
+
+The native validators reconstruct H5 mapping, static graphs, fold graphs and
+frozen-group nested statistics. Their implementation pins and raw input files
+enter the model dependency inventory. ``transformation_replays`` records five
+separate scopes: mapping, static graph, fold graph, nested statistics and
+episode-manifest reconstruction. The last scope checks manifest coverage and
+serialization bindings; it does not verify fitted LASSO coefficients.
+
+Only the exact path/hash identities handled by these native checks bypass
+the generic unknown-array/table transformation warning. Raw supplied files
+are recorded as source inputs, with their own acquisition/QC/reference gaps.
+JSON source links continue to be traversed. Legacy inputs retain the previous
+generic inspection. Unknown provenance is not made complete by renaming or
+hashing a file, and public source roles use structural indices rather than
+raw donor identifiers.
+
+Explicit unresolved reasons include raw acquisition/QC/reference ancestry,
+PCA/grouping correctness, LASSO coefficient reconstruction, bulk-candidate
+and external-reference ancestry, and cross-module patient closure. These
+remain blocking. No independence attestation or positive real-cohort
+external-validation result is inferred from the new reconstruction rows.
+The nested statistic proof covers fit/validation targets. The separate
+outer-query producer currently checks donor identities and file integrity;
+its original target correlations are not numerically reconstructed by this
+new inventory adapter. Generic ancestry gaps for those source tables remain.
+
+The integration fixture uses actual native H5/static/donor/outer/nested/episode
+production with explicit fixed grouping and LASSO outputs. It then surrounds
+those actual episode files with frozen checkpoint/prediction/telemetry
+containers. Native model initialization occurs only when building those
+synthetic containers. During source inspection, initialization, neural
+evaluation and all fitting are forbidden. This verifies source consumption
+and provenance records, not neural prediction accuracy or optimizer history.
+
+Native SC model-use source verification on 149: ``single_cell_model_sources_r1``, ``single_cell_model_sources_regression_r1``, ``single_cell_model_sources_core_r1``
+pass 51 distinct related checks. Checkpoint containers are explicit
+synthetic fixtures; no fitting or independent biological validation was run.
