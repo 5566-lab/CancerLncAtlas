@@ -28,7 +28,7 @@ CODE = ("cc_hhgt/v32/native_state_workflow.py", "scripts/run_native_state_workfl
     "cc_hhgt/v32/state_training.py", "scripts/run_v32_state_training.py",
     "cc_hhgt/v32/current_state_context.py", "cc_hhgt/v32/patient_fold_authority.py",
     "cc_hhgt/v32/patient_folds.py", "cc_hhgt/v32/integrated_model.py",
-    "cc_hhgt/v32/current_core_export.py", "cc_hhgt/v32/selected_genesets.py")
+    "cc_hhgt/v32/current_core_export.py", "cc_hhgt/v32/selected_genesets.py", "cc_hhgt/v32/state_patient_use.py")
 
 
 def arguments(values): return [part for key,value in values.items() for part in ("--"+key.replace("_","-"),str(value))]

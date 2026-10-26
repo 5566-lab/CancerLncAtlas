@@ -7120,3 +7120,7 @@ cohort analysis, acquisition, paid compute or production deployment ran.
 
 Local-CNV patient-scope verification on 149: ``local_cnv_patient_scopes_r2``, ``local_cnv_patient_consumers_r1``, ``local_cnv_patient_statistics_r1``
 pass 132 distinct related checks. No fitting or real-data analysis ran.
+
+State statistical patient scopes on 149: ``state_patient_scopes_r1``, ``state_patient_consumers_r1``
+pass 90 distinct related checks. Private scopes bind exact paired patients and frozen core parents;
+parent-core training ancestry and full cross-module coverage remain open. No fitting or real-cohort analysis ran.

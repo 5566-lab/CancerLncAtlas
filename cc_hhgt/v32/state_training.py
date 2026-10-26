@@ -467,7 +467,7 @@ def load_v32_core_embeddings(
 
 
 def _paired_correlations(
-    matrix: np.ndarray, state_values: np.ndarray, min_pairs: int
+    matrix: np.ndarray, state_values: np.ndarray, min_pairs: int, *, patient_observer=None
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     x = np.asarray(matrix, dtype=float)
     y = np.asarray(state_values, dtype=float).reshape(-1, 1)
@@ -491,6 +491,8 @@ def _paired_correlations(
     reason[(n >= int(min_pairs)) & (var_x > 1e-12) & (var_y <= 1e-12)] = (
         "state_measurement_zero_variance"
     )
+    if patient_observer is not None:
+        patient_observer(mask, n, pd.isna(reason))
     return n, effect, reason
 
 
@@ -503,6 +505,7 @@ def compute_fold_local_associations(
     min_pairs: int,
     effect_threshold: float,
     expression_value_column: str = "logcpm",
+    patient_observer=None,
 ) -> pd.DataFrame:
     """Compute association features/labels using one registered split only."""
 
@@ -549,11 +552,17 @@ def compute_fold_local_associations(
                 n = np.zeros(len(lncrnas), dtype=np.int64)
                 effect = np.full(len(lncrnas), np.nan, dtype=float)
                 reason = np.full(len(lncrnas), "state_measurement_missing", dtype=object)
+                if patient_observer is not None:
+                    patient_observer(str(cancer_id), state_id, split, lncrnas, [],
+                        np.zeros((0, len(lncrnas)), dtype=bool), n, pd.isna(reason))
             else:
                 state_series = state_rows.set_index("sample_id").state_value.astype(float)
                 aligned = expression_wide.reindex(state_series.index)
                 n, effect, reason = _paired_correlations(
-                    aligned.to_numpy(dtype=float), state_series.to_numpy(dtype=float), min_pairs
+                    aligned.to_numpy(dtype=float), state_series.to_numpy(dtype=float), min_pairs,
+                    patient_observer=(None if patient_observer is None else
+                        lambda mask, counts, available: patient_observer(str(cancer_id), state_id, split,
+                            lncrnas, state_series.index.tolist(), mask, counts, available))
                 )
             available = pd.isna(reason)
             label = np.full(len(lncrnas), np.nan, dtype=float)
@@ -1161,12 +1170,13 @@ def prepare_state_inputs(state_measurements, fold_manifest, core_embeddings_by_f
     return state, expression, folds, cores, counts
 
 
-def state_fold_statistics(state, expression, folds, fold, cfg, *, splits=("train", "validation", "test")):
+def state_fold_statistics(state, expression, folds, fold, cfg, *, splits=("train", "validation", "test"), patient_observer=None):
     """Original train/validation/test statistics, shared with numerical replay."""
     split_manifest = assign_outer_split(folds, fold, n_folds=N_FOLDS, validation_offset=int(cfg.validation_offset))
     statistics = {split: compute_fold_local_associations(state, expression, split_manifest, split=split,
         min_pairs=int(cfg.min_pairs), effect_threshold=float(cfg.effect_threshold),
-        expression_value_column=cfg.expression_value_column) for split in splits}
+        expression_value_column=cfg.expression_value_column,
+        patient_observer=patient_observer) for split in splits}
     return split_manifest, statistics
 
 

@@ -161,7 +161,8 @@ def state_sources(manifest_path):
         from .native_state_workflow import validate_completed
         validate_completed(manifest["workflow_preparation"], manifest, lineage_path, lineage, sources, root)
     from .state_training import read_table, validate_fold_manifest
-    patients = validate_fold_manifest(read_table(inputs["v32_patient_fold_manifest"], "V3.2 patient fold manifest"))
+    raw_patients = read_table(inputs["v32_patient_fold_manifest"], "V3.2 patient fold manifest")
+    patients = validate_fold_manifest(raw_patients)
     if patients.groupby("patient_id").patient_fold_id.nunique().gt(1).any():
         raise ValueError("One canonical patient crosses native State folds")
     if set(lineage["fold_lineage"]) != {str(i) for i in range(5)} or set(lineage["new_private_head_checkpoints"]) != {str(i) for i in range(5)}:
@@ -207,12 +208,16 @@ def state_sources(manifest_path):
     if set(native_paths) != {"oof_predictions", "lncrna_state_release"}:
         raise ValueError("Unknown native State output inventory")
     policy = StateSetConfig(**manifest.get("state_sets", {})); policy.validate()
-    replay = replay_native_state(inputs, cores, heads, cfg, lineage, native_paths)
+    from .state_patient_use import Trace
+    patient_trace = Trace(raw_patients, next(r for r in input_records if r["role"] == "v32_patient_fold_manifest"),
+        cores, core_lineage, cfg.validation_offset)
+    replay = replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, patient_trace=patient_trace)
     return dict(manifest=manifest, sources=sources, selected=selected, score=score, lineage=lineage,
-        native_paths=native_paths, min_folds=cfg.min_available_folds, patients=patients, policy=policy, replay=replay)
+        native_paths=native_paths, min_folds=cfg.min_available_folds, patients=patients, policy=policy, replay=replay,
+        statistical_patient_scopes=patient_trace.table())
 
 
-def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths):
+def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths, *, patient_trace=None):
     """Replay the native measurement-to-OOF calculation with frozen CPU heads.
 
     This verifies the recorded transformation, not acquisition ancestry or
@@ -231,7 +236,8 @@ def replay_native_state(inputs, cores, heads, cfg, lineage, native_paths):
         raise ValueError("State measured-program inventory differs")
     replayed = []; fold_checks = []
     for fold in range(5):
-        split, statistics = state_fold_statistics(state, expression, folds, fold, cfg)
+        split, statistics = state_fold_statistics(state, expression, folds, fold, cfg,
+            patient_observer=None if patient_trace is None else patient_trace.observer(fold))
         maximum = int(statistics["train"].n_pairs.max())
         counts = {}; dimensions = None
         for role in ("train", "validation"):
@@ -440,7 +446,7 @@ def implementation_hashes():
     root = Path(__file__).resolve().parent
     return {name: sha256(root/name) for name in ["current_state_context.py", "state_training.py", "state_gene_set_release.py",
         "integrated_model.py", "current_core_export.py", "native_auxiliary_fusion.py",
-        "native_state_workflow.py", "patient_folds.py", "patient_fold_authority.py"]}
+        "native_state_workflow.py", "patient_folds.py", "patient_fold_authority.py", "state_patient_use.py"]}
 
 
 def materialize_current_state_context(manifest_path, output):
@@ -450,6 +456,11 @@ def materialize_current_state_context(manifest_path, output):
     _write(output/"LAUNCH_PREFLIGHT.json", {"target_host":"149", "training_started":False, "stage":"CURRENT_STATE_CONTEXT",
         "input_manifest_sha256":sha256(manifest_path)})
     context = state_sources(manifest_path); tables = _tables(context); outputs = {}
+    from .state_patient_use import TABLE
+    private_path = output/(TABLE+".parquet")
+    context["statistical_patient_scopes"].to_parquet(private_path, index=False)
+    private_outputs = {TABLE: {"path": str(private_path), "sha256": sha256(private_path),
+        "rows": len(context["statistical_patient_scopes"]), "private": True}}
     for name, data in tables.items():
         path = output/(name+".parquet"); data.to_parquet(path,index=False)
         outputs[name] = {"path":str(path), "sha256":sha256(path), "rows":len(data)}
@@ -459,7 +470,8 @@ def materialize_current_state_context(manifest_path, output):
         "input_manifest":{"path":str(manifest_path),"sha256":sha256(manifest_path)},
         "selected_analysis":context["manifest"]["selected_analysis"],"selected_score_run_id":context["selected"].binding["selected_score_run_id"],
         "core_run_id":context["manifest"]["core_run_id"],"state_training_run_id":context["manifest"]["state_run_id"],
-        "state_set_config":asdict(context["policy"]),"outputs":outputs,"source_artifacts":list(context["sources"].records.values()),
+        "state_set_config":asdict(context["policy"]),"outputs":outputs,"private_outputs":private_outputs,
+        "source_artifacts":list(context["sources"].records.values()),
         "state_fold_aggregate_recomputed":True,"raw_measurement_statistics_replayed":True,"private_head_predictions_replayed":True,
         "native_numeric_replay":context["replay"],
         "context_changes_ranking":False,"gene_set_effect_inference_performed":False,"production_deployed":False,
@@ -481,6 +493,12 @@ def _load(binding_path, expected_sha):
             or binding.get("private_head_predictions_replayed") is not True
             or binding.get("production_deployed") is not False):
         raise ValueError("Invalid current State context binding")
+    from .state_patient_use import TABLE
+    private = binding.get("private_outputs", {})
+    if (set(private) != {TABLE} or private[TABLE].get("private") is not True or TABLE in binding["outputs"]
+            or any(r.get("sha256") == private[TABLE]["sha256"] for r in binding["outputs"].values())):
+        raise ValueError("State patient scopes must remain private")
+    verified_path(private[TABLE], path.parent)
     paths = {name:verified_path(r,path.parent) for name,r in binding["outputs"].items()}
     return path,binding,paths
 
@@ -498,6 +516,12 @@ def audit_current_state_context(binding_path, *, expected_sha):
             or binding.get("native_numeric_replay") != context["replay"]):
         raise ValueError("State context input identity or policy drift")
     tables = _tables(context)
+    from .state_patient_use import TABLE
+    private = binding["private_outputs"][TABLE]
+    observed = pd.read_parquet(verified_path(private, path.parent))
+    if len(observed) != private["rows"]: raise ValueError("State private patient scope row count drift")
+    try: _assert_same_table(observed, context["statistical_patient_scopes"])
+    except AssertionError as error: raise ValueError("State private patient scope replay differs") from error
     if set(outputs) != set(tables)|{"gmt"}: raise ValueError("State context output inventory drift")
     for name,expected in tables.items():
         observed = pd.read_parquet(outputs[name])

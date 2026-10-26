@@ -1,0 +1,49 @@
+{
+  "method": "NATIVE_STATE_STATISTICAL_PATIENT_SCOPES",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "state_patient_scopes_r1",
+    "state_patient_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "implementation_files": [
+    "cc_hhgt/v32/current_state_context.py",
+    "cc_hhgt/v32/native_state_workflow.py",
+    "cc_hhgt/v32/state_patient_use.py",
+    "cc_hhgt/v32/state_training.py",
+    "tests/test_v32_state_patient_use.py"
+  ],
+  "statistical_patient_masks_captured_from_original_estimator": true,
+  "original_statistics_unchanged": true,
+  "original_authority_row_order_retained": true,
+  "private_scope_table_recomputed": true,
+  "private_scope_excluded_from_public_query_and_download": true,
+  "frozen_core_parent_bound": true,
+  "core_training_patient_ancestry_verified": false,
+  "raw_aliquot_contributions_reconstructed": false,
+  "optimizer_patient_use_attested": false,
+  "all_modules_patient_usage_complete": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/STATE_PATIENT_SCOPES_20261027.rst",
+      "sha256": "a60f60df3d2e2f07baf2fc82bf667b313619a05cf3bc6b7abea04e49059fc7fd"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic measured inputs; original statistics, serializers and consumers.",
+    "Frozen head/core fixtures and marked completion telemetry; no optimizer execution."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Original State paired-correlation masks are now captured during actual numerical/frozen-head replay. Compact private rows preserve file-qualified patient-authority positions, within-patient sample collapse, train/validation/held-out roles, missing and unestimable observations, core embedding/checkpoint parents and statistical/head-input eligibility. The actual State serializer and native workflow bind and reconstruct the private artifact; query/download and web publication retain public outputs only. Synthetic native statistics and existing completed-head fixtures execute on149 without fitting. Raw aliquot contribution ancestry, parent-core patient population and cross-module biological identity remain unresolved; these scopes do not attest historical optimizer use or independent performance. No real cohort or paid compute ran."
+}
