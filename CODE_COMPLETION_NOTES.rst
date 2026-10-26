@@ -4866,3 +4866,96 @@ resource-scope, independent audit and patient-authority checks (171 distinct
 cases). Earlier direct and consumer passes precede the final scope/control and
 validation-downgrade checks and are superseded for those modules. No fitting or
 real cohort run occurred.
+
+Unified native genomic prepare/collect handoff (2026-10-26)
+---------------------------------------------------------
+
+run_native_genomic_workflow.py now connects the existing native raw CNV producer,
+its numerical reconstruction, resource partitions, actual no-fit training input
+collector, completed partition trainer records, bounded reassembly and native
+fusion adapter. It never dispatches fitting. A new workflow input has::
+
+    format: NATIVE_GENOMIC_WORKFLOW_INPUT_V1
+    native_run_id: <v32-prefixed unique run ID>
+    genomic_input: <path/SHA256 record for NATIVE_GENOMIC_CNV_INPUT_V1>
+    resource_limits:
+      adapter_budget:
+        max_declared_adapter_peak_rss_bytes: <positive integer bytes>
+        max_memmap_bytes: <positive integer bytes>
+        max_staging_disk_bytes: <positive integer bytes>
+      downstream_budget:
+        max_declared_process_rss_bytes: <positive integer bytes>
+        minimum_host_available_memory_bytes: <positive integer bytes>
+        minimum_host_free_disk_bytes: <positive integer bytes>
+    config: <optional numeric GenomicTrainingConfig overrides>
+
+The raw genomic input supplies the current core run and exact source bindings.
+The workflow derives cancer counts, maximum candidate partition size and the
+ordered-key hash; users do not copy those fields between handoffs. It retains
+the original training defaults except that the CNV event threshold comes from
+the raw segment declaration. An explicit conflicting threshold is rejected.
+Resource limits are required; no paid resource is created by either phase.
+
+On 149, from the repository directory::
+
+    python -m scripts.run_native_genomic_workflow prepare \
+      --manifest <workflow.json> --output <new-preparation-directory> --plan
+
+    python -m scripts.run_native_genomic_workflow prepare \
+      --manifest <workflow.json> --output <new-preparation-directory>
+
+--plan checks the declared inputs and actual CLI argument schema without creating
+the output directory. prepare writes the raw streaming release and raw-array
+audit, generates RESOURCE_BUDGET.json and the disk-backed resource stage, then
+executes the actual partition trainer with --prepare-only. PREPARED.json pins
+the checked inputs and source code. TRAINING_COMMAND.json contains the separate
+future training command and explicitly says it was not executed. The workflow
+dispatcher rejects that command because it lacks --prepare-only.
+
+The resource stage's probability/availability/processed arrays are the trainer's
+mutable destination. They are not included as immutable consumed preparation
+sources. Candidate partitions, the resource contract, raw compact arrays,
+reference/control files and core exports are immutable. Preparation remains a
+historical valid input receipt after the prediction arrays are filled; collection
+requires their actual completed trainer seal and checks their current hashes.
+This distinction prevents ordinary completed training from invalidating its own
+preparation receipt, while preserving the empty-stage gate on a fresh trainer.
+
+After a separately executed training run has produced the declared output::
+
+    python -m scripts.run_native_genomic_workflow collect \
+      --preparation <preparation-directory/PREPARED.json> \
+      --preparation-sha256 <sha256> \
+      --completed <preparation-directory/training/TRAINING_SUCCESS.json> \
+      --completed-sha256 <sha256> --output <new-collection-directory>
+
+No training command was executed to verify this implementation. Collection
+requires the exact prepared output location, run/core/cohort, full settings,
+source files, resource stage and per-head train/validation row counts. It calls
+the original sealed-memmap reassembler and the actual native five-fold
+aggregation. The collection audit checks checkpoint split identities and
+reassembly/aggregation contracts; it is not an independent predictive-performance
+audit and does not replay neural forwards. The final native adapter rechecks
+that audit during subsequent fusion consumption, including rehashed source/run
+changes. Changed or missing audit bindings cannot be substituted silently.
+
+NATIVE_GENOMIC_BINDING.json links PREPARED, the completed trainer receipt,
+reassembly, COLLECTION_AUDIT.json, native adapter and FUSION_EXPERTS.json. Those
+expert declarations are accepted by the actual current fusion preparer. There
+are two modalities and five patient folds, so fold_rows is ten times candidate
+rows; it is neither a count of patients nor ten distinct patient folds.
+The workflow validator also reconciles the expert declarations themselves.
+
+Synthetic verification executes raw CNV preparation, all ten train/validation
+collections, the actual write/seal/reassembly functions and actual fusion
+preparation. Completed checkpoints/probabilities remain explicit frozen
+serialization substitutes. The final fusion test uses synthetic primary scores
+and legacy hash-listed labels and remains ineligible for current fitting.
+Unknown raw/reference ancestry, per-pair/cross-module patient usage and complete
+external acceptance remain open. State/Clinical/single-cell command consolidation
+and final requirement-level acceptance also remain outstanding.
+
+Verification on 149: genomic_workflow_r1 passes 69 direct/native-genomic/
+partition checks; genomic_workflow_consumers_r1 passes 76 fusion, model-use,
+resource-scope and existing CNV/ATAC workflow checks (145 distinct cases).
+No failed or skipped case, model fitting or real cohort execution occurred.

@@ -14,7 +14,7 @@ from cc_hhgt.v32.native_auxiliary_fusion import materialize_native_auxiliary, lo
 from test_v32_native_auxiliary_fusion import fixture, read, write, record, no_fitting
 
 
-def partitioned(root, existing=None, candidate_counts=None, streaming_success=None):
+def partitioned(root, existing=None, candidate_counts=None, streaming_success=None, resource_success=None):
     path, keys = fixture(root, candidate_counts=candidate_counts) if existing is None else (existing, pd.read_parquet(read(existing)["candidate_authority"]["path"]))
     manifest = read(path); native = root/"native"
     original_inputs = read(native/"LINEAGE.json")["input_artifacts"]
@@ -41,11 +41,12 @@ def partitioned(root, existing=None, candidate_counts=None, streaming_success=No
         "input_bindings": {"candidate_authority": {**manifest["candidate_authority"], "ordered_exact_candidate_key_sha256": digest},
                            "cnv_streaming_aggregate_success": {**record(cnv), "format": stage.CNV_STREAMING_FORMAT,
                                "status": "SUCCESS", "sha256_policy": "CALLER_MUST_PIN_EXACT_64_HEX_AT_LAUNCH"}}})
-    stage.stage_genomic_cancer_memmaps(candidate_authority_path=manifest["candidate_authority"]["path"],
-        genomic_training_source_path=Path(trainer.__file__).with_name("genomic_training.py"),
-        cnv_streaming_success_path=cnv, cnv_streaming_success_sha256=record(cnv)["sha256"],
-        budget_contract_path=budget, output_root=root/"stage", enforce_host_budget=True)
-    stage_success = root/"stage/SUCCESS.json"
+    if resource_success is None:
+        stage.stage_genomic_cancer_memmaps(candidate_authority_path=manifest["candidate_authority"]["path"],
+            genomic_training_source_path=Path(trainer.__file__).with_name("genomic_training.py"),
+            cnv_streaming_success_path=cnv, cnv_streaming_success_sha256=record(cnv)["sha256"],
+            budget_contract_path=budget, output_root=root/"stage", enforce_host_budget=True)
+    stage_success = root/"stage/SUCCESS.json" if resource_success is None else resource_success
     for fold in range(5):
         for modality in ("mutation", "cnv"):
             for cancer, local in keys.groupby("cancer_id", sort=False):
@@ -57,7 +58,7 @@ def partitioned(root, existing=None, candidate_counts=None, streaming_success=No
                 stage.write_genomic_memmap_partition(staging_success_path=stage_success, modality=modality,
                     patient_fold=fold, cancer_id=cancer, candidate_keys=local, probability=values, available=available)
     stage.seal_genomic_memmap_predictions(staging_success_path=stage_success)
-    ready = root/"stage/PREDICTIONS_READY.json"
+    ready = stage_success.parent/"PREDICTIONS_READY.json"
     stage.reassemble_genomic_memmap_outputs(predictions_ready_path=ready, output_root=root/"reassembled",
         training_run_id=manifest["native_run_id"])
     checkpoints = read(native/"CHECKPOINT_MANIFEST.json"); traces = []

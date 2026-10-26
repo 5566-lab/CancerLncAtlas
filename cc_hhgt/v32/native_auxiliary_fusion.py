@@ -237,7 +237,10 @@ def native_sources(manifest_path, *, expected_core_run_id):
         native=native, lineage=lineage, kind=kind, modalities=modalities, fold_records=bound_folds,
         typed_path=typed_path, core_path=core_path, checkpoint_map=checkpoint_map, specs=specs, consumed=consumed)
     if "workflow_preparation" in manifest:
-        from .native_auxiliary_workflow import validate_completed
+        if kind == "genomic":
+            from .native_genomic_workflow import validate_completed
+        else:
+            from .native_auxiliary_workflow import validate_completed
         validate_completed(manifest, context, root)
     return context
 
