@@ -19,7 +19,8 @@ KEYS = ["cancer_id", "lncrna_id", "pathway_id"]
 
 
 def annotation_ids(item, root):
-    frame = pd.read_csv(verified_path(item, root), sep="\t", dtype=str)
+    from .native_annotation_workflow import annotation_table
+    frame = annotation_table(item, root)
     if not {"ensembl_gene_id", "gene_type"} <= set(frame): raise ValueError("Incomplete lncRNA annotation")
     selected = frame.loc[frame.gene_type.eq("lncRNA")].copy()
     selected = selected.loc[~selected.ensembl_gene_id.str.endswith("_PAR_Y", na=False)]

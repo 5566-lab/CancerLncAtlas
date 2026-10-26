@@ -72,7 +72,8 @@ def frame_from_native(value, root, npath, norm, samples):
     coverage = pd.read_csv(verified_path(value["outputs"]["coverage"], root), sep="\t", keep_default_na=False)
     detection = pd.read_csv(verified_path(value["outputs"]["gene_detection"], root), sep="\t", keep_default_na=False)
     x = read_matrix(verified_path(norm["outputs"]["gene"], npath.parent))
-    annotation = pd.read_csv(verified_path(value["inputs"]["annotation"], root), sep="\t", keep_default_na=False)
+    from .native_annotation_workflow import annotation_table
+    annotation = annotation_table(value["inputs"]["annotation"], root)
     annotation["ensembl_gene_id"] = annotation.ensembl_gene_id.str.replace(r"\.[0-9]+$", "", regex=True)
     if annotation.ensembl_gene_id.duplicated().any(): raise ValueError("Ambiguous ssGSEA gene annotation")
     ann = annotation.set_index("ensembl_gene_id").reindex(x.index.str.removeprefix("GENE:"))

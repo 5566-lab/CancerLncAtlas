@@ -1,0 +1,56 @@
+{
+  "method": "NATIVE_GENCODE_GTF_TO_BULK_ANNOTATION_AND_MODEL_USE",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "annotation_sources_r1",
+    "annotation_consumers_r1",
+    "annotation_model_use_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "implementation_files": [
+    "cc_hhgt/v32/current_auxiliary_model_use.py",
+    "cc_hhgt/v32/current_model_use.py",
+    "cc_hhgt/v32/fold_local_activity.py",
+    "cc_hhgt/v32/fold_local_scope.py",
+    "cc_hhgt/v32/native_annotation_workflow.py",
+    "cc_hhgt/v32/native_expression_workflow.py",
+    "cc_hhgt/v32/native_workflow_chain.py",
+    "scripts/run_native_annotation_workflow.py",
+    "tests/test_v32_native_annotation_workflow.py"
+  ],
+  "original_gene_records_reconstructed": true,
+  "versioned_and_par_y_identities_preserved": true,
+  "star_counted_gene_metadata_checked": true,
+  "actual_original_r_preprocessing_consumed_annotation": true,
+  "actual_candidate_and_activity_model_use_connected": true,
+  "native_chain_operations": 30,
+  "legacy_unknown_ancestry_preserved": true,
+  "reference_authenticity_verified": false,
+  "unique_star_gencode_release_inferred": false,
+  "independent_alignment_build_verified": false,
+  "all_modules_annotation_ancestry_complete": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/GENCODE_NATIVE_ANNOTATION_20261027.rst",
+      "sha256": "f316446af3e06105e7f5acfd4b350aa097c116006682fd27cbcb6e903c5e47ec"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic GTF, archived GDC metadata and count files; original R statistical producers.",
+    "No learned fitting or learned-output substitute in the annotation-to-expression integration."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Added an immutable host149 GENCODE GTF-to-bulk-annotation producer, retaining all gene records, versioned/PAR-Y identities, symbols, biotypes, coordinates and original line numbers. Header build/release declarations and every output cell are reconstructed from pinned raw bytes. Native expression checks STAR gene/version/name/type membership against this table, and original sample assembly still enforces identical metadata across samples. Actual original R count/TMM/ssGSEA, candidate and detection producers consume the table through annotation.run -> expression.run; model-use candidate/activity inspectors follow its sidecar to raw GTF without inventing patient-study evidence. The chain has 30 operations. Reference acquisition/authenticity, alignment build veracity, SC/genomic annotation ancestry and other full-source/external-acceptance gaps remain explicit. Synthetic-only checks ran on149, no fitting, real cohorts, acquisition, paid compute or deployment."
+}

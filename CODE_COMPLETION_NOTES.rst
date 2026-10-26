@@ -7129,3 +7129,8 @@ State-core input-source verification on149: ``state_core_sources_r2``, ``state_c
 pass 100 distinct related checks. Actual parent training sources and explicit
 patient mappings are connected; complete ancestry and all-module acceptance remain open.
 Native CSV/TSV identities preserve leading zeros. No fitting or real cohort analysis ran.
+
+GENCODE native annotation verification on149: ``annotation_sources_r1``, ``annotation_consumers_r1``, ``annotation_model_use_r1``
+pass 97 distinct related checks. Raw GTF feeds actual bulk candidate/activity
+consumers and model-use reconstruction; annotation.run is chain operation 30.
+Reference authenticity and all-module acceptance remain open. No fitting or real cohorts ran.

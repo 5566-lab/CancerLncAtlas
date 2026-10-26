@@ -22,12 +22,32 @@ INPUT = "NATIVE_EXPRESSION_WORKFLOW_INPUT_V1"
 FORMAT = "NATIVE_EXPRESSION_WORKFLOW_RELEASE_V1"
 ROOT = Path(__file__).resolve().parents[2]
 CODE = ["cc_hhgt/v32/native_expression_workflow.py", "scripts/run_native_expression_workflow.py",
+        "cc_hhgt/v32/native_annotation_workflow.py", "scripts/run_native_annotation_workflow.py",
         "cc_hhgt/v32/gdc_star_counts.py", "scripts/materialize_gdc_star_counts.py", "scripts/assemble_gdc_star_counts.R",
         "scripts/materialize_fold_local_expression.R", "scripts/frozen_tmm.R",
         "scripts/materialize_fold_local_ssgsea.R", "scripts/frozen_ssgsea.R",
         "cc_hhgt/v32/fold_local_expression.py", "scripts/convert_fold_local_expression.py",
         "cc_hhgt/v32/fold_local_activity.py", "scripts/convert_fold_local_activity.py",
         "cc_hhgt/v32/fold_local_scope.py", "scripts/materialize_fold_local_scope.py", "scripts/prepare_v32_formal.py"]
+
+
+def annotation_reference(item, root, rows, raw):
+    from . import native_annotation_workflow as annotation
+    path = verified_path(item, root); value = annotation.discover(path, item, root)
+    if value is None: return None, []
+    launch = read(verified_path(value["preflight"], path.parent))
+    frame = pd.read_csv(path, sep="\t", dtype=str, keep_default_na=False)
+    checks = {}; checked = set()
+    for row, source in zip(rows, raw):
+        cancer = row["cancer_id"]
+        if cancer in checked: continue
+        # Original R assembly separately requires identical gene annotations in
+        # every sample; this anchors that shared annotation to the actual GTF.
+        checks[cancer] = {"raw_star": source, **annotation.compare_star(frame, verified_path(source, root))}
+        checked.add(cancer)
+    binding = record(path.parent / annotation.BINDING)
+    return {"binding": binding, "star_gene_metadata_checks": checks}, [binding, value["preflight"],
+        launch["input"], launch["gtf"], *launch["implementations"]]
 
 
 def preflight(manifest, output):
@@ -46,6 +66,7 @@ def preflight(manifest, output):
     if not cache.is_absolute(): cache = manifest.parent / cache
     cache = cache.resolve(strict=True)
     raw = [star.acquire(item, cache) for item in rows]  # Cache only: never downloads.
+    reference, reference_sources = annotation_reference(spec["annotation"], manifest.parent, rows, raw)
     patients = pd.read_csv(files["patient_map"]["path"], sep="\t", dtype={"patient_id":str, "cancer_id":str})
     if (not {"cancer_id", "patient_id", "patient_fold_id"} <= set(patients)
             or patients[["cancer_id", "patient_id", "patient_fold_id"]].isna().any().any()
@@ -86,12 +107,12 @@ def preflight(manifest, output):
     command("activity_conversion", [sys.executable, ROOT/"scripts/convert_fold_local_activity.py",
         *[arg for root in activities for arg in ("--source", root)], "--output", output/"activity_tables"])
     command("scope", [sys.executable, ROOT/"scripts/materialize_fold_local_scope.py", "--manifest", output/"resolved_scope.json", "--output", output/"scope"])
-    sources = [record(manifest), *files.values(), *query["pages"], *raw, *gmt_sources]
+    sources = [record(manifest), *files.values(), *query["pages"], *raw, *gmt_sources, *reference_sources]
     # Normalize page paths before saving the preflight outside the query tree.
     sources = [record(verified_path(item, Path(files["gdc_query"]["path"]).parent)) for item in sources]
     return {"target_host":"149", "operation":"NATIVE_EXPRESSION_PREPARATION", "training_started":False,
         "network_acquisition_enabled":False, "input":record(manifest), "cancers":spec["cancers"], "files":files,
-        "sources":sources, "implementations":[record(ROOT/name) for name in CODE], "commands":commands,
+        "sources":sources, "annotation_reference":reference, "implementations":[record(ROOT/name) for name in CODE], "commands":commands,
         "resolved_gmt":resolved_gmt, "budget_per_cancer":spec["budget_per_cancer"], "seed":spec["seed"]}
 
 
@@ -169,6 +190,13 @@ def validate(item, root):
                    for s, c in zip(status["stages"], plan["commands"]))):
         raise ValueError("Native expression workflow stage closure differs")
     for source in [*plan["sources"], *plan["implementations"], *[s["log"] for s in status["stages"]]]: verified_path(source, path.parent)
+    query = read(verified_path(plan["files"]["gdc_query"], path.parent))
+    declared = read(verified_path(plan["input"], path.parent)); cache = Path(declared["download_root"])
+    if not cache.is_absolute(): cache = Path(plan["input"]["path"]).parent / cache
+    reference, reference_sources = annotation_reference(plan["files"]["annotation"], path.parent,
+        query["files"], [star.acquire(row, cache) for row in query["files"]])
+    if reference != plan.get("annotation_reference") or any(pin not in plan["sources"] for pin in reference_sources):
+        raise ValueError("Expression reference annotation closure differs")
     actual = outputs(path.parent, plan["cancers"], plan["files"]["patient_map"]["path"])
     fragment = read(verified_path(binding["source_config_fragment"], path.parent))
     if binding["outputs"] != actual or fragment != {k:actual[k] for k in ("sources", "candidate_definition")}:
