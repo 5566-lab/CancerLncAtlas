@@ -11,6 +11,28 @@ FORMAT = "ATAC_ANNOTATION_COHORT_V1"
 KEYS = ["cancer_id", "lncrna_id", "pathway_id"]
 
 
+def membership_reference(path, definition, root):
+    """Bind the actual native membership to the annotation-defined candidates."""
+    from .native_pathway_membership_workflow import discover, consumer
+    path = Path(path); path = path if path.is_absolute() else Path(root)/path
+    if discover(path) is None: return None
+    if definition is None: raise ValueError("Native ATAC membership requires a candidate definition")
+    value = consumer(path, definition, root)
+    repo = Path(__file__).resolve().parents[2]
+    return {**value, "consumer_gene_id_policy": "ORIGINAL_ATAC_REMOVE_TYPE_PREFIX_AND_DOT_SUFFIX",
+            "pathway_projection_policy": "ORIGINAL_MEAN_OBSERVED_PROMOTER_GENES_WITH_CONFIGURED_MINIMUM",
+            "missing_member_imputed_zero": False,
+            "consumer_implementations": [record(repo/p) for p in
+                ("cc_hhgt/v32/atac_cohort.py", "cc_hhgt/v32/atac_training.py", "cc_hhgt/v32/atac_materialization.py")]}
+
+
+def reject_unscoped_native_membership(payload, root):
+    for item in payload.get("input_artifacts", []):
+        if item.get("role") == "pathway_membership": membership_reference(item["path"], None, root)
+    if payload.get("membership_reference") is not None:
+        raise ValueError("Native ATAC membership reference lacks candidate scope")
+
+
 def from_definition(item, root, candidates, patient_map):
     from .atac_training import FORMAL_CANCERS, RAW_COVERED_CANCERS, normalise_patient_folds
     path, definition = validate_candidates(item, root, candidates, replay=True)
@@ -56,10 +78,13 @@ def materialization_cohort(payload, root, *, candidates=None, patient_map=None, 
     contract_path = payload.get("input_contract_path")
     if contract_path is None:
         if item is not None: raise ValueError("Native ATAC cohort lacks input contract")
+        reject_unscoped_native_membership(payload, root)
         return None
     path = verified_path({"path": contract_path, "sha256": payload["input_contract_sha256"]}, root)
     contract = read(path)
-    if contract.get("candidate_definition") is None and item is None: return None
+    if contract.get("candidate_definition") is None and item is None:
+        reject_unscoped_native_membership(payload, root)
+        return None
     if item is None or contract.get("candidate_definition") is None:
         raise ValueError("ATAC native cohort was removed from materialization/contract")
     cohort = replay(item, root, candidates=candidates, patient_map=patient_map)
@@ -70,6 +95,9 @@ def materialization_cohort(payload, root, *, candidates=None, patient_map=None, 
                       "identifier_mapping", "peak_set", "promoters"}
     if set(paths) != expected_roles: raise ValueError("Incomplete ATAC materialization inputs")
     _verify_input_contract(path, paths, {r["role"]: r["sha256"] for r in artifacts})
+    reference = membership_reference(paths["pathway_membership"], contract["candidate_definition"], path.parent)
+    if payload.get("membership_reference") != reference:
+        raise ValueError("ATAC membership reference differs from consumed input")
     expected = from_definition(contract["candidate_definition"], path.parent, paths["candidates"], paths["patient_folds"])
     if expected != cohort or (membership is not None and paths["pathway_membership"] != Path(membership).resolve()):
         raise ValueError("ATAC materialization inputs differ from cohort/training inputs")

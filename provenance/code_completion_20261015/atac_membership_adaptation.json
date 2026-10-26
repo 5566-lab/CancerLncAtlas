@@ -1,0 +1,66 @@
+{
+  "method": "NATIVE_GMT_GENCODE_MEMBERSHIP_TO_ORIGINAL_ATAC_AND_FUSION_INSPECTION",
+  "target_host": "149",
+  "final_successful_verification_training_started": false,
+  "training_started": true,
+  "training_scope": "INITIAL_MISSELECTED_SYNTHETIC_REGRESSION_ONLY",
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "atac_membership_sources_r2",
+    "atac_membership_consumers_r2",
+    "atac_membership_guard_r1"
+  ],
+  "earlier_successful_receipts": [
+    "atac_membership_sources_r1"
+  ],
+  "interrupted_excluded_receipts": [
+    "atac_membership_consumers_r1"
+  ],
+  "verification_scope_deviation": {
+    "path": "provenance/code_completion_20261015/atac_membership_fit_scope_deviation.json",
+    "sha256": "f7eadc9ebb8314ed4137686181047db3a5c51f2cef3af99440c9652dd0923dd2"
+  },
+  "implementation_files": [
+    "cc_hhgt/v32/atac_cohort.py",
+    "cc_hhgt/v32/atac_materialization.py",
+    "cc_hhgt/v32/atac_training.py",
+    "cc_hhgt/v32/native_auxiliary_workflow.py",
+    "tests/conftest.py",
+    "tests/test_v32_atac_no_fit_guard.py",
+    "tests/test_v32_native_atac_membership.py"
+  ],
+  "original_R_materializer_cli_executed": true,
+  "all_five_fold_feature_collectors_executed": true,
+  "actual_auxiliary_prepare_collect_and_current_fusion_preparation": true,
+  "actual_expert_inspector_reaches_gtf_and_gmt": true,
+  "original_observed_promoter_gene_mean_preserved": true,
+  "missing_members_imputed_zero": false,
+  "candidate_reference_identity_enforced_before_R": true,
+  "native_proof_downgrade_rejected": true,
+  "parameter_fitting_guard_entries_tested": 8,
+  "native_chain_operations": 33,
+  "reference_authenticity_verified": false,
+  "raw_ATAC_normalization_reconstructed": false,
+  "promoter_annotation_producer_integrated": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/ATAC_NATIVE_MEMBERSHIP_20261027.rst",
+      "sha256": "29b4f4f372006b412c22c2fbd2139dcb3385ecf22c35d15eff4e7f9db8d9c111"
+    }
+  ],
+  "test_substitutes": [
+    "Synthetic full-shape ATAC/GTF/GMT, original R and Python features.",
+    "Frozen auxiliary result/checkpoint serialization and synthetic primary/label fixtures; no fitted scientific results."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native GMT/GENCODE membership now enters original ATAC R materialization, all-five-fold feature preparation, auxiliary prepare/collect, current fusion preparation and the actual expert source inspector. Candidates and marked membership must share annotation bytes and named GMT content before R can start; materializer/preparation/completed-result paths reconstruct the membership reference and reject removed or changed proofs. Original ATAC prefix/dot ID normalization, observed-promoter-gene mean/minimum coverage and raw cancer gaps remain unchanged. Missing/PAR_Y members stay in the source and required gene list, without synthetic zero measurements. Reference authenticity, raw normalization, promoter annotation production and full patient/aliquot ancestry remain open. Final successful verification is session-guarded and uses synthetic raw input, original R/Python statistics and frozen results without fitting. An initial misselected legacy regression test did execute five synthetic NumPy logistic fits of 12 iterations each; that interrupted run is excluded from successful validation and its corrected receipt and evidence are preserved. No real cohort, paid compute, download or deployment ran. Registry remains 33 operations; C01/C13/C16 remain open."
+}

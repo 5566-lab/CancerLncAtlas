@@ -624,6 +624,9 @@ def prepare_atac_inputs(*, candidates_path, patient_folds_path, pathway_membersh
     from .atac_cohort import materialization_cohort
     cohort = materialization_cohort(materialization, paths["materialization_success"].parent,
         candidates=paths["candidates"], patient_map=paths["folds"], membership=paths["membership"])
+    from .atac_cohort import membership_reference
+    membership_reference(paths["membership"], cohort["candidate_definition"] if cohort else None,
+                         paths["materialization_success"].parent)
     cancers = tuple(cohort["cancers"]) if cohort else FORMAL_CANCERS
     covered = tuple(cohort["covered_cancers"]) if cohort else RAW_COVERED_CANCERS
     gaps = tuple(cohort["raw_gap_cancers"]) if cohort else RAW_GAP_CANCERS

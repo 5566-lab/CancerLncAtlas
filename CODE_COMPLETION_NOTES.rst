@@ -7153,3 +7153,11 @@ reconstructed native GMT/GENCODE membership and trace it to original resources.
 Unknown source symbols remain unavailable; original many-to-many gene estimands
 remain unchanged. Registry operation 33 is exercised in an immutable resumable chain.
 Resource authenticity and other membership consumers remain open. No fitting ran.
+
+Native ATAC membership guarded verification on149: ``atac_membership_sources_r2``, ``atac_membership_consumers_r2``, ``atac_membership_guard_r1``
+pass 80 distinct related checks. Original R, five-fold preparation,
+auxiliary collection and actual current fusion source inspection consume reconstructed
+GMT/GENCODE membership. Existing observed-gene means and coverage are preserved.
+Initial regression selection accidentally executed five synthetic logistic fits; that
+interrupted run is excluded, its receipt corrected and evidence retained. Final runs
+block fitting at session scope. No real cohort or paid compute ran.

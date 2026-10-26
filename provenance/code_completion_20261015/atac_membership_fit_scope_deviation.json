@@ -1,0 +1,74 @@
+{
+  "format": "CODE_ONLY_VERIFICATION_SCOPE_DEVIATION_V1",
+  "target_host": "149",
+  "test": "tests/test_v32_atac_training.py::test_fresh_atac_training_preserves_scope_and_typed_gaps",
+  "cause": "The whole legacy ATAC test module was mistakenly selected; one test invokes actual NumPy logistic parameter updates on generated synthetic data.",
+  "training_started": true,
+  "training_scope": "SYNTHETIC_ATAC_LOGISTIC_TEST_ONLY",
+  "neural_core_training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "action": "Interrupted exactly the live regression pytest PID 244943 with SIGINT. Preserved the failed run and excluded it from successful verification counts. Subsequent runs use a session guard and explicit safe test selection.",
+  "original_receipt": {
+    "path": "provenance/code_completion_20261015/atac_membership_consumers_r1_uncorrected_receipt.json",
+    "sha256": "4a069f9a078f66082716bf656c68c369068c0136dc696799a778a07d20d08e60"
+  },
+  "actual_fit_evidence": {
+    "target_host": "149",
+    "success": {
+      "path": "/tmp/pytest-of-dengsc/pytest-236/test_fresh_atac_training_prese0/fresh_atac_oof/SUCCESS.json",
+      "sha256": "c8b8e926631e5f4486976d54ed62a54b3097747b06694a815c1911f951f2882b"
+    },
+    "status": "SUCCESS",
+    "checkpoints": [
+      {
+        "path": "/tmp/pytest-of-dengsc/pytest-236/test_fresh_atac_training_prese0/fresh_atac_oof/checkpoints/atac_patient_fold_0.json",
+        "sha256": "3dba1533794be5b314c07eef161bf3c520e56496629607c4355905148c25901d",
+        "patient_fold": 0,
+        "epochs": 12,
+        "train_rows": 2000,
+        "loss_first": 0.6931472183221855,
+        "loss_last": 0.677750738510785
+      },
+      {
+        "path": "/tmp/pytest-of-dengsc/pytest-236/test_fresh_atac_training_prese0/fresh_atac_oof/checkpoints/atac_patient_fold_1.json",
+        "sha256": "9e0dbc391df6d1b2791321b001ab1fedfe5f480a33ff12e7bc1242785209399a",
+        "patient_fold": 1,
+        "epochs": 12,
+        "train_rows": 2000,
+        "loss_first": 0.6931471980559987,
+        "loss_last": 0.6859866692121134
+      },
+      {
+        "path": "/tmp/pytest-of-dengsc/pytest-236/test_fresh_atac_training_prese0/fresh_atac_oof/checkpoints/atac_patient_fold_2.json",
+        "sha256": "b05b78d93c9d00fbd109c0f8031c2391c41cab0e90cc3ee43881a2076252d34d",
+        "patient_fold": 2,
+        "epochs": 12,
+        "train_rows": 2000,
+        "loss_first": 0.693147224239801,
+        "loss_last": 0.6754419249214513
+      },
+      {
+        "path": "/tmp/pytest-of-dengsc/pytest-236/test_fresh_atac_training_prese0/fresh_atac_oof/checkpoints/atac_patient_fold_3.json",
+        "sha256": "9096fd0680aa2b4547bf1f04f5ad81dc1431ad57be6f6608d9935a91fe5acb79",
+        "patient_fold": 3,
+        "epochs": 12,
+        "train_rows": 2000,
+        "loss_first": 0.693147201766779,
+        "loss_last": 0.6845127186793661
+      },
+      {
+        "path": "/tmp/pytest-of-dengsc/pytest-236/test_fresh_atac_training_prese0/fresh_atac_oof/checkpoints/atac_patient_fold_4.json",
+        "sha256": "17fd4349d7202d1e01087749969aa385e122e8264eb9105632245c0e94eeaf0c",
+        "patient_fold": 4,
+        "epochs": 12,
+        "train_rows": 2000,
+        "loss_first": 0.6931472573987407,
+        "loss_last": 0.6615668365554656
+      }
+    ]
+  },
+  "user_notified": true,
+  "fixture_model_outputs_used_as_scientific_results": false
+}

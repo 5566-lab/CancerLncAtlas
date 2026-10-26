@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1849,
+  "unique_test_cases_passed": 1865,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -268,9 +268,9 @@
     "scripts/audit_v32_directional_cnv_head_oof.py": "c58a31e3b3aea2322a017db4ad3638f49b09625f4b7a967a8e931ddcf65b572c",
     "scripts/preflight_v32_directional_cnv_head.py": "0d3567d983d5e1aabcfb6476bcd49967fc0c46121d83c1205b0685784043d2d0",
     "tests/test_v32_native_cnv_head_scope.py": "e0ae5386036fb78d1e8e906ef154bd26a67ea701d213a110a2ab288f88a5b3ce",
-    "cc_hhgt/v32/atac_cohort.py": "401793e4a1938fad9af91391c3d91ff96d49b25bcce72de9f6d6af31e02dcfb3",
-    "cc_hhgt/v32/atac_materialization.py": "31a593324ae95a76c726e765b16a478c5602e6d46b428f1dd28df943d3368455",
-    "cc_hhgt/v32/atac_training.py": "d7698dd24ecaf158f0210435d06e7fc45585a9f3dd3ce4ce252d2e965b7ce8d2",
+    "cc_hhgt/v32/atac_cohort.py": "6425c85fc65daa3569a3a055b3f547e229cc29e2cfdce13034c12ca820647e52",
+    "cc_hhgt/v32/atac_materialization.py": "01c788c58c45ebc4ffd5f0034f5f15f9ddb339ab2782ead14bd17ca12572237b",
+    "cc_hhgt/v32/atac_training.py": "cce806583e1ad6d03effc48e4529a1f15b577a0f67d6d3e0c1878c6cad62b69e",
     "scripts/audit_v32_atac_fresh_oof_result.py": "b460f3bfab61f60c783cda36740db264bdb17037b726dd7e849e5e598891c469",
     "scripts/audit_v32_atac_readiness.py": "66836c371d164f5f962bd80701d47a07a67529a5840887de0675f4f52bbedd4c",
     "scripts/materialize_v32_atac_gene_accessibility.R": "65662b52f72c46958d7ed163eeffc3ed269f1fbafcd39caa56ef3ed513844a33",
@@ -288,7 +288,7 @@
     "cc_hhgt/v32/native_directional_cnv.py": "df248305e13d2a814e5e543548cce6d8cc92980289d6060b5c09625f59ab5ea2",
     "scripts/audit_native_directional_cnv.py": "c7a6123037ff0de1926bb6968d75b46de34fa8dd8dafc3c8058af017f8eecda2",
     "tests/test_v32_native_directional_cnv.py": "7cbc457baa3f1a6fcbc3dd1beabbb84d2562aed18b8c973c5762804cd0ac6edf",
-    "cc_hhgt/v32/native_auxiliary_workflow.py": "d1f78cc6a2c3e02467f59300cc97f6b6a3d59bc42fc4ec55f4c74a4fe46329ed",
+    "cc_hhgt/v32/native_auxiliary_workflow.py": "f7d3036f657710020e65d4d74a42842a6dffa57cbcfce9c5d8dd675c24070995",
     "scripts/run_native_auxiliary_workflow.py": "0aea451134af784da2cb2333a79364cd85a780d9cccbbd0057a48c90737c2397",
     "scripts/run_v32_directional_cnv_head_oof.py": "7d6e6df60d42353d8dec3c80033536b59d34a8a6139966948ac57398e46bb25d",
     "tests/test_v32_native_auxiliary_workflow.py": "09cc6a94c0103a93a7a71d96c7b8af97f05593df8634937f98fa1416aa7a90b6",
@@ -396,7 +396,10 @@
     "cc_hhgt/v32/native_pathway_membership_workflow.py": "e1e29a0be02fb5700b5cac807dc0b050410b46e05cf832bebaa2e31ade33dad2",
     "scripts/build_v32_genomic_static_assets.py": "e24b4fb3bf8370ed1d493195296453509d689dc52581c101eaafe423cba621e3",
     "scripts/run_native_pathway_membership_workflow.py": "8a1bdf232e0383aee32f083ef5ca0a9cacadb4b64fefdb8944777bf1c46ac6a2",
-    "tests/test_v32_native_pathway_membership_workflow.py": "b78c3c37a9aa4b9b3413317a92e524fb2db31fc1c69f3e2922abe26d8c677e0b"
+    "tests/test_v32_native_pathway_membership_workflow.py": "b78c3c37a9aa4b9b3413317a92e524fb2db31fc1c69f3e2922abe26d8c677e0b",
+    "tests/conftest.py": "a6609c29c12d0847deab498993d112555c0b156be6d65e9dd03941c02d647eed",
+    "tests/test_v32_native_atac_membership.py": "78f7e51ac2f869df5d5587b8ac45e44b5e27009c67916da9d5c6a76f6d781a72",
+    "tests/test_v32_atac_no_fit_guard.py": "2bee205b564d70197bf06720556e7e6cc4b2db4a5f358cbdf9b841479359de31"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -571,7 +574,8 @@
     "Added an immutable host149 GENCODE GTF-to-bulk-annotation producer, retaining all gene records, versioned/PAR-Y identities, symbols, biotypes, coordinates and original line numbers. Header build/release declarations and every output cell are reconstructed from pinned raw bytes. Native expression checks STAR gene/version/name/type membership against this table, and original sample assembly still enforces identical metadata across samples. Actual original R count/TMM/ssGSEA, candidate and detection producers consume the table through annotation.run -> expression.run; model-use candidate/activity inspectors follow its sidecar to raw GTF without inventing patient-study evidence. The chain has 30 operations. Reference acquisition/authenticity, alignment build veracity, SC/genomic annotation ancestry and other full-source/external-acceptance gaps remain explicit. Synthetic-only checks ran on149, no fitting, real cohorts, acquisition, paid compute or deployment.",
     "Native single-cell annotation now calls the original GTF cache producer from the bound native reference, preserving original primary-contig, biotype, duplicate, symbol uniqueness and terminal-version ID rules. Optional Parquet metadata binds its preflight without changing scientific columns. Original H5 contract loading verifies the raw GTF reconstruction and admits the new producer independently of the historical r7 authority directory; all unmarked/raw/membership paths keep existing guards. Actual H5 mapping and native completed-model input inspection follow reference and producer dependencies. Reference sources no longer inherit raw H5 patient-study tokens. The new native chain has 31 operations. Geometry/LASSO/model completion fixtures remain explicit frozen substitutes; no fitting, real cohorts, downloads, paid compute or deployment ran. Reference authenticity, cell QC/type authority, genomic annotation ancestry and full cross-module/external acceptance remain open.",
     "Added genomic_annotation.run to produce bound entity intervals from original GENCODE coordinates. The original directional and compact genomic CNV CLIs now verify this producer, match candidate annotation bytes, and require an explicit matching one-based closed segment reference declaration. Identical bound reference copies at different locations remain accepted. Original midpoint mapping, signed pathway means, absolute genomic burden sums and event-or-all-members callability are unchanged. Missing-coordinate members remain in the original membership/availability logic and are counted, not dropped or zero-filled. Actual native source inspectors trace intervals back to GTF without inventing patient-study metadata. Native chain now has 32 operations. Reference authenticity, independently verified segment alignment/build, membership identifier/resource transformations and full external acceptance remain open. Tests used synthetic sources/original numerical producers and frozen core export serialization; no optimizer, real cohorts, acquisition, paid compute or deployment ran.",
-    "Added pathway_membership.run to reconstruct actual native CNV membership from original GMT and GENCODE. The original coding-preferred, exact-case, many-to-many mapping is reused; the legacy standalone builder remains unchanged in behavior. The new native output preserves every unmatched source symbol in an explicit unavailable namespace instead of discarding it. Both original CNV consumers enforce matching annotation bytes and named GMT collection hashes against their actual candidates, record mapping coverage and retain original unique-gene signed/absolute estimands and event-or-all-members callability. Both actual model-use inspectors follow the membership back to GMT/GTF without inventing study or patient identities. The four-stage reference/interval/membership/expression chain resumes immutably; registry has 33 operations. Reference acquisition/authenticity, other membership consumers, remaining source/patient coverage and full external acceptance remain open. Only synthetic inputs, actual original R/CNV computation and explicitly frozen core-export serialization were exercised; no learned fitting, real-cohort processing, downloads, paid compute or deployment ran."
+    "Added pathway_membership.run to reconstruct actual native CNV membership from original GMT and GENCODE. The original coding-preferred, exact-case, many-to-many mapping is reused; the legacy standalone builder remains unchanged in behavior. The new native output preserves every unmatched source symbol in an explicit unavailable namespace instead of discarding it. Both original CNV consumers enforce matching annotation bytes and named GMT collection hashes against their actual candidates, record mapping coverage and retain original unique-gene signed/absolute estimands and event-or-all-members callability. Both actual model-use inspectors follow the membership back to GMT/GTF without inventing study or patient identities. The four-stage reference/interval/membership/expression chain resumes immutably; registry has 33 operations. Reference acquisition/authenticity, other membership consumers, remaining source/patient coverage and full external acceptance remain open. Only synthetic inputs, actual original R/CNV computation and explicitly frozen core-export serialization were exercised; no learned fitting, real-cohort processing, downloads, paid compute or deployment ran.",
+    "Native GMT/GENCODE membership now enters original ATAC R materialization, all-five-fold feature preparation, auxiliary prepare/collect, current fusion preparation and the actual expert source inspector. Candidates and marked membership must share annotation bytes and named GMT content before R can start; materializer/preparation/completed-result paths reconstruct the membership reference and reject removed or changed proofs. Original ATAC prefix/dot ID normalization, observed-promoter-gene mean/minimum coverage and raw cancer gaps remain unchanged. Missing/PAR_Y members stay in the source and required gene list, without synthetic zero measurements. Reference authenticity, raw normalization, promoter annotation production and full patient/aliquot ancestry remain open. Final successful verification is session-guarded and uses synthetic raw input, original R/Python statistics and frozen results without fitting. An initial misselected legacy regression test did execute five synthetic NumPy logistic fits of 12 iterations each; that interrupted run is excluded from successful validation and its corrected receipt and evidence are preserved. No real cohort, paid compute, download or deployment ran. Registry remains 33 operations; C01/C13/C16 remain open."
   ],
   "test_suites": [
     {
@@ -1623,6 +1627,21 @@
       "path": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml",
       "passed": 100,
       "sha256": "3e70ceacb75f3bb35456e688799c8958654cda9bf9388f31b06c3915ba5897c7"
+    },
+    {
+      "path": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml",
+      "passed": 8,
+      "sha256": "b366b344820e6e7d685dde6a4e083272de73e814ae65fe7b2cad1b9dec183b8b"
+    },
+    {
+      "path": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml",
+      "passed": 64,
+      "sha256": "9d3cae241d7e2e90cd98605fe3d27aef65e032b8f9836b009c474d8682f1265c"
+    },
+    {
+      "path": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml",
+      "passed": 8,
+      "sha256": "faeff6fc2cb299e36febaeb9757ffbd3e7149e407c89441be3804d598b3ebe09"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1989,6 +2008,46 @@
       "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[AdamW]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[Adam]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[SGD]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[atac]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[cnv]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[crossfit]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[fusion]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_atac_no_fit_guard",
+      "case": "test_code_only_session_rejects_parameter_fitting[genomic]",
+      "suite": "provenance/code_completion_20261015/atac_membership_guard_r1_tests.xml"
+    },
+    {
       "module": "tests.test_v32_atac_readiness",
       "case": "test_fold_capacity_is_nested_and_strict_gate_is_only_an_upper_bound",
       "suite": "provenance/code_completion_20261015/native_atac_scope_r3_tests.xml"
@@ -2006,57 +2065,57 @@
     {
       "module": "tests.test_v32_atac_training",
       "case": "test_materialized_matrix_hash_mismatch_fails_before_output",
-      "suite": "provenance/code_completion_20261015/native_atac_scope_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_atac_training",
       "case": "test_patient_fold_normalisation_fails_closed_on_conflict",
-      "suite": "provenance/code_completion_20261015/native_atac_scope_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_auxiliary_only_study_excludes_unseen_external_entity",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[atac]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[cnv_event]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_producers_and_zero_weight_experts_retain_dependencies[genomic]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[run_identity]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[snapshot_change]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[source_change]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_auxiliary_model_use",
       "case": "test_native_source_and_declared_expert_corruption_rejected[unconsumed_binding]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_c_graph_overlay",
@@ -6179,99 +6238,139 @@
       "suite": "provenance/code_completion_20261015/sc_annotation_consumers_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_actual_auxiliary_and_fusion_preparation_inspect_reference_sources",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_materializer_rejects_mismatched_native_membership_before_R[annotation]",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_materializer_rejects_mismatched_native_membership_before_R[gmt]",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_materializer_rejects_mismatched_native_membership_before_R[missing_definition]",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_original_R_and_all_fold_features_use_actual_native_membership",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_training_preparation_rejects_rehashed_downgraded_member_proof[changed_reference]",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_training_preparation_rejects_rehashed_downgraded_member_proof[missing_reference]",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_atac_membership",
+      "case": "test_training_preparation_rejects_rehashed_downgraded_member_proof[removed_scope]",
+      "suite": "provenance/code_completion_20261015/atac_membership_sources_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_actual_R_promoter_aggregation_cohort_and_trainer_features",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[-1]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[0.5]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[5]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_fractional_null_or_outside_fold_is_rejected[None]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_frozen_results_independent_audit_and_actual_fusion_adapter",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[checkpoint_cohort]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[fold_identity]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[fold_keys]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[removed_completion_cohort]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_independent_result_reconciliation_rejects_rehashed_changes[typed_mean]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_legacy_33_cancer_preparation_unchanged_without_fit",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[contract_duplicate]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[coverage]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[different_candidates]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[different_patients]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[raw_changed]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_materialization_scope_cannot_be_downgraded_or_relabelled[removed_cohort]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_atac_scope",
       "case": "test_native_readiness_cli_accepts_same_candidate_authority",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_fusion",
@@ -6416,172 +6515,172 @@
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[atac-changed_audit]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[atac-expert_declaration]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[atac-missing_audit_binding]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[atac-wrong_audit_source]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[cnv-changed_audit]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[cnv-expert_declaration]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[cnv-missing_audit_binding]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_fusion_consumer_rechecks_workflow_audit[cnv-wrong_audit_source]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_preparation_failure_is_not_a_ready_workflow",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_prepare_collect_cli_independent_audit_and_fusion[atac]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_actual_prepare_collect_cli_independent_audit_and_fusion[cnv]",
-      "suite": "provenance/code_completion_20261015/genomic_workflow_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[atac-config]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[atac-input]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[atac-output_path]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[atac-preparation_command]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[atac-run]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[cnv-config]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[cnv-input]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[cnv-output_path]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[cnv-preparation_command]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_completed_results_cannot_drift_from_preparation[cnv-run]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[bool]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[fractional]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[input_hash]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[native_run]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[negative]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[nonfinite]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[unknown_parameter]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_invalid_manifest_cannot_create_output[unsupported]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_native_chain_auxiliary_prepare_collect[atac]",
-      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_native_chain_auxiliary_prepare_collect[cnv]",
-      "suite": "provenance/code_completion_20261015/workflow_chain_branches_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_rehashed_audit_cannot_be_substituted[atac]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_rehashed_audit_cannot_be_substituted[cnv]",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_auxiliary_workflow",
       "case": "test_wrong_host_cannot_plan_or_dispatch",
-      "suite": "provenance/code_completion_20261015/auxiliary_workflow_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/atac_membership_consumers_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
@@ -10881,14 +10980,21 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "pathway_membership_sources_r1",
-      "pathway_membership_consumers_r1"
+      "atac_membership_sources_r2",
+      "atac_membership_consumers_r2",
+      "atac_membership_guard_r1"
     ],
-    "passed": 133,
+    "passed": 80,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,
     "pending_validation": []
   },
-  "validation_count_scope": "CUMULATIVE_UNIQUE_CASES_WITH_VERSIONED_SUITE_RECEIPTS_NOT_ONE_FULL_CURRENT_SUITE_RUN"
+  "validation_count_scope": "CUMULATIVE_UNIQUE_CASES_WITH_VERSIONED_SUITE_RECEIPTS_NOT_ONE_FULL_CURRENT_SUITE_RUN",
+  "verification_scope_deviations": [
+    {
+      "path": "provenance/code_completion_20261015/atac_membership_fit_scope_deviation.json",
+      "sha256": "f7eadc9ebb8314ed4137686181047db3a5c51f2cef3af99440c9652dd0923dd2"
+    }
+  ]
 }

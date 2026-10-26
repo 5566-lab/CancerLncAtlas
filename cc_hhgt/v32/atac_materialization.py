@@ -110,7 +110,7 @@ def run_atac_materialization(
     """Hash-gate raw inputs, run the R aggregation, and publish Parquet matrices."""
 
     from .cnv_input_sources import require_host
-    from .atac_cohort import from_definition
+    from .atac_cohort import from_definition, membership_reference
     require_host()
     paths = {
         "candidates": Path(candidates_path).resolve(),
@@ -138,6 +138,7 @@ def run_atac_materialization(
     # completed before the output directory is created.
     observed_hashes = {role: file_sha256(path) for role, path in paths.items()}
     contract = _verify_input_contract(contract_path, paths, observed_hashes)
+    member_reference = membership_reference(paths["pathway_membership"], contract.get("candidate_definition"), contract_path.parent)
     folds = normalise_patient_folds(pd.read_csv(paths["patient_folds"], sep="\t"))
     cohort = (from_definition(contract["candidate_definition"], contract_path.parent, paths["candidates"], paths["patient_folds"])
               if contract.get("candidate_definition") is not None else None)
@@ -155,7 +156,8 @@ def run_atac_materialization(
 
     output.mkdir(parents=True)
     _atomic_json(output / "LAUNCH_PREFLIGHT.json", {"target_host": "149", "training_started": False,
-        "cohort": cohort, "input_hashes": observed_hashes, "input_contract_sha256": contract_hash})
+        "cohort": cohort, "input_hashes": observed_hashes, "input_contract_sha256": contract_hash,
+        **({"membership_reference": member_reference} if member_reference is not None else {})})
     intermediate = output / "intermediate"
     r_output = intermediate / "r_gene_accessibility"
     intermediate.mkdir()
@@ -333,6 +335,9 @@ def run_atac_materialization(
     if cohort and from_definition(contract["candidate_definition"], contract_path.parent,
                                  paths["candidates"], paths["patient_folds"]) != cohort:
         raise AtacTrainingError("ATAC candidate definition changed during materialization")
+    if member_reference != membership_reference(paths["pathway_membership"], contract.get("candidate_definition"), contract_path.parent):
+        raise AtacTrainingError("ATAC membership source changed during materialization")
+    if member_reference is not None: success["membership_reference"] = member_reference
     _atomic_json(output / "GENE_ACCESSIBILITY_SUCCESS.json", success)
     return success
 
