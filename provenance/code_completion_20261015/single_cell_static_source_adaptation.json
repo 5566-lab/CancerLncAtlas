@@ -1,0 +1,46 @@
+{
+  "method": "ORIGINAL_SINGLE_CELL_STATIC_GRAPH_PRODUCTION_AND_RECONSTRUCTION",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "single_cell_static_workflow_r1",
+    "single_cell_static_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 26,
+  "new_operation": "single_cell_static.run",
+  "exact_pathway_count": 2135,
+  "synthetic_external_records": 6,
+  "eligible_experimental_nonpredicted_records": 3,
+  "primary_physical_edge_records": 2,
+  "primary_collapsed_edges": 1,
+  "original_static_producers_executed": true,
+  "generated_static_consumed_by_donor_workflow": true,
+  "original_cache_consumers_enforce_reconstruction": true,
+  "repinned_corruption_rejected": true,
+  "numerical_static_reconstruction_verified": true,
+  "biological_reference_truth_verified": false,
+  "fold_graph_production_complete": false,
+  "full_lasso_episode_ancestry_complete": false,
+  "test_substitutes": [
+    "Synthetic H5 and declared metadata/QC/annotation, with all 2135 pathway IDs.",
+    "Synthetic family hierarchy and experimental/predicted evidence records; no independent biological validation.",
+    "Existing canonical outer-query regression uses explicit frozen coordinates and manual within-donor groups; original statistics execute."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native single_cell_static.run now calls the original global evidence and cancer static graph producers from explicit native H5 mapping, family hierarchy and external evidence. Actual generated static assets enter canonical donor preparation, removing its test-only static-asset prerequisite from the new positive path. Original all-2135-pathway membership, explicit unassigned families, experimental/nonpredicted physical binding and separate typed sensitivity semantics remain. Parquet evidence flags must be typed booleans. All tables, sparse matrices, ordered identities, metadata and source links are reconstructed; original static/nested cache consumers validate the preparation marker and reject repinned corruption. Synthetic sources only, no fitted geometry, LASSO or neural optimizer. Existing query tests use explicit frozen geometry as previously recorded. This proves static production and source consistency, not biological reference truth, fold-graph production, estimable nested outputs, complete LASSO/episode ancestry or cross-module independence. C01/C13/C16 remain open."
+}

@@ -26,6 +26,8 @@ SLUG = re.compile(r"[a-z][a-z0-9_-]{0,63}")
 MODULES = {name: "cc_hhgt.v32.native_"+name+"_workflow" for name in
            ("expression", "cnv", "core", "results", "auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "rbp", "methylation", "distal", "distal_atac", "probe", "distal_mutation", "single_cell_mapping", "single_cell_donors")}
 RUNS = {"expression.run": "expression", "cnv.run": "cnv", "results.run": "results", "rbp.run":"rbp", "methylation.run":"methylation", "distal.run":"distal", "distal_atac.run":"distal_atac", "probe.run":"probe", "distal_mutation.run":"distal_mutation", "single_cell_mapping.run":"single_cell_mapping", "single_cell_donors.run":"single_cell_donors"}
+MODULES["single_cell_static"] = "cc_hhgt.v32.native_single_cell_static_workflow"
+RUNS["single_cell_static.run"] = "single_cell_static"
 PAIRED = ("auxiliary", "genomic", "state", "clinical", "single_cell", "fusion")
 OPERATIONS = {*RUNS, "core.accept", "publication.run", *[n+"."+p for n in PAIRED for p in ("prepare", "collect")]}
 

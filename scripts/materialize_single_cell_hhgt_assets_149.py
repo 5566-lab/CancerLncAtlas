@@ -391,6 +391,9 @@ def _ensure_cancer_static(
     destination = settings.output_root / "cancers" / cancer_id / "STATIC"
     global_root, global_receipt = _ensure_global_external(settings)
     if receipt := _existing_complete(destination, "CANCER_STATIC_GRAPH_ASSETS_READY"):
+        if "native_static_preparation" in receipt:
+            from cc_hhgt.v32.native_single_cell_static_workflow import validate_static
+            validate_static(destination / "SUCCESS.json")
         expected = {
             "mapped_success_sha256": sha256(mapped_success_path),
             "pathway_family_source_sha256": sha256(settings.pathway_family),

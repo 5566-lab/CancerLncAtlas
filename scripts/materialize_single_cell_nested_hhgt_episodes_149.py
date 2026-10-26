@@ -208,6 +208,9 @@ def _validate_static(
     if not success.is_file():
         raise RuntimeError("CANCER_STATIC_GRAPH_ASSETS_MISSING")
     receipt = json.loads(success.read_text(encoding="utf-8"))
+    if "native_static_preparation" in receipt:
+        from cc_hhgt.v32.native_single_cell_static_workflow import validate_static
+        validate_static(success)
     if (
         receipt.get("target_host") != "149"
         or receipt.get("state") != "CANCER_STATIC_GRAPH_ASSETS_READY"

@@ -1,0 +1,51 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T16:45:48.321636+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/native_single_cell_static_workflow.py": "417d8dbff2189ef15e6d65ee1de151b8381cd8a5a4ecf2369de8e01a2808171f",
+    "cc_hhgt/v32/native_workflow_chain.py": "2f0c9444d1fa30fd725ed4749c9de665528a2dbc222ba47c837308dabba2746d",
+    "scripts/materialize_single_cell_hhgt_assets_149.py": "4f74d40a07f4d208fec2bcecc4c7dbf4139bdb6cad5a33767f842862ee0b3594",
+    "scripts/materialize_single_cell_nested_hhgt_episodes_149.py": "adcc30d560b44ac59cb1e75900024bb17843bbbdd9f3b2e88d27fb3774468ce3",
+    "scripts/run_native_single_cell_static_workflow.py": "6b851666aae3d619d30b4cae70469ba5b5d0f3dcce14db2c8565d960228a4fa5",
+    "tests/test_v32_native_single_cell_static_workflow.py": "c423edaeb45ca8f60603e2f9db996da6d9d695b59b5005fbfd41981a03b95d52"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_single_cell_static_workflow.py",
+    "tests/test_single_cell_graph_assets.py",
+    "tests/test_v32_native_workflow_chain.py::test_invalid_or_training_chain_never_creates_output",
+    "--junitxml=provenance/code_completion_20261015/single_cell_static_workflow_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T16:46:15.937027+00:00"
+}

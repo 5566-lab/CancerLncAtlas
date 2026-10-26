@@ -6630,3 +6630,78 @@ pass 53 distinct related checks. The earlier r1 suite also passed;
 r2 adds rehashed cancer-identity rejection and stronger cache metadata checks.
 Geometry is an explicit frozen test substitute. No PCA/LASSO/neural fitting,
 real cohort, download, real-data deletion or deployment was executed.
+
+Native single-cell static graph production (2026-10-27)
+-----------------------------------------------------
+
+``single_cell_static.run`` is operation 26. It calls the original global
+external-evidence and per-cancer static-graph producers using the explicit
+raw-H5 mapping, pathway-family table and external evidence table. This stage
+requires neither metacell geometry nor the historical full-28-cancer closure;
+it writes actual static assets before canonical donor/nested preparation.
+
+The manifest is::
+
+    {
+      "format": "NATIVE_SINGLE_CELL_STATIC_INPUT_V1",
+      "mapping": {"path": "/path/NATIVE_SINGLE_CELL_MAPPING_BINDING.json", "sha256": "<SHA256>"},
+      "pathway_family": {"path": "/path/pathway_family.parquet", "sha256": "<SHA256>"},
+      "external_evidence": {"path": "/path/external.parquet", "sha256": "<SHA256>"}
+    }
+
+Run on 149 with
+``python -m scripts.run_native_single_cell_static_workflow --manifest INPUT.json --output NEW_DIRECTORY``;
+add ``--plan`` to verify inputs without creating outputs. All input paths
+resolve relative to the manifest. Family columns follow the original
+``normalize_pathway_families`` contract: ``pathway_id``, ``pathway_family_id``,
+``is_representative`` and optional ``membership_weight``. Missing families
+retain the original explicit unassigned-family category.
+
+External evidence follows the original columns ``lncrna_id``, ``partner_id``,
+``partner_type``, ``relation_type``, ``direction``, ``experiment_family``,
+``is_experimental``, ``is_predicted``, ``pmid``, ``source_database`` and
+``mapping_status``. The two flags must be Parquet boolean columns; string
+flags are rejected before producing assets. The original mapped,
+experimental, nonpredicted filter remains unchanged. Physical binding is
+collapsed to canonical lncRNA/gene pairs for the primary graph; typed
+sensitivity relations and schemas remain separate outputs. Reference and
+evidence declarations are not independent biological verification.
+
+The output contains ``STATIC_GLOBAL``, ``cancers/<cancer>/STATIC``, launch
+preflight and ``NATIVE_SINGLE_CELL_STATIC_BINDING.json``. Exact gene/pathway
+orientation, signature metadata, node ordering, family hierarchy, primary
+and typed edges, schemas and source bindings are produced by the original
+code. Its preflight pin is the ``graph_preflight`` input to
+``single_cell_donors.run``. Thus the raw mapping, real static production and
+canonical donor preparation form an executable no-fit sequence.
+
+Before publishing the binding, the workflow reconstructs all static outputs
+in temporary storage. Validation compares table values/order/dtypes, sparse
+matrix shape/dtype/values, receipt metadata and source-binding JSON. Path,
+hash, size, inventory and global-static links are also verified. Runtime
+timestamps and location-dependent global receipt hashes are compared through
+their actual verified bindings rather than assumed byte-identical replays.
+A process-local reconstruction cache is reused only after current inputs,
+implementation and output bytes have been rechecked.
+
+The original static cache reader and nested static-asset reader follow
+``native_static_preparation`` and enforce this reconstruction. Legacy static
+assets without that marker retain their existing checks. Tests verify that
+repinned membership values, physical edge weights and node order changes
+fail at the original consumer, and changed evidence invalidates warm caches.
+
+Verification uses synthetic H5/metadata, all 2,135 pathways, one deliberately
+unassigned family and six declared external records. Only three mapped
+experimental/nonpredicted rows enter the original global evidence producer;
+two physical-binding records collapse to one primary edge. No family,
+membership or source-generation gate is replaced. The generated static files
+enter actual canonical donor preparation. Original graph-asset helper tests
+and mapped/donor/query consumers also run. No PCA, LASSO or neural fitting,
+scientific download, real cohort or deployment is executed. Fold-specific
+graph production and full geometry/LASSO/episode ancestry remain open.
+
+Native static SC graph verification on 149: ``single_cell_static_workflow_r1``, ``single_cell_static_consumers_r1``
+pass 62 distinct related checks. Original static producers and
+source reconstruction ran on synthetic inputs. Existing outer-query tests
+retain explicit frozen geometry. No PCA/LASSO/neural fitting, real cohort,
+scientific download, real-data deletion or deployment was executed.
