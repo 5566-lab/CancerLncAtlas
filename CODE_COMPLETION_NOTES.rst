@@ -6578,3 +6578,55 @@ Native single-cell donor verification on 149: ``single_cell_donors_workflow_r3``
 pass 87 distinct related checks. Intermediate writer/path failures
 are retained in the source-adaptation record. No geometry/PCA, LASSO, neural
 optimizer, real cohort, download, deletion or deployment was executed.
+
+Canonical outer-query metacell handoff (2026-10-27)
+------------------------------------------------
+
+The same ``single_cell_donors.run`` preparation now also writes
+``METACELL_EXECUTION_COMMAND.json`` and ``metacells/LAUNCH_PREFLIGHT.json``.
+The recorded command calls the original
+``scripts.materialize_single_cell_metacell_149``; it is not executed by the
+preparation workflow. Both this outer-query branch and the nested branch now
+read the same reconstructed canonical cell table and ``DONOR_FOLDS.parquet``.
+Aliases are no longer canonicalized in the nested branch while remaining
+separate donors in the outer-query branch. The original raw mapped arrays
+and metadata are retained unchanged.
+
+As with the nested command, replace ``<UNIX_DEADLINE>`` with a finite positive
+Unix deadline before separate execution. Geometry, screening and maximum
+training donors per pair use the original CLI defaults; the seed comes from
+the common preparation. Different settings, paths or scratch-deletion flags
+are rejected before execution. Running this command normally fits PCA; no
+such fitting was performed during this code-only task.
+
+Native fold/cancer receipts record the common donor preparation and launch
+preflight. Completed native caches recheck the source preparation, exact
+fold set, canonical donor/cell counts, donor-fold table, fold receipts and
+file hashes. Fold validation additionally checks ordered cell identities,
+source/query membership, target cancer/dataset/fold identity and row counts.
+Repinning a query donor into a source fold or changing its cancer is rejected.
+Native partial folds are retained with an explicit error, rather than
+automatically deleted; use a new preparation output for that retry. Historical
+invocations retain their previous path and behavior.
+
+This cache audit checks source and identity consistency. It does not rerun
+PCA/grouping or independently recompute every cached statistic, and is not a
+claim of complete numerical or biological ancestry. Static/fold graph
+production, native graph consumers, complete estimable nested outputs and
+LASSO/episode assembly still need integration and acceptance.
+
+The synthetic integration fixture has 1,203 raw cells, 1,200 retained cells,
+ten native donor names collapsed to nine canonical donors, and all 2,135
+pathway identities. An explicit fixed coordinate projection and fixed
+within-donor three-cell groups replace geometry only. The original mapper,
+sum/library normalization, UCell scoring, source-only candidate screen,
+signed donor-resolved correlations, feature attachment and all five-fold
+writers execute. Every fold produces nonempty finite query targets; query
+donors match the nested plan, and cache resume performs no geometry calls.
+The geometry substitutes do not validate fitted PCA or scientific benefit.
+
+Canonical outer-query verification on 149: ``canonical_metacell_workflow_r2``, ``canonical_metacell_consumers_r1``
+pass 53 distinct related checks. The earlier r1 suite also passed;
+r2 adds rehashed cancer-identity rejection and stronger cache metadata checks.
+Geometry is an explicit frozen test substitute. No PCA/LASSO/neural fitting,
+real cohort, download, real-data deletion or deployment was executed.

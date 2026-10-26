@@ -1,0 +1,49 @@
+{
+  "method": "COMMON_CANONICAL_DONORS_FOR_OUTER_QUERY_AND_NESTED_INPUTS",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "pca_fitted": false,
+  "lasso_fitted": false,
+  "real_data_analysis_started": false,
+  "scientific_data_download_started": false,
+  "paid_compute_started": false,
+  "raw_deletion_executed": false,
+  "production_deployed": false,
+  "global_pointer_updated": false,
+  "successful_validation_receipts": [
+    "canonical_metacell_workflow_r2",
+    "canonical_metacell_consumers_r1"
+  ],
+  "intermediate_successful_receipts": [
+    "canonical_metacell_workflow_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "operation_registry_count": 25,
+  "synthetic_input_cells": 1203,
+  "synthetic_retained_cells": 1200,
+  "native_donors": 10,
+  "canonical_donors": 9,
+  "original_outer_folds_materialized": 5,
+  "all_folds_nonempty_query_targets": true,
+  "original_mapping_aggregation_ucell_screen_targets_executed": true,
+  "query_and_nested_canonical_partitions_equal": true,
+  "cache_resume_without_geometry_verified": true,
+  "rehashed_identity_corruption_rejected": true,
+  "geometry_numerical_replay_verified": false,
+  "full_cached_statistics_replay_verified": false,
+  "biological_donor_identity_verified": false,
+  "test_substitutes": [
+    "Expanded synthetic H5/metadata from the raw mapping fixture; no real cohort.",
+    "Synthetic static graph and dataset-qualified donor crosswalk declarations.",
+    "Fixed coding projection replaces PCA fitting; explicit three-cell within-donor groups replace grouping.",
+    "Original source-only screening, sum/library aggregation, UCell and signed donor target production remain active."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Canonical donor preparation now emits both nested and original outer-metacell launch inputs. Both actual consumers use the same reconstructed canonical cell rows and original donor folds, preventing native aliases from being split differently in query and nested branches. The original outer producer writes five folds of nonempty finite signed query targets on 1200 synthetic retained cells, with ten native names collapsed to nine canonical donors. Only geometry is replaced in this test by an explicit fixed projection and manual within-donor three-cell groups; mapping, aggregation, UCell, source-only screening, donor correlations and feature attachment execute unchanged. Native cache resume rechecks preparation, ordered cell identity, query/source domains, cancer/dataset/fold identity, file hashes and counts. Rehashed identity corruption is rejected. This does not replay fitted geometry or all cached statistics, prove biological identities, produce real cohort results or complete graph/LASSO/episode assembly. C01/C13/C16 remain open."
+}

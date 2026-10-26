@@ -25,7 +25,8 @@ CODE = ("cc_hhgt/v32/native_single_cell_donors_workflow.py",
         "cc_hhgt/v32/single_cell_nested_episodes.py",
         "cc_hhgt/v32/single_cell_metacell_screen.py")
 FILES = {"CANONICAL_CELL_METADATA.parquet", "CANONICAL_DONOR_CROSSWALK.parquet",
-         "DONOR_FOLDS.parquet", "NESTED_PLANS.json", "EXECUTION_COMMAND.json"}
+         "DONOR_FOLDS.parquet", "NESTED_PLANS.json", "EXECUTION_COMMAND.json",
+         "METACELL_EXECUTION_COMMAND.json"}
 
 
 def canonical_crosswalk(metadata):
@@ -67,6 +68,15 @@ def build_settings(value, output, deadline=1.0):
     output = Path(output)
     argv = ["--cancer-id", value["cancer_id"], "--source-result-root", str(output),
             "--graph-asset-root", value["graph_root"], "--output-root", str(output / "nested"),
+            "--scratch-root", str(Path(value["mapped_success"]["path"]).parent.parent),
+            "--candidates", value["candidates"]["path"], "--deadline", str(deadline),
+            "--seed", str(value["seed"])]
+    return native.parser().parse_args(argv), argv
+
+
+def build_metacell_settings(value, output, deadline=1.0):
+    from scripts import materialize_single_cell_metacell_149 as native
+    argv = ["--cancer-id", value["cancer_id"], "--output-root", str(Path(output) / "metacells"),
             "--scratch-root", str(Path(value["mapped_success"]["path"]).parent.parent),
             "--candidates", value["candidates"]["path"], "--deadline", str(deadline),
             "--seed", str(value["seed"])]
@@ -134,10 +144,20 @@ def nested_preflight(value, output, binding):
                          "candidate": native.file_record(Path(value["candidates"]["path"]))}}
 
 
-def execution_command(value, output):
-    _, argv = build_settings(value, output)
+def metacell_preflight(value, output, binding):
+    return {"format": "NATIVE_CANONICAL_METACELL_PREFLIGHT_V1", "target_host": "149", "cpu_only": True,
+            "paid_compute": False, "formal_pointer_update_authorized": False,
+            "native_donor_preparation": record(binding),
+            "materializer": record(ROOT / "scripts/materialize_single_cell_metacell_149.py"),
+            "cancer_id": value["cancer_id"], "output_root": str(output / "metacells")}
+
+
+def execution_command(value, output, *, stage="nested"):
+    builder = build_settings if stage == "nested" else build_metacell_settings
+    module = "materialize_single_cell_nested_hhgt_episodes_149" if stage == "nested" else "materialize_single_cell_metacell_149"
+    _, argv = builder(value, output)
     argv[argv.index("--deadline") + 1] = "<UNIX_DEADLINE>"
-    return {"argv": [sys.executable, "-m", "scripts.materialize_single_cell_nested_hhgt_episodes_149", *argv],
+    return {"argv": [sys.executable, "-m", "scripts." + module, *argv],
             "automatically_executed": False, "fits_pca": True, "fits_lasso": False, "fits_neural_model": False,
             "requires_separate_explicit_execution": True}
 
@@ -151,6 +171,7 @@ def run(manifest, output):
     folds.to_parquet(output / "DONOR_FOLDS.parquet", index=False)
     write(output / "NESTED_PLANS.json", plans)
     write(output / "EXECUTION_COMMAND.json", execution_command(value, output))
+    write(output / "METACELL_EXECUTION_COMMAND.json", execution_command(value, output, stage="metacells"))
     if value != plan(manifest, output, new=False):
         raise ValueError("SC donor preparation sources changed during execution")
     binding = output / "NATIVE_SINGLE_CELL_DONORS_BINDING.json"
@@ -160,6 +181,8 @@ def run(manifest, output):
                    "source_ancestry_complete": False, "nested_geometry_executed": False})
     (output / "nested").mkdir()
     write(output / "nested/LAUNCH_PREFLIGHT.json", nested_preflight(value, output, binding))
+    (output / "metacells").mkdir()
+    write(output / "metacells/LAUNCH_PREFLIGHT.json", metacell_preflight(value, output, binding))
     validate(record(binding), output)
     return binding
 
@@ -188,19 +211,27 @@ def validate(item, root):
         raise ValueError("SC nested donor plans differ from source replay")
     if read(output / "EXECUTION_COMMAND.json") != execution_command(value, output):
         raise ValueError("SC nested execution command differs")
+    if read(output / "METACELL_EXECUTION_COMMAND.json") != execution_command(value, output, stage="metacells"):
+        raise ValueError("SC metacell execution command differs")
     if read(output / "nested/LAUNCH_PREFLIGHT.json") != nested_preflight(value, output, path):
         raise ValueError("SC nested launch preflight differs")
+    if read(output / "metacells/LAUNCH_PREFLIGHT.json") != metacell_preflight(value, output, path):
+        raise ValueError("SC metacell launch preflight differs")
     return path, bound
 
 
-def consumer(settings, receipt):
+def consumer(settings, receipt, *, stage="nested"):
     """Verify the exact original CLI configuration before it can fit geometry."""
     path, bound = validate(receipt["native_donor_preparation"], settings.output_root)
     value = read(bound["preflight"]["path"])
     if not math.isfinite(settings.deadline) or settings.deadline <= 0:
         raise ValueError("Native nested execution requires a finite positive deadline")
-    expected, _ = build_settings(value, path.parent, deadline=settings.deadline)
-    if vars(settings) != vars(expected) or receipt != nested_preflight(value, path.parent, path):
+    if stage not in {"nested", "metacells"}:
+        raise ValueError("Unknown canonical SC consumer stage")
+    builder = build_settings if stage == "nested" else build_metacell_settings
+    launch = nested_preflight if stage == "nested" else metacell_preflight
+    expected, _ = builder(value, path.parent, deadline=settings.deadline)
+    if vars(settings) != vars(expected) or receipt != launch(value, path.parent, path):
         raise ValueError("Native nested materializer configuration differs from preparation")
     metadata, folds, _ = derived(value)
     return metadata, folds, {"dataset_id": value["dataset_id"], "source_receipt_path": str(path)}

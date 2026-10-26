@@ -379,6 +379,47 @@ def _attach_source_features(
     return train.drop(columns=drop, errors="ignore"), query.drop(columns=drop, errors="ignore")
 
 
+def _canonical_donors(settings):
+    """Return the native canonical source, or retain the historical path."""
+    path = settings.output_root / "LAUNCH_PREFLIGHT.json"
+    if not path.is_file():
+        return None
+    launch = json.loads(path.read_text(encoding="utf-8"))
+    if "native_donor_preparation" not in launch:
+        return None
+    from cc_hhgt.v32.native_single_cell_donors_workflow import consumer
+    metadata, folds, source = consumer(settings, launch, stage="metacells")
+    return metadata, folds, {
+        "native_donor_preparation": launch["native_donor_preparation"],
+        "native_launch_preflight": file_record(path),
+    }
+
+
+def _validate_canonical_fold(root, receipt, canonical, fold):
+    metadata, folds, _ = canonical
+    query = set(folds.loc[folds.outer_fold_id.eq(fold), "donor_id"])
+    source = set(folds.donor_id) - query
+    if (receipt.get("format") != FORMAT or receipt.get("target_host") != "149"
+            or receipt.get("state") != "FOLD_LOCAL_METACELL_TARGETS_READY"
+            or receipt.get("cancer_id") != str(folds.cancer_id.iloc[0])
+            or receipt.get("outer_fold_id") != fold or receipt.get("source_donors") != sorted(source)
+            or receipt.get("query_donors") != sorted(query)):
+        raise RuntimeError("canonical fold donor partition drift")
+    membership = pd.read_parquet(root / "METACELL_MEMBERSHIP.parquet")
+    if not membership[["cell_id", "donor_id", "cell_type", "state_id"]].equals(
+            metadata[["cell_id", "donor_id", "cell_type", "state_id"]]):
+        raise RuntimeError("canonical fold cell identity drift")
+    for filename, allowed, count in (("TRAIN_ROWS.parquet", source, "train_rows"),
+                                      ("QUERY_ROWS.parquet", query, "query_rows")):
+        rows = pd.read_parquet(root / filename)
+        if len(rows) != receipt.get(count):
+            raise RuntimeError("canonical fold row count drift")
+        if not rows.empty and (not set(rows.query_donor_id) <= allowed or not rows.outer_fold_id.eq(fold).all()
+                               or not rows.cancer_id.eq(folds.cancer_id.iloc[0]).all()
+                               or not set(rows.dataset_id) <= set(metadata.dataset_id)):
+            raise RuntimeError("canonical fold target donor drift")
+
+
 def _write_fold(
     cancer_id: str,
     fold: int,
@@ -387,22 +428,30 @@ def _write_fold(
     candidates_path: Path,
     settings,
 ) -> dict[str, object]:
+    canonical = _canonical_donors(settings)
+    provenance = canonical[2] if canonical is not None else {}
     fold_output = cancer_output / f"outer_fold={fold}"
     success = fold_output / "SUCCESS.json"
     if success.is_file():
         receipt = json.loads(success.read_text())
+        if any(receipt.get(key) != value for key, value in provenance.items()):
+            raise RuntimeError("canonical fold preparation drift")
         for record in receipt["files"].values():
             path = Path(record["path"])
             if not path.is_file() or sha256(path) != record["sha256"]:
                 raise RuntimeError("fold artifact drift")
+        if canonical is not None:
+            _validate_canonical_fold(fold_output, receipt, canonical, fold)
         return receipt
     if fold_output.exists():
+        if canonical is not None:
+            raise RuntimeError("native partial fold retained; use a new preparation output")
         resolved = fold_output.resolve()
         if cancer_output.resolve() not in resolved.parents:
             raise RuntimeError("refusing unsafe partial fold cleanup")
         shutil.rmtree(resolved)
     fold_output.mkdir(parents=True)
-    metadata = pd.read_parquet(scratch / "CELL_METADATA.parquet")
+    metadata = canonical[0] if canonical is not None else pd.read_parquet(scratch / "CELL_METADATA.parquet")
     coding = sparse.load_npz(scratch / "CODING_MEASURED.npz")
     lnc = sparse.load_npz(scratch / "LNC_MEASURED.npz")
     coding_log = sparse.load_npz(scratch / "CODING_LOG_FOR_GROUPING.npz")
@@ -412,7 +461,7 @@ def _write_fold(
     signature_counts = np.load(scratch / "SIGNATURE_GENE_COUNTS.npy")
     missing_counts = np.load(scratch / "MISSING_GENE_COUNTS.npy")
     mapped_receipt = json.loads((scratch / "MAPPED_SUCCESS.json").read_text())
-    folds = donor_folds(cancer_id, metadata.donor_id, folds=5, seed=settings.seed)
+    folds = canonical[1] if canonical is not None else donor_folds(cancer_id, metadata.donor_id, folds=5, seed=settings.seed)
     query_donors = set(
         folds.loc[folds.outer_fold_id.eq(fold), "donor_id"].astype(str)
     )
@@ -605,6 +654,7 @@ def _write_fold(
     }
     receipt = {
         "format": FORMAT,
+        **provenance,
         "target_host": "149",
         "state": "FOLD_LOCAL_METACELL_TARGETS_READY",
         "cancer_id": cancer_id,
@@ -628,6 +678,8 @@ def _write_fold(
         "files": files,
         "finished_unix": time.time(),
     }
+    if canonical is not None:
+        _validate_canonical_fold(fold_output, receipt, canonical, fold)
     atomic_json(success, receipt)
     return receipt
 
@@ -640,10 +692,28 @@ def run_cancer(settings) -> None:
     preflight = json.loads((settings.output_root / "LAUNCH_PREFLIGHT.json").read_text())
     if preflight.get("target_host") != "149" or preflight.get("cpu_only") is not True:
         raise SystemExit("INVALID_LAUNCH_PREFLIGHT")
+    canonical = _canonical_donors(settings)
     cancer_id = settings.cancer_id.upper()
     cancer_output = settings.output_root / "cancers" / cancer_id
     cancer_success = cancer_output / "SUCCESS.json"
     if cancer_success.is_file():
+        if canonical is not None:
+            cached = json.loads(cancer_success.read_text(encoding="utf-8"))
+            if (cached.get("state") != "CANCER_METACELL_OOF_INPUTS_COMPLETE" or cached.get("cancer_id") != cancer_id
+                    or any(cached.get(key) != value for key, value in canonical[2].items())):
+                raise RuntimeError("canonical cancer preparation drift")
+            expected = {str(int(f)) for f in canonical[1].outer_fold_id.unique()}
+            if set(cached.get("fold_receipt_sha256", {})) != expected:
+                raise RuntimeError("canonical cancer fold coverage drift")
+            if (cached.get("donors") != len(canonical[1]) or cached.get("eligible_cells") != len(canonical[0])
+                    or cached.get("files") != {"DONOR_FOLDS.parquet": file_record(cancer_output / "DONOR_FOLDS.parquet")}):
+                raise RuntimeError("canonical cancer donor metadata drift")
+            pd.testing.assert_frame_equal(pd.read_parquet(cancer_output / "DONOR_FOLDS.parquet"), canonical[1], check_exact=True)
+            for fold in sorted(map(int, expected)):
+                receipt_path = cancer_output / f"outer_fold={fold}" / "SUCCESS.json"
+                if sha256(receipt_path) != cached["fold_receipt_sha256"][str(fold)]:
+                    raise RuntimeError("canonical cancer fold receipt drift")
+                _write_fold(cancer_id, fold, cancer_output, settings.scratch_root / cancer_id, settings.candidates, settings)
         print(json.dumps({"cancer_id": cancer_id, "state": "ALREADY_COMPLETE"}), flush=True)
         return
     cancer_output.mkdir(parents=True, exist_ok=True)
@@ -656,7 +726,7 @@ def run_cancer(settings) -> None:
         cancer_id, scratch, settings.repair_root, settings.deadline
     )
     metadata = pd.read_parquet(scratch / "CELL_METADATA.parquet", columns=["donor_id"])
-    folds = donor_folds(cancer_id, metadata.donor_id, folds=5, seed=settings.seed)
+    folds = canonical[1] if canonical is not None else donor_folds(cancer_id, metadata.donor_id, folds=5, seed=settings.seed)
     folds.to_parquet(cancer_output / "DONOR_FOLDS.parquet", index=False)
     receipts = []
     for fold in sorted(folds.outer_fold_id.unique()):
@@ -683,12 +753,13 @@ def run_cancer(settings) -> None:
     files = {"DONOR_FOLDS.parquet": file_record(cancer_output / "DONOR_FOLDS.parquet")}
     receipt = {
         "format": FORMAT,
+        **(canonical[2] if canonical is not None else {}),
         "target_host": "149",
         "state": "CANCER_METACELL_OOF_INPUTS_COMPLETE",
         "cancer_id": cancer_id,
         "dataset_id": mapped["dataset_id"],
         "eligible_cells": mapped["eligible_cells"],
-        "donors": mapped["donors"],
+        "donors": int(len(folds)) if canonical is not None else mapped["donors"],
         "active_outer_folds": sorted(map(int, folds.outer_fold_id.unique())),
         "limited_replication": bool(folds.limited_replication.any()),
         "fold_receipt_sha256": {
