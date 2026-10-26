@@ -13,6 +13,7 @@ import pytest
 
 from cc_hhgt.v32 import native_genomic_annotation_workflow as annotation
 from cc_hhgt.v32 import native_annotation_workflow as reference
+from cc_hhgt.v32 import native_pathway_membership_workflow as members
 from cc_hhgt.v32 import native_directional_cnv as directional
 from cc_hhgt.v32 import native_genomic_cnv as genomic
 from cc_hhgt.v32 import native_workflow_chain as chain
@@ -80,14 +81,16 @@ def completed(tmp_path_factory):
     request=root/'CHAIN_INPUT.json';write(request,{'format':chain.INPUT,'chain_id':'reference-genomic-expression','stages':[
         {'id':'reference','operation':'annotation.run','inputs':read(source)},
         {'id':'intervals','operation':'genomic_annotation.run','inputs':{'format':annotation.INPUT,'reference_annotation':{'stage_ref':'reference'}}},
+        {'id':'membership','operation':'pathway_membership.run','inputs':{'format':members.INPUT,
+            'reference_annotation':{'stage_ref':'reference'},'gmt_manifest':spec['gmt_manifest']}},
         {'id':'expression','operation':'expression.run','inputs':spec}]})
     chain.initialize(request,root/'chain');chain.advance(root/'chain');state=read(root/'chain/CHAIN.json')
     assert state['status']=='DECLARED_STAGES_COMPLETE',state
     expression_result=read(state['results']['expression']['path']);outputs=expression_result['outputs']
     interval=read(state['results']['intervals']['path'])['intervals']
     candidates=pd.read_parquet(outputs['candidates']['path']);pathway=candidates.pathway_id.unique().item()
-    genes=['GENE:'+g.split('.')[0] for g in GENES[3:23]]+['GENE:ENSG99999999999']
-    membership=root/'membership.parquet';pd.DataFrame({'pathway_id':pathway,'gene_id':genes}).to_parquet(membership,index=False)
+    membership=Path(read(state['results']['membership']['path'])['membership']['path'])
+    genes=pd.read_parquet(membership).gene_id.tolist()
     patients=pd.read_csv(outputs['patient_map']['path'],sep='\t');segments=[]
     for i,patient in enumerate(patients.patient_id):
         row={'cancer_id':'BRCA','patient_id':patient}
@@ -149,6 +152,12 @@ def test_both_original_cnv_estimands_use_gtf_coordinates_and_keep_missing_member
     assert context['membership_genes_without_coordinates']==1 and context['missing_members_dropped'] is False
     assert context==read(signed/'SUCCESS.json')['interval_reference']
     assert not context['segment_reference_independently_verified']
+    membership_context=read(root/'genomic/RUN_CONTEXT.json')['membership_reference']
+    assert membership_context==read(signed/'SUCCESS.json')['membership_reference']
+    assert membership_context['metadata']['unmapped_symbol_memberships']==1
+    assert membership_context['metadata']['source_symbol_memberships']==21
+    before=record(root/'chain/CHAIN.json');chain.advance(root/'chain')
+    assert record(root/'chain/CHAIN.json')==before
 
 
 def test_actual_both_native_source_inspectors_reach_gtf(completed,monkeypatch):
@@ -162,6 +171,12 @@ def test_actual_both_native_source_inspectors_reach_gtf(completed,monkeypatch):
         else:input_source(inventory,record(root/'genomic/SUCCESS.json'),root,'genomic','cnv',0)
         assert read(source)['gtf']['path'] in {p['path'] for p in inventory.dependencies}
         assert any(p['format']==annotation.FORMAT for p in inventory.transform_replays)
+        assert any(p['format']==members.FORMAT for p in inventory.transform_replays)
+        member=members.discover(read(root/'SEGMENTS.json')['membership']['path'])
+        launch=read(member['preflight']['path'])
+        assert launch['gmt_sources']['HALLMARK']['path'] in {p['path'] for p in inventory.dependencies}
+        membership_reasons={p['reason'] for p in inventory.gaps if p['role'].endswith('.membership') or p['role'].endswith('.pathway_membership')}
+        assert 'RAW_UPSTREAM_TRANSFORMATIONS_NOT_RECONSTRUCTED' not in membership_reasons
         reasons={p['reason'] for p in inventory.gaps if p['role'].endswith('.intervals')}
         assert reasons=={'GENCODE_REFERENCE_ACQUISITION_AND_AUTHENTICITY_UNVERIFIED'}
     before={str(p):p.stat().st_mtime_ns for p in (root/'chain/stages').rglob('*') if p.is_file()}
@@ -197,6 +212,26 @@ def test_same_reference_bytes_in_a_new_bound_location_are_accepted(completed,tmp
     request=tmp_path/'SEGMENTS.json';write(request,spec)
     loaded=directional.load_manifest(record(request),tmp_path)
     assert directional.reference_context(loaded)['membership_genes_without_coordinates']==1
+
+
+@pytest.mark.parametrize('fault',['gmt','annotation'])
+def test_actual_cnv_consumers_reject_membership_from_other_resources(completed,tmp_path,fault):
+    spec=copy.deepcopy(read(completed[1]));old=members.discover(spec['membership']['path'])
+    launch=read(old['preflight']['path']);request=tmp_path/'MEMBERS.json';declaration=read(launch['input']['path'])
+    if fault=='gmt':
+        gmt=tmp_path/'other.gmt';gmt.write_text(Path(launch['gmt_sources']['HALLMARK']['path']).read_text().replace('G1\t','G30\t'))
+        manifest=tmp_path/'GMT.json';write(manifest,{'format':'SSGSEA_GMT_INPUT_V1','collections':[{'collection':'HALLMARK','file':record(gmt)}]})
+        declaration['gmt_manifest']=record(manifest)
+    else:
+        from test_v32_native_annotation_workflow import gtf_text
+        raw=reference_input(tmp_path/'raw',text=gtf_text().replace('gene_name "G1"','gene_name "DIFFERENT"'))
+        declaration['reference_annotation']=record(reference.run(raw,tmp_path/'reference'))
+    write(request,declaration);binding=members.run(request,tmp_path/'membership')
+    spec['membership']=read(binding)['membership'];segment=tmp_path/'SEGMENTS.json';write(segment,spec)
+    with pytest.raises(ValueError,match='different'):directional.load_manifest(record(segment),tmp_path)
+    genomic_spec=read(completed[2]);genomic_spec['segment_manifest']=record(segment)
+    manifest=tmp_path/'GENOMIC.json';write(manifest,genomic_spec)
+    with pytest.raises(ValueError,match='different'):genomic.load(record(manifest),tmp_path)
 
 
 def test_host_and_existing_output_guards(tmp_path,monkeypatch):

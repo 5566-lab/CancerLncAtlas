@@ -15,6 +15,7 @@ from .cnv_input_sources import require_host
 from .current_core_export import verified_path
 from .formal_expression_sources import read, write, record
 from .native_genomic_annotation_workflow import CODE as ANNOTATION_CODE
+from .native_pathway_membership_workflow import CODE as MEMBERSHIP_CODE
 
 INPUT = "NATIVE_DIRECTIONAL_CNV_INPUT_V1"
 PARTITION = "NATIVE_DIRECTIONAL_CNV_PARTITION_V1"
@@ -24,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CODE = ("cc_hhgt/v32/native_directional_cnv.py", "scripts/materialize_v32_directional_cnv.py",
         "cc_hhgt/v32/directional_cnv.py", "cc_hhgt/v32/segment_cnv_streaming.py",
         "cc_hhgt/v32/local_cnv_cohort.py", "cc_hhgt/v32/fold_local_scope.py",
-        "scripts/prepare_v32_formal.py", *ANNOTATION_CODE)
+        "scripts/prepare_v32_formal.py", *ANNOTATION_CODE, *MEMBERSHIP_CODE)
 ARRAYS = tuple(f"{kind}_{feature}.npy" for kind in ("lncrna", "pathway")
     for feature in (("signed_mean", "callable", "amplification", "deletion", "neutral")
         + (("amplification_fraction", "deletion_fraction") if kind == "pathway" else ())))
@@ -85,6 +86,7 @@ def load_manifest(item, root):
         raise ValueError("Native CNV intervals have invalid coordinates")
     loaded = path, value, files, cohort, patients, intervals, membership, records
     reference_context(loaded)
+    membership_context(loaded)
     return loaded
 
 
@@ -96,6 +98,11 @@ def reference_context(loaded):
 
 def coordinate_system(value):
     return (value.get("segment_reference") or {}).get("coordinate_system")
+
+
+def membership_context(loaded):
+    from .native_pathway_membership_workflow import consumer
+    return consumer(loaded[2]["membership"], loaded[1]["candidate_definition"], loaded[0].parent)
 
 
 def layout(loaded, cancer):
@@ -225,6 +232,8 @@ def materialize(item, root, output, cancer):
             "files":{name:record(building/name)["sha256"] for name in (*IDS, *ARRAYS, "SOURCE_FILES.json")}}
         annotation = reference_context(loaded)
         if annotation is not None: receipt["interval_reference"] = annotation
+        membership = membership_context(loaded)
+        if membership is not None: receipt["membership_reference"] = membership
         write(building/"SUCCESS.json", receipt); (building/"INCOMPLETE.json").unlink()
         from .gdc_segment_cnv import _rename_directory_noreplace
         _rename_directory_noreplace(building, final)
@@ -246,6 +255,7 @@ def validate_partition(item, root, *, replay=False, cache=None):
     loaded = load_manifest(value["input"], path.parent)
     if value["cohort"] != loaded[3]: raise ValueError("Directional partition cohort differs")
     if value.get("interval_reference") != reference_context(loaded): raise ValueError("Directional interval reference differs")
+    if value.get("membership_reference") != membership_context(loaded): raise ValueError("Directional membership reference differs")
     shape = layout(loaded, value["cancer_id"]); patients, lncs, pathways, genes = shape[:4]
     raw = sources(loaded, value["cancer_id"])
     for name, digest in value["files"].items(): verified_path({"path":str(path.parent/name), "sha256":digest}, path.parent)

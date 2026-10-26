@@ -51,6 +51,8 @@ def implementations():
         "cc_hhgt/v32/current_auxiliary_model_use.py","cc_hhgt/v32/native_auxiliary_fusion.py","cc_hhgt/v32/native_auxiliary_workflow.py",
         "cc_hhgt/v32/native_annotation_workflow.py","scripts/run_native_annotation_workflow.py",
         "cc_hhgt/v32/native_genomic_annotation_workflow.py","scripts/run_native_genomic_annotation_workflow.py",
+        "cc_hhgt/v32/native_pathway_membership_workflow.py","scripts/run_native_pathway_membership_workflow.py",
+        "scripts/build_v32_genomic_static_assets.py",
         "cc_hhgt/v32/native_partitioned_genomic.py","cc_hhgt/v32/genomic_partition_training.py",
         "cc_hhgt/v32/native_genomic_cnv.py","scripts/materialize_native_genomic_cnv.py",
         "cc_hhgt/v32/native_genomic_workflow.py","scripts/run_native_genomic_workflow.py",

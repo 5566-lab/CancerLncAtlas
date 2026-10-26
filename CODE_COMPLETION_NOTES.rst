@@ -7146,3 +7146,10 @@ pass 130 distinct related checks. Original coordinates now feed both signed
 and compact genomic CNV, including their actual source inspectors; chain operation 32.
 Segment reference declarations do not establish alignment veracity. Missing membership
 coordinates remain unavailable, not zero. No fitting or real-data analysis ran.
+
+GMT/GENCODE native CNV membership verification on149: ``pathway_membership_sources_r1``, ``pathway_membership_consumers_r1``
+pass 133 distinct related checks. Both original CNV CLIs now consume
+reconstructed native GMT/GENCODE membership and trace it to original resources.
+Unknown source symbols remain unavailable; original many-to-many gene estimands
+remain unchanged. Registry operation 33 is exercised in an immutable resumable chain.
+Resource authenticity and other membership consumers remain open. No fitting ran.

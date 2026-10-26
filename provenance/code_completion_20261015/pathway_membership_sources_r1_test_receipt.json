@@ -1,0 +1,60 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T22:20:52.024978+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/current_auxiliary_model_use.py": "4e69314b1bc339bad98e1bf1546910627ef36c1ea928f14dd3748170f80a7531",
+    "cc_hhgt/v32/current_model_use.py": "77646fe3d4bda1524196eb73351e3b5463a5b9c8b4623d4950c686d2523991fb",
+    "cc_hhgt/v32/native_directional_cnv.py": "df248305e13d2a814e5e543548cce6d8cc92980289d6060b5c09625f59ab5ea2",
+    "cc_hhgt/v32/native_genomic_cnv.py": "98ddb3d60b61b6286784617f716a93e7182341edf229ad86b7a3d19caa07c60a",
+    "cc_hhgt/v32/native_pathway_membership_workflow.py": "e1e29a0be02fb5700b5cac807dc0b050410b46e05cf832bebaa2e31ade33dad2",
+    "cc_hhgt/v32/native_workflow_chain.py": "0f3eeb242e357a3126cb8e145cac9a5c4938d2dab03c72439612dc301b0a0170",
+    "scripts/build_v32_genomic_static_assets.py": "e24b4fb3bf8370ed1d493195296453509d689dc52581c101eaafe423cba621e3",
+    "scripts/run_native_pathway_membership_workflow.py": "8a1bdf232e0383aee32f083ef5ca0a9cacadb4b64fefdb8944777bf1c46ac6a2",
+    "tests/test_v32_native_genomic_annotation_workflow.py": "f0abb5df78c1496be14622fdc049a66fdf0ee4a87c6030a38a8f288c4dafb2c8",
+    "tests/test_v32_native_pathway_membership_workflow.py": "b78c3c37a9aa4b9b3413317a92e524fb2db31fc1c69f3e2922abe26d8c677e0b"
+  },
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_pathway_membership_workflow.py",
+    "tests/test_v32_native_genomic_annotation_workflow.py",
+    "--junitxml=provenance/code_completion_20261015/pathway_membership_sources_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T22:22:24.629686+00:00"
+}

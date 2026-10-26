@@ -49,6 +49,8 @@ def load(item, root):
         "observed_process_memory_gate_enforced":True, "source_ancestry_complete":False}
     annotation = raw.reference_context(loaded)
     if annotation is not None: context["interval_reference"] = annotation
+    membership = raw.membership_context(loaded)
+    if membership is not None: context["membership_reference"] = membership
     context["context_sha256"] = streaming._json_sha(context)
     return path, spec, loaded, context
 

@@ -37,6 +37,19 @@ def _atomic_json(payload: dict[str, object], path: Path) -> None:
     os.replace(temporary, path)
 
 
+def symbol_gene_map(dim_gene: pd.DataFrame) -> pd.DataFrame:
+    """Original exact-symbol mapping: prefer coding, retain one-to-many IDs."""
+    gene_map = dim_gene.loc[
+        dim_gene.gene_symbol.notna() & dim_gene.ensembl_gene_id.notna(),
+        ["gene_symbol", "ensembl_gene_id", "gene_type", "chromosome", "start", "end"],
+    ].copy()
+    coding = gene_map.gene_type.astype(str).str.lower().eq("protein_coding")
+    coding_symbols = set(gene_map.loc[coding, "gene_symbol"].astype(str))
+    return gene_map.loc[
+        coding | ~gene_map.gene_symbol.astype(str).isin(coding_symbols)
+    ].drop_duplicates(["gene_symbol", "ensembl_gene_id"])
+
+
 def build(
     pathway_membership_path: Path,
     dim_gene_path: Path,
@@ -59,17 +72,9 @@ def build(
         if missing:
             raise ValueError(f"{name} lacks required columns: {missing}")
 
-    gene_map = dim_gene.loc[
-        dim_gene.gene_symbol.notna() & dim_gene.ensembl_gene_id.notna(),
-        ["gene_symbol", "ensembl_gene_id", "gene_type", "chromosome", "start", "end"],
-    ].copy()
     # Exact pathway sources are symbol based.  Prefer protein-coding mappings;
     # a duplicated symbol may legitimately map to more than one current stable ID.
-    coding = gene_map.gene_type.astype(str).str.lower().eq("protein_coding")
-    coding_symbols = set(gene_map.loc[coding, "gene_symbol"].astype(str))
-    gene_map = gene_map.loc[
-        coding | ~gene_map.gene_symbol.astype(str).isin(coding_symbols)
-    ].drop_duplicates(["gene_symbol", "ensembl_gene_id"])
+    gene_map = symbol_gene_map(dim_gene)
     membership = membership_raw[["pathway_id", "gene_symbol"]].dropna().merge(
         gene_map[["gene_symbol", "ensembl_gene_id"]],
         on="gene_symbol",
