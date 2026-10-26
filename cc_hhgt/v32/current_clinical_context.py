@@ -144,7 +144,7 @@ def implementation_hashes():
     root=Path(__file__).resolve().parent
     names=["current_clinical_context.py","current_clinical_sources.py","clinical_training.py","clinical_entity_training.py",
         "current_state_context.py","current_core_export.py","integrated_model.py","input_lineage.py",
-        "clinical_numeric_replay.py","patient_fold_authority.py"]
+        "clinical_numeric_replay.py","patient_fold_authority.py","native_clinical_workflow.py"]
     return {**{name:sha256(root/name) for name in names},
         **{name:sha256(root.parents[1]/name) for name in
            ("scripts/run_v32_clinical_training.py","scripts/run_v32_clinical_entity_training.py")}}

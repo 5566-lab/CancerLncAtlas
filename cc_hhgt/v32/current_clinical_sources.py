@@ -60,17 +60,27 @@ def _patient_folds(path):
 
 
 def selected_sources(manifest_path):
-    path = Path(manifest_path).resolve(); manifest = _json(path); sources = Sources()
+    path = Path(manifest_path).resolve()
+    context=selected_inputs(_json(path),path.parent)
+    if "workflow_preparation" in context["manifest"]:
+        from .native_clinical_workflow import validate_completed
+        validate_completed(context)
+    return context
+
+
+def selected_inputs(manifest,root):
+    """Validate the actual selected/core parents without requiring completed heads."""
+    root=Path(root).resolve(); sources = Sources()
     if manifest.get("format") != INPUT_FORMAT or not all(manifest.get(k) for k in ("core_run_id","patient_risk_run_id","entity_run_id")):
         raise ValueError("Invalid current Clinical manifest")
-    selected_path = sources.bind(manifest["selected_analysis"],path.parent)
+    selected_path = sources.bind(manifest["selected_analysis"],root)
     selected = SelectedAnalysisQuery(selected_path,expected_sha=manifest["selected_analysis"]["sha256"])
     audit_selected_analysis(selected_path,expected_sha=selected.binding_sha256)
     score = _json(selected.score_binding_path)
     _, primary = sources.document(score["sources"]["reference_exact_producer"]["producer_binding"],selected.score_binding_path.parent)
     if primary.get("format") != CORE_PREDICTION_FORMAT or primary.get("training_run_id") != manifest["core_run_id"]:
         raise ValueError("Clinical selected reference is not the requested native current core")
-    core_path = sources.bind(manifest["core_manifest"],path.parent)
+    core_path = sources.bind(manifest["core_manifest"],root)
     core,_,_ = validate_current_export(core_path,expected_run_id=manifest["core_run_id"])
     folds = primary["ensemble_source_records"]
     if len(folds)!=5 or {r["patient_fold"] for r in folds}!=set(range(5)):
@@ -81,9 +91,9 @@ def selected_sources(manifest_path):
             raise ValueError("Clinical and selected scores use different core checkpoints")
         sources.bind(parent["training_receipt"],core_path.parent)
         for export in parent["exports"].values(): sources.bind(export,core_path.parent)
-    candidate = sources.bind(primary["input_artifacts"][0],path.parent)
-    return dict(manifest=manifest,root=path.parent,sources=sources,selected=selected,core=core,
-        candidates=pd.read_parquet(candidate),candidate_sha256=sha256(candidate))
+    candidate = sources.bind(primary["input_artifacts"][0],root)
+    return dict(manifest=manifest,root=root,sources=sources,selected=selected,core=core,
+        candidates=pd.read_parquet(candidate),candidate_path=candidate,candidate_sha256=sha256(candidate))
 
 
 def patient_risk_sources(context):

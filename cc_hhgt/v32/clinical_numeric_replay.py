@@ -100,22 +100,20 @@ def entity_sources(context,lineage,calculation,root,artifacts,risk,config):
 
 
 def entity_partition(replay,cancer,kind,ids,observed,part):
-    from scripts.run_v32_clinical_entity_training import _measurement_matrix
+    from scripts.run_v32_clinical_entity_training import collect_entity_inputs
     paths=replay["paths"]; cfg=replay["config"]
-    cancer_folds=replay["folds"].loc[replay["folds"].cancer_id.astype(str).eq(cancer)].copy().drop_duplicates("patient_id").set_index("patient_id")
-    wide=_measurement_matrix(kind,cancer,lncrna_root=paths["expression_root"],pathway_root=paths["activity_root"],
-        state=replay["state"],entity_universe=ids)
-    patients=cancer_folds.index.intersection(wide.index.astype(str),sort=False); wide=wide.reindex(index=patients)
-    expected=analyse_entity_matrix(cancer_id=cancer,subject_type=kind,patient_ids=patients.tolist(),
-        entity_ids=wide.columns.astype(str).tolist(),values=wide.to_numpy(float),
-        fold_ids=cancer_folds.reindex(patients).patient_fold_id.to_numpy(int),endpoint_frame=replay["endpoints"],
-        covariate_frame=replay["covariates"],block_size=cfg["block_size"],
+    collected=collect_entity_inputs(cancer,kind,replay["folds"],replay["endpoints"],replay["covariates"],
+        lncrna_root=paths["expression_root"],pathway_root=paths["activity_root"],state=replay["state"],entity_universe=ids)
+    description=collected.pop("description")
+    if part.get("input_description") is not None and part["input_description"]!=description:
+        raise ValueError("Clinical entity collected input description differs")
+    expected=analyse_entity_matrix(cancer_id=cancer,subject_type=kind,**collected,block_size=cfg["block_size"],
         **{"min_"+k:v for k,v in cfg["minimums"].items() if k!="folds_available"})
     try: _assert_same_table(observed,expected)
     except AssertionError as error: raise ValueError("Clinical raw entity patient statistic replay differs") from error
-    if part.get("patients")!=len(patients) or part.get("entities")!=len(ids):
+    if part.get("patients")!=description["patients"] or part.get("entities")!=len(ids):
         raise ValueError("Clinical entity replay patient/entity counts differ")
-    replay["verified_partitions"].append({"cancer_id":cancer,"subject_type":kind,"patients":len(patients),"entities":len(ids),"fold_rows":len(expected)})
+    replay["verified_partitions"].append({"cancer_id":cancer,"subject_type":kind,"patients":description["patients"],"entities":len(ids),"fold_rows":len(expected)})
 
 
 def summary(risk,entity):

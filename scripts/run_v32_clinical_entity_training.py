@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -48,6 +49,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--v32-state-lineage", required=True)
     parser.add_argument("--output-root", required=True)
     parser.add_argument("--training-run-id", required=True)
+    parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument(
         "--subject-types", default="lncRNA,exact_pathway,state",
         help="Comma-separated subset of lncRNA,exact_pathway,state",
@@ -138,10 +140,13 @@ def _input_artifact(path: Path, kind: str, usage: str) -> dict[str, str]:
     }
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = _parser().parse_args(argv)
-    from cc_hhgt.v32.cnv_input_sources import require_host
-    require_host()
+def load_inputs(args):
+    """Read the actual original inputs/configuration, without statistics or writes."""
+    numeric = ["block_size", "min_train_patients", "min_train_events", "min_validation_patients",
+               "min_validation_events", "min_test_patients", "min_test_events", "min_train_measurements", "min_folds_available"]
+    if (any(type(getattr(args,k)) is not int or getattr(args,k)<1 for k in numeric)
+            or args.min_folds_available>5 or (args.max_entities is not None and args.max_entities<1)):
+        raise ValueError("Clinical entity calculation counts must be positive; available folds cannot exceed five")
     cdr_path = Path(args.tcga_cdr)
     fold_path = Path(args.patient_folds)
     fold_receipt_path = Path(args.patient_fold_authority_receipt)
@@ -150,7 +155,6 @@ def main(argv: list[str] | None = None) -> int:
     pathway_root = Path(args.pathway_activity_root)
     state_path = Path(args.state_measurements)
     state_lineage_path = Path(args.v32_state_lineage)
-    output = Path(args.output_root)
     from cc_hhgt.v32.patient_fold_authority import (
         validate_frozen_v32_patient_fold_binding, validate_patient_fold_authority,
     )
@@ -170,8 +174,6 @@ def main(argv: list[str] | None = None) -> int:
     if "state" in subject_types: source_paths["state_measurements"] = state_path
     source_contract = {"format":"NATIVE_CLINICAL_ENTITY_INPUTS_V1", "patient_authority_mode":args.patient_authority_mode,
         "files":{key:{"path":str(path.resolve()),"sha256":input_path_sha256(path)} for key,path in source_paths.items()}}
-    output.mkdir(parents=True, exist_ok=False)
-    write_json({"target_host":"149","training_started":False,"source_contract":source_contract},output/"LAUNCH_PREFLIGHT.json")
     endpoints, covariates = standardize_tcga_cdr_workbook(cdr_path)
     sample_folds = pd.read_csv(fold_path, sep="\t")
     folds = patient_fold_manifest(sample_folds)
@@ -196,54 +198,100 @@ def main(argv: list[str] | None = None) -> int:
     if state_lineage.get("old_checkpoint_loaded") is not False:
         raise ValueError("State generation anchor does not exclude old checkpoints")
     state = _state_frame(state_path) if "state" in subject_types else pd.DataFrame()
+    config = {"format":CALCULATION_FORMAT,"subject_types":list(subject_types),"cancers":cancers,
+        "block_size":args.block_size,"minimums":{k.removeprefix("min_"):getattr(args,k) for k in numeric if k.startswith("min_")},
+        "max_entities":args.max_entities}
+    return dict(cdr_path=cdr_path,fold_path=fold_path,fold_receipt_path=fold_receipt_path,candidate_path=candidate_path,
+        lncrna_root=lncrna_root,pathway_root=pathway_root,state_path=state_path,state_lineage_path=state_lineage_path,
+        patient_authority_audit=patient_authority_audit,source_contract=source_contract,subject_types=subject_types,
+        endpoints=endpoints,covariates=covariates,sample_folds=sample_folds,folds=folds,candidates=candidates,
+        cancers=cancers,state=state,config=config)
+
+
+def collect_entity_inputs(cancer,subject_type,folds,endpoints,covariates,*,lncrna_root,pathway_root,state,entity_universe,max_entities=None):
+    """Collect the same aligned patient matrix used by the native statistic call."""
+    from cc_hhgt.v32.contracts import dataframe_sha256
+    cancer_folds=folds.loc[folds.cancer_id.astype(str).eq(cancer)].copy().drop_duplicates("patient_id").set_index("patient_id")
+    wide=_measurement_matrix(subject_type,cancer,lncrna_root=lncrna_root,pathway_root=pathway_root,state=state,entity_universe=entity_universe)
+    if max_entities is not None: wide=wide.iloc[:,:max_entities]
+    patients=cancer_folds.index.intersection(wide.index.astype(str),sort=False)
+    if len(patients)==0 or wide.shape[1]==0: raise ValueError("NO_ALIGNED_PATIENT_ENTITY_MATRIX")
+    wide=wide.reindex(index=patients); values=wide.to_numpy(np.float64)
+    fold_ids=cancer_folds.reindex(patients).patient_fold_id.to_numpy(int)
+    endpoint=endpoints.loc[endpoints.cancer_id.astype(str).eq(cancer)&endpoints.patient_id.isin(patients)].copy()
+    cov=covariates.loc[covariates.cancer_id.astype(str).eq(cancer)&covariates.patient_id.isin(patients)].copy()
+    arrays={}
+    for name,value in {"values":values,"fold_ids":fold_ids}.items():
+        array=np.ascontiguousarray(value);digest=hashlib.sha256();view=memoryview(array).cast("B")
+        for start in range(0,len(view),8*1024*1024): digest.update(view[start:start+8*1024*1024])
+        arrays[name]={"shape":list(array.shape),"dtype":str(array.dtype),"sha256":digest.hexdigest()}
+    description={"cancer_id":cancer,"subject_type":subject_type,"patients":len(patients),"entities":wide.shape[1],
+        "patient_order_sha256":json_sha256(patients.tolist()),"entity_order_sha256":json_sha256(wide.columns.astype(str).tolist()),
+        "array_sha256":json_sha256(arrays),"patients_by_fold":{str(i):int((fold_ids==i).sum()) for i in range(5)},
+        "endpoint_sha256":dataframe_sha256(endpoint,["cancer_id","patient_id","clinical_endpoint"]),
+        "covariate_sha256":dataframe_sha256(cov,["cancer_id","patient_id"]),
+        "observed_measurements":int(np.isfinite(values).sum())}
+    return dict(patient_ids=patients.tolist(),entity_ids=wide.columns.astype(str).tolist(),values=values,fold_ids=fold_ids,
+        endpoint_frame=endpoint,covariate_frame=cov,description=description)
+
+
+def entity_universe(data,cancer,kind):
+    subset=data["candidates"].loc[data["candidates"].cancer_id.eq(cancer)]
+    return (list(HISTORICAL_STATE_IDS) if kind=="state" else
+            sorted(subset["lncrna_id" if kind=="lncRNA" else "pathway_id"].unique().tolist()))
+
+
+def collect_partition(data,cancer,kind):
+    return collect_entity_inputs(cancer,kind,data["folds"],data["endpoints"],data["covariates"],
+        **{k:data[k] for k in ("lncrna_root","pathway_root","state")},
+        entity_universe=entity_universe(data,cancer,kind),max_entities=data["config"]["max_entities"])
+
+
+def preflight_record(data,run_id,parts):
+    return {"format":"NATIVE_CLINICAL_ENTITY_PREFLIGHT_V1","status":"PASS_READY","target_host":"149",
+        "training_started":False,"entity_statistics_computed":False,"training_run_id":run_id,
+        "source_contract":data["source_contract"],"calculation_config":data["config"],
+        "patient_fold_authority":data["patient_authority_audit"],"partitions":parts}
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parser().parse_args(argv)
+    from cc_hhgt.v32.cnv_input_sources import require_host
+    require_host()
+    output=Path(args.output_root)
+    if output.exists(): raise FileExistsError("Use a new Clinical entity output directory")
+    data=load_inputs(args)
+    cdr_path,fold_path,fold_receipt_path,candidate_path,lncrna_root,pathway_root,state_path,state_lineage_path=(
+        data[k] for k in ("cdr_path","fold_path","fold_receipt_path","candidate_path","lncrna_root","pathway_root","state_path","state_lineage_path"))
+    source_contract,patient_authority_audit,subject_types,cancers,candidates,sample_folds,config=(
+        data[k] for k in ("source_contract","patient_authority_audit","subject_types","cancers","candidates","sample_folds","config"))
+    output.mkdir(parents=True, exist_ok=False)
+    write_json({"target_host":"149","training_started":False,"prepare_only":args.prepare_only,
+                "source_contract":source_contract},output/"LAUNCH_PREFLIGHT.json")
 
     all_summary: list[pd.DataFrame] = []
     all_metrics: list[pd.DataFrame] = []
     parts: list[dict[str, object]] = []
     for cancer in cancers:
-        cancer_folds = folds.loc[folds.cancer_id.astype(str).eq(cancer)].copy()
-        cancer_folds = cancer_folds.drop_duplicates("patient_id").set_index("patient_id")
         for subject_type in subject_types:
-            candidate_subset = candidates.loc[candidates.cancer_id.eq(cancer)]
-            if subject_type == "lncRNA":
-                entity_universe = sorted(candidate_subset.lncrna_id.unique().tolist())
-            elif subject_type == "exact_pathway":
-                entity_universe = sorted(candidate_subset.pathway_id.unique().tolist())
-            else:
-                entity_universe = list(HISTORICAL_STATE_IDS)
             try:
-                wide = _measurement_matrix(
-                    subject_type, cancer,
-                    lncrna_root=lncrna_root, pathway_root=pathway_root, state=state,
-                    entity_universe=entity_universe,
-                )
+                collected=collect_partition(data,cancer,subject_type)
             except Exception as exc:
+                if args.prepare_only: raise
                 parts.append({
                     "cancer_id": cancer, "subject_type": subject_type,
                     "status": "INPUT_UNAVAILABLE", "failure_reason": repr(exc),
                     "entities": 0, "patients": 0,
                 })
                 continue
-            if args.max_entities is not None:
-                wide = wide.iloc[:, : int(args.max_entities)]
-            patients = cancer_folds.index.intersection(wide.index.astype(str), sort=False)
-            if len(patients) == 0 or wide.shape[1] == 0:
-                parts.append({
-                    "cancer_id": cancer, "subject_type": subject_type,
-                    "status": "INPUT_UNAVAILABLE", "failure_reason": "NO_ALIGNED_PATIENT_ENTITY_MATRIX",
-                    "entities": int(wide.shape[1]), "patients": int(len(patients)),
-                })
+            description=collected.pop("description")
+            if args.prepare_only:
+                parts.append(description)
                 continue
-            wide = wide.reindex(index=patients)
             fold_records = analyse_entity_matrix(
                 cancer_id=cancer,
                 subject_type=subject_type,
-                patient_ids=patients.tolist(),
-                entity_ids=wide.columns.astype(str).tolist(),
-                values=wide.to_numpy(np.float64),
-                fold_ids=cancer_folds.reindex(patients).patient_fold_id.to_numpy(int),
-                endpoint_frame=endpoints,
-                covariate_frame=covariates,
+                **collected,
                 block_size=args.block_size,
                 min_train_patients=args.min_train_patients,
                 min_train_events=args.min_train_events,
@@ -255,7 +303,7 @@ def main(argv: list[str] | None = None) -> int:
             )
             summary = summarise_oof_associations(
                 fold_records,
-                wide.columns.astype(str).tolist(),
+                collected["entity_ids"],
                 cancer_id=cancer,
                 subject_type=subject_type,
                 min_folds_available=args.min_folds_available,
@@ -274,8 +322,9 @@ def main(argv: list[str] | None = None) -> int:
                 "subject_type": subject_type,
                 "status": "SUCCESS",
                 "failure_reason": "",
-                "entities": int(wide.shape[1]),
-                "patients": int(len(wide)),
+                "entities": description["entities"],
+                "patients": description["patients"],
+                "input_description": description,
                 "fold_rows": int(len(fold_records)),
                 "summary_rows": int(len(summary)),
                 "available_summary_rows": int(summary.availability.sum()),
@@ -285,6 +334,12 @@ def main(argv: list[str] | None = None) -> int:
                 "summary_part_sha256": file_sha256(summary_path_part),
             })
             print(json.dumps(parts[-1], ensure_ascii=False), flush=True)
+
+    for item in source_contract["files"].values():
+        if input_path_sha256(item["path"]) != item["sha256"]: raise RuntimeError("Clinical entity source changed during calculation")
+    if args.prepare_only:
+        write_json(preflight_record(data,args.training_run_id,parts),output/"INPUT_PREFLIGHT.json")
+        print(json.dumps({"status":"PASS_READY","training_started":False,"partitions":len(parts)}));return 0
 
     if not all_summary:
         raise RuntimeError("No entity clinical subject matrix was calculated")
@@ -316,23 +371,6 @@ def main(argv: list[str] | None = None) -> int:
     part_manifest_path = output / "ENTITY_CLINICAL_PART_MANIFEST.tsv"
     part_manifest.to_csv(part_manifest_path, sep="\t", index=False)
 
-    config = {
-        "format": CALCULATION_FORMAT,
-        "subject_types": list(subject_types),
-        "cancers": cancers,
-        "block_size": args.block_size,
-        "minimums": {
-            "train_patients": args.min_train_patients,
-            "train_events": args.min_train_events,
-            "validation_patients": args.min_validation_patients,
-            "validation_events": args.min_validation_events,
-            "test_patients": args.min_test_patients,
-            "test_events": args.min_test_events,
-            "train_measurements": args.min_train_measurements,
-            "folds_available": args.min_folds_available,
-        },
-        "max_entities": args.max_entities,
-    }
     calculation_manifest = {
         "format": CALCULATION_FORMAT,
         "analysis_version": ANALYSIS_VERSION,

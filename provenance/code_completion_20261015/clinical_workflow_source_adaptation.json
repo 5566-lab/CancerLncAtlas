@@ -1,0 +1,47 @@
+{
+  "method": "NATIVE_CLINICAL_PREPARE_COLLECT_CURRENT_PUBLICATION_WORKFLOW",
+  "target_host": "149",
+  "training_started": false,
+  "optimizer_executed": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "clinical_workflow_r1",
+    "clinical_workflow_consumers_r1"
+  ],
+  "intermediate_failed_receipts": [],
+  "original_risk_and_entity_cli_prepare_only_executed": true,
+  "original_entity_matrix_collector_shared": true,
+  "actual_patient_authority_builder_executed": true,
+  "legacy_frozen_default_preserved": true,
+  "separate_risk_fit_and_entity_statistic_commands_parsed": true,
+  "execution_commands_dispatched": false,
+  "actual_native_serializers_with_frozen_risk_fitting_callback": true,
+  "actual_raw_risk_features_frozen_predictions_and_entity_statistics_replayed": true,
+  "actual_overall_publication_workflow_executed": true,
+  "completed_outputs_unchanged_verified": true,
+  "preparation_head_construction_forward_and_entity_statistics_forbidden": true,
+  "complete_config_input_arrays_and_patient_authority_checked": true,
+  "patient_count": 40,
+  "sample_count": 41,
+  "folds": 5,
+  "risk_rows": 240,
+  "entity_summary_rows": 54,
+  "entity_fold_rows": 270,
+  "test_substitutes": [
+    "Only Clinical/State private fitting is replaced by explicit changed frozen parameters and synthetic telemetry; neural optimizers are forbidden.",
+    "Current core parent remains the existing frozen synthetic serialization fixture. Actual entity statistical calculations execute only on synthetic patients."
+  ],
+  "source_acquisition_ancestry_verified": false,
+  "full_state_core_patient_closure_verified": false,
+  "cross_module_patient_closure_complete": false,
+  "independent_predictive_performance_verified": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Native Clinical now has a unified explicit prepare/collect workflow. The original risk CLI collects five fold inputs and the original entity CLI collects its actual patient matrices without computing entity statistics. Separate risk-fitting and entity-calculation commands are recorded and parsed, never dispatched. Collection matches completed native run/configuration, source roles, patient authority and input fingerprints before actual raw numeric replay and selected Clinical publication. The current consumer rechecks the preparation dependency. This proves within-Clinical preparation/completion consistency, not acquisition/reference ancestry, State/core/cross-module patient closure or independent predictive performance. Single-cell command consolidation, complete external acceptance and final code acceptance remain open. No actual fitting or real cohort analysis ran."
+}

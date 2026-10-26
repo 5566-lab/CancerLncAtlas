@@ -117,7 +117,7 @@ def test_rehashed_state_measurements_must_reproduce_entity_statistics(tmp_path,c
     raw=Path(lineage["source_contract"]["files"]["state_measurements"]["path"])
     frame=pd.read_parquet(raw);available=frame.state_value.notna();frame.loc[available,"state_value"]=-frame.loc[available,"state_value"]
     frame.to_parquet(raw,index=False);repin_entity(path,lineage,calc)
-    with pytest.raises(ValueError,match="raw entity patient statistic replay"):
+    with pytest.raises(ValueError,match="raw entity patient statistic replay|entity collected input description"):
         entity_sources(selected_sources(path),risk)
 
 

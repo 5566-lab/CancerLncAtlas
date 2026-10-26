@@ -5234,3 +5234,114 @@ These are same-implementation numerical checks; acquisition/reference ancestry,
 complete cross-module patient closure, optimizer history and independent
 predictive performance remain unproved. C01/C13/C16 stay in progress. No fitting,
 real cohort analysis, paid compute or deployment ran.
+
+Native Clinical preparation/completion workflow (2026-10-26)
+----------------------------------------------------------
+
+``scripts.run_native_clinical_workflow`` now connects both actual Clinical
+producers to current selected publication. It separates risk-head fitting from
+entity statistical calculation and records a distinct command for each. The
+workflow itself dispatches only the original CLIs' ``--prepare-only`` modes.
+
+The input JSON has format ``NATIVE_CLINICAL_WORKFLOW_INPUT_V1``. Required fields
+are ``patient_risk_run_id``, ``entity_run_id``, ``core_run_id`` and the following
+explicit path/SHA256 records: ``workbook``, ``patient_folds``,
+``patient_authority_receipt``, ``expression_root``, ``activity_root``,
+``state_measurements``, ``state_lineage``, ``core_manifest``,
+``selected_analysis`` and ``candidates``. File hashes use SHA256; dataset
+directories use the existing ``input_lineage.artifact_sha256`` relative-path
+and file-content inventory. All actual files are retained in the dependency
+inventory. The candidate record must be the selected analysis's actual
+candidate authority, and all five selected/core parents must match.
+
+Optional ``risk_config`` fields are ``seed``, ``epochs``, ``patience``,
+``n_bins``, ``min_patients`` and ``min_events``. Optional ``entity_config`` fields
+are ``block_size``, ``min_train_patients``, ``min_train_events``,
+``min_validation_patients``, ``min_validation_events``, ``min_test_patients``,
+``min_test_events``, ``min_train_measurements`` and ``min_folds_available``.
+Unspecified fields take the actual original CLI defaults; the expanded complete
+configuration is then recorded. Unknown fields, Boolean/fractional counts,
+nonpositive counts and more than five available folds are rejected. Optional
+``fdr_threshold`` defaults to 0.05 and must be finite in (0, 1]. The workflow
+requires the full candidate/subject universe; it offers no smoke cap or cancer
+subset. Legacy standalone producer options remain available.
+
+Run these commands from the development checkout on server 149::
+
+    python -m scripts.run_native_clinical_workflow prepare \
+      --manifest /path/clinical_workflow.json --output /new/clinical_prepared --plan
+
+    python -m scripts.run_native_clinical_workflow prepare \
+      --manifest /path/clinical_workflow.json --output /new/clinical_prepared
+
+The plan validates identities, patient authority, source hashes, configuration
+and actual CLI argument parsing without creating output. Preparation calls the
+original risk collector for five folds and the original entity collector for
+every cancer/subject partition. Entity preparation reads aligned patient
+measurements, endpoint and covariate tables, but does not calculate survival
+statistics or instantiate a neural head. Its new ``INPUT_PREFLIGHT.json``
+records ordered patient/entity digests, exact matrix/fold-array fingerprints,
+fold counts, observed-measurement counts and standardized endpoint/covariate
+digests. The full input files remain independently hash-bound. Actual entity
+calculation and numerical replay use this same patient-matrix collector.
+
+``PREPARED.json`` binds the launch plan, both numerical preflights and
+``EXECUTION_COMMANDS.json``. The latter contains parsed original CLI commands
+for ``risk`` and ``entity``, targeting ``clinical_prepared/risk_training`` and
+``clinical_prepared/entity_calculation`` respectively. Neither is dispatched by
+the workflow. Its dispatcher rejects either command without ``--prepare-only``
+before opening a log or running a producer. Fitting and real entity analysis
+remain separate operations outside this code-only execution. Preparation
+directories contain private patient inputs and are not public downloads.
+
+After separately completed native risk and entity runs exist::
+
+    python -m scripts.run_native_clinical_workflow collect \
+      --preparation /new/clinical_prepared/PREPARED.json \
+      --preparation-sha256 <sha256> \
+      --risk-completed /new/clinical_prepared/risk_training/MODULE_LINEAGE.json \
+      --risk-completed-sha256 <sha256> \
+      --entity-completed /new/clinical_prepared/entity_calculation/ENTITY_CLINICAL_LINEAGE.json \
+      --entity-completed-sha256 <sha256> --output /new/clinical_collected
+
+Collection revalidates actual preparation sources and numerical values. Both
+completed runs must match the declared output locations, run IDs, selected/core
+identity, full configuration, raw source roles and patient authority. Risk
+input arrays/targets and every entity patient-matrix description must match
+preparation. The actual current Clinical publisher then reconstructs raw
+features, frozen-head predictions and entity statistics before its existing
+meta-analysis and selected-member context. Collection leaves completed result
+directories unchanged and writes a new ``NATIVE_CLINICAL_BINDING.json`` whose
+``clinical_context`` is accepted by the existing whole-publication workflow's
+Clinical ``REUSE`` stage.
+
+The current Clinical source reader follows ``workflow_preparation`` and repeats
+preparation/completion matching during later audits. Preparation code, actual
+input files and saved feature tables are bound dependencies. Rehashed but
+inconsistent commands, patient counts, input fingerprints, run parameters or
+completed source declarations are rejected. Failed preparation/collection
+retains diagnostics and cannot publish a ready/success binding. Existing output
+directories are refused; an output cannot be nested in an input dataset.
+
+The fixture uses the actual generic patient-authority builder, both original
+CLIs, both completion serializers, raw numerical replay and the existing
+publication workflow. Its 40 patients/41 aliquots generate 240 typed patient-risk
+rows, 270 entity fold rows and 54 summaries. Only private-head fitting is replaced
+by marked frozen parameters and synthetic optimizer telemetry. Preparation is
+tested with head construction, model calls, optimizers and entity statistics
+forbidden. Actual entity statistics run only on synthetic inputs during
+completion/replay checks. This verifies within-Clinical consistency, not
+source acquisition/reference ancestry, State/core/cross-module patient closure,
+optimizer history or independent predictive performance. Clinical command
+handoff is implemented; single-cell handoff, complete dependency/external
+acceptance, public scientific field definitions and final C01/C13/C16 acceptance
+remain open. No actual fitting, real cohort analysis, paid compute or deployment
+was started.
+
+Clinical workflow verification on 149: ``clinical_workflow_r1`` passes 62
+workflow/current-Clinical/numerical-replay cases in 448.73 seconds;
+``clinical_workflow_consumers_r1`` passes 32 publication/browser, patient-context,
+explicit patient-identity and non-fitting Clinical calculation cases in 94.63
+seconds. All 94 distinct cases pass with no failures or skips. The earlier
+``clinical_workflow_smoke_r1`` passed six cases and is not counted a second time.
+There was no intermediate failing test receipt in this change.
