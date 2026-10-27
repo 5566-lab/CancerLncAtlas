@@ -13,6 +13,48 @@ def donor_weights(donors):
     return 1.0 / counts[inverse]
 
 
+def prepare_local_space(coding_log, donors, allowed_donors, max_genes=1500,
+                        max_cells_per_donor=2000, seed=17):
+    """Original donor-weighted preparation, without constructing or fitting PCA."""
+    donors = np.asarray(donors, str)
+    allowed = set(map(str, allowed_donors))
+    ix = np.flatnonzero(np.isin(donors, list(allowed)))
+    if not len(ix) or not allowed.issubset(set(donors)):
+        raise ValueError('TRAIN_DONORS_MISSING')
+    x = coding_log[ix]
+    w = donor_weights(donors[ix]); w /= w.sum()
+    if sparse.issparse(x):
+        mean = np.asarray(x.T @ w).ravel()
+        variance = np.asarray(x.power(2).T @ w).ravel() - mean**2
+    else:
+        mean = w @ x; variance = w @ (x*x) - mean**2
+    genes = np.flatnonzero(variance > 1e-8)
+    genes = genes[np.argsort(-variance[genes], kind='stable')[:max_genes]]
+    if len(genes) < 2 or len(ix) < 3:
+        raise ValueError('INSUFFICIENT_CODING_SPACE')
+    scale = np.sqrt(variance[genes])
+    rng = np.random.default_rng(seed)
+    balanced = []
+    local_donors = donors[ix]
+    for donor in sorted(allowed):
+        rows = np.flatnonzero(local_donors == donor)
+        if len(rows) > max_cells_per_donor:
+            rows = np.sort(rng.choice(rows, max_cells_per_donor, replace=False))
+        balanced.extend(rows.tolist())
+    balanced = np.asarray(balanced, dtype=np.int64)
+    if len(balanced) < 3:
+        raise ValueError('INSUFFICIENT_BALANCED_CODING_SPACE')
+    sample = x[balanced][:, genes]
+    sample = sample.toarray() if sparse.issparse(sample) else np.asarray(sample)
+    z = np.clip((sample - mean[genes])/scale, -10, 10)
+    sample_donors = local_donors[balanced]
+    sample_w = donor_weights(sample_donors); sample_w /= sample_w.sum()
+    center_z = sample_w @ z
+    return dict(genes=genes, mean=mean[genes], scale=scale, center_z=center_z,
+                training_donors=tuple(sorted(allowed)), fit_matrix=z-center_z,
+                training_rows=ix, balanced_rows=ix[balanced])
+
+
 @dataclass
 class LocalSpace:
     genes: np.ndarray
@@ -25,44 +67,11 @@ class LocalSpace:
     @classmethod
     def fit(cls, coding_log, donors, allowed_donors, max_genes=1500, components=20,
             max_cells_per_donor=2000, seed=17):
-        donors = np.asarray(donors, str)
-        allowed = set(map(str, allowed_donors))
-        ix = np.flatnonzero(np.isin(donors, list(allowed)))
-        if not len(ix) or not allowed.issubset(set(donors)):
-            raise ValueError('TRAIN_DONORS_MISSING')
-        x = coding_log[ix]
-        w = donor_weights(donors[ix]); w /= w.sum()
-        if sparse.issparse(x):
-            mean = np.asarray(x.T @ w).ravel()
-            variance = np.asarray(x.power(2).T @ w).ravel() - mean**2
-        else:
-            mean = w @ x; variance = w @ (x*x) - mean**2
-        genes = np.flatnonzero(variance > 1e-8)
-        genes = genes[np.argsort(-variance[genes], kind='stable')[:max_genes]]
-        if len(genes) < 2 or len(ix) < 3:
-            raise ValueError('INSUFFICIENT_CODING_SPACE')
-        scale = np.sqrt(variance[genes])
-        rng = np.random.default_rng(seed)
-        balanced = []
-        local_donors = donors[ix]
-        for donor in sorted(allowed):
-            rows = np.flatnonzero(local_donors == donor)
-            if len(rows) > max_cells_per_donor:
-                rows = np.sort(rng.choice(rows, max_cells_per_donor, replace=False))
-            balanced.extend(rows.tolist())
-        balanced = np.asarray(balanced, dtype=np.int64)
-        if len(balanced) < 3:
-            raise ValueError('INSUFFICIENT_BALANCED_CODING_SPACE')
-        sample = x[balanced][:, genes]
-        sample = sample.toarray() if sparse.issparse(sample) else np.asarray(sample)
-        z = np.clip((sample - mean[genes])/scale, -10, 10)
-        # Every donor contributes at most the same registered number of cells.
-        sample_donors = local_donors[balanced]
-        sample_w = donor_weights(sample_donors); sample_w /= sample_w.sum()
-        center_z = sample_w @ z
-        pca = PCA(n_components=min(components, len(genes), len(balanced)-1), svd_solver='randomized', random_state=seed)
-        pca.fit(z-center_z)
-        return cls(genes, mean[genes], scale, pca, center_z, tuple(sorted(allowed)))
+        values = prepare_local_space(coding_log, donors, allowed_donors, max_genes, max_cells_per_donor, seed)
+        pca = PCA(n_components=min(components, len(values['genes']), len(values['fit_matrix'])-1), svd_solver='randomized', random_state=seed)
+        pca.fit(values['fit_matrix'])
+        return cls(values['genes'], values['mean'], values['scale'], pca,
+                   values['center_z'], values['training_donors'])
 
     def transform(self, coding_log):
         x = coding_log[:, self.genes]

@@ -118,6 +118,16 @@ def inspect(inventory, episode_path, graph_path, model, role):
            derived(bindings['nested_sources'],'nested_statistics'))
     replay(episode_path,'episode_manifest',ASSEMBLY,len(manifest['folds']),manifest['episode_count'])
 
+    from .single_cell_geometry_replay import FORMAT as GEOMETRY_FORMAT
+    # The original numeric consumers above already verified these parameters,
+    # coordinates, radius and assignments. PCA fit provenance remains a gap.
+    geometry_pins = {p['path']: p for p in [*graph_value['source_files'], *bindings['nested_sources']]
+                     if Path(p['path']).name == 'GEOMETRY_AUDIT.json'}
+    for index, pin in enumerate(geometry_pins.values()):
+        path = Path(pin['path'])
+        if read(path).get('local_space_format') == GEOMETRY_FORMAT:
+            replay(path, 'geometry.'+str(index), GEOMETRY_FORMAT, 1, 3)
+
     # Raw sources are bound and described separately from derived outputs.
     # Their mapping is replayed, while acquisition/QC/reference claims remain
     # unresolved. Patient identities remain inside PatientUse's private map.

@@ -80,7 +80,9 @@ def nested_inventory(value, donor_path):
             state = current.get('state')
             if state not in {'NESTED_EPISODE_ASSETS_READY', 'NESTED_EPISODE_NO_ESTIMABLE_CONTEXTS', 'NESTED_EPISODE_UNAVAILABLE'}:
                 raise ValueError('Native nested episode state differs')
-            expected_files = ready_files if plan.available else {'DONOR_PARTITION.json', 'UNAVAILABLE.json'}
+            from .single_cell_geometry_replay import extra_files
+            expected_files = (ready_files | extra_files(folder, read(folder/'GEOMETRY_AUDIT.json'))
+                              if plan.available else {'DONOR_PARTITION.json', 'UNAVAILABLE.json'})
             if set(current['files']) != expected_files or (state == 'NESTED_EPISODE_UNAVAILABLE') != (not plan.available):
                 raise ValueError('Native nested episode inventory or availability differs')
             for name, pin in current['files'].items():

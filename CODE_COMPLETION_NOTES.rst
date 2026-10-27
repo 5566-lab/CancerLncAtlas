@@ -7174,3 +7174,9 @@ pass 77 distinct related checks. Actual raw aliquot rows and native
 within-patient means now link to each original paired statistical mask in two
 private replayed tables. Supplied-measurement ancestry is not acquisition proof.
 No fitting or real cohort execution ran; earlier scope deviations remain recorded.
+
+SC frozen geometry guarded verification on149: ``sc_geometry_consumers_r1``, ``sc_geometry_sources_r3``
+pass 78 distinct related checks. Original outer and nested producers
+now preserve projection parameters and coordinates; original source-only radius
+and disjoint membership are replayed through native graph/episode/model consumers.
+Fitted PCA/LASSO provenance remains unresolved. No fitting or real cohort ran.

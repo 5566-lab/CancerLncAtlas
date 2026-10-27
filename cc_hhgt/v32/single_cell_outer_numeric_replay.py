@@ -17,6 +17,7 @@ from .single_cell_graph_assets import align_frozen_membership, validate_frozen_m
 FORMAT = 'NATIVE_SC_OUTER_FROZEN_STATISTICS_REPLAY_V1'
 ROOT = Path(__file__).resolve().parents[2]
 CODE = ('cc_hhgt/v32/single_cell_outer_numeric_replay.py',
+        'cc_hhgt/v32/single_cell_geometry_replay.py',
         'scripts/materialize_single_cell_metacell_149.py',
         'cc_hhgt/v32/single_cell_metacells.py', 'cc_hhgt/v32/single_cell_metacell_screen.py',
         'cc_hhgt/v32/single_cell_cell_level.py', 'cc_hhgt/v32/single_cell_graph_assets.py')
@@ -42,6 +43,10 @@ def verify_fold(settings, canonical, fold, folder, receipt, mapped):
     source = set(folds.donor_id.astype(str)) - query
     raw = settings.scratch_root/settings.cancer_id.upper()
     assignments = align_frozen_membership(metadata, pd.read_parquet(folder/'METACELL_MEMBERSHIP.parquet'))
+    from .single_cell_geometry_replay import policies, verify
+    fit, grouping = policies(settings, seed=settings.seed+fold, radius_seed=settings.seed+100+fold)
+    verify(folder, sparse.load_npz(raw/'CODING_LOG_FOR_GROUPING.npz'), metadata, source,
+           fit, grouping, settings.pca_components, assignments, read(folder/'GEOMETRY_AUDIT.json'))
     validate_frozen_metacell_metadata(metadata, assignments, pd.read_parquet(folder/'METACELL_METADATA.parquet'))
     library = np.load(raw/'ALL_GENE_LIBRARY.npy', allow_pickle=False)
     coding, groups, policy = native.aggregate_measurements(
@@ -90,7 +95,8 @@ The caller validates canonical preparation/configuration and donor identities.
 All proof inputs and output bytes are checked again before caching a success.
 """
     require_host(); folder = Path(folder)
-    if set(receipt.get('files',{})) != FILES:
+    from .single_cell_geometry_replay import extra_files
+    if set(receipt.get('files',{})) != FILES | extra_files(folder, read(folder/'GEOMETRY_AUDIT.json')):
         raise ValueError('Outer reconstruction output inventory differs')
     raw = settings.scratch_root/settings.cancer_id.upper()
     mapped = read(raw/'MAPPED_SUCCESS.json')

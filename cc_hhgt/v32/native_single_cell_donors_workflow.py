@@ -23,6 +23,7 @@ CODE = ("cc_hhgt/v32/native_single_cell_donors_workflow.py",
         "scripts/run_native_single_cell_donors_workflow.py",
         "scripts/materialize_single_cell_nested_hhgt_episodes_149.py",
         "cc_hhgt/v32/single_cell_nested_episodes.py",
+        "cc_hhgt/v32/single_cell_metacells.py", "cc_hhgt/v32/single_cell_geometry_replay.py",
         "cc_hhgt/v32/single_cell_metacell_screen.py")
 FILES = {"CANONICAL_CELL_METADATA.parquet", "CANONICAL_DONOR_CROSSWALK.parquet",
          "DONOR_FOLDS.parquet", "NESTED_PLANS.json", "EXECUTION_COMMAND.json",

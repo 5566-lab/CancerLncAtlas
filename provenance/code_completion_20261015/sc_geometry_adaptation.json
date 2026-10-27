@@ -1,0 +1,60 @@
+{
+  "method": "ORIGINAL_SC_FROZEN_PROJECTION_RADIUS_AND_MEMBERSHIP_REPLAY",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "sc_geometry_consumers_r1",
+    "sc_geometry_sources_r3"
+  ],
+  "earlier_successful_receipts": [],
+  "intermediate_failed_receipts": [
+    "sc_geometry_sources_r1",
+    "sc_geometry_sources_r2"
+  ],
+  "intermediate_failure_causes": [
+    "The installed sklearn transform requires explained_variance_ even when whitening is disabled; persisted that actual field and restored it in the frozen estimator. No fitting was invoked.",
+    "The model-inspection test initially forbade model construction before creating its fixed checkpoint fixture. Moved the no-construction guard after fixture serialization; the module-wide optimizer/PCA/LASSO guards remained active."
+  ],
+  "implementation_files": [
+    "cc_hhgt/v32/native_single_cell_donors_workflow.py",
+    "cc_hhgt/v32/native_single_cell_episode_sources.py",
+    "cc_hhgt/v32/native_single_cell_model_sources.py",
+    "cc_hhgt/v32/single_cell_geometry_replay.py",
+    "cc_hhgt/v32/single_cell_metacells.py",
+    "cc_hhgt/v32/single_cell_nested_episodes.py",
+    "cc_hhgt/v32/single_cell_nested_numeric_replay.py",
+    "cc_hhgt/v32/single_cell_outer_numeric_replay.py",
+    "scripts/materialize_single_cell_metacell_149.py",
+    "scripts/materialize_single_cell_nested_hhgt_episodes_149.py",
+    "tests/test_v32_single_cell_geometry_replay.py"
+  ],
+  "original_preparation_equations_preserved": true,
+  "original_transform_and_grouping_reconstructed": true,
+  "outer_and_nested_parameter_persistence": true,
+  "actual_all_five_fold_graph_episode_model_inspection": true,
+  "parameter_fit_provenance_verified": false,
+  "reference_authenticity_verified": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/SC_FROZEN_GEOMETRY_REPLAY_20261027.rst",
+      "sha256": "c7c6c790bb66b0858d8e64ef9622409a75b1ed07510f24523348ba9413561f8a"
+    }
+  ],
+  "test_substitutes": [
+    "Explicit frozen identity projection; PCA fitting and fit_transform forbidden.",
+    "Frozen LASSO/model containers in actual downstream assembly/inspection; no parameter fitting.",
+    "Synthetic measured cells, original geometric/statistical algorithms and native serializers."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Original outer and nested SC metacell producers now persist LocalSpace preprocessing, PCA parameters and cell coordinates. The original donor-weighted gene selection, seeded donor-balanced cell cap and centering were factored without changing the fitting algorithm. Native cache/completion and actual model-use inspection reconstruct preparation, apply supplied frozen PCA through the original transform, rerun the original source-only radius and local disjoint grouping and compare coordinates, exact membership and grouping audit. Actual all-five-fold graph/nested/episode/model-use consumers are tested with a declared identity projection and frozen LASSO/model containers. No PCA/LASSO/neural parameter fitting or real cohort/acquisition/paid compute/deployment ran. This verifies application of supplied projection parameters, not their fitted provenance or optimality. The fitted-geometry, fitted-LASSO, raw acquisition/QC/reference and complete cross-module ancestry gaps remain blocking; legacy unpersisted parameters produce no new geometric proof. Earlier scope deviations remain recorded."
+}

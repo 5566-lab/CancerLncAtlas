@@ -17,6 +17,7 @@ from .single_cell_nested_episodes import donor_roles, lasso_observations, source
 
 ROOT = Path(__file__).resolve().parents[2]
 CODE = ('cc_hhgt/v32/single_cell_nested_numeric_replay.py',
+        'cc_hhgt/v32/single_cell_geometry_replay.py',
         'scripts/materialize_single_cell_nested_hhgt_episodes_149.py',
         'scripts/materialize_single_cell_metacell_149.py',
         'cc_hhgt/v32/single_cell_nested_episodes.py', 'cc_hhgt/v32/single_cell_metacell_screen.py',
@@ -76,6 +77,11 @@ def verify_plan(settings, plan, mapped, matrices, ids, bulk, family_membership,
     retained = metadata.loc[keep].reset_index(drop=True)
     membership = pd.read_parquet(folder/'METACELL_MEMBERSHIP.parquet')
     assignments = align_frozen_membership(retained,membership)
+    from .single_cell_geometry_replay import policies, verify
+    seed = settings.seed + plan.outer_fold_id*1000 + plan.inner_target_fold_id*100
+    fit, grouping = policies(settings, seed=seed, radius_seed=seed+1)
+    verify(folder, matrices['coding_log'][keep], retained, plan.source_donors, fit, grouping,
+           settings.pca_components, assignments, read(folder/'GEOMETRY_AUDIT.json'))
     saved_meta = pd.read_parquet(folder/'METACELL_METADATA.parquet')
     validate_frozen_metacell_metadata(retained,assignments,saved_meta)
     coding,lncrna,groups,policy = aggregate_frozen_measurements(
@@ -161,6 +167,7 @@ def verify_completed(value, donor_path, settings, metadata, plans):
         if matrices is None:
             raw = mapped_path.parent
             matrices = {'metadata':metadata,'coding':sparse.load_npz(raw/'CODING_MEASURED.npz').tocsr(),
+                'coding_log':sparse.load_npz(raw/'CODING_LOG_FOR_GROUPING.npz').tocsr(),
                 'lncrna':sparse.load_npz(raw/'LNC_MEASURED.npz').tocsr(),
                 'library':np.load(raw/'ALL_GENE_LIBRARY.npy',allow_pickle=False),
                 'signature':sparse.load_npz(raw/'EXACT_SIGNATURE_MATRIX.npz').tocsr(),

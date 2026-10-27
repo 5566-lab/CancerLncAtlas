@@ -664,6 +664,8 @@ def _write_fold(
     train_frame.to_parquet(fold_output / "TRAIN_ROWS.parquet", index=False)
     query_frame.to_parquet(fold_output / "QUERY_ROWS.parquet", index=False)
     universe_frame.to_parquet(fold_output / "UNIVERSE.parquet", index=False)
+    from cc_hhgt.v32.single_cell_geometry_replay import capture, save
+    save(fold_output, capture(space, coordinates), geometry)
     atomic_json(fold_output / "GEOMETRY_AUDIT.json", geometry)
     atomic_json(fold_output / "CONTEXT_COVERAGE.json", context_reports)
     files = {

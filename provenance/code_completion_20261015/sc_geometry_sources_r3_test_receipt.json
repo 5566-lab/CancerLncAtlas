@@ -1,0 +1,62 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-26T23:50:06.016432+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/native_single_cell_donors_workflow.py": "b792676bc5f1de80f17e0eb510fc164173cfe92108e813ae496ba6434003ccb9",
+    "cc_hhgt/v32/native_single_cell_episode_sources.py": "ed066d1333f74ad0f2dc5f99eab4a06b8b38c43476ad3ee6de06b49e4471c4cd",
+    "cc_hhgt/v32/native_single_cell_model_sources.py": "a238daaf4d537c3b6a88e2858634b5545d1eb080b6128b717591d071da0ef6cc",
+    "cc_hhgt/v32/single_cell_geometry_replay.py": "8df53dbd27d8befcfeff8676cca81bf87fb58cf2d25d8e61cf78076705ff71e5",
+    "cc_hhgt/v32/single_cell_metacells.py": "593aa7c35f1cd98f9e6ea0ffc76820e0b2b05dcab1494f6c6dbb5a6b7c1d5447",
+    "cc_hhgt/v32/single_cell_nested_episodes.py": "a6c7bf5b69015c2d9cc145876c726e441acf55969157b95b351a10eea989c8d1",
+    "cc_hhgt/v32/single_cell_nested_numeric_replay.py": "04f85dcc34c17774baf13a92b7db8c528f97601ba9916c411b20ae345c0092c9",
+    "cc_hhgt/v32/single_cell_outer_numeric_replay.py": "2a2a49918dd21d84de5b3ba207f8c9825d864cd9d39c69fa684f1a4673d469ae",
+    "scripts/materialize_single_cell_metacell_149.py": "904ed0b679cae741cba69840d7eef3fb721deb5bb0cafda82dcdded5b2ef1a88",
+    "scripts/materialize_single_cell_nested_hhgt_episodes_149.py": "cee8afdb8ac25f035af70d44cbc4978fcf9139589f552bae695b59898617f75b",
+    "tests/test_v32_single_cell_geometry_replay.py": "7d42c5f96ee9e307707ddf4efe0d770576f29ed6c7a83f7022086fda6a507922"
+  },
+  "parameter_fitting_guard": "SESSION_ATAC_AUXILIARY_AND_TORCH_OPTIMIZERS",
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_single_cell_geometry_replay.py",
+    "tests/test_v32_atac_no_fit_guard.py",
+    "--junitxml=provenance/code_completion_20261015/sc_geometry_sources_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-26T23:58:27.937782+00:00"
+}

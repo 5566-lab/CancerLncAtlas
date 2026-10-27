@@ -816,6 +816,8 @@ def materialize_plan(
     contexts.to_parquet(staging / "NODE_FEATURE_CONTEXTS.parquet", index=False)
     with (staging / "NODE_FEATURES.npz").open("wb") as handle:
         np.savez_compressed(handle, **features)
+    from cc_hhgt.v32.single_cell_geometry_replay import save
+    save(staging, metacell.get("local_space_arrays"), metacell["geometry_audit"])
     atomic_json(staging / "GEOMETRY_AUDIT.json", metacell["geometry_audit"])
     atomic_json(
         staging / "CONTEXT_COVERAGE.json",

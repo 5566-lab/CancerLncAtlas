@@ -349,7 +349,9 @@ def fit_nested_metacells(
         "pca_training_donors": list(space.training_donors),
         "radius_training_donors": list(geometry["training_donors"]),
     }
+    from .single_cell_geometry_replay import capture
     return {
+        "local_space_arrays": capture(space, coordinates),
         "membership": membership,
         "metadata": metacell_metadata,
         "coding": coding_mc.astype(np.float32),

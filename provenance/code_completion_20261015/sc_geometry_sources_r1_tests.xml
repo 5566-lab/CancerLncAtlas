@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="15" skipped="0" tests="25" time="25.482" timestamp="2026-10-27T07:40:00.380665+08:00" hostname="149"><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_original_preparation_manual_oracle_and_query_exclusion" time="0.052" /><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_actual_frozen_transform_and_original_grouping_round_trip" time="0.007"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:92: in test_actual_frozen_transform_and_original_grouping_round_trip
+    values = produce(tmp_path)
+             ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[genes]" time="0.006"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[mean]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[scale]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[center_z]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[pca_mean]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[pca_components]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[training_donors]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[coordinates]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[membership]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[radius]" time="0.006"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[marker]" time="0.009"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[file]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[source]" time="0.006"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_rehashed_projection_or_membership_changes_are_rejected[policy]" time="0.005"><failure message="AttributeError: 'PCA' object has no attribute 'explained_variance_'">tests/test_v32_single_cell_geometry_replay.py:106: in test_rehashed_projection_or_membership_changes_are_rejected
+    values = list(produce(tmp_path)); matrix, meta, fit, group, assignments, audit = values
+                  ^^^^^^^^^^^^^^^^^
+tests/test_v32_single_cell_geometry_replay.py:59: in produce
+    coords = space.transform(matrix)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</failure></testcase><testcase classname="tests.test_v32_single_cell_geometry_replay" name="test_actual_outer_nested_episodes_and_model_inspection" time="20.118"><error message="failed on setup with &quot;AttributeError: 'PCA' object has no attribute 'explained_variance_'&quot;">tests/test_v32_single_cell_geometry_replay.py:132: in completed
+    graph = graphs.completed.__wrapped__(tmp_path_factory)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_native_single_cell_graph_workflow.py:47: in completed
+    base.run_cancer(settings)
+scripts/materialize_single_cell_metacell_149.py:765: in run_cancer
+    receipt = _write_fold(
+scripts/materialize_single_cell_metacell_149.py:603: in _write_fold
+    coordinates = space.transform(coding_log)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cc_hhgt/v32/single_cell_metacells.py:79: in transform
+    return self.pca.transform(np.clip((x-self.mean)/self.scale, -10, 10)-self.center_z)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/utils/_set_output.py:319: in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/sklearn/decomposition/_base.py:138: in transform
+    xp, _ = get_namespace(X, self.components_, self.explained_variance_)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'PCA' object has no attribute 'explained_variance_'</error></testcase><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[atac]" time="0.002" /><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[cnv]" time="0.002" /><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[genomic]" time="0.002" /><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[fusion]" time="0.002" /><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[crossfit]" time="0.002" /><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[Adam]" time="0.001" /><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[AdamW]" time="0.001" /><testcase classname="tests.test_v32_atac_no_fit_guard" name="test_code_only_session_rejects_parameter_fitting[SGD]" time="0.002" /></testsuite></testsuites>
