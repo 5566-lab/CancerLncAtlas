@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-27T09:00:03.559895+00:00",
+  "source_sha256": {
+    "cc_hhgt/gnn.py": "1dee962ad86cd984741adfebd8f4b9ae9e7ccd296ace501ea9277e44880ef3ae",
+    "cc_hhgt/v32/omics_node_encoding.py": "eacd96bd7e68dab7dc6c7096e14fd9520552957ed9c00bde18e33d2dc2317a16",
+    "tests/test_v32_omics_node_encoding.py": "53f798b1e5b8e48038de6b2c6e05dc41a29ed51a73dd8f38505ce83adc2a9f92"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_omics_node_encoding.py",
+    "--junitxml=provenance/code_completion_20261015/omics_node_encoding_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-27T09:00:16.492762+00:00"
+}

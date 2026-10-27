@@ -7194,3 +7194,11 @@ ledger against recorded receipts and fails closed on missing evidence, drifted
 pins or suites, counter disagreement, status/open-list mismatch and a dirty
 worktree. The handoff report cannot be rebuilt without a PASS record bound to
 this plan, ledger and commit. Bookkeeping only; no optimizer or real cohort ran.
+
+Multi-omics node encoding on149: ``omics_node_encoding_r2``, ``code_acceptance_r4``
+pass 86 distinct related checks. Measured mutation, signed copy
+number and promoter accessibility now enter the encoder as value/observed column pairs; a
+fixture shows a gene-level value reaching a connected lncRNA embedding through message
+passing. C18-C21 (comparison, patient conditioning, mediation, discovery) are registered
+as open. No optimizer or real cohort ran and no gain, patient result, mediation or
+discovery claim is made.

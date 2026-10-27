@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -122,6 +123,13 @@ class GraphBundle:
     episode_cache: dict[str, dict[str, Any]] = field(default_factory=dict)
     relation_edge_dropout: dict[str, float] = field(default_factory=dict)
     binding_evidence_arm: str = "current_c"
+    # Optional multi-omics node channels appended after the two historical
+    # degree channels.  They are ordinary graph inputs: the first encoder layer
+    # reads them, so any effect has already passed through message passing
+    # before the decoder sees an embedding.  ``None`` keeps the exact
+    # two-column contract every trained checkpoint was built against.
+    node_omics: dict[str, np.ndarray] | None = None
+    node_input_dim: int = 2
 
 
 def fold_node_degrees(node_group: pd.DataFrame, edges: pd.DataFrame, node_type: str) -> np.ndarray:
@@ -141,11 +149,65 @@ def fold_node_degrees(node_group: pd.DataFrame, edges: pd.DataFrame, node_type: 
     )
 
 
-def fold_node_features(node_group: pd.DataFrame, edges: pd.DataFrame, node_type: str) -> np.ndarray:
+def fold_node_features(
+    node_group: pd.DataFrame,
+    edges: pd.DataFrame,
+    node_type: str,
+    *,
+    omics: np.ndarray | None = None,
+) -> np.ndarray:
     degree = fold_node_degrees(node_group, edges, node_type)
-    return np.column_stack(
-        [np.log1p(degree), np.ones(len(node_group), dtype=float)]
-    ).astype(np.float32)
+    pieces = [np.log1p(degree), np.ones(len(node_group), dtype=float)]
+    if omics is not None:
+        block = np.asarray(omics, dtype=np.float64)
+        if block.ndim != 2 or block.shape[0] != len(node_group):
+            raise RuntimeError(f"Omics block width mismatch for {node_type}")
+        pieces.append(block)
+    return np.column_stack(pieces).astype(np.float32)
+
+
+def validate_node_omics(
+    node_omics: Mapping[str, Any], nodes: pd.DataFrame
+) -> tuple[dict[str, np.ndarray], int]:
+    """Fail closed on any multi-omics node block that cannot be graph input.
+
+    A block is one float matrix per node type, row-aligned to ``nodes`` sorted
+    by ``node_index_within_type``.  Every node type present in the graph must be
+    supplied: the graph layer never invents zero rows for a node type, because
+    that would silently encode a modality gap as a measured zero.  The caller
+    (``cc_hhgt.v32.omics_node_encoding``) owns the explicit "observed" masks.
+    """
+
+    if not isinstance(node_omics, Mapping) or not node_omics:
+        raise RuntimeError("OMICS_NODE_OMICS_NOT_A_MAPPING")
+    graph_types = set(nodes.node_type.astype(str))
+    cleaned: dict[str, np.ndarray] = {}
+    widths: set[int] = set()
+    for raw_type, raw_block in node_omics.items():
+        node_type = str(raw_type)
+        block = np.array(raw_block, dtype=np.float64, copy=True)
+        if block.ndim != 2 or block.shape[1] < 1:
+            raise RuntimeError(f"OMICS_BLOCK_NOT_2D: {node_type} {block.shape}")
+        if not np.isfinite(block).all():
+            raise RuntimeError(f"OMICS_BLOCK_NOT_FINITE: {node_type}")
+        cleaned[node_type] = block
+        widths.add(int(block.shape[1]))
+    if len(widths) != 1:
+        raise RuntimeError(f"OMICS_BLOCK_WIDTH_INCONSISTENT: {sorted(widths)}")
+    missing = sorted(graph_types - set(cleaned))
+    if missing:
+        raise RuntimeError(f"OMICS_NODE_TYPE_BLOCK_MISSING: {missing}")
+    unknown = sorted(set(cleaned) - graph_types)
+    if unknown:
+        raise RuntimeError(f"OMICS_NODE_TYPE_BLOCK_UNKNOWN: {unknown}")
+    for node_type, group in nodes.groupby("node_type", sort=False):
+        block = cleaned[str(node_type)]
+        if block.shape[0] != len(group):
+            raise RuntimeError(
+                f"OMICS_BLOCK_ROW_MISMATCH: {node_type} {block.shape[0]} != {len(group)}"
+            )
+    width = int(next(iter(widths)))
+    return cleaned, width
 
 
 def fold_node_degree_map(nodes: pd.DataFrame, edges: pd.DataFrame) -> dict[str, np.ndarray]:
@@ -286,6 +348,7 @@ def _materialize_graph_bundle(
     episode_cache: dict[str, dict[str, Any]] | None = None,
     active_runtime_chunk: int | None = None,
     graph_contract: DeploymentContract | str = DeploymentContract.STRICT,
+    node_omics: Mapping[str, Any] | None = None,
 ) -> GraphBundle:
     """Build device tensors for one bounded runtime graph chunk."""
 
@@ -296,7 +359,12 @@ def _materialize_graph_bundle(
     node_maps: dict[str, dict[str, int]] = {}
     data = HeteroData()
     global_index = {node_id: i for i, node_id in enumerate(nodes.node_id.astype(str))}
-    homogeneous_node_x = np.zeros((len(nodes), 2), dtype=np.float32)
+    if node_omics is None:
+        omics_blocks, omics_width = None, 0
+    else:
+        omics_blocks, omics_width = validate_node_omics(node_omics, nodes)
+    node_input_dim = 2 + omics_width
+    homogeneous_node_x = np.zeros((len(nodes), node_input_dim), dtype=np.float32)
     node_degrees = (
         fold_node_degree_map(nodes, feature_edges)
         if node_degree_override is None
@@ -311,7 +379,10 @@ def _materialize_graph_bundle(
             raise RuntimeError(f"Node degree width mismatch for {node_type}")
         features = np.column_stack(
             [np.log1p(degree), np.ones(len(group), dtype=float)]
-        ).astype(np.float32)
+        )
+        if omics_blocks is not None:
+            features = np.column_stack([features, omics_blocks[str(node_type)]])
+        features = features.astype(np.float32)
         data[str(node_type)].x = torch.tensor(
             features,
             dtype=torch.float32,
@@ -517,6 +588,12 @@ def _materialize_graph_bundle(
         cancer_edge_positions=cancer_edge_positions,
         localization_positions=localization_positions,
         episode_cache=episode_cache if episode_cache is not None else {},
+        node_omics=(
+            None
+            if omics_blocks is None
+            else {key: value.copy() for key, value in omics_blocks.items()}
+        ),
+        node_input_dim=node_input_dim,
     )
 
 
@@ -527,6 +604,7 @@ def load_graph_bundle(
     *,
     contract: DeploymentContract | str | None = None,
     mode: FoldGraphMode | str = FoldGraphMode.REAL_TEST,
+    node_omics: Mapping[str, Any] | None = None,
 ) -> GraphBundle:
     nodes = read_table(cfg["_results"] / "tables" / "graph_node.parquet")
     edges = read_table(cfg["_results"] / "tables" / "graph_edge.parquet")
@@ -603,6 +681,7 @@ def load_graph_bundle(
             active_runtime_chunk=0,
             runtime_chunk_positions=scheduled_positions,
             graph_contract=selected_contract,
+            node_omics=node_omics,
         )
 
     if configured_cap is not None:
@@ -623,6 +702,7 @@ def load_graph_bundle(
         feature_edges=edges,
         canonical_edges=edges,
         graph_contract=selected_contract,
+        node_omics=node_omics,
     )
 
 
@@ -817,6 +897,7 @@ def runtime_bundle_for_step(
         episode_cache=bundle.episode_cache,
         active_runtime_chunk=chunk,
         graph_contract=bundle.graph_contract,
+        node_omics=bundle.node_omics,
     )
     runtime_bundle.relation_edge_dropout = dict(dropout_config)
     runtime_bundle.binding_evidence_arm = str(getattr(bundle, "binding_evidence_arm", "current_c"))
@@ -896,6 +977,13 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
     heads = int(cfg["training"]["num_heads"])
     dropout = float(cfg["training"]["dropout"])
     residual_learning = bool(cfg.get("residual_learning", {}).get("enabled", False))
+    # The encoder input width is owned by the graph bundle: two historical
+    # degree channels, optionally followed by multi-omics node channels.  Any
+    # checkpoint loading into a model built from a bundle of a different width
+    # fails loudly instead of silently reinterpreting columns.
+    node_input_dim = int(getattr(bundle, "node_input_dim", 2))
+    if node_input_dim < 2:
+        raise RuntimeError("Graph bundle declares an invalid node input width")
     from .pathway_target import pathway_target_node_type
 
     registered_pathway_target_node_type = pathway_target_node_type(cfg)
@@ -926,7 +1014,7 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
                 self.pathway_target_node_type = registered_pathway_target_node_type
                 # Shared deterministic feature encoder: no cancer/node ID has
                 # an untrained free embedding in a held-out fold.
-                self.input_projection = nn.Sequential(nn.Linear(2, hidden), nn.LayerNorm(hidden), nn.GELU())
+                self.input_projection = nn.Sequential(nn.Linear(node_input_dim, hidden), nn.LayerNorm(hidden), nn.GELU())
                 self.layers = nn.ModuleList([RGCNConv(hidden, hidden, bundle.homogeneous["num_relations"], num_bases=min(32, bundle.homogeneous["num_relations"])) for _ in range(layers)])
                 self.weighted_layers = nn.ModuleList([nn.Linear(hidden, hidden, bias=False) for _ in range(layers)])
                 self.decoder = Decoder(use_pair=False)
@@ -951,7 +1039,7 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
         def __init__(self, use_pair: bool):
             super().__init__()
             self.pathway_target_node_type = registered_pathway_target_node_type
-            self.proj = nn.ModuleDict({node_type: nn.Linear(2, hidden) for node_type in bundle.hetero_data.node_types})
+            self.proj = nn.ModuleDict({node_type: nn.Linear(node_input_dim, hidden) for node_type in bundle.hetero_data.node_types})
             self.layers = nn.ModuleList([HGTConv(hidden, hidden, bundle.hetero_data.metadata(), heads=heads) for _ in range(layers)])
             self.weighted_projection = nn.ModuleList(
                 [nn.ModuleDict({node_type: nn.Linear(hidden, hidden, bias=False) for node_type in bundle.hetero_data.node_types}) for _ in range(layers)]

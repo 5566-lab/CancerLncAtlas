@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1958,
+  "unique_test_cases_passed": 2016,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -58,7 +58,7 @@
     "scripts/analyze_v32_rbns_sequences.py": "6ca08e1ebb672691d6698bd17495af57f9ff5db5b202783873e0b9a655f78a7f",
     "tests/test_v32_encode_functional.py": "311f393d1c3c91209e89d2784c5b1678f4e84961d88e646a67c034f0bcb70d2c",
     "tests/test_v32_rbns_sequence.py": "ec0ed4fc16ba699ff53da7dc52458771ab771ca89d5a9a4aa445064cb3727057",
-    "cc_hhgt/gnn.py": "a2b439cf3f09d24a7e69cd9182897394e66dd0acd784ab2712008248c3474a1b",
+    "cc_hhgt/gnn.py": "1dee962ad86cd984741adfebd8f4b9ae9e7ccd296ace501ea9277e44880ef3ae",
     "cc_hhgt/v32/training.py": "f3416420473a36f2e1df6947e4287564262900bce3f50b53b85d1f55ca06b0e5",
     "tests/test_v32_predicted_binding_runtime.py": "583bdc628600c8616f346590f4b6bbb9ad05239de8864168b8f9a86896b0dbde",
     "cc_hhgt/v32/current_binding_graph.py": "1cb9d9583037fb399dddd02a24f550c6575d32e4704d4d56d2837c124d3316d2",
@@ -412,9 +412,11 @@
     "tests/test_v32_single_cell_geometry_replay.py": "7d42c5f96ee9e307707ddf4efe0d770576f29ed6c7a83f7022086fda6a507922",
     "cc_hhgt/v32/single_cell_lasso_replay.py": "8d2fb9bd6c2146510d7cbdfb8461918449820ab9e737d6a89a9873acebfed561",
     "tests/test_v32_single_cell_lasso_replay.py": "b8cc6748d1be0ef320db691b6903c1e66c3b89efcb663c02174a9fb0091ec49b",
-    "cc_hhgt/v32/code_acceptance.py": "962566a86c97269fb4e8e1c3cf7664d64561a7c7acd37e27966f8c695430c4e0",
+    "cc_hhgt/v32/code_acceptance.py": "ed5a2d37595155464295cd39af306391ce609d205c4d1d3eebf349a44709d3af",
     "scripts/run_code_acceptance.py": "06dd1784278e70763d963726e98b1abe75bdc8caa0138dafdbce71f8b54f0664",
-    "tests/test_v32_code_acceptance.py": "1c394e0068f2b30a80cf841bdab81b701602de50c27fa3e61878be9add202a7a"
+    "tests/test_v32_code_acceptance.py": "7d53945979c8bf83532d167bf290cbab445c89310ab471460ed3ef5a3f0ac1d3",
+    "cc_hhgt/v32/omics_node_encoding.py": "6eead27e54bf3fd19cd3ae53619ee432b8bf13048970a1bdd627a4697fa1a74d",
+    "tests/test_v32_omics_node_encoding.py": "53f798b1e5b8e48038de6b2c6e05dc41a29ed51a73dd8f38505ce83adc2a9f92"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -595,7 +597,8 @@
     "State current-context replay now observes the actual original within-patient mean joins and outputs, records loaded raw row positions, finite versus skipped missing measurements, patient authority positions and native means, then links every original split/candidate paired mask to its actual contribution groups. State canonical patient joins and expression aliquot-authority joins retain their distinct original semantics. Both new tables remain private and are numerically/source replayed; rehashed row/link substitutions and public aliases fail. Tests verify identical original means/statistics on synthetic multi-aliquot data and actual frozen-context/native workflow consumers. All checks use a fitting guard; no real cohort, parameter fitting, acquisition, paid compute or deployment ran. Supplied measurement acquisition/normalization and complete parent-core/cross-module ancestry remain unknown and blocking. This does not replace the global State expression input with a fold-local product. Earlier scope deviations remain recorded.",
     "Original outer and nested SC metacell producers now persist LocalSpace preprocessing, PCA parameters and cell coordinates. The original donor-weighted gene selection, seeded donor-balanced cell cap and centering were factored without changing the fitting algorithm. Native cache/completion and actual model-use inspection reconstruct preparation, apply supplied frozen PCA through the original transform, rerun the original source-only radius and local disjoint grouping and compare coordinates, exact membership and grouping audit. Actual all-five-fold graph/nested/episode/model-use consumers are tested with a declared identity projection and frozen LASSO/model containers. No PCA/LASSO/neural parameter fitting or real cohort/acquisition/paid compute/deployment ran. This verifies application of supplied projection parameters, not their fitted provenance or optimality. The fitted-geometry, fitted-LASSO, raw acquisition/QC/reference and complete cross-module ancestry gaps remain blocking; legacy unpersisted parameters produce no new geometric proof. Earlier scope deviations remain recorded.",
     "Each completed SC-HHGT episode records its LASSO response summary and the localized coefficient/stability edges the HGT model consumes. Signed single-cell model-use inspection now rebuilds the candidate nodes, the three LASSO-derived pair-feature columns and the sparse edge tensors from those recorded values plus the pinned static graph assets, then compares them to the payload: response identity, edge ordering, uniqueness, availability, node sets and localized edges. Rehashed coefficient, stability, node, pair-feature and identity edits fail closed, and an unavailable response may not carry evidence. Integer identities are compared exactly while float32-recorded values use a 1e-6 tolerance; a stability value inside that tolerance of the threshold is reported as a distinct boundary condition. The recorded coefficients are never re-solved, so their fit provenance and L1 objective consistency stay declared gaps. No LASSO, PCA or neural fitting ran; no real cohort, acquisition, paid compute or deployment ran. Earlier scope deviations remain recorded.",
-    "A machine-checked code acceptance harness now replays the registered requirement ledger against the recorded pytest evidence. It refuses to accept when the plan declares training, a requirement has no implementation record, a verified requirement still declares remaining work, an in-progress requirement declares none, the requirement identifier set is not exactly C01-C16, a latest-change receipt is missing, failed, skipped or recorded training, a pinned source no longer matches the working tree, a registered suite hash drifted, the declared case counters disagree with the receipts, the open-requirement list disagrees with the statuses, or the worktree is dirty. The handoff report now refuses to build unless a PASS record is bound to the exact plan, validation ledger and commit. Acceptance is bookkeeping only: it cannot promote a requirement, attest real cohort analysis, independent biological validation or deployment, and publishing complete scientific field definitions remains open. No optimizer, real cohort, paid compute or deployment ran."
+    "A machine-checked code acceptance harness now replays the registered requirement ledger against the recorded pytest evidence. It refuses to accept when the plan declares training, a requirement has no implementation record, a verified requirement still declares remaining work, an in-progress requirement declares none, the requirement identifier set is not exactly C01-C16, a latest-change receipt is missing, failed, skipped or recorded training, a pinned source no longer matches the working tree, a registered suite hash drifted, the declared case counters disagree with the receipts, the open-requirement list disagrees with the statuses, or the worktree is dirty. The handoff report now refuses to build unless a PASS record is bound to the exact plan, validation ledger and commit. Acceptance is bookkeeping only: it cannot promote a requirement, attest real cohort analysis, independent biological validation or deployment, and publishing complete scientific field definitions remains open. No optimizer, real cohort, paid compute or deployment ran.",
+    "Multi-omics node channels now enter the typed graph encoder instead of only the decoder. A validated evidence pair (table plus SHA256-pinned manifest, cohort or subject scope, frozen standardisation, clipped) becomes one value/observed column pair per declared channel for every node type; cc_hhgt/gnn.py widens the node input from the two historical degree columns to 2 + 2*channels and builds both encoder kinds at that width, while a bundle without a block keeps exactly two columns so every existing checkpoint still loads. The graph layer refuses a missing node-type block instead of zero-filling it, refuses stale identifiers, inconsistent widths, non-finite values, double attachment and a model built before augmentation. Fixture checks show a mutation value written on a gene node changes a connected lncRNA embedding through message passing while isolated and out-of-neighbourhood nodes stay bit-identical. The acceptance requirement set is now C01-C21: C17 is verified here, C18 (before/after multi-omics comparison) C19 (patient-level P-inactivation conditioning) C20 (mediation) and C21 (novel binding/PPI discovery with held-out evaluation) stay open. No optimizer, real cohort, paid compute or deployment ran, and no claim is made that multi-omics conditioning improves any prediction."
   ],
   "test_suites": [
     {
@@ -1712,6 +1715,16 @@
       "path": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml",
       "passed": 21,
       "sha256": "e4a8c421611649990d05d06dbd7a99c8ca14bcdb6b58a66bd2093c3b6c22a45e"
+    },
+    {
+      "path": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml",
+      "passed": 65,
+      "sha256": "1f44a1d7a181a5276b699e1291e2a26618a1a9066d9eca0499ee4da4a64e1f29"
+    },
+    {
+      "path": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml",
+      "passed": 21,
+      "sha256": "67040464f88dd2134cdb1377b654e9bd4a68dbc808038d5743e47dba2e47da90"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -1722,6 +1735,11 @@
     "current_binding_expansion_tests.xml": "Early graph-only iteration; superseded by current_binding_integration and current_binding_residual_forward."
   },
   "verified_case_inventory": [
+    {
+      "module": "tests.test_fold_node_features",
+      "case": "test_fold_node_degree_does_not_use_global_node_degree_columns",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
     {
       "module": "tests.test_local_cnv_residualization",
       "case": "test_authority_validators_fail_closed_on_shared_covariate_contract",
@@ -2051,6 +2069,11 @@
       "module": "tests.test_stats",
       "case": "test_signed_support_prefers_strong_significant_effect",
       "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v31_runtime_graph_training",
+      "case": "test_runtime_chunk_is_connected_to_graph_tensors_and_pseudoheldout_filter",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_activity_source_replay",
@@ -2475,107 +2498,107 @@
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_consistent_registry_is_accepted",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_dirty_worktree_fails_closed",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[case_count]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[duplicate_case]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[latest_count]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[missing_requirement]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[open_list_mismatch]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[open_without_remaining]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[pending_validation]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[pin_drift]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[real_data]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[receipt_exit]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[receipt_training]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[short_implementation]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[suite_failure]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[suite_missing]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[suite_unregistered]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[training]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[verified_with_remaining]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_missing_receipt_fails_closed",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_recorded_acceptance_must_match_a_fresh_check",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
@@ -6050,37 +6073,37 @@
     {
       "module": "tests.test_v32_model_and_graph",
       "case": "test_baseline_design_ignores_evidence_and_rejects_requested_evidence",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_and_graph",
       "case": "test_bounded_residual_and_exact_fallback",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_and_graph",
       "case": "test_external_evidence_cannot_change_primary_graph",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_and_graph",
       "case": "test_fresh_safe_graph_contract_accepts_typed_roles_and_reciprocal_ppi",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_and_graph",
       "case": "test_fresh_safe_graph_rejects_wrong_split_polarity_context_and_half_ppi",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_and_graph",
       "case": "test_hierarchical_evidence_gate_is_exactly_zero_when_unavailable",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_and_graph",
       "case": "test_torch_forward_is_zero_residual_without_optimizer",
-      "suite": "provenance/code_completion_20261015/fold_local_scope_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_model_control_sources",
@@ -9683,6 +9706,286 @@
       "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_assert_encoder_refuses_a_degree_only_bundle",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_attach_node_omics_rejects_a_model_built_before_augmentation",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_attach_node_omics_rejects_a_second_attach",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_attach_node_omics_rejects_row_mismatch",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_attach_node_omics_writes_and_verifies",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_build_model_reads_the_widened_input_width",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_channel_layout_is_value_then_observed_per_channel",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_fold_node_features_appends_omics_columns",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_graph_bundle_defaults_are_backward_compatible",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_keeps_two_channel_contract_by_default",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_rejects_invalid_omics_blocks[empty_block]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_rejects_invalid_omics_blocks[missing_node_type]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_rejects_invalid_omics_blocks[non_finite]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_rejects_invalid_omics_blocks[row_mismatch]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_rejects_invalid_omics_blocks[unknown_node_type]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_rejects_invalid_omics_blocks[width_mismatch]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_materializer_widens_node_inputs",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_module_exposes_no_fitting_entry_point",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_node_feature_block_aligns_by_node_index_not_row_order",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_node_feature_block_marks_absent_channels_instead_of_imputing",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_node_feature_block_rejects_duplicate_canonical_ids",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_node_feature_block_rejects_evidence_node_outside_graph",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_node_feature_block_rejects_missing_index_column",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_omics_value_propagates_through_message_passing",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_accepts_every_declared_table_format[.csv]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_accepts_every_declared_table_format[.parquet]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_accepts_every_declared_table_format[.tsv]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_accepts_subject_scope",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_applies_frozen_standardisation",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_clips_outliers",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_duplicate_node_channel",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_empty_identifiers",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_invalid_standardisation[standardisation0-OMICS_EVIDENCE_SCALE_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_invalid_standardisation[standardisation1-OMICS_EVIDENCE_SCALE_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_invalid_standardisation[standardisation2-OMICS_EVIDENCE_CENTER_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_invalid_standardisation[standardisation3-OMICS_EVIDENCE_CENTER_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides0-OMICS_EVIDENCE_FORMAT_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides1-OMICS_EVIDENCE_SCOPE_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides10-OMICS_EVIDENCE_ROW_COUNT_MISMATCH]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides11-OMICS_EVIDENCE_CLIP_DECLARATION_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides2-OMICS_EVIDENCE_SUBJECT_ID_MISSING]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides3-OMICS_EVIDENCE_SUBJECT_ID_NOT_ALLOWED_FOR_COHORT]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides4-OMICS_EVIDENCE_CANCER_ID_MISSING]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides5-OMICS_EVIDENCE_CHANNEL_UNKNOWN]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides6-OMICS_EVIDENCE_CHANNELS_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides7-OMICS_EVIDENCE_CHANNELS_INVALID]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides8-OMICS_EVIDENCE_TABLE_SHA256_MISSING]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_manifest_faults[overrides9-OMICS_EVIDENCE_TABLE_SHA256_MISMATCH]",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_missing_columns",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_non_finite_raw_values",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_undeclared_channel_rows",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_read_evidence_rejects_unsupported_table_format",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_repeated_forward_is_deterministic_in_eval_mode",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_unrelated_nodes_are_unaffected_by_a_local_omics_change",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_validate_node_omics_rejects_empty_mapping",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_encoding",
+      "case": "test_validate_node_omics_returns_defensive_copies",
+      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_orchestration",
       "case": "test_default_policy_creates_exactly_five_blocked_local_tasks",
       "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
@@ -11515,9 +11818,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "code_acceptance_r3"
+      "omics_node_encoding_r2",
+      "code_acceptance_r4"
     ],
-    "passed": 21,
+    "passed": 86,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

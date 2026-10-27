@@ -1,0 +1,89 @@
+{
+  "method": "MULTI_OMICS_NODE_ENCODING_INTO_GRAPH_ENCODER",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "omics_node_encoding_r2",
+    "code_acceptance_r4"
+  ],
+  "earlier_successful_receipts": [],
+  "intermediate_failed_receipts": [
+    "omics_node_encoding_r1"
+  ],
+  "intermediate_failure_causes": [
+    "A malformed standardisation entry reached .get on a string instead of being rejected as an invalid centre.",
+    "An empty canonical identifier was parsed as the plausible-looking id \"nan\" by the CSV reader, so the empty-identity guard never fired; tables are now read without default NA coercion and null identifiers are rejected before casting."
+  ],
+  "implementation_files": [
+    "cc_hhgt/gnn.py",
+    "cc_hhgt/v32/code_acceptance.py",
+    "cc_hhgt/v32/omics_node_encoding.py",
+    "tests/test_v32_code_acceptance.py",
+    "tests/test_v32_omics_node_encoding.py"
+  ],
+  "fail_closed_cases": [
+    "missing evidence file",
+    "wrong evidence format or scope",
+    "subject scope without identifier",
+    "cohort scope with an identifier",
+    "undeclared or duplicated channel",
+    "invalid centre or scale",
+    "table SHA256 drift",
+    "row-count drift",
+    "missing evidence columns",
+    "undeclared row channel",
+    "non-finite raw value",
+    "empty identifier",
+    "duplicate node/channel pair",
+    "evidence node absent from the graph",
+    "nodes without an index column",
+    "duplicate node index or canonical id",
+    "missing or unknown node-type block",
+    "inconsistent block width",
+    "block row mismatch",
+    "non-finite block",
+    "double attachment",
+    "model built before augmentation"
+  ],
+  "graph_input_width_without_omics": 2,
+  "graph_input_width_with_omics": 8,
+  "requirements_now_registered": 21,
+  "requirements_verified": 17,
+  "requirements_open": [
+    "C01",
+    "C13",
+    "C16",
+    "C18",
+    "C19",
+    "C20",
+    "C21"
+  ],
+  "test_substitutes": [
+    "synthetic four-node-type graph with one isolated lncRNA and one out-of-neighbourhood partner",
+    "synthetic omics evidence tables in tsv, csv and parquet form",
+    "fixed hidden size eight and a single HGT layer so the propagation check runs on CPU"
+  ],
+  "promotes_requirement": "C17 only",
+  "real_cohort_analysis_attested": false,
+  "independent_biological_validation_attested": false,
+  "production_deployment_attested": false,
+  "multi_omics_predictive_gain_claimed": false,
+  "patient_level_result_claimed": false,
+  "mediation_result_claimed": false,
+  "novel_binding_discovery_claimed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16",
+    "C18",
+    "C19",
+    "C20",
+    "C21"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Multi-omics node channels now enter the typed graph encoder instead of only the decoder. A validated evidence pair (table plus SHA256-pinned manifest, cohort or subject scope, frozen standardisation, clipped) becomes one value/observed column pair per declared channel for every node type; cc_hhgt/gnn.py widens the node input from the two historical degree columns to 2 + 2*channels and builds both encoder kinds at that width, while a bundle without a block keeps exactly two columns so every existing checkpoint still loads. The graph layer refuses a missing node-type block instead of zero-filling it, refuses stale identifiers, inconsistent widths, non-finite values, double attachment and a model built before augmentation. Fixture checks show a mutation value written on a gene node changes a connected lncRNA embedding through message passing while isolated and out-of-neighbourhood nodes stay bit-identical. The acceptance requirement set is now C01-C21: C17 is verified here, C18 (before/after multi-omics comparison) C19 (patient-level P-inactivation conditioning) C20 (mediation) and C21 (novel binding/PPI discovery with held-out evaluation) stay open. No optimizer, real cohort, paid compute or deployment ran, and no claim is made that multi-omics conditioning improves any prediction."
+}

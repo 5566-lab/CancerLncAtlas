@@ -44,7 +44,7 @@ def fixture(tmp_path):
     _suite_xml(code / SUITE)
     _write(code / RECEIPT, {"target_host": "149", "exit_code": 0, "training_started": False})
     requirements = []
-    for index in range(1, 17):
+    for index in range(1, 22):
         identifier = f"C{index:02d}"
         if identifier == "C01":
             requirements.append({"id": identifier, "status": OPEN, "implementation": IMPLEMENTATION,
@@ -85,7 +85,7 @@ def test_consistent_registry_is_accepted(tmp_path):
     paths = fixture(tmp_path)
     value = run(paths)
     assert value["format"] == FORMAT and value["status"] == "PASS"
-    assert value["requirement_count"] == 16 and value["verified_count"] == 15
+    assert value["requirement_count"] == 21 and value["verified_count"] == 20
     assert value["open_requirements"] == ["C01"] and value["open_count"] == 1
     assert value["latest_case_count"] == len(CASES) and value["cumulative_case_count"] == len(CASES)
     assert value["source_pin_count"] == 1 and value["checks_applied"] > 20
