@@ -7187,3 +7187,10 @@ re-derives the candidate nodes, LASSO pair features and sparse edges from the
 evidence recorded inside each episode plus the pinned static assets. Recorded
 coefficients are still not re-solved, so fit provenance and objective
 consistency remain open. No fitting or real cohort ran.
+
+Code acceptance harness on149: ``code_acceptance_r2``
+pass 21 distinct related checks. The harness replays the requirement
+ledger against recorded receipts and fails closed on missing evidence, drifted
+pins or suites, counter disagreement, status/open-list mismatch and a dirty
+worktree. The handoff report cannot be rebuilt without a PASS record bound to
+this plan, ledger and commit. Bookkeeping only; no optimizer or real cohort ran.

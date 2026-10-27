@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1937,
+  "unique_test_cases_passed": 1958,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -411,7 +411,10 @@
     "cc_hhgt/v32/single_cell_nested_episodes.py": "a6c7bf5b69015c2d9cc145876c726e441acf55969157b95b351a10eea989c8d1",
     "tests/test_v32_single_cell_geometry_replay.py": "7d42c5f96ee9e307707ddf4efe0d770576f29ed6c7a83f7022086fda6a507922",
     "cc_hhgt/v32/single_cell_lasso_replay.py": "8d2fb9bd6c2146510d7cbdfb8461918449820ab9e737d6a89a9873acebfed561",
-    "tests/test_v32_single_cell_lasso_replay.py": "b8cc6748d1be0ef320db691b6903c1e66c3b89efcb663c02174a9fb0091ec49b"
+    "tests/test_v32_single_cell_lasso_replay.py": "b8cc6748d1be0ef320db691b6903c1e66c3b89efcb663c02174a9fb0091ec49b",
+    "cc_hhgt/v32/code_acceptance.py": "962566a86c97269fb4e8e1c3cf7664d64561a7c7acd37e27966f8c695430c4e0",
+    "scripts/run_code_acceptance.py": "d25b097f68dac1d715cd5abead54ffee7a4f6b8183d3743f900645d1f6d089ed",
+    "tests/test_v32_code_acceptance.py": "1c394e0068f2b30a80cf841bdab81b701602de50c27fa3e61878be9add202a7a"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -591,7 +594,8 @@
     "Recovered the original transcript-promoter script byte-for-byte and added promoter.run as chain operation 34. The original strand-aware inclusive -1000/+100 geometry, reference chromosome selection, multiple transcript retention and deterministic gzip remain unchanged. Native output preserves raw versioned IDs and GTF row positions while exposing stable gene IDs that retain PAR_Y through existing consumers. Actual ATAC R materialization, all-five-fold feature preparation, auxiliary collection/current fusion source inspection consume the new promoter proof. Actual annotation/promoter/probe/methylation chain reconstructs original coordinate overlaps and synthetic beta values; parent GTF/code pins propagate downstream. Candidate annotation mismatch, proof removal, copied markers, changed raw inputs and rehashed geometry/identity substitutions are rejected. Reference authenticity, raw ATAC normalization, remaining upstream/patient ancestry and complete acceptance remain open. All checks in this change use the session fitting guard, synthetic cohort input and frozen model-result containers; the official static HM450 reference is read under its unchanged checksum gate. No fitting, real cohort, acquisition, paid compute or deployment ran. The earlier ATAC synthetic-fitting selection incident stays recorded in verification_scope_deviations; it is not removed or reused.",
     "State current-context replay now observes the actual original within-patient mean joins and outputs, records loaded raw row positions, finite versus skipped missing measurements, patient authority positions and native means, then links every original split/candidate paired mask to its actual contribution groups. State canonical patient joins and expression aliquot-authority joins retain their distinct original semantics. Both new tables remain private and are numerically/source replayed; rehashed row/link substitutions and public aliases fail. Tests verify identical original means/statistics on synthetic multi-aliquot data and actual frozen-context/native workflow consumers. All checks use a fitting guard; no real cohort, parameter fitting, acquisition, paid compute or deployment ran. Supplied measurement acquisition/normalization and complete parent-core/cross-module ancestry remain unknown and blocking. This does not replace the global State expression input with a fold-local product. Earlier scope deviations remain recorded.",
     "Original outer and nested SC metacell producers now persist LocalSpace preprocessing, PCA parameters and cell coordinates. The original donor-weighted gene selection, seeded donor-balanced cell cap and centering were factored without changing the fitting algorithm. Native cache/completion and actual model-use inspection reconstruct preparation, apply supplied frozen PCA through the original transform, rerun the original source-only radius and local disjoint grouping and compare coordinates, exact membership and grouping audit. Actual all-five-fold graph/nested/episode/model-use consumers are tested with a declared identity projection and frozen LASSO/model containers. No PCA/LASSO/neural parameter fitting or real cohort/acquisition/paid compute/deployment ran. This verifies application of supplied projection parameters, not their fitted provenance or optimality. The fitted-geometry, fitted-LASSO, raw acquisition/QC/reference and complete cross-module ancestry gaps remain blocking; legacy unpersisted parameters produce no new geometric proof. Earlier scope deviations remain recorded.",
-    "Each completed SC-HHGT episode records its LASSO response summary and the localized coefficient/stability edges the HGT model consumes. Signed single-cell model-use inspection now rebuilds the candidate nodes, the three LASSO-derived pair-feature columns and the sparse edge tensors from those recorded values plus the pinned static graph assets, then compares them to the payload: response identity, edge ordering, uniqueness, availability, node sets and localized edges. Rehashed coefficient, stability, node, pair-feature and identity edits fail closed, and an unavailable response may not carry evidence. Integer identities are compared exactly while float32-recorded values use a 1e-6 tolerance; a stability value inside that tolerance of the threshold is reported as a distinct boundary condition. The recorded coefficients are never re-solved, so their fit provenance and L1 objective consistency stay declared gaps. No LASSO, PCA or neural fitting ran; no real cohort, acquisition, paid compute or deployment ran. Earlier scope deviations remain recorded."
+    "Each completed SC-HHGT episode records its LASSO response summary and the localized coefficient/stability edges the HGT model consumes. Signed single-cell model-use inspection now rebuilds the candidate nodes, the three LASSO-derived pair-feature columns and the sparse edge tensors from those recorded values plus the pinned static graph assets, then compares them to the payload: response identity, edge ordering, uniqueness, availability, node sets and localized edges. Rehashed coefficient, stability, node, pair-feature and identity edits fail closed, and an unavailable response may not carry evidence. Integer identities are compared exactly while float32-recorded values use a 1e-6 tolerance; a stability value inside that tolerance of the threshold is reported as a distinct boundary condition. The recorded coefficients are never re-solved, so their fit provenance and L1 objective consistency stay declared gaps. No LASSO, PCA or neural fitting ran; no real cohort, acquisition, paid compute or deployment ran. Earlier scope deviations remain recorded.",
+    "A machine-checked code acceptance harness now replays the registered requirement ledger against the recorded pytest evidence. It refuses to accept when the plan declares training, a requirement has no implementation record, a verified requirement still declares remaining work, an in-progress requirement declares none, the requirement identifier set is not exactly C01-C16, a latest-change receipt is missing, failed, skipped or recorded training, a pinned source no longer matches the working tree, a registered suite hash drifted, the declared case counters disagree with the receipts, the open-requirement list disagrees with the statuses, or the worktree is dirty. The handoff report now refuses to build unless a PASS record is bound to the exact plan, validation ledger and commit. Acceptance is bookkeeping only: it cannot promote a requirement, attest real cohort analysis, independent biological validation or deployment, and publishing complete scientific field definitions remains open. No optimizer, real cohort, paid compute or deployment ran."
   ],
   "test_suites": [
     {
@@ -1698,6 +1702,11 @@
       "path": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml",
       "passed": 25,
       "sha256": "0c8ea648e61ff78572c7f7a8acab9614130f16daaa107bdb44c4fb0c3341642c"
+    },
+    {
+      "path": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml",
+      "passed": 21,
+      "sha256": "f6963014376e76555f5064e0c6317ee11771b03cc1573a506866dbc513531908"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -2457,6 +2466,111 @@
       "module": "tests.test_v32_cnv_materialization_sources",
       "case": "test_event_materializer_rejects_raw_drift",
       "suite": "provenance/code_completion_20261015/cnv_sources_materialization_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_consistent_registry_is_accepted",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_dirty_worktree_fails_closed",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[case_count]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[duplicate_case]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[latest_count]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[missing_requirement]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[open_list_mismatch]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[open_without_remaining]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[pending_validation]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[pin_drift]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[real_data]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[receipt_exit]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[receipt_training]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[short_implementation]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[suite_failure]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[suite_missing]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[suite_unregistered]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[training]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_inconsistent_registry_fails_closed[verified_with_remaining]",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_missing_receipt_fails_closed",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_code_acceptance",
+      "case": "test_recorded_acceptance_must_match_a_fresh_check",
+      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
@@ -11396,9 +11510,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "sc_lasso_model_sources_r3"
+      "code_acceptance_r2"
     ],
-    "passed": 25,
+    "passed": 21,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

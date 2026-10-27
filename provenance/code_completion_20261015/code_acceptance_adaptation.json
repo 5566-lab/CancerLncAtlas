@@ -1,0 +1,64 @@
+{
+  "method": "MACHINE_CHECKED_CODE_ACCEPTANCE_HARNESS",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "code_acceptance_r2"
+  ],
+  "earlier_successful_receipts": [],
+  "intermediate_failed_receipts": [
+    "code_acceptance_r1"
+  ],
+  "intermediate_failure_causes": [
+    "The recorded-artifact equality check did not forward the optional worktree status, so a clean-worktree record could never match a fresh check. Forwarded it explicitly."
+  ],
+  "implementation_files": [
+    "cc_hhgt/v32/code_acceptance.py",
+    "scripts/run_code_acceptance.py",
+    "tests/test_v32_code_acceptance.py"
+  ],
+  "fail_closed_cases": [
+    "plan declares training",
+    "implementation record absent or too short",
+    "verified requirement still declares remaining work",
+    "in-progress requirement declares no remaining work",
+    "requirement identifier set is not C01-C16",
+    "latest receipt missing, failed, skipped or recorded training",
+    "pinned source drifted from the working tree",
+    "registered suite hash drifted or unregistered",
+    "declared case counters disagree with the receipts",
+    "open-requirement list disagrees with statuses",
+    "dirty worktree"
+  ],
+  "policy_checks_applied_in_fixture": 21,
+  "report_gate_bound_to": [
+    "plan_sha256",
+    "validation_sha256",
+    "head_commit",
+    "open_requirements",
+    "latest_case_count",
+    "cumulative_case_count",
+    "source_pin_count"
+  ],
+  "bookkeeping_only": true,
+  "promotes_requirement": false,
+  "real_cohort_analysis_attested": false,
+  "independent_biological_validation_attested": false,
+  "production_deployment_attested": false,
+  "scientific_field_definitions_published": false,
+  "test_substitutes": [
+    "Synthetic plan, validation ledger, suite and receipt fixtures with real hashes.",
+    "No scientific code path is executed by the harness."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "A machine-checked code acceptance harness now replays the registered requirement ledger against the recorded pytest evidence. It refuses to accept when the plan declares training, a requirement has no implementation record, a verified requirement still declares remaining work, an in-progress requirement declares none, the requirement identifier set is not exactly C01-C16, a latest-change receipt is missing, failed, skipped or recorded training, a pinned source no longer matches the working tree, a registered suite hash drifted, the declared case counters disagree with the receipts, the open-requirement list disagrees with the statuses, or the worktree is dirty. The handoff report now refuses to build unless a PASS record is bound to the exact plan, validation ledger and commit. Acceptance is bookkeeping only: it cannot promote a requirement, attest real cohort analysis, independent biological validation or deployment, and publishing complete scientific field definitions remains open. No optimizer, real cohort, paid compute or deployment ran."
+}
