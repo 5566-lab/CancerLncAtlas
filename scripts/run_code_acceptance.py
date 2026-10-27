@@ -2,18 +2,23 @@
 
 Static bookkeeping only: no scientific computation, no host gate, no training.
 """
+import importlib.util
 import json
 from pathlib import Path
 import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-
-from cc_hhgt.v32.code_acceptance import accept, write_acceptance  # noqa: E402
-
 PROVENANCE = ROOT / "provenance/code_completion_20261015"
 DEFAULT_OUTPUT = Path("D:/model/audit/requirements_status_20261026/CODE_ACCEPTANCE.json")
+
+# Loaded by path so this static bookkeeping check never imports the scientific
+# package (and therefore needs no numpy/torch just to audit the ledger).
+_spec = importlib.util.spec_from_file_location(
+    "code_acceptance", ROOT / "cc_hhgt/v32/code_acceptance.py")
+_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_module)
+accept, write_acceptance = _module.accept, _module.write_acceptance
 
 
 def main(argv=None):

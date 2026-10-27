@@ -413,7 +413,7 @@
     "cc_hhgt/v32/single_cell_lasso_replay.py": "8d2fb9bd6c2146510d7cbdfb8461918449820ab9e737d6a89a9873acebfed561",
     "tests/test_v32_single_cell_lasso_replay.py": "b8cc6748d1be0ef320db691b6903c1e66c3b89efcb663c02174a9fb0091ec49b",
     "cc_hhgt/v32/code_acceptance.py": "962566a86c97269fb4e8e1c3cf7664d64561a7c7acd37e27966f8c695430c4e0",
-    "scripts/run_code_acceptance.py": "d25b097f68dac1d715cd5abead54ffee7a4f6b8183d3743f900645d1f6d089ed",
+    "scripts/run_code_acceptance.py": "06dd1784278e70763d963726e98b1abe75bdc8caa0138dafdbce71f8b54f0664",
     "tests/test_v32_code_acceptance.py": "1c394e0068f2b30a80cf841bdab81b701602de50c27fa3e61878be9add202a7a"
   },
   "known_scope_limits": [
@@ -1707,6 +1707,11 @@
       "path": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml",
       "passed": 21,
       "sha256": "f6963014376e76555f5064e0c6317ee11771b03cc1573a506866dbc513531908"
+    },
+    {
+      "path": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml",
+      "passed": 21,
+      "sha256": "e4a8c421611649990d05d06dbd7a99c8ca14bcdb6b58a66bd2093c3b6c22a45e"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -2470,107 +2475,107 @@
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_consistent_registry_is_accepted",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_dirty_worktree_fails_closed",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[case_count]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[duplicate_case]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[latest_count]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[missing_requirement]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[open_list_mismatch]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[open_without_remaining]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[pending_validation]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[pin_drift]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[real_data]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[receipt_exit]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[receipt_training]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[short_implementation]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[suite_failure]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[suite_missing]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[suite_unregistered]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[training]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_inconsistent_registry_fails_closed[verified_with_remaining]",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_missing_receipt_fails_closed",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_code_acceptance",
       "case": "test_recorded_acceptance_must_match_a_fresh_check",
-      "suite": "provenance/code_completion_20261015/code_acceptance_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/code_acceptance_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
@@ -11510,7 +11515,7 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "code_acceptance_r2"
+      "code_acceptance_r3"
     ],
     "passed": 21,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",

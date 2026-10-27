@@ -7,19 +7,19 @@
   "production_deployed": false,
   "scientific_data_download_started": false,
   "successful_validation_receipts": [
-    "code_acceptance_r2"
+    "code_acceptance_r3"
   ],
   "earlier_successful_receipts": [],
   "intermediate_failed_receipts": [
-    "code_acceptance_r1"
+    "code_acceptance_r1",
+    "code_acceptance_r2"
   ],
   "intermediate_failure_causes": [
-    "The recorded-artifact equality check did not forward the optional worktree status, so a clean-worktree record could never match a fresh check. Forwarded it explicitly."
+    "The recorded-artifact equality check did not forward the optional worktree status, so a clean-worktree record could never match a fresh check; forwarded it explicitly.",
+    "The runner imported the scientific package to reach this static check, which needs numpy. It now loads the acceptance module by path so the ledger can be audited without the scientific stack."
   ],
   "implementation_files": [
-    "cc_hhgt/v32/code_acceptance.py",
-    "scripts/run_code_acceptance.py",
-    "tests/test_v32_code_acceptance.py"
+    "scripts/run_code_acceptance.py"
   ],
   "fail_closed_cases": [
     "plan declares training",
