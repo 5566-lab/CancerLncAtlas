@@ -7223,3 +7223,10 @@ hash into scored and held-out partitions, the candidate universe excludes every 
 known edge, and an unfitted declared score is evaluated at a fixed budget against a
 degree-prior baseline. Every emitted row is an unvalidated candidate. The fixture plants
 a latent rule; no real binding evidence was scored.
+
+Encoder regression on149: ``gnn_regression_b``, ``gnn_regression_c``, ``gnn_regression_d``, ``stale_contract_repair_r1``
+pass 202 distinct related checks across the graph-contract, fold-local,
+model-use, full-model-contract and core-export/current-model suites. The widened node input does
+not change behaviour for bundles without omics. Two pre-existing defects were found: one stale
+test missing the production topology channel (repaired) and one test depending on a document
+absent from this checkout (now skips with a reason). No requirement was promoted.

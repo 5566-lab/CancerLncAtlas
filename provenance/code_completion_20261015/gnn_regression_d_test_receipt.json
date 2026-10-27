@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-27T13:14:46.949813+00:00",
+  "source_sha256": {
+    "cc_hhgt/gnn.py": "1dee962ad86cd984741adfebd8f4b9ae9e7ccd296ace501ea9277e44880ef3ae"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_core_export_model_use.py",
+    "tests/test_v32_current_model_use.py",
+    "tests/test_v32_current_core_prediction.py",
+    "--junitxml=provenance/code_completion_20261015/gnn_regression_d_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-27T13:15:59.304098+00:00"
+}

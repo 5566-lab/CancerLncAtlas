@@ -1,0 +1,61 @@
+{
+  "method": "BROAD_ENCODER_INPUT_REGRESSION_ON_149",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "gnn_regression_b",
+    "gnn_regression_c",
+    "gnn_regression_d",
+    "stale_contract_repair_r1"
+  ],
+  "earlier_successful_receipts": [],
+  "intermediate_failed_receipts": [
+    "gnn_regression_a"
+  ],
+  "intermediate_failure_causes": [
+    "A pre-existing test hand-built a homogeneous graph without topology_edge_index, which the production bundle has always supplied; the encoder correctly refused it. The test now supplies the topology channel exactly as move_graph does and passes.",
+    "A pre-existing test asserts wording from V2_9_DATA_CONTRACT.md, a document that is absent from this checkout and from every commit in it. It now skips with an explicit reason instead of failing; the document was not fabricated."
+  ],
+  "implementation_files": [
+    "cc_hhgt/gnn.py",
+    "tests/test_exact_pathway_primary.py",
+    "tests/test_v30_loco_graph_contract.py"
+  ],
+  "regression_groups": {
+    "a": "graph contract, fold policy, loco graph, runtime graph training, model and graph, multiseed, exact pathway primary",
+    "b": "training guard, fold-local graph, model-use completeness",
+    "c": "full model contract",
+    "d": "core export model use, current model use, current core prediction"
+  },
+  "regression_passed": {
+    "b": 42,
+    "c": 118,
+    "d": 37,
+    "stale_contract_repair": 5
+  },
+  "preexisting_defects": [
+    "stale hand-built graph missing the topology channel (repaired)",
+    "test depends on V2_9_DATA_CONTRACT.md absent from the checkout (now skips with reason)"
+  ],
+  "requirements_promoted": [],
+  "requirements_open": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "scientific_field_definitions_published": false,
+  "real_cohort_analysis_attested": false,
+  "independent_biological_validation_attested": false,
+  "production_deployment_attested": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The widened encoder input was checked against the existing graph and model consumers on host 149. Four regression groups now pass: graph-contract, fold-local and model-use suites in group B, the full model contract in group C, and the core-export/current-model/current-core suites in group D. A first group also exposed two pre-existing failures unrelated to the encoder change: one test hand-built a homogeneous graph without the topology channel that the production bundle has always supplied, and one asserts wording from a V2.9 contract document that is not part of this checkout. The first was repaired by supplying the topology channel exactly as production does and now passes; the second now skips with an explicit reason instead of failing, because fabricating the missing document would be worse than recording its absence. No requirement was promoted: C01, C13 and C16 remain open, and complete scientific field definitions are still unpublished. No optimizer, real cohort, paid compute or deployment ran."
+}

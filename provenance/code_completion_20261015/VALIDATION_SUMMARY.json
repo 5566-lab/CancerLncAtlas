@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2107,
+  "unique_test_cases_passed": 2230,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -422,7 +422,9 @@
     "cc_hhgt/v32/omics_ablation_comparison.py": "58147404ca198da32e10b30c4eb21b092f1c6022e169331d9723030f27e7a906",
     "tests/test_v32_omics_ablation_comparison.py": "b24e307f6314e6298a484e6350dbaf21db478716975183924116f0a49602600e",
     "cc_hhgt/v32/novel_binding_discovery.py": "67a654129677293f3fac9034b3131fd2eca5ed8a22203252553d6b553ff8d58d",
-    "tests/test_v32_novel_binding_discovery.py": "6552c0255cdbcfd3f0498840936cb7bdc1d8d69212e474a5eb9bd88fbcb2c1c8"
+    "tests/test_v32_novel_binding_discovery.py": "6552c0255cdbcfd3f0498840936cb7bdc1d8d69212e474a5eb9bd88fbcb2c1c8",
+    "tests/test_v30_loco_graph_contract.py": "cfd4bcb947fe95826dad8beb8aa1e88f777d2a9ec17ab4d0704757b2e0141bc3",
+    "tests/test_exact_pathway_primary.py": "b1f89809ae44deddb566cd831ae66301e5e84afa049c3e819ffc06b2066d6b04"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -607,7 +609,8 @@
     "Multi-omics node channels now enter the typed graph encoder instead of only the decoder. A validated evidence pair (table plus SHA256-pinned manifest, cohort or subject scope, frozen standardisation, clipped) becomes one value/observed column pair per declared channel for every node type; cc_hhgt/gnn.py widens the node input from the two historical degree columns to 2 + 2*channels and builds both encoder kinds at that width, while a bundle without a block keeps exactly two columns so every existing checkpoint still loads. The graph layer refuses a missing node-type block instead of zero-filling it, refuses stale identifiers, inconsistent widths, non-finite values, double attachment and a model built before augmentation. Fixture checks show a mutation value written on a gene node changes a connected lncRNA embedding through message passing while isolated and out-of-neighbourhood nodes stay bit-identical. The acceptance requirement set is now C01-C21: C17 is verified here, C18 (before/after multi-omics comparison) C19 (patient-level P-inactivation conditioning) C20 (mediation) and C21 (novel binding/PPI discovery with held-out evaluation) stay open. No optimizer, real cohort, paid compute or deployment ran, and no claim is made that multi-omics conditioning improves any prediction.",
     "Patient-level conditioning now has a defined, executable and falsifiable contrast. For one declared patient, one protein node and one omics channel, the frozen model is evaluated twice with every other input held byte-identical, and the difference in the lncRNA-pathway membership logit is reported together with sign changes and within-cancer rank movement; the record states that this is a model-conditional interventional contrast, not a causal effect in patients. Interaction attribution adds the only controls that can falsify an interaction reading: a rewiring control that keeps edge type, count and weight while redirecting P to other partners, and a matched placebo node with no path to the pair. The verdict is restricted to within-frozen-model language and every record states that biological mediation is not proven. Cohort tables cannot stand in for patients, unmeasured participants are refused instead of imputed, a counterfactual equal to the observed value is refused, and the homogeneous model refuses edge surgery rather than silently skipping the controls. No optimizer, real cohort, paid compute or deployment ran; the fixture model is untrained and the synthetic deltas carry no biological meaning.",
     "The with/without multi-omics comparison now has an executable, paired and gated contract. Two declared arms must match on candidate, label, fold and budget digests and on the initialisation seed, and must differ only in the omics node input, otherwise the pair is refused before any score is read. The estimator is verified on synthetic scores: per-cancer average precision and ROC AUC, a paired stratified bootstrap interval, an exact sign test and a paired sign-flip permutation test, including a planted improvement and a null case. The only reporting entry point refuses while either arm has no trained checkpoint, which is the current state: no arm was trained with multi-omics node input, so no effect is reported and the tempting shortcut of scoring the existing G2 checkpoint with and without the new input columns is refused explicitly. Two attempts were blocked before execution by an intranet SSH banner error; after the read-only probe returned 149 the run was repeated once, no remote execution had occurred, and no duplicate job was launched. No optimizer, real cohort, paid compute or deployment ran.",
-    "Novel binding/PPI work is now delivered as what it can honestly be: unvalidated candidate generation with a held-out evaluation that refuses to be meaningless. Known edges of a declared evidence arm are split by a seeded hash of the edge identity alone, the candidate universe excludes every scored known edge while keeping the held-out ones unmarked, and the additive score uses declared weights and frozen standardisation so nothing is fitted on the evaluation labels. Evaluation reports fixed-budget precision, recall, average precision and the same numbers for a degree-prior baseline built only from the scored partition. Label-like feature columns, duplicate feature rows, an all-missing primary feature, an empty holdout, a partition overlap and a budget larger than the universe are refused. Every emitted row is labelled unvalidated_candidate with orthogonal experimental validation required, and the record states that a ranked candidate is not evidence of binding. The synthetic fixture plants a latent binding rule to check that the estimator has power; it is not real binding data. No acquisition, optimizer, real cohort, paid compute or deployment ran, and no existing binding/PPI graph was modified."
+    "Novel binding/PPI work is now delivered as what it can honestly be: unvalidated candidate generation with a held-out evaluation that refuses to be meaningless. Known edges of a declared evidence arm are split by a seeded hash of the edge identity alone, the candidate universe excludes every scored known edge while keeping the held-out ones unmarked, and the additive score uses declared weights and frozen standardisation so nothing is fitted on the evaluation labels. Evaluation reports fixed-budget precision, recall, average precision and the same numbers for a degree-prior baseline built only from the scored partition. Label-like feature columns, duplicate feature rows, an all-missing primary feature, an empty holdout, a partition overlap and a budget larger than the universe are refused. Every emitted row is labelled unvalidated_candidate with orthogonal experimental validation required, and the record states that a ranked candidate is not evidence of binding. The synthetic fixture plants a latent binding rule to check that the estimator has power; it is not real binding data. No acquisition, optimizer, real cohort, paid compute or deployment ran, and no existing binding/PPI graph was modified.",
+    "The widened encoder input was checked against the existing graph and model consumers on host 149. Four regression groups now pass: graph-contract, fold-local and model-use suites in group B, the full model contract in group C, and the core-export/current-model/current-core suites in group D. A first group also exposed two pre-existing failures unrelated to the encoder change: one test hand-built a homogeneous graph without the topology channel that the production bundle has always supplied, and one asserts wording from a V2.9 contract document that is not part of this checkout. The first was repaired by supplying the topology channel exactly as production does and now passes; the second now skips with an explicit reason instead of failing, because fabricating the missing document would be worse than recording its absence. No requirement was promoted: C01, C13 and C16 remain open, and complete scientific field definitions are still unpublished. No optimizer, real cohort, paid compute or deployment ran."
   ],
   "test_suites": [
     {
@@ -1749,6 +1752,26 @@
       "path": "provenance/code_completion_20261015/novel_binding_r2_tests.xml",
       "passed": 27,
       "sha256": "661d499f29051008d2fe77a5f3e15dbb06dad3894469b30f9ba01adbec6c191e"
+    },
+    {
+      "path": "provenance/code_completion_20261015/gnn_regression_b_tests.xml",
+      "passed": 42,
+      "sha256": "de200c1767903679d87f8e55dbfc9237ff5889cb3e215ee24b61688a5d18871c"
+    },
+    {
+      "path": "provenance/code_completion_20261015/gnn_regression_c_tests.xml",
+      "passed": 118,
+      "sha256": "da7c8a0a850f5d5094c3204d1cab095f30967f33197c43777c561b5bda413e9b"
+    },
+    {
+      "path": "provenance/code_completion_20261015/gnn_regression_d_tests.xml",
+      "passed": 37,
+      "sha256": "192be9a1a8062cc493e603f2142948cd6af4112a5d11acbde2692b1b8c6cbd3d"
+    },
+    {
+      "path": "provenance/code_completion_20261015/stale_contract_repair_r1_tests.xml",
+      "passed": 5,
+      "sha256": "9abf82b4567e18a2f0527a153ef23ef265423328cdc5ad2af7ca59aae972fc55"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -2093,6 +2116,31 @@
       "module": "tests.test_stats",
       "case": "test_signed_support_prefers_strong_significant_effect",
       "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v30_loco_graph_contract",
+      "case": "test_heldout_cancer_features_are_deterministic_and_distinguishable",
+      "suite": "provenance/code_completion_20261015/stale_contract_repair_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v30_loco_graph_contract",
+      "case": "test_heldout_cancer_keeps_only_expression_and_reference_context_is_removed",
+      "suite": "provenance/code_completion_20261015/stale_contract_repair_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v30_loco_graph_contract",
+      "case": "test_heterogeneous_logits_change_when_only_edge_weights_change[cc_hhgt]",
+      "suite": "provenance/code_completion_20261015/stale_contract_repair_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v30_loco_graph_contract",
+      "case": "test_heterogeneous_logits_change_when_only_edge_weights_change[hgt]",
+      "suite": "provenance/code_completion_20261015/stale_contract_repair_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v30_loco_graph_contract",
+      "case": "test_rgcn_logits_change_when_only_edge_weights_change",
+      "suite": "provenance/code_completion_20261015/stale_contract_repair_r1_tests.xml"
     },
     {
       "module": "tests.test_v31_runtime_graph_training",
@@ -2627,72 +2675,72 @@
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_actual_export_retains_native_training_and_validation_sources",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_actual_input_keys_are_reconstructed_without_downstream_candidates",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_changed_core_graph_source_is_rejected",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_core_only_study_reaches_actual_auxiliary_fusion_and_external_isolation[cnv-88990011]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_core_only_study_reaches_actual_auxiliary_fusion_and_external_isolation[cnv_event-66778899]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_core_only_study_reaches_actual_auxiliary_fusion_and_external_isolation[genomic-55667788]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_expanded_graph_retains_base_source_metadata_and_fold_identity",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_hash_bound_export_input_locator_preserves_source_identity",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_missing_historical_sources_remain_explicit",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[copied_receipt]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[missing_source]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[node_identity]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[source_manifest]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_core_export_model_use",
       "case": "test_repinned_export_semantic_drift_rejected[state_hash]",
-      "suite": "provenance/code_completion_20261015/local_cnv_ancestry_r5_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_covariate_contract",
@@ -3197,67 +3245,67 @@
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_actual_v4_loaders_all_chunks_existing_cli_and_selected_geneset_consumer",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_chunk_logits_precede_sigmoid_and_candidate_order_is_restored_without_label_reads",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[checkpoint]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[run]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_current_receipt_or_checkpoint_mismatch_is_not_inferred[weights]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[availability]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[duplicate]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[extra]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[feature]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[indices]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[missing]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[nan]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
       "case": "test_full_candidate_feature_integrity_before_any_forward[sealed]",
-      "suite": "provenance/code_completion_20261015/prediction_scope_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_drug_context",
@@ -3387,52 +3435,52 @@
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_actual_fusion_inputs_include_zero_coefficient_experts_and_explicit_missing_ancestry",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_directory_authority_uses_native_tree_hash_and_cannot_hide_a_changed_partition",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_external_v2_uses_actual_native_exposure_and_reports_unresolved_provenance",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_inventory_cannot_be_relabelled_for_another_score_or_claim_complete",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_native_training_selection_and_graph_inputs_are_derived_with_masks",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_rehashed_native_use_omission_fails_actual_input_replay",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_selected_l1_score_does_not_claim_reference_neural_graph_or_validation_use",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_statistical_patient_scopes_cannot_be_made_public[False]",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_statistical_patient_scopes_cannot_be_made_public[None]",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_model_use",
       "case": "test_unused_locations_cannot_smuggle_external_data_into_the_dependency_inventory",
-      "suite": "provenance/code_completion_20261015/pathway_membership_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_d_tests.xml"
     },
     {
       "module": "tests.test_v32_current_omics_context",
@@ -4947,82 +4995,82 @@
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[0]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[1]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[2]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[3]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_five_fold_native_graph_sources_match_both_expression_kinds[4]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_actual_graph_builder_rejects_other_normalization_before_materializing",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_bound_graph_replays_sources_and_cannot_drop_or_forge_match",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[changed_edge-actual native E1 selection]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[conversion_values-native conversion]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[duplicate_cancer-cancer declaration]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[gene_normalization-normalization sources differ]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[legacy-requires native fold-local]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[lncrna_normalization-normalization sources differ]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[missing_partition-explicit partitions]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[no_ancestry-lacks native transformation]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_graph",
       "case": "test_repinned_inconsistent_graph_inputs_fail[patient_map-patient maps differ]",
-      "suite": "provenance/code_completion_20261015/typed_graph_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_fold_local_scope",
@@ -5158,6 +5206,596 @@
       "module": "tests.test_v32_formal_prepare_graph_authority",
       "case": "test_server_launcher_requires_every_fresh_authority_and_variant_roots",
       "suite": "provenance/code_completion_20261015/model_control_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_audited_unavailable_drug_does_not_require_sparse_success_fields",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_audited_unavailable_module_requires_zero_training_and_all_null_attestation",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_auxiliary_layer_cannot_change_primary_ranking",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_auxiliary_parent_must_be_the_declared_v32_core",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_auxiliary_training_cannot_change_core",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_complete_newly_trained_release_is_accepted",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_dense_drug_development_lineage_is_valid_but_cannot_enter_release",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[clinical]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[drug]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[evidence]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[exact_pathway]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[interaction]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[mutation_cnv]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[single_cell]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_each_module_has_a_valid_public_schema[state]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_exact_pathway_requires_five_hashed_current_v32_fold_sources",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_formally_unavailable_private_head_is_honest_and_fail_closed",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_full_registry_with_audited_unavailable_module_cannot_be_release_ready",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_missing_historical_capability_blocks_release",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_module_specific_unavailability_columns_are_enforced",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_old_results_are_rejected[old_checkpoint_loaded-True-old checkpoints]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_old_results_are_rejected[old_predictions_used_as_features-True-old predictions]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_old_results_are_rejected[old_rankings_used_as_outputs-True-old rankings]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_public_output_rejects_labels_and_old_probabilities",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_release_attestation_is_mandatory",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_renamed_historical_result_input_is_rejected_by_kind",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_single_cell_empty_formal_data_or_zero_folds_cannot_unlock[formal_datasets-value0-formal_datasets=\\\\[\\\\]]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_single_cell_empty_formal_data_or_zero_folds_cannot_unlock[trained_folds-0-requires five trained folds]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_single_cell_historical_training_label_cannot_unlock",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_single_cell_outcome_target_cannot_masquerade_as_raw_data",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_binds_exact_hashes_to_release_and_input_snapshot[candidate_sha256-candidate SHA-256 is absent]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_binds_exact_hashes_to_release_and_input_snapshot[release_lineage_sha256-lineage SHA-256 does not match]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_binds_exact_hashes_to_release_and_input_snapshot[release_prediction_sha256-prediction SHA-256 does not match]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_false_staging_revalidation_attestations[exact_candidate_four_key_binding_recomputed-False-exact_candidate_four_key_binding_recomputed=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_false_staging_revalidation_attestations[exact_release_lineage_contract_validated-False-exact_release_lineage_contract_validated=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_false_staging_revalidation_attestations[staging_execution_code_rehashed-False-staging_execution_code_rehashed=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_false_staging_revalidation_attestations[staging_input_artifacts_rehashed-False-staging_input_artifacts_rehashed=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_false_staging_revalidation_attestations[staging_revalidation_audit_status-SKIPPED-audit status must be PASS]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_exact_binding_identity[binding_policy-CLAIM_ONLY-binding policy drifted]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_exact_binding_identity[key_columns-value2-key order drifted]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_exact_binding_identity[lineage_newly_trained_v32-False-lacks newly-trained V3.2 lineage]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_exact_binding_identity[status-SKIPPED-binding status must be PASS]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[exact_release_lineage_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[exact_release_prediction_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[expected_exact_release_lineage_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[expected_exact_release_prediction_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[expected_staging_manifest_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[runtime_fingerprint_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[staging_manifest_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[staging_provenance_snapshot_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[staging_revalidation_audit_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_rejects_invalid_provenance_sha256[staging_runtime_fingerprint_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_actual_release_hashes_to_match_expected[exact_release_lineage_sha256-expected_exact_release_lineage_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_actual_release_hashes_to_match_expected[exact_release_prediction_sha256-expected_exact_release_prediction_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_actual_release_hashes_to_match_expected[staging_manifest_sha256-expected_staging_manifest_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_all_exact_binding_counts_positive[candidate_rows]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_all_exact_binding_counts_positive[candidate_unique_keys]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_all_exact_binding_counts_positive[release_prediction_rows]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_all_exact_binding_counts_positive[release_prediction_unique_keys]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_canonical_runtime_fingerprint_hash",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_complete_validated_sparse_release",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[exact_candidate_four_key_binding_recomputed]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[exact_candidate_source_binding]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[exact_release_lineage_contract_validated]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[exact_release_lineage_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[exact_release_prediction_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[expected_exact_release_lineage_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[expected_exact_release_prediction_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[expected_staging_manifest_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_execution_code_rehashed]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_input_artifacts_rehashed]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_manifest_path]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_manifest_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_provenance_snapshot_path]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_provenance_snapshot_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_revalidation_audit_path]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_revalidation_audit_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_revalidation_audit_status]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_every_staging_exact_revalidation_field[staging_runtime_fingerprint_sha256]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_exact_binding_counts_equal",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_identical_start_end_hash_snapshots[code]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_identical_start_end_hash_snapshots[input]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_nonempty_hash_snapshot_mappings[code]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_nonempty_hash_snapshot_mappings[input]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_zero_exact_binding_nulls_and_diffs[candidate_minus_prediction]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_zero_exact_binding_nulls_and_diffs[candidate_null_keys]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_zero_exact_binding_nulls_and_diffs[prediction_minus_candidate]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_requires_zero_exact_binding_nulls_and_diffs[prediction_null_keys]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_matches_available_artifact_rows",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[absent_key_means_unavailable_not_zero-False-absent_key_means_unavailable_not_zero=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[all_contributing_folds_same_fold_supported-False-all_contributing_folds_same_fold_supported=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[all_five_folds_have_optimizer_updates-False-all_five_folds_have_optimizer_updates=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[all_prediction_fold_masks_valid-False-all_prediction_fold_masks_valid=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[available_keys_subset_of_conceptual-False-available_keys_subset_of_conceptual=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[available_keys_unique-False-available_keys_unique=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[code_hashes_unchanged-False-code_hashes_unchanged=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[cross_dataset_association_policy-FISHER_Z_FOR_OVERLAPPING_MODELS-cross-dataset association policy drifted]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[dense_candidate_table_materialized-True-dense_candidate_table_materialized=false]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[drug_sparse_query_manifest_format-V0-format drifted]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[drug_sparse_query_manifest_sha256-not-a-sha-strict 64-hex]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[drug_sparse_query_manifest_status-AUDITED_UNAVAILABLE-must be SUCCESS]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[drug_sparse_query_validation_audit_sha256-fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff-strict 64-hex]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[drug_sparse_query_validation_audit_status-SKIPPED-must be PASS]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[expression_moment_policy-DATASET_DUPLICATED_EXPRESSION_MOMENTS-expression moment policy drifted]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[input_hashes_unchanged-False-input_hashes_unchanged=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[optimizer_steps_total-0-positive integer]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[partial_not_publishable-True-partial_not_publishable=false]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[release_ready-False-release_ready=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[resolver_requires_expected_manifest_sha256-False-resolver_requires_expected_manifest_sha256=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_attestations[typed_absence_resolver-False-typed_absence_resolver=true]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_row_accounting[updates0-positive integer]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_row_accounting[updates1-conceptual_candidate_rows]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_rejects_invalid_row_accounting[updates2-must equal]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_sparse_release_requires_exact_hashed_artifact_set",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_validates_every_snapshot_digest[code]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_drug_validates_every_snapshot_digest[input]",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_successful_single_cell_must_mask_constant_lncrna_core",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_full_model_contract",
+      "case": "test_unavailable_rows_are_null_with_an_explicit_reason",
+      "suite": "provenance/code_completion_20261015/gnn_regression_c_tests.xml"
     },
     {
       "module": "tests.test_v32_fusion_expert_policy",
@@ -6212,82 +6850,82 @@
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[losing_comparator]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[missing_file]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[missing_model]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[missing_study]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[no_study_sources]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[unknown_ancestry]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[unknown_gap]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_any_uncovered_dependency_context_keeps_strict_evaluation_empty[zero_weight_expert]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_generic_table_cannot_gain_complete_ancestry_from_file_hash_and_study_tokens",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_only_typed_native_entity_rows_are_exempt_from_study_metadata[missing_kind]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_only_typed_native_entity_rows_are_exempt_from_study_metadata[spoof_kind]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_only_typed_native_entity_rows_are_exempt_from_study_metadata[unknown_kind]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_positive_coverage_does_not_override_source_or_patient_exclusions[external_identity]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_positive_coverage_does_not_override_source_or_patient_exclusions[file_overlap]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_positive_coverage_does_not_override_source_or_patient_exclusions[native_mapping]",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_model_use_completeness",
       "case": "test_replayed_gdc_boundary_has_positive_coverage_without_claiming_experimental_veracity",
-      "suite": "provenance/code_completion_20261015/local_cnv_patient_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_multimodal_fusion",
@@ -12057,52 +12695,52 @@
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_any_artifact_change_invalidates_approval",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_cli_binds_exact_trainer_before_dynamic_import",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_cli_blocks_before_dynamic_trainer_import",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_code_only_config_denies_even_if_flag_is_present",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_dependency_outside_v32_invalidates_approval",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_guard_records_exact_authorized_trainer",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_matching_approval_returns_read_only_context",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_missing_allow_flag_denies_before_approval_access",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_missing_approval_denies_authorized_config",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_guard",
       "case": "test_production_guard_modules_do_not_import_torch",
-      "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+      "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
     },
     {
       "module": "tests.test_v32_training_objective",
@@ -12297,9 +12935,12 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "novel_binding_r2"
+      "gnn_regression_b",
+      "gnn_regression_c",
+      "gnn_regression_d",
+      "stale_contract_repair_r1"
     ],
-    "passed": 27,
+    "passed": 202,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

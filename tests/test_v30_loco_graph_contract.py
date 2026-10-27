@@ -65,6 +65,11 @@ def test_rgcn_logits_change_when_only_edge_weights_change() -> None:
         "edge_index": torch.tensor([[0, 1, 2], [3, 3, 3]], dtype=torch.long),
         "edge_type": torch.zeros(3, dtype=torch.long),
         "edge_weight": torch.tensor([1.0, 1.0, 1.0]),
+        # The production graph bundle always supplies the topology channel
+        # separately (predicted binding relations are weighted-only), so a
+        # hand-built graph without it does not match the encoder contract.
+        "topology_edge_index": torch.tensor([[0, 1, 2], [3, 3, 3]], dtype=torch.long),
+        "topology_edge_type": torch.zeros(3, dtype=torch.long),
         "node_x": torch.tensor([[0.0, 1.0], [1.0, 1.0], [3.0, 1.0], [0.0, 1.0]]),
     }
     changed = {**base, "edge_weight": torch.tensor([1.0, 1.0, 8.0])}

@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-27T13:12:06.987769+00:00",
+  "source_sha256": {
+    "cc_hhgt/gnn.py": "1dee962ad86cd984741adfebd8f4b9ae9e7ccd296ace501ea9277e44880ef3ae"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_fold_node_features.py",
+    "tests/test_fold_policy.py",
+    "tests/test_v30_loco_graph_contract.py",
+    "tests/test_v31_runtime_graph_training.py",
+    "tests/test_v32_model_and_graph.py",
+    "tests/test_multiseed.py",
+    "tests/test_exact_pathway_primary.py",
+    "--junitxml=provenance/code_completion_20261015/gnn_regression_a_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-27T13:12:21.402656+00:00"
+}
