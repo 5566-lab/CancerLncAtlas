@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-27T09:05:46.241216+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/patient_conditioning.py": "d68cca4ae99444d553f0b0169887febad18d1e89a57f13797bd82c9ff023145e",
+    "tests/test_v32_patient_conditioning.py": "0c2bc289ff053012ad1ed0d342411584fa997ea23d69350522d2b30cdea72c8b"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_patient_conditioning.py",
+    "tests/test_v32_omics_node_encoding.py",
+    "--junitxml=provenance/code_completion_20261015/patient_intervention_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-27T09:06:00.393562+00:00"
+}

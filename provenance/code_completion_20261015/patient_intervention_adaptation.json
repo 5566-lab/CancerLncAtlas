@@ -1,0 +1,92 @@
+{
+  "method": "PATIENT_LEVEL_INTERVENTIONAL_CONTRAST_AND_INTERACTION_CONTROLS",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "patient_intervention_r4"
+  ],
+  "earlier_successful_receipts": [],
+  "intermediate_failed_receipts": [
+    "patient_intervention_r1",
+    "patient_intervention_r2",
+    "patient_intervention_r3"
+  ],
+  "intermediate_failure_causes": [
+    "The new module is inside the cc_hhgt.v32 package, so the encoder helper needed two dots instead of three; eight checks that execute the contrast failed until the import depth was corrected.",
+    "Each control compared an intervened graph against an observed graph of a different structure, mixing the intervention with the structural edit; the attribution collapse to VALUE_ONLY_EFFECT exposed it and every control now recomputes the whole contrast inside its own structure.",
+    "Edge surgery matched one per-node-type index against the source index of every edge type, so it also removed or rewired edges that merely shared the same local index (4 edges instead of 2); surgery is now restricted to edge types whose source is the declared node type."
+  ],
+  "implementation_files": [
+    "cc_hhgt/v32/patient_conditioning.py",
+    "tests/test_v32_patient_conditioning.py"
+  ],
+  "fail_closed_cases": [
+    "cohort evidence presented as a patient",
+    "subject identifier mismatch",
+    "cancer mismatch",
+    "unknown intervention mode",
+    "unknown node type",
+    "node absent from the graph",
+    "channel absent from the evidence",
+    "participant unmeasured for that channel",
+    "counterfactual value missing",
+    "counterfactual value equal to the observed value",
+    "non-finite counterfactual value",
+    "graph bundle not widened with omics",
+    "empty pair table",
+    "missing pair columns",
+    "missing pair target column",
+    "pair node absent from the graph",
+    "non-finite pair features",
+    "block width mismatch",
+    "non-finite block",
+    "target pair not present",
+    "edge surgery requested for the homogeneous model",
+    "no alternative node available for rewiring"
+  ],
+  "estimand": "model-conditional interventional contrast on one declared omics channel",
+  "causal_claim": false,
+  "biological_mediation_proven": false,
+  "controls": [
+    "rewired_partner",
+    "matched_placebo_node"
+  ],
+  "requirements_now_registered": 21,
+  "requirements_verified": 16,
+  "requirements_open": [
+    "C01",
+    "C13",
+    "C16",
+    "C18",
+    "C21"
+  ],
+  "test_substitutes": [
+    "untrained single-layer HGT model on a seven-node synthetic graph",
+    "synthetic subject-scope mutation/CNV table for one declared patient",
+    "hand-built rank and delta tables for the summary arithmetic"
+  ],
+  "promotes_requirement": [
+    "C19",
+    "C20"
+  ],
+  "real_cohort_analysis_attested": false,
+  "independent_biological_validation_attested": false,
+  "production_deployment_attested": false,
+  "patient_level_result_claimed": false,
+  "mediation_result_claimed": false,
+  "novel_binding_discovery_claimed": false,
+  "multi_omics_predictive_gain_claimed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16",
+    "C18",
+    "C21"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Patient-level conditioning now has a defined, executable and falsifiable contrast. For one declared patient, one protein node and one omics channel, the frozen model is evaluated twice with every other input held byte-identical, and the difference in the lncRNA-pathway membership logit is reported together with sign changes and within-cancer rank movement; the record states that this is a model-conditional interventional contrast, not a causal effect in patients. Interaction attribution adds the only controls that can falsify an interaction reading: a rewiring control that keeps edge type, count and weight while redirecting P to other partners, and a matched placebo node with no path to the pair. The verdict is restricted to within-frozen-model language and every record states that biological mediation is not proven. Cohort tables cannot stand in for patients, unmeasured participants are refused instead of imputed, a counterfactual equal to the observed value is refused, and the homogeneous model refuses edge surgery rather than silently skipping the controls. No optimizer, real cohort, paid compute or deployment ran; the fixture model is untrained and the synthetic deltas carry no biological meaning."
+}

@@ -7202,3 +7202,10 @@ fixture shows a gene-level value reaching a connected lncRNA embedding through m
 passing. C18-C21 (comparison, patient conditioning, mediation, discovery) are registered
 as open. No optimizer or real cohort ran and no gain, patient result, mediation or
 discovery claim is made.
+
+Patient-level intervention on149: ``patient_intervention_r4``
+pass 89 distinct related checks. A declared patient-level contrast
+changes one omics channel of one node with every other input fixed, and the change in each
+lncRNA-pathway logit is reported with sign and rank movement. Interaction attribution adds
+a rewiring control and a matched placebo node; the record states that biological mediation
+is not proven. The fixture model is untrained and no patient result exists.

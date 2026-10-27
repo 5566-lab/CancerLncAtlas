@@ -138,15 +138,13 @@
     },
     {
       "id": "C19",
-      "status": "in_progress",
-      "implementation": " Implemented subject-scope evidence parsing in cc_hhgt/v32/omics_node_encoding.py: a patient table must declare scope=subject with an explicit subject identifier, a cohort table may not carry one, and the two scopes are never silently converted into each other. That is the input half only. The patient-level dynamic estimator that would turn a patient P inactivation state into a changed lncRNA-pathway relation is not implemented, and no patient-level result is claimed.",
-      "remaining": "Implement and verify the patient-level estimator: for one patient P, an explicit inactivation intervention on the protein node, the induced change in each lncRNA-pathway relation, and a documented statement that the result is conditional on the trained model rather than causal."
+      "status": "code_implemented_fixture_verified",
+      "implementation": " Added cc_hhgt/v32/patient_conditioning.py. A subject-scope omics evidence pair identifies one patient; an Intervention declares the counterfactual state of one node and one channel. validate_intervention refuses a cohort table standing in for a patient, a subject or cancer mismatch, an unknown mode, an unknown node type, a node absent from the graph, a channel absent from the evidence, a participant with no measurement for that channel, a missing or non-finite counterfactual value, a counterfactual equal to the observed value and a graph bundle that has not been widened with multi-omics node inputs. patient_relation_shift installs the observed and the intervened block around the same frozen forward pass, restores the bundle bit-identically, and reports the per-pair membership delta, the absolute delta, sign flips, and within-cancer rank movement with top-k overlap. The record carries the exact estimand text, the intervention identifier, the declared causal_claim=false and requires_orthogonal_validation=true. No patient result is produced without a real patient table and a trained multi-omics model, neither of which exists."
     },
     {
       "id": "C20",
-      "status": "in_progress",
-      "implementation": " No mediation estimator exists yet. The multi-omics node encoding makes the required counterfactual intervention writable (a node condition can be set, zeroed or flagged per scope), but no estimand, no uncertainty, no positivity or overlap gate, no sensitivity analysis and no falsification test has been implemented, and message gain is explicitly not treated as evidence of mediation.",
-      "remaining": "Implement and verify a mediation test with an explicit estimand, bootstrap uncertainty, positivity and overlap gates, a sensitivity analysis for unmeasured confounding and a falsification arm, so \"P mediates the relation\" can be rejected as well as supported."
+      "status": "code_implemented_fixture_verified",
+      "implementation": " Added interaction_attribution to cc_hhgt/v32/patient_conditioning.py. It reports the total pair effect, the effect that survives removing P's declared edges into the target lncRNA, the resulting attribution share, and two controls that can falsify an interaction reading: outgoing edges rewired to random nodes of the same target type with identical edge type, count and weight, and a matched placebo node with no path to the pair. Removal of a node's own outgoing edges is explicitly not treated as evidence, because message passing makes that tautological; the controls carry the falsification burden. The verdict is NO_EFFECT, VALUE_ONLY_EFFECT, NOT_INTERACTION_SPECIFIC or INTERACTION_ATTRIBUTED_UNDER_FROZEN_MODEL, every record states verdict_scope=WITHIN_FROZEN_MODEL_ONLY and biological_mediation_proven=false, and the homogeneous model refuses edge surgery instead of silently skipping the controls. Fixture graphs show the connected pair changes, an isolated pair does not, a rewired graph neutralises the specific effect and the placebo stays clean."
     },
     {
       "id": "C21",
@@ -157,7 +155,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 2016,
+    "unique_fixture_tests_passed": 2049,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -167,11 +165,9 @@
       "C13",
       "C16",
       "C18",
-      "C19",
-      "C20",
       "C21"
     ],
-    "latest_change_tests_passed": 86,
+    "latest_change_tests_passed": 89,
     "pending_validation": [],
     "r_validation_scope": {
       "executed_scripts": [

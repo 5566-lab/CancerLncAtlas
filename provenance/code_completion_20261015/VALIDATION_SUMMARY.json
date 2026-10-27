@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2016,
+  "unique_test_cases_passed": 2049,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -416,7 +416,9 @@
     "scripts/run_code_acceptance.py": "06dd1784278e70763d963726e98b1abe75bdc8caa0138dafdbce71f8b54f0664",
     "tests/test_v32_code_acceptance.py": "7d53945979c8bf83532d167bf290cbab445c89310ab471460ed3ef5a3f0ac1d3",
     "cc_hhgt/v32/omics_node_encoding.py": "6eead27e54bf3fd19cd3ae53619ee432b8bf13048970a1bdd627a4697fa1a74d",
-    "tests/test_v32_omics_node_encoding.py": "53f798b1e5b8e48038de6b2c6e05dc41a29ed51a73dd8f38505ce83adc2a9f92"
+    "tests/test_v32_omics_node_encoding.py": "53f798b1e5b8e48038de6b2c6e05dc41a29ed51a73dd8f38505ce83adc2a9f92",
+    "cc_hhgt/v32/patient_conditioning.py": "a39740aa6b0c25bf8f1a0c62718d73b146cd48518fa947f7032f01a07e769afa",
+    "tests/test_v32_patient_conditioning.py": "0c2bc289ff053012ad1ed0d342411584fa997ea23d69350522d2b30cdea72c8b"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -598,7 +600,8 @@
     "Original outer and nested SC metacell producers now persist LocalSpace preprocessing, PCA parameters and cell coordinates. The original donor-weighted gene selection, seeded donor-balanced cell cap and centering were factored without changing the fitting algorithm. Native cache/completion and actual model-use inspection reconstruct preparation, apply supplied frozen PCA through the original transform, rerun the original source-only radius and local disjoint grouping and compare coordinates, exact membership and grouping audit. Actual all-five-fold graph/nested/episode/model-use consumers are tested with a declared identity projection and frozen LASSO/model containers. No PCA/LASSO/neural parameter fitting or real cohort/acquisition/paid compute/deployment ran. This verifies application of supplied projection parameters, not their fitted provenance or optimality. The fitted-geometry, fitted-LASSO, raw acquisition/QC/reference and complete cross-module ancestry gaps remain blocking; legacy unpersisted parameters produce no new geometric proof. Earlier scope deviations remain recorded.",
     "Each completed SC-HHGT episode records its LASSO response summary and the localized coefficient/stability edges the HGT model consumes. Signed single-cell model-use inspection now rebuilds the candidate nodes, the three LASSO-derived pair-feature columns and the sparse edge tensors from those recorded values plus the pinned static graph assets, then compares them to the payload: response identity, edge ordering, uniqueness, availability, node sets and localized edges. Rehashed coefficient, stability, node, pair-feature and identity edits fail closed, and an unavailable response may not carry evidence. Integer identities are compared exactly while float32-recorded values use a 1e-6 tolerance; a stability value inside that tolerance of the threshold is reported as a distinct boundary condition. The recorded coefficients are never re-solved, so their fit provenance and L1 objective consistency stay declared gaps. No LASSO, PCA or neural fitting ran; no real cohort, acquisition, paid compute or deployment ran. Earlier scope deviations remain recorded.",
     "A machine-checked code acceptance harness now replays the registered requirement ledger against the recorded pytest evidence. It refuses to accept when the plan declares training, a requirement has no implementation record, a verified requirement still declares remaining work, an in-progress requirement declares none, the requirement identifier set is not exactly C01-C16, a latest-change receipt is missing, failed, skipped or recorded training, a pinned source no longer matches the working tree, a registered suite hash drifted, the declared case counters disagree with the receipts, the open-requirement list disagrees with the statuses, or the worktree is dirty. The handoff report now refuses to build unless a PASS record is bound to the exact plan, validation ledger and commit. Acceptance is bookkeeping only: it cannot promote a requirement, attest real cohort analysis, independent biological validation or deployment, and publishing complete scientific field definitions remains open. No optimizer, real cohort, paid compute or deployment ran.",
-    "Multi-omics node channels now enter the typed graph encoder instead of only the decoder. A validated evidence pair (table plus SHA256-pinned manifest, cohort or subject scope, frozen standardisation, clipped) becomes one value/observed column pair per declared channel for every node type; cc_hhgt/gnn.py widens the node input from the two historical degree columns to 2 + 2*channels and builds both encoder kinds at that width, while a bundle without a block keeps exactly two columns so every existing checkpoint still loads. The graph layer refuses a missing node-type block instead of zero-filling it, refuses stale identifiers, inconsistent widths, non-finite values, double attachment and a model built before augmentation. Fixture checks show a mutation value written on a gene node changes a connected lncRNA embedding through message passing while isolated and out-of-neighbourhood nodes stay bit-identical. The acceptance requirement set is now C01-C21: C17 is verified here, C18 (before/after multi-omics comparison) C19 (patient-level P-inactivation conditioning) C20 (mediation) and C21 (novel binding/PPI discovery with held-out evaluation) stay open. No optimizer, real cohort, paid compute or deployment ran, and no claim is made that multi-omics conditioning improves any prediction."
+    "Multi-omics node channels now enter the typed graph encoder instead of only the decoder. A validated evidence pair (table plus SHA256-pinned manifest, cohort or subject scope, frozen standardisation, clipped) becomes one value/observed column pair per declared channel for every node type; cc_hhgt/gnn.py widens the node input from the two historical degree columns to 2 + 2*channels and builds both encoder kinds at that width, while a bundle without a block keeps exactly two columns so every existing checkpoint still loads. The graph layer refuses a missing node-type block instead of zero-filling it, refuses stale identifiers, inconsistent widths, non-finite values, double attachment and a model built before augmentation. Fixture checks show a mutation value written on a gene node changes a connected lncRNA embedding through message passing while isolated and out-of-neighbourhood nodes stay bit-identical. The acceptance requirement set is now C01-C21: C17 is verified here, C18 (before/after multi-omics comparison) C19 (patient-level P-inactivation conditioning) C20 (mediation) and C21 (novel binding/PPI discovery with held-out evaluation) stay open. No optimizer, real cohort, paid compute or deployment ran, and no claim is made that multi-omics conditioning improves any prediction.",
+    "Patient-level conditioning now has a defined, executable and falsifiable contrast. For one declared patient, one protein node and one omics channel, the frozen model is evaluated twice with every other input held byte-identical, and the difference in the lncRNA-pathway membership logit is reported together with sign changes and within-cancer rank movement; the record states that this is a model-conditional interventional contrast, not a causal effect in patients. Interaction attribution adds the only controls that can falsify an interaction reading: a rewiring control that keeps edge type, count and weight while redirecting P to other partners, and a matched placebo node with no path to the pair. The verdict is restricted to within-frozen-model language and every record states that biological mediation is not proven. Cohort tables cannot stand in for patients, unmeasured participants are refused instead of imputed, a counterfactual equal to the observed value is refused, and the homogeneous model refuses edge surgery rather than silently skipping the controls. No optimizer, real cohort, paid compute or deployment ran; the fixture model is untrained and the synthetic deltas carry no biological meaning."
   ],
   "test_suites": [
     {
@@ -1725,6 +1728,11 @@
       "path": "provenance/code_completion_20261015/code_acceptance_r4_tests.xml",
       "passed": 21,
       "sha256": "67040464f88dd2134cdb1377b654e9bd4a68dbc808038d5743e47dba2e47da90"
+    },
+    {
+      "path": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml",
+      "passed": 89,
+      "sha256": "e98bb3953169901f9bd760b7db64d304ceaf7c10b6c97eaadecffe2ea0cdea94"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -9708,282 +9716,282 @@
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_assert_encoder_refuses_a_degree_only_bundle",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_rejects_a_model_built_before_augmentation",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_rejects_a_second_attach",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_rejects_row_mismatch",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_writes_and_verifies",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_build_model_reads_the_widened_input_width",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_channel_layout_is_value_then_observed_per_channel",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_fold_node_features_appends_omics_columns",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_graph_bundle_defaults_are_backward_compatible",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_keeps_two_channel_contract_by_default",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[empty_block]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[missing_node_type]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[non_finite]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[row_mismatch]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[unknown_node_type]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[width_mismatch]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_widens_node_inputs",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_module_exposes_no_fitting_entry_point",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_aligns_by_node_index_not_row_order",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_marks_absent_channels_instead_of_imputing",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_rejects_duplicate_canonical_ids",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_rejects_evidence_node_outside_graph",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_rejects_missing_index_column",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_omics_value_propagates_through_message_passing",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_every_declared_table_format[.csv]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_every_declared_table_format[.parquet]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_every_declared_table_format[.tsv]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_subject_scope",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_applies_frozen_standardisation",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_clips_outliers",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_duplicate_node_channel",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_empty_identifiers",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation0-OMICS_EVIDENCE_SCALE_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation1-OMICS_EVIDENCE_SCALE_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation2-OMICS_EVIDENCE_CENTER_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation3-OMICS_EVIDENCE_CENTER_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides0-OMICS_EVIDENCE_FORMAT_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides1-OMICS_EVIDENCE_SCOPE_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides10-OMICS_EVIDENCE_ROW_COUNT_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides11-OMICS_EVIDENCE_CLIP_DECLARATION_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides2-OMICS_EVIDENCE_SUBJECT_ID_MISSING]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides3-OMICS_EVIDENCE_SUBJECT_ID_NOT_ALLOWED_FOR_COHORT]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides4-OMICS_EVIDENCE_CANCER_ID_MISSING]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides5-OMICS_EVIDENCE_CHANNEL_UNKNOWN]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides6-OMICS_EVIDENCE_CHANNELS_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides7-OMICS_EVIDENCE_CHANNELS_INVALID]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides8-OMICS_EVIDENCE_TABLE_SHA256_MISSING]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides9-OMICS_EVIDENCE_TABLE_SHA256_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_missing_columns",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_non_finite_raw_values",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_undeclared_channel_rows",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_unsupported_table_format",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_repeated_forward_is_deterministic_in_eval_mode",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_unrelated_nodes_are_unaffected_by_a_local_omics_change",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_validate_node_omics_rejects_empty_mapping",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_validate_node_omics_returns_defensive_copies",
-      "suite": "provenance/code_completion_20261015/omics_node_encoding_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_orchestration",
@@ -10024,6 +10032,171 @@
       "module": "tests.test_v32_orchestration",
       "case": "test_virtual_checkpoint_validates_same_hardware_and_hashes",
       "suite": "provenance/code_completion_20261015/current_binding_integration_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_cohort_evidence_cannot_be_presented_as_a_patient",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_conditioned_writes_and_restores_the_bundle_exactly",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_degree_only_bundle_is_refused",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_delta_table_flags_only_real_sign_changes",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_interaction_attribution_is_unsupported_for_the_homogeneous_model",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_interaction_attribution_passes_its_controls_on_a_connected_graph",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_interaction_attribution_rejects_an_unknown_placebo",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_interaction_attribution_reports_no_effect_for_a_null_contrast",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_interaction_attribution_requires_a_target_pair",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_intervened_blocks_change_exactly_one_cell",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_intervened_blocks_mode_observed_is_a_no_op",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_intervened_blocks_reject_unmeasured_and_unknown_channels",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_intervention_identifier_is_stable_and_sensitive",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_module_exposes_no_fitting_entry_point",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_pair_batch_requires_columns_and_finite_features",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_pair_batch_supports_both_model_kinds",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_patient_relation_shift_is_deterministic",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_patient_relation_shift_reports_deltas_only_where_the_graph_connects",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_patient_relation_shift_with_observed_mode_has_no_effect",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_rank_summary_ranks_within_each_cancer",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_rewiring_needs_an_alternative_target",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_score_membership_is_frozen_and_finite",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs0-PATIENT_CONDITIONING_UNKNOWN_MODE]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs1-PATIENT_CONDITIONING_SUBJECT_MISMATCH]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs2-PATIENT_CONDITIONING_CANCER_MISMATCH]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs3-PATIENT_CONDITIONING_NODE_TYPE_UNKNOWN]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs4-PATIENT_CONDITIONING_NODE_NOT_IN_GRAPH]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs5-PATIENT_CONDITIONING_CHANNEL_MISSING]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs6-PATIENT_CONDITIONING_PARTICIPANT_UNMEASURED]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs7-PATIENT_CONDITIONING_INTERVENTION_VALUE_MISSING]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs8-PATIENT_CONDITIONING_NO_INTERVENTION_CONTRAST]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs9-PATIENT_CONDITIONING_VALUE_NOT_FINITE]",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_patient_conditioning",
+      "case": "test_validate_intervention_records_a_non_causal_estimand",
+      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_fold_authority",
@@ -11818,10 +11991,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "omics_node_encoding_r2",
-      "code_acceptance_r4"
+      "patient_intervention_r4"
     ],
-    "passed": 86,
+    "passed": 89,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,
