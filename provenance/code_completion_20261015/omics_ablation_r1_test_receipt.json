@@ -1,0 +1,21 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-27T09:08:54.543149+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/omics_ablation_comparison.py": "58147404ca198da32e10b30c4eb21b092f1c6022e169331d9723030f27e7a906",
+    "tests/test_v32_omics_ablation_comparison.py": "3d8486c31db49176c33badf93acbe18954fcd162d559e9dbc0bd944a497859dc"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_omics_ablation_comparison.py",
+    "--junitxml=provenance/code_completion_20261015/omics_ablation_r1_tests.xml"
+  ],
+  "exit_code": 1,
+  "completed_utc": "2026-10-27T09:08:55.906721+00:00"
+}

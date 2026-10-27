@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2049,
+  "unique_test_cases_passed": 2080,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -418,7 +418,9 @@
     "cc_hhgt/v32/omics_node_encoding.py": "6eead27e54bf3fd19cd3ae53619ee432b8bf13048970a1bdd627a4697fa1a74d",
     "tests/test_v32_omics_node_encoding.py": "53f798b1e5b8e48038de6b2c6e05dc41a29ed51a73dd8f38505ce83adc2a9f92",
     "cc_hhgt/v32/patient_conditioning.py": "a39740aa6b0c25bf8f1a0c62718d73b146cd48518fa947f7032f01a07e769afa",
-    "tests/test_v32_patient_conditioning.py": "0c2bc289ff053012ad1ed0d342411584fa997ea23d69350522d2b30cdea72c8b"
+    "tests/test_v32_patient_conditioning.py": "0c2bc289ff053012ad1ed0d342411584fa997ea23d69350522d2b30cdea72c8b",
+    "cc_hhgt/v32/omics_ablation_comparison.py": "58147404ca198da32e10b30c4eb21b092f1c6022e169331d9723030f27e7a906",
+    "tests/test_v32_omics_ablation_comparison.py": "b24e307f6314e6298a484e6350dbaf21db478716975183924116f0a49602600e"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -601,7 +603,8 @@
     "Each completed SC-HHGT episode records its LASSO response summary and the localized coefficient/stability edges the HGT model consumes. Signed single-cell model-use inspection now rebuilds the candidate nodes, the three LASSO-derived pair-feature columns and the sparse edge tensors from those recorded values plus the pinned static graph assets, then compares them to the payload: response identity, edge ordering, uniqueness, availability, node sets and localized edges. Rehashed coefficient, stability, node, pair-feature and identity edits fail closed, and an unavailable response may not carry evidence. Integer identities are compared exactly while float32-recorded values use a 1e-6 tolerance; a stability value inside that tolerance of the threshold is reported as a distinct boundary condition. The recorded coefficients are never re-solved, so their fit provenance and L1 objective consistency stay declared gaps. No LASSO, PCA or neural fitting ran; no real cohort, acquisition, paid compute or deployment ran. Earlier scope deviations remain recorded.",
     "A machine-checked code acceptance harness now replays the registered requirement ledger against the recorded pytest evidence. It refuses to accept when the plan declares training, a requirement has no implementation record, a verified requirement still declares remaining work, an in-progress requirement declares none, the requirement identifier set is not exactly C01-C16, a latest-change receipt is missing, failed, skipped or recorded training, a pinned source no longer matches the working tree, a registered suite hash drifted, the declared case counters disagree with the receipts, the open-requirement list disagrees with the statuses, or the worktree is dirty. The handoff report now refuses to build unless a PASS record is bound to the exact plan, validation ledger and commit. Acceptance is bookkeeping only: it cannot promote a requirement, attest real cohort analysis, independent biological validation or deployment, and publishing complete scientific field definitions remains open. No optimizer, real cohort, paid compute or deployment ran.",
     "Multi-omics node channels now enter the typed graph encoder instead of only the decoder. A validated evidence pair (table plus SHA256-pinned manifest, cohort or subject scope, frozen standardisation, clipped) becomes one value/observed column pair per declared channel for every node type; cc_hhgt/gnn.py widens the node input from the two historical degree columns to 2 + 2*channels and builds both encoder kinds at that width, while a bundle without a block keeps exactly two columns so every existing checkpoint still loads. The graph layer refuses a missing node-type block instead of zero-filling it, refuses stale identifiers, inconsistent widths, non-finite values, double attachment and a model built before augmentation. Fixture checks show a mutation value written on a gene node changes a connected lncRNA embedding through message passing while isolated and out-of-neighbourhood nodes stay bit-identical. The acceptance requirement set is now C01-C21: C17 is verified here, C18 (before/after multi-omics comparison) C19 (patient-level P-inactivation conditioning) C20 (mediation) and C21 (novel binding/PPI discovery with held-out evaluation) stay open. No optimizer, real cohort, paid compute or deployment ran, and no claim is made that multi-omics conditioning improves any prediction.",
-    "Patient-level conditioning now has a defined, executable and falsifiable contrast. For one declared patient, one protein node and one omics channel, the frozen model is evaluated twice with every other input held byte-identical, and the difference in the lncRNA-pathway membership logit is reported together with sign changes and within-cancer rank movement; the record states that this is a model-conditional interventional contrast, not a causal effect in patients. Interaction attribution adds the only controls that can falsify an interaction reading: a rewiring control that keeps edge type, count and weight while redirecting P to other partners, and a matched placebo node with no path to the pair. The verdict is restricted to within-frozen-model language and every record states that biological mediation is not proven. Cohort tables cannot stand in for patients, unmeasured participants are refused instead of imputed, a counterfactual equal to the observed value is refused, and the homogeneous model refuses edge surgery rather than silently skipping the controls. No optimizer, real cohort, paid compute or deployment ran; the fixture model is untrained and the synthetic deltas carry no biological meaning."
+    "Patient-level conditioning now has a defined, executable and falsifiable contrast. For one declared patient, one protein node and one omics channel, the frozen model is evaluated twice with every other input held byte-identical, and the difference in the lncRNA-pathway membership logit is reported together with sign changes and within-cancer rank movement; the record states that this is a model-conditional interventional contrast, not a causal effect in patients. Interaction attribution adds the only controls that can falsify an interaction reading: a rewiring control that keeps edge type, count and weight while redirecting P to other partners, and a matched placebo node with no path to the pair. The verdict is restricted to within-frozen-model language and every record states that biological mediation is not proven. Cohort tables cannot stand in for patients, unmeasured participants are refused instead of imputed, a counterfactual equal to the observed value is refused, and the homogeneous model refuses edge surgery rather than silently skipping the controls. No optimizer, real cohort, paid compute or deployment ran; the fixture model is untrained and the synthetic deltas carry no biological meaning.",
+    "The with/without multi-omics comparison now has an executable, paired and gated contract. Two declared arms must match on candidate, label, fold and budget digests and on the initialisation seed, and must differ only in the omics node input, otherwise the pair is refused before any score is read. The estimator is verified on synthetic scores: per-cancer average precision and ROC AUC, a paired stratified bootstrap interval, an exact sign test and a paired sign-flip permutation test, including a planted improvement and a null case. The only reporting entry point refuses while either arm has no trained checkpoint, which is the current state: no arm was trained with multi-omics node input, so no effect is reported and the tempting shortcut of scoring the existing G2 checkpoint with and without the new input columns is refused explicitly. Two attempts were blocked before execution by an intranet SSH banner error; after the read-only probe returned 149 the run was repeated once, no remote execution had occurred, and no duplicate job was launched. No optimizer, real cohort, paid compute or deployment ran."
   ],
   "test_suites": [
     {
@@ -1733,6 +1736,11 @@
       "path": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml",
       "passed": 89,
       "sha256": "e98bb3953169901f9bd760b7db64d304ceaf7c10b6c97eaadecffe2ea0cdea94"
+    },
+    {
+      "path": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml",
+      "passed": 31,
+      "sha256": "fae9175c51f698f9d67eee1d8ecaea1511a2f672b00dd1e2b00dd2eb8fafdf60"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -9714,6 +9722,161 @@
       "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_average_precision_matches_the_step_definition",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_average_precision_rejects_a_group_without_positives",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_compare_arms_computes_a_paired_estimate_for_declared_trained_arms",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_compare_arms_refuses_until_both_arms_declare_a_checkpoint",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_compare_arms_requires_scores_once_both_arms_are_trained",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_module_exposes_no_fitting_entry_point",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_paired_difference_detects_a_planted_improvement",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_paired_difference_is_deterministic_for_a_fixed_seed",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_paired_difference_of_identical_scores_is_null",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_paired_difference_refuses_invalid_input[<lambda>-ABLATION_LABEL_LENGTH_MISMATCH]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_paired_difference_refuses_invalid_input[<lambda>-ABLATION_RESAMPLING_TOO_SMALL]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_paired_difference_refuses_invalid_input[<lambda>-ABLATION_SCORES_NOT_FINITE]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_rank_auc_handles_ordering_and_ties[scores0-1.0]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_rank_auc_handles_ordering_and_ties[scores1-0.0]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_rank_auc_handles_ordering_and_ties[scores2-0.5]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_sign_test_is_exact[0-0-1.0]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_sign_test_is_exact[0-5-0.0625]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_sign_test_is_exact[3-3-1.0]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_sign_test_is_exact[5-0-0.0625]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_accepts_a_single_variable_pair",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[bad_digest]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[budget_drift]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[candidate_drift]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[duplicate_id]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[fold_drift]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[label_drift]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[one_arm]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[same_omics_flag]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[seed_drift]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[three_arms]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_ablation_comparison",
+      "case": "test_validate_arms_refuses_unpaired_or_ambiguous_pairs[three_arms_with_duplicate]",
+      "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_assert_encoder_refuses_a_degree_only_bundle",
       "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
@@ -11991,9 +12154,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "patient_intervention_r4"
+      "omics_ablation_r2"
     ],
-    "passed": 89,
+    "passed": 31,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

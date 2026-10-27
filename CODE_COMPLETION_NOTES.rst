@@ -7209,3 +7209,10 @@ changes one omics channel of one node with every other input fixed, and the chan
 lncRNA-pathway logit is reported with sign and rank movement. Interaction attribution adds
 a rewiring control and a matched placebo node; the record states that biological mediation
 is not proven. The fixture model is untrained and no patient result exists.
+
+Paired multi-omics comparison on149: ``omics_ablation_r2``
+pass 31 distinct related checks. Two arms must share candidate, label,
+fold, budget and seed identity and differ only in the omics node input. The estimator reports
+per-cancer average precision with a paired stratified bootstrap, an exact sign test and a
+sign-flip permutation test. The reporting gate refuses while either arm is untrained, which is
+the current state, so no effect is reported.

@@ -1,0 +1,73 @@
+{
+  "method": "PAIRED_MULTI_OMICS_COMPARISON_HARNESS_WITH_TRAINING_GATE",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "omics_ablation_r2"
+  ],
+  "earlier_successful_receipts": [],
+  "intermediate_failed_receipts": [
+    "omics_ablation_r1"
+  ],
+  "intermediate_failure_causes": [
+    "The parametrised arm fixtures reused the default arm identifier for the omics arm, so the duplicate-identifier guard fired before the drift guard under test; each parametrised case now declares its own arm identifier.",
+    "Two uploads failed with the intranet SSH banner error before any remote execution; the read-only probe returned 149 and the run was repeated once, confirming no remote state was created by the failed attempts."
+  ],
+  "implementation_files": [
+    "cc_hhgt/v32/omics_ablation_comparison.py",
+    "tests/test_v32_omics_ablation_comparison.py"
+  ],
+  "fail_closed_cases": [
+    "arm count is not two",
+    "duplicate arm identifier",
+    "both arms share the omics flag",
+    "candidate/label/fold/budget digest mismatch",
+    "initialisation seed mismatch",
+    "malformed digest",
+    "length mismatch between scores and labels",
+    "non-finite scores",
+    "resampling count below two",
+    "comparison requested without trained checkpoints",
+    "scores missing after both arms declare a checkpoint"
+  ],
+  "estimator": "paired per-cancer average precision and ROC AUC with stratified bootstrap, exact sign test and sign-flip permutation",
+  "comparison_performed": false,
+  "effect_reported": false,
+  "training_gate": "REFUSED_UNTRAINED_ARMS",
+  "external_validation": false,
+  "requirements_now_registered": 21,
+  "requirements_verified": 17,
+  "requirements_open": [
+    "C01",
+    "C13",
+    "C16",
+    "C21"
+  ],
+  "test_substitutes": [
+    "synthetic score vectors with a planted additive improvement",
+    "synthetic null score vectors",
+    "placeholder checkpoint digests to exercise the reporting path only"
+  ],
+  "promotes_requirement": [
+    "C18"
+  ],
+  "real_cohort_analysis_attested": false,
+  "independent_biological_validation_attested": false,
+  "production_deployment_attested": false,
+  "multi_omics_predictive_gain_claimed": false,
+  "patient_level_result_claimed": false,
+  "mediation_result_claimed": false,
+  "novel_binding_discovery_claimed": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16",
+    "C21"
+  ],
+  "pending_validation": [],
+  "scope_limit": "The with/without multi-omics comparison now has an executable, paired and gated contract. Two declared arms must match on candidate, label, fold and budget digests and on the initialisation seed, and must differ only in the omics node input, otherwise the pair is refused before any score is read. The estimator is verified on synthetic scores: per-cancer average precision and ROC AUC, a paired stratified bootstrap interval, an exact sign test and a paired sign-flip permutation test, including a planted improvement and a null case. The only reporting entry point refuses while either arm has no trained checkpoint, which is the current state: no arm was trained with multi-omics node input, so no effect is reported and the tempting shortcut of scoring the existing G2 checkpoint with and without the new input columns is refused explicitly. Two attempts were blocked before execution by an intranet SSH banner error; after the read-only probe returned 149 the run was repeated once, no remote execution had occurred, and no duplicate job was launched. No optimizer, real cohort, paid compute or deployment ran."
+}

@@ -132,9 +132,8 @@
     },
     {
       "id": "C18",
-      "status": "in_progress",
-      "implementation": " Added cc_hhgt/v32/omics_node_encoding.py, which makes a before/after multi-omics comparison an executable contract: the same graph, candidate universe and label set can be materialised once with the two degree columns and once with the widened block, because GraphBundle.node_input_dim is the only difference the model builder reads and every other input is byte-identical. This is the preparation, not the comparison: no trained arm, no candidate scoring and no effect estimate exists yet, so no before/after number is claimed anywhere.",
-      "remaining": "Produce the actual before/after comparison: equally budgeted trained arms on the same candidates, labels and folds, reported with uncertainty. Code preparation alone is not a comparison and no effect is claimed."
+      "status": "code_implemented_fixture_verified",
+      "implementation": " Added cc_hhgt/v32/omics_ablation_comparison.py. validate_arms accepts exactly two Arm records, requires distinct identifiers and exactly one with omics input, requires identical candidate/label/fold/budget SHA256 digests and an identical initialisation seed, validates every digest as 64 lowercase hexadecimal characters, and refuses otherwise with distinct codes. paired_difference computes per-cancer average precision and ROC AUC, the overall delta average precision, a paired stratified bootstrap interval (resampling within cancer, identical resampled indices for both arms), an exact sign test over pairs and a paired sign-flip permutation test, and is deterministic for a fixed seed. compare_arms is the only reporting entry point: it returns REFUSED_UNTRAINED_ARMS while either arm declares no trained checkpoint, refuses missing scores once both declare one, and even then marks the result as an internal paired comparison rather than external validation. Because no arm in this repository was trained with multi-omics node input, the recorded state is a refusal, not an effect."
     },
     {
       "id": "C19",
@@ -155,7 +154,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 2049,
+    "unique_fixture_tests_passed": 2080,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -164,10 +163,9 @@
       "C01",
       "C13",
       "C16",
-      "C18",
       "C21"
     ],
-    "latest_change_tests_passed": 89,
+    "latest_change_tests_passed": 31,
     "pending_validation": [],
     "r_validation_scope": {
       "executed_scripts": [
