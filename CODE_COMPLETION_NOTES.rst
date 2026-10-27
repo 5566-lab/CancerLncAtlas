@@ -7216,3 +7216,10 @@ fold, budget and seed identity and differ only in the omics node input. The esti
 per-cancer average precision with a paired stratified bootstrap, an exact sign test and a
 sign-flip permutation test. The reporting gate refuses while either arm is untrained, which is
 the current state, so no effect is reported.
+
+Unvalidated binding candidates on149: ``novel_binding_r2``
+pass 27 distinct related checks. Known edges are split by a seeded
+hash into scored and held-out partitions, the candidate universe excludes every scored
+known edge, and an unfitted declared score is evaluated at a fixed budget against a
+degree-prior baseline. Every emitted row is an unvalidated candidate. The fixture plants
+a latent rule; no real binding evidence was scored.

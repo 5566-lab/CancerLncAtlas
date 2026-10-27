@@ -147,14 +147,13 @@
     },
     {
       "id": "C21",
-      "status": "in_progress",
-      "implementation": " No candidate generation or held-out evaluation for novel binding/PPI exists yet. The current binding evidence arms are unchanged and the recorded Oct expansion edges (experimental and predicted) remain untrained, so no discovery claim is made.",
-      "remaining": "Implement candidate generation plus held-out evaluation for novel binding/PPI edges with precision/recall at a fixed candidate budget against withheld known edges, and keep every generated candidate labelled as unvalidated."
+      "status": "code_implemented_fixture_verified",
+      "implementation": " Added cc_hhgt/v32/novel_binding_discovery.py. split_known_edges assigns each known edge of the declared evidence arm to a scored or held-out partition by SHA256(seed, lncRNA, protein), refuses duplicates, missing columns, an empty table, a holdout below the declared minimum, an empty scored partition and a realized fraction further than 0.25 from the declared one. candidate_universe takes the product of the identifiers present in the known graph and removes every scored edge, so a candidate can never be a memorised positive while held-out positives stay unmarked. score_candidates applies a declared additive score with frozen weights and frozen standardisation, records per-feature contributions and lists missing features per candidate with a zero contribution, and refuses label-like feature columns, duplicate rows and a wholly missing primary feature. evaluate reports precision@budget, recall@budget and average precision using the shared step definition, plus the same metrics for a degree-prior baseline whose degrees come only from the scored partition, and refuses an empty holdout, a partition overlap, non-finite scores and a budget larger than the universe. top_candidates emits exactly budget ranked rows tagged unvalidated_candidate with orthogonal experimental validation required, and no emitted candidate can be a scored known edge. The fixture plants a latent rule to show the estimator has power; it is synthetic and no real binding evidence was scored."
     }
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 2080,
+    "unique_fixture_tests_passed": 2107,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -162,10 +161,9 @@
     "remaining_requirements_not_complete": [
       "C01",
       "C13",
-      "C16",
-      "C21"
+      "C16"
     ],
-    "latest_change_tests_passed": 31,
+    "latest_change_tests_passed": 27,
     "pending_validation": [],
     "r_validation_scope": {
       "executed_scripts": [

@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2080,
+  "unique_test_cases_passed": 2107,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -420,7 +420,9 @@
     "cc_hhgt/v32/patient_conditioning.py": "a39740aa6b0c25bf8f1a0c62718d73b146cd48518fa947f7032f01a07e769afa",
     "tests/test_v32_patient_conditioning.py": "0c2bc289ff053012ad1ed0d342411584fa997ea23d69350522d2b30cdea72c8b",
     "cc_hhgt/v32/omics_ablation_comparison.py": "58147404ca198da32e10b30c4eb21b092f1c6022e169331d9723030f27e7a906",
-    "tests/test_v32_omics_ablation_comparison.py": "b24e307f6314e6298a484e6350dbaf21db478716975183924116f0a49602600e"
+    "tests/test_v32_omics_ablation_comparison.py": "b24e307f6314e6298a484e6350dbaf21db478716975183924116f0a49602600e",
+    "cc_hhgt/v32/novel_binding_discovery.py": "67a654129677293f3fac9034b3131fd2eca5ed8a22203252553d6b553ff8d58d",
+    "tests/test_v32_novel_binding_discovery.py": "6552c0255cdbcfd3f0498840936cb7bdc1d8d69212e474a5eb9bd88fbcb2c1c8"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -604,7 +606,8 @@
     "A machine-checked code acceptance harness now replays the registered requirement ledger against the recorded pytest evidence. It refuses to accept when the plan declares training, a requirement has no implementation record, a verified requirement still declares remaining work, an in-progress requirement declares none, the requirement identifier set is not exactly C01-C16, a latest-change receipt is missing, failed, skipped or recorded training, a pinned source no longer matches the working tree, a registered suite hash drifted, the declared case counters disagree with the receipts, the open-requirement list disagrees with the statuses, or the worktree is dirty. The handoff report now refuses to build unless a PASS record is bound to the exact plan, validation ledger and commit. Acceptance is bookkeeping only: it cannot promote a requirement, attest real cohort analysis, independent biological validation or deployment, and publishing complete scientific field definitions remains open. No optimizer, real cohort, paid compute or deployment ran.",
     "Multi-omics node channels now enter the typed graph encoder instead of only the decoder. A validated evidence pair (table plus SHA256-pinned manifest, cohort or subject scope, frozen standardisation, clipped) becomes one value/observed column pair per declared channel for every node type; cc_hhgt/gnn.py widens the node input from the two historical degree columns to 2 + 2*channels and builds both encoder kinds at that width, while a bundle without a block keeps exactly two columns so every existing checkpoint still loads. The graph layer refuses a missing node-type block instead of zero-filling it, refuses stale identifiers, inconsistent widths, non-finite values, double attachment and a model built before augmentation. Fixture checks show a mutation value written on a gene node changes a connected lncRNA embedding through message passing while isolated and out-of-neighbourhood nodes stay bit-identical. The acceptance requirement set is now C01-C21: C17 is verified here, C18 (before/after multi-omics comparison) C19 (patient-level P-inactivation conditioning) C20 (mediation) and C21 (novel binding/PPI discovery with held-out evaluation) stay open. No optimizer, real cohort, paid compute or deployment ran, and no claim is made that multi-omics conditioning improves any prediction.",
     "Patient-level conditioning now has a defined, executable and falsifiable contrast. For one declared patient, one protein node and one omics channel, the frozen model is evaluated twice with every other input held byte-identical, and the difference in the lncRNA-pathway membership logit is reported together with sign changes and within-cancer rank movement; the record states that this is a model-conditional interventional contrast, not a causal effect in patients. Interaction attribution adds the only controls that can falsify an interaction reading: a rewiring control that keeps edge type, count and weight while redirecting P to other partners, and a matched placebo node with no path to the pair. The verdict is restricted to within-frozen-model language and every record states that biological mediation is not proven. Cohort tables cannot stand in for patients, unmeasured participants are refused instead of imputed, a counterfactual equal to the observed value is refused, and the homogeneous model refuses edge surgery rather than silently skipping the controls. No optimizer, real cohort, paid compute or deployment ran; the fixture model is untrained and the synthetic deltas carry no biological meaning.",
-    "The with/without multi-omics comparison now has an executable, paired and gated contract. Two declared arms must match on candidate, label, fold and budget digests and on the initialisation seed, and must differ only in the omics node input, otherwise the pair is refused before any score is read. The estimator is verified on synthetic scores: per-cancer average precision and ROC AUC, a paired stratified bootstrap interval, an exact sign test and a paired sign-flip permutation test, including a planted improvement and a null case. The only reporting entry point refuses while either arm has no trained checkpoint, which is the current state: no arm was trained with multi-omics node input, so no effect is reported and the tempting shortcut of scoring the existing G2 checkpoint with and without the new input columns is refused explicitly. Two attempts were blocked before execution by an intranet SSH banner error; after the read-only probe returned 149 the run was repeated once, no remote execution had occurred, and no duplicate job was launched. No optimizer, real cohort, paid compute or deployment ran."
+    "The with/without multi-omics comparison now has an executable, paired and gated contract. Two declared arms must match on candidate, label, fold and budget digests and on the initialisation seed, and must differ only in the omics node input, otherwise the pair is refused before any score is read. The estimator is verified on synthetic scores: per-cancer average precision and ROC AUC, a paired stratified bootstrap interval, an exact sign test and a paired sign-flip permutation test, including a planted improvement and a null case. The only reporting entry point refuses while either arm has no trained checkpoint, which is the current state: no arm was trained with multi-omics node input, so no effect is reported and the tempting shortcut of scoring the existing G2 checkpoint with and without the new input columns is refused explicitly. Two attempts were blocked before execution by an intranet SSH banner error; after the read-only probe returned 149 the run was repeated once, no remote execution had occurred, and no duplicate job was launched. No optimizer, real cohort, paid compute or deployment ran.",
+    "Novel binding/PPI work is now delivered as what it can honestly be: unvalidated candidate generation with a held-out evaluation that refuses to be meaningless. Known edges of a declared evidence arm are split by a seeded hash of the edge identity alone, the candidate universe excludes every scored known edge while keeping the held-out ones unmarked, and the additive score uses declared weights and frozen standardisation so nothing is fitted on the evaluation labels. Evaluation reports fixed-budget precision, recall, average precision and the same numbers for a degree-prior baseline built only from the scored partition. Label-like feature columns, duplicate feature rows, an all-missing primary feature, an empty holdout, a partition overlap and a budget larger than the universe are refused. Every emitted row is labelled unvalidated_candidate with orthogonal experimental validation required, and the record states that a ranked candidate is not evidence of binding. The synthetic fixture plants a latent binding rule to check that the estimator has power; it is not real binding data. No acquisition, optimizer, real cohort, paid compute or deployment ran, and no existing binding/PPI graph was modified."
   ],
   "test_suites": [
     {
@@ -1741,6 +1744,11 @@
       "path": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml",
       "passed": 31,
       "sha256": "fae9175c51f698f9d67eee1d8ecaea1511a2f672b00dd1e2b00dd2eb8fafdf60"
+    },
+    {
+      "path": "provenance/code_completion_20261015/novel_binding_r2_tests.xml",
+      "passed": 27,
+      "sha256": "661d499f29051008d2fe77a5f3e15dbb06dad3894469b30f9ba01adbec6c191e"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -9722,6 +9730,141 @@
       "suite": "provenance/code_completion_20261015/activity_source_replay_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_candidate_universe_excludes_scored_known_edges",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_discovery_filters_by_declared_evidence_arm",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_discovery_is_deterministic_and_seed_sensitive",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_discovery_pipeline_recovers_the_planted_rule",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_discovery_refuses_a_budget_larger_than_the_universe",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_evaluate_computes_fixed_budget_metrics_against_the_degree_prior",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_evaluate_refuses_an_unusable_evaluation",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_missing_feature_contributes_nothing_and_is_recorded",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_module_exposes_no_fitting_entry_point",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_score_is_the_declared_weighted_sum",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_scoring_refuses_leakage_and_unusable_features[<lambda>-DISCOVERY_FEATURE_COLUMNS_MISSING]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_scoring_refuses_leakage_and_unusable_features[<lambda>-DISCOVERY_FEATURE_ROW_DUPLICATE]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_scoring_refuses_leakage_and_unusable_features[<lambda>-DISCOVERY_LABEL_LEAKAGE]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_scoring_refuses_leakage_and_unusable_features[<lambda>-DISCOVERY_PRIMARY_FEATURE_ABSENT]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_split_is_deterministic_and_ignores_scores",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_split_rejects_duplicates_missing_columns_and_a_tiny_holdout",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides0-DISCOVERY_WEIGHTS_MISSING]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides1-DISCOVERY_PRIMARY_FEATURE_UNWEIGHTED]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides2-DISCOVERY_HOLDOUT_FRACTION_INVALID]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides3-DISCOVERY_HOLDOUT_FRACTION_INVALID]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides4-DISCOVERY_BUDGET_INVALID]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides5-DISCOVERY_MINIMUM_HOLDOUT_INVALID]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides6-DISCOVERY_STANDARDISATION_MISSING]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides7-DISCOVERY_STANDARDISATION_INVALID]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides8-DISCOVERY_STANDARDISATION_INVALID]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_fails_closed[overrides9-DISCOVERY_WEIGHTS_NOT_FINITE]",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_novel_binding_discovery",
+      "case": "test_validate_config_records_a_declared_unfitted_score",
+      "suite": "provenance/code_completion_20261015/novel_binding_r2_tests.xml"
+    },
+    {
       "module": "tests.test_v32_omics_ablation_comparison",
       "case": "test_average_precision_matches_the_step_definition",
       "suite": "provenance/code_completion_20261015/omics_ablation_r2_tests.xml"
@@ -12154,9 +12297,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "omics_ablation_r2"
+      "novel_binding_r2"
     ],
-    "passed": 31,
+    "passed": 27,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,
