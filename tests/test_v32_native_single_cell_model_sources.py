@@ -5,6 +5,7 @@ import pandas as pd
 import pytest
 
 from cc_hhgt.v32 import native_single_cell_model_sources as sources
+from cc_hhgt.v32 import single_cell_lasso_replay as lasso_replay
 from cc_hhgt.v32.current_model_use import Inventory, implementations
 from cc_hhgt.v32.formal_expression_sources import read,write,record
 from scripts import materialize_single_cell_hhgt_training_episodes_149 as assembler
@@ -44,12 +45,15 @@ def test_actual_signed_model_inspector_records_native_reconstructions(completed,
     inventory=inspect_model(binding,root)
     replayed=pd.DataFrame(inventory.transform_replays)
     assert set(replayed['format'])=={sources.mapping.FORMAT,sources.static.FORMAT,sources.graph.FORMAT,
-                                    sources.FORMAT,sources.ASSEMBLY,sources.outer.FORMAT}
+                                    sources.FORMAT,sources.ASSEMBLY,sources.outer.FORMAT,lasso_replay.FORMAT}
     assert replayed.model_training_started.eq(False).all()
     assert set(replayed.dependency_context)=={'FUSION_EXPERT:single_cell_positive'}
     assert replayed.loc[replayed['format'].eq(sources.FORMAT),'folds_recomputed'].tolist()==[5]
     assert replayed.loc[replayed['format'].eq(sources.outer.FORMAT),'folds_recomputed'].tolist()==[5]
     assert replayed.outputs_compared.gt(0).all()
+    manifest = read(paths(completed)[0])
+    assert replayed.loc[replayed['format'].eq(lasso_replay.FORMAT),'outputs_compared'].tolist()==[manifest['episode_count']]
+    assert replayed.loc[replayed['format'].eq(lasso_replay.FORMAT),'folds_recomputed'].tolist()==[len(manifest['folds'])]
     dependencies={r['path'] for r in inventory.dependencies}
     mapped=Path(value['mapped_success']['path'])
     mapping_value=read(read(mapped)['native_mapping_preparation']['path'])

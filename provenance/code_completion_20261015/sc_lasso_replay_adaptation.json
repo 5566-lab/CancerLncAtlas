@@ -1,0 +1,75 @@
+{
+  "method": "RECORDED_SC_LASSO_EVIDENCE_TO_MODEL_INPUT_DERIVATION_REPLAY",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "sc_lasso_model_sources_r3"
+  ],
+  "earlier_successful_receipts": [],
+  "intermediate_failed_receipts": [
+    "sc_lasso_replay_r1",
+    "sc_lasso_model_sources_r1",
+    "sc_lasso_model_sources_r2",
+    "sc_lasso_replay_r2"
+  ],
+  "intermediate_failure_causes": [
+    "Fixture-only iteration: the first LASSO fixture asserted two derived pair-feature columns and used an invalid flatnonzero conversion; the recorded mask has three columns.",
+    "Fixture-only iteration: the first stability fault lowered an edge whose gene stayed reachable through pathway membership, so the re-derivation legitimately matched; the fault now removes the only stable support reaching the asserted pathway.",
+    "Native model-use inspection initially required a flat episode list; the finalized materializer records episodes under folds. Both documented layouts are now accepted and anything else is rejected.",
+    "One case asserted a KeyError for a malformed episode record; the replay now validates the record shape explicitly and raises ValueError, with a separate absent-file case."
+  ],
+  "episode_record_shape_validated": true,
+  "malformed_record_rejected_before_payload_read": true,
+  "implementation_files": [
+    "cc_hhgt/v32/native_single_cell_model_sources.py",
+    "cc_hhgt/v32/single_cell_lasso_replay.py",
+    "tests/test_v32_native_single_cell_model_sources.py",
+    "tests/test_v32_single_cell_lasso_replay.py"
+  ],
+  "lasso_fit_executed": false,
+  "optimizer_executed": false,
+  "neural_model_constructed": false,
+  "reconstructed": [
+    "response_identity",
+    "edge_order_and_uniqueness",
+    "edge_availability",
+    "local_node_indices",
+    "lasso_pair_features",
+    "localized_lasso_edges"
+  ],
+  "exact_comparisons": [
+    "row identity mapping",
+    "response order and identifiers",
+    "edge ordering",
+    "node global indices",
+    "localized edge integer indices"
+  ],
+  "tolerance": 1e-06,
+  "boundary_tolerance": 1e-06,
+  "boundary_stability_rule_documented": true,
+  "fitted_coefficient_objective_replayed": false,
+  "fitted_lasso_lineage_verified": false,
+  "reference_authenticity_verified": false,
+  "independent_external_validation_attested": false,
+  "documentation": [
+    {
+      "path": "docs/SC_LASSO_MODEL_INPUT_REPLAY_20261027.rst",
+      "sha256": "6c980fe03f5662dd1f37acae885fd7f4431cc2a73d518ae8a4a5475b22dd4c41"
+    }
+  ],
+  "test_substitutes": [
+    "Recorded synthetic LASSO evidence; fit_context_lasso and every optimizer remain forbidden.",
+    "Frozen checkpoint/model containers supplied to the actual downstream inspectors."
+  ],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Each completed SC-HHGT episode records its LASSO response summary and the localized coefficient/stability edges the HGT model consumes. Signed single-cell model-use inspection now rebuilds the candidate nodes, the three LASSO-derived pair-feature columns and the sparse edge tensors from those recorded values plus the pinned static graph assets, then compares them to the payload: response identity, edge ordering, uniqueness, availability, node sets and localized edges. Rehashed coefficient, stability, node, pair-feature and identity edits fail closed, and an unavailable response may not carry evidence. Integer identities are compared exactly while float32-recorded values use a 1e-6 tolerance; a stability value inside that tolerance of the threshold is reported as a distinct boundary condition. The recorded coefficients are never re-solved, so their fit provenance and L1 objective consistency stay declared gaps. No LASSO, PCA or neural fitting ran; no real cohort, acquisition, paid compute or deployment ran. Earlier scope deviations remain recorded."
+}

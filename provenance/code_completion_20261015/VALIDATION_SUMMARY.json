@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 1921,
+  "unique_test_cases_passed": 1937,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -372,8 +372,8 @@
     "requirements/requirements-base.txt": "df8b678aae5c43b0141fc687f240706427298a7de485ba00d57fd16d3afadc93",
     "cc_hhgt/v32/single_cell_nested_numeric_replay.py": "04f85dcc34c17774baf13a92b7db8c528f97601ba9916c411b20ae345c0092c9",
     "tests/test_v32_single_cell_nested_numeric_replay.py": "34a0dc47418664b63f0d5409d991928181d0267c1603b2c4d4a256bbe9d2399d",
-    "cc_hhgt/v32/native_single_cell_model_sources.py": "a238daaf4d537c3b6a88e2858634b5545d1eb080b6128b717591d071da0ef6cc",
-    "tests/test_v32_native_single_cell_model_sources.py": "21973eb58b0dd97550ef67de5640d50cd3b7bcda13d2ed30abede7c449dd0914",
+    "cc_hhgt/v32/native_single_cell_model_sources.py": "d9c2254e82f59f2a0747562d39e92dcd8c856512ef51fb001fdbf1b9bbc9c61b",
+    "tests/test_v32_native_single_cell_model_sources.py": "1b9e8af12975fe419b15505bf29f1671fa735dcea82201f45f9bd82da653017f",
     "cc_hhgt/v32/single_cell_outer_numeric_replay.py": "2a2a49918dd21d84de5b3ba207f8c9825d864cd9d39c69fa684f1a4673d469ae",
     "tests/test_v32_single_cell_outer_numeric_replay.py": "5dde0fb395bbee9769b6c6ca6776adcf058ec66a65c36763cb770b0d2759e535",
     "cc_hhgt/v32/local_cnv_patient_use.py": "67389d0c763de30658583010844be703ee067dbba7341fd71f7f51bb34c370a5",
@@ -409,7 +409,9 @@
     "cc_hhgt/v32/single_cell_geometry_replay.py": "8df53dbd27d8befcfeff8676cca81bf87fb58cf2d25d8e61cf78076705ff71e5",
     "cc_hhgt/v32/single_cell_metacells.py": "593aa7c35f1cd98f9e6ea0ffc76820e0b2b05dcab1494f6c6dbb5a6b7c1d5447",
     "cc_hhgt/v32/single_cell_nested_episodes.py": "a6c7bf5b69015c2d9cc145876c726e441acf55969157b95b351a10eea989c8d1",
-    "tests/test_v32_single_cell_geometry_replay.py": "7d42c5f96ee9e307707ddf4efe0d770576f29ed6c7a83f7022086fda6a507922"
+    "tests/test_v32_single_cell_geometry_replay.py": "7d42c5f96ee9e307707ddf4efe0d770576f29ed6c7a83f7022086fda6a507922",
+    "cc_hhgt/v32/single_cell_lasso_replay.py": "8d2fb9bd6c2146510d7cbdfb8461918449820ab9e737d6a89a9873acebfed561",
+    "tests/test_v32_single_cell_lasso_replay.py": "b8cc6748d1be0ef320db691b6903c1e66c3b89efcb663c02174a9fb0091ec49b"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -588,7 +590,8 @@
     "Native GMT/GENCODE membership now enters original ATAC R materialization, all-five-fold feature preparation, auxiliary prepare/collect, current fusion preparation and the actual expert source inspector. Candidates and marked membership must share annotation bytes and named GMT content before R can start; materializer/preparation/completed-result paths reconstruct the membership reference and reject removed or changed proofs. Original ATAC prefix/dot ID normalization, observed-promoter-gene mean/minimum coverage and raw cancer gaps remain unchanged. Missing/PAR_Y members stay in the source and required gene list, without synthetic zero measurements. Reference authenticity, raw normalization, promoter annotation production and full patient/aliquot ancestry remain open. Final successful verification is session-guarded and uses synthetic raw input, original R/Python statistics and frozen results without fitting. An initial misselected legacy regression test did execute five synthetic NumPy logistic fits of 12 iterations each; that interrupted run is excluded from successful validation and its corrected receipt and evidence are preserved. No real cohort, paid compute, download or deployment ran. Registry remains 33 operations; C01/C13/C16 remain open.",
     "Recovered the original transcript-promoter script byte-for-byte and added promoter.run as chain operation 34. The original strand-aware inclusive -1000/+100 geometry, reference chromosome selection, multiple transcript retention and deterministic gzip remain unchanged. Native output preserves raw versioned IDs and GTF row positions while exposing stable gene IDs that retain PAR_Y through existing consumers. Actual ATAC R materialization, all-five-fold feature preparation, auxiliary collection/current fusion source inspection consume the new promoter proof. Actual annotation/promoter/probe/methylation chain reconstructs original coordinate overlaps and synthetic beta values; parent GTF/code pins propagate downstream. Candidate annotation mismatch, proof removal, copied markers, changed raw inputs and rehashed geometry/identity substitutions are rejected. Reference authenticity, raw ATAC normalization, remaining upstream/patient ancestry and complete acceptance remain open. All checks in this change use the session fitting guard, synthetic cohort input and frozen model-result containers; the official static HM450 reference is read under its unchanged checksum gate. No fitting, real cohort, acquisition, paid compute or deployment ran. The earlier ATAC synthetic-fitting selection incident stays recorded in verification_scope_deviations; it is not removed or reused.",
     "State current-context replay now observes the actual original within-patient mean joins and outputs, records loaded raw row positions, finite versus skipped missing measurements, patient authority positions and native means, then links every original split/candidate paired mask to its actual contribution groups. State canonical patient joins and expression aliquot-authority joins retain their distinct original semantics. Both new tables remain private and are numerically/source replayed; rehashed row/link substitutions and public aliases fail. Tests verify identical original means/statistics on synthetic multi-aliquot data and actual frozen-context/native workflow consumers. All checks use a fitting guard; no real cohort, parameter fitting, acquisition, paid compute or deployment ran. Supplied measurement acquisition/normalization and complete parent-core/cross-module ancestry remain unknown and blocking. This does not replace the global State expression input with a fold-local product. Earlier scope deviations remain recorded.",
-    "Original outer and nested SC metacell producers now persist LocalSpace preprocessing, PCA parameters and cell coordinates. The original donor-weighted gene selection, seeded donor-balanced cell cap and centering were factored without changing the fitting algorithm. Native cache/completion and actual model-use inspection reconstruct preparation, apply supplied frozen PCA through the original transform, rerun the original source-only radius and local disjoint grouping and compare coordinates, exact membership and grouping audit. Actual all-five-fold graph/nested/episode/model-use consumers are tested with a declared identity projection and frozen LASSO/model containers. No PCA/LASSO/neural parameter fitting or real cohort/acquisition/paid compute/deployment ran. This verifies application of supplied projection parameters, not their fitted provenance or optimality. The fitted-geometry, fitted-LASSO, raw acquisition/QC/reference and complete cross-module ancestry gaps remain blocking; legacy unpersisted parameters produce no new geometric proof. Earlier scope deviations remain recorded."
+    "Original outer and nested SC metacell producers now persist LocalSpace preprocessing, PCA parameters and cell coordinates. The original donor-weighted gene selection, seeded donor-balanced cell cap and centering were factored without changing the fitting algorithm. Native cache/completion and actual model-use inspection reconstruct preparation, apply supplied frozen PCA through the original transform, rerun the original source-only radius and local disjoint grouping and compare coordinates, exact membership and grouping audit. Actual all-five-fold graph/nested/episode/model-use consumers are tested with a declared identity projection and frozen LASSO/model containers. No PCA/LASSO/neural parameter fitting or real cohort/acquisition/paid compute/deployment ran. This verifies application of supplied projection parameters, not their fitted provenance or optimality. The fitted-geometry, fitted-LASSO, raw acquisition/QC/reference and complete cross-module ancestry gaps remain blocking; legacy unpersisted parameters produce no new geometric proof. Earlier scope deviations remain recorded.",
+    "Each completed SC-HHGT episode records its LASSO response summary and the localized coefficient/stability edges the HGT model consumes. Signed single-cell model-use inspection now rebuilds the candidate nodes, the three LASSO-derived pair-feature columns and the sparse edge tensors from those recorded values plus the pinned static graph assets, then compares them to the payload: response identity, edge ordering, uniqueness, availability, node sets and localized edges. Rehashed coefficient, stability, node, pair-feature and identity edits fail closed, and an unavailable response may not carry evidence. Integer identities are compared exactly while float32-recorded values use a 1e-6 tolerance; a stability value inside that tolerance of the threshold is reported as a distinct boundary condition. The recorded coefficients are never re-solved, so their fit provenance and L1 objective consistency stay declared gaps. No LASSO, PCA or neural fitting ran; no real cohort, acquisition, paid compute or deployment ran. Earlier scope deviations remain recorded."
   ],
   "test_suites": [
     {
@@ -1690,6 +1693,11 @@
       "path": "provenance/code_completion_20261015/sc_geometry_sources_r3_tests.xml",
       "passed": 29,
       "sha256": "2b4a4f629ed89c15278c3c079f82be9d47de20c292aa90ef5ebc2db9892fbacf"
+    },
+    {
+      "path": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml",
+      "passed": 25,
+      "sha256": "0c8ea648e61ff78572c7f7a8acab9614130f16daaa107bdb44c4fb0c3341642c"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -9058,42 +9066,42 @@
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_actual_signed_model_inspector_records_native_reconstructions",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_legacy_manifest_has_no_invented_native_proof",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_native_source_inspection_rejects_broken_or_downgraded_bindings[manifest_counts]",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_native_source_inspection_rejects_broken_or_downgraded_bindings[mapped_bytes]",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_native_source_inspection_rejects_broken_or_downgraded_bindings[native_marker]",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_native_source_inspection_rejects_broken_or_downgraded_bindings[nested_bytes]",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_native_source_inspection_rejects_broken_or_downgraded_bindings[other_graph]",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_model_sources",
       "case": "test_native_source_inspection_rejects_broken_or_downgraded_bindings[outer_bytes]",
-      "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_native_single_cell_static_workflow",
@@ -10323,7 +10331,7 @@
     {
       "module": "tests.test_v32_single_cell_annotation_model_use",
       "case": "test_actual_signed_model_input_path_reaches_original_gtf",
-      "suite": "provenance/code_completion_20261015/sc_annotation_model_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_geometry_replay",
@@ -10429,6 +10437,86 @@
       "module": "tests.test_v32_single_cell_geometry_replay",
       "case": "test_unequal_donor_cell_counts_keep_equal_total_donor_weight",
       "suite": "provenance/code_completion_20261015/sc_geometry_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_deterministic_replay_is_repeatable",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_format_marker_is_explicit",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[coefficient]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[edge_dropped]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[node_order]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[pair_feature]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[response_count]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[response_id]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[row_identity]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[stability]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[threshold]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[unavailable_edge]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_derivation_mismatch_is_rejected[without_lasso]",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_recorded_lasso_evidence_rebuilds_model_inputs",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_unavailable_response_rows_do_not_gain_evidence",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_single_cell_lasso_replay",
+      "case": "test_verify_episodes_rejects_incomplete_inventory",
+      "suite": "provenance/code_completion_20261015/sc_lasso_model_sources_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_single_cell_model_use",
@@ -11308,10 +11396,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "sc_geometry_consumers_r1",
-      "sc_geometry_sources_r3"
+      "sc_lasso_model_sources_r3"
     ],
-    "passed": 78,
+    "passed": 25,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

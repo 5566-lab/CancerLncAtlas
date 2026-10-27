@@ -7180,3 +7180,10 @@ pass 78 distinct related checks. Original outer and nested producers
 now preserve projection parameters and coordinates; original source-only radius
 and disjoint membership are replayed through native graph/episode/model consumers.
 Fitted PCA/LASSO provenance remains unresolved. No fitting or real cohort ran.
+
+SC LASSO recorded-evidence replay on149: ``sc_lasso_model_sources_r3``
+pass 25 distinct related checks. Signed model-use inspection now
+re-derives the candidate nodes, LASSO pair features and sparse edges from the
+evidence recorded inside each episode plus the pinned static assets. Recorded
+coefficients are still not re-solved, so fit provenance and objective
+consistency remain open. No fitting or real cohort ran.

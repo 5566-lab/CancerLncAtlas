@@ -1,7 +1,10 @@
 """Bring actual native SC source reconstruction into the model-use inventory.
 
-The supplied geometry and fitted LASSO remain explicit gaps. This module does
-not fit, construct neural models, replay predictions or attest independence.
+The supplied geometry remains an explicit gap, and the recorded LASSO evidence is
+rebuilt into the model-facing nodes, pair features and sparse edges here. The
+recorded coefficients are still never re-solved against the L1 objective. This
+module does not fit, construct neural models, replay predictions or attest
+independence.
 """
 from pathlib import Path
 import time
@@ -20,7 +23,8 @@ FORMAT = 'NATIVE_SC_NESTED_FROZEN_STATISTICS_REPLAY_V1'
 ASSEMBLY = 'NATIVE_SC_EPISODE_MANIFEST_RECONSTRUCTION_V1'
 CODE = tuple(dict.fromkeys((*mapping.CODE, *static.CODE, *graph.CODE, *donors.CODE, *nested.CODE,
     'cc_hhgt/v32/native_single_cell_model_sources.py', 'cc_hhgt/v32/native_single_cell_episode_sources.py',
-    'cc_hhgt/v32/single_cell_hhgt_episodes.py', 'cc_hhgt/v32/single_cell_batched_lasso.py')))
+    'cc_hhgt/v32/single_cell_hhgt_episodes.py', 'cc_hhgt/v32/single_cell_batched_lasso.py',
+    'cc_hhgt/v32/single_cell_lasso_replay.py')))
 
 
 def assembler_settings(preflight):
@@ -128,6 +132,16 @@ def inspect(inventory, episode_path, graph_path, model, role):
         if read(path).get('local_space_format') == GEOMETRY_FORMAT:
             replay(path, 'geometry.'+str(index), GEOMETRY_FORMAT, 1, 3)
 
+    from . import single_cell_lasso_replay as lasso_replay
+    # Rebuild the model-facing LASSO inputs from the evidence recorded inside each
+    # episode. The recorded coefficients themselves are not re-solved, so their
+    # fit provenance and L1 objective consistency stay declared gaps.
+    lasso_replay_result = lasso_replay.verify_episodes(episode_path, settings, manifest)
+    if lasso_replay_result['episode_count'] != manifest['episode_count']:
+        raise ValueError('SC-HHGT LASSO replay did not cover every recorded episode')
+    replay(episode_path, 'lasso_evidence', lasso_replay.FORMAT, len(manifest['folds']),
+           int(lasso_replay_result['episode_count']))
+
     # Raw sources are bound and described separately from derived outputs.
     # Their mapping is replayed, while acquisition/QC/reference claims remain
     # unresolved. Patient identities remain inside PatientUse's private map.
@@ -153,6 +167,7 @@ def inspect(inventory, episode_path, graph_path, model, role):
     for reason in ('SC_RAW_ACQUISITION_QC_AND_REFERENCE_ANCESTRY_UNVERIFIED',
                    'SC_FITTED_GEOMETRY_NOT_INDEPENDENTLY_VERIFIED',
                    'SC_FITTED_LASSO_COEFFICIENTS_NOT_RECONSTRUCTED',
+                   'SC_LASSO_COEFFICIENT_OBJECTIVE_NOT_REFIT',
                    'SC_BULK_CANDIDATE_AND_EXTERNAL_REFERENCE_ANCESTRY_UNVERIFIED'):
         inventory.gap(model,role+'.native',reason,digest=record(preflight_path)['sha256'])
     return handled
