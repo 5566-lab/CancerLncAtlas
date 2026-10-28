@@ -16,6 +16,7 @@ import pyarrow.parquet as pq
 from .current_core_export import sha256,verified_path
 from .current_analysis_web import (COMPONENTS,STATUSES,NOTES,INPUT_FORMAT as WEB_INPUT,
     CurrentAnalysisWebStore,materialize_current_analysis_web)
+from .public_field_definitions import augment_catalog
 
 INPUT_FORMAT="CURRENT_ANALYSIS_WORKFLOW_INPUT_V1"
 FORMAT="CURRENT_ANALYSIS_WORKFLOW_RELEASE_V1"
@@ -125,10 +126,10 @@ def public_table_catalog(store):
         tables.append({"table_id":identity,"component":table["component"],"kind":table["kind"],
             "rows":table["rows"],"table_semantics":NOTES[table["component"]],"fields":fields,
             "parts":[{"part":i,"sha256":r["sha256"]} for i,r in enumerate(table["files"])]})
-    return {"format":"CURRENT_PUBLIC_TABLE_CATALOG_V1","web_binding_sha256":store.sha,
+    return augment_catalog({"format":"CURRENT_PUBLIC_TABLE_CATALOG_V1","web_binding_sha256":store.sha,
         "selected_analysis_sha256":store.binding["selected_analysis_sha256"],"tables":tables,
         "scope":"PUBLIC_SCHEMAS_AND_TABLE_SEMANTICS_NOT_COMPLETE_FIELD_DEFINITIONS",
-        "independent_external_validation_attested":False}
+        "independent_external_validation_attested":False})
 
 
 def run_current_analysis_workflow(manifest_path,output):

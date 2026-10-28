@@ -7230,3 +7230,10 @@ model-use, full-model-contract and core-export/current-model suites. The widened
 not change behaviour for bundles without omics. Two pre-existing defects were found: one stale
 test missing the production topology channel (repaired) and one test depending on a document
 absent from this checkout (now skips with a reason). No requirement was promoted.
+
+Public field definitions on149: ``public_fields_r1``, ``public_fields_wiring_r2``
+pass 39 distinct related checks. A registry now carries one checkable
+sentence, kind, unit and producing stage per public column, with component clarifications where a
+name changes meaning. The catalog attaches definitions, reports defined/total coverage and may
+only claim completeness at exactly 100%; pending entries never count. 35 columns and 5
+clarifications are authored, no archived catalog was found read-only, and C16 stays open.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="4.591" timestamp="2026-10-28T10:33:15.809212+08:00" hostname="149"><testcase classname="" name="tests.test_v32_current_analysis_web" time="0.000"><error message="collection failure">ImportError while importing test module '/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/tests/test_v32_current_analysis_web.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../miniconda3/envs/cc_hhgt/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_v32_current_analysis_web.py:16: in &lt;module&gt;
+    from fastapi import FastAPI
+E   ModuleNotFoundError: No module named 'fastapi'</error></testcase></testsuite></testsuites>

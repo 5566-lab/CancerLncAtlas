@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="7.039" timestamp="2026-10-28T10:29:02.022071+08:00" hostname="149"><testcase classname="tests.test_fold_node_features" name="test_fold_node_degree_does_not_use_global_node_degree_columns" time="0.032" /></testsuite></testsuites>

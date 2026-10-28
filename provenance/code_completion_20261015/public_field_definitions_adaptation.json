@@ -1,0 +1,56 @@
+{
+  "method": "PUBLIC_FIELD_DEFINITION_REGISTRY_AND_COMPLETENESS_GATE",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "scientific_data_download_started": false,
+  "successful_validation_receipts": [
+    "public_fields_r1",
+    "public_fields_wiring_r2"
+  ],
+  "earlier_successful_receipts": [
+    "catalog_probe_r1"
+  ],
+  "intermediate_failed_receipts": [
+    "public_fields_wiring_r1"
+  ],
+  "intermediate_failure_causes": [
+    "The web/workflow suite that recomputes the catalog needs fastapi, which is not installed in the base environment; the first run failed at collection until the recorded verified dependency directory was supplied as PYTHONPATH, after which all 18 checks pass."
+  ],
+  "implementation_files": [
+    "cc_hhgt/v32/current_analysis_workflow.py",
+    "cc_hhgt/v32/public_field_definitions.py",
+    "tests/test_v32_public_field_definitions.py"
+  ],
+  "registered_columns": 35,
+  "component_clarifications": 5,
+  "coverage_gate": [
+    "defined/total columns reported",
+    "exact undefined list emitted",
+    "require_complete raises instead of claiming completeness",
+    "complete scope only at exactly 100% coverage",
+    "pending entries never count",
+    "empty catalog refused"
+  ],
+  "archived_catalog_found": false,
+  "catalog_recomputation_suite_passing": true,
+  "requirements_promoted": [],
+  "requirements_open": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "scientific_field_definitions_published": false,
+  "real_cohort_analysis_attested": false,
+  "independent_biological_validation_attested": false,
+  "production_deployment_attested": false,
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "pending_validation": [],
+  "scope_limit": "Public field definitions now have a registry and a completeness gate instead of a prose promise. Each registered column carries one checkable sentence plus its value kind, unit or scale, producing stage, status and a schema-verified flag; component-specific clarifications override the shared semantics where the same column name means something else in another module. The published catalog now attaches the definition to every field, reports defined/total coverage with the exact undefined column list, and may only declare the complete scope when coverage is exactly 100%: otherwise it keeps the incomplete scope and reports the gap. Pending entries never count, an empty catalog is refused, and the web/workflow suite that recomputes the catalog continues to pass, including its tampered-scope rejection. This is progress, not closure: the registry defines 35 columns and 5 component clarifications, no archived published catalog was located within the read-only search window, and full coverage of the actual published columns still requires an actual publication inventory. No definition asserts a scientific finding, no optimizer, real cohort, paid compute or deployment ran, and no requirement was promoted."
+}

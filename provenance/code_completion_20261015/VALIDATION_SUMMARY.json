@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2230,
+  "unique_test_cases_passed": 2251,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -159,7 +159,7 @@
     "cc_hhgt/v32/current_omics_context.py": "be90692d4d3f3843fd8c19d15fbfd7c361752273f69bc3c0036e864ffdca2c87",
     "scripts/materialize_v32_current_omics_context.py": "0520e483ff9a6e275b609beafa1f96f830ca7b0e7ce045e141395264416e8b1e",
     "tests/test_v32_current_omics_context.py": "e2ece6cba36474d7adc85d7cea52d485cd7de4a8eaeda8302266b4b9361d7041",
-    "cc_hhgt/v32/current_analysis_workflow.py": "f46b2b142b130042f70d436e3dbe27ff3e673b713c18ba9f5ef5fe0db03c279e",
+    "cc_hhgt/v32/current_analysis_workflow.py": "2c1495909a2cd3a74f53d6fc75b969dbd6eb982c5487b56c5cfd140758570677",
     "scripts/run_v32_current_analysis_workflow.py": "7db340e9675ecc68a33b343d67873ad4c38a1a4db9a7ad34ba33bcffa95b9c83",
     "cc_hhgt/v32/current_model_use.py": "b8b35e40932cde923e1f236a70d553cabc9e78e9ea34c76240120668cf0a244f",
     "scripts/materialize_v32_current_model_use.py": "bce60becc185691fa1a8aaca70e996fe0e11eba176c4e78cea6afb6b4b779b3e",
@@ -424,7 +424,9 @@
     "cc_hhgt/v32/novel_binding_discovery.py": "67a654129677293f3fac9034b3131fd2eca5ed8a22203252553d6b553ff8d58d",
     "tests/test_v32_novel_binding_discovery.py": "6552c0255cdbcfd3f0498840936cb7bdc1d8d69212e474a5eb9bd88fbcb2c1c8",
     "tests/test_v30_loco_graph_contract.py": "cfd4bcb947fe95826dad8beb8aa1e88f777d2a9ec17ab4d0704757b2e0141bc3",
-    "tests/test_exact_pathway_primary.py": "b1f89809ae44deddb566cd831ae66301e5e84afa049c3e819ffc06b2066d6b04"
+    "tests/test_exact_pathway_primary.py": "b1f89809ae44deddb566cd831ae66301e5e84afa049c3e819ffc06b2066d6b04",
+    "cc_hhgt/v32/public_field_definitions.py": "9b68bf96480a87fd85a02e68b750f0d2be54aef4f88a551cee9761d3513e30c9",
+    "tests/test_v32_public_field_definitions.py": "78accc6cf069cc879588026fb630526be49c95b85747d7113601c3de63671948"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -610,7 +612,8 @@
     "Patient-level conditioning now has a defined, executable and falsifiable contrast. For one declared patient, one protein node and one omics channel, the frozen model is evaluated twice with every other input held byte-identical, and the difference in the lncRNA-pathway membership logit is reported together with sign changes and within-cancer rank movement; the record states that this is a model-conditional interventional contrast, not a causal effect in patients. Interaction attribution adds the only controls that can falsify an interaction reading: a rewiring control that keeps edge type, count and weight while redirecting P to other partners, and a matched placebo node with no path to the pair. The verdict is restricted to within-frozen-model language and every record states that biological mediation is not proven. Cohort tables cannot stand in for patients, unmeasured participants are refused instead of imputed, a counterfactual equal to the observed value is refused, and the homogeneous model refuses edge surgery rather than silently skipping the controls. No optimizer, real cohort, paid compute or deployment ran; the fixture model is untrained and the synthetic deltas carry no biological meaning.",
     "The with/without multi-omics comparison now has an executable, paired and gated contract. Two declared arms must match on candidate, label, fold and budget digests and on the initialisation seed, and must differ only in the omics node input, otherwise the pair is refused before any score is read. The estimator is verified on synthetic scores: per-cancer average precision and ROC AUC, a paired stratified bootstrap interval, an exact sign test and a paired sign-flip permutation test, including a planted improvement and a null case. The only reporting entry point refuses while either arm has no trained checkpoint, which is the current state: no arm was trained with multi-omics node input, so no effect is reported and the tempting shortcut of scoring the existing G2 checkpoint with and without the new input columns is refused explicitly. Two attempts were blocked before execution by an intranet SSH banner error; after the read-only probe returned 149 the run was repeated once, no remote execution had occurred, and no duplicate job was launched. No optimizer, real cohort, paid compute or deployment ran.",
     "Novel binding/PPI work is now delivered as what it can honestly be: unvalidated candidate generation with a held-out evaluation that refuses to be meaningless. Known edges of a declared evidence arm are split by a seeded hash of the edge identity alone, the candidate universe excludes every scored known edge while keeping the held-out ones unmarked, and the additive score uses declared weights and frozen standardisation so nothing is fitted on the evaluation labels. Evaluation reports fixed-budget precision, recall, average precision and the same numbers for a degree-prior baseline built only from the scored partition. Label-like feature columns, duplicate feature rows, an all-missing primary feature, an empty holdout, a partition overlap and a budget larger than the universe are refused. Every emitted row is labelled unvalidated_candidate with orthogonal experimental validation required, and the record states that a ranked candidate is not evidence of binding. The synthetic fixture plants a latent binding rule to check that the estimator has power; it is not real binding data. No acquisition, optimizer, real cohort, paid compute or deployment ran, and no existing binding/PPI graph was modified.",
-    "The widened encoder input was checked against the existing graph and model consumers on host 149. Four regression groups now pass: graph-contract, fold-local and model-use suites in group B, the full model contract in group C, and the core-export/current-model/current-core suites in group D. A first group also exposed two pre-existing failures unrelated to the encoder change: one test hand-built a homogeneous graph without the topology channel that the production bundle has always supplied, and one asserts wording from a V2.9 contract document that is not part of this checkout. The first was repaired by supplying the topology channel exactly as production does and now passes; the second now skips with an explicit reason instead of failing, because fabricating the missing document would be worse than recording its absence. No requirement was promoted: C01, C13 and C16 remain open, and complete scientific field definitions are still unpublished. No optimizer, real cohort, paid compute or deployment ran."
+    "The widened encoder input was checked against the existing graph and model consumers on host 149. Four regression groups now pass: graph-contract, fold-local and model-use suites in group B, the full model contract in group C, and the core-export/current-model/current-core suites in group D. A first group also exposed two pre-existing failures unrelated to the encoder change: one test hand-built a homogeneous graph without the topology channel that the production bundle has always supplied, and one asserts wording from a V2.9 contract document that is not part of this checkout. The first was repaired by supplying the topology channel exactly as production does and now passes; the second now skips with an explicit reason instead of failing, because fabricating the missing document would be worse than recording its absence. No requirement was promoted: C01, C13 and C16 remain open, and complete scientific field definitions are still unpublished. No optimizer, real cohort, paid compute or deployment ran.",
+    "Public field definitions now have a registry and a completeness gate instead of a prose promise. Each registered column carries one checkable sentence plus its value kind, unit or scale, producing stage, status and a schema-verified flag; component-specific clarifications override the shared semantics where the same column name means something else in another module. The published catalog now attaches the definition to every field, reports defined/total coverage with the exact undefined column list, and may only declare the complete scope when coverage is exactly 100%: otherwise it keeps the incomplete scope and reports the gap. Pending entries never count, an empty catalog is refused, and the web/workflow suite that recomputes the catalog continues to pass, including its tampered-scope rejection. This is progress, not closure: the registry defines 35 columns and 5 component clarifications, no archived published catalog was located within the read-only search window, and full coverage of the actual published columns still requires an actual publication inventory. No definition asserts a scientific finding, no optimizer, real cohort, paid compute or deployment ran, and no requirement was promoted."
   ],
   "test_suites": [
     {
@@ -1772,6 +1775,16 @@
       "path": "provenance/code_completion_20261015/stale_contract_repair_r1_tests.xml",
       "passed": 5,
       "sha256": "9abf82b4567e18a2f0527a153ef23ef265423328cdc5ad2af7ca59aae972fc55"
+    },
+    {
+      "path": "provenance/code_completion_20261015/public_fields_r1_tests.xml",
+      "passed": 21,
+      "sha256": "e46a6af3d03d95fbe4e13582530febee0736a7d3a4941502680dcdb3211371b6"
+    },
+    {
+      "path": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml",
+      "passed": 18,
+      "sha256": "27e43780fb3783436d5b74aa7a2a5fe40b739704e6b217295b21d036a73f694e"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -2760,92 +2773,92 @@
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_application_uses_current_home_and_does_not_serve_old_results",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_full_publication_native_reaudit_reconstructs_all_components",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_http_semantics_keep_null_zero_and_drug_missingness",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_missing_components_are_explicit_but_cross_selected_components_fail",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_modified_artifact_fails_without_disclosing_source_paths",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_real_current_components_are_served_and_every_public_part_downloads",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[catalog]",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[completeness]",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[model_use_input]",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[resolved_input]",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[stage]",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_rehashed_publication_metadata_cannot_override_native_consumers[web_input]",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_version_mismatch_invalid_queries_and_private_downloads_are_rejected",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_native_contexts_and_records_actual_public_schemas",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_builds_selected_scores_and_keeps_unproduced_modules_explicit",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_preserves_failed_stage_and_rejects_forward_references",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_analysis_web",
       "case": "test_workflow_reuses_pinned_components_and_rejects_changed_inputs",
-      "suite": "provenance/code_completion_20261015/state_core_consumers_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_binding_expansion",
@@ -11543,6 +11556,111 @@
       "suite": "provenance/code_completion_20261015/prepared_construction_r2_tests.xml"
     },
     {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_augment_attaches_definitions_and_keeps_schema_keys",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_augment_does_not_mutate_its_input",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_augment_leaves_undefined_columns_explicitly_null",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_augment_scope_becomes_complete_only_on_full_coverage",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_augment_scope_stays_incomplete_until_every_column_is_defined",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_component_note_overrides_the_shared_semantics",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_coverage_counts_defined_and_undefined",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_coverage_lists_the_missing_column_with_its_context",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_coverage_rejects_an_empty_catalog",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_coverage_reports_per_component_counts",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_definitions_do_not_claim_validation",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_every_registry_entry_is_structurally_valid",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_invalid_definition_entries_are_rejected[definition0-PUBLIC_FIELD_KIND_INVALID]",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_invalid_definition_entries_are_rejected[definition1-PUBLIC_FIELD_STATUS_INVALID]",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_invalid_definition_entries_are_rejected[definition2-PUBLIC_FIELD_DEFINITION_TOO_SHORT]",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_invalid_definition_entries_are_rejected[definition3-PUBLIC_FIELD_UNIT_REQUIRED]",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_invalid_definition_entries_are_rejected[definition4-PUBLIC_FIELD_UNIT_REQUIRED]",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_pending_definitions_never_count",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_registry_digest_is_stable_and_sensitive",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_require_complete_passes_on_full_coverage",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_public_field_definitions",
+      "case": "test_require_complete_refuses_a_partial_catalog",
+      "suite": "provenance/code_completion_20261015/public_fields_r1_tests.xml"
+    },
+    {
       "module": "tests.test_v32_rbns_sequence",
       "case": "test_full_command_streams_native_scores_and_writes_predicted_binding",
       "suite": "provenance/code_completion_20261015/rbp_workflow_r1_tests.xml"
@@ -12935,12 +13053,10 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "gnn_regression_b",
-      "gnn_regression_c",
-      "gnn_regression_d",
-      "stale_contract_repair_r1"
+      "public_fields_r1",
+      "public_fields_wiring_r2"
     ],
-    "passed": 202,
+    "passed": 39,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,
