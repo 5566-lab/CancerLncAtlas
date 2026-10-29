@@ -43,7 +43,7 @@
     "distinct_promoter_cpg_probes": 170365,
     "excluded_unresolved_or_non_coding_genes": 2832
   },
-  "materialization_status": "RUNNING",
+  "materialization_status": "UNCONFIRMED_NETWORK",
   "materialization_complete": null,
   "progress": [
     {
@@ -132,7 +132,7 @@
     }
   ],
   "files_verified_in_completed_cancer_channels": 4348,
-  "formal_prepared_status": "PENDING",
+  "formal_prepared_status": "UNCONFIRMED_NETWORK",
   "formal_prepared_complete": null,
   "learned_embeddings_generated": false,
   "synthetic_verification_is_separate": true,
@@ -146,5 +146,23 @@
   },
   "parent_prepared_validation": {
     "status": "PENDING"
+  },
+  "last_successful_observation": {
+    "observed_at_utc": "2026-10-29T06:57:11.325719+00:00",
+    "materialization_status": "RUNNING",
+    "formal_prepared_status": "PENDING",
+    "files_verified_in_completed_cancer_channels": 4348
+  },
+  "observation_interruption": {
+    "recorded_at_utc": "2026-10-29T09:02:26.994527+00:00",
+    "ssh_error": "Connect to 172.22.148.149 port 22 timed out",
+    "ioa_observed_state": "NetID login page",
+    "desktop_input_result": "Windows denied SetCursorPos; no click or credential submission performed",
+    "user_action_required": "Complete Tencent iOA login/network access",
+    "remote_execution_outcome": "UNKNOWN; network failure does not prove job failure",
+    "remote_jobs_relaunched": false,
+    "last_known_materializer_deadline_utc": "2026-10-29T09:29:54+00:00",
+    "last_known_formal_controller_deadline_utc": "2026-10-29T10:15:00+00:00",
+    "resume": "Inspect existing COMPLETE/FAILED receipts before any new launch; run refresh_gene_patient_status_20261029.py after SSH hostname returns 149."
   }
 }

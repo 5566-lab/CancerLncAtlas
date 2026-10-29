@@ -7249,3 +7249,11 @@ Verified protein-coding gene assays (2026-10-29)
 Added verified protein-coding gene inputs from GDC signed segment CNV and HM450 promoter beta files. The producer verifies GDC size/MD5, records consumed-byte SHA256, uses one GRCh38 GENCODE reference, retains patient/gene axes and missingness, and masks shared CNV segment endpoints. The node reader streams patient matrices and enforces both test and validation exclusion against the current formal fold authority. Added an all-five-fold attachment CLI using the actual training loader and prepared validator. No optimizer or model fitting is performed. Synthetic raw-to-gene tests show both channels change fixed-weight gene vectors. Live preparation is separately recorded and must not be inferred from these fixture checks. C01, C13 and C16 remain open.
 
 The user explicitly extended the scope to real gene-assay preparation on 149. The synthetic validation counters remain scoped to tests; gene_patient_live_status.json records the real runs, including incomplete attempts. No training was authorized or started.
+
+The final observation was interrupted by an intranet SSH timeout. Tencent iOA
+showed its NetID login page, and Windows denied desktop input. No credentials
+were submitted and no remote job was relaunched. Matrix completion and all-five-
+fold prepared acceptance remain unconfirmed until the existing server receipts
+can be read. The dated progress snapshot is retained as historical evidence,
+not a current assertion that the process is still running. The independent CPU
+deadline and formal attachment controller had already been installed on 149.
