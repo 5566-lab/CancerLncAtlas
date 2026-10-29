@@ -1,0 +1,23 @@
+{
+  "format": "STATIC_JSON_RECEIPT_CHECKS_V1",
+  "scope": "SMALL_SYNTHETIC_JSON_BOOKKEEPING_ONLY",
+  "observed_at_utc": "2026-10-29T09:24:31.843616+00:00",
+  "execution_host": "\u4e66\u623f\u7535\u8111",
+  "scientific_workload_executed": false,
+  "real_patient_data_read": false,
+  "model_or_matrix_loaded": false,
+  "real_server_completion_inferred": false,
+  "training_started": false,
+  "exit_code": 0,
+  "passed": 21,
+  "source_sha256": {
+    "scripts/inspect_v32_gene_node_run.py": "283451d5bfaf0bc840ad05092d68f6c23883e2a0bc92a1baaac6bb1b9c68c5bb",
+    "tests/test_v32_gene_run_receipts.py": "bdd0ffa4f53f00a6fd7712d4733321aec1ba91679d490ff4006b94723b27d7b8"
+  },
+  "log": {
+    "path": "gene_run_receipt_static_checks.log",
+    "sha256": "e8730d4235f944a719cecf926c96a0039a3765324bd348de13761d8b878c7521"
+  },
+  "host149_scientific_ledger_modified": false,
+  "live_host149_check": "PENDING_IOA_CONNECTION"
+}

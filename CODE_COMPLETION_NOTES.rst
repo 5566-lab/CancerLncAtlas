@@ -7257,3 +7257,22 @@ fold prepared acceptance remain unconfirmed until the existing server receipts
 can be read. The dated progress snapshot is retained as historical evidence,
 not a current assertion that the process is still running. The independent CPU
 deadline and formal attachment controller had already been installed on 149.
+
+DEEPSEEK continuation: recorded completion inspection (2026-10-29)
+----------------------------------------------------------------
+Re-read the original session-cae4e657 export at its actual local location;
+the requested nested session path no longer exists. The previous scientific
+changes remain the accepted baseline. Added a standard-library, read-only
+host149 command to check existing gene-matrix and all-five-fold completion
+records after a disconnected session. It refuses missing/duplicate folds,
+pending manifests, hash drift, another matrix product, inconsistent patient-fold
+authority, channel order/width and contradictory validation records. A running
+process or partial output directory is never treated as completion.
+
+Twenty-one small synthetic JSON bookkeeping checks passed locally without
+importing any scientific package, loading patient data, reading tensors or
+training. These are separate from the recorded 149 scientific checks and do not
+change their case counts. ``RECORDED_PASS`` means the small completion records
+are consistent; it does not repeat prepared validation or rehash large artifacts.
+The real host149 check remains pending iOA connectivity. No requirement was
+promoted and C01/C13/C16 remain open. See the dedicated static-check receipt.

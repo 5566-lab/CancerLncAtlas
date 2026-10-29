@@ -238,3 +238,29 @@ and `GENCODE release history <https://www.gencodegenes.org/human/releases.html>`
 Real-cohort completion and formal validation are recorded separately from
 synthetic test results in the versioned server receipts; neither is inferred
 from a running process or a partial matrix directory.
+
+Checking completion after a disconnected session
+-----------------------------------------------
+
+Read the existing completion records on 149 before considering another run::
+
+    python -m scripts.inspect_v32_gene_node_run --gene-product NEW_MATRICES/COMPLETE.json --node-folds NEW_FOLDS --source-binding NEW_BINDING/BINDING_REPORT.json --expected-cancers 33
+
+The command is read-only and does not start, stop or resume a process. Exit 0
+means ``RECORDED_PASS``: small JSON receipts consistently record a completed
+gene product and all five prepared validations. Exit 2 means ``INCOMPLETE``;
+it does not distinguish an active job from a stopped job. Exit 1 reports invalid
+receipts. Missing completion, a pending manifest, duplicate/missing folds,
+wrong host, inconsistent channel order/width, source file totals, patient-fold
+authority, or mismatched node-input hashes cannot count as recorded success.
+
+``RECORDED_PASS`` does not repeat the scientific validation, load patient data,
+rehash large matrices/PTs, prove those large files have remained unchanged,
+or produce embeddings. The report explicitly records these limits. The normal
+training/export loader still performs its full input checks when consuming the
+artifacts. Connection failure is an unavailable observation, not a job verdict.
+
+The standard-library checks in ``tests/test_v32_gene_run_receipts.py`` use only
+small synthetic JSON receipts. They can run as local static bookkeeping checks
+without importing the scientific test environment. They are reported separately
+from the host149 scientific test ledger and actual cohort completion.

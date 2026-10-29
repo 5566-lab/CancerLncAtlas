@@ -188,5 +188,12 @@
     "training_authorized": false,
     "paid_compute_authorized": false,
     "live_status_record": "provenance/code_completion_20261015/gene_patient_live_status.json"
+  },
+  "static_bookkeeping_continuation_20261029": {
+    "receipt": "provenance/code_completion_20261015/gene_run_receipt_static_checks.json",
+    "scope": "JSON receipts only; separate from the host149 scientific test ledger",
+    "passed": 21,
+    "actual_host149_completion_inspection": "PENDING_IOA_CONNECTION",
+    "requirements_promoted": []
   }
 }

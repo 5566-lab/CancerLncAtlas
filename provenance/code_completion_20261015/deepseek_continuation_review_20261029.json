@@ -1,0 +1,47 @@
+{
+  "format": "DEEPSEEK_CONTINUATION_REVIEW_V1",
+  "observed_at_utc": "2026-10-29T09:25:29.263484+00:00",
+  "requested_path": "D:\\model\\session\\_export\\_20261029\\session\\_cae4e657.jsonl",
+  "resolved_session": {
+    "path": "D:\\model\\session_export_20261029\\session_cae4e657.jsonl",
+    "sha256": "7522ed45277c79ece8d71b58c6712f90858313aee7b1aa4235f50385ecf3f9ef",
+    "bytes": 12728898
+  },
+  "session_id": "session-cae4e657-1586-408a-aca9-029fb3043a79",
+  "user_requirements_reviewed": [
+    {
+      "seq": 774,
+      "scope": "C17-C21: graph encoding, paired comparison, patient conditioning, falsifiable attribution and unvalidated binding candidates"
+    },
+    {
+      "seq": 1846,
+      "scope": "C16: per-column checkable semantics, type, unit and source"
+    },
+    {
+      "seq": 2409,
+      "scope": "Whether CNV and methylation actually entered the model"
+    },
+    {
+      "seq": 2417,
+      "scope": "Methylation and CNV as node-embedding inputs"
+    }
+  ],
+  "existing_implementation_commits": [
+    "7a388ff",
+    "c093a16",
+    "ef1772b"
+  ],
+  "this_change": "Versioned read-only completion inspector with 21 synthetic JSON-only bookkeeping checks",
+  "static_check_receipt": "gene_run_receipt_static_checks.json",
+  "scientific_case_counters_changed": false,
+  "requirements_promoted": [],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "actual_gene_prepared_completion": "UNCONFIRMED_NETWORK",
+  "network_constraint": "Host149 SSH times out; iOA remains at NetID login. Prior desktop input was denied; no credentials submitted.",
+  "training_started": false,
+  "paid_compute_started": false
+}

@@ -1,0 +1,26 @@
+test_binding_cannot_substitute_another_patient_fold_authority (__main__.ReceiptChecks.test_binding_cannot_substitute_another_patient_fold_authority) ... ok
+test_complete_records_pass_without_loading_large_artifacts (__main__.ReceiptChecks.test_complete_records_pass_without_loading_large_artifacts) ... ok
+test_completed_flag_cannot_claim_trained_embeddings (__main__.ReceiptChecks.test_completed_flag_cannot_claim_trained_embeddings) ... ok
+test_duplicate_fold_cannot_replace_a_missing_fold (__main__.ReceiptChecks.test_duplicate_fold_cannot_replace_a_missing_fold) ... ok
+test_failed_validation_cannot_be_hidden_by_complete_pass (__main__.ReceiptChecks.test_failed_validation_cannot_be_hidden_by_complete_pass) ... ok
+test_formal_folds_cannot_refer_to_another_product (__main__.ReceiptChecks.test_formal_folds_cannot_refer_to_another_product) ... ok
+test_four_folds_are_not_complete (__main__.ReceiptChecks.test_four_folds_are_not_complete) ... ok
+test_individual_validation_must_equal_completion (__main__.ReceiptChecks.test_individual_validation_must_equal_completion) ... ok
+test_missing_individual_validation_is_invalid (__main__.ReceiptChecks.test_missing_individual_validation_is_invalid) ... ok
+test_mutation_of_previously_read_receipt_is_detected (__main__.ReceiptChecks.test_mutation_of_previously_read_receipt_is_detected) ... ok
+test_partial_directory_is_never_pass_or_running (__main__.ReceiptChecks.test_partial_directory_is_never_pass_or_running) ... ok
+test_pending_manifest_is_not_a_final_release (__main__.ReceiptChecks.test_pending_manifest_is_not_a_final_release) ... ok
+test_raw_file_total_must_match_source_binding (__main__.ReceiptChecks.test_raw_file_total_must_match_source_binding) ... ok
+test_reader_bounds_file_size_and_rejects_non_object_json (__main__.ReceiptChecks.test_reader_bounds_file_size_and_rejects_non_object_json) ... ok
+test_real_producer_format_constant_matches_fixture (__main__.ReceiptChecks.test_real_producer_format_constant_matches_fixture) ... ok
+test_recorded_table_authority_must_match_evidence (__main__.ReceiptChecks.test_recorded_table_authority_must_match_evidence) ... ok
+test_rehashed_node_manifest_cannot_replace_loaded_node_authority (__main__.ReceiptChecks.test_rehashed_node_manifest_cannot_replace_loaded_node_authority) ... ok
+test_signed_cnv_and_beta_channel_order_is_fixed (__main__.ReceiptChecks.test_signed_cnv_and_beta_channel_order_is_fixed) ... ok
+test_six_columns_required_even_when_receipts_agree (__main__.ReceiptChecks.test_six_columns_required_even_when_receipts_agree) ... ok
+test_stale_manifest_hash_is_rejected (__main__.ReceiptChecks.test_stale_manifest_hash_is_rejected) ... ok
+test_wrong_host_stops_before_any_receipt_access (__main__.ReceiptChecks.test_wrong_host_stops_before_any_receipt_access) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.610s
+
+OK
