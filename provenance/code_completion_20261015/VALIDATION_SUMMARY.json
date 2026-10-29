@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2278,
+  "unique_test_cases_passed": 2296,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -246,7 +246,7 @@
     "scripts/run_native_cnv_workflow.py": "8cfeb216ef83d4b5b7870937ec38bed9b72bc40696d86854045589363ac5f344",
     "tests/test_v32_native_cnv_workflow.py": "5eb2e95472773f22287fda604ff4230297743b7f9ac0239bd7fcbf69bfe5b449",
     "tests/test_v32_native_cnv_workflow_gdc.py": "5a490a3d23bd3570a975103c2f74926392d72e4a205e40feaec1063aabc9a215",
-    "cc_hhgt/v32/native_core_workflow.py": "3579de7553f499adf213da5967246a28619f9a3652c5f3466f8a29e2907e176d",
+    "cc_hhgt/v32/native_core_workflow.py": "53b6e744fe7da76f04c1d3c26c080d6b42d24f4e1a86bbb48591691b62118f96",
     "scripts/run_native_core_workflow.py": "97351b0efba4843be9715ac68eee2a36c5ff2f3f046b479327818d61781ca5f7",
     "tests/test_v32_native_core_workflow.py": "a0d3b1821e5af1ae31e0334573aee6880f7969d6b24448919f085cbd2f679d59",
     "cc_hhgt/v32/native_results_workflow.py": "27c7a80bf634a067d08f7f6618ca6923d9da58256b6694856fb00be300b9140e",
@@ -427,10 +427,16 @@
     "tests/test_exact_pathway_primary.py": "b1f89809ae44deddb566cd831ae66301e5e84afa049c3e819ffc06b2066d6b04",
     "cc_hhgt/v32/public_field_definitions.py": "9b68bf96480a87fd85a02e68b750f0d2be54aef4f88a551cee9761d3513e30c9",
     "tests/test_v32_public_field_definitions.py": "78accc6cf069cc879588026fb630526be49c95b85747d7113601c3de63671948",
-    "cc_hhgt/v32/omics_node_inputs.py": "a9612b825445aadfb432d4b9b727034c0aab4c47e9d6f82cdf67f6d87e42a6a8",
+    "cc_hhgt/v32/omics_node_inputs.py": "09668c8087ea79534f83ee0a462ee53c5874eefe99521bbad270264c48d16e4f",
     "scripts/prepare_v32_node_omics.py": "9ee99dbb3098501c677af90a7c51aac383a467c5b3f797bbec86a270f05a62eb",
     "tests/test_v32_omics_node_inputs.py": "667b52af4410588eae8f3c27f2fe35c4b3f50afef95ca5ac8bfddfed3f4ff5a9",
-    "tests/test_v32_native_omics_products.py": "02b1cf5d614c1fd0b7afaa0062c2c5288d26dc1910eccd755786eaa2f62a1370"
+    "tests/test_v32_native_omics_products.py": "02b1cf5d614c1fd0b7afaa0062c2c5288d26dc1910eccd755786eaa2f62a1370",
+    "cc_hhgt/v32/gene_patient_omics.py": "6ad1e3705029b267e8ede8e3d32f44124cdf985418d9de3120b74b06ecd874bc",
+    "scripts/prepare_v32_gene_patient_omics.py": "e8b5dda146976b962ce8439e44b89f059163f12e4f5b5649ee8465c0f15136c0",
+    "tests/test_v32_gene_patient_omics.py": "78ca3793dde3211dc17adc30f7dc4b960881ed53025f7780d3a02dbea9f1c668",
+    "scripts/bind_v32_tcga_gene_sources.py": "323e658e16caa8f9cf30309893850b7933257ae365dd49cdcb4bc5496156f5a5",
+    "scripts/prepare_v32_gene_node_folds.py": "6a759a8bcf9ef4f974378cb980b478f7a4283f8739f15c05fe17dc13944f1965",
+    "tests/test_v32_tcga_gene_source_binding.py": "846bda219fa7e99c172032fe3c1ade8024b6d0980b760c627c0232fab9b738c0"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -618,7 +624,8 @@
     "Novel binding/PPI work is now delivered as what it can honestly be: unvalidated candidate generation with a held-out evaluation that refuses to be meaningless. Known edges of a declared evidence arm are split by a seeded hash of the edge identity alone, the candidate universe excludes every scored known edge while keeping the held-out ones unmarked, and the additive score uses declared weights and frozen standardisation so nothing is fitted on the evaluation labels. Evaluation reports fixed-budget precision, recall, average precision and the same numbers for a degree-prior baseline built only from the scored partition. Label-like feature columns, duplicate feature rows, an all-missing primary feature, an empty holdout, a partition overlap and a budget larger than the universe are refused. Every emitted row is labelled unvalidated_candidate with orthogonal experimental validation required, and the record states that a ranked candidate is not evidence of binding. The synthetic fixture plants a latent binding rule to check that the estimator has power; it is not real binding data. No acquisition, optimizer, real cohort, paid compute or deployment ran, and no existing binding/PPI graph was modified.",
     "The widened encoder input was checked against the existing graph and model consumers on host 149. Four regression groups now pass: graph-contract, fold-local and model-use suites in group B, the full model contract in group C, and the core-export/current-model/current-core suites in group D. A first group also exposed two pre-existing failures unrelated to the encoder change: one test hand-built a homogeneous graph without the topology channel that the production bundle has always supplied, and one asserts wording from a V2.9 contract document that is not part of this checkout. The first was repaired by supplying the topology channel exactly as production does and now passes; the second now skips with an explicit reason instead of failing, because fabricating the missing document would be worse than recording its absence. No requirement was promoted: C01, C13 and C16 remain open, and complete scientific field definitions are still unpublished. No optimizer, real cohort, paid compute or deployment ran.",
     "Public field definitions now have a registry and a completeness gate instead of a prose promise. Each registered column carries one checkable sentence plus its value kind, unit or scale, producing stage, status and a schema-verified flag; component-specific clarifications override the shared semantics where the same column name means something else in another module. The published catalog now attaches the definition to every field, reports defined/total coverage with the exact undefined column list, and may only declare the complete scope when coverage is exactly 100%: otherwise it keeps the incomplete scope and reports the gap. Pending entries never count, an empty catalog is refused, and the web/workflow suite that recomputes the catalog continues to pass, including its tampered-scope rejection. This is progress, not closure: the registry defines 35 columns and 5 component clarifications, no archived published catalog was located within the read-only search window, and full coverage of the actual published columns still requires an actual publication inventory. No definition asserts a scientific finding, no optimizer, real cohort, paid compute or deployment ran, and no requirement was promoted.",
-    "The DEEPSEEK continuation adds an opt-in promoter methylation beta channel while retaining the historical three-channel default. A host149-only producer consumes hash-bound measured sample/feature values, explicit node mappings and patient/split authority. It preserves signed CNV and measured zero versus missing values, aggregates observed features per sample, samples per patient and training patients per cohort, and uses declared identity scaling without fitting. Formal training and frozen-core export share the source-replayed node-input loader after binding expansion. A real synthetic native prepared payload passes its original validator and frozen residual-model export/forward with the new inputs. Runtime intervention contexts now also preserve the registered all-chunk exported gene and lncRNA vectors: independent methylation and CNV perturbations change the corresponding final vectors while parameters stay fixed, with exact restoration. The contexts update stored blocks as well as tensors and restore both on normal exit or exceptions. These are synthetic checks of native completed methylation bindings and native signed CNV patient matrices as well: the former uses the original raw/recovery producer, and the latter an explicitly frozen synthetic native-format matrix. Both reach actual prepared validation and exported lncRNA embeddings without duplicating patient values by aliquot count. These remain code checks, not trained multi-omics results. Global pooled inputs are not patient-specific embeddings. Raw assay processing, promoter-map correctness, biological/fold identity authenticity, full new-source model-use traversal, automatic native workflow declaration generation and public field completeness remain unresolved. No real data, downloads, optimizer, paid compute or deployment was started."
+    "The DEEPSEEK continuation adds an opt-in promoter methylation beta channel while retaining the historical three-channel default. A host149-only producer consumes hash-bound measured sample/feature values, explicit node mappings and patient/split authority. It preserves signed CNV and measured zero versus missing values, aggregates observed features per sample, samples per patient and training patients per cohort, and uses declared identity scaling without fitting. Formal training and frozen-core export share the source-replayed node-input loader after binding expansion. A real synthetic native prepared payload passes its original validator and frozen residual-model export/forward with the new inputs. Runtime intervention contexts now also preserve the registered all-chunk exported gene and lncRNA vectors: independent methylation and CNV perturbations change the corresponding final vectors while parameters stay fixed, with exact restoration. The contexts update stored blocks as well as tensors and restore both on normal exit or exceptions. These are synthetic checks of native completed methylation bindings and native signed CNV patient matrices as well: the former uses the original raw/recovery producer, and the latter an explicitly frozen synthetic native-format matrix. Both reach actual prepared validation and exported lncRNA embeddings without duplicating patient values by aliquot count. These remain code checks, not trained multi-omics results. Global pooled inputs are not patient-specific embeddings. Raw assay processing, promoter-map correctness, biological/fold identity authenticity, full new-source model-use traversal, automatic native workflow declaration generation and public field completeness remain unresolved. No real data, downloads, optimizer, paid compute or deployment was started.",
+    "Added verified protein-coding gene inputs from GDC signed segment CNV and HM450 promoter beta files. The producer verifies GDC size/MD5, records consumed-byte SHA256, uses one GRCh38 GENCODE reference, retains patient/gene axes and missingness, and masks shared CNV segment endpoints. The node reader streams patient matrices and enforces both test and validation exclusion against the current formal fold authority. Added an all-five-fold attachment CLI using the actual training loader and prepared validator. No optimizer or model fitting is performed. Synthetic raw-to-gene tests show both channels change fixed-weight gene vectors. Live preparation is separately recorded and must not be inferred from these fixture checks. C01, C13 and C16 remain open."
   ],
   "test_suites": [
     {
@@ -1805,6 +1812,21 @@
       "path": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml",
       "passed": 77,
       "sha256": "4ad4752d8290b2125a9054751fab859c2891206602291196af9373937584f0b4"
+    },
+    {
+      "path": "provenance/code_completion_20261015/gene_patient_r2_tests.xml",
+      "passed": 63,
+      "sha256": "bb8beb427813efed8e489012553f70677cc2ef53a14c6caebdac32dbbc6b1f03"
+    },
+    {
+      "path": "provenance/code_completion_20261015/gene_patient_r3_tests.xml",
+      "passed": 31,
+      "sha256": "3a47831cfd5f3293384186a550c63dfdde5339cc04b949b4797a133372b8e112"
+    },
+    {
+      "path": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml",
+      "passed": 6,
+      "sha256": "3c7f8e651ef7cafcfc4da49a28c9fa01102abd571626727dd3ea74a6a0e91539"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -5991,6 +6013,66 @@
       "suite": "provenance/code_completion_20261015/gdc_star_transforms_r1_tests.xml"
     },
     {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_actual_raw_gene_values_and_train_only_aggregation",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_gene_product_reaches_encoder_and_changes_final_vector",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_heldout_patient_cannot_be_relabeled_training[0]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_heldout_patient_cannot_be_relabeled_training[4]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_raw_sources_fail_closed[beta]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_raw_sources_fail_closed[build]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_raw_sources_fail_closed[duplicate]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_raw_sources_fail_closed[identity]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_raw_sources_fail_closed[md5]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_raw_sources_fail_closed[normal]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_raw_sources_fail_closed[overlap]",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_gene_patient_omics",
+      "case": "test_shared_segment_boundary_is_missing_not_arbitrary_direction",
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+    },
+    {
       "module": "tests.test_v32_genesets",
       "case": "test_family_target_is_rejected_instead_of_broadcast_to_exact_pathway",
       "suite": "provenance/code_completion_20261015/selected_analysis_tests.xml"
@@ -7593,132 +7675,132 @@
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-0]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-1]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-2]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-3]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-4]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-0]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-1]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-2]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-3]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-4]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-0]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-1]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-2]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-3]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-4]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_comparison_cli_rejects_mixed_mode_before_materialization[historical_overlay]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_comparison_cli_rejects_mixed_mode_before_materialization[mixed_fold]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_comparison_cli_rejects_mixed_mode_before_materialization[mode]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_generated_native_commands_stay_code_only",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[binding_source]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[generation]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[legacy_cohort]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[overlay_metadata]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[trained]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_omics_producer_through_prepared_validator_and_frozen_export",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_runtime_rejects_undeclared_mode_and_overlay_pattern",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_clinical_workflow",
@@ -9148,37 +9230,37 @@
     {
       "module": "tests.test_v32_native_omics_products",
       "case": "test_native_products_pass_formal_prepared_and_export_embedding",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_omics_products",
       "case": "test_native_products_refuse_incomplete_or_misaligned_sources[availability]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_omics_products",
       "case": "test_native_products_refuse_incomplete_or_misaligned_sources[heldout]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_omics_products",
       "case": "test_native_products_refuse_incomplete_or_misaligned_sources[incomplete]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_omics_products",
       "case": "test_native_products_refuse_incomplete_or_misaligned_sources[matrix_drift]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_omics_products",
       "case": "test_native_products_refuse_incomplete_or_misaligned_sources[shape]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_omics_products",
       "case": "test_native_products_refuse_incomplete_or_misaligned_sources[wrong_cancer]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
@@ -11013,97 +11095,97 @@
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_actual_training_loader_encoder_and_export_loader_preserve_legacy_inputs",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_conditioned_runtime_rebuild_and_exception_restore",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_equal_patient_weight_missing_zero_and_heldout_exclusion",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_invalid_sources_fail_closed[beta]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_invalid_sources_fail_closed[cnv_units]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_invalid_sources_fail_closed[duplicate]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_invalid_sources_fail_closed[feature]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_invalid_sources_fail_closed[normal_only]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_invalid_sources_fail_closed[sample]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_invalid_sources_fail_closed[split]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_loader_rejects_source_and_contract_substitution[cancer]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_loader_rejects_source_and_contract_substitution[channel_order]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_loader_rejects_source_and_contract_substitution[declaration]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_loader_rejects_source_and_contract_substitution[fold]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_loader_rejects_source_and_contract_substitution[repinned_value]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_loader_rejects_source_and_contract_substitution[source_drift]",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_pooled_features_are_explicit_and_subject_cancers_are_not_mixed",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_producer_refuses_other_host_and_existing_output",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_inputs",
       "case": "test_subject_output_is_not_cohort_training_input",
-      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/gene_patient_r3_tests.xml"
     },
     {
       "module": "tests.test_v32_orchestration",
@@ -12966,6 +13048,36 @@
       "suite": "provenance/code_completion_20261015/selected_analysis_tests.xml"
     },
     {
+      "module": "tests.test_v32_tcga_gene_source_binding",
+      "case": "test_binding_refuses_inconsistent_source_identity[ambiguous]",
+      "suite": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_tcga_gene_source_binding",
+      "case": "test_binding_refuses_inconsistent_source_identity[checksum]",
+      "suite": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_tcga_gene_source_binding",
+      "case": "test_binding_refuses_inconsistent_source_identity[normal]",
+      "suite": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_tcga_gene_source_binding",
+      "case": "test_binding_refuses_inconsistent_source_identity[sample]",
+      "suite": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_tcga_gene_source_binding",
+      "case": "test_binding_uses_current_folds_and_requires_later_raw_verification",
+      "suite": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_tcga_gene_source_binding",
+      "case": "test_formal_attachment_refuses_a_different_patient_fold_authority",
+      "suite": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml"
+    },
+    {
       "module": "tests.test_v32_training_guard",
       "case": "test_any_artifact_change_invalidates_approval",
       "suite": "provenance/code_completion_20261015/gnn_regression_b_tests.xml"
@@ -13208,11 +13320,11 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "node_omics_native_r2",
-      "node_omics_embedding_r1",
-      "node_omics_products_r2"
+      "gene_patient_r2",
+      "gene_patient_r3",
+      "gene_source_binding_r1"
     ],
-    "passed": 209,
+    "passed": 70,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,
@@ -13224,5 +13336,6 @@
       "path": "provenance/code_completion_20261015/atac_membership_fit_scope_deviation.json",
       "sha256": "f7eadc9ebb8314ed4137686181047db3a5c51f2cef3af99440c9652dd0923dd2"
     }
-  ]
+  ],
+  "counter_scope": "SYNTHETIC_CODE_VERIFICATION_ONLY; authorized real preparation is recorded separately in gene_patient_live_status.json"
 }

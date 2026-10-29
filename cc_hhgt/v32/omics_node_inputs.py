@@ -160,6 +160,11 @@ def _prepare(config, base):
         unit = entry.get("unit")
         if unit not in UNITS[channel]:
             raise ValueError("NODE_INPUT_UNIT_INVALID: " + channel)
+        if entry.get("layout") == "verified_gene_patient":
+            from .gene_patient_omics import aggregate
+            result, used, coverage = aggregate(entry, source, authority, selected, fold)
+            values.append(result); lineage.append(used); counts[channel] = coverage
+            continue
         raw, patient_level = _assay(entry, source)
         mapping = _read(source(entry["mapping"], channel + ":mapping"),
                         ["feature_id", "node_type", "canonical_id"])

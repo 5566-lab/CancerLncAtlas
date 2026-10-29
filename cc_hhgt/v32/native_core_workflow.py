@@ -26,6 +26,7 @@ COMPARISON="scripts.prepare_v32_current_binding_comparison"
 CODE=["cc_hhgt/v32/native_core_workflow.py","cc_hhgt/v32/prepared_construction.py","cc_hhgt/v32/baselines.py","scripts/run_native_core_workflow.py",
       "cc_hhgt/v32/native_graph_input.py","cc_hhgt/v32/formal_graph_authority.py",
       "cc_hhgt/v32/omics_node_inputs.py","cc_hhgt/v32/omics_node_encoding.py",
+      "cc_hhgt/v32/gene_patient_omics.py",
       "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/v32/training_guard.py",
       "cc_hhgt/v32/training.py","cc_hhgt/v32/current_binding_graph.py",
       "cc_hhgt/v32/current_binding_overlay.py","cc_hhgt/v32/orchestration.py",

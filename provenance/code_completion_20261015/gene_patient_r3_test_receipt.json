@@ -1,0 +1,57 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-29T06:28:30.001409+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/gene_patient_omics.py": "6ad1e3705029b267e8ede8e3d32f44124cdf985418d9de3120b74b06ecd874bc",
+    "cc_hhgt/v32/native_core_workflow.py": "53b6e744fe7da76f04c1d3c26c080d6b42d24f4e1a86bbb48591691b62118f96",
+    "cc_hhgt/v32/omics_node_inputs.py": "09668c8087ea79534f83ee0a462ee53c5874eefe99521bbad270264c48d16e4f",
+    "scripts/bind_v32_tcga_gene_sources.py": "323e658e16caa8f9cf30309893850b7933257ae365dd49cdcb4bc5496156f5a5",
+    "scripts/prepare_v32_gene_patient_omics.py": "e8b5dda146976b962ce8439e44b89f059163f12e4f5b5649ee8465c0f15136c0",
+    "tests/test_v32_gene_patient_omics.py": "78ca3793dde3211dc17adc30f7dc4b960881ed53025f7780d3a02dbea9f1c668"
+  },
+  "parameter_fitting_guard": "SESSION_ATAC_AUXILIARY_AND_TORCH_OPTIMIZERS",
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_gene_patient_omics.py",
+    "tests/test_v32_omics_node_inputs.py",
+    "--junitxml=provenance/code_completion_20261015/gene_patient_r3_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-29T06:28:51.075148+00:00"
+}

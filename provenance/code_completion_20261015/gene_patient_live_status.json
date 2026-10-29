@@ -1,0 +1,150 @@
+{
+  "format": "VERIFIED_GENE_PATIENT_REAL_EXECUTION_STATUS_V1",
+  "target_host": "149",
+  "observed_at_utc": "2026-10-29T06:57:11.325719+00:00",
+  "user_instruction": "接入经过核实的 gene × patient CNV、基因启动子甲基化数据",
+  "real_data_preparation_started": true,
+  "training_started": false,
+  "parameter_fitting_started": false,
+  "paid_compute_started": false,
+  "materialization_attempts_started": 2,
+  "first_attempt": {
+    "status": "STOPPED_ON_SHARED_CNV_ENDPOINT",
+    "receipt": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/CNV_OVERLAP_DIAGNOSTIC.json",
+      "sha256": "900fc214aa95e6e5feef4b7b2365edf7a26fef14bdda76762550ad8a0907db37"
+    },
+    "accepted_product": false
+  },
+  "source_binding": {
+    "target_host": "149",
+    "training_started": false,
+    "raw_checksums_verified": false,
+    "raw_verification_required_at_materialization": true,
+    "patients": 10432,
+    "requested_genes": 21981,
+    "cnv_files": 10364,
+    "methylation_files": 8236,
+    "cnv_sample_types": {
+      "Primary Tumor": 9847,
+      "Metastatic": 366,
+      "Primary Blood Derived Cancer - Peripheral Blood": 151
+    },
+    "old_cnv_fold_assignments_used": false,
+    "current_patient_fold_source": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/v32_g012_local_cnv_formal_prepared_20260903_r1/SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253"
+    }
+  },
+  "gene_reference_coverage": {
+    "requested_graph_genes": 21981,
+    "gencode_v36_protein_coding_genes": 19149,
+    "promoter_mapped_genes": 18384,
+    "distinct_promoter_cpg_probes": 170365,
+    "excluded_unresolved_or_non_coding_genes": 2832
+  },
+  "materialization_status": "RUNNING",
+  "materialization_complete": null,
+  "progress": [
+    {
+      "cancer_id": "ACC",
+      "channel": "cnv_signed",
+      "files_verified": 77,
+      "observed_patients": 77
+    },
+    {
+      "cancer_id": "ACC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 79,
+      "observed_patients": 79
+    },
+    {
+      "cancer_id": "BLCA",
+      "channel": "cnv_signed",
+      "files_verified": 404,
+      "observed_patients": 404
+    },
+    {
+      "cancer_id": "BLCA",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 406,
+      "observed_patients": 404
+    },
+    {
+      "cancer_id": "BRCA",
+      "channel": "cnv_signed",
+      "files_verified": 1088,
+      "observed_patients": 1088
+    },
+    {
+      "cancer_id": "BRCA",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 783,
+      "observed_patients": 778
+    },
+    {
+      "cancer_id": "CESC",
+      "channel": "cnv_signed",
+      "files_verified": 292,
+      "observed_patients": 292
+    },
+    {
+      "cancer_id": "CESC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 304,
+      "observed_patients": 304
+    },
+    {
+      "cancer_id": "CHOL",
+      "channel": "cnv_signed",
+      "files_verified": 35,
+      "observed_patients": 35
+    },
+    {
+      "cancer_id": "CHOL",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 35,
+      "observed_patients": 35
+    },
+    {
+      "cancer_id": "COAD",
+      "channel": "cnv_signed",
+      "files_verified": 446,
+      "observed_patients": 446
+    },
+    {
+      "cancer_id": "COAD",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 303,
+      "observed_patients": 291
+    },
+    {
+      "cancer_id": "DLBC",
+      "channel": "cnv_signed",
+      "files_verified": 48,
+      "observed_patients": 48
+    },
+    {
+      "cancer_id": "DLBC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 48,
+      "observed_patients": 48
+    }
+  ],
+  "files_verified_in_completed_cancer_channels": 4348,
+  "formal_prepared_status": "PENDING",
+  "formal_prepared_complete": null,
+  "learned_embeddings_generated": false,
+  "synthetic_verification_is_separate": true,
+  "scope_limit": "Real patient matrices and formal node features are not trained embeddings or evidence of biological/predictive benefit.",
+  "local_parent_verification": {
+    "receipt": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/VERIFIED_LOCAL_PARENTS.json",
+      "sha256": "bdacf9f6260067dae00aea476f814099131c45553b5d2782c86bb6d2c1713cb9"
+    },
+    "status": "PASS"
+  },
+  "parent_prepared_validation": {
+    "status": "PENDING"
+  }
+}

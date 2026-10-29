@@ -54,7 +54,8 @@ Existing native products can be consumed directly by setting an assay's layout:
 Both native products are already patient-level. Each patient's value is counted
 once regardless of how many aliquots occur in the sample authority. Their
 mapping is explicitly to lncRNA nodes; these files do not invent gene-level
-measurements. Gene-level inputs use the sample_feature_long layout above.
+measurements. Gene-level inputs can use the sample_feature_long layout above
+or the verified raw-to-gene route described below.
 
 * Measurements: ``sample_id, feature_id, raw_value``. One row per sample and
   feature. Missing numeric values remain missing; numeric zero is observed.
@@ -153,8 +154,87 @@ The native workflow does not yet generate these optional per-fold declarations
 automatically; the documented explicit manifest interface is required.
 C01 and the complete public field dictionary (C16) also remain open.
 
-No real cohort was processed and no new model was trained here. No evidence is
+The preceding test results use synthetic cohorts and no newly trained model. No evidence is
 provided for improved prediction, biological mediation or a true new binding/PPI.
 Existing CNV segments or methylation batches may be upstream sources after the
 required assay processing; this change does not establish that new downloads
 are necessary or that any particular external dataset is available.
+
+Verified protein-coding gene inputs
+----------------------------------
+
+The ``verified_gene_patient`` layout consumes a completed
+``GENE_PATIENT_ASSAYS_VERIFIED_V1`` product. It does not reinterpret the existing
+lncRNA matrices. The producer is::
+
+    python -m scripts.bind_v32_tcga_gene_sources --sources SOURCE_SPEC.json --output NEW_BINDING
+    python -m scripts.prepare_v32_gene_patient_omics --config NEW_BINDING/gene_assays.json --output NEW_MATRICES --workers 12
+    python -m scripts.prepare_v32_gene_node_folds --gene-product NEW_MATRICES/COMPLETE.json --prepared-root EXISTING_G2 --output NEW_FOLDS
+
+All three commands require host 149 and a new output directory. The final
+command reads existing PTs, writes five new node-input preparations, and calls
+the actual training input loader and ``_validate_prepared`` for every fold.
+``INPUT_MANIFEST.json`` and the final ``COMPLETE.json`` appear only after all
+five checks pass. A pending manifest is not an accepted release. This command
+does not train or replace a checkpoint. ``MODEL_CONFIG_PATCH.json`` declares
+the ordered channels for a compatible future model configuration; existing
+binding-comparison configurations retain their immutable settings contract.
+
+``SOURCE_SPEC.json`` declares target_host=149, genome_build=GRCh38,
+methylation_download_root and a ``sources`` dictionary of path/SHA256 records:
+gtf, hm450, patient_folds, signed_membership, protein_gene_encoding,
+cnv_manifest, cnv_staging, methylation_manifest. The GDC manifest/staging
+schemas are checked by the binding script. It joins GDC file, sample and patient
+identities, verifies staging metadata against GDC size/MD5, and pins the current
+formal patient-fold map. It does not use download-time CNV fold assignments.
+Binding alone is explicitly not raw-file verification.
+
+The materializer reads and checks every selected raw file against its GDC MD5
+and byte size, records SHA256 of the bytes actually parsed, and retains these
+records in ``verified_raw_files.parquet``. The input JSON, reference annotation,
+raw-file inventory, source authorities, implementation, matrix axes and outputs
+are hash-bound. Completed matrices are verified again when used by the node
+loader. This is content/identity/coordinate and implementation verification;
+it is not independent biological validation or re-estimation of SeSAMe/CBS.
+
+* Both channels use the same GENCODE GRCh38 GTF. Only genes explicitly annotated
+  protein_coding and represented by requested graph IDs enter the matrix.
+  Ensembl numeric version suffixes are removed; PAR_Y is preserved. Unresolved
+  or non-coding requested genes are listed separately and remain unobserved.
+* CNV is signed DNAcopy segment mean (log2 copy ratio), evaluated at the
+  GENCODE gene-body midpoint in one-based coordinates. It is not a gene-body
+  length-weighted mean, absolute burden, integer copy count or pathway value.
+  Adjacent GDC segments may share an endpoint. A gene midpoint exactly at such
+  a shared boundary is marked unavailable; true interior overlaps are rejected.
+  Per-file receipts count shared boundaries and affected genes.
+* Promoters use every protein-coding gene's transcript TSS, strand-aware
+  -1000 through +100 bp inclusive, converted to BED0 half-open intervals.
+  Official HM450 GRCh38 CpG coordinates are intersected with these windows.
+  A probe is counted once per gene even if it overlaps several transcripts;
+  one probe can contribute to distinct genes whose promoters overlap.
+* Finite SeSAMe beta values must be in [0,1]. Average distinct probes per file,
+  files per biological sample, then samples per patient. Missing probes,
+  uncovered promoters, missing assays and ambiguous CNV positions stay NaN,
+  with an explicit availability matrix. Observed zero remains observed.
+* Matrix orientation on disk is patient x gene, with an explicit patient list
+  for every cancer and a shared gene table. This is the transposed storage form
+  of gene x patient data, not a change in biological granularity.
+* Fold aggregation follows the formal three-way split: outer_fold is test,
+  (outer_fold+1) modulo 5 is validation, the other three folds are training.
+  The reader rejects a relabeled test or validation patient. Aggregation uses
+  equal patient weight and identity scaling, without fitting parameters.
+
+The node loader streams these matrices; it does not expand the full cohort to
+hundreds of millions of patient/gene rows. Private lineage records identify
+each contributing patient's exact matrix row and the hash-bound gene axis.
+The original matrices retain patient-specific information. The pooled prepared
+node features are training-cohort gene features; they are not one learned
+embedding per patient. A future compatible trained encoder is needed for
+learned embeddings. Existing frozen tests verify that each channel can alter
+gene vectors without changing model weights.
+
+Source definitions: `GDC CNV pipeline <https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/CNV_Pipeline/>`_
+and `GENCODE release history <https://www.gencodegenes.org/human/releases.html>`_.
+Real-cohort completion and formal validation are recorded separately from
+synthetic test results in the versioned server receipts; neither is inferred
+from a running process or a partial matrix directory.

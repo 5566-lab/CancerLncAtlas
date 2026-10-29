@@ -1,0 +1,19 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "paid_compute_started": false,
+  "successful_validation_receipts": [
+    "gene_patient_r2",
+    "gene_patient_r3",
+    "gene_source_binding_r1"
+  ],
+  "latest_unique_cases": 70,
+  "actual_data_preparation_authorized": true,
+  "live_status_record": "gene_patient_live_status.json",
+  "scope_limit": "Added verified protein-coding gene inputs from GDC signed segment CNV and HM450 promoter beta files. The producer verifies GDC size/MD5, records consumed-byte SHA256, uses one GRCh38 GENCODE reference, retains patient/gene axes and missingness, and masks shared CNV segment endpoints. The node reader streams patient matrices and enforces both test and validation exclusion against the current formal fold authority. Added an all-five-fold attachment CLI using the actual training loader and prepared validator. No optimizer or model fitting is performed. Synthetic raw-to-gene tests show both channels change fixed-weight gene vectors. Live preparation is separately recorded and must not be inferred from these fixture checks. C01, C13 and C16 remain open.",
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ]
+}
