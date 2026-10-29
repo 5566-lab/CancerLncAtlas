@@ -107,6 +107,9 @@ def validate_intervention(
         raise RuntimeError("PATIENT_CONDITIONING_INTERVENTION_TYPE")
     if evidence.scope != "subject":
         raise RuntimeError("PATIENT_CONDITIONING_SUBJECT_SCOPE_REQUIRED")
+    layout = getattr(bundle, "node_omics_channels", None)
+    if layout is not None and tuple(layout) != evidence.channels:
+        raise RuntimeError("PATIENT_CONDITIONING_CHANNEL_LAYOUT_MISMATCH")
     if str(intervention.subject_id) != evidence.subject_id:
         raise RuntimeError("PATIENT_CONDITIONING_SUBJECT_MISMATCH")
     if str(intervention.cancer_id) != evidence.cancer_id:
@@ -237,7 +240,7 @@ def intervened_blocks(
 
 
 def _snapshot(bundle) -> dict:
-    saved = {"hetero": {}, "homogeneous": None}
+    saved = {"hetero": {}, "homogeneous": None, "node_omics": bundle.node_omics}
     for node_type in bundle.hetero_data.node_types:
         saved["hetero"][str(node_type)] = bundle.hetero_data[str(node_type)].x.detach().clone()
     saved["homogeneous"] = bundle.homogeneous["node_x"].detach().clone()
@@ -248,6 +251,7 @@ def _restore(bundle, saved: dict) -> None:
     for node_type, tensor in saved["hetero"].items():
         bundle.hetero_data[node_type].x = tensor
     bundle.homogeneous["node_x"] = saved["homogeneous"]
+    bundle.node_omics = saved["node_omics"]
 
 
 def _write_block(bundle, blocks: dict[str, np.ndarray]) -> None:
@@ -265,17 +269,19 @@ def _write_block(bundle, blocks: dict[str, np.ndarray]) -> None:
         if not np.isfinite(block).all():
             raise RuntimeError(f"PATIENT_CONDITIONING_BLOCK_NOT_FINITE: {node_type}")
         current = bundle.hetero_data[str(node_type)].x
-        features = current[:, : omics.DEGREE_CHANNELS].to(torch.float64).numpy()
+        features = current[:, : omics.DEGREE_CHANNELS].detach().cpu().to(torch.float64).numpy()
         bundle.hetero_data[str(node_type)].x = torch.tensor(
-            np.column_stack([features, block]), dtype=torch.float32
+            np.column_stack([features, block]), dtype=current.dtype, device=current.device
         )
     mapping = bundle.homogeneous["global_map"]
     written = np.zeros((len(bundle.nodes), int(bundle.node_input_dim)), dtype=np.float32)
     for node_type in bundle.hetero_data.node_types:
-        stored = bundle.hetero_data[str(node_type)].x.numpy()
+        stored = bundle.hetero_data[str(node_type)].x.detach().cpu().numpy()
         for row, node_id in enumerate(getattr(bundle.hetero_data[str(node_type)], "canonical_ids")):
             written[mapping[(str(node_type), str(node_id))]] = stored[row]
-    bundle.homogeneous["node_x"] = torch.tensor(written, dtype=torch.float32)
+    original = bundle.homogeneous["node_x"]
+    bundle.homogeneous["node_x"] = torch.tensor(written, dtype=original.dtype, device=original.device)
+    bundle.node_omics = {key: np.array(value, dtype=np.float64, copy=True) for key, value in blocks.items()}
 
 
 @contextmanager
@@ -283,8 +289,8 @@ def conditioned(bundle, blocks: dict[str, np.ndarray]):
     """Temporarily install one condition block, then restore the original."""
 
     saved = _snapshot(bundle)
-    _write_block(bundle, blocks)
     try:
+        _write_block(bundle, blocks)
         yield bundle
     finally:
         _restore(bundle, saved)

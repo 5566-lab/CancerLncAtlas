@@ -42,6 +42,8 @@ FORMAT = "CANCERLNCATLAS_V32_OMICS_NODE_ENCODING_V1"
 EVIDENCE_FORMAT = "CANCERLNCATLAS_V32_OMICS_NODE_EVIDENCE_V1"
 BLOCK_FORMAT = "CANCERLNCATLAS_V32_OMICS_NODE_BLOCK_V1"
 CHANNELS = ("mutation_damage", "cnv_signed", "atac_accessibility")
+# Keep the historical default layout unchanged for existing checkpoints.
+SUPPORTED_CHANNELS = CHANNELS + ("methylation_promoter_beta",)
 SCOPES = ("cohort", "subject")
 DEGREE_CHANNELS = 2
 CLIP = 8.0
@@ -126,7 +128,7 @@ def read_evidence(table_path, manifest_path) -> OmicsEvidence:
     channels = tuple(manifest.get("channels") or ())
     if not channels or len(set(channels)) != len(channels):
         raise RuntimeError(f"OMICS_EVIDENCE_CHANNELS_INVALID: {channels}")
-    unknown = sorted(set(channels) - set(CHANNELS))
+    unknown = sorted(set(channels) - set(SUPPORTED_CHANNELS))
     if unknown:
         raise RuntimeError(f"OMICS_EVIDENCE_CHANNEL_UNKNOWN: {unknown}")
     standardisation = manifest.get("standardisation") or {}
@@ -176,6 +178,9 @@ def read_evidence(table_path, manifest_path) -> OmicsEvidence:
     if values.isna().any() or not np.isfinite(values.to_numpy(float)).all():
         raise RuntimeError("OMICS_EVIDENCE_RAW_VALUE_INVALID")
     frame["raw_value"] = values.astype(float)
+    beta = frame.loc[frame.channel.eq("methylation_promoter_beta"), "raw_value"]
+    if not beta.between(0.0, 1.0).all():
+        raise RuntimeError("OMICS_EVIDENCE_METHYLATION_BETA_OUT_OF_RANGE")
     duplicated = frame.duplicated(["node_type", "canonical_id", "channel"], keep=False)
     if duplicated.any():
         example = frame.loc[duplicated, ["node_type", "canonical_id", "channel"]].head(3)
@@ -399,14 +404,14 @@ def verify_attached(bundle, blocks: Mapping[str, Any] | None = None) -> dict[str
     global_map = bundle.homogeneous["global_map"]
     for node_type, node_ids in order.items():
         stored = bundle.hetero_data[str(node_type)].x.detach().cpu().numpy()
-        for row_index, node_id in enumerate(node_ids[:8]):
+        for row_index, node_id in enumerate(node_ids):
             position = global_map[(node_type, node_id)]
             if not np.allclose(homogeneous[position], stored[row_index], atol=1e-6):
                 raise RuntimeError(
                     f"OMICS_ATTACH_HOMOGENEOUS_ROW_MISMATCH: {node_type}:{node_id}"
                 )
     checks["homogeneous_rows_verified"] = sum(
-        min(8, len(node_ids)) for node_ids in order.values()
+        len(node_ids) for node_ids in order.values()
     )
     return checks
 
@@ -488,6 +493,7 @@ __all__ = [
     "FORMAT",
     "OmicsEvidence",
     "SCOPES",
+    "SUPPORTED_CHANNELS",
     "TOLERANCE",
     "assert_encoder_consumes_omics",
     "attach_node_omics",

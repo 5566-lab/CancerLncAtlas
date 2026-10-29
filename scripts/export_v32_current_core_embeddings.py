@@ -66,6 +66,8 @@ def _validated_payload(paths, record, fold):
         sidecar = torch.load(paths["binding_expansion"], map_location="cpu", weights_only=False)
         payload = apply_binding_overlay(payload, sidecar, fold=fold, arm=declared_arm,
             overlay_sha=record["binding_expansion"]["sha256"], comparison_sha=expansion["comparison_sha256"], config=config)
+    from cc_hhgt.v32.omics_node_inputs import load_declared_node_inputs
+    payload = load_declared_node_inputs(payload, config, paths["input_manifest"], fold)
     receipt = json.loads(paths["training_receipt"].read_text(encoding="utf-8"))
     _validate_prepared(payload, fold=fold, artifact_hashes=receipt["artifact_hashes"],
                        authorized_graph_overlay=bool(overlay_record))

@@ -1,0 +1,33 @@
+{
+  "method": "MEASURED_NODE_INPUTS_AND_RUNTIME_CONDITIONING",
+  "target_host": "149",
+  "training_started": false,
+  "real_data_analysis_started": false,
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "successful_validation_receipts": [
+    "node_omics_native_r2",
+    "node_omics_embedding_r1",
+    "node_omics_products_r2"
+  ],
+  "earlier_successful_receipts": [
+    "node_omics_inputs_r2"
+  ],
+  "intermediate_failed_receipts": [
+    "node_omics_inputs_r1",
+    "node_omics_native_r1",
+    "node_omics_products_r1"
+  ],
+  "intermediate_failure_causes": [
+    "The new runtime-chunk fixture lacked the required cancer_id schedule column; the production rematerializer correctly refused that incomplete fixture.",
+    "The native integration fixture changed an already hash-bound comparison config. It now declares the channels before preparing a fresh comparison release; the existing configuration-drift guard remains unchanged.",
+    "The native methylation adapter initially used the encoder channel name as the source field name. It now explicitly maps promoter_methylation_beta to methylation_promoter_beta; negative tests also require their specific rejection code."
+  ],
+  "requirements_promoted": [],
+  "remaining_requirements": [
+    "C01",
+    "C13",
+    "C16"
+  ],
+  "scope_limit": "The DEEPSEEK continuation adds an opt-in promoter methylation beta channel while retaining the historical three-channel default. A host149-only producer consumes hash-bound measured sample/feature values, explicit node mappings and patient/split authority. It preserves signed CNV and measured zero versus missing values, aggregates observed features per sample, samples per patient and training patients per cohort, and uses declared identity scaling without fitting. Formal training and frozen-core export share the source-replayed node-input loader after binding expansion. A real synthetic native prepared payload passes its original validator and frozen residual-model export/forward with the new inputs. Runtime intervention contexts now also preserve the registered all-chunk exported gene and lncRNA vectors: independent methylation and CNV perturbations change the corresponding final vectors while parameters stay fixed, with exact restoration. The contexts update stored blocks as well as tensors and restore both on normal exit or exceptions. These are synthetic checks of native completed methylation bindings and native signed CNV patient matrices as well: the former uses the original raw/recovery producer, and the latter an explicitly frozen synthetic native-format matrix. Both reach actual prepared validation and exported lncRNA embeddings without duplicating patient values by aliquot count. These remain code checks, not trained multi-omics results. Global pooled inputs are not patient-specific embeddings. Raw assay processing, promoter-map correctness, biological/fold identity authenticity, full new-source model-use traversal, automatic native workflow declaration generation and public field completeness remain unresolved. No real data, downloads, optimizer, paid compute or deployment was started."
+}

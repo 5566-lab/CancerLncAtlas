@@ -74,5 +74,7 @@ def load_training_graph_inputs(torch, *, payload, config, input_manifest_path,
             overlay_path=path, fold=fold, parent_sha256=prepared_sha256, old_payload=payload)
     validate_source_mode(payload, config, fold, has_overlay=overlay_active)
     from .current_binding_overlay import load_declared_binding_expansion
-    return load_declared_binding_expansion(torch, payload=payload, config=config,
-        input_manifest_path=input_manifest_path, fold=fold, root=root, task_seed=task_seed), overlay_active
+    payload = load_declared_binding_expansion(torch, payload=payload, config=config,
+        input_manifest_path=input_manifest_path, fold=fold, root=root, task_seed=task_seed)
+    from .omics_node_inputs import load_declared_node_inputs
+    return load_declared_node_inputs(payload, config, input_manifest_path, fold), overlay_active

@@ -4,6 +4,13 @@ CancerLncAtlas is a reproducible pan-cancer lncRNA functional atlas. This reposi
 
 The v3.2 model uses one shared CC-HHGT encoder with pathway and tumor-state heads. The two heads are trained jointly with the declared loss weights in `config/model_v3_2_full_multitask.yaml`; pathway and state artifacts are comparison/output tables, not two unrelated deep-learning models.
 
+The code-completion branch adds measured CNV and promoter methylation inputs to
+the encoder, with explicit patient eligibility, missingness and source replay.
+See [the node-input contract and commands](docs/NODE_OMICS_INPUTS_20261029.rst).
+These additions are verified on synthetic inputs and frozen forwards; no new
+multi-omics model or biological result is supplied. The remaining implementation
+and provenance gaps are recorded in `CODE_COMPLETION_PLAN.json`.
+
 ## Repository layout
 
 - `cc_hhgt/` — reusable model, graph, data-contract, validation, and release modules.

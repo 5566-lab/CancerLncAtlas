@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2251,
+  "unique_test_cases_passed": 2278,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -34,7 +34,7 @@
     "scripts/analyze_v32_patient_heterogeneity.py": "e364ca0508fb0a9a85c64a933652f7b045d0f4f63d4a34da9e247d7ccf8d973c",
     "tests/test_v32_patient_heterogeneity.py": "df00242b3164a73e8e44c06e0e963ace300f232cc1d253c50f9dd95b6635d74e",
     "cc_hhgt/v32/current_core_export.py": "f6d6425fe33984d46eeb5047fc4c5f23a1c86e1ecdc41a4bb6e1d022ef1ce7bd",
-    "scripts/export_v32_current_core_embeddings.py": "29dc4479c955224b052033c3a06d5cdd2b9674de9fae316be7c863c6efadc9e4",
+    "scripts/export_v32_current_core_embeddings.py": "c45ef7d65bf5bc6f4fe2c544c73e4a1fc0d8b8b1c9309dc5c8001193837f21f6",
     "cc_hhgt/v32/genomic_training.py": "6869b6ce3882f63543902538d57cc3a85f3a34d332ed6cf8a0526de448620d2e",
     "cc_hhgt/v32/drug_training.py": "4ff035d5ad4ffd8585ceb67d50aae38469c094224245117bc424a954210e412c",
     "cc_hhgt/v32/state_training.py": "85aef66e80d7d8be3ca7f96453176a2e6775e2ff8b73e1b8853fefcc27b0d5c4",
@@ -228,8 +228,8 @@
     "tests/test_v32_fold_local_graph.py": "bc73d7b51a3ad13ca805d18ccb40ee78821d037c48e41f5b1790d69cd97a2c77",
     "scripts/prepare_v32_typed_graph_authority.py": "e59074e41d6efeac97be07f53e6877dfd99d1b876ab54b3b1c5ca47951d0a888",
     "tests/test_v32_typed_graph_preparation.py": "ac6662b1cc05816a7a1fa2a5ac4c10a8046073b7fdcfd77e37ffecfd583003c4",
-    "cc_hhgt/v32/native_graph_input.py": "27374a271ac99ada6aaafe0c86371ba40e71e26587cdc6486d94f05458700b1b",
-    "tests/test_v32_native_binding_comparison.py": "83532c82e9364c6559db4baf28d9b665ffc803c5a6dc4bd099e211646ab0311e",
+    "cc_hhgt/v32/native_graph_input.py": "7a2d6f84180dc7ec0805711bfe56a20377bf67132989eaceaa4f8631a0d88556",
+    "tests/test_v32_native_binding_comparison.py": "807872982be8f8cd8f623e6e885d988b4547299c63631f21d3fa841b3303ddcb",
     "cc_hhgt/v32/local_cnv_cohort.py": "d8b15cd39b0b5c2f7acce0ee60b433be99dcc3e8d907a6773823e4e8a5c518b0",
     "tests/test_v32_local_cnv_cohort.py": "64e366a9da6a92a0691a20e9174ec7809f6e4ee707e262bba0e7debd74958cb7",
     "tests/test_v32_local_cnv_confounding_core.py": "8c9780c42456eb69c8363bf852d0339ee10058055d1a491134ff8dfac4ee7cf9",
@@ -246,7 +246,7 @@
     "scripts/run_native_cnv_workflow.py": "8cfeb216ef83d4b5b7870937ec38bed9b72bc40696d86854045589363ac5f344",
     "tests/test_v32_native_cnv_workflow.py": "5eb2e95472773f22287fda604ff4230297743b7f9ac0239bd7fcbf69bfe5b449",
     "tests/test_v32_native_cnv_workflow_gdc.py": "5a490a3d23bd3570a975103c2f74926392d72e4a205e40feaec1063aabc9a215",
-    "cc_hhgt/v32/native_core_workflow.py": "ee728ae3806ce371d63012ab981dc9c3bb5f9996708dfdff65f0ca02aa7c5f1a",
+    "cc_hhgt/v32/native_core_workflow.py": "3579de7553f499adf213da5967246a28619f9a3652c5f3466f8a29e2907e176d",
     "scripts/run_native_core_workflow.py": "97351b0efba4843be9715ac68eee2a36c5ff2f3f046b479327818d61781ca5f7",
     "tests/test_v32_native_core_workflow.py": "a0d3b1821e5af1ae31e0334573aee6880f7969d6b24448919f085cbd2f679d59",
     "cc_hhgt/v32/native_results_workflow.py": "27c7a80bf634a067d08f7f6618ca6923d9da58256b6694856fb00be300b9140e",
@@ -415,9 +415,9 @@
     "cc_hhgt/v32/code_acceptance.py": "ed5a2d37595155464295cd39af306391ce609d205c4d1d3eebf349a44709d3af",
     "scripts/run_code_acceptance.py": "06dd1784278e70763d963726e98b1abe75bdc8caa0138dafdbce71f8b54f0664",
     "tests/test_v32_code_acceptance.py": "7d53945979c8bf83532d167bf290cbab445c89310ab471460ed3ef5a3f0ac1d3",
-    "cc_hhgt/v32/omics_node_encoding.py": "6eead27e54bf3fd19cd3ae53619ee432b8bf13048970a1bdd627a4697fa1a74d",
+    "cc_hhgt/v32/omics_node_encoding.py": "ad5c02ab0909b168b1557fcbcf11b70e73a9062e458754a129ee9cdcc456f8b3",
     "tests/test_v32_omics_node_encoding.py": "53f798b1e5b8e48038de6b2c6e05dc41a29ed51a73dd8f38505ce83adc2a9f92",
-    "cc_hhgt/v32/patient_conditioning.py": "a39740aa6b0c25bf8f1a0c62718d73b146cd48518fa947f7032f01a07e769afa",
+    "cc_hhgt/v32/patient_conditioning.py": "3f322e235e13a4c1a56112d342e616bf7f9eb344926940f8004499971d9e5483",
     "tests/test_v32_patient_conditioning.py": "0c2bc289ff053012ad1ed0d342411584fa997ea23d69350522d2b30cdea72c8b",
     "cc_hhgt/v32/omics_ablation_comparison.py": "58147404ca198da32e10b30c4eb21b092f1c6022e169331d9723030f27e7a906",
     "tests/test_v32_omics_ablation_comparison.py": "b24e307f6314e6298a484e6350dbaf21db478716975183924116f0a49602600e",
@@ -426,7 +426,11 @@
     "tests/test_v30_loco_graph_contract.py": "cfd4bcb947fe95826dad8beb8aa1e88f777d2a9ec17ab4d0704757b2e0141bc3",
     "tests/test_exact_pathway_primary.py": "b1f89809ae44deddb566cd831ae66301e5e84afa049c3e819ffc06b2066d6b04",
     "cc_hhgt/v32/public_field_definitions.py": "9b68bf96480a87fd85a02e68b750f0d2be54aef4f88a551cee9761d3513e30c9",
-    "tests/test_v32_public_field_definitions.py": "78accc6cf069cc879588026fb630526be49c95b85747d7113601c3de63671948"
+    "tests/test_v32_public_field_definitions.py": "78accc6cf069cc879588026fb630526be49c95b85747d7113601c3de63671948",
+    "cc_hhgt/v32/omics_node_inputs.py": "a9612b825445aadfb432d4b9b727034c0aab4c47e9d6f82cdf67f6d87e42a6a8",
+    "scripts/prepare_v32_node_omics.py": "9ee99dbb3098501c677af90a7c51aac383a467c5b3f797bbec86a270f05a62eb",
+    "tests/test_v32_omics_node_inputs.py": "667b52af4410588eae8f3c27f2fe35c4b3f50afef95ca5ac8bfddfed3f4ff5a9",
+    "tests/test_v32_native_omics_products.py": "02b1cf5d614c1fd0b7afaa0062c2c5288d26dc1910eccd755786eaa2f62a1370"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -613,7 +617,8 @@
     "The with/without multi-omics comparison now has an executable, paired and gated contract. Two declared arms must match on candidate, label, fold and budget digests and on the initialisation seed, and must differ only in the omics node input, otherwise the pair is refused before any score is read. The estimator is verified on synthetic scores: per-cancer average precision and ROC AUC, a paired stratified bootstrap interval, an exact sign test and a paired sign-flip permutation test, including a planted improvement and a null case. The only reporting entry point refuses while either arm has no trained checkpoint, which is the current state: no arm was trained with multi-omics node input, so no effect is reported and the tempting shortcut of scoring the existing G2 checkpoint with and without the new input columns is refused explicitly. Two attempts were blocked before execution by an intranet SSH banner error; after the read-only probe returned 149 the run was repeated once, no remote execution had occurred, and no duplicate job was launched. No optimizer, real cohort, paid compute or deployment ran.",
     "Novel binding/PPI work is now delivered as what it can honestly be: unvalidated candidate generation with a held-out evaluation that refuses to be meaningless. Known edges of a declared evidence arm are split by a seeded hash of the edge identity alone, the candidate universe excludes every scored known edge while keeping the held-out ones unmarked, and the additive score uses declared weights and frozen standardisation so nothing is fitted on the evaluation labels. Evaluation reports fixed-budget precision, recall, average precision and the same numbers for a degree-prior baseline built only from the scored partition. Label-like feature columns, duplicate feature rows, an all-missing primary feature, an empty holdout, a partition overlap and a budget larger than the universe are refused. Every emitted row is labelled unvalidated_candidate with orthogonal experimental validation required, and the record states that a ranked candidate is not evidence of binding. The synthetic fixture plants a latent binding rule to check that the estimator has power; it is not real binding data. No acquisition, optimizer, real cohort, paid compute or deployment ran, and no existing binding/PPI graph was modified.",
     "The widened encoder input was checked against the existing graph and model consumers on host 149. Four regression groups now pass: graph-contract, fold-local and model-use suites in group B, the full model contract in group C, and the core-export/current-model/current-core suites in group D. A first group also exposed two pre-existing failures unrelated to the encoder change: one test hand-built a homogeneous graph without the topology channel that the production bundle has always supplied, and one asserts wording from a V2.9 contract document that is not part of this checkout. The first was repaired by supplying the topology channel exactly as production does and now passes; the second now skips with an explicit reason instead of failing, because fabricating the missing document would be worse than recording its absence. No requirement was promoted: C01, C13 and C16 remain open, and complete scientific field definitions are still unpublished. No optimizer, real cohort, paid compute or deployment ran.",
-    "Public field definitions now have a registry and a completeness gate instead of a prose promise. Each registered column carries one checkable sentence plus its value kind, unit or scale, producing stage, status and a schema-verified flag; component-specific clarifications override the shared semantics where the same column name means something else in another module. The published catalog now attaches the definition to every field, reports defined/total coverage with the exact undefined column list, and may only declare the complete scope when coverage is exactly 100%: otherwise it keeps the incomplete scope and reports the gap. Pending entries never count, an empty catalog is refused, and the web/workflow suite that recomputes the catalog continues to pass, including its tampered-scope rejection. This is progress, not closure: the registry defines 35 columns and 5 component clarifications, no archived published catalog was located within the read-only search window, and full coverage of the actual published columns still requires an actual publication inventory. No definition asserts a scientific finding, no optimizer, real cohort, paid compute or deployment ran, and no requirement was promoted."
+    "Public field definitions now have a registry and a completeness gate instead of a prose promise. Each registered column carries one checkable sentence plus its value kind, unit or scale, producing stage, status and a schema-verified flag; component-specific clarifications override the shared semantics where the same column name means something else in another module. The published catalog now attaches the definition to every field, reports defined/total coverage with the exact undefined column list, and may only declare the complete scope when coverage is exactly 100%: otherwise it keeps the incomplete scope and reports the gap. Pending entries never count, an empty catalog is refused, and the web/workflow suite that recomputes the catalog continues to pass, including its tampered-scope rejection. This is progress, not closure: the registry defines 35 columns and 5 component clarifications, no archived published catalog was located within the read-only search window, and full coverage of the actual published columns still requires an actual publication inventory. No definition asserts a scientific finding, no optimizer, real cohort, paid compute or deployment ran, and no requirement was promoted.",
+    "The DEEPSEEK continuation adds an opt-in promoter methylation beta channel while retaining the historical three-channel default. A host149-only producer consumes hash-bound measured sample/feature values, explicit node mappings and patient/split authority. It preserves signed CNV and measured zero versus missing values, aggregates observed features per sample, samples per patient and training patients per cohort, and uses declared identity scaling without fitting. Formal training and frozen-core export share the source-replayed node-input loader after binding expansion. A real synthetic native prepared payload passes its original validator and frozen residual-model export/forward with the new inputs. Runtime intervention contexts now also preserve the registered all-chunk exported gene and lncRNA vectors: independent methylation and CNV perturbations change the corresponding final vectors while parameters stay fixed, with exact restoration. The contexts update stored blocks as well as tensors and restore both on normal exit or exceptions. These are synthetic checks of native completed methylation bindings and native signed CNV patient matrices as well: the former uses the original raw/recovery producer, and the latter an explicitly frozen synthetic native-format matrix. Both reach actual prepared validation and exported lncRNA embeddings without duplicating patient values by aliquot count. These remain code checks, not trained multi-omics results. Global pooled inputs are not patient-specific embeddings. Raw assay processing, promoter-map correctness, biological/fold identity authenticity, full new-source model-use traversal, automatic native workflow declaration generation and public field completeness remain unresolved. No real data, downloads, optimizer, paid compute or deployment was started."
   ],
   "test_suites": [
     {
@@ -1785,6 +1790,21 @@
       "path": "provenance/code_completion_20261015/public_fields_wiring_r2_tests.xml",
       "passed": 18,
       "sha256": "27e43780fb3783436d5b74aa7a2a5fe40b739704e6b217295b21d036a73f694e"
+    },
+    {
+      "path": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml",
+      "passed": 202,
+      "sha256": "f1220dc4c472df8f96b19b5f897230fd77815a372b534732228bc5a85f3bd3cc"
+    },
+    {
+      "path": "provenance/code_completion_20261015/node_omics_embedding_r1_tests.xml",
+      "passed": 26,
+      "sha256": "5a1938c01b1d37c00aed60c23c7563f6f7f895e20fe5562ce2064015e3882302"
+    },
+    {
+      "path": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml",
+      "passed": 77,
+      "sha256": "4ad4752d8290b2125a9054751fab859c2891206602291196af9373937584f0b4"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -3133,127 +3153,127 @@
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_artifact_hash_is_enforced",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_checkpoint_and_manifest_binding",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_feature_entry_uses_current_core_hashes_and_fold_local_scaler",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_node_alias_collision_is_not_averaged",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[None]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[config]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[core]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[file]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_clinical_resume_cannot_mix_runs_or_outputs[input]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_command_exports_five_folds_and_native_reader_consumes_them",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_current_export_consumed_by_native_heads",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[fold]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[frozen]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[receipt]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[run]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_incomplete_or_wrong_current_export_rejected[weights]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[alignment]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[missing_type]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[nan]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_no_silent_chunk_or_node_drift[shape]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_partial_or_bad_weights_rejected_before_encoding[weights0]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_partial_or_bad_weights_rejected_before_encoding[weights1]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_partial_or_bad_weights_rejected_before_encoding[weights2]",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_registered_weighted_sum_and_parameter_freeze",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_export",
       "case": "test_training_receipt_requires_optimizer_evidence",
-      "suite": "provenance/code_completion_20261015/native_binding_consumers_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_current_core_prediction",
@@ -7573,127 +7593,132 @@
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-0]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-1]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-2]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-3]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[current_c-4]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-0]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-1]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-2]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-3]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental-4]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-0]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-1]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-2]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-3]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_actual_native_three_arm_training_loader_and_frozen_export[experimental_predicted-4]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_comparison_cli_rejects_mixed_mode_before_materialization[historical_overlay]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_comparison_cli_rejects_mixed_mode_before_materialization[mixed_fold]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_comparison_cli_rejects_mixed_mode_before_materialization[mode]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_generated_native_commands_stay_code_only",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[binding_source]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[generation]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[legacy_cohort]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[overlay_metadata]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_mode_rejects_incompatible_bases[trained]",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_binding_comparison",
+      "case": "test_native_omics_producer_through_prepared_validator_and_frozen_export",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_binding_comparison",
       "case": "test_native_runtime_rejects_undeclared_mode_and_overlay_pattern",
-      "suite": "provenance/code_completion_20261015/rbp_workflow_native_comparison_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_clinical_workflow",
@@ -8003,217 +8028,217 @@
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_acceptance_rejects_miswired_commands[duplicate_fold]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_acceptance_rejects_miswired_commands[task_fold]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_acceptance_rejects_miswired_commands[task_seed]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[0]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[10]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[11]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[12]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[13]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[14]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[15]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[16]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[17]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[18]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[19]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[1]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[20]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[21]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[22]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[23]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[24]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[25]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[26]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[27]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[28]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[29]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[2]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[3]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[4]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[5]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[6]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[7]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[8]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_generated_command_model_forward_preserves_parameters[9]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_actual_workflow_loaders_sources_and_thirty_blocked_commands",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_changed_input_invalidates_completed_core",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_execution_without_baseline_switch_never_calls_a_producer",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_preflight_rejects_mixed_authorities[cnv_binding]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_preflight_rejects_mixed_authorities[config_expanded]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_preflight_rejects_mixed_authorities[config_mode]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_preflight_rejects_mixed_authorities[config_seed]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_preflight_rejects_mixed_authorities[scope]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_preflight_rejects_mixed_authorities[unknown_field]",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_core_workflow",
       "case": "test_producer_failure_records_stage_without_success",
-      "suite": "provenance/code_completion_20261015/prepared_construction_upstream_r1_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_directional_cnv",
@@ -9119,6 +9144,41 @@
       "module": "tests.test_v32_native_methylation_workflow",
       "case": "test_rehashed_patient_feature_and_audit_cannot_replace_raw_reconstruction",
       "suite": "provenance/code_completion_20261015/promoter_probe_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_omics_products",
+      "case": "test_native_products_pass_formal_prepared_and_export_embedding",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_omics_products",
+      "case": "test_native_products_refuse_incomplete_or_misaligned_sources[availability]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_omics_products",
+      "case": "test_native_products_refuse_incomplete_or_misaligned_sources[heldout]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_omics_products",
+      "case": "test_native_products_refuse_incomplete_or_misaligned_sources[incomplete]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_omics_products",
+      "case": "test_native_products_refuse_incomplete_or_misaligned_sources[matrix_drift]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_omics_products",
+      "case": "test_native_products_refuse_incomplete_or_misaligned_sources[shape]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_native_omics_products",
+      "case": "test_native_products_refuse_incomplete_or_misaligned_sources[wrong_cancer]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_native_partitioned_genomic",
@@ -10673,282 +10733,377 @@
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_assert_encoder_refuses_a_degree_only_bundle",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_rejects_a_model_built_before_augmentation",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_rejects_a_second_attach",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_rejects_row_mismatch",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_attach_node_omics_writes_and_verifies",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_build_model_reads_the_widened_input_width",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_channel_layout_is_value_then_observed_per_channel",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_fold_node_features_appends_omics_columns",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_graph_bundle_defaults_are_backward_compatible",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_keeps_two_channel_contract_by_default",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[empty_block]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[missing_node_type]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[non_finite]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[row_mismatch]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[unknown_node_type]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_rejects_invalid_omics_blocks[width_mismatch]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_materializer_widens_node_inputs",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_module_exposes_no_fitting_entry_point",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_aligns_by_node_index_not_row_order",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_marks_absent_channels_instead_of_imputing",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_rejects_duplicate_canonical_ids",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_rejects_evidence_node_outside_graph",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_node_feature_block_rejects_missing_index_column",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_omics_value_propagates_through_message_passing",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_every_declared_table_format[.csv]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_every_declared_table_format[.parquet]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_every_declared_table_format[.tsv]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_accepts_subject_scope",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_applies_frozen_standardisation",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_clips_outliers",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_duplicate_node_channel",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_empty_identifiers",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation0-OMICS_EVIDENCE_SCALE_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation1-OMICS_EVIDENCE_SCALE_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation2-OMICS_EVIDENCE_CENTER_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_invalid_standardisation[standardisation3-OMICS_EVIDENCE_CENTER_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides0-OMICS_EVIDENCE_FORMAT_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides1-OMICS_EVIDENCE_SCOPE_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides10-OMICS_EVIDENCE_ROW_COUNT_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides11-OMICS_EVIDENCE_CLIP_DECLARATION_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides2-OMICS_EVIDENCE_SUBJECT_ID_MISSING]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides3-OMICS_EVIDENCE_SUBJECT_ID_NOT_ALLOWED_FOR_COHORT]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides4-OMICS_EVIDENCE_CANCER_ID_MISSING]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides5-OMICS_EVIDENCE_CHANNEL_UNKNOWN]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides6-OMICS_EVIDENCE_CHANNELS_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides7-OMICS_EVIDENCE_CHANNELS_INVALID]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides8-OMICS_EVIDENCE_TABLE_SHA256_MISSING]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_manifest_faults[overrides9-OMICS_EVIDENCE_TABLE_SHA256_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_missing_columns",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_non_finite_raw_values",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_undeclared_channel_rows",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_read_evidence_rejects_unsupported_table_format",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_repeated_forward_is_deterministic_in_eval_mode",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_unrelated_nodes_are_unaffected_by_a_local_omics_change",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_validate_node_omics_rejects_empty_mapping",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_omics_node_encoding",
       "case": "test_validate_node_omics_returns_defensive_copies",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_actual_training_loader_encoder_and_export_loader_preserve_legacy_inputs",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_conditioned_runtime_rebuild_and_exception_restore",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_equal_patient_weight_missing_zero_and_heldout_exclusion",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_invalid_sources_fail_closed[beta]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_invalid_sources_fail_closed[cnv_units]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_invalid_sources_fail_closed[duplicate]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_invalid_sources_fail_closed[feature]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_invalid_sources_fail_closed[normal_only]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_invalid_sources_fail_closed[sample]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_invalid_sources_fail_closed[split]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_loader_rejects_source_and_contract_substitution[cancer]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_loader_rejects_source_and_contract_substitution[channel_order]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_loader_rejects_source_and_contract_substitution[declaration]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_loader_rejects_source_and_contract_substitution[fold]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_loader_rejects_source_and_contract_substitution[repinned_value]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_loader_rejects_source_and_contract_substitution[source_drift]",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_pooled_features_are_explicit_and_subject_cancers_are_not_mixed",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_producer_refuses_other_host_and_existing_output",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_omics_node_inputs",
+      "case": "test_subject_output_is_not_cohort_training_input",
+      "suite": "provenance/code_completion_20261015/node_omics_products_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_orchestration",
@@ -10993,167 +11148,167 @@
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_cohort_evidence_cannot_be_presented_as_a_patient",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_conditioned_writes_and_restores_the_bundle_exactly",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_degree_only_bundle_is_refused",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_delta_table_flags_only_real_sign_changes",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_is_unsupported_for_the_homogeneous_model",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_passes_its_controls_on_a_connected_graph",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_rejects_an_unknown_placebo",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_reports_no_effect_for_a_null_contrast",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_requires_a_target_pair",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervened_blocks_change_exactly_one_cell",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervened_blocks_mode_observed_is_a_no_op",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervened_blocks_reject_unmeasured_and_unknown_channels",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervention_identifier_is_stable_and_sensitive",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_module_exposes_no_fitting_entry_point",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_pair_batch_requires_columns_and_finite_features",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_pair_batch_supports_both_model_kinds",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_patient_relation_shift_is_deterministic",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_patient_relation_shift_reports_deltas_only_where_the_graph_connects",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_patient_relation_shift_with_observed_mode_has_no_effect",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_rank_summary_ranks_within_each_cancer",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_rewiring_needs_an_alternative_target",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_score_membership_is_frozen_and_finite",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs0-PATIENT_CONDITIONING_UNKNOWN_MODE]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs1-PATIENT_CONDITIONING_SUBJECT_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs2-PATIENT_CONDITIONING_CANCER_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs3-PATIENT_CONDITIONING_NODE_TYPE_UNKNOWN]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs4-PATIENT_CONDITIONING_NODE_NOT_IN_GRAPH]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs5-PATIENT_CONDITIONING_CHANNEL_MISSING]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs6-PATIENT_CONDITIONING_PARTICIPANT_UNMEASURED]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs7-PATIENT_CONDITIONING_INTERVENTION_VALUE_MISSING]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs8-PATIENT_CONDITIONING_NO_INTERVENTION_CONTRAST]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs9-PATIENT_CONDITIONING_VALUE_NOT_FINITE]",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_records_a_non_causal_estimand",
-      "suite": "provenance/code_completion_20261015/patient_intervention_r4_tests.xml"
+      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_fold_authority",
@@ -13053,10 +13208,11 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "public_fields_r1",
-      "public_fields_wiring_r2"
+      "node_omics_native_r2",
+      "node_omics_embedding_r1",
+      "node_omics_products_r2"
     ],
-    "passed": 39,
+    "passed": 209,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,

@@ -1,0 +1,59 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-29T03:25:46.487578+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/native_core_workflow.py": "3579de7553f499adf213da5967246a28619f9a3652c5f3466f8a29e2907e176d",
+    "cc_hhgt/v32/native_graph_input.py": "7a2d6f84180dc7ec0805711bfe56a20377bf67132989eaceaa4f8631a0d88556",
+    "cc_hhgt/v32/omics_node_encoding.py": "ad5c02ab0909b168b1557fcbcf11b70e73a9062e458754a129ee9cdcc456f8b3",
+    "cc_hhgt/v32/omics_node_inputs.py": "88d23b036bfea012c4dcaf2513f78ae278de9bd232a82bbdc9b124d9a84f3a4f",
+    "cc_hhgt/v32/patient_conditioning.py": "3f322e235e13a4c1a56112d342e616bf7f9eb344926940f8004499971d9e5483",
+    "scripts/export_v32_current_core_embeddings.py": "c45ef7d65bf5bc6f4fe2c544c73e4a1fc0d8b8b1c9309dc5c8001193837f21f6",
+    "scripts/prepare_v32_node_omics.py": "9ee99dbb3098501c677af90a7c51aac383a467c5b3f797bbec86a270f05a62eb",
+    "tests/test_v32_native_binding_comparison.py": "807872982be8f8cd8f623e6e885d988b4547299c63631f21d3fa841b3303ddcb",
+    "tests/test_v32_omics_node_inputs.py": "667b52af4410588eae8f3c27f2fe35c4b3f50afef95ca5ac8bfddfed3f4ff5a9"
+  },
+  "parameter_fitting_guard": "SESSION_ATAC_AUXILIARY_AND_TORCH_OPTIMIZERS",
+  "verification_thread_limits": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "verification_pythonpath": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/.verification_packages/current_web",
+  "verification_dependencies": {
+    "typing_extensions": "4.16.0",
+    "httpx": "0.28.1",
+    "h11": "0.16.0",
+    "certifi": "2026.7.22",
+    "greenlet": "3.5.6",
+    "starlette": "0.46.2",
+    "anyio": "4.15.1",
+    "typing-inspection": "0.4.4",
+    "playwright": "1.52.0",
+    "pydantic": "2.14.1",
+    "fastapi": "0.115.12",
+    "uvicorn": "0.34.2",
+    "pyee": "13.0.1",
+    "pydantic_core": "2.50.1",
+    "click": "8.5.0",
+    "httpcore": "1.0.9",
+    "idna": "3.20",
+    "annotated-types": "0.8.0",
+    "openpyxl": "3.1.5",
+    "et_xmlfile": "2.0.0",
+    "h5py": "3.16.0"
+  },
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--tb=short",
+    "tests/test_v32_native_binding_comparison.py",
+    "--junitxml=provenance/code_completion_20261015/node_omics_embedding_r1_tests.xml"
+  ],
+  "exit_code": 0,
+  "completed_utc": "2026-10-29T03:26:58.010868+00:00"
+}

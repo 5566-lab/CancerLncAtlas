@@ -127,6 +127,107 @@ def test_generated_native_commands_stay_code_only(comparison):
         assert not (output / arm / "training_outputs").exists()
 
 
+def test_native_omics_producer_through_prepared_validator_and_frozen_export(
+    comparison, native_authority, scoped, monkeypatch, tmp_path, record_property
+):
+    from cc_hhgt.v32 import omics_node_inputs as inputs
+    from cc_hhgt.v32.training import _validate_prepared, _runtime_graph_for_chunk
+    from cc_hhgt.v32.integrated_model import module_state_sha256
+    from cc_hhgt.gnn import build_model
+    from cc_hhgt.v32.model import build_v32_cc_hhgt_residual
+    from scripts.export_v32_current_core_embeddings import _validated_payload, _build_model
+    from test_v32_omics_node_inputs import _config
+
+    patch_controls(monkeypatch, scoped.parent / "patient_map.tsv", native_authority[0] / "patients.json")
+    # Comparison settings are immutable. Declare channels before producing new
+    # sidecars, instead of changing an already authorized comparison config.
+    import scripts.prepare_v32_current_binding_comparison as command
+    spec = read(comparison / "input.json")
+    declared = yaml.safe_load(Path(spec["config"]["path"]).read_text())
+    declared["task_contract"]["node_omics_channels"] = ["methylation_promoter_beta", "cnv_signed"]
+    declared_path = tmp_path / "comparison.yaml"; declared_path.write_text(yaml.safe_dump(declared))
+    spec["config"] = record(declared_path)
+    spec_path = tmp_path / "comparison.json"; write(spec_path, spec)
+    assert command.main(["--manifest", str(spec_path), "--output", str(tmp_path / "comparison"),
+                         "--release", "synthetic-omics"]) == 0
+    folder = tmp_path / "comparison/current_c"
+    config = yaml.safe_load((folder / "config.yaml").read_text())
+    authority = read(folder / "INPUT_MANIFEST.json")
+    authorized = authority["fold_inputs"][0]
+    prepared = Path(authorized["path"])
+    payload = torch.load(prepared, map_location="cpu", weights_only=False)
+    nodes = payload["bundle"].node_maps
+    producer = _config(tmp_path)
+    assert set(nodes["cancer"]) == {"BRCA"}
+    producer["cancer_id"] = "BRCA"
+    sample_path = Path(producer["sample_authority"]["path"])
+    samples = pd.read_parquet(sample_path); samples["cancer_id"] = "BRCA"
+    samples.to_parquet(sample_path, index=False)
+    producer["sample_authority"] = record(sample_path)
+    mapping_path = Path(producer["assays"][0]["mapping"]["path"])
+    mapping = pd.read_parquet(mapping_path)
+    mapping.loc[mapping.node_type.eq("gene"), "canonical_id"] = next(iter(nodes["gene"]))
+    mapping.loc[mapping.node_type.eq("lncRNA"), "canonical_id"] = next(iter(nodes["lncRNA"]))
+    mapping.to_parquet(mapping_path, index=False)
+    for assay in producer["assays"]: assay["mapping"] = record(mapping_path)
+    producer_path = tmp_path / "producer.json"; write(producer_path, producer)
+    evidence = inputs.produce(producer_path, tmp_path / "omics")
+    authorized["node_omics"] = record(evidence)
+    manifest = tmp_path / "INPUT_MANIFEST.json"; write(manifest, authority)
+    config["task_contract"]["node_omics_channels"] = [a["channel"] for a in producer["assays"]]
+    config_path = tmp_path / "model.yaml"; config_path.write_text(yaml.safe_dump(config))
+    loaded, _ = load_training_graph_inputs(torch, payload=payload, config=config,
+        input_manifest_path=manifest, fold=0, root=comparison, prepared_sha256=record(prepared)["sha256"],
+        task_seed=20260726)
+    _validate_prepared(loaded, fold=0, artifact_hashes=payload["artifact_hashes"])
+    assert loaded["bundle"].node_input_dim == 6 and payload["bundle"].node_input_dim == 2
+    receipt = tmp_path / "receipt.json"
+    write(receipt, {"synthetic_no_optimizer": True, "artifact_hashes": payload["artifact_hashes"],
+                    "input_authority_hashes": loaded["input_authority_hashes"]})
+    paths = {"prepared": prepared, "config": config_path, "input_manifest": manifest,
+             "binding_expansion": Path(authorized["binding_expansion"]["path"]), "training_receipt": receipt}
+    exported = _validated_payload(paths, {k: record(v) for k, v in paths.items()}, 0)
+    torch.manual_seed(20261029)
+    encoder = build_model("cc_hhgt", loaded["bundle"], loaded["feature_dim"], loaded["legacy_model_config"])
+    original = build_v32_cc_hhgt_residual(encoder, hidden_channels=96, context_features=4, dropout=.2)
+    model = _build_model(exported, config, {"model_state": original.state_dict()}, "cpu").eval()
+    before = module_state_sha256(model)
+    with torch.inference_mode():
+        graph = _runtime_graph_for_chunk(exported["bundle"], 0, device="cpu")
+        batch = exported["train_batches"][0]
+        result = model(graph, batch["candidate_batch"], batch["base_logit"], batch["conservation_context"])
+    assert result["final_logit"].shape == (3,)
+    assert all(torch.isfinite(value).all() for value in result.values())
+    assert module_state_sha256(model) == before
+    # Verify final exported embeddings, not just input tensor width or a
+    # finite decoder score. Use the real registered all-chunk estimator.
+    from cc_hhgt.v32.training import _runtime_chunk_contract
+    from cc_hhgt.v32.current_core_export import stream_embeddings, node_frame
+    from cc_hhgt.v32.patient_conditioning import conditioned
+    bundle = exported["bundle"]
+    chunks, weights = _runtime_chunk_contract(bundle)
+    baseline, _ = stream_embeddings(model, bundle, chunks, weights, _runtime_graph_for_chunk)
+    for kind in ("gene", "lncRNA"):
+        written, _ = node_frame(baseline[kind], bundle.node_maps[kind])
+        saved = tmp_path / (kind + "_embeddings.parquet")
+        written.to_parquet(saved, index=False)
+        pd.testing.assert_frame_equal(pd.read_parquet(saved), written)
+        node_id = next(iter(bundle.node_maps[kind]))
+        index = bundle.node_maps[kind][node_id]
+        for channel_index, channel in enumerate(config["task_contract"]["node_omics_channels"]):
+            blocks = {key: value.copy() for key, value in bundle.node_omics.items()}
+            assert blocks[kind][index, channel_index * 2 + 1] == 1.0
+            blocks[kind][index, channel_index * 2] += .2
+            with conditioned(bundle, blocks):
+                changed, _ = stream_embeddings(model, bundle, chunks, weights, _runtime_graph_for_chunk)
+            delta = float((changed[kind][index] - baseline[kind][index]).abs().max())
+            assert delta > 1e-7, (kind, channel, delta)
+            record_property(kind + "." + channel + ".embedding_max_abs_delta", delta)
+    restored, _ = stream_embeddings(model, bundle, chunks, weights, _runtime_graph_for_chunk)
+    for kind in baseline: torch.testing.assert_close(restored[kind], baseline[kind], rtol=0, atol=0)
+    assert module_state_sha256(model) == before
+
+
 @pytest.mark.parametrize("fault", ["legacy_cohort", "generation", "binding_source", "trained", "overlay_metadata"])
 def test_native_mode_rejects_incompatible_bases(prepared, native_authority, scoped, monkeypatch, fault):
     patch_controls(monkeypatch, scoped.parent / "patient_map.tsv", native_authority[0] / "patients.json")

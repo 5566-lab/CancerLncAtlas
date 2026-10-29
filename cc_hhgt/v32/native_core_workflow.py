@@ -25,6 +25,7 @@ FORMAL="scripts.prepare_v32_formal"
 COMPARISON="scripts.prepare_v32_current_binding_comparison"
 CODE=["cc_hhgt/v32/native_core_workflow.py","cc_hhgt/v32/prepared_construction.py","cc_hhgt/v32/baselines.py","scripts/run_native_core_workflow.py",
       "cc_hhgt/v32/native_graph_input.py","cc_hhgt/v32/formal_graph_authority.py",
+      "cc_hhgt/v32/omics_node_inputs.py","cc_hhgt/v32/omics_node_encoding.py",
       "cc_hhgt/v32/local_cnv_core_preparation.py","cc_hhgt/v32/training_guard.py",
       "cc_hhgt/v32/training.py","cc_hhgt/v32/current_binding_graph.py",
       "cc_hhgt/v32/current_binding_overlay.py","cc_hhgt/v32/orchestration.py",
@@ -193,6 +194,14 @@ def accept_inputs(output,plan):
         records.extend([record(config_path),record(manifest),record(arg("--task-manifest")),record(prepared)])
         if row.get("binding_expansion"):
             records.extend([record(row["binding_expansion"]["path"]),record(row["binding_expansion"]["source_admission"]["path"])])
+        if row.get("node_omics"):
+            source=verified_path(row["node_omics"],manifest.parent)
+            node_manifest=read(source)
+            records.append(record(source))
+            for item in [node_manifest["source_config"],node_manifest["private_contributions"],
+                         {"path":node_manifest["table_path"],"sha256":node_manifest["table_sha256"]},
+                         *node_manifest["source_artifacts"].values()]:
+                records.append(record(verified_path(item,source.parent)))
     return list({r["path"]:r for r in records}.values())
 
 
