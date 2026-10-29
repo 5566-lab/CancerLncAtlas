@@ -1,0 +1,1081 @@
+{
+  "format": "GENE_PATIENT_ASSAYS_VERIFIED_V1",
+  "status": "PASS",
+  "target_host": "149",
+  "training_started": false,
+  "source_config": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/bound_sources/gene_assays.json",
+    "sha256": "5b091d1d510f488ad81b8ca32730f86d667249ba0e71964c51616b8404878e2d"
+  },
+  "source_artifacts": {
+    "gtf": {
+      "path": "/public8/DSC/CancerLncAtlas/input/v3_1_target_context_assets_e0b44122/gencode/gencode.v36.annotation.gtf.gz",
+      "sha256": "81359865bab048361cbeaf91c9441aac4c700b63978e6691d579d78bf2322d30"
+    },
+    "hm450": {
+      "path": "/dell_2/DSC/CancerLncAtlas/runtime/references/gdc_methylation_hm450_gencode_v36_20260830_r1/HM450.hg38.manifest.gencode.v36.tsv.gz",
+      "sha256": "cb908b2aa8f49b2c92e3698dc04c379607850c36c329f2ff24dc765af655e483"
+    },
+    "genes": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/bound_sources/genes.json",
+      "sha256": "02f781f8084fc1754c6aa1a6c72d43a2a3546da469444b4f5838d39b933fa38a"
+    },
+    "patient_folds": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/v32_g012_local_cnv_formal_prepared_20260903_r1/SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253"
+    },
+    "raw_files": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/bound_sources/raw_files.parquet",
+      "sha256": "05995c8f22472601733e7604d684bb81364e39a087582d8bba537e465aa5164b"
+    },
+    "authority:gtf": {
+      "path": "/public8/DSC/CancerLncAtlas/input/v3_1_target_context_assets_e0b44122/gencode/gencode.v36.annotation.gtf.gz",
+      "sha256": "81359865bab048361cbeaf91c9441aac4c700b63978e6691d579d78bf2322d30"
+    },
+    "authority:hm450": {
+      "path": "/dell_2/DSC/CancerLncAtlas/runtime/references/gdc_methylation_hm450_gencode_v36_20260830_r1/HM450.hg38.manifest.gencode.v36.tsv.gz",
+      "sha256": "cb908b2aa8f49b2c92e3698dc04c379607850c36c329f2ff24dc765af655e483"
+    },
+    "authority:patient_folds": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/v32_g012_local_cnv_formal_prepared_20260903_r1/SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253"
+    },
+    "authority:signed_membership": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/v32_g012_patient_first_20260830_r1/static/signed_membership.parquet",
+      "sha256": "3d73433967a906c67dad0f2d1679112a270f878a49558cdc8dcdd984979122b9"
+    },
+    "authority:protein_gene_encoding": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/v32_g012_patient_first_20260830_r1/static/protein_gene_encoding.parquet",
+      "sha256": "3f310c4497b71d000d47f9fec1f383e3100ed06c7683476c956b49efd86f57c1"
+    },
+    "authority:cnv_manifest": {
+      "path": "/dell_2/DSC/CancerLncAtlas/manifests/v32_pancancer_segment_cnv_20260829_r3_full33_reconciled/gdc_masked_segment_file_case_sample_manifest.tsv",
+      "sha256": "ce7b797d9301e54771e45e1a503fc6c5d3103bfa6ac210902b0cef187da93fdd"
+    },
+    "authority:cnv_staging": {
+      "path": "/dell_2/DSC/CancerLncAtlas/results/v32_routed_candidate/full33_segment_download_gate_20260829_r4/VERIFIED_STAGING_FILES.tsv",
+      "sha256": "09b28e82a6a929e66e0b6c5d2d43ea24c9a50e80087a9221f79d73a8e7cd4b87"
+    },
+    "authority:methylation_manifest": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/v32_distal_regulatory_mutation_20260830_r1/gdc_methylation_beta_manifest_20260830_r2/SELECTED_PRIMARY_TUMOR_FILES.tsv",
+      "sha256": "adbe204183509e539ff8d89a1018245a326b14205a135cd28d99a0f114c8536f"
+    },
+    "authority:binding_spec": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/SOURCE_SPEC.json",
+      "sha256": "1df31107624fbad771e50081c61c4929848ce09095bfe5c1778a5d57a65716e4"
+    },
+    "authority:binding_implementation": {
+      "path": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/scripts/bind_v32_tcga_gene_sources.py",
+      "sha256": "323e658e16caa8f9cf30309893850b7933257ae365dd49cdcb4bc5496156f5a5"
+    }
+  },
+  "node_type": "gene",
+  "gene_type": "protein_coding",
+  "genome_build": "GRCh38",
+  "units": {
+    "cnv_signed": "log2_copy_ratio",
+    "methylation_promoter_beta": "beta"
+  },
+  "matrix_orientation": "patient_by_gene",
+  "cnv_definition": "GENCODE_GENE_MIDPOINT_SIGNED_SEGMENT_MEAN_1_BASED_CLOSED_SHARED_BOUNDARY_MASKED",
+  "methylation_definition": "DISTINCT_CPG_TRANSCRIPT_TSS_MINUS1000_PLUS100_INCLUSIVE_BED0_OVERLAP",
+  "aggregation": "FINITE_PROBES_PER_FILE_THEN_FILES_PER_SAMPLE_THEN_SAMPLES_PER_PATIENT",
+  "genes": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/genes.parquet",
+    "sha256": "0eb0051d990e2c357c13b422244ea253197cd2bedfe5c18858ab2faf27e791bf"
+  },
+  "patients": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/patients.parquet",
+    "sha256": "7cdfaed4521ff4c928f0140abde4cfd5621b21464620e28e31c43829d9fb892f"
+  },
+  "promoter_probe_map": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/promoter_probe_map.parquet",
+    "sha256": "1d4269d31f58565095f0ab44134465c8431d91521c6b09c5725f484149755ef4"
+  },
+  "transcript_promoters": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/transcript_promoters.parquet",
+    "sha256": "96d9945407ac147814fed58935ede1bc762a195b97a0c953ed9fae4c80c3557e"
+  },
+  "verified_raw_files": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/verified_raw_files.parquet",
+    "sha256": "57e93c5ca48fe68ec7cdece9bcf36d2e75527e8ac398b1b5f743773e33c78d98"
+  },
+  "excluded_requested_genes": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/unresolved_or_non_coding_genes.json",
+    "sha256": "0ae37c5b40d4379441c34b33e333e8fec5a4ecd480cb184679e59031ba0d8c1d"
+  },
+  "raw_file_count": 18600,
+  "partitions": [
+    {
+      "cancer_id": "ACC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ACC/patient_ids.json",
+        "sha256": "e7801d5626ab3f52741a17d31b20fb4de7ec56d18c1b41d4e32c477fdadbfa0c"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ACC/cnv_signed.npy",
+            "sha256": "f65697518e6045f98f91cf78741b05568d0ac08ff60efc30f6ba51911ea8895d"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ACC/cnv_signed__available.npy",
+            "sha256": "e1243f6fd106878f08d0ccfc64800ee180c6a8dbbbe3d5991744595a37282be9"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ACC/methylation_promoter_beta.npy",
+            "sha256": "2ec4428218741fa073bd49ede5e50c65ba610b790b1806c2a6d7b2c6c99ee39a"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ACC/methylation_promoter_beta__available.npy",
+            "sha256": "0ddb6281a078e8ff6283ade89cf4f779b4ec48b6410e0a195dd2d89d84568e71"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "BLCA",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BLCA/patient_ids.json",
+        "sha256": "ef6f53cacea7cf2d3d8b154f881a803c4c42f152ddf7ca42a5cbb725300fbf44"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BLCA/cnv_signed.npy",
+            "sha256": "9fe0e5f9b9103c1fcbb242a6a7fcf06c858bd0624603239a1bd254593239f47a"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BLCA/cnv_signed__available.npy",
+            "sha256": "5a9d82a88cfe17d12bdf18613fadfee6b7e40557993b5c4a71724e8e5bbce2fc"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BLCA/methylation_promoter_beta.npy",
+            "sha256": "7394ec33971466821718a8757660dff3da2525251362dae459a4cd7349aaa94e"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BLCA/methylation_promoter_beta__available.npy",
+            "sha256": "e70303074322a825292e910c5ab471d13f081556f680a6054ea1189509f8eb55"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "BRCA",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BRCA/patient_ids.json",
+        "sha256": "494a976f50f3b71ff749167a0b35cab6c9ee73ca0fcf17f30e77c902191fef32"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BRCA/cnv_signed.npy",
+            "sha256": "4d45c035d5820e346589a036f4dedd747619a58ee9c0459ecb32b350c6d30625"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BRCA/cnv_signed__available.npy",
+            "sha256": "81827a1cdab56643a266014b456fb114887badf7158c2354c23ee6ff8b65a7ba"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BRCA/methylation_promoter_beta.npy",
+            "sha256": "ba3573355aa79f7516bd7d0b691b2802d6e2b98ee766dd00f73fc25ca7b6fbc4"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/BRCA/methylation_promoter_beta__available.npy",
+            "sha256": "c1ffe7abcbb7f4b39caf154031f7c9a56f5b136e85e02a0041606b7eeb2d6aa0"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "CESC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CESC/patient_ids.json",
+        "sha256": "93eb27fa1596cef0ef1c229bad7d4ba7742804ff98d6b03cce3ca7ee4444a48f"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CESC/cnv_signed.npy",
+            "sha256": "7c1147474295d4bf2f0d10703e2fd77cc8b7cab8dcb8d7ad92ad40fbb0b6164c"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CESC/cnv_signed__available.npy",
+            "sha256": "a69995b81a3abddce92142f296ae3903dc96f73922c178559d67c4426e1cc61c"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CESC/methylation_promoter_beta.npy",
+            "sha256": "52f5998500da786d17e104d77e33713e4af8932073f5bbc9b55b11ab1a8caabf"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CESC/methylation_promoter_beta__available.npy",
+            "sha256": "1974638eee6d00d252384b15c2cff4bdb940ec1e26b584f00e11d397a6f0676b"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "CHOL",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CHOL/patient_ids.json",
+        "sha256": "b33ce64775f0b413d22526c1ca4fbc8e7e8b4f24f2e7383edb741584f8db8eb7"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CHOL/cnv_signed.npy",
+            "sha256": "f5ebc88cc404b859d0786164117f5ccfc5454fa61a8b4bb8f335b7600ed57074"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CHOL/cnv_signed__available.npy",
+            "sha256": "25d7de6042f399c7ad24bfdbd777db2880759167f6c6d9856b0e3e3d0b344197"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CHOL/methylation_promoter_beta.npy",
+            "sha256": "924e22076269290b3592e151b1a5c99535a0cd53fa80fada7bb51c26e80c7705"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/CHOL/methylation_promoter_beta__available.npy",
+            "sha256": "5cea4e5fc55f1b45f7817a08b91b2b6d7d06922599a112bde6108830ab42da2d"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "COAD",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COAD/patient_ids.json",
+        "sha256": "312d262b1356250164e917b57c5f2ba7e303c8d68518cee3d10683f3ca6e1ba9"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COAD/cnv_signed.npy",
+            "sha256": "6debc74504cdab1df4a956c6d6d34af776f6c3d018c45b012b1820b4ea513590"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COAD/cnv_signed__available.npy",
+            "sha256": "826e4a65902013b82c50aeb754635d2a51b6e074816688daf487906df88af3b7"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COAD/methylation_promoter_beta.npy",
+            "sha256": "571194cb5ae76ef217d71545394423532fdb8647b2475471617339031e68e92f"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COAD/methylation_promoter_beta__available.npy",
+            "sha256": "98f9b3e50e0b48d596a33c2112f1b88554dafb01393efec57f7fc35672e0f75f"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "DLBC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/DLBC/patient_ids.json",
+        "sha256": "da6738523aad17eb307b1257acec2719df1140513c3342fdedf44c065cdb26e4"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/DLBC/cnv_signed.npy",
+            "sha256": "573fa743febf67d2603fc00739efb077fbf0a12c5cca65b9c4b80771d814009b"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/DLBC/cnv_signed__available.npy",
+            "sha256": "8a38ea640cf90a5521540c01e9878b11509b60c0685f2a0993870fbd14bdedb5"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/DLBC/methylation_promoter_beta.npy",
+            "sha256": "1a954da9e061a545ce57300d7e3c9313980c96e4919fd36e16898936969db68d"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/DLBC/methylation_promoter_beta__available.npy",
+            "sha256": "9544c4430d29bc82c4c9a1831b5e0b0318b3d696f77cdee06341b05665abfe40"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "ESCA",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ESCA/patient_ids.json",
+        "sha256": "5b810b5dca4b73fed3e75ae633aa1ce05b120b8700c2fd49107deea370dacfd2"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ESCA/cnv_signed.npy",
+            "sha256": "2b04175a2967b9656b875f55928e0039a7777cbc23d20409a9f53f4ae8a8d5c9"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ESCA/cnv_signed__available.npy",
+            "sha256": "2e5bbd8dd2a90a699d0e05928f48ffa062855f43c870b2a38fc1b059ff93377e"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ESCA/methylation_promoter_beta.npy",
+            "sha256": "37c5b4752a6919e1cc85414a204d09ae1cd2c71d8d3664acde0da178cec78f44"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/ESCA/methylation_promoter_beta__available.npy",
+            "sha256": "8427f5aca0b9b49db3035f5dffb52867562166894067c814690926cffdd77b86"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "GBM",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/GBM/patient_ids.json",
+        "sha256": "c25a5cfbde24a56735c437f301f8bfb1e8fdf0969f68fa6f5264fabca23223c6"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/GBM/cnv_signed.npy",
+            "sha256": "c740143d232e5c538f8181f4e6743d3d61f9b722094ed8934bf7d24a2e5aeb43"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/GBM/cnv_signed__available.npy",
+            "sha256": "e66d64ef383ec3569833f2532919b256c68835f82033b3497ab824383195b6b3"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/GBM/methylation_promoter_beta.npy",
+            "sha256": "fa559cbce851bddd6fdd3e2ff93a195d9ee4041d089c8f698cbf43af27bf7222"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/GBM/methylation_promoter_beta__available.npy",
+            "sha256": "117bef992e8f865958179f99b9c6a1a50699c0512bb60bf8ffcc0c877bfba8f5"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "HNSC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/HNSC/patient_ids.json",
+        "sha256": "ea0410f42db0384a905cb135fbc00c9703f8c73df1b798de417e0844c56914df"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/HNSC/cnv_signed.npy",
+            "sha256": "eecb127fa41da130ae087b4bd4f4d0be49ba8ce28a0b8eee657e4171849677ab"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/HNSC/cnv_signed__available.npy",
+            "sha256": "c781712dce9dc700f3820559c2bae2eae72db0d76a9c5e473899f4bda8ed1826"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/HNSC/methylation_promoter_beta.npy",
+            "sha256": "1bcdbe345de7b491d4fcda0970ee8acd62f2cea618dacc22099a4ef016f27ba9"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/HNSC/methylation_promoter_beta__available.npy",
+            "sha256": "f02e9e042932921eea955395c34fa5017e8b8cc170c7cfb56d15cfae68a95f76"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "KICH",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KICH/patient_ids.json",
+        "sha256": "b4f19b40c52991ff5cddd74db5a0deb189b0a1254abd775f24f72e90536472c3"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KICH/cnv_signed.npy",
+            "sha256": "661c8de1fd1c9c101b205222785eee3f322f141a102c8f5a0134b3a1b021d950"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KICH/cnv_signed__available.npy",
+            "sha256": "48364b9978cc0f2e9000f2e485afd1564cbc60d1f360cc3051ab78484f7eeb17"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KICH/methylation_promoter_beta.npy",
+            "sha256": "c8ac8165dd6a7c7355ce935e626bbcc3d5f10a782f9489d3de69c7722b01a66a"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KICH/methylation_promoter_beta__available.npy",
+            "sha256": "7f601c51ad32ab6e06f370b5bee4980a0d10e200fb6291bf1c12e6a3b97361bb"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "KIRC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRC/patient_ids.json",
+        "sha256": "3038339122ed3948b7b54b0ebdf0fc8aa19310706e12cbcada64a111eeba9b8a"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRC/cnv_signed.npy",
+            "sha256": "2732151bcc29438f260cdd274c247d122e3e27b462d4baabd82f77c90aa899e7"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRC/cnv_signed__available.npy",
+            "sha256": "da48375c29a79b375e9a5a1600ad15bb1d37e78fb990695afbb3ef9ef1514fda"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRC/methylation_promoter_beta.npy",
+            "sha256": "3c3979f060c92f0001454f2a9e9e8816c5f327c0769e43b1fcf712684835bd68"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRC/methylation_promoter_beta__available.npy",
+            "sha256": "c5f96a66b36b5a023400dbf50d2a59495eb7a954593b19a56831afee45709016"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "KIRP",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRP/patient_ids.json",
+        "sha256": "23f0a82c0af8ad95fa299e65785aa55b8b90ca83d774dfce2d18cacd81d58343"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRP/cnv_signed.npy",
+            "sha256": "b7b50de739346bfa20f2ce94d79fe3d76a717c1bc8ebdbe8bca1cc49ded08187"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRP/cnv_signed__available.npy",
+            "sha256": "b0d434f60ad5cf135d35695a12e89f0f11922f8db0209f74244f737bfc66bd73"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRP/methylation_promoter_beta.npy",
+            "sha256": "99a37e7c071c8cb1f410107208b5126fbe454b782b71c99a9a109bdd1648de8b"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/KIRP/methylation_promoter_beta__available.npy",
+            "sha256": "49ed9d768628419d11931801d2ec08ba2642ad421d2d46832de4084acf53e17b"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "LAML",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LAML/patient_ids.json",
+        "sha256": "5a8d4f714defee0b331412bd767b0e5807ca8c8e803af4e984dbb6d337299b5c"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LAML/cnv_signed.npy",
+            "sha256": "2d085d3760dc1ac4abcbfe048cdac0b4dc3d98dea55670bc99b434235722b952"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LAML/cnv_signed__available.npy",
+            "sha256": "250787627cd2b2eeca1c36c4bd70c6bed53aba9354eee13a4454b8545b97e4da"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LAML/methylation_promoter_beta.npy",
+            "sha256": "f77c290b320fc668361ed4e04a8b9c274a2f49277b36d2b0d20f5df0f65cb835"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LAML/methylation_promoter_beta__available.npy",
+            "sha256": "f0e4418ec40110e0747105f280e437158ca542c69804bfd863c1ff56182803cb"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "LGG",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LGG/patient_ids.json",
+        "sha256": "0601800bdd436732839db21fe823a4f8d2435dd67fe9a39c76457e6effc8fa48"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LGG/cnv_signed.npy",
+            "sha256": "398509b794b196092ee985f5402bb54300bba22111faa0ddf156a7de5b5cd2e4"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LGG/cnv_signed__available.npy",
+            "sha256": "fdd0ca516244f93be24e1a0cdd88cf305ca511ef82a563fb2ab346f442008bbf"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LGG/methylation_promoter_beta.npy",
+            "sha256": "edf50baf37d3e411f5f6799aa5061023bcb78ea73e3fc1e84d2cf86f3066b5a0"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LGG/methylation_promoter_beta__available.npy",
+            "sha256": "df566d249a77387f9e5ad2a8af952e8ea3995e934193e48006d0439cf7266888"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "LIHC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LIHC/patient_ids.json",
+        "sha256": "f838d84e5d14ff63e5047bffcdc84d96ab67c8cb1fc0bb0da506d7bfedaea4cc"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LIHC/cnv_signed.npy",
+            "sha256": "b3ca3e0f8950af10ce9316e41db8136395a907bfea8bfa0ca0f9f485ab924b34"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LIHC/cnv_signed__available.npy",
+            "sha256": "dfc9386312d6c0a767733a3119b1053d88ff82829cb31f3bf16a6ef1197528f1"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LIHC/methylation_promoter_beta.npy",
+            "sha256": "31c0537839401223aab17ccfdf3c0bf66c7c96a50fc6dedd38d5b8c374870f52"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LIHC/methylation_promoter_beta__available.npy",
+            "sha256": "8a1018c613881470f297d95336637dffa63f90b0f4ab013831a456d1aaf37c1e"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "LUAD",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUAD/patient_ids.json",
+        "sha256": "7666edd0a1ba1917a84602642982eb5ca591066bebc8a5eda6330231253beb5d"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUAD/cnv_signed.npy",
+            "sha256": "00dd8f2617b7160b9385fc868a5097ad9d995a404ca494c4ed6d4626bdc058f9"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUAD/cnv_signed__available.npy",
+            "sha256": "23be28f2da6faf8fcb0aea361be81f60743a2633f3833a443d13cf43ffba84c8"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUAD/methylation_promoter_beta.npy",
+            "sha256": "7957086ddf77418440311c9d34837ddb6583d543f8d7937fdd451804729f64b6"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUAD/methylation_promoter_beta__available.npy",
+            "sha256": "ffd3f6bffbdc7a143451ed105c06ff98f045b7356f30f42af9fad92d769e6317"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "LUSC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUSC/patient_ids.json",
+        "sha256": "ed3071e9fdc3c288f6b86d6fc91e4446800c471b57f4370958ded2052224610e"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUSC/cnv_signed.npy",
+            "sha256": "93353bc889ce245f160fe9a432baf8f87a5352d39afa69c52b7b18521cc464be"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUSC/cnv_signed__available.npy",
+            "sha256": "a65ddd361c2d7d94a7671479900dc63910801848f980e741a30bb0012d4d39db"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUSC/methylation_promoter_beta.npy",
+            "sha256": "6cb4a264a19fddbee9d0faaf88bfaf55fbceed1aa4e126ae74b3eeac21a115a5"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/LUSC/methylation_promoter_beta__available.npy",
+            "sha256": "9438119d10e263fe0789654509611397316a552e6ad4cf340f34a5afd9e65f3e"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "MESO",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/MESO/patient_ids.json",
+        "sha256": "3ee8ee798548dae671cf2797ee3fb7cab48e31226d7c944391a242194538a921"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/MESO/cnv_signed.npy",
+            "sha256": "f26ba0918eb929ab0235fe56400caf79916674f00bcc295ec80696dfbfe47e7f"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/MESO/cnv_signed__available.npy",
+            "sha256": "30d2608fbd8925c6d56b22c8f5f2b0df4b816da51099dc69fdc91a7697d4ad28"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/MESO/methylation_promoter_beta.npy",
+            "sha256": "7d82e221315a371210e0c36473fe0ef301e6110d1dd668fffaec0ce8d30c7a8c"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/MESO/methylation_promoter_beta__available.npy",
+            "sha256": "f5da66ed7ca7c6e759878163defd9600c1225ff724c86a01c46a5d28cc29f9b9"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "OV",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/OV/patient_ids.json",
+        "sha256": "0711732c9d6168959fb71e018dc2627b4ae64996c96b4727499f74c19193da07"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/OV/cnv_signed.npy",
+            "sha256": "0bf63518a1f0742be4d4c385a4dceb9dedad0f2a6be2b4edeb5adf3f42c8e709"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/OV/cnv_signed__available.npy",
+            "sha256": "eb45207592d391b1f661f44034cd0046ae83b3c7c97e43b1af66be4c7986df92"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/OV/methylation_promoter_beta.npy",
+            "sha256": "811b5ea950bab07e1b7f7a45ca77d7cc22658d63021bceae047cbdebe31863e7"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/OV/methylation_promoter_beta__available.npy",
+            "sha256": "7d206dce8da64055a15b59f48dcb7686728aef69d02bf2f784bfd9487b1d2320"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "PAAD",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PAAD/patient_ids.json",
+        "sha256": "e0b21295e5bb6aa2bbb4b9d1d7931f0e8d14ace245be186560a337813aa9b561"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PAAD/cnv_signed.npy",
+            "sha256": "b89caafa15859f5e962ed669d96e400fc2f7280bb67e45215ee2bb3f14d053cc"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PAAD/cnv_signed__available.npy",
+            "sha256": "f95f95818028f6457c43b1f051c161c0fc0830f380049820dbf3a145aee8e1c4"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PAAD/methylation_promoter_beta.npy",
+            "sha256": "2c2f4192578cc997ed5814581058abf38e93d7f73a65ba487e36f3f5c363b6c4"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PAAD/methylation_promoter_beta__available.npy",
+            "sha256": "b16b6805c7ae5bf32d84001d57416d9cee8f84acc61172c68cae0683b55f6e78"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "PCPG",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PCPG/patient_ids.json",
+        "sha256": "cf0b9b4b9322707bfbc013a3564003e5239aa003091cdff68d0ef486d7b61c84"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PCPG/cnv_signed.npy",
+            "sha256": "b4e6f861976dc632ec7df8b6a469d2a9ce0b5d29001d5af4e9dabe2d4d7f7e9f"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PCPG/cnv_signed__available.npy",
+            "sha256": "2e303d83a81fc2a7f51d7c0e77c0385b4847bb8aa72a9404ea5ad2e6736c9829"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PCPG/methylation_promoter_beta.npy",
+            "sha256": "64625de6d340c7a538518059ec7d8e0dfdfb5c9e379d79253fc23fef7da4b319"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PCPG/methylation_promoter_beta__available.npy",
+            "sha256": "94fc9547f90b25424e85e174b396b618b4908c7db2d1c55d7e3ed2a1a01859b1"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "PRAD",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PRAD/patient_ids.json",
+        "sha256": "ed76c642c74e25134374ba59006a2a235087b556eee81267aaa7781b733e1db7"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PRAD/cnv_signed.npy",
+            "sha256": "d193d3086dfb5a170d4f9ecb5eb60afe7ec2eafdf1a3c11ae4d2952f1d8b515d"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PRAD/cnv_signed__available.npy",
+            "sha256": "295936b071470e607279a8da63c5497236f646ace89c669a6381e0772bf8ba15"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PRAD/methylation_promoter_beta.npy",
+            "sha256": "3e0396820fb89bd6b11ae9191300dcd1f1622f571c9c6d4d0ba1bf7ec44a9bee"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/PRAD/methylation_promoter_beta__available.npy",
+            "sha256": "0a07bb0211c21afb40534577cbf7604002366faacacc604bf30c0ac3810d2a43"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "READ",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/READ/patient_ids.json",
+        "sha256": "0df9f6f03b969f5a0c078760631c5305ee6afa978d0da9a8f5c6f58beaede92a"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/READ/cnv_signed.npy",
+            "sha256": "ab7d82afdfb8e9be562787b44d0ec5fab4fe71b77bdf93211685052ca98ed26e"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/READ/cnv_signed__available.npy",
+            "sha256": "a1b2ba194517edbfe74cb519998571e51d62e32be7bca120600b6aaa449e1f72"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/READ/methylation_promoter_beta.npy",
+            "sha256": "b9bc44d2e1a8c4ea076eed4e1d55f0987d11e5339f6c509e13d8af79867dd744"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/READ/methylation_promoter_beta__available.npy",
+            "sha256": "c5d3149247a2788839344279fc1c71bffb2cfb566ecb7035ab41ef565933a4ae"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "SARC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SARC/patient_ids.json",
+        "sha256": "acf97946ce23a04558364e944ca598c96a7f198afa3a622ef07d7ac302746e56"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SARC/cnv_signed.npy",
+            "sha256": "2d4b9c52602625f2fe51902baa1a05006504aec378b837c2aa47a5dd72f4a83b"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SARC/cnv_signed__available.npy",
+            "sha256": "2f9765f7b79bbd93a1ef9daf2f90ed3c0ae567b663fd0582f4b9bd96fac30a82"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SARC/methylation_promoter_beta.npy",
+            "sha256": "1ba581fcf1e65c82c21272ae2de983301bc8f80c6db601b20e3c0e9508968e4b"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SARC/methylation_promoter_beta__available.npy",
+            "sha256": "fb15e60e6a5d8c168e64eb8c99a2c66748c358c2b14cd2a5057bf153fa2d3b29"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "SKCM",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SKCM/patient_ids.json",
+        "sha256": "f0115729522197ec3d04e1cee475b9132365d43d7b2908f89a50daf532cede76"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SKCM/cnv_signed.npy",
+            "sha256": "5c2710b30d9e1f6dd76b26e2891fb6e94afbf160031baba5fc6dd2c5da3afb81"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SKCM/cnv_signed__available.npy",
+            "sha256": "2634d9455b583ff173867bcf22cf128e2874b09266c1522847eca3fec8e253e5"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SKCM/methylation_promoter_beta.npy",
+            "sha256": "dcbc8135050c773d76c1068a918375b5aac504e4db08da84b67ca88cbedfd184"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/SKCM/methylation_promoter_beta__available.npy",
+            "sha256": "4785dccc0735ac5d1f60070ace506343592f5758e0f22c2883dc9bd992b9af8b"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "STAD",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/STAD/patient_ids.json",
+        "sha256": "c571786c6bdc93fdefd435176b58c0c11d64f3dbdcadb5b9aa6fff9f115ae0fb"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/STAD/cnv_signed.npy",
+            "sha256": "e17d1b31f554eb1e8b765a9abcbc61224e53e62c0cced493a9b8e9f147ee6ffe"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/STAD/cnv_signed__available.npy",
+            "sha256": "e747300db8bf9e6522d95f7a175296a1ec82b581962898220f8bbc2f8ba9b3ce"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/STAD/methylation_promoter_beta.npy",
+            "sha256": "78e7f977dd72cc7db8ac832d76a458073895885b8c955f1b248f85cdf5fe1645"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/STAD/methylation_promoter_beta__available.npy",
+            "sha256": "afd982b972a5a4706b31b94e66591248ca528c4168553cdb761132580f45c821"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "TGCT",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/TGCT/patient_ids.json",
+        "sha256": "fa3320f30074c81f03fde2ccf27259c77d8192ea3dd856607428028628af7f60"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/TGCT/cnv_signed.npy",
+            "sha256": "6008b8d09022474f061292568289e818843b981b16ce813863b929de378bb272"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/TGCT/cnv_signed__available.npy",
+            "sha256": "f6352fc60ad4e20db15338ff8de423a50c9897c3bfdbc8109070049b54f7688c"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/TGCT/methylation_promoter_beta.npy",
+            "sha256": "306b7f5e1c7b51e7a00a9dad13b1fe317f0305483147f12dfa2c59f78ca3f388"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/TGCT/methylation_promoter_beta__available.npy",
+            "sha256": "cc7c54ddf3bc8a66b2171906985ba7a7f7eef0000f61ceefced782f5cba9efb9"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "THCA",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THCA/patient_ids.json",
+        "sha256": "80b1cb8690c8dc4df65f97c6aa98e99a7754dcabd0991870c5806a61f5865ab8"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THCA/cnv_signed.npy",
+            "sha256": "4260c8c0f4bfafff5f3d677b61fade57d59b5326f8545617fc80df1e711b2432"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THCA/cnv_signed__available.npy",
+            "sha256": "8ba00a2b0ce7a28d5be031e2fafb226e419d1b355b650b277adf75ab1027b099"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THCA/methylation_promoter_beta.npy",
+            "sha256": "39d7a32e82aec566a547a846f37d847b66657f0234160698cb2d9b3499849392"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THCA/methylation_promoter_beta__available.npy",
+            "sha256": "c87c334fdbe7eec0b22ba1221c56f3dc3a8663074042cc2c19fff7b0d57bad65"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "THYM",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THYM/patient_ids.json",
+        "sha256": "68a498ff422ed0b6d156d67ef834463b2b3e6be505a89058ff74c346f3e8be2f"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THYM/cnv_signed.npy",
+            "sha256": "757d05f84e88dd0aea319144550bedbc7e80e4b9ee2ae2ec9a3c6e14f321e07d"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THYM/cnv_signed__available.npy",
+            "sha256": "be257853ef5c2ba0946d8d1084a75466b35c54b1d83baefd46a5afaba8a84836"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THYM/methylation_promoter_beta.npy",
+            "sha256": "cd23cc6c12302e6bc15b8db305b58f84de4ecd27cc99fafed577042bfb1d8b8e"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/THYM/methylation_promoter_beta__available.npy",
+            "sha256": "f1959d2614022dd3f1e7b35178dea710782888c477823bd5b504975ddb1643bc"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "UCEC",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCEC/patient_ids.json",
+        "sha256": "563219b1d41b1bba1782062b0403b658460be4a50797ddf69fdb8963862e1613"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCEC/cnv_signed.npy",
+            "sha256": "b1c5ecfd1d82f5449224a2fbc332448909bcc596fb7386d9489b28d825df3a91"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCEC/cnv_signed__available.npy",
+            "sha256": "2f98f0651e24202905ee0c487c5e0d20fc5952ff7384a4059f6587880ada0bb2"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCEC/methylation_promoter_beta.npy",
+            "sha256": "d622d097fe0712542e99754135daa0c80ad31b9fa5bf8b291b320855f8907a0f"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCEC/methylation_promoter_beta__available.npy",
+            "sha256": "4111f4c9467708363f42dabdf4bf7f96baed04acc4633bf361ecc972031178c1"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "UCS",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCS/patient_ids.json",
+        "sha256": "218761b95f08e8ef3ff01d6f49e704d46b552ed9998e8aa9fb1039da9d5ef15a"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCS/cnv_signed.npy",
+            "sha256": "7b493609bee2a95aa2cb9e922575dfde5940af3a1c9cddc0ac28fa44f1af3ce0"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCS/cnv_signed__available.npy",
+            "sha256": "069d53a98dbad46eb2b0ff60063833f8c4e200058bd71b7bfd47476ee804ba98"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCS/methylation_promoter_beta.npy",
+            "sha256": "f409967688cbad557143b88a10b1a399e908a92ef1a96887050e25bf3bf87654"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UCS/methylation_promoter_beta__available.npy",
+            "sha256": "a1157b4709a6fbcee4aa6b2ab21edc987f49af5b1618a754e504c9bc2f9a92d9"
+          }
+        }
+      }
+    },
+    {
+      "cancer_id": "UVM",
+      "patients": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UVM/patient_ids.json",
+        "sha256": "c469c5253fd114f76d226368ae5ce9596e5a1d2160f9f2c2794151fffa69685f"
+      },
+      "channels": {
+        "cnv_signed": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UVM/cnv_signed.npy",
+            "sha256": "390f12d289917a50cb277d68350e5368451c5d43ac9c5f31f195a578fd7e705f"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UVM/cnv_signed__available.npy",
+            "sha256": "7919efde8fe0276f0becc228454b9e06c0c40ce2be0a0daa61c9f8ccd9c5e284"
+          }
+        },
+        "methylation_promoter_beta": {
+          "values": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UVM/methylation_promoter_beta.npy",
+            "sha256": "7abb1758ae8a4f4a9801ddacc01bafb1476f497d66418451ec0348f81066da7e"
+          },
+          "available": {
+            "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/UVM/methylation_promoter_beta__available.npy",
+            "sha256": "55fc7c6f4b6f09afa5d116e032ddf79dde011a2e6b115d5611e79027fad70db7"
+          }
+        }
+      }
+    }
+  ],
+  "implementation": {
+    "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/cc_hhgt/v32/gene_patient_omics.py": {
+      "path": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/cc_hhgt/v32/gene_patient_omics.py",
+      "sha256": "6ad1e3705029b267e8ede8e3d32f44124cdf985418d9de3120b74b06ecd874bc"
+    },
+    "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/cc_hhgt/v32/directional_cnv.py": {
+      "path": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/cc_hhgt/v32/directional_cnv.py",
+      "sha256": "748f5db244e189f5a81ffa722ba075a1ddea19e9e30e5c165abd149e8d747402"
+    },
+    "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/scripts/derive_gencode_promoters.py": {
+      "path": "/dsk2/user/dengsc/CancerLncAtlas_code_completion_20261015/scripts/derive_gencode_promoters.py",
+      "sha256": "b234faafdafa9ae21b48daf563395e6cdb245fb7e1def69275a0787aa1436051"
+    }
+  }
+}

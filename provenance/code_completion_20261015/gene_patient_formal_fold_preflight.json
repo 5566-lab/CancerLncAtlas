@@ -1,0 +1,41 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "paid_compute_started": false,
+  "operation": "RESUME_REMAINING_FORMAL_VALIDATIONS",
+  "source_pending_manifest": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/INPUT_MANIFEST.pending.json",
+    "sha256": "009c4a5ab86e5c41e26e89ef2cdfdd19d3e7bda0c4dfa9663c6801301249387a"
+  },
+  "reuse_validated_folds": [
+    0,
+    1
+  ],
+  "prior_validation_receipts": [
+    {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/FOLD_0_PREPARED_VALIDATION.json",
+      "sha256": "a939c68721c99697018637ad2dfe0d3a7bbd23c62f7278551eb3a3fac6ecac54"
+    },
+    {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/FOLD_1_PREPARED_VALIDATION.json",
+      "sha256": "f92866092165363cbc69c338c496e310ca3cbd399d1efb37803e9c32bcca89d6"
+    }
+  ],
+  "fresh_validation_folds": [
+    2,
+    3,
+    4
+  ],
+  "max_workers": 2,
+  "timeout_seconds": 7200,
+  "memory_available_bytes": 416646692864,
+  "recovery_script": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/resume_formal_attachment_r3.py",
+    "sha256": "c5bdd93ec9c89392d09d5460b976a1f7f33eec03026de4afe1aa47bc4caa7bf1"
+  },
+  "gene_product": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COMPLETE.json",
+    "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
+  },
+  "interruption": "Prior 10800-second controller expired while starting fold 2 after folds 0 and 1 passed."
+}

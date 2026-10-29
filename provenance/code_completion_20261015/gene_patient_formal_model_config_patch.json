@@ -1,0 +1,8 @@
+{
+  "task_contract": {
+    "node_omics_channels": [
+      "cnv_signed",
+      "methylation_promoter_beta"
+    ]
+  }
+}

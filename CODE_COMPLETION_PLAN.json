@@ -128,7 +128,8 @@
     {
       "id": "C17",
       "status": "code_implemented_fixture_verified",
-      "implementation": " Added cc_hhgt/v32/omics_node_encoding.py and extended cc_hhgt/gnn.py so measured mutation, signed copy number and promoter accessibility are encoder inputs rather than post-hoc decoder experts. An evidence table plus a SHA256-pinned manifest declares cohort or subject scope, the frozen per-channel standardisation and the clipped value range; the loader rejects unknown channels, stale node identifiers, duplicate node/channel pairs, non-finite values, undeclared rows, table-hash drift and row-count drift. The resulting block appends one value and one observed flag per channel after the two degree columns, the materialiser records GraphBundle.node_input_dim and keeps the block so runtime chunks rebuild identical inputs, and both the heterogeneous HGT and homogeneous RGCN first layers are built at that width. A node type without a measurement keeps zero values with zero observed flags and the graph layer refuses a missing node-type block entirely, so a modality gap can never masquerade as a measured zero. attach_node_omics reads every written tensor back and refuses double attachment or a model built before augmentation. Fixture checks on host 149 show the value propagates from a gene node to a connected lncRNA embedding while isolated and out-of-neighbourhood nodes stay bit-identical, and that bundles without a block keep the exact two-column contract every trained checkpoint was built against. The encoder-input change was also regression-checked on host 149 against the graph-contract, fold-local, model-use, full model contract and core-export/current-model/current-core suites; all four groups pass, and the single stale suite that hand-built a homogeneous graph without the production topology channel was repaired to match the real bundle contract. Added host149 measured node-input preparation for signed CNV and promoter methylation beta with explicit sample/patient/partition and feature/node mapping authorities, private contribution rows, identity scaling, equal-patient aggregation, tumor/train eligibility and complete value/observed masks. The actual formal training and current-core export loaders replay the sources and bind the new inputs to checkpoint authority. Native prepared validation, expanded encoder construction and frozen residual forwards now consume these inputs. Native methylation completion bindings and directional CNV SUCCESS/matrix products also have direct readers; already aggregated patient measurements are not duplicated per aliquot. The registered all-chunk exporter writes finite lncRNA vectors from these native inputs. Independent perturbations of both channels alter final gene/lncRNA vectors under fixed parameters and restore exactly when the inputs are restored. The historical three-channel default and degree-only checkpoint layouts remain unchanged. Added an actual protein-coding gene assay producer: GDC identities and original MD5s, GENCODE GRCh38 coding-gene midpoints for signed CNV, distinct promoter CpGs with strand-aware transcript windows for beta, and explicit patient matrices. Shared segment endpoints become missing instead of arbitrary signed calls. A bounded-memory verified_gene_patient reader reaches node inputs; the five-fold attachment CLI invokes the production loader and formal prepared validation. Real execution completion is tracked separately from the synthetic tests."
+      "implementation": " Added cc_hhgt/v32/omics_node_encoding.py and extended cc_hhgt/gnn.py so measured mutation, signed copy number and promoter accessibility are encoder inputs rather than post-hoc decoder experts. An evidence table plus a SHA256-pinned manifest declares cohort or subject scope, the frozen per-channel standardisation and the clipped value range; the loader rejects unknown channels, stale node identifiers, duplicate node/channel pairs, non-finite values, undeclared rows, table-hash drift and row-count drift. The resulting block appends one value and one observed flag per channel after the two degree columns, the materialiser records GraphBundle.node_input_dim and keeps the block so runtime chunks rebuild identical inputs, and both the heterogeneous HGT and homogeneous RGCN first layers are built at that width. A node type without a measurement keeps zero values with zero observed flags and the graph layer refuses a missing node-type block entirely, so a modality gap can never masquerade as a measured zero. attach_node_omics reads every written tensor back and refuses double attachment or a model built before augmentation. Fixture checks on host 149 show the value propagates from a gene node to a connected lncRNA embedding while isolated and out-of-neighbourhood nodes stay bit-identical, and that bundles without a block keep the exact two-column contract every trained checkpoint was built against. The encoder-input change was also regression-checked on host 149 against the graph-contract, fold-local, model-use, full model contract and core-export/current-model/current-core suites; all four groups pass, and the single stale suite that hand-built a homogeneous graph without the production topology channel was repaired to match the real bundle contract. Added host149 measured node-input preparation for signed CNV and promoter methylation beta with explicit sample/patient/partition and feature/node mapping authorities, private contribution rows, identity scaling, equal-patient aggregation, tumor/train eligibility and complete value/observed masks. The actual formal training and current-core export loaders replay the sources and bind the new inputs to checkpoint authority. Native prepared validation, expanded encoder construction and frozen residual forwards now consume these inputs. Native methylation completion bindings and directional CNV SUCCESS/matrix products also have direct readers; already aggregated patient measurements are not duplicated per aliquot. The registered all-chunk exporter writes finite lncRNA vectors from these native inputs. Independent perturbations of both channels alter final gene/lncRNA vectors under fixed parameters and restore exactly when the inputs are restored. The historical three-channel default and degree-only checkpoint layouts remain unchanged. Added an actual protein-coding gene assay producer: GDC identities and original MD5s, GENCODE GRCh38 coding-gene midpoints for signed CNV, distinct promoter CpGs with strand-aware transcript windows for beta, and explicit patient matrices. Shared segment endpoints become missing instead of arbitrary signed calls. A bounded-memory verified_gene_patient reader reaches node inputs; the five-fold attachment CLI invokes the production loader and formal prepared validation. Real execution completion is tracked separately from the synthetic tests. Actual 33-cancer gene matrices and all five formal prepared folds now passed on 149. The 18,600 selected GDC files were size/MD5-checked during parsing; all 132 output arrays/masks were independently rehashed and numerically checked. Observed coverage is 10,364 CNV patients/18,586 genes and 8,200 methylation patients/17,907 genes. All five actual prepared validators accept six-column node inputs. Fold 0/1 completed before the controller timeout; recovery retained their pinned receipts and validated folds 2/3/4 without rebuilding matrices. No model fitting, new trained embeddings or requirement promotion occurred.",
+      "real_data_execution": "GENE_CNV_AND_PROMOTER_METHYLATION_PREPARED_VERIFIED_NO_TRAINING"
     },
     {
       "id": "C18",
@@ -179,7 +180,8 @@
       "verification": "Actual edgeR and GSVA on synthetic inputs; independent training/count-CPM/ssGSEA oracles, held-out and query-batch invariance, native statistics and frozen downstream core/external consumers. No optimizer. Actual synthetic GDC STAR assembly/replay uses SummarizedExperiment and reaches native TMM/ssGSEA and frozen core/external consumers. No live assay download. The preceding native ATAC check also executed the actual R promoter materializer against synthetic 562709-peak/full-23-cancer inputs; this is not biological cohort execution. Actual R distal ATAC aggregation and reconstruction uses a synthetic 562709-peak/full-23-cancer normalized matrix, with technical/aliquot weighting, declared raw gaps and real distal/public consumers. No biological cohort or sequencing normalization was executed.",
       "real_cohort_execution": false,
       "other_R_scripts": "Their previously recorded parse-only scope is unchanged."
-    }
+    },
+    "scope": "Synthetic scientific test ledger only; actual cohort preparation is recorded separately in real_gene_preparation_acceptance_20261029 and gene_patient_live_status.json."
   },
   "scope_extension_20261029": {
     "user_instruction": "接入经过核实的 gene × patient CNV、基因启动子甲基化数据",
@@ -193,7 +195,35 @@
     "receipt": "provenance/code_completion_20261015/gene_run_receipt_static_checks.json",
     "scope": "JSON receipts only; separate from the host149 scientific test ledger",
     "passed": 21,
-    "actual_host149_completion_inspection": "PENDING_IOA_CONNECTION",
+    "actual_host149_completion_inspection": "RECORDED_PASS",
     "requirements_promoted": []
+  },
+  "real_gene_preparation_acceptance_20261029": {
+    "target_host": "149",
+    "matrix_product": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COMPLETE.json",
+      "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
+    },
+    "formal_prepared_product": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/COMPLETE.json",
+      "sha256": "b940fb275ab010c0ae4264d1f42cad0cd554516b76a80f5e0d3b2b0e7a97179e"
+    },
+    "coverage_audit": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/GENE_MATRIX_COVERAGE_AUDIT.json",
+      "sha256": "c3a91738df7dc9926e4663cb8ba2cefc113ecbabe67e6611406b8b430532ffbd"
+    },
+    "status": "PASS",
+    "training_started": false,
+    "learned_embeddings_generated": false,
+    "source_files_verified": 18600,
+    "matrix_patients": 10432,
+    "matrix_genes": 19149,
+    "observed_patients_cnv": 10364,
+    "observed_patients_promoter_beta": 8200,
+    "observed_genes_cnv": 18586,
+    "observed_genes_promoter_beta": 17907,
+    "formal_folds_passed": 5,
+    "node_input_dim": 6,
+    "scope": "Pooled training-patient gene inputs; not new trained embeddings, prediction benefit or complete project-source ancestry."
   }
 }

@@ -1,0 +1,1419 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "training_started": false,
+  "input_manifest": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/INPUT_MANIFEST.json",
+    "sha256": "009c4a5ab86e5c41e26e89ef2cdfdd19d3e7bda0c4dfa9663c6801301249387a"
+  },
+  "model_config_patch": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/MODEL_CONFIG_PATCH.json",
+    "sha256": "7f02a6a6ce9fc50a405da210d9df4759b013c19b9da5dfa288eac8ae28f37c90"
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "input_authority_hashes": {
+        "all_embeddings_from_newly_trained_v32_core": true,
+        "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+        "export_format": "CC_HHGT_V3_2_FROZEN_CORE_EMBEDDINGS_V1",
+        "folds": {
+          "0": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 72,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_0__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "0b6a4cbdd3dacb921bf876dd4b101f14d1f47e1ad7269b82ff032fedd588b987",
+            "core_parameter_sha256": "260b898a2c71b18c1d79fc76d4d339568b308278363853e8b8b610fd638b3ae6",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/cancer.parquet",
+                "rows": 33,
+                "sha256": "4ed7cbd071ab2e606d7e16c930458bbd8d7a006f1ff126f160b7a4bcf601b695"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/gene.parquet",
+                "rows": 20204,
+                "sha256": "5b12b07f7e066e70a18567f05c694974d2e5fef2eb793ddc206d659f2eaa77af"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "51f38bca93b29b44712479ec06944443681d1bb77bc9d956b9e7c974065466fa"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway.parquet",
+                "rows": 2135,
+                "sha256": "9ebc7f6462f682a6c3c4fe24adf55f9f841bcd756a6214204e21b60ce1b3783d"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "ff16e151dd872032db0b15dd8db8de7acbac33cb12908860017a99b917eea1ad"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 0,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_0.pt",
+            "prepared_sha256": "c5b09ce47d364c8ac28c5bb93bd23a399d3a2cba1ebb2fa8fd19a72745df68e5",
+            "trained_from_scratch": true
+          },
+          "1": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 53,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_1__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "581c90f0ac5f1187cc0acdc6f61e7cfc08469597f8cd2ac967b2848b21f7ffac",
+            "core_parameter_sha256": "3d2a4afd2a3b09953edf21b539721aab9beeb679a4908e4aacff0c90a199c497",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/cancer.parquet",
+                "rows": 33,
+                "sha256": "be4d5375a64c48d7dba39e3eaaf9fc3a7cdcc3b811a0e75eb1cff1e58c3e9922"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/gene.parquet",
+                "rows": 20204,
+                "sha256": "b4776eda0eace0313d908236831d871e9e7117850061914b03e0f2a9e302750b"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "29ea42861963d613ffa5be994f2f2b7181133d63fedb65ed72565f6307f94b35"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway.parquet",
+                "rows": 2135,
+                "sha256": "7ace611797d316e5bf14c35dcd96647fa8ed58a7e79e77c49c05ee35c63408b9"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c873217add98646a79737f8898933f8a5e7639b70dfd254f1183f7c512b59bfb"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 1,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_1.pt",
+            "prepared_sha256": "334cf6ed39581e0e33cb1b925eb2a1ea66d5b915596c1a28e936a3050e6cf23e",
+            "trained_from_scratch": true
+          },
+          "2": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 70,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_2__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "8a8bd986050b345d3bf86de87865e0ba299e231e2bdb1ca3e6243f81f2927ca8",
+            "core_parameter_sha256": "ab2df16cb2fce36006950ca1850ce5c50d9e903788e95003f4857565cc3502c5",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/cancer.parquet",
+                "rows": 33,
+                "sha256": "d8c9055d87c0db57858822f87798cb16a1b9fb0c7bca9cb688c19a79da45c404"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/gene.parquet",
+                "rows": 20204,
+                "sha256": "a60449a270cccc8aeb80d94b90c19d6ee9767ef0d0339b4f48ffc580474d552a"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "3761777dcaa584a928a3e013e1dc3f5a2decbca3f6aa0a62a718bc7309e9b244"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway.parquet",
+                "rows": 2135,
+                "sha256": "c3a8df3a4fbd287a27dadbba81dd35d78ca09ff2af51d2b96390c2c83eb8009c"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c6f6ed42fcc58991242138acb9a5dddfc6fa52ffaf9a1bf13389e6cf081cb93e"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 2,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_2.pt",
+            "prepared_sha256": "21994279e7eee387d5638bbabc5cc2c443b12f0935b9494300479a488c07249e",
+            "trained_from_scratch": true
+          },
+          "3": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 96,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_3__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "dfe7cee28e7d55e3650a4213d907f8d0ce4a2e022d891645b26957774cefde4a",
+            "core_parameter_sha256": "1ca062bdb9655f7f334afff6386d02e9a6df742056f45f7794761d68b728c34f",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/cancer.parquet",
+                "rows": 33,
+                "sha256": "a752c2bda10e1b60deac4f4fbe6bb0adc32d1a49f5e2913d30f9556c5d02006a"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/gene.parquet",
+                "rows": 20204,
+                "sha256": "1077168e546709fcbeebd005223af54cfd90f18a4490ee686009f2c00f52a483"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "62c307d5abad9b0b83f9ae92e2bd0e14a86bc72a0c133702e28517bc2eebfc51"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway.parquet",
+                "rows": 2135,
+                "sha256": "bc747203af48701d08fddece96c6d9de1d1db3f06b3768630bc187670fcddb2e"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "091c17e8ed9db38820a6559788098f5ed0abb18e792174fee35eebdf957b86e2"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 3,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_3.pt",
+            "prepared_sha256": "404f063d0af405056d3bdf164abceaa3976dd0009676aa8c65ffe91abb0115bc",
+            "trained_from_scratch": true
+          },
+          "4": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 63,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_4__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "795440e34bad21df343c2e922556f2ae4259c122b3b8a572f6acc5dd1347a2d0",
+            "core_parameter_sha256": "6e8535d1b548e998e119fc68f109d2024f97d288151e24d109d709a05fa34028",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/cancer.parquet",
+                "rows": 33,
+                "sha256": "0354617ad2fb18e37b21ce18b57267d76204bbfec361403a1bde81c3707dff00"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/gene.parquet",
+                "rows": 20204,
+                "sha256": "c20ee4b52733f28755bd75f747934818a58cfce525d1b80dfe3585ea8d3222bf"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "d7398db4283b2046e117a3b9a0a91ac369a6e12725881448e1dcc13063e0c662"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway.parquet",
+                "rows": 2135,
+                "sha256": "d3ef6fe88f593d91b90a688b054b4984de7fb378a6c7a1a6c7bd240fbfcc9f0b"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c02e43f256b402a4fe895699d6f3c52872b34fc550adfab1a3579c700f8bcac7"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 4,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_4.pt",
+            "prepared_sha256": "760d11200b54dd0098ae4918c6ee2f12e0734772601515a8f3f8d78070cba4f5",
+            "trained_from_scratch": true
+          }
+        },
+        "historical_checkpoint_loaded": false,
+        "historical_prediction_loaded": false,
+        "module_id": "exact_pathway",
+        "training_generation": "V3.2",
+        "formal_graph_authority_receipt_sha256": "662bda5c2f1f5f62e3856bbaf09584366a08f3eda19c34c79c302631e06e8244",
+        "formal_candidate_authority_sha256": "cced638f3d17ab9b1b0ff521169ac27dea3de1fc042adb7edefe6100a2ca071f",
+        "local_cnv_audit_success_sha256": "82de6bab7e2b479189dd0c1701ff09b475327b8d1dbb83c6d413caeb14937c7b",
+        "local_cnv_validation_success_sha256": "165cace8ee8e323258f9cf3f141499f8c8149cadafd1ea69cf76d04ad4537903",
+        "node_omics_manifest_sha256": "d320285c8cbe5a5efc057e72c3c8411c60e5ef82728e524160b7225c98d94dd3",
+        "node_omics_table_sha256": "5e816514652fc2a41616fe4b80aa3f7d03215bf7526dbc5e59962f263a27e4f2"
+      },
+      "training_started": false
+    },
+    {
+      "fold": 1,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "input_authority_hashes": {
+        "all_embeddings_from_newly_trained_v32_core": true,
+        "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+        "export_format": "CC_HHGT_V3_2_FROZEN_CORE_EMBEDDINGS_V1",
+        "folds": {
+          "0": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 72,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_0__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "0b6a4cbdd3dacb921bf876dd4b101f14d1f47e1ad7269b82ff032fedd588b987",
+            "core_parameter_sha256": "260b898a2c71b18c1d79fc76d4d339568b308278363853e8b8b610fd638b3ae6",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/cancer.parquet",
+                "rows": 33,
+                "sha256": "4ed7cbd071ab2e606d7e16c930458bbd8d7a006f1ff126f160b7a4bcf601b695"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/gene.parquet",
+                "rows": 20204,
+                "sha256": "5b12b07f7e066e70a18567f05c694974d2e5fef2eb793ddc206d659f2eaa77af"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "51f38bca93b29b44712479ec06944443681d1bb77bc9d956b9e7c974065466fa"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway.parquet",
+                "rows": 2135,
+                "sha256": "9ebc7f6462f682a6c3c4fe24adf55f9f841bcd756a6214204e21b60ce1b3783d"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "ff16e151dd872032db0b15dd8db8de7acbac33cb12908860017a99b917eea1ad"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 0,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_0.pt",
+            "prepared_sha256": "c5b09ce47d364c8ac28c5bb93bd23a399d3a2cba1ebb2fa8fd19a72745df68e5",
+            "trained_from_scratch": true
+          },
+          "1": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 53,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_1__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "581c90f0ac5f1187cc0acdc6f61e7cfc08469597f8cd2ac967b2848b21f7ffac",
+            "core_parameter_sha256": "3d2a4afd2a3b09953edf21b539721aab9beeb679a4908e4aacff0c90a199c497",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/cancer.parquet",
+                "rows": 33,
+                "sha256": "be4d5375a64c48d7dba39e3eaaf9fc3a7cdcc3b811a0e75eb1cff1e58c3e9922"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/gene.parquet",
+                "rows": 20204,
+                "sha256": "b4776eda0eace0313d908236831d871e9e7117850061914b03e0f2a9e302750b"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "29ea42861963d613ffa5be994f2f2b7181133d63fedb65ed72565f6307f94b35"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway.parquet",
+                "rows": 2135,
+                "sha256": "7ace611797d316e5bf14c35dcd96647fa8ed58a7e79e77c49c05ee35c63408b9"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c873217add98646a79737f8898933f8a5e7639b70dfd254f1183f7c512b59bfb"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 1,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_1.pt",
+            "prepared_sha256": "334cf6ed39581e0e33cb1b925eb2a1ea66d5b915596c1a28e936a3050e6cf23e",
+            "trained_from_scratch": true
+          },
+          "2": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 70,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_2__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "8a8bd986050b345d3bf86de87865e0ba299e231e2bdb1ca3e6243f81f2927ca8",
+            "core_parameter_sha256": "ab2df16cb2fce36006950ca1850ce5c50d9e903788e95003f4857565cc3502c5",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/cancer.parquet",
+                "rows": 33,
+                "sha256": "d8c9055d87c0db57858822f87798cb16a1b9fb0c7bca9cb688c19a79da45c404"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/gene.parquet",
+                "rows": 20204,
+                "sha256": "a60449a270cccc8aeb80d94b90c19d6ee9767ef0d0339b4f48ffc580474d552a"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "3761777dcaa584a928a3e013e1dc3f5a2decbca3f6aa0a62a718bc7309e9b244"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway.parquet",
+                "rows": 2135,
+                "sha256": "c3a8df3a4fbd287a27dadbba81dd35d78ca09ff2af51d2b96390c2c83eb8009c"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c6f6ed42fcc58991242138acb9a5dddfc6fa52ffaf9a1bf13389e6cf081cb93e"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 2,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_2.pt",
+            "prepared_sha256": "21994279e7eee387d5638bbabc5cc2c443b12f0935b9494300479a488c07249e",
+            "trained_from_scratch": true
+          },
+          "3": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 96,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_3__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "dfe7cee28e7d55e3650a4213d907f8d0ce4a2e022d891645b26957774cefde4a",
+            "core_parameter_sha256": "1ca062bdb9655f7f334afff6386d02e9a6df742056f45f7794761d68b728c34f",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/cancer.parquet",
+                "rows": 33,
+                "sha256": "a752c2bda10e1b60deac4f4fbe6bb0adc32d1a49f5e2913d30f9556c5d02006a"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/gene.parquet",
+                "rows": 20204,
+                "sha256": "1077168e546709fcbeebd005223af54cfd90f18a4490ee686009f2c00f52a483"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "62c307d5abad9b0b83f9ae92e2bd0e14a86bc72a0c133702e28517bc2eebfc51"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway.parquet",
+                "rows": 2135,
+                "sha256": "bc747203af48701d08fddece96c6d9de1d1db3f06b3768630bc187670fcddb2e"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "091c17e8ed9db38820a6559788098f5ed0abb18e792174fee35eebdf957b86e2"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 3,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_3.pt",
+            "prepared_sha256": "404f063d0af405056d3bdf164abceaa3976dd0009676aa8c65ffe91abb0115bc",
+            "trained_from_scratch": true
+          },
+          "4": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 63,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_4__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "795440e34bad21df343c2e922556f2ae4259c122b3b8a572f6acc5dd1347a2d0",
+            "core_parameter_sha256": "6e8535d1b548e998e119fc68f109d2024f97d288151e24d109d709a05fa34028",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/cancer.parquet",
+                "rows": 33,
+                "sha256": "0354617ad2fb18e37b21ce18b57267d76204bbfec361403a1bde81c3707dff00"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/gene.parquet",
+                "rows": 20204,
+                "sha256": "c20ee4b52733f28755bd75f747934818a58cfce525d1b80dfe3585ea8d3222bf"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "d7398db4283b2046e117a3b9a0a91ac369a6e12725881448e1dcc13063e0c662"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway.parquet",
+                "rows": 2135,
+                "sha256": "d3ef6fe88f593d91b90a688b054b4984de7fb378a6c7a1a6c7bd240fbfcc9f0b"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c02e43f256b402a4fe895699d6f3c52872b34fc550adfab1a3579c700f8bcac7"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 4,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_4.pt",
+            "prepared_sha256": "760d11200b54dd0098ae4918c6ee2f12e0734772601515a8f3f8d78070cba4f5",
+            "trained_from_scratch": true
+          }
+        },
+        "historical_checkpoint_loaded": false,
+        "historical_prediction_loaded": false,
+        "module_id": "exact_pathway",
+        "training_generation": "V3.2",
+        "formal_graph_authority_receipt_sha256": "662bda5c2f1f5f62e3856bbaf09584366a08f3eda19c34c79c302631e06e8244",
+        "formal_candidate_authority_sha256": "cced638f3d17ab9b1b0ff521169ac27dea3de1fc042adb7edefe6100a2ca071f",
+        "local_cnv_audit_success_sha256": "82de6bab7e2b479189dd0c1701ff09b475327b8d1dbb83c6d413caeb14937c7b",
+        "local_cnv_validation_success_sha256": "165cace8ee8e323258f9cf3f141499f8c8149cadafd1ea69cf76d04ad4537903",
+        "node_omics_manifest_sha256": "653d7f51c4a89d969a52082820a3f562bdc7caf67c4c9669aadc5a45497467f2",
+        "node_omics_table_sha256": "215c93a1eeff2ae3e25175fadf5b0d566a2c2ac9e331cebd3b97812936c02580"
+      },
+      "training_started": false
+    },
+    {
+      "fold": 2,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "input_authority_hashes": {
+        "all_embeddings_from_newly_trained_v32_core": true,
+        "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+        "export_format": "CC_HHGT_V3_2_FROZEN_CORE_EMBEDDINGS_V1",
+        "folds": {
+          "0": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 72,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_0__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "0b6a4cbdd3dacb921bf876dd4b101f14d1f47e1ad7269b82ff032fedd588b987",
+            "core_parameter_sha256": "260b898a2c71b18c1d79fc76d4d339568b308278363853e8b8b610fd638b3ae6",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/cancer.parquet",
+                "rows": 33,
+                "sha256": "4ed7cbd071ab2e606d7e16c930458bbd8d7a006f1ff126f160b7a4bcf601b695"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/gene.parquet",
+                "rows": 20204,
+                "sha256": "5b12b07f7e066e70a18567f05c694974d2e5fef2eb793ddc206d659f2eaa77af"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "51f38bca93b29b44712479ec06944443681d1bb77bc9d956b9e7c974065466fa"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway.parquet",
+                "rows": 2135,
+                "sha256": "9ebc7f6462f682a6c3c4fe24adf55f9f841bcd756a6214204e21b60ce1b3783d"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "ff16e151dd872032db0b15dd8db8de7acbac33cb12908860017a99b917eea1ad"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 0,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_0.pt",
+            "prepared_sha256": "c5b09ce47d364c8ac28c5bb93bd23a399d3a2cba1ebb2fa8fd19a72745df68e5",
+            "trained_from_scratch": true
+          },
+          "1": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 53,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_1__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "581c90f0ac5f1187cc0acdc6f61e7cfc08469597f8cd2ac967b2848b21f7ffac",
+            "core_parameter_sha256": "3d2a4afd2a3b09953edf21b539721aab9beeb679a4908e4aacff0c90a199c497",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/cancer.parquet",
+                "rows": 33,
+                "sha256": "be4d5375a64c48d7dba39e3eaaf9fc3a7cdcc3b811a0e75eb1cff1e58c3e9922"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/gene.parquet",
+                "rows": 20204,
+                "sha256": "b4776eda0eace0313d908236831d871e9e7117850061914b03e0f2a9e302750b"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "29ea42861963d613ffa5be994f2f2b7181133d63fedb65ed72565f6307f94b35"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway.parquet",
+                "rows": 2135,
+                "sha256": "7ace611797d316e5bf14c35dcd96647fa8ed58a7e79e77c49c05ee35c63408b9"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c873217add98646a79737f8898933f8a5e7639b70dfd254f1183f7c512b59bfb"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 1,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_1.pt",
+            "prepared_sha256": "334cf6ed39581e0e33cb1b925eb2a1ea66d5b915596c1a28e936a3050e6cf23e",
+            "trained_from_scratch": true
+          },
+          "2": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 70,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_2__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "8a8bd986050b345d3bf86de87865e0ba299e231e2bdb1ca3e6243f81f2927ca8",
+            "core_parameter_sha256": "ab2df16cb2fce36006950ca1850ce5c50d9e903788e95003f4857565cc3502c5",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/cancer.parquet",
+                "rows": 33,
+                "sha256": "d8c9055d87c0db57858822f87798cb16a1b9fb0c7bca9cb688c19a79da45c404"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/gene.parquet",
+                "rows": 20204,
+                "sha256": "a60449a270cccc8aeb80d94b90c19d6ee9767ef0d0339b4f48ffc580474d552a"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "3761777dcaa584a928a3e013e1dc3f5a2decbca3f6aa0a62a718bc7309e9b244"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway.parquet",
+                "rows": 2135,
+                "sha256": "c3a8df3a4fbd287a27dadbba81dd35d78ca09ff2af51d2b96390c2c83eb8009c"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c6f6ed42fcc58991242138acb9a5dddfc6fa52ffaf9a1bf13389e6cf081cb93e"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 2,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_2.pt",
+            "prepared_sha256": "21994279e7eee387d5638bbabc5cc2c443b12f0935b9494300479a488c07249e",
+            "trained_from_scratch": true
+          },
+          "3": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 96,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_3__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "dfe7cee28e7d55e3650a4213d907f8d0ce4a2e022d891645b26957774cefde4a",
+            "core_parameter_sha256": "1ca062bdb9655f7f334afff6386d02e9a6df742056f45f7794761d68b728c34f",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/cancer.parquet",
+                "rows": 33,
+                "sha256": "a752c2bda10e1b60deac4f4fbe6bb0adc32d1a49f5e2913d30f9556c5d02006a"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/gene.parquet",
+                "rows": 20204,
+                "sha256": "1077168e546709fcbeebd005223af54cfd90f18a4490ee686009f2c00f52a483"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "62c307d5abad9b0b83f9ae92e2bd0e14a86bc72a0c133702e28517bc2eebfc51"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway.parquet",
+                "rows": 2135,
+                "sha256": "bc747203af48701d08fddece96c6d9de1d1db3f06b3768630bc187670fcddb2e"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "091c17e8ed9db38820a6559788098f5ed0abb18e792174fee35eebdf957b86e2"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 3,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_3.pt",
+            "prepared_sha256": "404f063d0af405056d3bdf164abceaa3976dd0009676aa8c65ffe91abb0115bc",
+            "trained_from_scratch": true
+          },
+          "4": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 63,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_4__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "795440e34bad21df343c2e922556f2ae4259c122b3b8a572f6acc5dd1347a2d0",
+            "core_parameter_sha256": "6e8535d1b548e998e119fc68f109d2024f97d288151e24d109d709a05fa34028",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/cancer.parquet",
+                "rows": 33,
+                "sha256": "0354617ad2fb18e37b21ce18b57267d76204bbfec361403a1bde81c3707dff00"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/gene.parquet",
+                "rows": 20204,
+                "sha256": "c20ee4b52733f28755bd75f747934818a58cfce525d1b80dfe3585ea8d3222bf"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "d7398db4283b2046e117a3b9a0a91ac369a6e12725881448e1dcc13063e0c662"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway.parquet",
+                "rows": 2135,
+                "sha256": "d3ef6fe88f593d91b90a688b054b4984de7fb378a6c7a1a6c7bd240fbfcc9f0b"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c02e43f256b402a4fe895699d6f3c52872b34fc550adfab1a3579c700f8bcac7"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 4,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_4.pt",
+            "prepared_sha256": "760d11200b54dd0098ae4918c6ee2f12e0734772601515a8f3f8d78070cba4f5",
+            "trained_from_scratch": true
+          }
+        },
+        "historical_checkpoint_loaded": false,
+        "historical_prediction_loaded": false,
+        "module_id": "exact_pathway",
+        "training_generation": "V3.2",
+        "formal_graph_authority_receipt_sha256": "662bda5c2f1f5f62e3856bbaf09584366a08f3eda19c34c79c302631e06e8244",
+        "formal_candidate_authority_sha256": "cced638f3d17ab9b1b0ff521169ac27dea3de1fc042adb7edefe6100a2ca071f",
+        "local_cnv_audit_success_sha256": "82de6bab7e2b479189dd0c1701ff09b475327b8d1dbb83c6d413caeb14937c7b",
+        "local_cnv_validation_success_sha256": "165cace8ee8e323258f9cf3f141499f8c8149cadafd1ea69cf76d04ad4537903",
+        "node_omics_manifest_sha256": "7b2d609801b84e338388006d59de32c8fb2368f894089010e8142062b0a92070",
+        "node_omics_table_sha256": "0ffd526e333506c11eabb409afc6b121b724e01463c0dfd388c01ea3ed583f8f"
+      },
+      "training_started": false
+    },
+    {
+      "fold": 3,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "input_authority_hashes": {
+        "all_embeddings_from_newly_trained_v32_core": true,
+        "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+        "export_format": "CC_HHGT_V3_2_FROZEN_CORE_EMBEDDINGS_V1",
+        "folds": {
+          "0": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 72,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_0__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "0b6a4cbdd3dacb921bf876dd4b101f14d1f47e1ad7269b82ff032fedd588b987",
+            "core_parameter_sha256": "260b898a2c71b18c1d79fc76d4d339568b308278363853e8b8b610fd638b3ae6",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/cancer.parquet",
+                "rows": 33,
+                "sha256": "4ed7cbd071ab2e606d7e16c930458bbd8d7a006f1ff126f160b7a4bcf601b695"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/gene.parquet",
+                "rows": 20204,
+                "sha256": "5b12b07f7e066e70a18567f05c694974d2e5fef2eb793ddc206d659f2eaa77af"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "51f38bca93b29b44712479ec06944443681d1bb77bc9d956b9e7c974065466fa"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway.parquet",
+                "rows": 2135,
+                "sha256": "9ebc7f6462f682a6c3c4fe24adf55f9f841bcd756a6214204e21b60ce1b3783d"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "ff16e151dd872032db0b15dd8db8de7acbac33cb12908860017a99b917eea1ad"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 0,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_0.pt",
+            "prepared_sha256": "c5b09ce47d364c8ac28c5bb93bd23a399d3a2cba1ebb2fa8fd19a72745df68e5",
+            "trained_from_scratch": true
+          },
+          "1": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 53,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_1__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "581c90f0ac5f1187cc0acdc6f61e7cfc08469597f8cd2ac967b2848b21f7ffac",
+            "core_parameter_sha256": "3d2a4afd2a3b09953edf21b539721aab9beeb679a4908e4aacff0c90a199c497",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/cancer.parquet",
+                "rows": 33,
+                "sha256": "be4d5375a64c48d7dba39e3eaaf9fc3a7cdcc3b811a0e75eb1cff1e58c3e9922"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/gene.parquet",
+                "rows": 20204,
+                "sha256": "b4776eda0eace0313d908236831d871e9e7117850061914b03e0f2a9e302750b"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "29ea42861963d613ffa5be994f2f2b7181133d63fedb65ed72565f6307f94b35"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway.parquet",
+                "rows": 2135,
+                "sha256": "7ace611797d316e5bf14c35dcd96647fa8ed58a7e79e77c49c05ee35c63408b9"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c873217add98646a79737f8898933f8a5e7639b70dfd254f1183f7c512b59bfb"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 1,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_1.pt",
+            "prepared_sha256": "334cf6ed39581e0e33cb1b925eb2a1ea66d5b915596c1a28e936a3050e6cf23e",
+            "trained_from_scratch": true
+          },
+          "2": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 70,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_2__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "8a8bd986050b345d3bf86de87865e0ba299e231e2bdb1ca3e6243f81f2927ca8",
+            "core_parameter_sha256": "ab2df16cb2fce36006950ca1850ce5c50d9e903788e95003f4857565cc3502c5",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/cancer.parquet",
+                "rows": 33,
+                "sha256": "d8c9055d87c0db57858822f87798cb16a1b9fb0c7bca9cb688c19a79da45c404"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/gene.parquet",
+                "rows": 20204,
+                "sha256": "a60449a270cccc8aeb80d94b90c19d6ee9767ef0d0339b4f48ffc580474d552a"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "3761777dcaa584a928a3e013e1dc3f5a2decbca3f6aa0a62a718bc7309e9b244"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway.parquet",
+                "rows": 2135,
+                "sha256": "c3a8df3a4fbd287a27dadbba81dd35d78ca09ff2af51d2b96390c2c83eb8009c"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c6f6ed42fcc58991242138acb9a5dddfc6fa52ffaf9a1bf13389e6cf081cb93e"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 2,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_2.pt",
+            "prepared_sha256": "21994279e7eee387d5638bbabc5cc2c443b12f0935b9494300479a488c07249e",
+            "trained_from_scratch": true
+          },
+          "3": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 96,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_3__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "dfe7cee28e7d55e3650a4213d907f8d0ce4a2e022d891645b26957774cefde4a",
+            "core_parameter_sha256": "1ca062bdb9655f7f334afff6386d02e9a6df742056f45f7794761d68b728c34f",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/cancer.parquet",
+                "rows": 33,
+                "sha256": "a752c2bda10e1b60deac4f4fbe6bb0adc32d1a49f5e2913d30f9556c5d02006a"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/gene.parquet",
+                "rows": 20204,
+                "sha256": "1077168e546709fcbeebd005223af54cfd90f18a4490ee686009f2c00f52a483"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "62c307d5abad9b0b83f9ae92e2bd0e14a86bc72a0c133702e28517bc2eebfc51"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway.parquet",
+                "rows": 2135,
+                "sha256": "bc747203af48701d08fddece96c6d9de1d1db3f06b3768630bc187670fcddb2e"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "091c17e8ed9db38820a6559788098f5ed0abb18e792174fee35eebdf957b86e2"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 3,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_3.pt",
+            "prepared_sha256": "404f063d0af405056d3bdf164abceaa3976dd0009676aa8c65ffe91abb0115bc",
+            "trained_from_scratch": true
+          },
+          "4": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 63,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_4__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "795440e34bad21df343c2e922556f2ae4259c122b3b8a572f6acc5dd1347a2d0",
+            "core_parameter_sha256": "6e8535d1b548e998e119fc68f109d2024f97d288151e24d109d709a05fa34028",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/cancer.parquet",
+                "rows": 33,
+                "sha256": "0354617ad2fb18e37b21ce18b57267d76204bbfec361403a1bde81c3707dff00"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/gene.parquet",
+                "rows": 20204,
+                "sha256": "c20ee4b52733f28755bd75f747934818a58cfce525d1b80dfe3585ea8d3222bf"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "d7398db4283b2046e117a3b9a0a91ac369a6e12725881448e1dcc13063e0c662"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway.parquet",
+                "rows": 2135,
+                "sha256": "d3ef6fe88f593d91b90a688b054b4984de7fb378a6c7a1a6c7bd240fbfcc9f0b"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c02e43f256b402a4fe895699d6f3c52872b34fc550adfab1a3579c700f8bcac7"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 4,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_4.pt",
+            "prepared_sha256": "760d11200b54dd0098ae4918c6ee2f12e0734772601515a8f3f8d78070cba4f5",
+            "trained_from_scratch": true
+          }
+        },
+        "historical_checkpoint_loaded": false,
+        "historical_prediction_loaded": false,
+        "module_id": "exact_pathway",
+        "training_generation": "V3.2",
+        "formal_graph_authority_receipt_sha256": "662bda5c2f1f5f62e3856bbaf09584366a08f3eda19c34c79c302631e06e8244",
+        "formal_candidate_authority_sha256": "cced638f3d17ab9b1b0ff521169ac27dea3de1fc042adb7edefe6100a2ca071f",
+        "local_cnv_audit_success_sha256": "82de6bab7e2b479189dd0c1701ff09b475327b8d1dbb83c6d413caeb14937c7b",
+        "local_cnv_validation_success_sha256": "165cace8ee8e323258f9cf3f141499f8c8149cadafd1ea69cf76d04ad4537903",
+        "node_omics_manifest_sha256": "6f922cb6d2739ab31d6a5682042123c6a486408a8197a4162129fa359531fb4b",
+        "node_omics_table_sha256": "0844b34ecbb416abc37567dbb35139722a3508ba2d2c1a5b99fda1e0d0ba1b0c"
+      },
+      "training_started": false
+    },
+    {
+      "fold": 4,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "input_authority_hashes": {
+        "all_embeddings_from_newly_trained_v32_core": true,
+        "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
+        "export_format": "CC_HHGT_V3_2_FROZEN_CORE_EMBEDDINGS_V1",
+        "folds": {
+          "0": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 72,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_0__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "0b6a4cbdd3dacb921bf876dd4b101f14d1f47e1ad7269b82ff032fedd588b987",
+            "core_parameter_sha256": "260b898a2c71b18c1d79fc76d4d339568b308278363853e8b8b610fd638b3ae6",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/cancer.parquet",
+                "rows": 33,
+                "sha256": "4ed7cbd071ab2e606d7e16c930458bbd8d7a006f1ff126f160b7a4bcf601b695"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/gene.parquet",
+                "rows": 20204,
+                "sha256": "5b12b07f7e066e70a18567f05c694974d2e5fef2eb793ddc206d659f2eaa77af"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "51f38bca93b29b44712479ec06944443681d1bb77bc9d956b9e7c974065466fa"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway.parquet",
+                "rows": 2135,
+                "sha256": "9ebc7f6462f682a6c3c4fe24adf55f9f841bcd756a6214204e21b60ce1b3783d"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=0/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "ff16e151dd872032db0b15dd8db8de7acbac33cb12908860017a99b917eea1ad"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 0,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_0.pt",
+            "prepared_sha256": "c5b09ce47d364c8ac28c5bb93bd23a399d3a2cba1ebb2fa8fd19a72745df68e5",
+            "trained_from_scratch": true
+          },
+          "1": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 53,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_1__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "581c90f0ac5f1187cc0acdc6f61e7cfc08469597f8cd2ac967b2848b21f7ffac",
+            "core_parameter_sha256": "3d2a4afd2a3b09953edf21b539721aab9beeb679a4908e4aacff0c90a199c497",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/cancer.parquet",
+                "rows": 33,
+                "sha256": "be4d5375a64c48d7dba39e3eaaf9fc3a7cdcc3b811a0e75eb1cff1e58c3e9922"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/gene.parquet",
+                "rows": 20204,
+                "sha256": "b4776eda0eace0313d908236831d871e9e7117850061914b03e0f2a9e302750b"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "29ea42861963d613ffa5be994f2f2b7181133d63fedb65ed72565f6307f94b35"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway.parquet",
+                "rows": 2135,
+                "sha256": "7ace611797d316e5bf14c35dcd96647fa8ed58a7e79e77c49c05ee35c63408b9"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=1/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c873217add98646a79737f8898933f8a5e7639b70dfd254f1183f7c512b59bfb"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 1,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_1.pt",
+            "prepared_sha256": "334cf6ed39581e0e33cb1b925eb2a1ea66d5b915596c1a28e936a3050e6cf23e",
+            "trained_from_scratch": true
+          },
+          "2": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 70,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_2__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "8a8bd986050b345d3bf86de87865e0ba299e231e2bdb1ca3e6243f81f2927ca8",
+            "core_parameter_sha256": "ab2df16cb2fce36006950ca1850ce5c50d9e903788e95003f4857565cc3502c5",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/cancer.parquet",
+                "rows": 33,
+                "sha256": "d8c9055d87c0db57858822f87798cb16a1b9fb0c7bca9cb688c19a79da45c404"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/gene.parquet",
+                "rows": 20204,
+                "sha256": "a60449a270cccc8aeb80d94b90c19d6ee9767ef0d0339b4f48ffc580474d552a"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "3761777dcaa584a928a3e013e1dc3f5a2decbca3f6aa0a62a718bc7309e9b244"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway.parquet",
+                "rows": 2135,
+                "sha256": "c3a8df3a4fbd287a27dadbba81dd35d78ca09ff2af51d2b96390c2c83eb8009c"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=2/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c6f6ed42fcc58991242138acb9a5dddfc6fa52ffaf9a1bf13389e6cf081cb93e"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 2,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_2.pt",
+            "prepared_sha256": "21994279e7eee387d5638bbabc5cc2c443b12f0935b9494300479a488c07249e",
+            "trained_from_scratch": true
+          },
+          "3": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 96,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_3__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "dfe7cee28e7d55e3650a4213d907f8d0ce4a2e022d891645b26957774cefde4a",
+            "core_parameter_sha256": "1ca062bdb9655f7f334afff6386d02e9a6df742056f45f7794761d68b728c34f",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/cancer.parquet",
+                "rows": 33,
+                "sha256": "a752c2bda10e1b60deac4f4fbe6bb0adc32d1a49f5e2913d30f9556c5d02006a"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/gene.parquet",
+                "rows": 20204,
+                "sha256": "1077168e546709fcbeebd005223af54cfd90f18a4490ee686009f2c00f52a483"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "62c307d5abad9b0b83f9ae92e2bd0e14a86bc72a0c133702e28517bc2eebfc51"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway.parquet",
+                "rows": 2135,
+                "sha256": "bc747203af48701d08fddece96c6d9de1d1db3f06b3768630bc187670fcddb2e"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=3/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "091c17e8ed9db38820a6559788098f5ed0abb18e792174fee35eebdf957b86e2"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 3,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_3.pt",
+            "prepared_sha256": "404f063d0af405056d3bdf164abceaa3976dd0009676aa8c65ffe91abb0115bc",
+            "trained_from_scratch": true
+          },
+          "4": {
+            "artifact_hashes": {
+              "code_sha256": "60cf8affc3a710f78c1524cded7f2939c1aec2ff8f61bfca8c193e92b6ddef61",
+              "config_sha256": "8591870aa618ba420d449283b72384766f5e5108a0bbdeb0f2b5299ce6352b64",
+              "input_manifest_sha256": "11843e7cdf748227458d4c659e0a72c5cb3ed338d256e4bbe5c21e5fb826df6a",
+              "task_manifest_sha256": "bdcdf2a8f7e3d3f6b541823a51c75b3f614c34ecd621846022e3872713b4fd86"
+            },
+            "checkpoint_cycle": 63,
+            "checkpoint_format": "CC_HHGT_V3_2_FULL_TRAINING_STATE_V1",
+            "checkpoint_path": "artifacts/formal_release_training_1seed/V3_2_ONESEED_CC_HHGT_FORMAL_RELEASE__PATIENT_FOLD_4__CC-HHGT__20260726/best_model_state.pt",
+            "checkpoint_sha256": "795440e34bad21df343c2e922556f2ae4259c122b3b8a572f6acc5dd1347a2d0",
+            "core_parameter_sha256": "6e8535d1b548e998e119fc68f109d2024f97d288151e24d109d709a05fa34028",
+            "exports": {
+              "cancer": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/cancer.parquet",
+                "rows": 33,
+                "sha256": "0354617ad2fb18e37b21ce18b57267d76204bbfec361403a1bde81c3707dff00"
+              },
+              "gene": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/gene.parquet",
+                "rows": 20204,
+                "sha256": "c20ee4b52733f28755bd75f747934818a58cfce525d1b80dfe3585ea8d3222bf"
+              },
+              "lncRNA": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/lncRNA.parquet",
+                "rows": 8541,
+                "sha256": "d7398db4283b2046e117a3b9a0a91ac369a6e12725881448e1dcc13063e0c662"
+              },
+              "pathway": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway.parquet",
+                "rows": 2135,
+                "sha256": "d3ef6fe88f593d91b90a688b054b4984de7fb378a6c7a1a6c7bd240fbfcc9f0b"
+              },
+              "pathway_family": {
+                "features": 96,
+                "path": "artifacts/v32_full_multitask/core_embeddings/patient_fold=4/pathway_family.parquet",
+                "rows": 96,
+                "sha256": "c02e43f256b402a4fe895699d6f3c52872b34fc550adfab1a3579c700f8bcac7"
+              }
+            },
+            "old_checkpoint_loaded": false,
+            "patient_fold": 4,
+            "prepared_path": "artifacts/formal_release_prepared_1seed/PATIENT_FOLD_4.pt",
+            "prepared_sha256": "760d11200b54dd0098ae4918c6ee2f12e0734772601515a8f3f8d78070cba4f5",
+            "trained_from_scratch": true
+          }
+        },
+        "historical_checkpoint_loaded": false,
+        "historical_prediction_loaded": false,
+        "module_id": "exact_pathway",
+        "training_generation": "V3.2",
+        "formal_graph_authority_receipt_sha256": "662bda5c2f1f5f62e3856bbaf09584366a08f3eda19c34c79c302631e06e8244",
+        "formal_candidate_authority_sha256": "cced638f3d17ab9b1b0ff521169ac27dea3de1fc042adb7edefe6100a2ca071f",
+        "local_cnv_audit_success_sha256": "82de6bab7e2b479189dd0c1701ff09b475327b8d1dbb83c6d413caeb14937c7b",
+        "local_cnv_validation_success_sha256": "165cace8ee8e323258f9cf3f141499f8c8149cadafd1ea69cf76d04ad4537903",
+        "node_omics_manifest_sha256": "d55d742578737f3bcf829d661c921ade26205edb56c874a008c6503ea30741ee",
+        "node_omics_table_sha256": "29c2ea0b1ed39bf357887112785bf776a49fc07925781a8c6c75cddae4ffb404"
+      },
+      "training_started": false
+    }
+  ],
+  "learned_embeddings_generated": false,
+  "recovery_preflight": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/LAUNCH_PREFLIGHT.json",
+    "sha256": "1994680459f4acb99463c7246caac69495b90e4e039abdf8db964cf2e586b983"
+  },
+  "reused_previously_validated_folds": [
+    0,
+    1
+  ],
+  "freshly_validated_folds": [
+    2,
+    3,
+    4
+  ]
+}

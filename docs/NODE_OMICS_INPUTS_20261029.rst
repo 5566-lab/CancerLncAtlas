@@ -264,3 +264,12 @@ The standard-library checks in ``tests/test_v32_gene_run_receipts.py`` use only
 small synthetic JSON receipts. They can run as local static bookkeeping checks
 without importing the scientific test environment. They are reported separately
 from the host149 scientific test ledger and actual cohort completion.
+
+Observed real-cohort acceptance on 2026-10-29
+---------------------------------------------
+All 18,600 selected raw files completed on host149. The matrix axis contains 10,432 patients and 19,149 protein-coding genes across 33 cancers. CNV has finite values for 10,364 patients and 18,586 genes; promoter methylation for 8,200 patients and 17,907 genes. There are 8,149 patients observed in both channels. These are marginal coverage counts, not a claim that every gene is measured in every patient. The 18,384 genes with mapped promoter probes are a reference count, not actual beta coverage.
+
+An independent matrix audit rehashed all 132 value/mask files and checked array shape, dtype, finite/missing masks and beta bounds. All five actual prepared validations passed with 21,981 graph gene nodes and six input columns. The reference-excluded or unobserved nodes retain missing masks. The final manifest and configuration patch are on149 under /dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/. It references the completed node-evidence files under node_folds_r1/, which must also be retained. The patient matrices are under patient_gene_matrices_r2/.
+
+These outputs are eligible inputs for a compatible encoder. No new model was fitted and no trained multi-omics embedding or performance benefit is claimed. Public status, audit and completion receipt hashes are in provenance/code_completion_20261015/gene_patient_live_status.json and gene_patient_matrix_coverage_audit.json.
+Exact final manifest, configuration patch and completion receipt copies are archived as gene_patient_formal_input_manifest.json, gene_patient_formal_model_config_patch.json and gene_patient_formal_complete.json in that provenance directory. The manifest uses absolute host149 paths; the training/export loader must consume it together with the six-column configuration. A historical two-column checkpoint is not a trained six-column model.

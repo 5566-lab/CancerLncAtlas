@@ -1,0 +1,31 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "files": [
+    {
+      "name": "gene_patient_formal_complete.json",
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/COMPLETE.json",
+      "sha256": "b940fb275ab010c0ae4264d1f42cad0cd554516b76a80f5e0d3b2b0e7a97179e",
+      "bytes": 78290
+    },
+    {
+      "name": "gene_patient_formal_input_manifest.json",
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/INPUT_MANIFEST.json",
+      "sha256": "009c4a5ab86e5c41e26e89ef2cdfdd19d3e7bda0c4dfa9663c6801301249387a",
+      "bytes": 2668
+    },
+    {
+      "name": "gene_patient_formal_model_config_patch.json",
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/MODEL_CONFIG_PATCH.json",
+      "sha256": "7f02a6a6ce9fc50a405da210d9df4759b013c19b9da5dfa288eac8ae28f37c90",
+      "bytes": 118
+    },
+    {
+      "name": "gene_patient_formal_fold_preflight.json",
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/LAUNCH_PREFLIGHT.json",
+      "sha256": "1994680459f4acb99463c7246caac69495b90e4e039abdf8db964cf2e586b983",
+      "bytes": 1597
+    }
+  ],
+  "scope": "Exact JSON receipts only; no raw patient data or learned embeddings."
+}

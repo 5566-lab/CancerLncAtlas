@@ -1,7 +1,7 @@
 {
   "format": "VERIFIED_GENE_PATIENT_REAL_EXECUTION_STATUS_V1",
   "target_host": "149",
-  "observed_at_utc": "2026-10-29T06:57:11.325719+00:00",
+  "observed_at_utc": "2026-10-29T14:35:43.258359+00:00",
   "user_instruction": "接入经过核实的 gene × patient CNV、基因启动子甲基化数据",
   "real_data_preparation_started": true,
   "training_started": false,
@@ -43,8 +43,24 @@
     "distinct_promoter_cpg_probes": 170365,
     "excluded_unresolved_or_non_coding_genes": 2832
   },
-  "materialization_status": "UNCONFIRMED_NETWORK",
-  "materialization_complete": null,
+  "materialization_status": "PASS",
+  "materialization_completion_checks": {
+    "format": true,
+    "host": true,
+    "status": true,
+    "gene_level": true,
+    "orientation": true,
+    "reference_build": true,
+    "all_source_files": true,
+    "all_cancers": true,
+    "all_channel_progress": true,
+    "progress_file_total": true,
+    "no_training": true
+  },
+  "materialization_complete": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COMPLETE.json",
+    "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
+  },
   "progress": [
     {
       "cancer_id": "ACC",
@@ -129,14 +145,686 @@
       "channel": "methylation_promoter_beta",
       "files_verified": 48,
       "observed_patients": 48
+    },
+    {
+      "cancer_id": "ESCA",
+      "channel": "cnv_signed",
+      "files_verified": 183,
+      "observed_patients": 183
+    },
+    {
+      "cancer_id": "ESCA",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 184,
+      "observed_patients": 184
+    },
+    {
+      "cancer_id": "GBM",
+      "channel": "cnv_signed",
+      "files_verified": 247,
+      "observed_patients": 247
+    },
+    {
+      "cancer_id": "GBM",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 72,
+      "observed_patients": 72
+    },
+    {
+      "cancer_id": "HNSC",
+      "channel": "cnv_signed",
+      "files_verified": 514,
+      "observed_patients": 514
+    },
+    {
+      "cancer_id": "HNSC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 520,
+      "observed_patients": 520
+    },
+    {
+      "cancer_id": "KICH",
+      "channel": "cnv_signed",
+      "files_verified": 66,
+      "observed_patients": 66
+    },
+    {
+      "cancer_id": "KICH",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 66,
+      "observed_patients": 66
+    },
+    {
+      "cancer_id": "KIRC",
+      "channel": "cnv_signed",
+      "files_verified": 527,
+      "observed_patients": 527
+    },
+    {
+      "cancer_id": "KIRC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 320,
+      "observed_patients": 317
+    },
+    {
+      "cancer_id": "KIRP",
+      "channel": "cnv_signed",
+      "files_verified": 290,
+      "observed_patients": 290
+    },
+    {
+      "cancer_id": "KIRP",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 274,
+      "observed_patients": 274
+    },
+    {
+      "cancer_id": "LAML",
+      "channel": "cnv_signed",
+      "files_verified": 151,
+      "observed_patients": 151
+    },
+    {
+      "cancer_id": "LAML",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 0,
+      "observed_patients": 0
+    },
+    {
+      "cancer_id": "LGG",
+      "channel": "cnv_signed",
+      "files_verified": 515,
+      "observed_patients": 515
+    },
+    {
+      "cancer_id": "LGG",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 516,
+      "observed_patients": 516
+    },
+    {
+      "cancer_id": "LIHC",
+      "channel": "cnv_signed",
+      "files_verified": 369,
+      "observed_patients": 369
+    },
+    {
+      "cancer_id": "LIHC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 371,
+      "observed_patients": 371
+    },
+    {
+      "cancer_id": "LUAD",
+      "channel": "cnv_signed",
+      "files_verified": 507,
+      "observed_patients": 507
+    },
+    {
+      "cancer_id": "LUAD",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 454,
+      "observed_patients": 448
+    },
+    {
+      "cancer_id": "LUSC",
+      "channel": "cnv_signed",
+      "files_verified": 498,
+      "observed_patients": 498
+    },
+    {
+      "cancer_id": "LUSC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 370,
+      "observed_patients": 370
+    },
+    {
+      "cancer_id": "MESO",
+      "channel": "cnv_signed",
+      "files_verified": 87,
+      "observed_patients": 87
+    },
+    {
+      "cancer_id": "MESO",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 87,
+      "observed_patients": 87
+    },
+    {
+      "cancer_id": "OV",
+      "channel": "cnv_signed",
+      "files_verified": 424,
+      "observed_patients": 424
+    },
+    {
+      "cancer_id": "OV",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 9,
+      "observed_patients": 9
+    },
+    {
+      "cancer_id": "PAAD",
+      "channel": "cnv_signed",
+      "files_verified": 177,
+      "observed_patients": 177
+    },
+    {
+      "cancer_id": "PAAD",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 178,
+      "observed_patients": 178
+    },
+    {
+      "cancer_id": "PCPG",
+      "channel": "cnv_signed",
+      "files_verified": 178,
+      "observed_patients": 178
+    },
+    {
+      "cancer_id": "PCPG",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 179,
+      "observed_patients": 179
+    },
+    {
+      "cancer_id": "PRAD",
+      "channel": "cnv_signed",
+      "files_verified": 493,
+      "observed_patients": 493
+    },
+    {
+      "cancer_id": "PRAD",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 499,
+      "observed_patients": 496
+    },
+    {
+      "cancer_id": "READ",
+      "channel": "cnv_signed",
+      "files_verified": 164,
+      "observed_patients": 164
+    },
+    {
+      "cancer_id": "READ",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 98,
+      "observed_patients": 98
+    },
+    {
+      "cancer_id": "SARC",
+      "channel": "cnv_signed",
+      "files_verified": 258,
+      "observed_patients": 258
+    },
+    {
+      "cancer_id": "SARC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 259,
+      "observed_patients": 259
+    },
+    {
+      "cancer_id": "SKCM",
+      "channel": "cnv_signed",
+      "files_verified": 469,
+      "observed_patients": 469
+    },
+    {
+      "cancer_id": "SKCM",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 103,
+      "observed_patients": 103
+    },
+    {
+      "cancer_id": "STAD",
+      "channel": "cnv_signed",
+      "files_verified": 411,
+      "observed_patients": 411
+    },
+    {
+      "cancer_id": "STAD",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 373,
+      "observed_patients": 373
+    },
+    {
+      "cancer_id": "TGCT",
+      "channel": "cnv_signed",
+      "files_verified": 150,
+      "observed_patients": 150
+    },
+    {
+      "cancer_id": "TGCT",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 150,
+      "observed_patients": 150
+    },
+    {
+      "cancer_id": "THCA",
+      "channel": "cnv_signed",
+      "files_verified": 503,
+      "observed_patients": 503
+    },
+    {
+      "cancer_id": "THCA",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 505,
+      "observed_patients": 505
+    },
+    {
+      "cancer_id": "THYM",
+      "channel": "cnv_signed",
+      "files_verified": 120,
+      "observed_patients": 120
+    },
+    {
+      "cancer_id": "THYM",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 120,
+      "observed_patients": 120
+    },
+    {
+      "cancer_id": "UCEC",
+      "channel": "cnv_signed",
+      "files_verified": 537,
+      "observed_patients": 537
+    },
+    {
+      "cancer_id": "UCEC",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 434,
+      "observed_patients": 429
+    },
+    {
+      "cancer_id": "UCS",
+      "channel": "cnv_signed",
+      "files_verified": 56,
+      "observed_patients": 56
+    },
+    {
+      "cancer_id": "UCS",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 57,
+      "observed_patients": 57
+    },
+    {
+      "cancer_id": "UVM",
+      "channel": "cnv_signed",
+      "files_verified": 80,
+      "observed_patients": 80
+    },
+    {
+      "cancer_id": "UVM",
+      "channel": "methylation_promoter_beta",
+      "files_verified": 80,
+      "observed_patients": 80
     }
   ],
-  "files_verified_in_completed_cancer_channels": 4348,
-  "formal_prepared_status": "UNCONFIRMED_NETWORK",
-  "formal_prepared_complete": null,
+  "files_verified_in_completed_cancer_channels": 18600,
+  "formal_prepared_status": "PASS",
+  "formal_completion_checks": {
+    "host": true,
+    "status": true,
+    "five_folds": true,
+    "all_validators": true,
+    "six_input_features": true,
+    "no_training": true,
+    "matrix_product_passed": true,
+    "input_manifest_hash": true,
+    "model_config_patch_hash": true,
+    "fold_0_receipt": true,
+    "fold_1_receipt": true,
+    "fold_2_receipt": true,
+    "fold_3_receipt": true,
+    "fold_4_receipt": true
+  },
+  "fold_validation_summaries": [
+    {
+      "fold": 0,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "training_started": false
+    },
+    {
+      "fold": 1,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "training_started": false
+    },
+    {
+      "fold": 2,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "training_started": false
+    },
+    {
+      "fold": 3,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "training_started": false
+    },
+    {
+      "fold": 4,
+      "prepared_validator": "PASS",
+      "gene_nodes": 21981,
+      "node_input_dim": 6,
+      "observed_gene_nodes_by_channel": {
+        "cnv_signed": 18586,
+        "methylation_promoter_beta": 17907
+      },
+      "training_started": false
+    }
+  ],
+  "formal_completion_inspection": {
+    "format": "GENE_NODE_RECORDED_COMPLETION_INSPECTION_V1",
+    "target_host": "149",
+    "observed_at_utc": "2026-10-29T14:35:42.864523+00:00",
+    "verification_scope": "SMALL_JSON_RECEIPTS_ONLY",
+    "scientific_validation_repeated": false,
+    "large_artifact_bytes_reverified": false,
+    "training_started": false,
+    "jobs_restarted": false,
+    "status": "RECORDED_PASS",
+    "raw_file_count": 18600,
+    "cancer_count": 33,
+    "folds": [
+      {
+        "fold": 0,
+        "gene_nodes": 21981,
+        "node_input_dim": 6,
+        "observed_gene_nodes_by_channel": {
+          "cnv_signed": 18586,
+          "methylation_promoter_beta": 17907
+        }
+      },
+      {
+        "fold": 1,
+        "gene_nodes": 21981,
+        "node_input_dim": 6,
+        "observed_gene_nodes_by_channel": {
+          "cnv_signed": 18586,
+          "methylation_promoter_beta": 17907
+        }
+      },
+      {
+        "fold": 2,
+        "gene_nodes": 21981,
+        "node_input_dim": 6,
+        "observed_gene_nodes_by_channel": {
+          "cnv_signed": 18586,
+          "methylation_promoter_beta": 17907
+        }
+      },
+      {
+        "fold": 3,
+        "gene_nodes": 21981,
+        "node_input_dim": 6,
+        "observed_gene_nodes_by_channel": {
+          "cnv_signed": 18586,
+          "methylation_promoter_beta": 17907
+        }
+      },
+      {
+        "fold": 4,
+        "gene_nodes": 21981,
+        "node_input_dim": 6,
+        "observed_gene_nodes_by_channel": {
+          "cnv_signed": 18586,
+          "methylation_promoter_beta": 17907
+        }
+      }
+    ],
+    "receipt_hashes": [
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/bound_sources/BINDING_REPORT.json",
+        "sha256": "744c90d5a2e295faa6ced0286311f80e3168d2e88a9c447cc6b24eae2594b540"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_0/node_omics/node_evidence.json",
+        "sha256": "d320285c8cbe5a5efc057e72c3c8411c60e5ef82728e524160b7225c98d94dd3"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_1/node_omics/node_evidence.json",
+        "sha256": "653d7f51c4a89d969a52082820a3f562bdc7caf67c4c9669aadc5a45497467f2"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_2/node_omics/node_evidence.json",
+        "sha256": "7b2d609801b84e338388006d59de32c8fb2368f894089010e8142062b0a92070"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_3/node_omics/node_evidence.json",
+        "sha256": "6f922cb6d2739ab31d6a5682042123c6a486408a8197a4162129fa359531fb4b"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_4/node_omics/node_evidence.json",
+        "sha256": "d55d742578737f3bcf829d661c921ade26205edb56c874a008c6503ea30741ee"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/COMPLETE.json",
+        "sha256": "b940fb275ab010c0ae4264d1f42cad0cd554516b76a80f5e0d3b2b0e7a97179e"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/FOLD_0_PREPARED_VALIDATION.json",
+        "sha256": "a939c68721c99697018637ad2dfe0d3a7bbd23c62f7278551eb3a3fac6ecac54"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/FOLD_1_PREPARED_VALIDATION.json",
+        "sha256": "f92866092165363cbc69c338c496e310ca3cbd399d1efb37803e9c32bcca89d6"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/FOLD_2_PREPARED_VALIDATION.json",
+        "sha256": "688b7dfdacf6f8d86e20c4c06640af3ae2dad9051544dbe765dff5d82e7d7977"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/FOLD_3_PREPARED_VALIDATION.json",
+        "sha256": "1247dea7e61ce88fbc2d59a06cd9f768e8c2e38e3326383f46eee720eb855499"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/FOLD_4_PREPARED_VALIDATION.json",
+        "sha256": "127c4c834bc27da25f2dc4908b1b6ca2dfe18dc2f67de1cea0ff656a8f73f547"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/INPUT_MANIFEST.json",
+        "sha256": "009c4a5ab86e5c41e26e89ef2cdfdd19d3e7bda0c4dfa9663c6801301249387a"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/MODEL_CONFIG_PATCH.json",
+        "sha256": "7f02a6a6ce9fc50a405da210d9df4759b013c19b9da5dfa288eac8ae28f37c90"
+      },
+      {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COMPLETE.json",
+        "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
+      }
+    ]
+  },
+  "formal_prepared_complete": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/COMPLETE.json",
+    "sha256": "b940fb275ab010c0ae4264d1f42cad0cd554516b76a80f5e0d3b2b0e7a97179e"
+  },
   "learned_embeddings_generated": false,
   "synthetic_verification_is_separate": true,
   "scope_limit": "Real patient matrices and formal node features are not trained embeddings or evidence of biological/predictive benefit.",
+  "observed_patients_by_channel": {
+    "cnv_signed": 10364,
+    "methylation_promoter_beta": 8200
+  },
+  "gene_node_alignment": {
+    "receipt": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/GENE_NODE_ALIGNMENT.json",
+      "sha256": "952475f314c7aa811250a38228da91641568a64ecf835e64ef550733023150b1"
+    },
+    "summary": {
+      "target_host": "149",
+      "parent_gene_nodes": 21981,
+      "protein_coding_matrix_genes": 19149,
+      "matrix_genes_outside_parent": 0,
+      "parent_genes_without_matrix_row": 2832
+    }
+  },
+  "numeric_spotcheck": {
+    "receipt": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/GENE_NUMERIC_SPOTCHECK.json",
+      "sha256": "45148af054a93d0dd777cd2fcf8c6d29c31f475459e24eff409eb45b9991539d"
+    },
+    "summary": {
+      "target_host": "149",
+      "status": "PASS",
+      "patients_checked": 6,
+      "genes_checked": 7,
+      "scalar_checks": 84,
+      "maximum_absolute_difference": 2.8290095155369954e-08
+    }
+  },
+  "cpu_deadline": {
+    "receipt": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/CPU_DEADLINE_EXTENSION.json",
+      "sha256": "134a17d69d662448266fdfd19a9b8925a37eda31385ee9c7d197ef120dc7057a"
+    },
+    "summary": {
+      "target_host": "149"
+    }
+  },
+  "formal_output_directory": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2",
+  "individual_prepared_checks_completed": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "formal_preflight": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r2/LAUNCH_PREFLIGHT.json",
+    "sha256": "1994680459f4acb99463c7246caac69495b90e4e039abdf8db964cf2e586b983"
+  },
+  "matrix_coverage_audit": {
+    "receipt": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/GENE_MATRIX_COVERAGE_AUDIT.json",
+      "sha256": "c3a91738df7dc9926e4663cb8ba2cefc113ecbabe67e6611406b8b430532ffbd"
+    },
+    "summary": {
+      "target_host": "149",
+      "status": "PASS",
+      "training_started": false,
+      "completed_at_utc": "2026-10-29T13:56:34.778916+00:00",
+      "matrix_product": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COMPLETE.json",
+        "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
+      },
+      "audit_script": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/audit_matrix_coverage.py",
+        "sha256": "e45a1ba96de2fed59c5205de6ee019175228b54c20f6a374459a14b1b020758e"
+      },
+      "cancers": 33,
+      "patients": 10432,
+      "matrix_genes": 19149,
+      "promoter_mapped_genes": 18384,
+      "distinct_promoter_probes": 170365,
+      "patients_observed_in_both_channels": 8149,
+      "channels": {
+        "cnv_signed": {
+          "observed_cells": 192346247,
+          "missing_cells": 7416121,
+          "observed_zero_cells": 243223,
+          "observed_patients": 10364,
+          "minimum_observed": -7.943600177764893,
+          "maximum_observed": 5.2795000076293945,
+          "observed_genes": 18586,
+          "unobserved_genes_by_chromosome": {
+            "chr1": 110,
+            "chr16": 45,
+            "chr22": 40,
+            "chr8": 38,
+            "chr20": 38,
+            "chrY": 33,
+            "chrX": 25,
+            "chr4": 25,
+            "chr12": 23,
+            "chr5": 23,
+            "chr15": 21,
+            "chr11": 19,
+            "chr2": 15,
+            "chr19": 15,
+            "chr17": 14,
+            "chr14": 13,
+            "chrM": 13,
+            "chr18": 12,
+            "chr7": 8,
+            "chr21": 8,
+            "chr10": 7,
+            "chr3": 6,
+            "chr9": 5,
+            "chr6": 4,
+            "chr13": 3
+          },
+          "selected_raw_files": 10364,
+          "patients_with_selected_files": 10364
+        },
+        "methylation_promoter_beta": {
+          "observed_cells": 146318150,
+          "missing_cells": 53444218,
+          "observed_zero_cells": 0,
+          "observed_patients": 8200,
+          "minimum_observed": 0.00633251341059804,
+          "maximum_observed": 0.9939565062522888,
+          "observed_genes": 17907,
+          "unobserved_genes_by_chromosome": {
+            "chr1": 163,
+            "chr11": 114,
+            "chrX": 110,
+            "chr9": 92,
+            "chr17": 76,
+            "chr7": 74,
+            "chr19": 63,
+            "chr16": 53,
+            "chr4": 51,
+            "chr8": 51,
+            "chr2": 47,
+            "chr15": 42,
+            "chr10": 39,
+            "chr12": 37,
+            "chr6": 35,
+            "chr5": 31,
+            "chr14": 29,
+            "chr21": 29,
+            "chr22": 27,
+            "chr3": 25,
+            "chrY": 19,
+            "chrM": 13,
+            "chr13": 10,
+            "chr18": 6,
+            "chr20": 6
+          },
+          "selected_raw_files": 8236,
+          "patients_with_selected_files": 8200
+        }
+      },
+      "matrix_files_hashed": 132,
+      "raw_file_sha256_records_checked": 18600,
+      "raw_bytes_rehashed_by_this_audit": false,
+      "raw_byte_validation": "All source MD5/size and consumed-byte SHA256 were checked by the completed materializer; this audit verifies its pinned raw-file receipt.",
+      "matrix_orientation": "patient_by_gene",
+      "missing_cells_are_nan_with_false_mask": true
+    }
+  },
   "local_parent_verification": {
     "receipt": {
       "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/VERIFIED_LOCAL_PARENTS.json",
@@ -145,24 +833,10 @@
     "status": "PASS"
   },
   "parent_prepared_validation": {
-    "status": "PENDING"
-  },
-  "last_successful_observation": {
-    "observed_at_utc": "2026-10-29T06:57:11.325719+00:00",
-    "materialization_status": "RUNNING",
-    "formal_prepared_status": "PENDING",
-    "files_verified_in_completed_cancer_channels": 4348
-  },
-  "observation_interruption": {
-    "recorded_at_utc": "2026-10-29T09:02:26.994527+00:00",
-    "ssh_error": "Connect to 172.22.148.149 port 22 timed out",
-    "ioa_observed_state": "NetID login page",
-    "desktop_input_result": "Windows denied SetCursorPos; no click or credential submission performed",
-    "user_action_required": "Complete Tencent iOA login/network access",
-    "remote_execution_outcome": "UNKNOWN; network failure does not prove job failure",
-    "remote_jobs_relaunched": false,
-    "last_known_materializer_deadline_utc": "2026-10-29T09:29:54+00:00",
-    "last_known_formal_controller_deadline_utc": "2026-10-29T10:15:00+00:00",
-    "resume": "Inspect existing COMPLETE/FAILED receipts before any new launch; run refresh_gene_patient_status_20261029.py after SSH hostname returns 149."
+    "receipt": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/PARENT_LOCAL_INSPECTION.json",
+      "sha256": "e130ed3f676a237eb00625e8be561f9fa0ff4dd68f10ed27ed51d573e90fa9cb"
+    },
+    "status": "PASS"
   }
 }

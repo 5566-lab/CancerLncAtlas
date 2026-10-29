@@ -1,0 +1,61 @@
+{
+  "format": "GENE_NODE_PREPARED_INPUT_MANIFEST_V1",
+  "target_host": "149",
+  "training_started": false,
+  "gene_product": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/COMPLETE.json",
+    "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
+  },
+  "fold_inputs": [
+    {
+      "fold": 0,
+      "path": "/dsk2/user/dengsc/v32_eval_payloads/G2/PATIENT_FOLD_0.pt",
+      "sha256": "c60180606397c0b7c96835307376a1fc0a047405b9348c49d8e335529271a596",
+      "bytes": 12836939525,
+      "node_omics": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_0/node_omics/node_evidence.json",
+        "sha256": "d320285c8cbe5a5efc057e72c3c8411c60e5ef82728e524160b7225c98d94dd3"
+      }
+    },
+    {
+      "fold": 1,
+      "path": "/dsk2/user/dengsc/v32_eval_payloads/G2/PATIENT_FOLD_1.pt",
+      "sha256": "e808c7c9fab87c3fe633741902ab1d55f11f0189d391e366187978c4053553b2",
+      "bytes": 12875738373,
+      "node_omics": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_1/node_omics/node_evidence.json",
+        "sha256": "653d7f51c4a89d969a52082820a3f562bdc7caf67c4c9669aadc5a45497467f2"
+      }
+    },
+    {
+      "fold": 2,
+      "path": "/dsk2/user/dengsc/v32_eval_payloads/G2/PATIENT_FOLD_2.pt",
+      "sha256": "6203ecc012472e906969fb45eda6d8910bd493dd19b0503d132564df7a07da34",
+      "bytes": 12931909957,
+      "node_omics": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_2/node_omics/node_evidence.json",
+        "sha256": "7b2d609801b84e338388006d59de32c8fb2368f894089010e8142062b0a92070"
+      }
+    },
+    {
+      "fold": 3,
+      "path": "/dsk2/user/dengsc/v32_eval_payloads/G2/PATIENT_FOLD_3.pt",
+      "sha256": "5d22d86fe87f64403b7d7b3607deb9f1e01c4ab3e63f45cbdf0a6d3b076c74b1",
+      "bytes": 12969772485,
+      "node_omics": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_3/node_omics/node_evidence.json",
+        "sha256": "6f922cb6d2739ab31d6a5682042123c6a486408a8197a4162129fa359531fb4b"
+      }
+    },
+    {
+      "fold": 4,
+      "path": "/dsk2/user/dengsc/v32_eval_payloads/G2/PATIENT_FOLD_4.pt",
+      "sha256": "71803651b5ae28a7e64fdf47627bdfaa317ef246a80ebc077317da320b37e08f",
+      "bytes": 12895051589,
+      "node_omics": {
+        "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/node_folds_r1/fold_4/node_omics/node_evidence.json",
+        "sha256": "d55d742578737f3bcf829d661c921ade26205edb56c874a008c6503ea30741ee"
+      }
+    }
+  ]
+}

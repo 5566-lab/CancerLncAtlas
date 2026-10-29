@@ -1,0 +1,15 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "status": "PASS",
+  "scope": "NUMERIC_SPOTCHECK_ONLY_NOT_FULL_COHORT_ACCEPTANCE",
+  "cancers": [
+    "ACC",
+    "BRCA"
+  ],
+  "patients_checked": 6,
+  "genes_checked": 7,
+  "scalar_checks": 84,
+  "maximum_absolute_difference": 2.8290095155369954e-08,
+  "method": "Independent boolean interval selection; direct probe means; file/sample/patient aggregation. Raw MD5 rechecked."
+}

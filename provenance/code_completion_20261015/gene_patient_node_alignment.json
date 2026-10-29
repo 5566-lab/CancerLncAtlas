@@ -1,0 +1,8 @@
+{
+  "target_host": "149",
+  "training_started": false,
+  "parent_gene_nodes": 21981,
+  "protein_coding_matrix_genes": 19149,
+  "matrix_genes_outside_parent": 0,
+  "parent_genes_without_matrix_row": 2832
+}

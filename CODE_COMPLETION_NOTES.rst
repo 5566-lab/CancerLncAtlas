@@ -7276,3 +7276,8 @@ change their case counts. ``RECORDED_PASS`` means the small completion records
 are consistent; it does not repeat prepared validation or rehash large artifacts.
 The real host149 check remains pending iOA connectivity. No requirement was
 promoted and C01/C13/C16 remain open. See the dedicated static-check receipt.
+
+Real gene-assay preparation and five-fold acceptance on149 (2026-10-29)
+-----------------------------------------------------------------------
+Actual 33-cancer gene matrices and all five formal prepared folds now passed on 149. The 18,600 selected GDC files were size/MD5-checked during parsing; all 132 output arrays/masks were independently rehashed and numerically checked. Observed coverage is 10,364 CNV patients/18,586 genes and 8,200 methylation patients/17,907 genes. All five actual prepared validators accept six-column node inputs. Fold 0/1 completed before the controller timeout; recovery retained their pinned receipts and validated folds 2/3/4 without rebuilding matrices. No model fitting, new trained embeddings or requirement promotion occurred.
+The final output is node_folds_r2; its node-evidence references deliberately retain the completed per-fold products in node_folds_r1. Both directories are required. Matrix data remain in patient_gene_matrices_r2. Missing values remain NaN with false availability flags. The 19,149-gene reference axis and 18,384 promoter-mapped genes are distinct from actual measured coverage. C01/C13/C16 remain open.
