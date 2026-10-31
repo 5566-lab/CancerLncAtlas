@@ -7281,3 +7281,27 @@ Real gene-assay preparation and five-fold acceptance on149 (2026-10-29)
 -----------------------------------------------------------------------
 Actual 33-cancer gene matrices and all five formal prepared folds now passed on 149. The 18,600 selected GDC files were size/MD5-checked during parsing; all 132 output arrays/masks were independently rehashed and numerically checked. Observed coverage is 10,364 CNV patients/18,586 genes and 8,200 methylation patients/17,907 genes. All five actual prepared validators accept six-column node inputs. Fold 0/1 completed before the controller timeout; recovery retained their pinned receipts and validated folds 2/3/4 without rebuilding matrices. No model fitting, new trained embeddings or requirement promotion occurred.
 The final output is node_folds_r2; its node-evidence references deliberately retain the completed per-fold products in node_folds_r1. Both directories are required. Matrix data remain in patient_gene_matrices_r2. Missing values remain NaN with false availability flags. The 19,149-gene reference axis and 18,384 promoter-mapped genes are distinct from actual measured coverage. C01/C13/C16 remain open.
+
+Experimental KO/KD/OE/rescue regulatory graphs (2026-11-01)
+---------------------------------------------------------
+Added source-bound experiment readers and actual HGT/RGCN GraphBundle
+consumption through patient_conditioning.experimental_regulatory_graph.
+The host149-only CLI prepares the registry and per-experiment response, node,
+edge and graph artifacts. All 230 supplied source files passed SHA256 checks;
+167,383 mixed experiment/signature/curated/auxiliary entries are indexed, not
+167,383 independent experiments. Ten real example graphs passed export,
+readback and frozen HGT encoding. The 65 current tests include existing
+patient-conditioning regressions, native matrix readers, source/group replay,
+actual HGT/RGCN propagation and the CLI. No optimizer or learned embedding
+export ran. The synthetic ledger has 2,328 cumulative unique cases and 433
+source pins; its counters do not include actual biological data preparation.
+
+KO response signs remain observed intervention responses, not basal regulatory
+activation signs. Direction-only evidence keeps ordinal weights; source
+magnitudes are not pooled. NORAD circPRE8 is functional bypass, not WT NORAD
+re-expression. CasRx is fitness-only, and its observation mask requires both
+LFC and FDR. LncTarD and low-throughput LncRNA2Target remain curated auxiliary
+evidence. Known overlapping studies are grouped, but the incomplete joint
+study/sample crosswalk prevents an accepted training split. C01/C13/C16 stay
+open. Prior incomplete attempts and the empty FDR-filtered OE comparison are
+retained; see causal_network_attempt_history.json and the accepted r3 receipt.

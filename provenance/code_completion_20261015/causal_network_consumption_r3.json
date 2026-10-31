@@ -1,0 +1,545 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "source_input_manifest_sha256": "3ab80abc6988d0ef54f2cc5e4e0e890b9b96b756210547f72fd7c086bd06777c",
+  "registry_manifest_sha256": "224ad9cfbe56bef37e2a1be379c5dad7a9eb8f5cc689ae95aee4bf8522db2357",
+  "experiments_indexed": 167383,
+  "source_files_verified_by_index": 230,
+  "actual_networks_consumed": 10,
+  "networks": [
+    {
+      "label": "RNAseq_lncRNA_KO",
+      "source": "PerturbAtlas",
+      "experiment_id": "Perturb_3634",
+      "max_fdr": 0.05,
+      "mechanism_holdout": false,
+      "status": "PASS",
+      "response_rows": 58551,
+      "observed_effect_rows": 7652,
+      "direction_available_rows": 7652,
+      "nodes": 290,
+      "edges": 290,
+      "readout_scales": [
+        "DESeq2_log2FoldChange"
+      ],
+      "intervention_types": [
+        "KO"
+      ],
+      "source_node_types": [
+        "lncRNA"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 218,
+        "lncRNA": 72
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_KO/RESPONSES.parquet",
+          "sha256": "9a141f0a3ef3c46e50f5a145893a240fcbfbb7a88a27b63ad49f248f0ebc21df"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_KO/NODES.parquet",
+          "sha256": "3d9beabf74f8b09af5275a6b4cd0345f4d504716ec30819184978a47c2e9cadb"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_KO/EDGES.parquet",
+          "sha256": "5f98d787dc302398e9707a917962f61a58926470a850eac27d5b0809053612ef"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_KO/GRAPH.pt",
+          "sha256": "c2fd04cc4ca892c4c103e741dc626fbb64232a7bfa92eadecfd64c4dc8dbf17b"
+        }
+      }
+    },
+    {
+      "label": "RNAseq_lncRNA_OE",
+      "source": "PerturbAtlas",
+      "experiment_id": "Perturb_6834",
+      "max_fdr": 0.05,
+      "mechanism_holdout": false,
+      "status": "PASS",
+      "response_rows": 58551,
+      "observed_effect_rows": 5140,
+      "direction_available_rows": 5140,
+      "nodes": 131,
+      "edges": 130,
+      "readout_scales": [
+        "DESeq2_log2FoldChange"
+      ],
+      "intervention_types": [
+        "OE"
+      ],
+      "source_node_types": [
+        "lncRNA"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 84,
+        "lncRNA": 47
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_OE/RESPONSES.parquet",
+          "sha256": "4b6bd4ca1f08be318c9172583c31dffabd368f51819623543cbf6c788b4fbc62"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_OE/NODES.parquet",
+          "sha256": "c98dc0e3aafe746989dd042873ca4dc49d75f0176e6bcb0be147e188ebed4808"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_OE/EDGES.parquet",
+          "sha256": "e665c7777cd3d9692568428211c20c9c45c49ac47e858326bdee42faf3fb504b"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_lncRNA_OE/GRAPH.pt",
+          "sha256": "32f80b51fb9b3b839fb96569c43e3f06f80753baaacb0ee0f0c46614431c4bc8"
+        }
+      }
+    },
+    {
+      "label": "RNAseq_coding_KD",
+      "source": "PerturbAtlas",
+      "experiment_id": "Perturb_18491",
+      "max_fdr": 0.05,
+      "mechanism_holdout": false,
+      "status": "PASS",
+      "response_rows": 58551,
+      "observed_effect_rows": 13367,
+      "direction_available_rows": 13367,
+      "nodes": 3467,
+      "edges": 3466,
+      "readout_scales": [
+        "DESeq2_log2FoldChange"
+      ],
+      "intervention_types": [
+        "KD"
+      ],
+      "source_node_types": [
+        "gene"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 3403,
+        "lncRNA": 64
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_coding_KD/RESPONSES.parquet",
+          "sha256": "41578d04c3d1f5f9c961c896ff5a53f1cec8429188ccbba06d9d4d23e79c21d1"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_coding_KD/NODES.parquet",
+          "sha256": "a930a3f29d55732e3dc04f14dd62ba4655047b72a27060a8cc3569f28b256cba"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_coding_KD/EDGES.parquet",
+          "sha256": "3a98b93285764b1b269e71d0464cc4d395a3ff6f95df52c4c2376d202bc957af"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/RNAseq_coding_KD/GRAPH.pt",
+          "sha256": "388baefe3f7a7081a2a08ffc39db629b3cae51efda31f89501603b11cd8e88d5"
+        }
+      }
+    },
+    {
+      "label": "GPSAdb_lncRNA_KD",
+      "source": "GPSAdb2",
+      "experiment_id": "D20077",
+      "max_fdr": null,
+      "mechanism_holdout": false,
+      "status": "PASS",
+      "response_rows": 28144,
+      "observed_effect_rows": 28144,
+      "direction_available_rows": 28144,
+      "nodes": 18071,
+      "edges": 18071,
+      "readout_scales": [
+        "difference_of_mean_log2_CPM_plus_1_descriptive"
+      ],
+      "intervention_types": [
+        "KD"
+      ],
+      "source_node_types": [
+        "lncRNA"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 15065,
+        "lncRNA": 3006
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/GPSAdb_lncRNA_KD/RESPONSES.parquet",
+          "sha256": "dd22a3f2403258030b63230b0a7ef3b9acc62f1a8ca971448101e33d49002b73"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/GPSAdb_lncRNA_KD/NODES.parquet",
+          "sha256": "11c886428c32673feb9c867babf2a8df1f0dd86caa49aff3a4c76355bd5f1e32"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/GPSAdb_lncRNA_KD/EDGES.parquet",
+          "sha256": "ccd1f11a98e6ad288cc6424dbaa40deb8a48adcee389ff9fd095f4c1ca614068"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/GPSAdb_lncRNA_KD/GRAPH.pt",
+          "sha256": "92c439a456822cdd305440dfc0c1697fe2cdbc853226f75f27cef68119134251"
+        }
+      }
+    },
+    {
+      "label": "L1000_OE",
+      "source": "LINCS_iLINCS_OE",
+      "experiment_id": "LINCSOE_1000",
+      "max_fdr": null,
+      "mechanism_holdout": false,
+      "status": "PASS",
+      "response_rows": 978,
+      "observed_effect_rows": 978,
+      "direction_available_rows": 978,
+      "nodes": 979,
+      "edges": 978,
+      "readout_scales": [
+        "iLINCS_source_MODZ_signature"
+      ],
+      "intervention_types": [
+        "OE"
+      ],
+      "source_node_types": [
+        "gene"
+      ],
+      "target_node_types": [
+        "gene"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 979
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_OE/RESPONSES.parquet",
+          "sha256": "e77470449d2e569afa6d07198749bd327f405c5c1263c7b7422452e97853dbd0"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_OE/NODES.parquet",
+          "sha256": "e2294c394195e23b17275f8011797d91c04eb0db8b39a1f46831b4977a17b6c8"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_OE/EDGES.parquet",
+          "sha256": "ce21a6532ef0089f9b5ae1711a13d2a2557f46a999cc3f20b46502d49564c13a"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_OE/GRAPH.pt",
+          "sha256": "7200ec3aed07bc547cb28efaf0f423ee660a2d85b72615d5340eb7f5aeda7ccd"
+        }
+      }
+    },
+    {
+      "label": "L1000_KO",
+      "source": "L2S2_KO",
+      "experiment_id": "HAHN001_A549_96H_A03_AKT1",
+      "max_fdr": null,
+      "mechanism_holdout": false,
+      "status": "PASS",
+      "response_rows": 10907,
+      "observed_effect_rows": 0,
+      "direction_available_rows": 500,
+      "nodes": 65,
+      "edges": 64,
+      "readout_scales": [
+        "thresholded_set_direction_only"
+      ],
+      "intervention_types": [
+        "KO"
+      ],
+      "source_node_types": [
+        "gene"
+      ],
+      "target_node_types": [
+        "gene"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 65
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_KO/RESPONSES.parquet",
+          "sha256": "929e8138b3723db410233c49479e923dda4d6f82ae0da54b0707518a2b6f93ea"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_KO/NODES.parquet",
+          "sha256": "3050a64beef6679669a5a9a0bf727b5e02774225b2aa9107f1f4a8c06047fa42"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_KO/EDGES.parquet",
+          "sha256": "112648f69bff8551c477cdfce1bf482c0d3ec867423511e968adaa2d9df67a0c"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/L1000_KO/GRAPH.pt",
+          "sha256": "ffa52eed9c813018ea4a48c36bc68149d7a7e4da25dae8de9cb78acf151a2766"
+        }
+      }
+    },
+    {
+      "label": "LncRNA2Target_direction",
+      "source": "LncRNA2Target3",
+      "experiment_id": "2",
+      "max_fdr": null,
+      "mechanism_holdout": false,
+      "status": "PASS",
+      "response_rows": 380,
+      "observed_effect_rows": 0,
+      "direction_available_rows": 380,
+      "nodes": 363,
+      "edges": 362,
+      "readout_scales": [
+        "source_direction_only_magnitude_unverified"
+      ],
+      "intervention_types": [
+        "KD"
+      ],
+      "source_node_types": [
+        "lncRNA"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 316,
+        "lncRNA": 47
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/LncRNA2Target_direction/RESPONSES.parquet",
+          "sha256": "a9588228163d0d0af57947a0eeb7a11ed32e1271f973c131f22af614ac7efe27"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/LncRNA2Target_direction/NODES.parquet",
+          "sha256": "83da409ef6face3f64523c490e259937514d08ef67cce160d2c3d9772a52f2af"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/LncRNA2Target_direction/EDGES.parquet",
+          "sha256": "2c1c08f5d9ea2694fb250f53ad050eee33ed04847eb50903ba7295843af267ac"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/LncRNA2Target_direction/GRAPH.pt",
+          "sha256": "ff0550421f0e8e0eeb7a0e47af703c4a2746601c1254a90a8537e5f1854681fa"
+        }
+      }
+    },
+    {
+      "label": "NORAD_NORAD_CRISPRi",
+      "source": "GEO_rescue_GSE154812",
+      "experiment_id": "NORAD_CRISPRi",
+      "max_fdr": null,
+      "mechanism_holdout": true,
+      "status": "PASS",
+      "response_rows": 19411,
+      "observed_effect_rows": 19411,
+      "direction_available_rows": 19411,
+      "nodes": 16390,
+      "edges": 16389,
+      "readout_scales": [
+        "difference_of_mean_log2_source_normalized_plus_1_descriptive"
+      ],
+      "intervention_types": [
+        "KD"
+      ],
+      "source_node_types": [
+        "lncRNA"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "gene": 16369,
+        "lncRNA": 21
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_NORAD_CRISPRi/RESPONSES.parquet",
+          "sha256": "0fe10d211dd7d1a067ffb10308b2b17668a068aa9a62e233f86e0d1e915dc15d"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_NORAD_CRISPRi/NODES.parquet",
+          "sha256": "de9e8353453a9eae4693be838bd1d529698e23d9f0b174a593fb50ed45a980fa"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_NORAD_CRISPRi/EDGES.parquet",
+          "sha256": "ba4ee0905749b5f5407ca160579d15a3a5abe0d6f1c180b8625dcd9ef564b7d9"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_NORAD_CRISPRi/GRAPH.pt",
+          "sha256": "f7bbb212addc09f5bfe20ef7d00cdffaffa795e1d2fdf00ba165ce1aa41fdabf"
+        }
+      }
+    },
+    {
+      "label": "NORAD_circPRE2",
+      "source": "GEO_rescue_GSE154812",
+      "experiment_id": "circPRE2",
+      "max_fdr": null,
+      "mechanism_holdout": true,
+      "status": "PASS",
+      "response_rows": 19411,
+      "observed_effect_rows": 19411,
+      "direction_available_rows": 19411,
+      "nodes": 16614,
+      "edges": 16613,
+      "readout_scales": [
+        "difference_of_mean_log2_source_normalized_plus_1_descriptive"
+      ],
+      "intervention_types": [
+        "RESCUE_CONTROL"
+      ],
+      "source_node_types": [
+        "RNA_construct"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "RNA_construct": 1,
+        "gene": 16593,
+        "lncRNA": 20
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE2/RESPONSES.parquet",
+          "sha256": "e8ee1f13dc4495cb170a2c6016f91e9eda7de7def9f6123b69c9917fc30b5070"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE2/NODES.parquet",
+          "sha256": "b96907ee33db100595c7b314c2663a68d04813ada5d1a5be68e2f3877ecad8b3"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE2/EDGES.parquet",
+          "sha256": "b77b63d2f428689dee0c5c6342aa431b2f261f4af3dd16be5cd5e9715afc3a59"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE2/GRAPH.pt",
+          "sha256": "97654cd4929717e4ce38bc386b88b2d4fca62b2918dfd043a2a80ded649aa151"
+        }
+      }
+    },
+    {
+      "label": "NORAD_circPRE8",
+      "source": "GEO_rescue_GSE154812",
+      "experiment_id": "circPRE8",
+      "max_fdr": null,
+      "mechanism_holdout": true,
+      "status": "PASS",
+      "response_rows": 19411,
+      "observed_effect_rows": 19411,
+      "direction_available_rows": 19411,
+      "nodes": 16580,
+      "edges": 16579,
+      "readout_scales": [
+        "difference_of_mean_log2_source_normalized_plus_1_descriptive"
+      ],
+      "intervention_types": [
+        "RESCUE"
+      ],
+      "source_node_types": [
+        "RNA_construct"
+      ],
+      "target_node_types": [
+        "gene",
+        "lncRNA"
+      ],
+      "frozen_encoder_rows": {
+        "RNA_construct": 1,
+        "gene": 16559,
+        "lncRNA": 20
+      },
+      "encoder_parameter_change": false,
+      "trained_embeddings_exported": false,
+      "files": {
+        "RESPONSES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE8/RESPONSES.parquet",
+          "sha256": "bdf6ad7a6a52a360836f4ad702cce57a5928df4813f989ca1252c0c271806678"
+        },
+        "NODES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE8/NODES.parquet",
+          "sha256": "5ad7d11668b6252ce4c3caa15f268cdf6b98e106fe60aca7a134f8bda69f33a6"
+        },
+        "EDGES.parquet": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE8/EDGES.parquet",
+          "sha256": "f2f765a13bcd9e8709537caa80b7b4e0ad2bbfb4b05a148020e63a530edc153e"
+        },
+        "GRAPH.pt": {
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3/NORAD_circPRE8/GRAPH.pt",
+          "sha256": "33692f14d01a9902449b38cd75d570352441939faf9973fc16939d3b36e56cd4"
+        }
+      }
+    }
+  ],
+  "auxiliary": {
+    "LncTarD2": {
+      "rows": 8360,
+      "readout": "curated_evidence",
+      "converted_to_KO_OE_rescue_labels": false
+    },
+    "LncRNA2Target3_low": {
+      "rows": 2288,
+      "readout": "curated_evidence",
+      "converted_to_KO_OE_rescue_labels": false
+    },
+    "CasRx2024": {
+      "shape": [
+        24171,
+        6
+      ],
+      "observed": 142440,
+      "readout": "cell_fitness",
+      "converted_to_molecular_edges": false
+    }
+  },
+  "empty_policy_selections": [
+    {
+      "source": "PerturbAtlas",
+      "experiment_id": "Perturb_9045",
+      "max_fdr": 0.05,
+      "status": "NO_ELIGIBLE_EDGES_UNDER_DECLARED_POLICY"
+    }
+  ],
+  "training_started": false,
+  "parameter_fitting_started": false,
+  "trained_embeddings_generated": false,
+  "purpose": "Real input preparation and frozen computational validation",
+  "joint_train_validation_split_ready": false,
+  "script_sha256": "d8886d27f385aa9f6aff08de3ef6253d52188b872d38f69663816e2472911a53",
+  "completed_at_utc": "2026-10-31T19:10:40.458618+00:00"
+}

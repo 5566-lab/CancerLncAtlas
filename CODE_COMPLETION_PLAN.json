@@ -139,7 +139,7 @@
     {
       "id": "C19",
       "status": "code_implemented_fixture_verified",
-      "implementation": " Added cc_hhgt/v32/patient_conditioning.py. A subject-scope omics evidence pair identifies one patient; an Intervention declares the counterfactual state of one node and one channel. validate_intervention refuses a cohort table standing in for a patient, a subject or cancer mismatch, an unknown mode, an unknown node type, a node absent from the graph, a channel absent from the evidence, a participant with no measurement for that channel, a missing or non-finite counterfactual value, a counterfactual equal to the observed value and a graph bundle that has not been widened with multi-omics node inputs. patient_relation_shift installs the observed and the intervened block around the same frozen forward pass, restores the bundle bit-identically, and reports the per-pair membership delta, the absolute delta, sign flips, and within-cancer rank movement with top-k overlap. The record carries the exact estimand text, the intervention identifier, the declared causal_claim=false and requires_orthogonal_validation=true. No patient result is produced without a real patient table and a trained multi-omics model, neither of which exists. Fixed temporary conditioning so runtime graph chunk reconstruction consumes intervened blocks, preserves tensor device/dtype and restores both blocks and tensors even when installation fails. Production-loaded bundles also reject patient evidence whose channel ordering differs."
+      "implementation": " Added cc_hhgt/v32/patient_conditioning.py. A subject-scope omics evidence pair identifies one patient; an Intervention declares the counterfactual state of one node and one channel. validate_intervention refuses a cohort table standing in for a patient, a subject or cancer mismatch, an unknown mode, an unknown node type, a node absent from the graph, a channel absent from the evidence, a participant with no measurement for that channel, a missing or non-finite counterfactual value, a counterfactual equal to the observed value and a graph bundle that has not been widened with multi-omics node inputs. patient_relation_shift installs the observed and the intervened block around the same frozen forward pass, restores the bundle bit-identically, and reports the per-pair membership delta, the absolute delta, sign flips, and within-cancer rank movement with top-k overlap. The record carries the exact estimand text, the intervention identifier, the declared causal_claim=false and requires_orthogonal_validation=true. No patient result is produced without a real patient table and a trained multi-omics model, the trained multi-omics model is still absent; actual gene-input preparation is recorded separately. Fixed temporary conditioning so runtime graph chunk reconstruction consumes intervened blocks, preserves tensor device/dtype and restores both blocks and tensors even when installation fails. Production-loaded bundles also reject patient evidence whose channel ordering differs. Added verified experimental KO/KD/OE/rescue response graphs through patient_conditioning.experimental_regulatory_graph and the actual HGT/RGCN GraphBundle consumer. Native matrices, sample groups, direction-only evidence and functional-bypass rescue are kept distinct. Ten real graph examples were materialized and read by a frozen encoder on149 without fitting; a reviewed cross-source split is still required for joint training."
     },
     {
       "id": "C20",
@@ -154,7 +154,7 @@
   ],
   "latest_validation": {
     "target_host": "149",
-    "unique_fixture_tests_passed": 2296,
+    "unique_fixture_tests_passed": 2328,
     "optimizer_jobs_started": 0,
     "real_data_analysis_started": false,
     "production_deployed": false,
@@ -164,7 +164,7 @@
       "C13",
       "C16"
     ],
-    "latest_change_tests_passed": 70,
+    "latest_change_tests_passed": 65,
     "pending_validation": [],
     "r_validation_scope": {
       "executed_scripts": [
@@ -181,7 +181,7 @@
       "real_cohort_execution": false,
       "other_R_scripts": "Their previously recorded parse-only scope is unchanged."
     },
-    "scope": "Synthetic scientific test ledger only; actual cohort preparation is recorded separately in real_gene_preparation_acceptance_20261029 and gene_patient_live_status.json."
+    "scope": "Synthetic scientific test ledger only; actual gene preparation and experimental-network consumption are recorded in separate acceptance blocks and receipts."
   },
   "scope_extension_20261029": {
     "user_instruction": "接入经过核实的 gene × patient CNV、基因启动子甲基化数据",
@@ -225,5 +225,42 @@
     "formal_folds_passed": 5,
     "node_input_dim": 6,
     "scope": "Pooled training-patient gene inputs; not new trained embeddings, prediction benefit or complete project-source ancestry."
+  },
+  "scope_extension_20261101": {
+    "user_instruction": "加入 causal_perturbation_20261031 作为 KO、OE 和 rescue 调控网络",
+    "authorized_operation": "VERIFIED_EXPERIMENTAL_REGULATORY_GRAPH_PREPARATION_AND_CODE_INTEGRATION",
+    "target_host": "149",
+    "training_authorized": false,
+    "paid_compute_authorized": false
+  },
+  "real_causal_network_acceptance_20261101": {
+    "target_host": "149",
+    "status": "PASS",
+    "source_files_verified": 230,
+    "registry_entries": 167383,
+    "registry_entry_count_unit": "Mixed experiment/signature/curated/auxiliary entries, not independent experiments",
+    "entries_by_source": {
+      "L2S2_KO": 140945,
+      "LINCS_iLINCS_OE": 9291,
+      "PerturbAtlas": 8453,
+      "LncTarD2": 8360,
+      "LncRNA2Target3": 171,
+      "GPSAdb2": 159,
+      "GEO_rescue_GSE154812": 3,
+      "CasRx2024": 1
+    },
+    "actual_networks_consumed": 10,
+    "training_started": false,
+    "learned_embeddings_generated": false,
+    "joint_training_split_ready": false,
+    "registry_receipt": {
+      "path": "provenance/code_completion_20261015/causal_network_inputs_complete.json",
+      "sha256": "224ad9cfbe56bef37e2a1be379c5dad7a9eb8f5cc689ae95aee4bf8522db2357"
+    },
+    "consumption_receipt": {
+      "path": "provenance/code_completion_20261015/causal_network_consumption_r3.json",
+      "sha256": "0b63260fc2b19845546f1cb359bb0c30543342dd68585c30d0852e1c89df1ee6"
+    },
+    "artifact_root": "/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1/accepted_networks_r3"
   }
 }

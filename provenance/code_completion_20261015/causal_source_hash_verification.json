@@ -1,0 +1,10 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "files": 230,
+  "bytes_verified": 1562327167,
+  "hash_mismatches": [],
+  "manifest_sha256": "3ab80abc6988d0ef54f2cc5e4e0e890b9b96b756210547f72fd7c086bd06777c",
+  "training_started": false,
+  "observed_at_utc": "2026-10-31T18:44:30.075191+00:00"
+}

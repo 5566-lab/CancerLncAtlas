@@ -1,7 +1,7 @@
 {
   "status": "PASS_SYNTHETIC_CODE_CHECKS",
   "target_host": "149",
-  "unique_test_cases_passed": 2296,
+  "unique_test_cases_passed": 2328,
   "optimizer_jobs_started": 0,
   "real_data_runs_started": 0,
   "paid_compute_started": false,
@@ -417,7 +417,7 @@
     "tests/test_v32_code_acceptance.py": "7d53945979c8bf83532d167bf290cbab445c89310ab471460ed3ef5a3f0ac1d3",
     "cc_hhgt/v32/omics_node_encoding.py": "ad5c02ab0909b168b1557fcbcf11b70e73a9062e458754a129ee9cdcc456f8b3",
     "tests/test_v32_omics_node_encoding.py": "53f798b1e5b8e48038de6b2c6e05dc41a29ed51a73dd8f38505ce83adc2a9f92",
-    "cc_hhgt/v32/patient_conditioning.py": "3f322e235e13a4c1a56112d342e616bf7f9eb344926940f8004499971d9e5483",
+    "cc_hhgt/v32/patient_conditioning.py": "f9072f7a16d7ce584cbb281ab824022ce135e4b3910f6c2bda4da7da42011448",
     "tests/test_v32_patient_conditioning.py": "0c2bc289ff053012ad1ed0d342411584fa997ea23d69350522d2b30cdea72c8b",
     "cc_hhgt/v32/omics_ablation_comparison.py": "58147404ca198da32e10b30c4eb21b092f1c6022e169331d9723030f27e7a906",
     "tests/test_v32_omics_ablation_comparison.py": "b24e307f6314e6298a484e6350dbaf21db478716975183924116f0a49602600e",
@@ -436,7 +436,11 @@
     "tests/test_v32_gene_patient_omics.py": "78ca3793dde3211dc17adc30f7dc4b960881ed53025f7780d3a02dbea9f1c668",
     "scripts/bind_v32_tcga_gene_sources.py": "323e658e16caa8f9cf30309893850b7933257ae365dd49cdcb4bc5496156f5a5",
     "scripts/prepare_v32_gene_node_folds.py": "6a759a8bcf9ef4f974378cb980b478f7a4283f8739f15c05fe17dc13944f1965",
-    "tests/test_v32_tcga_gene_source_binding.py": "846bda219fa7e99c172032fe3c1ade8024b6d0980b760c627c0232fab9b738c0"
+    "tests/test_v32_tcga_gene_source_binding.py": "846bda219fa7e99c172032fe3c1ade8024b6d0980b760c627c0232fab9b738c0",
+    "cc_hhgt/v32/causal_regulatory_inputs.py": "977b43891d806c78ae9f10823b70d0417fd0c8cd28fe2fb2dd37fae75c0998c9",
+    "cc_hhgt/v32/causal_regulatory_network.py": "6dc671311d367bedc6ca7a56dd03c21ce6d9f3615f597b17d6e3e4c1fd1b93db",
+    "scripts/prepare_v32_causal_regulatory_network.py": "6925186a9b89f50a9e6a12ad18d5c1cd71d2b58070258e83a2626b29eea26602",
+    "tests/test_v32_causal_regulatory_network.py": "6a4faa4d530a68c7c7a8a2008bdfd5c3f210e92607dc85cf5efeabc72aa3f8fb"
   },
   "known_scope_limits": [
     "No real-data execution or scientific performance claims",
@@ -625,7 +629,8 @@
     "The widened encoder input was checked against the existing graph and model consumers on host 149. Four regression groups now pass: graph-contract, fold-local and model-use suites in group B, the full model contract in group C, and the core-export/current-model/current-core suites in group D. A first group also exposed two pre-existing failures unrelated to the encoder change: one test hand-built a homogeneous graph without the topology channel that the production bundle has always supplied, and one asserts wording from a V2.9 contract document that is not part of this checkout. The first was repaired by supplying the topology channel exactly as production does and now passes; the second now skips with an explicit reason instead of failing, because fabricating the missing document would be worse than recording its absence. No requirement was promoted: C01, C13 and C16 remain open, and complete scientific field definitions are still unpublished. No optimizer, real cohort, paid compute or deployment ran.",
     "Public field definitions now have a registry and a completeness gate instead of a prose promise. Each registered column carries one checkable sentence plus its value kind, unit or scale, producing stage, status and a schema-verified flag; component-specific clarifications override the shared semantics where the same column name means something else in another module. The published catalog now attaches the definition to every field, reports defined/total coverage with the exact undefined column list, and may only declare the complete scope when coverage is exactly 100%: otherwise it keeps the incomplete scope and reports the gap. Pending entries never count, an empty catalog is refused, and the web/workflow suite that recomputes the catalog continues to pass, including its tampered-scope rejection. This is progress, not closure: the registry defines 35 columns and 5 component clarifications, no archived published catalog was located within the read-only search window, and full coverage of the actual published columns still requires an actual publication inventory. No definition asserts a scientific finding, no optimizer, real cohort, paid compute or deployment ran, and no requirement was promoted.",
     "The DEEPSEEK continuation adds an opt-in promoter methylation beta channel while retaining the historical three-channel default. A host149-only producer consumes hash-bound measured sample/feature values, explicit node mappings and patient/split authority. It preserves signed CNV and measured zero versus missing values, aggregates observed features per sample, samples per patient and training patients per cohort, and uses declared identity scaling without fitting. Formal training and frozen-core export share the source-replayed node-input loader after binding expansion. A real synthetic native prepared payload passes its original validator and frozen residual-model export/forward with the new inputs. Runtime intervention contexts now also preserve the registered all-chunk exported gene and lncRNA vectors: independent methylation and CNV perturbations change the corresponding final vectors while parameters stay fixed, with exact restoration. The contexts update stored blocks as well as tensors and restore both on normal exit or exceptions. These are synthetic checks of native completed methylation bindings and native signed CNV patient matrices as well: the former uses the original raw/recovery producer, and the latter an explicitly frozen synthetic native-format matrix. Both reach actual prepared validation and exported lncRNA embeddings without duplicating patient values by aliquot count. These remain code checks, not trained multi-omics results. Global pooled inputs are not patient-specific embeddings. Raw assay processing, promoter-map correctness, biological/fold identity authenticity, full new-source model-use traversal, automatic native workflow declaration generation and public field completeness remain unresolved. No real data, downloads, optimizer, paid compute or deployment was started.",
-    "Added verified protein-coding gene inputs from GDC signed segment CNV and HM450 promoter beta files. The producer verifies GDC size/MD5, records consumed-byte SHA256, uses one GRCh38 GENCODE reference, retains patient/gene axes and missingness, and masks shared CNV segment endpoints. The node reader streams patient matrices and enforces both test and validation exclusion against the current formal fold authority. Added an all-five-fold attachment CLI using the actual training loader and prepared validator. No optimizer or model fitting is performed. Synthetic raw-to-gene tests show both channels change fixed-weight gene vectors. Live preparation is separately recorded and must not be inferred from these fixture checks. C01, C13 and C16 remain open."
+    "Added verified protein-coding gene inputs from GDC signed segment CNV and HM450 promoter beta files. The producer verifies GDC size/MD5, records consumed-byte SHA256, uses one GRCh38 GENCODE reference, retains patient/gene axes and missingness, and masks shared CNV segment endpoints. The node reader streams patient matrices and enforces both test and validation exclusion against the current formal fold authority. Added an all-five-fold attachment CLI using the actual training loader and prepared validator. No optimizer or model fitting is performed. Synthetic raw-to-gene tests show both channels change fixed-weight gene vectors. Live preparation is separately recorded and must not be inferred from these fixture checks. C01, C13 and C16 remain open.",
+    "Experimental KO/KD/OE/rescue graphs retain source-native response scales and source-specific missingness. Actual preparation and ten frozen HGT graph reads are recorded separately in causal_network_consumption_r3.json. These are not learned embeddings or predictive performance checks. The cross-source study split remains unassigned, so joint training is not accepted. C01/C13/C16 remain open."
   ],
   "test_suites": [
     {
@@ -1827,6 +1832,11 @@
       "path": "provenance/code_completion_20261015/gene_source_binding_r1_tests.xml",
       "passed": 6,
       "sha256": "3c7f8e651ef7cafcfc4da49a28c9fa01102abd571626727dd3ea74a6a0e91539"
+    },
+    {
+      "path": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml",
+      "passed": 65,
+      "sha256": "482ef3942a520605cd974e5d2a3bee7beb4b15b062d2762c79e771409414b373"
     }
   ],
   "case_count_policy": "Deduplicate by module and exact parameterized case name; replace the older unparameterized signed-SC runner case with the later five parameterized cases. Only selected passing suites count.",
@@ -2431,6 +2441,166 @@
       "module": "tests.test_v32_canonical_metacell_consumer",
       "case": "test_rehashed_outer_fold_cannot_change_canonical_identity[query_donor]",
       "suite": "provenance/code_completion_20261015/sc_geometry_consumers_r1_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_absent_statistics_cannot_pass_fdr_filter",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_auxiliary_sources_are_consumed_with_native_semantics",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_catalog_preserves_all_sources_and_known_overlap",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_cli_prepares_native_graph_and_exact_artifact_hashes",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_contrast_axis_mismatch_is_rejected_even_with_valid_file_hash",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_duplicate_response_ids_are_reviewed_not_pooled",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_finite_fitness_without_fdr_does_not_become_observed[False]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_finite_fitness_without_fdr_does_not_become_observed[True]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_gpsadb_native_group_replay",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_gpsadb_sample_identity_is_required",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_invalid_fdr_policy_fails[-0.1]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_invalid_fdr_policy_fails[0]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_invalid_fdr_policy_fails[1.1]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_known_sample_overlap_propagates_rescue_embargo",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_ko_response_sign_is_not_activation_and_missing_is_not_zero",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_l2s2_conflicting_membership_is_unavailable",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_l2s2_unlisted_and_inferred_readouts_are_not_labels",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_manifest_hash_drift_fails",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_oe_orientation_and_native_scale",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_oe_uses_verified_readout_symbol_annotation",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_real_graph_consumer_and_frozen_encoder[cc_hhgt]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_real_graph_consumer_and_frozen_encoder[rgcn]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_rescue_effect_must_replay_from_groups",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_rescue_replays_fractional_expression_and_retains_control",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_review_records_retained_but_not_network_edges[LINCS_iLINCS_OE-OE1]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_review_records_retained_but_not_network_edges[LncRNA2Target3-286]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_review_records_retained_but_not_network_edges[PerturbAtlas-P_BAD]",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_shrna_source_review_label_remains_kd_not_ko",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_source_hash_drift_fails",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_source_path_escape_fails",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_unreviewed_training_split_and_unknown_experiments_fail",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
+    },
+    {
+      "module": "tests.test_v32_causal_regulatory_network",
+      "case": "test_unverified_lncrna2target_magnitude_is_not_regression_label",
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_clinical_entity_training",
@@ -11230,167 +11400,167 @@
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_cohort_evidence_cannot_be_presented_as_a_patient",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_conditioned_writes_and_restores_the_bundle_exactly",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_degree_only_bundle_is_refused",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_delta_table_flags_only_real_sign_changes",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_is_unsupported_for_the_homogeneous_model",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_passes_its_controls_on_a_connected_graph",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_rejects_an_unknown_placebo",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_reports_no_effect_for_a_null_contrast",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_interaction_attribution_requires_a_target_pair",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervened_blocks_change_exactly_one_cell",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervened_blocks_mode_observed_is_a_no_op",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervened_blocks_reject_unmeasured_and_unknown_channels",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_intervention_identifier_is_stable_and_sensitive",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_module_exposes_no_fitting_entry_point",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_pair_batch_requires_columns_and_finite_features",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_pair_batch_supports_both_model_kinds",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_patient_relation_shift_is_deterministic",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_patient_relation_shift_reports_deltas_only_where_the_graph_connects",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_patient_relation_shift_with_observed_mode_has_no_effect",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_rank_summary_ranks_within_each_cancer",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_rewiring_needs_an_alternative_target",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_score_membership_is_frozen_and_finite",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs0-PATIENT_CONDITIONING_UNKNOWN_MODE]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs1-PATIENT_CONDITIONING_SUBJECT_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs2-PATIENT_CONDITIONING_CANCER_MISMATCH]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs3-PATIENT_CONDITIONING_NODE_TYPE_UNKNOWN]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs4-PATIENT_CONDITIONING_NODE_NOT_IN_GRAPH]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs5-PATIENT_CONDITIONING_CHANNEL_MISSING]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs6-PATIENT_CONDITIONING_PARTICIPANT_UNMEASURED]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs7-PATIENT_CONDITIONING_INTERVENTION_VALUE_MISSING]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs8-PATIENT_CONDITIONING_NO_INTERVENTION_CONTRAST]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_fails_closed_without_a_usable_contrast[intervention_kwargs9-PATIENT_CONDITIONING_VALUE_NOT_FINITE]",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_conditioning",
       "case": "test_validate_intervention_records_a_non_causal_estimand",
-      "suite": "provenance/code_completion_20261015/node_omics_native_r2_tests.xml"
+      "suite": "provenance/code_completion_20261015/causal_regulatory_r6_tests.xml"
     },
     {
       "module": "tests.test_v32_patient_fold_authority",
@@ -13320,11 +13490,9 @@
   ],
   "latest_change_validation": {
     "tags": [
-      "gene_patient_r2",
-      "gene_patient_r3",
-      "gene_source_binding_r1"
+      "causal_regulatory_r6"
     ],
-    "passed": 70,
+    "passed": 65,
     "count_basis": "UNIQUE_CASES_FROM_LATEST_LISTED_SUITE_PER_MODULE",
     "target_host": "149",
     "training_started": false,
@@ -13337,5 +13505,5 @@
       "sha256": "f7eadc9ebb8314ed4137686181047db3a5c51f2cef3af99440c9652dd0923dd2"
     }
   ],
-  "counter_scope": "SYNTHETIC_CODE_VERIFICATION_ONLY; authorized real preparation is recorded separately in gene_patient_live_status.json"
+  "counter_scope": "SYNTHETIC_CODE_VERIFICATION_ONLY; real gene preparation and causal network consumption have separate completion receipts."
 }

@@ -1,0 +1,18 @@
+{
+  "target_host": "149",
+  "accepted_attempt": "accepted_networks_r3",
+  "prior_attempts": [
+    {
+      "attempt": "accepted_networks_r1",
+      "status": "INCOMPLETE",
+      "reason": "First OE comparison had no FDR<=0.05 eligible edges; threshold was retained."
+    },
+    {
+      "attempt": "accepted_networks_r2",
+      "status": "INCOMPLETE",
+      "reason": "Ten graphs passed; auxiliary CasRx reader incorrectly equated source observed mask with LFC availability alone. Corrected to finite LFC and FDR with regression checks."
+    }
+  ],
+  "prior_attempt_outputs_retained": true,
+  "training_started": false
+}

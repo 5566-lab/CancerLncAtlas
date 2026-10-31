@@ -1,0 +1,149 @@
+"""Host149 real-source graph consumption, numerical checks and frozen forwards."""
+from pathlib import Path
+import datetime
+import hashlib
+import json
+import socket
+
+assert socket.gethostname() == "149"
+import numpy as np
+import pandas as pd
+import torch
+from cc_hhgt.gnn import build_model
+from cc_hhgt.v32.causal_regulatory_inputs import sha256, write_json
+from cc_hhgt.v32.causal_regulatory_network import CausalRegulatoryNetwork
+
+def forbidden(*args, **kwargs):
+    raise RuntimeError("No parameter fitting is permitted in input verification")
+for name in ("Adam", "AdamW", "SGD"):
+    setattr(torch.optim, name, forbidden)
+torch.set_num_threads(1)
+
+run = Path("/dell_2/DSC/CancerLncAtlas/runtime/causal_network_integration_20261101_r1")
+manifest = run / "network_inputs_r1/COMPLETE.json"
+output = run / "accepted_networks_r3"
+output.mkdir(exist_ok=False)
+write_json(output / "LAUNCH_PREFLIGHT.json", dict(
+    target_host="149", operation="REAL_EXPERIMENT_NETWORK_CONSUMPTION_NO_FITTING",
+    input_manifest_sha256=sha256(manifest), training_started=False,
+    time_utc=datetime.datetime.now(datetime.timezone.utc).isoformat()))
+network = CausalRegulatoryNetwork(manifest)
+index = network.index
+requests = []
+
+def choose(label, source, intervention=None, gene_class=None, identifier=None, max_fdr=None):
+    eligible = index.loc[(index.source == source) & index.network_eligible]
+    if intervention is not None:
+        eligible = eligible.loc[eligible.intervention_type == intervention]
+    if gene_class is not None:
+        eligible = eligible.loc[eligible.target_class == gene_class]
+    if identifier is not None:
+        eligible = eligible.loc[eligible.experiment_id == identifier]
+    assert not eligible.empty, label
+    row = eligible.iloc[0]
+    requests.append(dict(label=label, source=source, experiment_id=row.experiment_id,
+                         max_fdr=max_fdr, mechanism_holdout=bool(row.mechanism_holdout)))
+
+choose("RNAseq_lncRNA_KO", "PerturbAtlas", "KO", "lncRNA", "Perturb_3634", .05)
+choose("RNAseq_lncRNA_OE", "PerturbAtlas", "OE", "lncRNA", max_fdr=.05)
+choose("RNAseq_coding_KD", "PerturbAtlas", "KD", "protein_coding", "Perturb_18491", .05)
+choose("GPSAdb_lncRNA_KD", "GPSAdb2", identifier="D20077")
+choose("L1000_OE", "LINCS_iLINCS_OE", "OE", "protein_coding")
+choose("L1000_KO", "L2S2_KO", "KO", "protein_coding")
+choose("LncRNA2Target_direction", "LncRNA2Target3", gene_class="lncRNA")
+for identifier in ("NORAD_CRISPRi", "circPRE2", "circPRE8"):
+    choose("NORAD_" + identifier, "GEO_rescue_GSE154812", identifier=identifier)
+write_json(output / "REQUESTS.json", requests)
+cfg = dict(training=dict(hidden_channels=8, num_layers=1, num_heads=2,
+                         dropout=0.0, pair_hidden_channels=4),
+           task_contract={"pathway":{"target_level":"exact"}})
+
+results = []
+empty_selections = []
+# Exercise the predeclared FDR policy without replacing a null result by a
+# relaxed threshold. Selection here is computational coverage, not a biological
+# significance or performance estimate; every attempted empty record is kept.
+oe_request = next(r for r in requests if r["label"] == "RNAseq_lncRNA_OE")
+oe_candidates = index.loc[(index.source == "PerturbAtlas") & index.network_eligible
+    & (index.intervention_type == "OE") & (index.target_class == "lncRNA")]
+for candidate in oe_candidates.itertuples(index=False):
+    print("CHECK_OE_POLICY",candidate.experiment_id,flush=True)
+    edges = network.edges("PerturbAtlas",candidate.experiment_id,max_fdr=.05)
+    if not edges.empty:
+        oe_request["experiment_id"] = candidate.experiment_id
+        oe_request["mechanism_holdout"] = bool(candidate.mechanism_holdout)
+        break
+    empty_selections.append(dict(source="PerturbAtlas",experiment_id=candidate.experiment_id,
+        max_fdr=.05,status="NO_ELIGIBLE_EDGES_UNDER_DECLARED_POLICY"))
+else:
+    raise RuntimeError("No lncRNA OE example has eligible edges under the declared policy")
+write_json(output/"EMPTY_POLICY_SELECTIONS.json",empty_selections)
+write_json(output/"REQUESTS.json",requests)
+for request in requests:
+    print("READ", request["label"], request["experiment_id"], flush=True)
+    source, experiment = request["source"], request["experiment_id"]
+    responses = network.responses(source, experiment)
+    bundle = network.graph(source, experiment, max_fdr=request["max_fdr"],
+        purpose="mechanism_validation" if request["mechanism_holdout"] else "exploration")
+    assert not bundle.edges.empty
+    assert bundle.edges.effect_scale.nunique() == 1
+    assert bundle.edges.known_study_group.nunique() == 1
+    assert set(bundle.edges.physical_binding_label) == {"not_determined"}
+    assert bundle.edges.regulatory_activation_sign.isna().all()
+    target = output / request["label"]
+    target.mkdir()
+    responses.to_parquet(target/"RESPONSES.parquet", index=False)
+    bundle.nodes.to_parquet(target/"NODES.parquet", index=False)
+    bundle.edges.to_parquet(target/"EDGES.parquet", index=False)
+    torch.save(dict(format="EXPERIMENTAL_REGULATORY_GRAPH_V1", bundle=bundle,
+        authority=bundle.experimental_regulatory_authority, contains_trained_parameters=False,
+        contains_optimizer_state=False), target/"GRAPH.pt")
+    returned = torch.load(target/"GRAPH.pt", weights_only=False, map_location="cpu")
+    assert returned["bundle"].edges.equals(bundle.edges)
+    torch.manual_seed(101)
+    model = build_model("cc_hhgt", returned["bundle"], 2, cfg).eval()
+    before = {k:v.clone() for k,v in model.state_dict().items()}
+    with torch.no_grad():
+        encoded = model.encode(returned["bundle"].hetero_data)
+    assert all(torch.isfinite(value).all() for value in encoded.values())
+    assert all(torch.equal(before[k],v) for k,v in model.state_dict().items())
+    record = dict(**request, status="PASS", response_rows=len(responses),
+        observed_effect_rows=int(responses.effect_observed.sum()),
+        direction_available_rows=int(responses.direction_available.sum()),
+        nodes=len(bundle.nodes), edges=len(bundle.edges),
+        readout_scales=sorted(set(bundle.edges.effect_scale)),
+        intervention_types=sorted(set(bundle.edges.intervention_type)),
+        source_node_types=sorted(set(bundle.edges.source_type)),
+        target_node_types=sorted(set(bundle.edges.target_type)),
+        frozen_encoder_rows={k:int(value.shape[0]) for k,value in encoded.items()},
+        encoder_parameter_change=False, trained_embeddings_exported=False,
+        files={name:{"path":str(target/name), "sha256":sha256(target/name)}
+               for name in ("RESPONSES.parquet","NODES.parquet","EDGES.parquet","GRAPH.pt")})
+    write_json(target/"COMPLETE.json", record)
+    results.append(record)
+    print("PASS", request["label"], record["nodes"], record["edges"], flush=True)
+    del model, before, encoded, returned, bundle, responses
+
+auxiliary = {}
+for source in ("LncTarD2", "LncRNA2Target3_low"):
+    frame = network.auxiliary(source)
+    assert not frame.empty
+    auxiliary[source] = dict(rows=len(frame), readout="curated_evidence",
+                             converted_to_KO_OE_rescue_labels=False)
+fitness = network.auxiliary("CasRx2024")
+auxiliary["CasRx2024"] = dict(shape=list(fitness["fitness_lfc"].shape),
+    observed=int(fitness["observed_mask"].sum()), readout=fitness["readout"],
+    converted_to_molecular_edges=False)
+assert fitness["fitness_lfc"].shape == (24171,6)
+assert all(record["status"] == "PASS" for record in results)
+result = dict(target_host="149", status="PASS", source_input_manifest_sha256=network.files.manifest_sha256,
+    registry_manifest_sha256=sha256(manifest), experiments_indexed=len(index),
+    source_files_verified_by_index=network.manifest["source_files_verified"],
+    actual_networks_consumed=len(results), networks=results, auxiliary=auxiliary,
+    empty_policy_selections=empty_selections,
+    training_started=False, parameter_fitting_started=False, trained_embeddings_generated=False,
+    purpose="Real input preparation and frozen computational validation",
+    joint_train_validation_split_ready=False,
+    script_sha256=sha256(__file__), completed_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
+write_json(output/"COMPLETE.json", result)
+print("ALL_REAL_NETWORK_CONSUMPTION_PASS", flush=True)

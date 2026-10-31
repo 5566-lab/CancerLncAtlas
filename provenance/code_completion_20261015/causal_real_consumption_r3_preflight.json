@@ -1,0 +1,15 @@
+{
+  "target_host": "149",
+  "operation": "REAL_EXPERIMENT_NETWORK_CONSUMPTION_NO_FITTING",
+  "source_sha256": {
+    "cc_hhgt/v32/causal_regulatory_inputs.py": "977b43891d806c78ae9f10823b70d0417fd0c8cd28fe2fb2dd37fae75c0998c9",
+    "cc_hhgt/v32/causal_regulatory_network.py": "6dc671311d367bedc6ca7a56dd03c21ce6d9f3615f597b17d6e3e4c1fd1b93db",
+    "cc_hhgt/v32/patient_conditioning.py": "f9072f7a16d7ce584cbb281ab824022ce135e4b3910f6c2bda4da7da42011448",
+    "scripts/prepare_v32_causal_regulatory_network.py": "6925186a9b89f50a9e6a12ad18d5c1cd71d2b58070258e83a2626b29eea26602",
+    "tests/test_v32_causal_regulatory_network.py": "6a4faa4d530a68c7c7a8a2008bdfd5c3f210e92607dc85cf5efeabc72aa3f8fb"
+  },
+  "training_started": false,
+  "paid_compute_started": false,
+  "time_utc": "2026-10-31T19:08:57.026861+00:00",
+  "script_sha256": "d8886d27f385aa9f6aff08de3ef6253d52188b872d38f69663816e2472911a53"
+}

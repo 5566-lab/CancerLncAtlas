@@ -88,6 +88,16 @@ class Intervention:
         return digest[:32]
 
 
+def experimental_regulatory_graph(input_manifest, source, experiment_id, **policy):
+    """Consume a verified KO/KD/OE/rescue response network with the native GNN.
+
+    The experiment and cell context are explicit. This is a measured-response
+    graph, distinct from the counterfactual in patient_relation_shift.
+    """
+    from .causal_regulatory_network import CausalRegulatoryNetwork
+    return CausalRegulatoryNetwork(input_manifest).graph(source, experiment_id, **policy)
+
+
 def _require_finite(value, name: str) -> float:
     try:
         number = float(value)
@@ -734,6 +744,7 @@ __all__ = [
     "SCOPE",
     "VERDICTS",
     "conditioned",
+    "experimental_regulatory_graph",
     "interaction_attribution",
     "intervened_blocks",
     "observed_blocks",

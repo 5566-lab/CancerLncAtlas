@@ -11,3 +11,4 @@
 *.tsv text eol=lf
 *.svg text eol=lf
 provenance/code_completion_20261015/ssgsea_original_sources/*.R.txt -text
+provenance/code_completion_20261015/causal_* text eol=lf

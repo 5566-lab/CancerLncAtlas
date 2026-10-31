@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "exit_code": 0,
+  "training_started": false,
+  "paid_compute_started": false,
+  "scope": "SYNTHETIC_CODE_VERIFICATION_ONLY",
+  "started_utc": "2026-10-31T19:08:41.605509+00:00",
+  "source_sha256": {
+    "cc_hhgt/v32/causal_regulatory_inputs.py": "977b43891d806c78ae9f10823b70d0417fd0c8cd28fe2fb2dd37fae75c0998c9",
+    "cc_hhgt/v32/causal_regulatory_network.py": "6dc671311d367bedc6ca7a56dd03c21ce6d9f3615f597b17d6e3e4c1fd1b93db",
+    "cc_hhgt/v32/patient_conditioning.py": "f9072f7a16d7ce584cbb281ab824022ce135e4b3910f6c2bda4da7da42011448",
+    "scripts/prepare_v32_causal_regulatory_network.py": "6925186a9b89f50a9e6a12ad18d5c1cd71d2b58070258e83a2626b29eea26602",
+    "tests/test_v32_causal_regulatory_network.py": "6a4faa4d530a68c7c7a8a2008bdfd5c3f210e92607dc85cf5efeabc72aa3f8fb"
+  },
+  "passed": 65,
+  "junit_sha256": "482ef3942a520605cd974e5d2a3bee7beb4b15b062d2762c79e771409414b373",
+  "log_sha256": "196945561a05c76f5938eecedc7d82f18554ae9bf0da89de44a6a1b9493307ef",
+  "command": [
+    "python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_v32_causal_regulatory_network.py",
+    "tests/test_v32_patient_conditioning.py"
+  ],
+  "completed_receipt_observed_utc": "2026-10-31T19:10:59.669130+00:00"
+}

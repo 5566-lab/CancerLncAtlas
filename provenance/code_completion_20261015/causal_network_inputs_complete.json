@@ -1,0 +1,42 @@
+{
+  "format": "CAUSAL_REGULATORY_INPUTS_V1",
+  "target_host": "149",
+  "status": "PASS",
+  "source_manifest_sha256": "3ab80abc6988d0ef54f2cc5e4e0e890b9b96b756210547f72fd7c086bd06777c",
+  "source_root": "/public8/DSC/CancerLncAtlas/processed/causal_perturbation_20261031",
+  "sources": [
+    "PerturbAtlas",
+    "GPSAdb2",
+    "LINCS_iLINCS_OE",
+    "L2S2_KO",
+    "GEO_rescue_GSE154812",
+    "LncRNA2Target3",
+    "LncTarD2",
+    "CasRx2024"
+  ],
+  "source_files_verified": 230,
+  "experiments": 167383,
+  "experiments_by_source": {
+    "L2S2_KO": 140945,
+    "LINCS_iLINCS_OE": 9291,
+    "PerturbAtlas": 8453,
+    "LncTarD2": 8360,
+    "LncRNA2Target3": 171,
+    "GPSAdb2": 159,
+    "GEO_rescue_GSE154812": 3,
+    "CasRx2024": 1
+  },
+  "index": {
+    "path": "EXPERIMENTS.parquet",
+    "sha256": "b49bd533e48de75d611a3e5a6716d40105cfd5ecad917fa2e429fddc1cebca2d"
+  },
+  "entities": {
+    "path": "ENTITIES.parquet",
+    "sha256": "3ffa9cfb40e48a28d13b90a79717fb6536e36cb3a2b71d43bfbd4ae23f2e0462"
+  },
+  "implementation_sha256": "977b43891d806c78ae9f10823b70d0417fd0c8cd28fe2fb2dd37fae75c0998c9",
+  "training_started": false,
+  "split_policy": "KNOWN_STUDY_COMPONENTS_WITH_MECHANISM_EMBARGO_NO_AUTOMATIC_TRAIN_TEST_ASSIGNMENT",
+  "cross_source_split_ready": false,
+  "scope": "Experimental response networks; no physical-binding or patient causal-effect claim"
+}
