@@ -98,8 +98,13 @@ def build_private_auxiliary_head(
     import torch
     from torch import nn
 
-    if not module_id or module_id == "exact_pathway":
-        raise ValueError("Private auxiliary module_id must be non-empty and non-core")
+    retired_shared_tasks = {"exact_pathway", "state", "pathway_state"}
+    if not module_id:
+        raise ValueError("Private auxiliary module_id must be non-empty")
+    if module_id in retired_shared_tasks or module_id.startswith("state_fold_"):
+        raise ValueError(
+            f"{module_id!r} is a joint shared-core task and cannot use a frozen-core private head"
+        )
     dimensions = (core_features, domain_features, output_features, hidden_features)
     if any(int(value) < 1 for value in dimensions):
         raise ValueError("All private-head dimensions must be positive")

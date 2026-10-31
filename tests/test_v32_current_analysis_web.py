@@ -20,7 +20,7 @@ from cc_hhgt.v32.current_core_export import sha256
 from cc_hhgt.v32.current_analysis_web import (COMPONENTS, INPUT_FORMAT, CurrentAnalysisWebStore,
     materialize_current_analysis_web, source_tables)
 from website.backend.current_analysis_api import current_analysis_router
-from test_v32_current_state_context import current_sources, native_fixture as state_fixture
+from test_v32_current_state_context import current_sources
 from test_v32_current_clinical_context import clinical_fixture
 from test_v32_current_drug_context import native_fixture as drug_fixture
 from test_v32_current_single_cell_context import native_fixture as single_cell_fixture
@@ -90,11 +90,12 @@ def web_release(tmp_path_factory,current_sources):
     with pytest.MonkeyPatch.context() as monkeypatch:
         for name in ("Adam","AdamW","SGD"): monkeypatch.setattr(torch.optim,name,forbidden)
         components={}
-        for key,fixture in [("state",state_fixture),("clinical",clinical_fixture),("drug",drug_fixture),
+        for key,fixture in [("clinical",clinical_fixture),("drug",drug_fixture),
             ("single_cell",single_cell_fixture),("patient",patient_fixture),("genomic",genomic_fixture),("distal",distal_fixture)]:
             template=fixture(source_root/(key+"_inputs"),current_sources);data=read_json(template)
             data["selected_analysis"]={"workflow_ref":"selected_analysis"};write(template,data)
             components[key]={"status":"BUILD","input_manifest":record(template)}
+        components["state"]={"status":"NOT_PRODUCED","reason":"JOINT_STATE_ARTIFACTS_NOT_BOUND"}
         template=evidence_fixture(source_root/"evidence",current_sources[1],input_only=True)
         components["evidence"]={"status":"BUILD","input_manifest":record(template)}
         template=external_fixture(source_root/"external",current_sources[1],input_only=True);data=read_json(template)
@@ -128,7 +129,8 @@ def test_real_current_components_are_served_and_every_public_part_downloads(web_
     response=client.get("/api/current/catalog"); assert response.status_code==200
     catalog=response.json(); version=catalog["version"]
     assert set(catalog["components"])==set(COMPONENTS)|{"selected","scores"}
-    assert all(c["status"]=="AVAILABLE" for c in catalog["components"].values())
+    assert catalog["components"]["state"]["status"]=="NOT_PRODUCED"
+    assert all(c["status"]=="AVAILABLE" for k,c in catalog["components"].items() if k!="state")
     assert not catalog["independent_external_validation_attested"]
     assert "path\"" not in json.dumps(catalog)
     for table in catalog["tables"]:
@@ -160,7 +162,8 @@ def test_workflow_builds_native_contexts_and_records_actual_public_schemas(web_r
     assert success["binding_sha256"]==sha256(root/"CURRENT_WORKFLOW_BINDING.json")
     assert success["stage_status_sha256"]==sha256(root/"STAGE_STATUS.json")
     assert tuple(s["stage"] for s in workflow["stages"])==ORDER[:-2]+("model_use",)+ORDER[-2:]
-    assert all(s["status"]=="BUILT" for s in workflow["stages"])
+    assert next(s for s in workflow["stages"] if s["stage"]=="state")["status"]=="NOT_PRODUCED"
+    assert all(s["status"]=="BUILT" for s in workflow["stages"] if s["stage"]!="state")
     assert not workflow["model_use_inventory_completeness_verified"] and not workflow["training_started"]
     external=read_json(root/"external/EXTERNAL_BINDING.json")
     assert external["native_model_use_inventory"]==record(root/"model_use/MODEL_USE_BINDING.json")
@@ -211,13 +214,13 @@ def test_workflow_preserves_failed_stage_and_rejects_forward_references(web_rele
     manifest["selected"]={"status":"REUSE","binding":store.binding["component_bindings"]["selected"]}
     manifest["components"]={k:{"status":"NOT_PRODUCED","reason":"Synthetic absent stage"} for k in COMPONENTS}
     # This is a real context manifest except for a reference to a later stage.
-    template=read_json(root/"resolved_inputs/state.json")
+    template=read_json(root/"resolved_inputs/clinical.json")
     template["selected_analysis"]={"workflow_ref":"external"}
-    manifest["components"]["state"]={"status":"BUILD","input_manifest":record(write(tmp_path/"state.json",template))}
+    manifest["components"]["clinical"]={"status":"BUILD","input_manifest":record(write(tmp_path/"clinical.json",template))}
     path=write(tmp_path/"INPUT.json",manifest);output=tmp_path/"failed"
     with pytest.raises(ValueError,match="earlier workflow reference"):run_current_analysis_workflow(path,output)
     status=read_json(output/"STAGE_STATUS.json")
-    assert status["status"]=="FAILED" and status["failed_stage"]=="state"
+    assert status["status"]=="FAILED" and status["failed_stage"]=="clinical"
     assert any(s["stage"]=="selected" and s["status"]=="REUSED" for s in status["stages"])
     assert not (output/"SUCCESS.json").exists() and not (output/"CURRENT_WORKFLOW_BINDING.json").exists()
     before=(output/"STAGE_STATUS.json").read_bytes()
@@ -230,11 +233,12 @@ def test_workflow_reuses_pinned_components_and_rejects_changed_inputs(web_releas
     root,_,_,store,_=web_release
     manifest={"format":WF,"release_id":"reused-workflow-synthetic",
         "selected":{"status":"REUSE","binding":store.binding["component_bindings"]["selected"]},
-        "components":{k:{"status":"REUSE","binding":store.binding["component_bindings"][k]} for k in COMPONENTS}}
+        "components":{k:({"status":"NOT_PRODUCED","reason":"JOINT_STATE_ARTIFACTS_NOT_BOUND"} if k=="state" else
+            {"status":"REUSE","binding":store.binding["component_bindings"][k]}) for k in COMPONENTS}}
     path=write(tmp_path/"INPUT.json",manifest)
     result=run_current_analysis_workflow(path,tmp_path/"reused")
     workflow=read_json(Path(result["binding_path"]))
-    assert all(r["status"]=="REUSED" for r in workflow["stages"] if r["stage"]!="web")
+    assert all(r["status"]=="REUSED" for r in workflow["stages"] if r["stage"] not in {"web","state"})
     manifest["selected"]["binding"]={**manifest["selected"]["binding"],"sha256":"f"*64}
     write(path,manifest)
     with pytest.raises(ValueError,match="SHA256 mismatch"):run_current_analysis_workflow(path,tmp_path/"invalid")
@@ -256,11 +260,8 @@ def test_version_mismatch_invalid_queries_and_private_downloads_are_rejected(web
         assert client.get(f"/api/current/downloads/{identity}/0",params={"version":version}).status_code in {404,422}
 
 
-def test_http_semantics_keep_null_zero_and_drug_missingness(web_release):
+def test_http_semantics_keep_clinical_and_drug_missingness(web_release):
     _,_,_,store,client=web_release; version=store.sha
-    states=client.post("/api/current/tables/state.selected_geneset_state_profiles/query",json={"version":version}).json()["rows"]
-    assert any(r["mean_held_out_state_effect"]==0 for r in states)
-    assert any(r["mean_held_out_state_effect"] is None and not r["availability"] for r in states)
     clinical=client.post("/api/current/tables/clinical.selected_geneset_clinical_support/query",
         json={"version":version,"filters":{"clinical_endpoint":"DFS"}}).json()["rows"]
     assert clinical and clinical[0]["supported_risk_weight_fraction"] is None
@@ -288,10 +289,10 @@ def test_missing_components_are_explicit_but_cross_selected_components_fail(web_
     catalog=CurrentAnalysisWebStore(result["binding_path"],expected_sha=result["binding_sha256"]).catalog()
     assert catalog["components"]["drug"]["status"]=="NOT_PRODUCED" and not any(t["component"]=="drug" for t in catalog["tables"])
     # Rehashing a mismatched selected identity cannot be registered as current.
-    original=Path(manifest["components"]["state"]["binding"]["path"]); bad=read_json(original)
+    original=Path(manifest["components"]["clinical"]["binding"]["path"]); bad=read_json(original)
     bad["selected_analysis"]["sha256"]="f"*64
-    wrong=write(tmp_path/"wrong_state.json",bad);manifest["components"]["state"]["binding"]=record(wrong)
-    with pytest.raises(ValueError,match="different selected"):
+    wrong=write(tmp_path/"wrong_clinical.json",bad);manifest["components"]["clinical"]["binding"]=record(wrong)
+    with pytest.raises(ValueError,match="different selected|Clinical selected-analysis version differs"):
         source_tables(write(tmp_path/"wrong.json",manifest))
 
 
@@ -366,8 +367,10 @@ def test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout(live_si
             expect(page.locator("#row-status")).to_have_text("没有匹配记录")
             page.locator("#clear-filters").click();expect(page.locator("#table-container tbody tr")).to_have_count(1)
             page.locator("button[data-component='state']").click()
-            expect(page.locator("#table-container tbody tr")).to_have_count(7)
-            expect(page.locator("#table-container")).to_contain_text("不可用")
+            # This fixture deliberately has no formally verified joint State release.
+            expect(page.locator("#component-missing")).to_be_visible()
+            expect(page.locator("#component-missing")).to_contain_text("尚未生成：JOINT_STATE_ARTIFACTS_NOT_BOUND")
+            expect(page.locator("#controls")).to_be_hidden()
             page.locator("button[data-component='clinical']").click();expect(page.locator("#table-container tbody tr")).to_have_count(6)
             page.locator("button[data-component='drug']").click();expect(page.locator("#table-container tbody tr")).to_have_count(1)
             page.locator("#table-select").select_option("drug.selected_associations")

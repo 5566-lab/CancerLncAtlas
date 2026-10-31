@@ -10,7 +10,7 @@ import pandas as pd
 from .clinical_training import CLINICAL_ENDPOINTS
 from .current_clinical_sources import selected_sources, patient_risk_sources, entity_sources, ENTITY_KEYS
 from .current_core_export import verified_path, sha256
-from .current_state_context import _assert_same_table
+from .table_replay import assert_same_table as _assert_same_table
 
 FORMAT="CURRENT_CLINICAL_CONTEXT_RELEASE_V1"
 STATISTICS=["meta_beta","meta_standard_error","hazard_ratio","ci_lower","ci_upper","p_value","fdr","tau2","i2"]

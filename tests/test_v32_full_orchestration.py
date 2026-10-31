@@ -23,7 +23,7 @@ def _task_by_component_and_fold(tasks: list[dict[str, object]]) -> dict[tuple[st
     }
 
 
-def test_builds_complete_unique_core_first_dag() -> None:
+def test_builds_complete_unique_joint_first_dag() -> None:
     tasks = build_full_task_dag(run_id="v32-test", seed=17)
 
     assert len(tasks) == FULL_TASK_COUNT == len(ALL_COMPONENTS) * N_PATIENT_FOLDS
@@ -34,6 +34,9 @@ def test_builds_complete_unique_core_first_dag() -> None:
     assert {task["component"] for task in tasks[N_PATIENT_FOLDS:]} == set(
         AUXILIARY_COMPONENTS
     )
+    assert CORE_COMPONENT == "pathway_state"
+    assert "state" not in ALL_COMPONENTS
+    assert FULL_TASK_COUNT == 35
     validate_full_task_dag(tasks)
 
 
@@ -47,7 +50,7 @@ def test_all_tasks_are_fresh_and_ban_historical_artifacts() -> None:
         assert task["historical_artifact_policy"] == "FORBIDDEN"
 
 
-def test_each_auxiliary_task_uses_frozen_same_fold_current_core() -> None:
+def test_joint_phase_trains_state_into_core_then_auxiliaries_detach() -> None:
     tasks = build_full_task_dag(run_id="v32-test", seed=17)
     indexed = _task_by_component_and_fold(tasks)
 
@@ -57,7 +60,11 @@ def test_each_auxiliary_task_uses_frozen_same_fold_current_core() -> None:
         assert core["core_checkpoint_task_id"] is None
         assert core["core_frozen"] is False
         assert core["core_parameters_trainable"] is True
-        assert core["core_gradient_policy"] == "TRAIN_FROM_SCRATCH"
+        assert core["core_gradient_policy"] == "JOINT_PATHWAY_STATE_SHARED_GRADIENTS"
+        assert core["task_type"] == "TRAIN_JOINT_PATHWAY_STATE_CORE"
+        assert core["joint_tasks"] == ("pathway", "state")
+        assert core["task_weights"] == {"pathway": 1.0, "state": 0.5}
+        assert core["state_gradients_into_core"] is True
 
         for component in AUXILIARY_COMPONENTS:
             aux = indexed[(component, fold)]
@@ -67,6 +74,9 @@ def test_each_auxiliary_task_uses_frozen_same_fold_current_core() -> None:
             assert aux["core_frozen"] is True
             assert aux["core_parameters_trainable"] is False
             assert aux["core_gradient_policy"] == "DETACH_NO_GRAD"
+            assert aux["joint_tasks"] == ()
+            assert aux["task_weights"] == {}
+            assert aux["state_gradients_into_core"] is False
 
 
 def test_ready_scheduler_enforces_global_core_phase_barrier() -> None:
@@ -100,7 +110,7 @@ def test_rejects_incomplete_duplicate_or_replaced_tasks(mutate, match: str) -> N
 def test_rejects_cross_fold_dependency() -> None:
     tasks = build_full_task_dag(run_id="v32-test", seed=17)
     indexed = _task_by_component_and_fold(tasks)
-    indexed[("state", 0)]["depends_on"] = (indexed[(CORE_COMPONENT, 1)]["task_id"],)
+    indexed[("clinical", 0)]["depends_on"] = (indexed[(CORE_COMPONENT, 1)]["task_id"],)
 
     with pytest.raises(OrchestrationContractError, match="matching-fold|depend"):
         validate_full_task_dag(tasks)
@@ -124,13 +134,16 @@ def test_rejects_auxiliary_task_before_core_phase() -> None:
         ("core_frozen", False, "core_frozen"),
         ("core_parameters_trainable", True, "core_parameters_trainable"),
         ("core_gradient_policy", "TRAIN", "core_gradient_policy"),
+        ("joint_tasks", ("state",), "joint_tasks"),
+        ("task_weights", {"state": 0.5}, "task_weights"),
+        ("state_gradients_into_core", True, "state_gradients_into_core"),
     ],
 )
 def test_rejects_auxiliary_policy_drift(
     field: str, value: object, match: str
 ) -> None:
     tasks = build_full_task_dag(run_id="v32-test", seed=17)
-    auxiliary = next(task for task in tasks if task["component"] == "state")
+    auxiliary = next(task for task in tasks if task["component"] == "clinical")
     auxiliary[field] = value
 
     with pytest.raises(OrchestrationContractError, match=match):
@@ -143,6 +156,9 @@ def test_rejects_auxiliary_policy_drift(
         ("core_frozen", True),
         ("core_parameters_trainable", False),
         ("core_gradient_policy", "DETACH_NO_GRAD"),
+        ("joint_tasks", ("pathway",)),
+        ("task_weights", {"pathway": 1.0, "state": 0.0}),
+        ("state_gradients_into_core", False),
     ],
 )
 def test_rejects_core_policy_drift(field: str, value: object) -> None:
@@ -152,6 +168,23 @@ def test_rejects_core_policy_drift(field: str, value: object) -> None:
 
     with pytest.raises(OrchestrationContractError, match=field):
         validate_full_task_dag(tasks)
+
+
+def test_rejects_retired_exact_pathway_core_and_detached_state_task() -> None:
+    tasks = build_full_task_dag(run_id="v32-test", seed=17)
+    retired_core = copy.deepcopy(tasks)
+    retired_core[0]["component"] = "exact_pathway"
+    with pytest.raises(OrchestrationContractError, match="Unknown.*exact_pathway"):
+        validate_full_task_dag(retired_core)
+
+    retired_state = copy.deepcopy(tasks)
+    private_state = retired_state[N_PATIENT_FOLDS]
+    private_state["component"] = "state"
+    private_state["task_type"] = "TRAIN_STATE_HEAD"
+    private_state["task_id"] = str(private_state["task_id"]).replace(
+        "|clinical|", "|state|")
+    with pytest.raises(OrchestrationContractError, match="Unknown.*state"):
+        validate_full_task_dag(retired_state)
 
 
 def test_rejects_unknown_completed_task() -> None:

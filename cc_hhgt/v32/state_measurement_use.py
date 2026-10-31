@@ -11,7 +11,7 @@ import pandas as pd
 
 from .contracts import canonical_json_sha256
 from .state_patient_use import encoded
-from .state_training import validate_fold_manifest
+from .state_inputs import validate_fold_manifest
 
 TABLE = "state_measurement_contributions_private"
 LINKS = "state_measurement_scope_links_private"

@@ -55,7 +55,7 @@ from .evidence_training import (
 )
 
 
-STREAMING_FORMAT = "CANCERLNCATLAS_V32_EVIDENCE_STREAMING_STAGE_V1"
+STREAMING_FORMAT = "CANCERLNCATLAS_V32_EVIDENCE_STREAMING_STAGE_CONTEXT_R6"
 CONVERSION_FORMAT = "CANCERLNCATLAS_V32_EVIDENCE_RECOVERED_PARQUET_CONVERSION_V1"
 CONVERSION_PASS = "PASS_LOSSLESS_PARQUET_CONVERSION"
 PATIENT_RECEIPT_FORMAT = "CANCERLNCATLAS_V32_PATIENT_FIRST_FOLD_RECEIPT_V1"
@@ -292,9 +292,11 @@ def _normalized_raw_schema(pa: Any) -> Any:
         "source_kind", "source_input", "source_row_sha256", "source_sha256",
         "raw_event_id", "source_record_id", "cancer_id", "lncrna_id",
         "partner_id", "pathway_id", "pathway_family_id", "source_database",
-        "source_dataset", "pmid", "experiment_type", "experiment_raw",
-        "experiment_family", "assay_subtype", "graph_assay_class", "relation_type",
-        "direction_raw", "tissue", "cell_line", "species", "evidence_tier",
+        "source_dataset", "pmid", "doi", "experiment_id", "biosample",
+        "intervention", "readout", "mediator_id", "experiment_type",
+        "experiment_raw", "experiment_family", "assay_subtype",
+        "graph_assay_class", "relation_type", "direction_raw", "tissue",
+        "cell_line", "species", "evidence_tier", "manual_review_status",
         "lncrna_mapping_state", "partner_mapping_state", "input_mapping_status",
     )
     fields = [pa.field(name, pa.string(), nullable=False) for name in strings]
@@ -305,6 +307,7 @@ def _normalized_raw_schema(pa: Any) -> Any:
             pa.field("confidence_target", pa.float64(), nullable=True),
             pa.field("is_experimental", pa.bool_(), nullable=False),
             pa.field("is_computational", pa.bool_(), nullable=False),
+            pa.field("is_model_prediction", pa.bool_(), nullable=False),
             pa.field("is_physical", pa.bool_(), nullable=False),
             pa.field("family_only", pa.bool_(), nullable=False),
         ]
@@ -366,7 +369,7 @@ def _stage_normalized_raw(
                 if records:
                     writer.write_table(pa.Table.from_pylist(records, schema=schema))
                 offset += len(frame)
-            counts[source_kind] = offset
+            counts[source_kind] = counts.get(source_kind, 0) + offset
     finally:
         writer.close()
     return counts
@@ -508,7 +511,11 @@ def _materialize_exact_tables(
         "CREATE VIEW eligible_routes AS SELECT r.*, u.pathway_id AS route_pathway_id, "
         "u.route_type, u.static_member_id, u.member_type FROM raw_events r "
         "JOIN unfiltered_routes u USING(source_kind, source_row_index) "
-        "WHERE r.lncrna_id <> '' AND EXISTS (SELECT 1 FROM candidates c WHERE "
+        "WHERE r.lncrna_id <> '' "
+        "AND r.cancer_id NOT IN ('CONTEXT_UNRESOLVED','CONTEXT_UNSPECIFIED') "
+        "AND NOT (regexp_matches(r.relation_type, '(?i)ceRNA|sponge') "
+        "AND r.pathway_id='') "
+        "AND EXISTS (SELECT 1 FROM candidates c WHERE "
         "c.lncrna_id=r.lncrna_id AND c.pathway_id=u.pathway_id AND "
         "(r.cancer_id='PAN_CANCER' OR c.cancer_id=r.cancer_id))"
     )
@@ -516,12 +523,17 @@ def _materialize_exact_tables(
     physical_signature = _stable_sql(
         "source_database", "source_dataset", "source_record_id", "pmid",
         "lncrna_id", "partner_id", "relation_type", "experiment_type",
+        "cancer_id", "tissue", "cell_line", "species", "doi",
+        "experiment_id", "biosample", "intervention", "readout", "mediator_id",
+        "experiment_raw", "graph_assay_class", "assay_subtype",
     )
     physical_all = (
         "SELECT 'PHYS:' || substr(" + physical_signature + ",1,24) AS physical_fact_id, "
         "cancer_id, lncrna_id, partner_id, relation_type, experiment_type, "
         "experiment_raw, experiment_family, assay_subtype, graph_assay_class, "
-        "source_database, source_dataset, source_record_id, pmid, source_row_sha256, "
+        "source_database, source_dataset, source_record_id, pmid, "
+        "doi, experiment_id, biosample, intervention, readout, mediator_id, "
+        "tissue, cell_line, species, source_row_sha256, "
         "false AS is_prediction FROM raw_events "
         "WHERE is_physical AND lncrna_id<>'' AND partner_id<>''"
     )
@@ -539,11 +551,17 @@ def _materialize_exact_tables(
     event_signature = _stable_sql(
         "cancer_id", "lncrna_id", "route_pathway_id", "partner_id",
         "source_database", "source_dataset", "source_record_id", "pmid",
-        "relation_type", "experiment_type", "direction_raw",
+        "relation_type", "experiment_type", "direction_raw", "doi",
+        "experiment_id", "biosample", "intervention", "readout", "mediator_id",
+        "tissue", "cell_line", "species", "experiment_raw",
+        "graph_assay_class", "assay_subtype",
     )
     physical_for_event = _stable_sql(
         "source_database", "source_dataset", "source_record_id", "pmid",
         "lncrna_id", "partner_id", "relation_type", "experiment_type",
+        "cancer_id", "tissue", "cell_line", "species", "doi",
+        "experiment_id", "biosample", "intervention", "readout", "mediator_id",
+        "experiment_raw", "graph_assay_class", "assay_subtype",
     )
     connection.execute(
         "CREATE VIEW all_exact_events AS SELECT "
@@ -552,10 +570,16 @@ def _materialize_exact_tables(
         "coalesce(nullif(member_type,''),'unknown') AS member_type, route_type, "
         "static_member_id, CASE WHEN is_physical AND partner_id<>'' THEN "
         "'PHYS:' || substr(" + physical_for_event + ",1,24) ELSE '' END AS physical_fact_id, "
-        "source_database, source_dataset, source_record_id, pmid, experiment_type, "
-        "experiment_raw, experiment_family, assay_subtype, graph_assay_class, "
-        "relation_type, direction_raw, direction_target, confidence_target, tissue, "
-        "cell_line, species, is_experimental, is_computational, is_physical, "
+        "source_database, source_dataset, source_record_id, pmid, doi, "
+        "experiment_id, biosample, intervention, readout, mediator_id, "
+        "experiment_type, experiment_raw, experiment_family, assay_subtype, "
+        "graph_assay_class, relation_type, direction_raw, "
+        "CASE WHEN route_type='DIRECT_EXACT_ASSERTION' "
+        "THEN direction_target ELSE -1 END AS direction_target, "
+        "CASE WHEN route_type='DIRECT_EXACT_ASSERTION' "
+        "THEN confidence_target ELSE NULL END AS confidence_target, "
+        "manual_review_status, tissue, cell_line, species, "
+        "is_experimental, is_computational, is_physical, "
         "false AS is_model_prediction, source_kind, source_input, source_row_index, "
         "source_row_sha256, source_sha256, raw_event_id, pathway_family_id, "
         "lncrna_mapping_state, partner_mapping_state, input_mapping_status "
@@ -565,17 +589,31 @@ def _materialize_exact_tables(
     event_public_columns = (
         "event_id, cancer_id, lncrna_id, pathway_id, partner_id, member_type, "
         "route_type, static_member_id, physical_fact_id, source_database, "
-        "source_dataset, source_record_id, pmid, experiment_type, experiment_raw, "
+        "source_dataset, source_record_id, pmid, doi, experiment_id, biosample, "
+        "intervention, readout, mediator_id, experiment_type, experiment_raw, "
         "experiment_family, assay_subtype, graph_assay_class, relation_type, "
-        "direction_raw, direction_target, confidence_target, tissue, cell_line, "
-        "species, is_experimental, is_computational, is_physical, "
-        "is_model_prediction, source_occurrence_count"
+        "direction_raw, direction_target, confidence_target, manual_review_status, "
+        "tissue, cell_line, species, is_experimental, is_computational, is_physical, "
+        "is_model_prediction, source_occurrence_count, review_conflict"
+    )
+    # Conflicting explicit quality reviews remain unknown regardless of input
+    # row order or database duplication.
+    connection.execute(
+        "CREATE VIEW review_checked_events AS SELECT * "
+        "EXCLUDE(confidence_target, _qmin, _qmax), "
+        "CASE WHEN _qmin <> _qmax THEN NULL ELSE confidence_target END "
+        "AS confidence_target, coalesce(_qmin <> _qmax, false) "
+        "AS review_conflict FROM (SELECT e.*, "
+        "min(confidence_target) OVER (PARTITION BY event_id) AS _qmin, "
+        "max(confidence_target) OVER (PARTITION BY event_id) AS _qmax "
+        "FROM all_exact_events e)"
     )
     _copy_query(
         connection,
         f"SELECT {event_public_columns} FROM (SELECT e.*, count(*) OVER "
         "(PARTITION BY event_id) source_occurrence_count, row_number() OVER "
-        "(PARTITION BY event_id ORDER BY route_type) _rn FROM all_exact_events e) "
+        "(PARTITION BY event_id ORDER BY route_type, source_row_sha256) _rn "
+        "FROM review_checked_events e) "
         "WHERE _rn=1 ORDER BY cancer_id, lncrna_id, pathway_id, event_id",
         source_events_path,
         row_group_size=row_group_size,
@@ -608,6 +646,11 @@ def _materialize_exact_tables(
         connection,
         "SELECT r.*, CASE "
         "WHEN r.lncrna_id='' THEN 'LNC_ID_UNMAPPED' "
+        "WHEN r.cancer_id IN ('CONTEXT_UNRESOLVED','CONTEXT_UNSPECIFIED') "
+        "THEN 'CANCER_CONTEXT_UNRESOLVED_NOT_BROADCAST' "
+        "WHEN regexp_matches(r.relation_type, '(?i)ceRNA|sponge') "
+        "AND r.pathway_id='' "
+        "THEN 'MEDIATED_RELATION_REQUIRES_MEDIATOR_NOT_DIRECT_EDGE' "
         "WHEN r.family_only AND NOT EXISTS (SELECT 1 FROM unfiltered_routes u "
         " WHERE u.source_kind=r.source_kind AND u.source_row_index=r.source_row_index) "
         "THEN 'FAMILY_ONLY_NOT_BROADCAST_TO_EXACT' "
@@ -784,7 +827,7 @@ def _materialize_fold_staging(
     output_root: Path,
     row_group_size: int,
 ) -> dict[str, Any]:
-    """Write evaluation rows once and compact train-exclusion indexes per fold."""
+    """Write five-fold artifacts and prove independent train/validation/evaluation splits."""
 
     connection.execute(
         f"CREATE VIEW folded_events AS SELECT * FROM read_parquet({_quote(folded_events_path)})"
@@ -795,7 +838,15 @@ def _materialize_fold_staging(
         "unnest(regexp_split_to_array(coalesce(pmid,''), '[;,|\\s]+')) AS x(token) "
         "WHERE trim(token)<>'' AND lower(trim(token))<>'unknown'"
     )
-    per_fold: dict[str, Any] = {}
+    connection.execute(
+        "CREATE VIEW event_dataset_tokens AS SELECT DISTINCT event_id,leakage_fold,"
+        "lower(token) AS dataset_token FROM folded_events, "
+        "unnest(regexp_extract_all(upper(coalesce(source_dataset,'')), "
+        "'(GSE[0-9]+|SRP[0-9]+|PRJ[A-Z]{2}[0-9]+|E-MTAB-[0-9]+|EGAS[0-9]+)')) AS x(token)"
+    )
+
+    # Materialize every protected-fold exclusion index before auditing the
+    # outer-fold train/validation selections, which need two such indexes.
     for fold in range(N_FOLDS):
         fold_root = output_root / f"pair_fold={fold}"
         fold_root.mkdir()
@@ -812,90 +863,150 @@ def _materialize_fold_staging(
             "SELECT * FROM (SELECT t.event_id, "
             "EXISTS (SELECT 1 FROM event_pmid_tokens tp JOIN event_pmid_tokens ep "
             "ON tp.pmid_token=ep.pmid_token WHERE tp.event_id=t.event_id "
-            f"AND ep.leakage_fold={fold}) AS shared_evaluation_pmid, "
+            f"AND ep.leakage_fold={fold}) AS shared_protected_pmid, "
+            "EXISTS (SELECT 1 FROM event_dataset_tokens td JOIN event_dataset_tokens ed "
+            "ON td.dataset_token=ed.dataset_token WHERE td.event_id=t.event_id "
+            f"AND ed.leakage_fold={fold}) AS shared_protected_dataset, "
             "EXISTS (SELECT 1 FROM folded_events e WHERE e.leakage_fold="
             f"{fold} AND e.source_event_id<>'' AND e.source_event_id=t.source_event_id) "
-            "AS shared_evaluation_source_event, "
+            "AS shared_protected_source_event, "
             "EXISTS (SELECT 1 FROM folded_events e WHERE e.leakage_fold="
             f"{fold} AND e.source_record_id<>'' AND lower(e.source_database)="
             "lower(t.source_database) AND lower(e.source_dataset)=lower(t.source_dataset) "
-            "AND e.source_record_id=t.source_record_id) AS shared_evaluation_source_record "
+            "AND e.source_record_id=t.source_record_id) AS shared_protected_source_record "
             f"FROM folded_events t WHERE t.leakage_fold<>{fold}) q WHERE "
-            "shared_evaluation_pmid OR shared_evaluation_source_event OR "
-            "shared_evaluation_source_record ORDER BY event_id"
+            "shared_protected_pmid OR shared_protected_dataset OR "
+            "shared_protected_source_event OR shared_protected_source_record "
+            "ORDER BY event_id"
         )
         _copy_query(
             connection, exclusion_query, exclusions_path, row_group_size=row_group_size
         )
-        evaluation_rows = int(
-            connection.execute(
-                f"SELECT count(*) FROM folded_events WHERE leakage_fold={fold}"
-            ).fetchone()[0]
-        )
-        train_before = int(
-            connection.execute(
-                f"SELECT count(*) FROM folded_events WHERE leakage_fold<>{fold}"
-            ).fetchone()[0]
-        )
-        removed = int(
-            connection.execute(
-                f"SELECT count(*) FROM read_parquet({_quote(exclusions_path)})"
-            ).fetchone()[0]
-        )
-        train_after = train_before - removed
-        residual = connection.execute(
-            "WITH kept AS (SELECT t.* FROM folded_events t LEFT JOIN "
-            f"read_parquet({_quote(exclusions_path)}) x USING(event_id) WHERE "
-            f"t.leakage_fold<>{fold} AND x.event_id IS NULL), "
+
+    def residual_counts(selection_sql: str, protected_folds: tuple[int, ...]) -> tuple[int, int, int, int]:
+        protected = ",".join(str(value) for value in protected_folds)
+        row = connection.execute(
+            "WITH kept AS (" + selection_sql + "), "
             "kept_pmids AS (SELECT DISTINCT lower(trim(token)) token FROM kept, "
             "unnest(regexp_split_to_array(coalesce(pmid,''), '[;,|\\s]+')) q(token) "
             "WHERE trim(token)<>'' AND lower(trim(token))<>'unknown'), "
-            f"eval_pmids AS (SELECT DISTINCT pmid_token token FROM event_pmid_tokens WHERE leakage_fold={fold}) "
+            "protected_pmids AS (SELECT DISTINCT pmid_token token FROM event_pmid_tokens "
+            f"WHERE leakage_fold IN ({protected})), "
+            "kept_datasets AS (SELECT DISTINCT lower(token) token FROM kept, "
+            "unnest(regexp_extract_all(upper(coalesce(source_dataset,'')), "
+            "'(GSE[0-9]+|SRP[0-9]+|PRJ[A-Z]{2}[0-9]+|E-MTAB-[0-9]+|EGAS[0-9]+)')) q(token)), "
+            "protected_datasets AS (SELECT DISTINCT dataset_token token FROM event_dataset_tokens "
+            f"WHERE leakage_fold IN ({protected})) "
             "SELECT "
-            "(SELECT count(*) FROM kept_pmids JOIN eval_pmids USING(token)), "
+            "(SELECT count(*) FROM kept_pmids JOIN protected_pmids USING(token)), "
+            "(SELECT count(*) FROM kept_datasets JOIN protected_datasets USING(token)), "
             "(SELECT count(*) FROM kept k JOIN folded_events e ON "
-            f"e.leakage_fold={fold} AND e.source_event_id<>'' AND "
-            "e.source_event_id=k.source_event_id), "
+            f"e.leakage_fold IN ({protected}) AND e.source_event_id<>'' "
+            "AND e.source_event_id=k.source_event_id), "
             "(SELECT count(*) FROM kept k JOIN folded_events e ON "
-            f"e.leakage_fold={fold} AND e.source_record_id<>'' AND "
-            "lower(e.source_database)=lower(k.source_database) AND "
-            "lower(e.source_dataset)=lower(k.source_dataset) AND "
-            "e.source_record_id=k.source_record_id)"
+            f"e.leakage_fold IN ({protected}) AND e.source_record_id<>'' "
+            "AND lower(e.source_database)=lower(k.source_database) "
+            "AND lower(e.source_dataset)=lower(k.source_dataset) "
+            "AND e.source_record_id=k.source_record_id)"
         ).fetchone()
-        residual_counts = tuple(int(value) for value in residual)
-        if any(residual_counts):
+        return tuple(int(value) for value in row)
+
+    per_fold: dict[str, Any] = {}
+    for fold in range(N_FOLDS):
+        validation_fold = (fold + 1) % N_FOLDS
+        evaluation_exclusion = output_root / f"pair_fold={fold}" / "train_provenance_exclusions.parquet"
+        validation_exclusion = output_root / f"pair_fold={validation_fold}" / "train_provenance_exclusions.parquet"
+        validation_sql = (
+            "SELECT e.* FROM folded_events e LEFT JOIN "
+            f"read_parquet({_quote(evaluation_exclusion)}) x USING(event_id) "
+            f"WHERE e.leakage_fold={validation_fold} AND x.event_id IS NULL"
+        )
+        train_sql = (
+            "SELECT e.* FROM folded_events e LEFT JOIN "
+            f"read_parquet({_quote(evaluation_exclusion)}) x USING(event_id) LEFT JOIN "
+            f"read_parquet({_quote(validation_exclusion)}) v USING(event_id) "
+            f"WHERE e.leakage_fold NOT IN ({fold},{validation_fold}) "
+            "AND x.event_id IS NULL AND v.event_id IS NULL"
+        )
+        evaluation_rows = int(connection.execute(
+            f"SELECT count(*) FROM folded_events WHERE leakage_fold={fold}"
+        ).fetchone()[0])
+        validation_before = int(connection.execute(
+            f"SELECT count(*) FROM folded_events WHERE leakage_fold={validation_fold}"
+        ).fetchone()[0])
+        validation_after = int(connection.execute(
+            f"SELECT count(*) FROM ({validation_sql})"
+        ).fetchone()[0])
+        train_before = int(connection.execute(
+            f"SELECT count(*) FROM folded_events WHERE leakage_fold NOT IN ({fold},{validation_fold})"
+        ).fetchone()[0])
+        train_after = int(connection.execute(
+            f"SELECT count(*) FROM ({train_sql})"
+        ).fetchone()[0])
+        validation_residual = residual_counts(validation_sql, (fold,))
+        train_residual = residual_counts(train_sql, (fold, validation_fold))
+        if any(validation_residual) or any(train_residual):
             raise StreamingEvidenceStageError(
-                f"Fold {fold} retained evaluation provenance in training: {residual_counts}"
+                f"Fold {fold} retained protected provenance: "
+                f"validation={validation_residual}, train={train_residual}"
             )
         selection = {
             "format": STREAMING_FORMAT,
             "fold": fold,
-            "training_storage_policy": "BASE_EVENTS_MINUS_EVALUATION_FOLD_MINUS_EXCLUSION_INDEX",
+            "evaluation_fold": fold,
+            "validation_fold": validation_fold,
+            "training_folds": [
+                value for value in range(N_FOLDS)
+                if value not in {fold, validation_fold}
+            ],
+            "training_storage_policy": (
+                "BASE_EVENTS_MINUS_EVALUATION_AND_VALIDATION_FOLDS_"
+                "MINUS_BOTH_PROVENANCE_EXCLUSION_INDEXES"
+            ),
             "base_events_relative_path": folded_events_path.name,
-            "evaluation_events_relative_path": str(evaluation_path.relative_to(output_root)),
-            "train_exclusions_relative_path": str(exclusions_path.relative_to(output_root)),
-            "evaluation_provenance_exclusion_policy": EVALUATION_PROVENANCE_EXCLUSION_POLICY,
+            "evaluation_events_relative_path": (
+                f"pair_fold={fold}/evaluation_events.parquet"
+            ),
+            "evaluation_exclusions_relative_path": str(
+                evaluation_exclusion.relative_to(output_root)
+            ),
+            "validation_exclusions_relative_path": str(
+                validation_exclusion.relative_to(output_root)
+            ),
+            "evaluation_provenance_exclusion_policy": (
+                EVALUATION_PROVENANCE_EXCLUSION_POLICY
+            ),
+            "evaluation_used_for_model_selection": False,
             "formal_training_started": False,
         }
-        selection_path = fold_root / "TRAIN_SELECTION.json"
-        _json_write(selection_path, selection)
+        _json_write(
+            output_root / f"pair_fold={fold}" / "TRAIN_SELECTION.json",
+            selection,
+        )
         per_fold[str(fold)] = {
+            "evaluation_fold": fold,
+            "validation_fold": validation_fold,
+            "training_folds": selection["training_folds"],
             "evaluation_event_rows": evaluation_rows,
+            "validation_event_rows_before_provenance_exclusion": validation_before,
+            "validation_event_rows_removed": validation_before - validation_after,
+            "validation_event_rows_after": validation_after,
             "train_event_rows_before_provenance_exclusion": train_before,
-            "train_event_rows_removed": removed,
+            "train_event_rows_removed": train_before - train_after,
             "train_event_rows_after": train_after,
-            "residual_pmid_overlap_count": residual_counts[0],
-            "residual_source_event_overlap_count": residual_counts[1],
-            "residual_source_record_overlap_count": residual_counts[2],
-            "residual_train_evaluation_provenance_overlap_count": sum(residual_counts),
+            "residual_validation_evaluation_provenance_overlap_count": sum(validation_residual),
+            "residual_train_protected_provenance_overlap_count": sum(train_residual),
+            "residual_train_evaluation_provenance_overlap_count": sum(train_residual),
         }
     return {
         "policy": EVALUATION_PROVENANCE_EXCLUSION_POLICY,
+        "split_contract": "THREE_WAY_TRAIN_VALIDATION_EVALUATION",
+        "validation_rotation": "(evaluation_fold+1)%5",
+        "evaluation_used_for_model_selection": False,
         "folds": per_fold,
         "training_rows_are_not_duplicated_on_disk": True,
         "bounded_reader_required": True,
     }
-
 
 def iter_fold_event_bag_batches(
     stage_root: Path,
@@ -912,8 +1023,10 @@ def iter_fold_event_bag_batches(
 
     duckdb, _, _ = _require_runtime()
     root = Path(stage_root).resolve()
-    if split not in {"train", "evaluation"}:
-        raise StreamingEvidenceStageError("split must be train or evaluation")
+    if split not in {"train", "validation", "evaluation"}:
+        raise StreamingEvidenceStageError(
+            "split must be train, validation or evaluation"
+        )
     if fold not in range(N_FOLDS):
         raise StreamingEvidenceStageError("fold must be in [0,4]")
     if min(arrow_batch_rows, max_bags_per_batch, max_events_per_batch) <= 0:
@@ -936,19 +1049,35 @@ def iter_fold_event_bag_batches(
     if manifest.get("format") != STREAMING_FORMAT or manifest.get("status") != STAGING_STATUS:
         raise StreamingEvidenceStageError("Streaming stage is not passing")
     base = root / "candidate_exact_events_pair_folded.parquet"
-    exclusion = root / f"pair_fold={fold}" / "train_provenance_exclusions.parquet"
-    for path in (base, exclusion):
-        if not path.is_file():
-            raise StreamingEvidenceStageError(f"Fold staging artifact missing: {path}")
+    evaluation_exclusion = (
+        root / f"pair_fold={fold}" / "train_provenance_exclusions.parquet"
+    )
+    validation_fold = (fold + 1) % N_FOLDS
+    validation_exclusion = (
+        root / f"pair_fold={validation_fold}" / "train_provenance_exclusions.parquet"
+    )
+    for artifact in (base, evaluation_exclusion, validation_exclusion):
+        if not artifact.is_file():
+            raise StreamingEvidenceStageError(
+                f"Fold staging artifact missing: {artifact}"
+            )
     if split == "evaluation":
         selection_query = (
             f"SELECT * FROM read_parquet({_quote(base)}) WHERE leakage_fold={fold}"
         )
+    elif split == "validation":
+        selection_query = (
+            f"SELECT e.* FROM read_parquet({_quote(base)}) e LEFT JOIN "
+            f"read_parquet({_quote(evaluation_exclusion)}) x USING(event_id) "
+            f"WHERE e.leakage_fold={validation_fold} AND x.event_id IS NULL"
+        )
     else:
         selection_query = (
             f"SELECT e.* FROM read_parquet({_quote(base)}) e LEFT JOIN "
-            f"read_parquet({_quote(exclusion)}) x USING(event_id) WHERE "
-            f"e.leakage_fold<>{fold} AND x.event_id IS NULL"
+            f"read_parquet({_quote(evaluation_exclusion)}) x USING(event_id) "
+            f"LEFT JOIN read_parquet({_quote(validation_exclusion)}) v USING(event_id) "
+            f"WHERE e.leakage_fold NOT IN ({fold},{validation_fold}) "
+            "AND x.event_id IS NULL AND v.event_id IS NULL"
         )
     if per_bag_event_limit is not None:
         selection_query = (
@@ -963,6 +1092,7 @@ def iter_fold_event_bag_batches(
         else selection_query + " ORDER BY cancer_id,lncrna_id,pathway_id,event_id"
     )
     connection = duckdb.connect(":memory:")
+    connection.execute("SET memory_limit=\'2GB\'")
     reader = connection.execute(query).to_arrow_reader(batch_size=arrow_batch_rows)
     pending_key: tuple[str, str, str] | None = None
     pending_rows: list[Mapping[str, Any]] = []
@@ -999,6 +1129,11 @@ def iter_fold_event_bag_batches(
                 if pending_key is None:
                     pending_key = key
                 pending_rows.append(row)
+                if len(pending_rows) > single_bag_limit:
+                    raise StreamingEvidenceStageError(
+                        "Single evidence bag exceeds the raw-memory limit; "
+                        "explicit source aggregation is required"
+                    )
         bag = flush_pending()
         if bag is not None:
             if output_bags and (
@@ -1025,83 +1160,35 @@ def iter_fold_trainer_batches(
     max_events_per_bag: int = 64,
     max_bags_per_batch: int = 256,
 ) -> Iterator[StreamingTrainerBatch]:
-    """Collate bounded reader batches into the existing private-head examples.
+    """Stream bounded examples after deriving supervision from each complete bag."""
 
-    The function is deliberately optimiser-free.  A future training launcher
-    may consume each returned batch, but it cannot obtain a global Python list
-    of all examples through this API.
-    """
+    from .evidence_training import build_bag_examples
 
     if max_events_per_bag <= 0:
         raise StreamingEvidenceStageError("max_events_per_bag must be positive")
-    for batch in iter_fold_event_bag_batches(
+    raw_bag_limit = max(50_000, max_events_per_bag)
+    for packet in iter_fold_event_bag_batches(
         stage_root,
         fold=fold,
         split=split,
         max_bags_per_batch=max_bags_per_batch,
-        max_events_per_batch=max_bags_per_batch * max_events_per_bag,
-        max_single_bag_events=max_events_per_bag,
-        per_bag_event_limit=max_events_per_bag,
+        max_events_per_batch=raw_bag_limit,
+        max_single_bag_events=raw_bag_limit,
+        per_bag_event_limit=None,
     ):
         examples: list[BagExample] = []
         missing_core: list[Mapping[str, Any]] = []
-        for bag in batch.bags:
-            group = pd.DataFrame(bag.events).sort_values("event_id")
-            folds = sorted(
-                set(pd.to_numeric(group.leakage_fold, errors="raise").astype(int))
+        for bag in packet.bags:
+            values, absent = build_bag_examples(
+                pd.DataFrame(bag.events),
+                core,
+                event_feature_dim=event_feature_dim,
+                max_events=max_events_per_bag,
+                independent_supervision=True,
             )
-            if len(folds) != 1:
-                raise StreamingEvidenceStageError(
-                    f"Pair spans leakage folds in bounded trainer batch: {bag.key}"
-                )
-            core_vector = core.vector_for(*bag.key)
-            if core_vector is None:
-                missing_core.append(
-                    {
-                        **dict(zip(EXACT_KEYS, bag.key, strict=True)),
-                        "leakage_fold": folds[0],
-                        "event_count": len(group),
-                        "unavailable_reason": "CORE_EMBEDDING_ID_MISSING",
-                    }
-                )
-                continue
-            confidence = pd.to_numeric(
-                group.confidence_target, errors="coerce"
-            ).to_numpy(float)
-            confidence_target = (
-                float(np.mean(confidence[np.isfinite(confidence)]))
-                if np.isfinite(confidence).any()
-                else math.nan
-            )
-            directions = (
-                pd.to_numeric(group.direction_target, errors="coerce")
-                .fillna(-1).astype(int)
-            )
-            directions = directions[directions.isin([0, 1, 2])]
-            if directions.empty:
-                direction_target = -1
-            else:
-                counts = directions.value_counts()
-                direction_target = (
-                    int(counts.index[0])
-                    if len(counts) == 1 or counts.iloc[0] > counts.iloc[1]
-                    else -1
-                )
-            immutable_core = np.asarray(core_vector, dtype=np.float32).copy()
-            immutable_core.setflags(write=False)
-            examples.append(
-                BagExample(
-                    key=bag.key,
-                    event_features=_event_feature_matrix(group, event_feature_dim),
-                    core_features=immutable_core,
-                    confidence_target=confidence_target,
-                    direction_target=direction_target,
-                    leakage_fold=folds[0],
-                    event_count=len(group),
-                )
-            )
+            examples.extend(values)
+            missing_core.extend(absent.to_dict("records"))
         yield StreamingTrainerBatch(tuple(examples), tuple(missing_core))
-
 
 def validate_streaming_stage(stage_root: Path) -> dict[str, Any]:
     """Fail closed on any post-staging mutation or accidental training claim."""
@@ -1150,6 +1237,8 @@ def materialize_streaming_evidence_stage(
     seed: int = 20260726,
     memory_limit: str = "8GB",
     threads: int = 4,
+    direct_evidence_event_path: Path | None = None,
+    r62_core_authority_path: Path | None = None,
 ) -> dict[str, Any]:
     """Create a hash-pinned, non-overwriting, bounded Evidence training stage.
 
@@ -1170,8 +1259,33 @@ def materialize_streaming_evidence_stage(
         "patient_fold_authority": Path(patient_fold_authority_path),
         "patient_fold_receipt": Path(patient_fold_receipt_path),
     }
+    if direct_evidence_event_path is not None:
+        paths["direct_evidence_event"] = Path(direct_evidence_event_path)
     inputs = _sha_contract(paths, expected_hashes)
-    if strict_formal and inputs["formal_candidates"]["sha256"] != FORMAL_CANDIDATE_SHA256:
+    expected_candidate_sha = FORMAL_CANDIDATE_SHA256
+    expected_candidate_rows = FORMAL_CANDIDATE_ROWS
+    expected_candidate_cancers = 33
+    r62_authority_sha = None
+    if r62_core_authority_path is not None:
+        if not strict_formal:
+            raise StreamingEvidenceStageError(
+                "R6.2 production authority cannot be combined with fixture mode"
+            )
+        from .core_export_contract_r4 import validate_export
+        try:
+            authority, r62_authority_sha, _ = validate_export(r62_core_authority_path)
+        except (KeyError, TypeError, ValueError, RuntimeError) as exc:
+            raise StreamingEvidenceStageError(f"R6.2 core authority failed validation: {exc}") from exc
+        candidate = authority.get("candidates")
+        if not isinstance(candidate, Mapping):
+            raise StreamingEvidenceStageError("R6.2 core authority lacks the candidate binding")
+        expected_candidate_sha = str(candidate.get("sha256", ""))
+        expected_candidate_rows = int(candidate.get("rows", 0))
+        expected_candidate_cancers = int(candidate.get("cancers", 0))
+        if (re.fullmatch(r"[0-9a-f]{64}", expected_candidate_sha) is None
+                or expected_candidate_rows < 1 or expected_candidate_cancers != 33):
+            raise StreamingEvidenceStageError("R6.2 candidate authority is incomplete")
+    if strict_formal and inputs["formal_candidates"]["sha256"] != expected_candidate_sha:
         raise StreamingEvidenceStageError("Formal candidate authority SHA256 drifted")
     conversion = _validate_conversion_receipt(
         paths["conversion_manifest"],
@@ -1201,11 +1315,14 @@ def materialize_streaming_evidence_stage(
     database = work / "stage.duckdb"
     connection = None
     try:
+        event_sources = (
+            ("evidence_event", paths["empty_evidence_event"]),
+            ("interaction_relation", paths["interaction_relation"]),
+        )
+        if "direct_evidence_event" in paths:
+            event_sources += (("evidence_event", paths["direct_evidence_event"]),)
         raw_counts = _stage_normalized_raw(
-            sources=(
-                ("evidence_event", paths["empty_evidence_event"]),
-                ("interaction_relation", paths["interaction_relation"]),
-            ),
+            sources=event_sources,
             output_path=normalized_raw,
             identifier_map=dict(identifier_map or {}),
             batch_size=batch_size,
@@ -1217,16 +1334,17 @@ def materialize_streaming_evidence_stage(
         staged_candidates = _stage_candidates(
             paths["formal_candidates"], normalized_candidates, batch_size=batch_size
         )
-        if raw_counts.get("evidence_event") != 0:
+        if "direct_evidence_event" not in paths and raw_counts.get("evidence_event") != 0:
             raise StreamingEvidenceStageError("Empty Evidence authority produced event rows")
         declared_interactions = int(conversion.get("counts", {}).get("rows", -1))
         if raw_counts.get("interaction_relation") != declared_interactions:
             raise StreamingEvidenceStageError(
                 "Recovered interaction count disagrees with conversion receipt"
             )
-        if strict_formal and staged_candidates != FORMAL_CANDIDATE_ROWS:
+        if strict_formal and staged_candidates != expected_candidate_rows:
             raise StreamingEvidenceStageError("Formal candidate row count drifted")
-        if strict_formal and raw_counts.get("interaction_relation") != FORMAL_RECOVERED_INTERACTION_ROWS:
+        if (strict_formal and r62_core_authority_path is None
+                and raw_counts.get("interaction_relation") != FORMAL_RECOVERED_INTERACTION_ROWS):
             raise StreamingEvidenceStageError("Formal recovered interaction row count drifted")
         connection = duckdb.connect(str(database))
         connection.execute(f"SET memory_limit={_quote(memory_limit)}")
@@ -1241,8 +1359,8 @@ def materialize_streaming_evidence_stage(
             row_group_size=row_group_size,
         )
         if strict_formal and (
-            counts["candidate_rows"] != FORMAL_CANDIDATE_ROWS
-            or counts["candidate_cancers"] != 33
+            counts["candidate_rows"] != expected_candidate_rows
+            or counts["candidate_cancers"] != expected_candidate_cancers
         ):
             raise StreamingEvidenceStageError("Formal candidate universe cardinality drifted")
         _, folded_events, split_audit = _materialize_pair_folds(
@@ -1275,7 +1393,9 @@ def materialize_streaming_evidence_stage(
             "status": STAGING_STATUS,
             "generated_at_utc": generated,
             "output_root": str(target),
-            "strict_formal_3_3m_contract": bool(strict_formal),
+            "strict_formal_3_3m_contract": bool(strict_formal and r62_core_authority_path is None),
+            "strict_formal_r62_contract": bool(r62_core_authority_path is not None),
+            "r62_core_authority_sha256": r62_authority_sha,
             "formal_training_started": False,
             "optimizer_initialized": False,
             "checkpoint_loaded": False,
@@ -1298,6 +1418,8 @@ def materialize_streaming_evidence_stage(
             },
             "exact_event_contract": {
                 "semantic_reference": "build_exact_event_bags+materialize_candidate_events",
+                "supervision_semantics": "INDEPENDENT_REVIEWED_DIRECT_STUDIES_ONLY",
+                "targets_aggregated_before_event_token_bound": True,
                 "direct_exact_assertion": True,
                 "partner_to_static_exact_member": True,
                 "family_broadcast_used": False,

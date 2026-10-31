@@ -9,7 +9,7 @@ import json
 import pandas as pd
 
 from .current_core_export import sha256
-from .current_state_context import _assert_same_table
+from .table_replay import assert_same_table as _assert_same_table
 from .clinical_training import standardize_tcga_cdr_workbook, patient_fold_manifest
 from .clinical_entity_training import input_path_sha256, analyse_entity_matrix
 from .input_lineage import artifact_sha256

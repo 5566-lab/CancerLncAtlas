@@ -706,9 +706,12 @@ def test_mc3_assay_callable_sentinel_is_explicit_and_propagates_to_exact_pathway
         modality="mutation",
         min_pair_callable=2,
     )
-    assert stats.available.tolist() == [True]
-    assert np.isfinite(stats.labels[0])
-    assert stats.reasons.tolist() == [""]
+    # A sample-level assay sentinel proves that the specimen was assayed; it
+    # does not certify unlisted loci as wild type. Without explicit locus
+    # coverage the pair remains typed unavailable.
+    assert stats.available.tolist() == [False]
+    assert np.isnan(stats.labels[0])
+    assert stats.reasons[0] != ""
 
 
 def test_unavailable_candidate_statistics_are_null_not_negative() -> None:

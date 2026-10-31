@@ -197,7 +197,9 @@ def test_actual_native_builder_preserves_review_conflicts_context_and_provenance
         direction="positive", manual_review_status="validated")
     raw = pd.DataFrame([common, {**common, "manual_review_status": "rejected"}, {**common, "cell_line": "OTHER"}, common])
     built = build_exact_event_bags(raw, pd.DataFrame(), members)
-    assert len(built.events) == 3 and built.events.source_occurrence_count.sum() == 4
+    # Opposing reviews of the same study/context collapse to one explicit
+    # conflict event; the independent cell context remains separate.
+    assert len(built.events) == 2 and built.events.source_occurrence_count.sum() == 4
     source = native_events(built.events, built.lineage, members, source_id="rebuilt", artifacts={})
     events = attach_candidates(assign_study_components(source), candidates())
     result, contexts = summarize_events(events, candidates())

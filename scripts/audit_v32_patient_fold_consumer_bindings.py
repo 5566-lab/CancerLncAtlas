@@ -20,11 +20,11 @@ DIRECT = (
     "scripts/run_v32_atac_training.py",
     "scripts/run_v32_clinical_training.py",
     "scripts/run_v32_clinical_entity_training.py",
-    "cc_hhgt/v32/state_training.py",
+    "cc_hhgt/v32/state_inputs.py",
     "scripts/run_v32_continuous_activity.py",
     "scripts/prepare_v32_formal.py",
     "scripts/materialize_v32_exact_release.py",
-    "scripts/materialize_v32_state_release.py",
+    "cc_hhgt/v32/current_state_context.py",
 )
 PREPARED = (
     "cc_hhgt/v32/primary_fold_views.py",

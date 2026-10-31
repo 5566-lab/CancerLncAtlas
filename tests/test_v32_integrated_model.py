@@ -14,11 +14,11 @@ from cc_hhgt.v32.integrated_model import (
 )
 
 
-def test_private_head_detaches_core_embedding() -> None:
+def test_clinical_private_head_detaches_core_embedding() -> None:
     core = torch.nn.Linear(3, 4)
     before = freeze_v32_core(core)
     head, initialization = build_private_auxiliary_head(
-        "state", core_features=4, domain_features=2, hidden_features=8, seed=17
+        "clinical", core_features=4, domain_features=2, hidden_features=8, seed=17
     )
     core_embedding = core(torch.ones(5, 3))
     logits = head(core_embedding, torch.ones(5, 2))
@@ -27,6 +27,19 @@ def test_private_head_detaches_core_embedding() -> None:
     assert any(parameter.grad is not None for parameter in head.parameters())
     assert_v32_core_unchanged(core, before)
     validate_private_head_checkpoint(initialization.as_dict(), head)
+
+
+@pytest.mark.parametrize("module_id", ["state", "pathway_state", "exact_pathway",
+    "state_fold_0", "state_fold_1", "state_fold_2", "state_fold_3", "state_fold_4"])
+def test_joint_shared_tasks_reject_frozen_core_private_head(module_id: str) -> None:
+    with pytest.raises(ValueError, match="joint shared-core task"):
+        build_private_auxiliary_head(
+            module_id,
+            core_features=4,
+            domain_features=2,
+            hidden_features=8,
+            seed=17,
+        )
 
 
 def test_private_head_initialization_is_reproducible_and_checkpoint_free() -> None:

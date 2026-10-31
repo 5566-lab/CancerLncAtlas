@@ -1,0 +1,1008 @@
+{
+  "format": "CLA_FULL_PYG_R62_CONFIG_V1",
+  "seed": 20260726,
+  "work_root": "/path/to/new_joint_run",
+  "imports_root": "/path/to/verified_joint_imports",
+  "sources": {
+    "detection": {
+      "path": "/path/to/verified_inputs/full_gdc_lncrna_detection_rates.tsv.gz",
+      "sha256": "69241435b1326b99c177ac70f9497b7e25310b1eb898555f7e418c9ecce7be52"
+    },
+    "exact_membership": {
+      "path": "/path/to/verified_inputs/exact_pathway_gene_membership_ensembl.parquet",
+      "sha256": "0ae85904df979046fcbfb7f781977947392e99735b819f4d90803869831871ef"
+    },
+    "hierarchy": {
+      "path": "/path/to/verified_inputs/pathway_family_member.parquet",
+      "sha256": "b5c3040bce549ce1b01b0109e8a2573db08568339ee4d8f794b05a1f0cd9f4fb"
+    },
+    "binding": {
+      "path": "/path/to/verified_inputs/lncRNA_protein_relation_context.parquet",
+      "sha256": "03d125c6c45507ab19fb1283502bf53f957e65e3e96a064f4c5dc80ec599748b"
+    },
+    "protein_gene": {
+      "path": "/path/to/verified_inputs/protein_gene_map.parquet",
+      "sha256": "b99ddbe390e5708654a02e8ec2149fcb8de7ea366702ae644ddc8b8369f6eafc"
+    },
+    "ppi": {
+      "path": "/path/to/verified_inputs/string_protein_edge.parquet",
+      "sha256": "c1af9dd020728bbc106ec94bffd8efd51b0e2abbf4cfc95da64115518696890f"
+    },
+    "patient_map": {
+      "path": "/path/to/verified_inputs/SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253"
+    },
+    "state": {
+      "path": "/path/to/verified_inputs/TCGA_sample_score_matrix.tsv.gz",
+      "sha256": "1812157c61d6403c3726555e31067afdd1ea3359385493608caae4e7b13d1e11",
+      "bytes": 54840661,
+      "columns": 746,
+      "mirror": "/path/to/verified_inputs/TCGA_sample_score_matrix.tsv.gz"
+    },
+    "covariates": {
+      "path": "/path/to/verified_inputs/covariates_r62_20260908.parquet",
+      "sha256": "4261547c2546affa4328f8c6dedb63e161cfea8fd13eea2ddb37538a7400df5b",
+      "provenance": "R62_COVARIATE_MERGE_V2: v2 base + 2026-07-23 score matrix (purity/leukocyte/M0/M1/M2, exact sample keys) + clinical survival (stage ajcc recode / age / sex, exact patient keys)",
+      "stage_rule": "AJCC_PREFERRED_CLINICAL_FALLBACK_SAME_CDR_SNAPSHOT"
+    },
+    "lnc_expression_root": {
+      "path": "/path/to/verified_inputs/formal_lncRNA_expression"
+    },
+    "gene_expression_root": {
+      "path": "/path/to/verified_inputs/bulk_gene_expression"
+    },
+    "pathway_activity_root": {
+      "path": "/path/to/verified_inputs/formal_pathway_activity"
+    },
+    "cnv_root": {
+      "path": "/path/to/verified_inputs/v32_directional_segment_cnv_20260902_r1"
+    },
+    "weighted_membership": {
+      "path": "/path/to/verified_inputs/pathway_gene_member.parquet",
+      "sha256": "6d34005cd45b8b2aaf47ba8dd0f57f6a6e4eae1d1bbc1a554b3bbe994ba3c324"
+    }
+  },
+  "targets": [
+    {
+      "id": "EXTEND",
+      "column": "EXTEND::published_score",
+      "family": "stemness_telomere",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "RNAss",
+      "column": "stemness_rna::RNAss",
+      "family": "stemness_telomere",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "EREG.EXPss",
+      "column": "stemness_rna::EREG.EXPss",
+      "family": "stemness_telomere",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "DNAss",
+      "column": "stemness_dna::DNAss",
+      "family": "stemness_telomere",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "DMPss",
+      "column": "stemness_dna::DMPss",
+      "family": "stemness_telomere",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "ENHss",
+      "column": "stemness_dna::ENHss",
+      "family": "stemness_telomere",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "EREG-METHss",
+      "column": "stemness_dna::EREG-METHss",
+      "family": "stemness_telomere",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "ImmuneScore",
+      "column": "ESTIMATE::ImmuneScore",
+      "family": "immune",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "StromalScore",
+      "column": "ESTIMATE::StromalScore",
+      "family": "stromal",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "CYT",
+      "column": "CYT::mean_log_GZMA_PRF1",
+      "family": "cytotoxicity",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "Leukocyte_fraction",
+      "column": "leukocyte_fraction::Leukocyte_fraction",
+      "family": "immune",
+      "role": "primary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE"
+    },
+    {
+      "id": "ESTIMATEScore",
+      "column": "ESTIMATE::ESTIMATEScore",
+      "family": "composition",
+      "role": "auxiliary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE",
+      "reason": "Preserved, not counted as independent primary State loss in this configured candidate"
+    },
+    {
+      "id": "TumorPurity",
+      "column": "ESTIMATE::TumorPurity",
+      "family": "purity",
+      "role": "auxiliary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE",
+      "reason": "Preserved, not counted as independent primary State loss in this configured candidate"
+    },
+    {
+      "id": "ABSOLUTE_purity",
+      "column": "absolute_purity_ploidy::purity",
+      "family": "purity",
+      "role": "auxiliary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE",
+      "reason": "Preserved, not counted as independent primary State loss in this configured candidate"
+    },
+    {
+      "id": "ABSOLUTE_ploidy",
+      "column": "absolute_purity_ploidy::ploidy",
+      "family": "ploidy",
+      "role": "auxiliary",
+      "unit": "SOURCE_DEFINED_NO_RESCALE",
+      "reason": "Preserved, not counted as independent primary State loss in this configured candidate"
+    }
+  ],
+  "subtype_feedback": false,
+  "minimum_pairs": 12,
+  "candidate_scope": {
+    "minimum_expression_cancers": 5,
+    "note": ">=5 expressed cancers is candidate eligibility, not association support; R4 contract, not old r7 results"
+  },
+  "graph": {
+    "coexpression_topk": 8,
+    "reported_edges_not_causal": true,
+    "current_membership_unsigned": false,
+    "membership_policy": "CURRENT_EXACT_KEYS_WITH_MATCHED_SIGNED_SOURCE; UNMATCHED_EXPLICIT_UNSIGNED; INVALID_WEIGHT_FAIL",
+    "variant": "G2",
+    "variants": [
+      "G0",
+      "G1",
+      "G2"
+    ],
+    "formal_variants": [
+      "G0",
+      "G1",
+      "G2"
+    ],
+    "auxiliary_parent_variant": "G2"
+  },
+  "model": {
+    "task_weights": {
+      "pathway": 1.0,
+      "state": 0.5
+    },
+    "hidden": 96,
+    "heads": 2,
+    "layers": 3,
+    "dropout": 0.2,
+    "sc_buckets": 16,
+    "residual_bound": 1.0,
+    "gate_penalty": 1e-05,
+    "learning_rate": 0.001,
+    "weight_decay": 1e-05,
+    "direction_weight": 0.25,
+    "depth_contract": "EXPLICIT_R4_THIRD_LAYER_FOR_PPI_REACHABILITY; LEGACY_FULL_REFERENCE=2",
+    "context_features": 4,
+    "node_identity_embeddings": false,
+    "target_specific_modality_gates": false,
+    "modality_gate_scope": "GLOBAL_PLUS_CANCER; target-specific utility measured by ablation, not a target-specific gate",
+    "backend": "original_pyg_cc_hhgt"
+  },
+  "baseline": {
+    "C": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "max_iter": 2000,
+    "identity_encoding": "EXACT_CANCER_LNCRNA_TARGET_INTERACTIONS_PLUS_EXPLICIT_SCALED_NUMERIC",
+    "batch_rows": 32768,
+    "max_identity_features": 5000000,
+    "max_working_gib": 32,
+    "max_vocabulary_gib": 2,
+    "max_available_memory_fraction": 0.65
+  },
+  "training": {
+    "epochs": 24,
+    "diagnostic_full_epochs": true,
+    "patience": 4,
+    "batch_size": 2048,
+    "steps_per_epoch": 0,
+    "amp": false,
+    "cpu_threads": 2,
+    "checkpoint_steps": 5,
+    "checkpoint_seconds": 90,
+    "alpha_grid": [
+      0.0,
+      0.25,
+      0.5,
+      1.0
+    ],
+    "diagnostic_min_delta": 0.005,
+    "min_epochs": 3,
+    "epoch_definition": "one context sweep with bounded random query batches; not one pass over every candidate",
+    "amp_reason": "DISABLED_20260908: torch2.9.1+cu128/PyG2.8 index_add_ bf16-float incompatibility in the byte-unchanged original PyG backbone; all in-package validated paths ran amp=False"
+  },
+  "profiles": {
+    "diagnostic": {
+      "cancers": [
+        "BRCA",
+        "HNSC",
+        "KIRC"
+      ],
+      "max_lncrnas": 128,
+      "max_pathways": 64,
+      "pathway_candidates_per_cancer": 4096
+    },
+    "formal": {
+      "cancers": [],
+      "max_lncrnas": null,
+      "max_pathways": null,
+      "pathway_candidates_per_cancer": 100000
+    }
+  },
+  "modality_policy": {
+    "singlecell": "INDEPENDENT_INTERPRETATION_ONLY_NOT_PRIMARY_INPUT",
+    "mutation": "LNCRNA_PLUS_GENE_PROTEIN_PARTNER_PATHWAY_CONTEXT; OBSERVED_EVENTS_SEPARATE_FROM_CALLABLE_RATES",
+    "atac": "ORIGINAL_PRIVATE_MODULE_PRESERVED_REQUIRES_INPUT_BINDING",
+    "methylation": "ORIGINAL_PRIVATE_MODULE_PRESERVED_REQUIRES_INPUT_BINDING",
+    "drug": "ORIGINAL_PRIVATE_MODULE_SCHEDULED_AFTER_CORE_EXPORT",
+    "clinical_survival": "ORIGINAL_PRIVATE_MODULE_SCHEDULED_AFTER_CORE_EXPORT",
+    "evidence": "ORIGINAL_EVENTSET_TRANSFORMER_PLUS_SOURCE_AUDIT_INDEPENDENT"
+  },
+  "gate": {
+    "minimum_delta": 0.01,
+    "minimum_cancers": 10,
+    "worst_cancer_delta": -0.02,
+    "production_release": false
+  },
+  "gates": {
+    "diagnostic_min_delta": 0.005,
+    "formal_min_delta": 0.01,
+    "minimum_evaluable_cancers": 10,
+    "precision_k": 100
+  },
+  "disabled_modalities": [],
+  "backend": "ORIGINAL_PYG_CC_HHGT",
+  "publication_allowed": false,
+  "statistics": {
+    "cnv_transform": "raw_signed",
+    "local_adjustment": "lncrna_only_A1",
+    "rank_semantics": "ACTUAL_LINEAR_DESIGN_RANK_NOT_DATA_RANK",
+    "equivalent_to_r7_rank_cnv_A2": false,
+    "immune_target_role": "TARGET_SPECIFIC_COMPOSITION_CONDITIONAL_EXCEPT_SELF_OR_RECORDED_DERIVATIVE"
+  },
+  "alignment": {
+    "gene_identity_minimum": 0.95,
+    "patient_identity_minimum": 1.0,
+    "cnv_identity_minimum": 1.0,
+    "candidate_identity_minimum": 1.0
+  },
+  "singlecell_role": "interpretation_only",
+  "singlecell_association_role": "disabled",
+  "singlecell_association_cell_types": [],
+  "genomics": {
+    "enabled": true,
+    "gene_mutation_path": null,
+    "gene_consequence_policy": "USE_ONLY_EXPLICIT_SOURCE_ANNOTATIONS_OTHERWISE_UNKNOWN",
+    "partner_summary": "DEDUPLICATE_CODING_GENE_PER_LNCRNA_CANCER",
+    "pathway_summary": "EXPLICIT_MEMBER_GENES_WITH_AVAILABILITY",
+    "no_sequence_variant_causes_automatic_edge_deletion": true,
+    "empty_cancer_policy": "FAIL_NO_SILENT_UNAVAILABLE"
+  },
+  "supervision": {
+    "cleanup_seconds": 300,
+    "startup_timeout_seconds": 120,
+    "first_optimizer_step_timeout_seconds": 1800,
+    "progress_timeout_seconds": 1800
+  },
+  "interpretation": {
+    "minimum_donors": 8,
+    "max_paths_per_candidate": 20,
+    "max_explanation_candidates": 5000,
+    "max_total_path_records": 100000,
+    "maximum_ppi_hops": 1,
+    "no_primary_rank_changes": true,
+    "max_walks_per_candidate": 10000
+  },
+  "adjustment_contract": {
+    "contract_id": "V32_TARGET_ADJUSTMENT_R62_V1",
+    "policies": {
+      "__pathway__": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "EXTEND": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "RNAss": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "EREG.EXPss": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "DNAss": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "DMPss": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "ENHss": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "EREG-METHss": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "ImmuneScore": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [
+          "ESTIMATE"
+        ],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "StromalScore": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [
+          "ESTIMATE"
+        ],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "CYT": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "Leukocyte_fraction": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {
+          "leukocyte_fraction": "TARGET_SELF_SAME_SOURCE_MEASUREMENT"
+        },
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "ESTIMATEScore": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [
+          "ESTIMATE"
+        ],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "TumorPurity": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [
+          "ESTIMATE"
+        ],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "ABSOLUTE_purity": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [
+          "ABSOLUTE"
+        ],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      },
+      "ABSOLUTE_ploidy": {
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "excluded": {},
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "minimum_observed_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_joint_valid_fraction": 0.8,
+        "maximum_category_levels": 32,
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS",
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED"
+      }
+    },
+    "scope": "FIT_FEATURE_PATIENTS_ONLY;CHECK_SOURCE_AND_LABEL_COHORTS_BEFORE_TRAINING",
+    "primary_cnv_transform": "raw_signed",
+    "local_cnv_action": "LNC_ONLY_A1",
+    "outer_covariate_admission_not_used_for_model_selection": true
+  },
+  "execution_contract": "CLA_FULL_PYG_R62_SINGLE_ENTRYPOINT_V1",
+  "metrics_contract": "CANCER_PATHWAY_AP_STATE_TARGET_THEN_FAMILY_AP_AND_PRECISION_V1",
+  "controller_contract": {
+    "role": "149",
+    "operating_system": "Linux",
+    "python_executable": "/path/to/verified_inputs/python",
+    "enrollment_required": true
+  },
+  "execution_location": {
+    "target_host": "149",
+    "cpu_preparation_host": "149",
+    "training_host": "149"
+  },
+  "gene_node_omics": {
+    "enabled": true,
+    "channels": [
+      "cnv_signed",
+      "methylation_promoter_beta"
+    ],
+    "complete": {
+      "path": "/path/to/verified_inputs/patient_gene_matrices_r2/COMPLETE.json",
+      "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
+    }
+  }
+}

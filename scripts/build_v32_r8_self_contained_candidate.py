@@ -544,84 +544,6 @@ def copy_clinical() -> dict[str, Any]:
     }
 
 
-def copy_state() -> dict[str, Any]:
-    root = R8_ROOT / "code/artifacts/r8_payloads/state_gene_set"
-    sidecar_dir = R8_ROOT / "code/artifacts/r7_server_native/state_gene_set"
-    source_binding = R7_ROOT / "code/artifacts/r7_server_native/state_gene_set/STATE_GENE_SET_BINDING.json"
-    source_dir = Path("./data/CancerLncAtlas/runtime/authorized_bindings/v32_independent_heads_20260829_r2/runtime_bindings_r3/state_gene_set")
-    source_success = source_dir / "SUCCESS.json"
-    source_checkpoint = source_dir / "SOURCE_CHECKPOINT_MANIFEST.json"
-    source_state_lineage = source_dir / "SOURCE_STATE_MODULE_LINEAGE.json"
-    source_module_lineage = source_dir / "MODULE_LINEAGE.json"
-    output_dir = Path("./data/CancerLncAtlas/runtime/web_candidates/v32_20260829_r3/v32/artifacts/v32_state_gene_sets_20260826_r2_code_bound")
-    source_catalog = output_dir / "state_gene_set_catalog.parquet"
-    source_gmt = output_dir / "state_gene_sets.gmt"
-    source_members = output_dir / "state_gene_set_members.parquet"
-    source_report = output_dir / "STATE_GENE_SET_REPORT.md"
-    source_report_manifest = source_dir / "STATE_REPORT_MANIFEST.json"
-    source_materializer = Path("./data/CancerLncAtlas/runtime/web_candidates/v32_20260829_r3/v32/cc_hhgt/v32/state_gene_set_release.py")
-    source_runner = Path("./data/CancerLncAtlas/runtime/web_candidates/v32_20260829_r3/v32/scripts/materialize_v32_state_gene_sets.py")
-    source_predictions = R6_CODE / "artifacts/v32_full_multitask/state_release_complete/state_typed_predictions.parquet"
-    source_files = [
-        source_success,
-        source_checkpoint,
-        source_state_lineage,
-        source_module_lineage,
-        source_report_manifest,
-        source_catalog,
-        source_gmt,
-        source_members,
-        source_report,
-        source_materializer,
-        source_runner,
-        source_predictions,
-    ]
-    for source in source_files:
-        ensure_regular_source(source, "state source")
-    targets = {
-        source_success: root / "SUCCESS.source.json",
-        source_checkpoint: root / "SOURCE_CHECKPOINT_MANIFEST.json",
-        source_state_lineage: root / "SOURCE_STATE_MODULE_LINEAGE.json",
-        source_module_lineage: root / "MODULE_LINEAGE.json",
-        source_report_manifest: root / "STATE_REPORT_MANIFEST.json",
-        source_catalog: root / "state_gene_set_catalog.parquet",
-        source_gmt: root / "state_gene_sets.gmt",
-        source_members: root / "state_gene_set_members.parquet",
-        source_report: root / "STATE_GENE_SET_REPORT.md",
-        source_materializer: root / "state_gene_set_release.py",
-        source_runner: root / "materialize_v32_state_gene_sets.py",
-        source_predictions: root / "state_typed_predictions.parquet",
-    }
-    mappings: dict[str, str] = {}
-    for source, target in targets.items():
-        source_dest_mapping(source, target, mappings)
-    local_binding = sidecar_dir / "STATE_GENE_SET_BINDING.json"
-    source_dest_mapping(source_binding, local_binding, mappings)
-    source_dest_mapping(source_success, sidecar_dir / "SUCCESS.json", mappings)
-    for source, target in targets.items():
-        copy_one_tree_or_file(source, target)
-    binding = copy_json_rebound(source_binding, local_binding, mappings)
-    write_json(local_binding, binding)
-    binding_sha = sha256_file(local_binding)
-    success = copy_json_rebound(source_success, sidecar_dir / "SUCCESS.json", mappings)
-    success["binding"] = local_binding.name
-    success["binding_sha256"] = binding_sha
-    write_json(sidecar_dir / "SUCCESS.json", success)
-    # Source declarations are all files and are checked by StateGeneSetQuery.
-    for role, declaration in binding.get("source_artifacts", {}).items():
-        if not isinstance(declaration, dict):
-            fail(f"state source declaration malformed: {role}")
-        verify_hash(Path(str(declaration.get("path", ""))), str(declaration.get("sha256", "")), f"state source {role}")
-    return {
-        "binding_path": str(local_binding),
-        "binding_sha256": binding_sha,
-        "success_path": str(sidecar_dir / "SUCCESS.json"),
-        "success_sha256": sha256_file(sidecar_dir / "SUCCESS.json"),
-        "prediction_path": str(targets[source_predictions]),
-        "prediction_sha256": sha256_file(targets[source_predictions]),
-    }
-
-
 def copy_evidence_direction() -> dict[str, Any]:
     root = R8_ROOT / "code/artifacts/r8_payloads/evidence_direction"
     sidecar_dir = R8_ROOT / "code/artifacts/r7_server_native/evidence_direction"
@@ -684,7 +606,6 @@ def write_r8_manifest(parts: dict[str, dict[str, Any]]) -> dict[str, Any]:
         "directional_cnv": parts["cnv"]["binding_path"],
         "directional_cnv_independent_audit": parts["cnv"]["audit_binding_path"],
         "clinical_kaplan_meier": parts["clinical"]["binding_path"],
-        "state_gene_sets": parts["state"]["binding_path"],
         "evidence_direction_probabilities": parts["evidence"]["binding_path"],
         "evidence_direction_probabilities_independent_audit": parts["evidence"]["audit_binding_path"],
     }
@@ -728,8 +649,8 @@ def write_r8_manifest(parts: dict[str, dict[str, Any]]) -> dict[str, Any]:
     merge.update(
         {
             "schema": "cancerlncatlas.v32.r8.self_contained_merge_assessment.v1",
-            "new_server_overlay_entry_count": 7,
-            "verified_mounted_entry_count": 7,
+            "new_server_overlay_entry_count": 6,
+            "verified_mounted_entry_count": 6,
             "pending_entry_count": sum(
                 1 for item in manifest["bindings"].values() if item.get("status") == "PENDING_FORMAL_SUCCESS"
             ),
@@ -876,8 +797,6 @@ def main() -> int:
         # Extra mounted-head and download metadata smoke.  No payload is
         # streamed, so a 60 MB CNV file cannot accidentally be downloaded.
         extra = [
-            ("state", "GET", "/v3.2-staging/state?limit=1", None, {200}),
-            ("state_gene_sets", "GET", "/v3.2-staging/state-gene-sets?limit=1", None, {200}),
             ("clinical", "GET", "/v3.2-staging/clinical?clinical_endpoint=OS&limit=1", None, {200}),
             ("evidence_direction_capability", "GET", "/v3.2-staging/evidence/direction/capability", None, {200}),
             ("evidence_direction_query", "GET", "/v3.2-staging/evidence/direction/probabilities?cancer_id=BRCA&limit=1", None, {200}),
@@ -966,7 +885,7 @@ def main() -> int:
         "sealed_test_read": False,
         "sidecars": [
             "single_cell_formal23", "directional_cnv", "clinical_kaplan_meier",
-            "state_gene_sets", "evidence_direction_probabilities",
+            "evidence_direction_probabilities",
         ],
         "omitted": ["drug", "pending_binding_payloads", "sealed_test", "GPU", "__pycache__"],
     }
@@ -985,7 +904,6 @@ def main() -> int:
             "single_cell": copy_formal23(),
             "cnv": copy_cnv(),
             "clinical": copy_clinical(),
-            "state": copy_state(),
             "evidence": copy_evidence_direction(),
         }
         manifest = write_r8_manifest(parts)

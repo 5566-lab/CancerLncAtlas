@@ -117,7 +117,7 @@ def plan(manifest,output,*,new=True):
 def expected_risk_preflight(value,output):
     from scripts import run_v32_clinical_training as risk
     from .clinical_training import standardize_tcga_cdr_workbook
-    from .current_state_context import _assert_same_table
+    from .table_replay import assert_same_table as _assert_same_table
     files=value["files"];paths={k:Path(v["path"]) for k,v in files.items()};config=value["risk_config"]
     endpoints,covariates=standardize_tcga_cdr_workbook(paths["workbook"])
     folds,endpoints,covariates=risk.align_clinical_cohort(pd.read_csv(paths["patient_folds"],sep="\t"),endpoints,covariates)

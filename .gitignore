@@ -41,3 +41,6 @@ config.local.*
 website/frontend/node_modules/
 website/frontend/dist/
 website/frontend/build/
+
+# Local command receipts; reviewed summaries live under provenance.
+.command_receipts/

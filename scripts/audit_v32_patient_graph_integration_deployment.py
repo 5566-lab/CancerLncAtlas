@@ -13,7 +13,7 @@ import sys
 PATIENT_RUNTIME = (
     "cc_hhgt/v32/patient_fold_authority.py",
     "cc_hhgt/v32/patient_first_lineage.py",
-    "cc_hhgt/v32/state_training.py",
+    "cc_hhgt/v32/state_inputs.py",
     "cc_hhgt/v32/primary_fold_views.py",
     "cc_hhgt/v32/hierarchical_candidate_preparation.py",
     "cc_hhgt/v32/hierarchical_candidate_inference.py",
@@ -30,7 +30,7 @@ PATIENT_RUNTIME = (
     "scripts/run_v32_continuous_activity.py",
     "scripts/prepare_v32_formal.py",
     "scripts/materialize_v32_exact_release.py",
-    "scripts/materialize_v32_state_release.py",
+    "cc_hhgt/v32/current_state_context.py",
     "scripts/prepare_v32_hierarchical_training_authorization.py",
     "scripts/build_v32_release_companions.py",
     "scripts/audit_v32_atac_readiness.py",

@@ -110,7 +110,7 @@ def test_current_export_consumed_by_native_heads(tmp_path):
     from cc_hhgt.v32.genomic_training import _validate_core_manifest, load_fold_core_embeddings
     from cc_hhgt.v32.drug_training import _validate_core_manifest as drug_validate
     from cc_hhgt.v32.drug_training import load_fold_core_embeddings as drug_load
-    from cc_hhgt.v32.state_training import load_v32_core_embeddings
+    from cc_hhgt.v32.state_inputs import load_v32_core_embeddings
     path, manifest = export_fixture(tmp_path)
     assert _validate_core_manifest(path)[0]["core_run_id"] == "current-G2"
     assert drug_validate(path)[0]["core_run_id"] == "current-G2"

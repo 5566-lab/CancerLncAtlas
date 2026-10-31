@@ -31,7 +31,7 @@ from .clinical_training import (
     patient_fold_manifest,
     standardize_tcga_cdr_workbook,
 )
-from .state_training import HISTORICAL_STATE_IDS
+from .state_inputs import HISTORICAL_STATE_IDS
 
 
 ANALYSIS_VERSION = "CancerLncAtlas_V3.2_CLINICAL_ENTITY_ASSOCIATION"
@@ -147,7 +147,7 @@ def _normal_two_sided_p(z: np.ndarray) -> np.ndarray:
     return np.clip(2.0 * ndtr(-np.abs(np.asarray(z, dtype=float))), 0.0, 1.0)
 
 
-def cox_null_score_one_step(
+def _cox_complete_score_one_step(
     features: np.ndarray,
     time_days: np.ndarray,
     event: np.ndarray,
@@ -237,60 +237,63 @@ def cox_null_score_one_step(
     }
 
 
-def fold_local_residualize(
-    values: np.ndarray,
-    covariates: np.ndarray,
-    train_mask: np.ndarray,
-    *,
-    min_train_measurements: int,
-    ridge: float = 1e-4,
-) -> tuple[np.ndarray, np.ndarray, dict[str, np.ndarray]]:
-    """Train-only imputation/z-scoring and linear covariate residualisation."""
+def cox_null_score_one_step(features: np.ndarray, time_days: np.ndarray, event: np.ndarray, *,
+                            min_patients: int, min_events: int) -> dict[str, Any]:
+    """Entity-specific risk sets: an absent molecular measurement is not an observation."""
+    x=np.asarray(features,dtype=float);time=np.asarray(time_days,float);status=np.asarray(event,float)
+    if x.ndim!=2 or len(x)!=len(time) or len(x)!=len(status):
+        raise ClinicalEntityTrainingError("Cox arrays not aligned")
+    m=x.shape[1]
+    out={k:np.full(m,np.nan) for k in ("beta","standard_error","z","p_value","information")}
+    out.update(estimable=np.zeros(m,bool),n_patients=np.zeros(m,int),n_events=np.zeros(m,int),
+               failure_reason=np.full(m,"",dtype=object))
+    valid=np.isfinite(x)&(np.isfinite(time)&(time>0)&np.isin(status,[0.,1.]))[:,None]
+    if m==0:return out
+    _,inverse=np.unique(np.packbits(valid,axis=0).T,axis=0,return_inverse=True)
+    for group in range(int(inverse.max())+1):
+        columns=np.flatnonzero(inverse==group);rows=valid[:,columns[0]]
+        result=_cox_complete_score_one_step(x[np.ix_(rows,columns)],time[rows],status[rows],
+                                           min_patients=min_patients,min_events=min_events)
+        for key in out:out[key][columns]=result[key]
+        invalid = ~np.asarray(result["estimable"],dtype=bool)
+        if not result["failure_reason"]:
+            out["failure_reason"][columns[invalid]]="ZERO_COX_SCORE_INFORMATION"
+    # Retain the established vectorised API when one reason applies uniformly;
+    # heterogeneous measurement masks still carry per-entity reasons.
+    unique_reasons = np.unique(out["failure_reason"])
+    if len(unique_reasons) == 1:
+        out["failure_reason"] = str(unique_reasons[0])
+    return out
 
-    matrix = np.asarray(values, dtype=np.float64)
-    cov = np.asarray(covariates, dtype=np.float64)
-    train = np.asarray(train_mask, dtype=bool)
-    if matrix.ndim != 2 or cov.ndim != 2 or len(matrix) != len(cov):
-        raise ClinicalEntityTrainingError("Molecular values and covariates are misaligned")
-    if int(train.sum()) < 2:
-        raise ClinicalEntityTrainingError("Fewer than two patients in training folds")
-    observed = np.isfinite(matrix)
-    train_values = matrix[train]
-    train_observed = observed[train]
-    n_train_measurements = train_observed.sum(axis=0).astype(np.int32)
-    with np.errstate(invalid="ignore", divide="ignore"):
-        mean = np.nansum(train_values, axis=0) / np.maximum(n_train_measurements, 1)
-        centered = np.where(train_observed, train_values - mean, 0.0)
-        variance = np.sum(centered * centered, axis=0) / np.maximum(n_train_measurements, 1)
-    scale = np.sqrt(np.maximum(variance, 0.0))
-    feature_valid = (
-        (n_train_measurements >= int(min_train_measurements))
-        & np.isfinite(mean)
-        & np.isfinite(scale)
-        & (scale > 1e-8)
-    )
-    safe_mean = np.where(np.isfinite(mean), mean, 0.0)
-    safe_scale = np.where(feature_valid, scale, 1.0)
-    filled = np.where(observed, matrix, safe_mean)
-    standardized = (filled - safe_mean) / safe_scale
-    standardized[:, ~feature_valid] = 0.0
 
-    design = np.column_stack([np.ones(len(cov), dtype=np.float64), cov])
-    design = np.where(np.isfinite(design), design, 0.0)
-    train_design = design[train]
-    penalty = np.eye(train_design.shape[1], dtype=np.float64) * float(ridge)
-    penalty[0, 0] = 0.0
-    coefficient = np.linalg.solve(
-        train_design.T @ train_design + penalty,
-        train_design.T @ standardized[train],
-    )
-    residual = standardized - design @ coefficient
-    residual[:, ~feature_valid] = 0.0
-    counts = {
-        "train": n_train_measurements,
-        "all": observed.sum(axis=0).astype(np.int32),
-    }
-    return residual.astype(np.float32), feature_valid, counts
+def fold_local_residualize(values: np.ndarray, covariates: np.ndarray, train_mask: np.ndarray, *,
+                          min_train_measurements: int, ridge: float = 1e-4):
+    """Fit each molecular feature on measured training rows; preserve missingness.
+
+    This is covariate-residualized molecular association, not an imputed outcome
+    prediction and not a substitute for a fully adjusted Cox model.
+    """
+    matrix=np.asarray(values,dtype=float);cov=np.asarray(covariates,dtype=float);train=np.asarray(train_mask,dtype=bool)
+    if matrix.ndim!=2 or cov.ndim!=2 or len(matrix)!=len(cov) or len(train)!=len(matrix):
+        raise ClinicalEntityTrainingError("Molecular values and covariates misaligned")
+    observed=np.isfinite(matrix)&np.isfinite(cov).all(axis=1)[:,None]
+    residual=np.full_like(matrix,np.nan);valid=np.zeros(matrix.shape[1],bool)
+    counts={"train":observed[train].sum(axis=0).astype(np.int32),"all":observed.sum(axis=0).astype(np.int32)}
+    design=np.column_stack([np.ones(len(cov)),cov]);ranks=np.zeros(matrix.shape[1],np.int16)
+    for j in range(matrix.shape[1]):
+        fit=train&observed[:,j]
+        if fit.sum()<min_train_measurements:continue
+        mean=float(matrix[fit,j].mean());scale=float(matrix[fit,j].std())
+        if not np.isfinite(scale) or scale<=1e-8:continue
+        d=design[fit];rank=int(np.linalg.matrix_rank(d));ranks[j]=rank
+        if fit.sum()<=rank+1:continue
+        penalty=np.eye(d.shape[1])*float(ridge);penalty[0,0]=0.
+        beta=np.linalg.lstsq(d.T@d+penalty,d.T@((matrix[fit,j]-mean)/scale),rcond=None)[0]
+        mask=observed[:,j]
+        residual[mask,j]=(matrix[mask,j]-mean)/scale-design[mask]@beta
+        valid[j]=True
+    counts["effective_design_rank"]=ranks
+    return residual.astype(np.float32),valid,counts
 
 
 def _role_failure(role: str, result: Mapping[str, Any]) -> str:
@@ -379,8 +382,8 @@ def analyse_entity_matrix(
                 table = pd.DataFrame(index=pd.Index([], name="patient_id"))
             table = table.reindex(patient)
             endpoint_arrays[clinical_endpoint] = (
-                pd.to_numeric(table.get("time_days"), errors="coerce").to_numpy(float),
-                pd.to_numeric(table.get("event"), errors="coerce").to_numpy(float),
+                pd.to_numeric(table.get("time_days", pd.Series(np.nan,index=table.index)), errors="coerce").to_numpy(float),
+                pd.to_numeric(table.get("event", pd.Series(np.nan,index=table.index)), errors="coerce").to_numpy(float),
             )
 
         for start in range(0, len(entities), int(block_size)):
@@ -450,18 +453,17 @@ def analyse_entity_matrix(
                 for role, result in results.items():
                     for statistic in ("beta", "standard_error", "z", "p_value"):
                         base[f"{role}_{statistic}"] = result[statistic]
-                    base[f"n_{role}_patients"] = int(result["n_patients"])
-                    base[f"n_{role}_events"] = int(result["n_events"])
+                    base[f"n_{role}_patients"] = np.asarray(result["n_patients"], dtype=int)
+                    base[f"n_{role}_events"] = np.asarray(result["n_events"], dtype=int)
                     role_ok = np.asarray(result["estimable"], dtype=bool)
-                    role_reason = _role_failure(role, result)
-                    if role_reason:
-                        failure = np.where((failure == "") & ~role_ok, role_reason, failure)
-                    else:
-                        failure = np.where(
-                            (failure == "") & ~role_ok,
-                            f"{role.upper()}_ZERO_COX_SCORE_INFORMATION",
-                            failure,
-                        )
+                    raw_reasons = result["failure_reason"]
+                    reasons = (
+                        np.full(len(base), str(raw_reasons), dtype=object)
+                        if np.asarray(raw_reasons).ndim == 0
+                        else np.asarray(raw_reasons, dtype=str)
+                    )
+                    role_reasons = np.asarray([f"{role.upper()}_{r or 'ZERO_COX_SCORE_INFORMATION'}" for r in reasons])
+                    failure = np.where((failure == "") & ~role_ok, role_reasons, failure)
                     estimable &= role_ok
                 base["fold_available"] = estimable
                 base["failure_reason"] = np.where(estimable, "", failure)

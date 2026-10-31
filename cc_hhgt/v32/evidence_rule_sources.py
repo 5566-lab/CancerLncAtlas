@@ -26,7 +26,8 @@ def base_event(row, *, source_id, source_event_id, route, source_cancer, provena
                 "species", "experiment_id", "intervention", "readout", "mediator_id"):
         event[key] = text(row.get(key))
     event.update(source_id=source_id, source_event_id=str(source_event_id), source_cancer_id=str(source_cancer).upper(),
-        route_type=route, direction="unknown", review_value=np.nan, raw_occurrences=1,
+        route_type=route, direction="unknown", review_value=np.nan,
+        source_review_conflict=False, raw_occurrences=1,
         study_tokens_json=json.dumps(provenance_tokens(row)), provenance_json=json.dumps(provenance, sort_keys=True),
         detail_json=json.dumps(detail, sort_keys=True, default=str))
     return event
@@ -78,6 +79,9 @@ def native_events(events, lineage, members, *, source_id, artifacts):
         if emitted_route == "DIRECT_EXACT_ASSERTION":
             row["direction"] = observed_direction(raw.get("direction_raw"))
             row["review_value"] = review_value(raw.get("manual_review_status"))
+            row["source_review_conflict"] = bool(
+                raw.get("review_conflict", False)
+            )
         rows.append(row)
     return pd.DataFrame(rows, columns=EVENT_COLUMNS)
 

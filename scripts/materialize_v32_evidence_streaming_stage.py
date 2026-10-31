@@ -37,6 +37,7 @@ def main() -> None:
     )
     parser.add_argument("--interaction-relation", required=True, type=Path)
     parser.add_argument("--empty-evidence-event", required=True, type=Path)
+    parser.add_argument("--direct-evidence-events", type=Path)
     parser.add_argument("--exact-pathway-members", required=True, type=Path)
     parser.add_argument("--formal-candidates", required=True, type=Path)
     parser.add_argument("--conversion-manifest", required=True, type=Path)
@@ -44,6 +45,7 @@ def main() -> None:
     parser.add_argument("--patient-fold-receipt", required=True, type=Path)
     parser.add_argument("--expected-hashes-json", required=True, type=Path)
     parser.add_argument("--output-root", required=True, type=Path)
+    parser.add_argument("--r4-core-authority", type=Path, dest="r62_core_authority")
     parser.add_argument("--batch-size", type=int, default=50_000)
     parser.add_argument("--row-group-size", type=int, default=100_000)
     parser.add_argument("--seed", type=int, default=20260726)
@@ -58,7 +60,8 @@ def main() -> None:
     expected_hashes = json.loads(
         args.expected_hashes_json.read_text(encoding="utf-8")
     )
-    if set(expected_hashes) != set(ROLES):
+    expected_roles = set(ROLES) | ({"direct_evidence_event"} if args.direct_evidence_events else set())
+    if set(expected_hashes) != expected_roles:
         raise SystemExit(
             "expected-hashes JSON must contain exactly: " + ", ".join(ROLES)
         )
@@ -78,6 +81,8 @@ def main() -> None:
         seed=args.seed,
         memory_limit=args.memory_limit,
         threads=args.threads,
+        direct_evidence_event_path=args.direct_evidence_events,
+        r62_core_authority_path=args.r62_core_authority,
     )
     print(
         json.dumps(

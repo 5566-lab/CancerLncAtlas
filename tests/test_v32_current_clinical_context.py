@@ -41,16 +41,31 @@ def frozen_clinical_head(core,domain,endpoint_arrays,*,train_indices,validation_
 
 
 def clinical_fixture(root,current_sources):
-    from test_v32_current_state_context import native_fixture
     from cc_hhgt.v32.patient_fold_authority import build_patient_fold_authority
     from scripts.run_v32_clinical_training import main as risk_main
     from scripts.run_v32_clinical_entity_training import main as entity_main
     root.mkdir(); core_path,selected_path,run=current_sources
-    state_manifest=json.loads(native_fixture(root/"state_container",current_sources).read_text())
-    state_lineage=Path(state_manifest["state_training_lineage"]["path"])
-    state_inputs={r["role"]:Path(r["path"]) for r in json.loads(state_lineage.read_text())["input_artifacts"]}
-    samples=pd.read_parquet(state_inputs["v32_patient_fold_manifest"])
-    expression=pd.read_parquet(state_inputs["lncrna_expression"]).merge(samples[["sample_id","patient_id"]],on="sample_id",validate="many_to_one")
+    raw=root/"state_raw";raw.mkdir()
+    patient=[];expression_rows=[];state_rows=[]
+    for fold in range(5):
+        for j,x in enumerate([-3.,-2.,-1.,0.,0.,1.,2.,3.]):
+            patient_id=f"P{fold}_{j}";sample=f"{patient_id}_A0"
+            patient.append(("BRCA",sample,patient_id,fold))
+            expression_rows.append(("BRCA",sample,patient_id,"LNC:Z",x))
+            for i,state_id in enumerate(HISTORICAL_STATE_IDS):
+                value=x*x if i==1 else -x if i==3 else x
+                state_rows.append((sample,"BRCA",patient_id,state_id,value))
+    samples=pd.DataFrame(patient,columns=["cancer_id","sample_id","patient_id","patient_fold_id"])
+    expression=pd.DataFrame(expression_rows,columns=["cancer_id","sample_id","patient_id","lncrna_id","logcpm"])
+    state_measurements=pd.DataFrame(state_rows,columns=["sample_id","cancer_id","patient_id","state_id","state_value"])
+    sample_path=raw/"patients.parquet";expression_path=raw/"expression.parquet";state_path=raw/"state_measurements.parquet"
+    samples.to_parquet(sample_path,index=False);expression.drop(columns="patient_id").to_parquet(expression_path,index=False)
+    state_measurements.to_parquet(state_path,index=False)
+    state_lineage=write(raw/"JOINT_STATE_GENERATION.json",{"analysis_version":"CancerLncAtlas_V3.2_JOINT",
+        "old_checkpoint_loaded":False,"state_gradients_into_core":True,
+        "model_family":"cc_hhgt_shared_state_head"})
+    state_inputs={"v32_patient_fold_manifest":sample_path,"lncrna_expression":expression_path,
+        "tumor_state_long_measurement":state_path}
     rng=np.random.default_rng(381)
     patients=sorted(samples.patient_id.unique()); n=len(patients)
     x=expression.groupby("patient_id").logcpm.mean().reindex(patients).to_numpy()

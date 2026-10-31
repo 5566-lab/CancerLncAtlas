@@ -1,0 +1,27 @@
+{
+  "format": "JOINT_TEST_ADAPTATIONS_V1",
+  "changes": [
+    "Imported test modules have a unique test_joint_runtime_ prefix; cross-test fixture imports follow those names.",
+    "Removed-State CLI regression now asserts absence rather than requiring retained wrappers with exit78.",
+    "Historical GNN source-copy assertions replaced by current import ownership plus executable numerical backend regressions.",
+    "Optimizer delta guard retains a pinned implementation digest and behavioral update/no-update regressions.",
+    "Archive-digest test follows the same unified-root source paths as code_digest.",
+    "Import authority fixture now supplies every role required by the checked-in configuration.",
+    "Required-low-coverage counterexample uses age_years; additional tests enforce inherited explicit sparse-purity omission without imputation.",
+    "Topology-effect test accepts the current four-item encode tuple while retaining its graph-change assertion."
+  ],
+  "scientific_thresholds_changed": false,
+  "integration_bug_fixes": [
+    "Sparse-purity omission now actually excludes the column rather than falling through to optional median imputation."
+  ],
+  "additional_fixture_alignment": {
+    "modality_mask_double": "Set explicit two-column width when bypassing the model constructor; retain width admission in production",
+    "yaml_role_binding": "Use the unified auxiliary_targets key; compare the same four identities",
+    "npz_double": "Expose NpzFile.files so the added node-omics validator inspects the same real archive API",
+    "empty_coexpression": "Accept the earlier R62 COEXPRESSION_NO_ESTIMABLE_PAIRS hard stop; retain no-manifest requirement",
+    "evidence_checkpoint_dispatch": "Require the recipe to bind the actual streaming fitter checkpoint interval",
+    "web_selected_identity": "Accept the same identity mismatch rejected earlier by the native Clinical adapter, without weakening the mismatch condition",
+    "browser_state_unproduced": "Assert visible NOT_PRODUCED reason and hidden result controls because fixture has no five-fold joint State release; do not require retired frozen State rows"
+  },
+  "overlapping_downstream_source_reconciliation": "Actual R5/R6 semantic regressions were repaired in Evidence, Clinical, genomic, single-cell, ATAC and epigenetic implementations; imported scientific assertions were retained"
+}

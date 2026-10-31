@@ -42,7 +42,7 @@ def _valid_event(value: pd.Series) -> pd.Series:
 
 def _valid_time(value: pd.Series) -> pd.Series:
     numeric = pd.to_numeric(value, errors="coerce").astype("float64")
-    return numeric.where(numeric > 0)
+    return numeric.where((numeric > 0) & np.isfinite(numeric))
 
 
 def standardize_tcga_cdr_workbook(
@@ -66,7 +66,10 @@ def standardize_tcga_cdr_workbook(
     extra["patient_id"] = _explicit_patient_series(
         extra.patient_id, context="TCGA-CDR ExtraEndpoints sheet"
     )
-    base = main[["cancer_id", "patient_id"]].drop_duplicates().copy()
+    base = pd.concat(
+        [main[["cancer_id", "patient_id"]], extra[["cancer_id", "patient_id"]]],
+        ignore_index=True,
+    ).drop_duplicates().copy()
     base["cancer_id"] = base.cancer_id.astype(str).str.replace("TCGA-", "", regex=False)
 
     sources: dict[str, tuple[pd.DataFrame, str | None, str | None, str]] = {
@@ -99,7 +102,11 @@ def standardize_tcga_cdr_workbook(
             values["patient_id"] = _explicit_patient_series(
                 values.patient_id, context=f"TCGA-CDR {endpoint} endpoint"
             )
-            values = values.drop_duplicates(["cancer_id", "patient_id"], keep="first")
+            values = values.drop_duplicates()
+            if values.duplicated(["cancer_id", "patient_id"]).any():
+                raise ClinicalTrainingError(
+                    f"Conflicting endpoint records for {endpoint}; cannot keep first"
+                )
             values["time_days"] = _valid_time(values[time_column])
             values["event"] = _valid_event(values[event_column])
             part = part.merge(
@@ -135,7 +142,9 @@ def standardize_tcga_cdr_workbook(
     covariates["patient_id"] = _explicit_patient_series(
         covariates.patient_id, context="TCGA-CDR covariates"
     )
-    covariates = covariates.drop_duplicates(["cancer_id", "patient_id"], keep="first")
+    covariates = covariates.drop_duplicates()
+    if covariates.duplicated(["cancer_id", "patient_id"]).any():
+        raise ClinicalTrainingError("Conflicting patient covariates; cannot keep first")
     return endpoints, covariates.reset_index(drop=True)
 
 
@@ -310,6 +319,25 @@ def discrete_time_nll(logits, time_bin, event, available):
     index = torch.arange(hazard.shape[1], device=hazard.device).unsqueeze(0)
     bins = time_bin.long().unsqueeze(1)
     mask = available.float()
+    if not bool(torch.isfinite(mask).all()) or not bool(
+        ((mask == 0) | (mask == 1)).all()
+    ):
+        raise ClinicalTrainingError("Clinical availability must be finite and binary")
+    if not bool(mask.any()):
+        raise ClinicalTrainingError(
+            "CLINICAL_NO_OBSERVED_LABELS: no masked-zero validation loss"
+        )
+    selected = mask.bool()
+    if not bool(torch.isfinite(logits[selected]).all()) or not bool(
+        torch.isfinite(event[selected]).all()
+    ):
+        raise ClinicalTrainingError("Nonfinite observed clinical value")
+    if not bool(((event[selected] == 0) | (event[selected] == 1)).all()):
+        raise ClinicalTrainingError("Clinical events must be 0/1")
+    if not bool(
+        ((time_bin[selected] >= 0) & (time_bin[selected] < logits.shape[1])).all()
+    ):
+        raise ClinicalTrainingError("Clinical time bin out of range")
     bins = bins.masked_fill(mask.unsqueeze(1) == 0, 0)
     event = event.float().masked_fill(mask == 0, 0)
     log_survival = torch.log1p(-hazard)
@@ -378,6 +406,39 @@ def train_private_clinical_head(
 
     if not endpoint_arrays:
         raise ClinicalTrainingError("No clinical endpoint meets the fold training threshold")
+    # Establish endpoint eligibility before tensors, model construction, or an optimizer.
+    n_patients = len(core)
+    train_indices = np.asarray(train_indices, dtype=np.int64)
+    validation_indices = np.asarray(validation_indices, dtype=np.int64)
+    if (
+        not len(train_indices)
+        or not len(validation_indices)
+        or np.intersect1d(train_indices, validation_indices).size
+    ):
+        raise ClinicalTrainingError(
+            "CLINICAL_SPLIT_INVALID: independent nonempty train/validation required"
+        )
+    for split, indices in (("train", train_indices), ("validation", validation_indices)):
+        if (
+            len(np.unique(indices)) != len(indices)
+            or np.any(indices < 0)
+            or np.any(indices >= n_patients)
+        ):
+            raise ClinicalTrainingError("Clinical patient index out of range or repeated")
+        for endpoint, arrays in endpoint_arrays.items():
+            mask = np.asarray(arrays["available"])
+            if mask.shape != (n_patients,) or not np.isin(mask, [0, 1]).all():
+                raise ClinicalTrainingError("Clinical endpoint availability invalid")
+            if not mask[indices].any():
+                raise ClinicalTrainingError(
+                    f"CLINICAL_NO_{split.upper()}_LABELS:{endpoint}"
+                )
+    any_label = np.logical_or.reduce(
+        [np.asarray(arrays["available"], bool) for arrays in endpoint_arrays.values()]
+    )
+    train_indices = train_indices[any_label[train_indices]]
+    if not len(train_indices):
+        raise ClinicalTrainingError("CLINICAL_NO_TRAIN_LABELS")
     torch.manual_seed(int(seed))
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(int(seed))
@@ -408,6 +469,8 @@ def train_private_clinical_head(
             if endpoint not in endpoint_arrays:
                 continue
             arrays = endpoint_arrays[endpoint]
+            if not np.asarray(arrays["available"], bool)[indices].any():
+                continue
             losses.append(
                 discrete_time_nll(
                     logits[:, endpoint_index],

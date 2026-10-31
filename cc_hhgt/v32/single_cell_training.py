@@ -316,7 +316,7 @@ def normalise_dataset_manifest(frame: pd.DataFrame) -> pd.DataFrame:
             "feature_universe_status": (
                 frame[feature_status].astype(str).map(_normalise_token)
                 if feature_status is not None
-                else "pass"
+                else "unknown"
             ),
             "quality_flags": (
                 frame[quality_flags].fillna("NONE").astype(str)
@@ -326,7 +326,7 @@ def normalise_dataset_manifest(frame: pd.DataFrame) -> pd.DataFrame:
             "donor_metadata_available": (
                 _explicit_bool(frame[donor_metadata], "donor_metadata_available")
                 if donor_metadata is not None
-                else True
+                else False
             ),
         }
     )
@@ -335,7 +335,8 @@ def normalise_dataset_manifest(frame: pd.DataFrame) -> pd.DataFrame:
     conflicts = result.groupby("dataset_id", observed=True).cancer_id.nunique()
     if (conflicts > 1).any():
         raise SingleCellTrainingError("A single-cell dataset maps to multiple cancers")
-    result = result.drop_duplicates("dataset_id", keep="last")
+    result = result.drop_duplicates()
+    if result.duplicated("dataset_id").any():raise SingleCellTrainingError("Conflicting dataset metadata; no keep-last resolution")
     bad_staging = result.formal_eligible & result.source_tier.isin(_STAGING_TIERS)
     if bad_staging.any():
         names = sorted(result.loc[bad_staging, "dataset_id"].astype(str))
@@ -417,7 +418,7 @@ def normalise_single_cell_associations(
         "single-cell association",
     )
     fdr = _first_column(
-        frame, ("fdr", "q_value", "padj", "p_value"), "single-cell association"
+        frame, ("fdr", "q_value", "padj"), "single-cell association"
     )
     tier = _first_column(
         frame, ("source_tier", "analysis_tier"), "single-cell association", required=False
@@ -473,7 +474,9 @@ def normalise_single_cell_associations(
         & result.pathway_id.ne("")
         & result.cell_type.astype(str).ne("")
     ].copy()
-    result["association_fdr"] = result.association_fdr.clip(0.0, 1.0)
+    if (not np.isfinite(result.association_effect).all() or not result.association_effect.between(-1,1).all()
+            or not np.isfinite(result.association_fdr).all() or not result.association_fdr.between(0,1).all()):
+        raise SingleCellTrainingError("Correlation effect/FDR must be finite in [-1,1]/[0,1]; clipping is not validation")
     # A bounded, direction-agnostic replication-strength target.  Association
     # estimates and q-values are labels only; neither enters domain features.
     result["association_target"] = (
@@ -587,6 +590,7 @@ def _normalise_lnc_celltype(frame: pd.DataFrame) -> pd.DataFrame:
             "cell_key": frame[cell].astype(str).map(_normalise_token),
         }
     )
+    result["state_key"] = frame["cell_state"].fillna("").astype(str).map(_normalise_token) if "cell_state" in frame else ""
     for output, aliases in {
         "lnc_detection_rate": ("detection_rate",),
         "lnc_mean_log_expression": ("mean_log_expression", "mean_expression"),
@@ -596,7 +600,7 @@ def _normalise_lnc_celltype(frame: pd.DataFrame) -> pd.DataFrame:
         source = _first_column(frame, aliases, "lncRNA-cell-type activity", required=False)
         result[output] = pd.to_numeric(frame[source], errors="coerce") if source else np.nan
     return result.groupby(
-        ["dataset_id", "cancer_id", "lncrna_id", "cell_type", "cell_key"],
+        ["dataset_id", "cancer_id", "lncrna_id", "cell_type", "cell_key", "state_key"],
         observed=True, as_index=False,
     ).agg(
         lnc_detection_rate=("lnc_detection_rate", "mean"),
@@ -672,6 +676,7 @@ def _normalise_activity(
             "n_cells": pd.to_numeric(frame[n_cells], errors="coerce") if n_cells else np.nan,
         }
     )
+    result["state_key"] = frame["cell_state"].fillna("").astype(str).map(_normalise_token) if "cell_state" in frame else ""
     return result.dropna(subset=["dataset_id", "pathway_id", "activity_value"]).reset_index(drop=True)
 
 
@@ -685,36 +690,37 @@ def build_domain_features(
     base = associations.reset_index(drop=True).copy()
     base["_row_id"] = np.arange(len(base), dtype=int)
     base["cell_key"] = base.cell_type_major.astype(str).map(_normalise_token)
+    base["state_key"] = base["cell_state"].fillna("").astype(str).map(_normalise_token) if "cell_state" in base else ""
     lnc = lnc_celltype.copy()
+    if "state_key" not in lnc:lnc["state_key"]=""
     merged = base.merge(
         lnc,
-        on=["dataset_id", "cancer_id", "lncrna_id", "cell_key"],
+        on=["dataset_id", "cancer_id", "lncrna_id", "cell_key", "state_key"],
         how="left", validate="many_to_one",
     )
+    context_keys=["dataset_id","cancer_id","cell_key","state_key","pathway_id"]
     if activity.empty:
-        activity_wide = pd.DataFrame(columns=["dataset_id", "pathway_id"])
+        activity_wide=pd.DataFrame(columns=context_keys)
     else:
-        local = activity.copy()
-        local["weighted"] = local.activity_value * local.n_cells.fillna(1.0).clip(lower=1.0)
-        grouped = local.groupby(
-            ["dataset_id", "pathway_id", "activity_kind"], observed=True, as_index=False
-        ).agg(
-            activity_value=("activity_value", "mean"),
-            mean_pseudotime=("mean_pseudotime", "mean"),
-            n_cells=("n_cells", "sum"),
-        )
-        values = grouped.pivot_table(
-            index=["dataset_id", "pathway_id"], columns="activity_kind",
-            values="activity_value", aggfunc="mean",
-        ).reset_index()
-        values.columns.name = None
-        auxiliary = grouped.groupby(
-            ["dataset_id", "pathway_id"], observed=True, as_index=False
-        ).agg(mean_pseudotime=("mean_pseudotime", "mean"), pathway_n_cells=("n_cells", "sum"))
-        activity_wide = values.merge(auxiliary, on=["dataset_id", "pathway_id"], how="outer")
-    merged = merged.merge(
-        activity_wide, on=["dataset_id", "pathway_id"], how="left", validate="many_to_one"
-    )
+        local=activity.copy()
+        if "cell_key" not in local:
+            if "cell_type" not in local:raise SingleCellTrainingError("Activity lacks cell context; dataset-wide broadcasting forbidden")
+            local["cell_key"]=local.cell_type.astype(str).map(_normalise_token)
+        if "state_key" not in local:local["state_key"]=""
+        if "cancer_id" not in local:
+            d=base[["dataset_id","cancer_id"]].drop_duplicates()
+            if d.duplicated("dataset_id").any():raise SingleCellTrainingError("Activity cancer context ambiguous")
+            local=local.merge(d,on="dataset_id",validate="many_to_one")
+        # Equal source observations within the SAME context, not cell-count weighted and not cross-context.
+        # Repeated identical donor measurements are deduplicated before averaging.
+        local=local.drop_duplicates()
+        grouped=local.groupby(context_keys+["activity_kind"],observed=True,as_index=False).agg(
+            activity_value=("activity_value","mean"),mean_pseudotime=("mean_pseudotime","mean"),n_cells=("n_cells","sum"))
+        values=grouped.pivot(index=context_keys,columns="activity_kind",values="activity_value").reset_index()
+        values.columns.name=None
+        auxiliary=grouped.groupby(context_keys,observed=True,as_index=False).agg(mean_pseudotime=("mean_pseudotime","mean"),pathway_n_cells=("n_cells","max"))
+        activity_wide=values.merge(auxiliary,on=context_keys,how="outer",validate="one_to_one")
+    merged=merged.merge(activity_wide,on=context_keys,how="left",validate="many_to_one")
     def numeric_column(name: str) -> pd.Series:
         if name not in merged:
             return pd.Series(np.nan, index=merged.index, dtype=float)
@@ -774,6 +780,12 @@ def _resolve_manifest_path(manifest_path: Path, value: str) -> Path:
 def validate_core_manifest(path: str | Path) -> tuple[dict[str, Any], str, str]:
     source = Path(path).resolve()
     payload = json.loads(source.read_text(encoding="utf-8"))
+    from .core_export_contract_r4 import EXPORT_FORMAT as R62_EXPORT_FORMAT, validate_export
+    if payload.get("export_format") == R62_EXPORT_FORMAT:
+        try:
+            return validate_export(source)
+        except (KeyError, TypeError, ValueError, RuntimeError) as exc:
+            raise SingleCellTrainingError(f"R6.2 core export failed validation: {exc}") from exc
     if payload.get("export_format") != CORE_EXPORT_FORMAT:
         raise SingleCellTrainingError("Core embeddings are not a registered V3.2 export")
     if not str(payload.get("analysis_version", "")).startswith("CancerLncAtlas_V3.2"):
@@ -916,6 +928,10 @@ def fit_private_head(
 
     if len(train_labels) < 2 or np.nanstd(train_labels) < 1e-8:
         raise SingleCellTrainingError(f"Single-cell fold {fold} lacks target variation")
+    if len(validation_labels)<2 or not np.isfinite(validation_labels).all():
+        raise SingleCellTrainingError("Independent validation is empty or insufficient; no train-loss fallback")
+    if not np.isfinite(train_domain).all() or not np.isfinite(validation_domain).all():
+        raise SingleCellTrainingError("Nonfinite private-head inputs")
     mean = train_domain.mean(axis=0).astype(np.float32)
     scale = train_domain.std(axis=0).astype(np.float32)
     scale[scale < 1e-6] = 1.0
@@ -969,7 +985,7 @@ def fit_private_head(
                     )
                 )
             else:
-                validation_loss = float(np.mean(losses))
+                raise SingleCellTrainingError("Independent validation is empty after core/quality filtering; train loss is not validation")
         history.append(
             {"epoch": float(epoch), "train_loss": float(np.mean(losses)), "validation_loss": validation_loss}
         )

@@ -162,6 +162,19 @@ def crossfit_epigenetic_expression(
     """Return patient-OOF full and regulatory-component expression predictions."""
 
     settings = config or EpigeneticExpressionConfig()
+    # Patient-fold cross-fitting cannot repair topology leakage when distal
+    # lncRNA links were selected once from the whole cohort (legacy DataS7).
+    # Until links are rebuilt within each outer fold or supplied externally,
+    # fail closed instead of publishing a patient-OOF claim for this feature.
+    if (
+        "atac_distal_accessibility" in settings.signal_features
+        and "atac_distal_accessibility" in frame
+        and frame["atac_distal_accessibility"].notna().any()
+    ):
+        raise EpigeneticExpressionError(
+            "DISTAL_TOPOLOGY_SCOPE_UNVERIFIED: distal topology must be external "
+            "or rebuilt within each outer fold"
+        )
     data = _normalise(frame, settings)
     output = data.loc[:, list(KEYS) + [FOLD_COLUMN, TARGET_COLUMN]].copy()
     output["predicted_expression_z"] = np.nan

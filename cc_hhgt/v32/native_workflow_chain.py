@@ -24,7 +24,7 @@ EXTERNAL = "NATIVE_WORKFLOW_CHAIN_EXTERNAL_V1"
 STAGE = "NATIVE_WORKFLOW_CHAIN_STAGE_V1"
 SLUG = re.compile(r"[a-z][a-z0-9_-]{0,63}")
 MODULES = {name: "cc_hhgt.v32.native_"+name+"_workflow" for name in
-           ("expression", "cnv", "core", "results", "auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "rbp", "methylation", "distal", "distal_atac", "probe", "distal_mutation", "single_cell_mapping", "single_cell_donors")}
+           ("expression", "cnv", "core", "results", "auxiliary", "genomic", "clinical", "single_cell", "fusion", "rbp", "methylation", "distal", "distal_atac", "probe", "distal_mutation", "single_cell_mapping", "single_cell_donors")}
 RUNS = {"expression.run": "expression", "cnv.run": "cnv", "results.run": "results", "rbp.run":"rbp", "methylation.run":"methylation", "distal.run":"distal", "distal_atac.run":"distal_atac", "probe.run":"probe", "distal_mutation.run":"distal_mutation", "single_cell_mapping.run":"single_cell_mapping", "single_cell_donors.run":"single_cell_donors"}
 MODULES["single_cell_static"] = "cc_hhgt.v32.native_single_cell_static_workflow"
 RUNS["single_cell_static.run"] = "single_cell_static"
@@ -41,8 +41,9 @@ MODULES["pathway_membership"] = "cc_hhgt.v32.native_pathway_membership_workflow"
 RUNS["pathway_membership.run"] = "pathway_membership"
 MODULES["promoter"] = "cc_hhgt.v32.native_promoter_workflow"
 RUNS["promoter.run"] = "promoter"
-PAIRED = ("auxiliary", "genomic", "state", "clinical", "single_cell", "fusion", "single_cell_episodes")
+PAIRED = ("auxiliary", "genomic", "clinical", "single_cell", "fusion", "single_cell_episodes")
 OPERATIONS = {*RUNS, "core.accept", "publication.run", *[n+"."+p for n in PAIRED for p in ("prepare", "collect")]}
+SHARED_IMPLEMENTATIONS = ("cc_hhgt/v32/state_inputs.py", "cc_hhgt/v32/table_replay.py")
 
 
 class Waiting(Exception):
@@ -56,6 +57,7 @@ def module(name):
 def code_records():
     names = [__file__, str(ROOT/"scripts/run_native_workflow_chain.py")]
     names += [str(ROOT/(name.replace(".", "/")+".py")) for name in MODULES.values()]
+    names += [str(ROOT/name) for name in SHARED_IMPLEMENTATIONS]
     names += [str(ROOT/"cc_hhgt/v32/current_analysis_workflow.py")]
     return [record(Path(name)) for name in names]
 
@@ -206,7 +208,7 @@ def dispatch(operation, inputs, folder):
 def validate_result(operation, item, folder):
     name, phase = operation.split(".")
     if phase=="prepare": module(name).validate_preparation(item, folder)
-    elif operation in RUNS or name in ("auxiliary", "genomic", "state", "clinical", "core", "single_cell_episodes"):
+    elif operation in RUNS or name in ("auxiliary", "genomic", "clinical", "core", "single_cell_episodes"):
         module(name).validate(item, folder)
     elif name=="single_cell":
         path = verified_path(item, folder); value = read(path)

@@ -1072,6 +1072,23 @@ def build_model(kind: str, bundle: GraphBundle, feature_dim: int, cfg: dict[str,
             }
         def encode(self, data):
             h = {k: F.relu(self.proj[k](data[k].x)) for k in data.node_types}
+            # The joint Pathway/State entrypoint may attach fold-local numeric
+            # context after the ordinary node projection.  This is additive:
+            # graphs without the field retain the public encoder bit for bit,
+            # while current variable-width node inputs remain owned by
+            # ``self.proj`` above.
+            for node_type in h:
+                context = getattr(data[node_type], "r4_context_embedding", None)
+                if context is None:
+                    continue
+                if context.shape != h[node_type].shape:
+                    raise RuntimeError(
+                        f"R4 context shape mismatch: {node_type}: "
+                        f"{tuple(context.shape)} != {tuple(h[node_type].shape)}"
+                    )
+                if not bool(torch.isfinite(context).all()):
+                    raise RuntimeError(f"R4 context is nonfinite: {node_type}")
+                h[node_type] = h[node_type] + context
             for conv, projection in zip(self.layers, self.weighted_projection, strict=True):
                 updated = conv(h, _topology_edge_index_dict(data.edge_index_dict))
                 weighted = self.weighted_aggregate(h, data, projection)

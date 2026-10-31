@@ -1,0 +1,303 @@
+{
+  "format": "JOINT_MAINLINE_SOURCE_IMPORT_V1",
+  "target_host": "149",
+  "upstream_version": "R6.2_20260916_r4",
+  "base_public_commit": "480ada4a6a7796f80ef30a0335a02a8cb0408422",
+  "copied_files": [
+    {
+      "source": "cla_engine/__init__.py",
+      "destination": "cla_engine/__init__.py",
+      "source_sha256": "3e738f159f9ac04ba7e90b959bc577ee611e1846cd5ed1971c7b6ddb48859776"
+    },
+    {
+      "source": "cla_engine/backend_check.py",
+      "destination": "cla_engine/backend_check.py",
+      "source_sha256": "4227638d4d1244ed334aa4f03631da39f98abc2a92bc29016331cd2330be2bfd"
+    },
+    {
+      "source": "cla_engine/baseline_compare.py",
+      "destination": "cla_engine/baseline_compare.py",
+      "source_sha256": "ad505d66eed418f655dc682afd0bee288ead750c8437e6e3701473a37b121a84"
+    },
+    {
+      "source": "cla_engine/celltype_fusion.py",
+      "destination": "cla_engine/celltype_fusion.py",
+      "source_sha256": "7375ee0a211a311e6bd879d58944780c26963066ffd4f0533b43ffb52ede614f"
+    },
+    {
+      "source": "cla_engine/cnv_sensitivity.py",
+      "destination": "cla_engine/cnv_sensitivity.py",
+      "source_sha256": "3c4a0419825829faaf80abeeaa01bc25f43df603c9448c6dfe6de265d56a614f"
+    },
+    {
+      "source": "cla_engine/common.py",
+      "destination": "cla_engine/common.py",
+      "source_sha256": "289aec21a05e7c9a7d2d8448a991cf0bfe95b685dc4e3417cfc35c2480d5b3f3"
+    },
+    {
+      "source": "cla_engine/controller.py",
+      "destination": "cla_engine/controller.py",
+      "source_sha256": "e769b337b8f76c7b95f000bfe9c926ed8d953ed1665fb7b95de2371d4728be71"
+    },
+    {
+      "source": "cla_engine/core_export.py",
+      "destination": "cla_engine/core_export.py",
+      "source_sha256": "55abfc1c28b5d3df1418ba49d838125f884934e4b03cec1ed1164c10ac0e5dab"
+    },
+    {
+      "source": "cla_engine/diagnostic_matrix.py",
+      "destination": "cla_engine/diagnostic_matrix.py",
+      "source_sha256": "2d7c906d482a5433e58b64ca8f099b9d55a352b7ec13c337ff423c6326c7f0a1"
+    },
+    {
+      "source": "cla_engine/evaluate.py",
+      "destination": "cla_engine/evaluate.py",
+      "source_sha256": "ac08814c104aab3208dbc96746c614e3497e791d67a8e84f3bd3514164fa9e13"
+    },
+    {
+      "source": "cla_engine/evidence.py",
+      "destination": "cla_engine/evidence.py",
+      "source_sha256": "2ec40aec42dfb4727c56e2009b1a80243dab6dc9d8eefe59a8fa2a596c2dc7c0"
+    },
+    {
+      "source": "cla_engine/exact_baseline.py",
+      "destination": "cla_engine/exact_baseline.py",
+      "source_sha256": "c6f0d480d30a4187a849d67fd326b2d213d0b2bb497481597de4ec5db0158d1d"
+    },
+    {
+      "source": "cla_engine/execution_contract.py",
+      "destination": "cla_engine/execution_contract.py",
+      "source_sha256": "a2ef8ff51f9161255a2c5978077d47c311f54fec9c38abd45863d118ffbba30c"
+    },
+    {
+      "source": "cla_engine/explain.py",
+      "destination": "cla_engine/explain.py",
+      "source_sha256": "10f3687dff8da4ceef997207ab31ec4874a626fb0c19531191e9b0de893f0db6"
+    },
+    {
+      "source": "cla_engine/fixture.py",
+      "destination": "cla_engine/fixture.py",
+      "source_sha256": "bb0f2db8cd7a3d2255e1ed955466903e0d922104a67e2926158d695ce2c425ab"
+    },
+    {
+      "source": "cla_engine/genomics.py",
+      "destination": "cla_engine/genomics.py",
+      "source_sha256": "4554a5750e47b89768c36c3d493be6f5348d02f4f3f239278fddf49d06673d79"
+    },
+    {
+      "source": "cla_engine/graph.py",
+      "destination": "cla_engine/graph.py",
+      "source_sha256": "929a5ee14d130a6b891913b0f4919fc341a7278bb97b802495ebc44dedd19800"
+    },
+    {
+      "source": "cla_engine/graph_contracts.py",
+      "destination": "cla_engine/graph_contracts.py",
+      "source_sha256": "4e3746182199ed439033761fe0392a07b8a3221de9d5280a1502d74f05f69c03"
+    },
+    {
+      "source": "cla_engine/identity.py",
+      "destination": "cla_engine/identity.py",
+      "source_sha256": "f9d998ffc403be0bd2063ea3d202e45a502823cd6df4ccde1f92464f76be62cc"
+    },
+    {
+      "source": "cla_engine/inputs.py",
+      "destination": "cla_engine/inputs.py",
+      "source_sha256": "2ec92a34eddc21002e1d1fcdede54bbeaac30be6e968cf52e18392f5b1487009"
+    },
+    {
+      "source": "cla_engine/interpretation.py",
+      "destination": "cla_engine/interpretation.py",
+      "source_sha256": "6f99aee6f8c63f65cfe5bb90735f5efc31be661d3e994d3e911d70767b4a058d"
+    },
+    {
+      "source": "cla_engine/knowledge_paths.py",
+      "destination": "cla_engine/knowledge_paths.py",
+      "source_sha256": "5ddf95fa095caa730fdcf479fb6299aa703910d1e6c027e6c0b4530740c4e061"
+    },
+    {
+      "source": "cla_engine/lineage.py",
+      "destination": "cla_engine/lineage.py",
+      "source_sha256": "1f9ab699ffb0c57a155478acb1a485cbf0ec78fe488445a2e307f05be6b373e7"
+    },
+    {
+      "source": "cla_engine/metrics.py",
+      "destination": "cla_engine/metrics.py",
+      "source_sha256": "df6716303a51a1600db859c292c85389d2e58614bdd88c2e7d400cf87f045646"
+    },
+    {
+      "source": "cla_engine/modality_report.py",
+      "destination": "cla_engine/modality_report.py",
+      "source_sha256": "635d6ca8b3b1eb93ac0ade896046b85475484940e3b2f5d3be1f77a5003b4124"
+    },
+    {
+      "source": "cla_engine/model.py",
+      "destination": "cla_engine/model.py",
+      "source_sha256": "7a722de4d61bb0b92aed75f4df30fbd3a83c7508fe6ccfb80c8a589871c3176e"
+    },
+    {
+      "source": "cla_engine/modules.py",
+      "destination": "cla_engine/modules.py",
+      "source_sha256": "5289354cbe4a00185edc80b60c62899dd86d6d62a2050b16496bc5e95dffb25f"
+    },
+    {
+      "source": "cla_engine/postprocess.py",
+      "destination": "cla_engine/postprocess.py",
+      "source_sha256": "e2b92eb410c2212d46bce44de68fbf1e623443971a63502588544dec02f2f01d"
+    },
+    {
+      "source": "cla_engine/prepare.py",
+      "destination": "cla_engine/prepare.py",
+      "source_sha256": "55de038523ed9f196a4c5c08f0430b39c770282f7281e2a9ede61c0a7fff574c"
+    },
+    {
+      "source": "cla_engine/queue.py",
+      "destination": "cla_engine/queue.py",
+      "source_sha256": "7f1747bfe8b7ae647e10e57e81fce54dabf2d28ee6502c91169adf8e626ab5c1"
+    },
+    {
+      "source": "cla_engine/readiness.py",
+      "destination": "cla_engine/readiness.py",
+      "source_sha256": "a64fc1a017126081e04e925e6b3e4509726e26d0e1e2ccc19af33c5c9dfa75aa"
+    },
+    {
+      "source": "cla_engine/runtime_guard.py",
+      "destination": "cla_engine/runtime_guard.py",
+      "source_sha256": "2258b76e24dd1c530e41bdb830fe845e44a06ea1c1ad50b27935f5e112cac5e9"
+    },
+    {
+      "source": "cla_engine/singlecell_interpretation.py",
+      "destination": "cla_engine/singlecell_interpretation.py",
+      "source_sha256": "3289450b5b1382c002c91f3525883eaa22772e8ededf9e5cbc7d5d74c20f8a59"
+    },
+    {
+      "source": "cla_engine/source_lock.py",
+      "destination": "cla_engine/source_lock.py",
+      "source_sha256": "b345000591d06109543f6fa4ce8ccbf93085d818bd04639be8f281800740a62a"
+    },
+    {
+      "source": "cla_engine/statistics.py",
+      "destination": "cla_engine/statistics.py",
+      "source_sha256": "3c835ec1afafc48eedaa00945c1b842f871b6b2860ae7fb05dec2420462e2e01"
+    },
+    {
+      "source": "cla_engine/tables.py",
+      "destination": "cla_engine/tables.py",
+      "source_sha256": "ba096f6ac21a6e48aa39e8706af3ef5cd65defdcb9471fb09cdb8340d80bd394"
+    },
+    {
+      "source": "cla_engine/test_access.py",
+      "destination": "cla_engine/test_access.py",
+      "source_sha256": "d19673d3509b8500fc7977c525b9fea51bbd547ea1b0377093b3496510d5b5e3"
+    },
+    {
+      "source": "cla_engine/train.py",
+      "destination": "cla_engine/train.py",
+      "source_sha256": "442beb8cb8a44ec82bc0b441e925e2ff185960b21362da4a40f2cf15d097ce74"
+    },
+    {
+      "source": "cla_engine/transport.py",
+      "destination": "cla_engine/transport.py",
+      "source_sha256": "d22e8e1a185b3cb0477f3cb7df4e83cf7a45e6eea78c2966dd41775459f75a07"
+    },
+    {
+      "source": "cla.py",
+      "destination": "cla.py",
+      "source_sha256": "69fa16110c922a7bbc289d05a234139741c4cb70012ac9b38ece99fa9d5e1ce8"
+    },
+    {
+      "source": "code/cc_hhgt/v32/adjustment_policy.py",
+      "destination": "cc_hhgt/v32/adjustment_policy.py",
+      "source_sha256": "c7e00550aa955ecfcacffa658cb784cd80b6cdbd025fb84b5a2b6eb2fbf98f81"
+    },
+    {
+      "source": "code/cc_hhgt/v32/covariate_contract.py",
+      "destination": "cc_hhgt/v32/covariate_contract.py",
+      "source_sha256": "0a0ef6fe5448dc1fa0838b6c7612067a842049927823dcc7ea700feaf0bbb96c"
+    },
+    {
+      "source": "code/cc_hhgt/v32/core_export_contract_r4.py",
+      "destination": "cc_hhgt/v32/core_export_contract_r4.py",
+      "source_sha256": "a27d4e5ac917d3236c3731689dda586f7ea44f0a99cc8deaa7a5227940fb3674"
+    },
+    {
+      "source": "code/cc_hhgt/v32/evidence_semantics_r5.py",
+      "destination": "cc_hhgt/v32/evidence_semantics_r5.py",
+      "source_sha256": "3acdca5dd92888b6cd660ca8e72140a4a77c6d10114e026ebecf7d02afcda555"
+    },
+    {
+      "source": "code/cc_hhgt/v32/evidence_semantics_r6.py",
+      "destination": "cc_hhgt/v32/evidence_semantics_r6.py",
+      "source_sha256": "ee92879c2586128bdb5b659de9cddd8709466d0b3e8229bf165edd86b46663eb"
+    },
+    {
+      "source": "code/cc_hhgt/v32/evidence_semantics_v2.py",
+      "destination": "cc_hhgt/v32/evidence_semantics_v2.py",
+      "source_sha256": "fdf9745b0b188bff5e2e9fc60fac1f2998283e10cb0526f7e590e19966ecad5e"
+    },
+    {
+      "source": "code/cc_hhgt/v32/evidence_fit_streaming_v2.py",
+      "destination": "cc_hhgt/v32/evidence_fit_streaming_v2.py",
+      "source_sha256": "bafedc6a8b335d250659ba55ea2877ff960cb7661f024ccc0705201f34af4791"
+    },
+    {
+      "source": "code/cc_hhgt/v32/resume_state_r4.py",
+      "destination": "cc_hhgt/v32/resume_state_r4.py",
+      "source_sha256": "ddb0c7f4809ed1c3e82790889bcdba290da2318b51d75ab50521a3b6b61d1181"
+    },
+    {
+      "source": "tests/test_celltype_fusion.py",
+      "destination": "tests/test_joint_runtime_celltype_fusion.py",
+      "source_sha256": "0a18f00212190c3cbf5c862faf68f9f2e2f0efada458834fbb73c051e0b3f8a4"
+    },
+    {
+      "source": "tests/test_execution.py",
+      "destination": "tests/test_joint_runtime_execution.py",
+      "source_sha256": "4bdce7d25d0e364345cb2141e8516b3a96e1e6d18de0f5ab16d1ec845310a001"
+    },
+    {
+      "source": "tests/test_modality_report.py",
+      "destination": "tests/test_joint_runtime_modality_report.py",
+      "source_sha256": "86feb74be1c679e11d485945b927f8ceb558aae6031cf4c23c892486990c3d28"
+    },
+    {
+      "source": "tests/test_r4.py",
+      "destination": "tests/test_joint_runtime_r4.py",
+      "source_sha256": "6d3f64dc6889a59bfa94c0517220f9cab8f97253f31a9eeeb936d6d158c6d882"
+    },
+    {
+      "source": "tests/test_r5_input_and_bindings.py",
+      "destination": "tests/test_joint_runtime_r5_input_and_bindings.py",
+      "source_sha256": "9931372e0346860547be2eaaeee26aa26ff1953206fed8de4c158f1e5cd8df9f"
+    },
+    {
+      "source": "tests/test_r5_module_semantics.py",
+      "destination": "tests/test_joint_runtime_r5_module_semantics.py",
+      "source_sha256": "04c6a492eb057bd3203f174f6d24b871a3921992090558c2fbd8ff0df957f7e4"
+    },
+    {
+      "source": "tests/test_r61_contracts_and_test_access.py",
+      "destination": "tests/test_joint_runtime_r61_contracts_and_test_access.py",
+      "source_sha256": "10d9d9f888d5353ecc1e783df497294747d5245b6529b1bb0cd5116d8dd8eafa"
+    },
+    {
+      "source": "tests/test_r62_material_semantics.py",
+      "destination": "tests/test_joint_runtime_r62_material_semantics.py",
+      "source_sha256": "b389360d9547832f229078550fe6e36202d882f3a80bf42c02763919336fb2ff"
+    },
+    {
+      "source": "tests/test_r63_training_budget_and_baseline_compare.py",
+      "destination": "tests/test_joint_runtime_r63_training_budget_and_baseline_compare.py",
+      "source_sha256": "6f3fd8b94906c3a1f1a77c65c500057756499f0c1df2f6b478103233438d48b3"
+    },
+    {
+      "source": "tests/test_r6_repairs_and_context.py",
+      "destination": "tests/test_joint_runtime_r6_repairs_and_context.py",
+      "source_sha256": "44b76c9d03e24e26b1270311510edbcb1c9a43aa633fdb9f2598b95a40ab9113"
+    }
+  ],
+  "excluded_legacy_primary": [
+    "joint_preparation.py",
+    "joint_training.py"
+  ],
+  "training_started": false
+}

@@ -24,8 +24,7 @@ def _fixture(seed: int = 20260830) -> pd.DataFrame:
             promoter_methylation = rng.beta(2, 5) if methylation_available else np.nan
             distal_methylation = rng.beta(2, 4) if methylation_available else np.nan
             expression = (
-                1.55 * atac
-                + 0.55 * mutation
+                2.10 * mutation
                 - 1.10 * (promoter_methylation if methylation_available else 2 / 7)
                 + 0.80 * cnv
                 + 0.35 * purity
@@ -39,8 +38,10 @@ def _fixture(seed: int = 20260830) -> pd.DataFrame:
                     "lncrna_id": lnc,
                     "patient_fold_id": patient_index % 5,
                     "lncrna_expression": expression,
-                    "atac_distal_accessibility": atac,
-                    "atac_distal_accessibility__available": True,
+                    # Legacy DataS7 distal topology is intentionally absent;
+                    # ordinary cross-fit tests exercise only verified signals.
+                    "atac_distal_accessibility": np.nan,
+                    "atac_distal_accessibility__available": False,
                     "distal_mutation_burden": mutation,
                     "distal_mutation_burden__available": True,
                     "promoter_methylation_beta": promoter_methylation,
@@ -112,10 +113,18 @@ def test_no_signal_is_explicitly_unavailable_not_zero() -> None:
 
 def test_finite_value_with_false_availability_fails_closed() -> None:
     frame = _fixture()
-    frame.loc[0, "atac_distal_accessibility__available"] = False
+    frame.loc[0, "distal_mutation_burden__available"] = False
     with pytest.raises(EpigeneticExpressionError, match="typed-null availability"):
         crossfit_epigenetic_expression(frame)
 
+
+
+def test_unverified_distal_topology_fails_closed_at_runtime() -> None:
+    frame = _fixture()
+    frame.loc[0, "atac_distal_accessibility"] = 0.25
+    frame.loc[0, "atac_distal_accessibility__available"] = True
+    with pytest.raises(EpigeneticExpressionError, match="DISTAL_TOPOLOGY_SCOPE_UNVERIFIED"):
+        crossfit_epigenetic_expression(frame)
 
 def test_heldout_assay_unseen_in_training_cannot_be_reported_supported():
     frame = _fixture()

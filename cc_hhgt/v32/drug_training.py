@@ -957,6 +957,12 @@ def _resolve_manifest_path(manifest_path: Path, relative: str) -> Path:
 def _validate_core_manifest(path: str | Path) -> tuple[dict[str, Any], str, str]:
     source = Path(path).resolve()
     payload = json.loads(source.read_text(encoding="utf-8"))
+    from .core_export_contract_r4 import EXPORT_FORMAT as R62_EXPORT_FORMAT, validate_export
+    if payload.get("export_format") == R62_EXPORT_FORMAT:
+        try:
+            return validate_export(source)
+        except (KeyError, TypeError, ValueError, RuntimeError) as exc:
+            raise DrugTrainingError(f"R6.2 core export failed validation: {exc}") from exc
     from .current_core_export import EXPORT_FORMAT, validate_current_export
     if payload.get("export_format") == EXPORT_FORMAT:
         return validate_current_export(source)

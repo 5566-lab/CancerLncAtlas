@@ -34,7 +34,7 @@ from cc_hhgt.v32.evidence_training import (  # noqa: E402
     predict_private_eventset_head,
 )
 
-PREDICTION_FORMAT = "CANCERLNCATLAS_V32_EVIDENCE_STREAMING_PREDICTION_V1"
+PREDICTION_FORMAT = "CANCERLNCATLAS_V32_EVIDENCE_STREAMING_PREDICTION_V2"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -46,7 +46,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--expected-graph-authority-receipt-sha256", required=True)
     parser.add_argument("--candidates", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
-    parser.add_argument("--device", choices=["cpu", "cuda"], default=None)
+    parser.add_argument("--device", choices=["cpu", "cuda"], required=True)
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument("--mc-samples", type=int, default=16)
     parser.add_argument("--max-bags-per-batch", type=int, default=256)
@@ -74,6 +74,23 @@ def main(argv: list[str] | None = None) -> int:
     )
     device = args.device or ("cuda" if __import__("torch").cuda.is_available() else "cpu")
 
+    training_manifest = json.loads(
+        (training_root / "TRAINING_MANIFEST.json").read_text(encoding="utf-8")
+    )
+    if (
+        training_manifest.get("format")
+        != "CANCERLNCATLAS_V32_EVIDENCE_STREAMING_TRAINING_V2"
+        or training_manifest.get("five_folds_complete") is not True
+        or training_manifest.get("evaluation_used_for_selection") is not False
+        or training_manifest.get("core_manifest_sha256")
+        != args.expected_core_manifest_sha256.lower()
+        or training_manifest.get("graph_authority_receipt_sha256")
+        != args.expected_graph_authority_receipt_sha256.lower()
+    ):
+        raise RuntimeError(
+            "R2 prediction requires five corrected, independently validated "
+            "heads bound to the requested core"
+        )
     fold_frames: list[pd.DataFrame] = []
     fold_records: dict[str, dict[str, object]] = {}
     for fold in range(N_FOLDS):
@@ -82,6 +99,23 @@ def main(argv: list[str] | None = None) -> int:
         )
         state_path = training_root / f"patient_fold={fold}" / "private_head_state.pt"
         torch = __import__("torch")
+        if (
+            receipt.get("format")
+            != "CANCERLNCATLAS_V32_EVIDENCE_PRIVATE_HEAD_FIT_V2"
+            or receipt.get("status") != "TRAINED_NOT_DEPLOYED"
+            or receipt.get("patient_fold") != fold
+            or receipt.get("pair_evaluation_fold") != fold
+            or receipt.get("pair_validation_fold") != (fold + 1) % N_FOLDS
+            or receipt.get("evaluation_used_for_selection") is not False
+            or receipt.get("execution_binding_sha256")
+            != training_manifest.get("execution_binding_sha256")
+        ):
+            raise RuntimeError(
+                "Head lacks the corrected train/validation/evaluation binding"
+            )
+        if file_sha256(state_path) != receipt.get("state_sha256"):
+            raise RuntimeError("Evidence checkpoint hash mismatch")
+        hp = receipt["hyperparameters"]
         lineage = receipt.get("core_embedding_lineage", {})
         if (
             lineage.get("sha256") != args.expected_core_manifest_sha256.lower()
@@ -102,11 +136,11 @@ def main(argv: list[str] | None = None) -> int:
             ),
         )
         model = build_fresh_private_eventset_head(
-            event_feature_dim=args.event_feature_dim,
+            event_feature_dim=hp["event_feature_dim"],
             core_feature_dim=core.combined_dim,
-            hidden_dim=args.hidden_dim,
-            dropout=args.dropout,
-            seed=args.seed,
+            hidden_dim=hp["hidden_dim"],
+            dropout=hp["dropout"],
+            seed=hp["seed"],
         )
         model.load_state_dict(torch.load(state_path, map_location="cpu", weights_only=True))
         fit = PrivateHeadFit(
@@ -118,31 +152,26 @@ def main(argv: list[str] | None = None) -> int:
             confidence_supervision_available=bool(receipt["confidence_supervision_available"]),
             direction_supervision_available=bool(receipt["direction_supervision_available"]),
         )
-        examples = []
-        missing_core = []
+        frames = []
+        n_examples = missing_core_count = 0
         for batch in iter_fold_trainer_batches(
-            stage_root,
-            fold=fold,
-            split="evaluation",
-            core=core,
-            event_feature_dim=args.event_feature_dim,
-            max_bags_per_batch=args.max_bags_per_batch,
+            stage_root, fold=fold, split="evaluation", core=core,
+            event_feature_dim=hp["event_feature_dim"],
+            max_bags_per_batch=args.max_bags_per_batch, max_events_per_bag=hp["max_events"],
         ):
-            examples.extend(batch.examples)
-            missing_core.extend(batch.missing_core)
-        frame = predict_private_eventset_head(
-            fit, examples,
-            batch_size=args.batch_size,
-            mc_samples=args.mc_samples,
-            device=device,
-        )
+            n_examples += len(batch.examples)
+            missing_core_count += len(batch.missing_core)
+            frames.append(predict_private_eventset_head(fit, batch.examples,
+                batch_size=args.batch_size, mc_samples=args.mc_samples, device=device))
+        frame = pd.concat(frames, ignore_index=True) if frames else predict_private_eventset_head(
+            fit, [], batch_size=args.batch_size, mc_samples=args.mc_samples, device=device)
         del fit.model
         fold_frames.append(frame)
         fold_path = output_root / f"pair_fold={fold}_predictions.parquet"
         frame.to_parquet(fold_path, index=False)
         fold_records[str(fold)] = {
-            "examples": len(examples),
-            "missing_core": len(missing_core),
+            "examples": n_examples,
+            "missing_core": missing_core_count,
             "prediction_rows": len(frame),
             "available_rows": int(frame.availability.sum()) if len(frame) else 0,
             "receipt_sha256": receipt.get("state_sha256"),
@@ -150,22 +179,31 @@ def main(argv: list[str] | None = None) -> int:
         }
         print(f"fold {fold}: predicted {len(frame)} rows "
               f"available={int(frame.availability.sum()) if len(frame) else 0} "
-              f"missing_core={len(missing_core)}", flush=True)
+              f"missing_core={missing_core_count}", flush=True)
 
     predictions = pd.concat(fold_frames + [pd.DataFrame()], ignore_index=True) if fold_frames else pd.DataFrame()
-    events = pd.read_parquet(stage_root / "candidate_exact_events_pair_folded.parquet")
+    # Aggregate on disk. The multi-million raw-event table is never loaded into pandas.
+    import duckdb
+    events_path = str(stage_root / "candidate_exact_events_pair_folded.parquet").replace("'", "''")
+    with duckdb.connect() as con:
+        con.execute("SET memory_limit='2GB'")
+        events = con.execute(f"SELECT cancer_id,lncrna_id,pathway_id,count(DISTINCT event_id) AS observed_event_count "
+                             f"FROM read_parquet('{events_path}') GROUP BY ALL").df()
     completed = complete_prediction_frame(
         universe,
         predictions,
         events,
-        training_run_id="V32-EVIDENCE-STREAMING-R1",
+        training_run_id="V32-EVIDENCE-STREAMING-R2",
     )
+    completed["evidence_score_semantics"] = "REVIEWED_DIRECT_STUDY_QUALITY_NOT_CAUSAL_ASSOCIATION_PROBABILITY"
+    completed["neural_score_calibrated"] = False
+    completed["changes_primary_ranking"] = False
     out_path = output_root / "EVIDENCE_PREDICTIONS.parquet"
     completed.to_parquet(out_path, index=False)
     manifest = {
         "format": PREDICTION_FORMAT,
         "analysis_version": "CancerLncAtlas_V3.2_FULL_MULTITASK",
-        "status": "PASS_FRESH_V32_EVIDENCE_STREAMING_PREDICTION",
+        "status": "PREDICTED_NOT_DEPLOYED",
         "training_root": str(training_root),
         "training_manifest_sha256": file_sha256(training_root / "TRAINING_MANIFEST.json"),
         "stage_root": str(stage_root),
@@ -180,7 +218,8 @@ def main(argv: list[str] | None = None) -> int:
         "predictions_sha256": file_sha256(out_path),
         "production_deployed": False,
         "port_8260_touched": False,
-        "sealed_test_opened": False,
+        "evidence_evaluation_fold_opened": True,
+        "tcga_patient_sealed_test_opened": False,
         "winner_lock_used": False,
     }
     manifest_path = output_root / "PREDICTION_MANIFEST.json"

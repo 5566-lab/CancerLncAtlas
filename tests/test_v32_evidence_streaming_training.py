@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -317,8 +318,18 @@ def test_mapping_states_folds_provenance_exclusion_and_bounded_reader(tmp_path: 
     for fold in range(5):
         audit = manifest["evaluation_provenance_exclusion_audit"]["folds"][str(fold)]
         assert audit["residual_train_evaluation_provenance_overlap_count"] == 0
+        assert audit["residual_validation_evaluation_provenance_overlap_count"] == 0
+        assert audit["residual_train_protected_provenance_overlap_count"] == 0
+        validation_fold = (fold + 1) % 5
+        expected_folds = {
+            "evaluation": {fold},
+            "validation": {validation_fold},
+            "train": set(range(5)) - {fold, validation_fold},
+        }
+        split_rows = {}
         for split, expected in (
             ("evaluation", audit["evaluation_event_rows"]),
+            ("validation", audit["validation_event_rows_after"]),
             ("train", audit["train_event_rows_after"]),
         ):
             batches = list(
@@ -328,6 +339,13 @@ def test_mapping_states_folds_provenance_exclusion_and_bounded_reader(tmp_path: 
                 )
             )
             assert sum(batch.event_rows for batch in batches) == expected
+            split_rows[split] = [
+                row for batch in batches for bag in batch.bags for row in bag.events
+            ]
+            observed_folds = {
+                int(row["leakage_fold"]) for row in split_rows[split]
+            }
+            assert observed_folds <= expected_folds[split]
             for batch in batches:
                 assert len(batch.bags) <= 2
                 for bag in batch.bags:
@@ -336,6 +354,45 @@ def test_mapping_states_folds_provenance_exclusion_and_bounded_reader(tmp_path: 
                         == bag.key
                         for row in bag.events
                     )
+
+        def provenance_tokens(rows):
+            tokens = set()
+            for row in rows:
+                tokens.update(
+                    "PMID:" + value.lower()
+                    for value in re.split(r"[;,|\s]+", str(row.get("pmid", "")))
+                    if value and value.lower() != "unknown"
+                )
+                tokens.update(
+                    "DATASET:" + value.lower()
+                    for value in re.findall(
+                        r"GSE[0-9]+|SRP[0-9]+|PRJ[A-Z]{2}[0-9]+|E-MTAB-[0-9]+|EGAS[0-9]+",
+                        str(row.get("source_dataset", "")).upper(),
+                    )
+                )
+                if row.get("source_event_id"):
+                    tokens.add("EVENT:" + str(row["source_event_id"]))
+                if row.get("source_record_id"):
+                    tokens.add(
+                        "RECORD:"
+                        + "|".join(
+                            str(row.get(key, "")).lower()
+                            for key in (
+                                "source_database",
+                                "source_dataset",
+                                "source_record_id",
+                            )
+                        )
+                    )
+            return tokens
+
+        evaluation_provenance = provenance_tokens(split_rows["evaluation"])
+        validation_provenance = provenance_tokens(split_rows["validation"])
+        train_provenance = provenance_tokens(split_rows["train"])
+        assert evaluation_provenance.isdisjoint(validation_provenance)
+        assert train_provenance.isdisjoint(
+            evaluation_provenance | validation_provenance
+        )
     availability = pd.read_parquet(output / "candidate_event_availability.parquet")
     assert not availability.prediction_available.any()
     assert not availability.formal_training_started.any()

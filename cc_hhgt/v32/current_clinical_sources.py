@@ -17,7 +17,7 @@ from .clinical_entity_training import (CALCULATION_FORMAT, HISTORICAL_STATE_IDS,
     input_path_sha256, json_sha256, summarise_oof_associations, validate_entity_clinical_contract)
 from .current_core_export import sha256, validate_current_export
 from .current_core_prediction import FORMAT as CORE_PREDICTION_FORMAT
-from .current_state_context import _assert_same_table
+from .table_replay import assert_same_table as _assert_same_table
 from .evidence_rule_sources import read_table
 from .input_lineage import artifact_sha256, _canonical_json_sha256
 from .integrated_model import module_state_sha256

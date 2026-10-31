@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 
 from .contracts import canonical_json_sha256
-from .state_training import validate_fold_manifest
+from .state_inputs import validate_fold_manifest
 
 FORMAT = "NATIVE_STATE_STATISTICAL_PATIENT_SCOPES_V1"
 TABLE = "state_patient_scopes_private"

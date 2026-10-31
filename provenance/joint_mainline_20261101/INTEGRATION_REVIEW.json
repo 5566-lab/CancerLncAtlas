@@ -1,0 +1,326 @@
+{
+  "format": "CLA_JOINT_MAINLINE_REVIEW_V1",
+  "status": "SOURCE_INTEGRATION_VERIFIED_NOT_TRAINED",
+  "target_host": "149",
+  "reviewed_utc": "2026-10-31T23:48:24.533338+00:00",
+  "base_public_commit": "480ada4a6a7796f80ef30a0335a02a8cb0408422",
+  "canonical_executor": "cla.py + cla_engine",
+  "configuration": "config/149.json",
+  "task_weights": {
+    "pathway": 1.0,
+    "state": 0.5
+  },
+  "state_gradients_into_shared_encoder": true,
+  "retired_frozen_state_training": "REMOVED_WITH_OLD_OPERATING_GUIDES",
+  "state_publication": "FIVE_VERIFIED_FORMAL_JOINT_G2_COMPLETIONS_AND_SIGNED_OUTER_EVALUATIONS",
+  "gene_node_inputs": {
+    "default_enabled": true,
+    "node_input_dim": 6,
+    "channels": [
+      "cnv_signed",
+      "methylation_promoter_beta"
+    ],
+    "complete_sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce",
+    "aggregation": "SOURCE_PATIENTS_OF_EACH_INNER_VIEW_ONLY",
+    "missingness": "EXPLICIT_MASK_SEPARATE_FROM_MEASURED_ZERO",
+    "prepared_semantics_verified": true,
+    "learned_real_joint_embeddings_generated": false
+  },
+  "preserved_scientific_contracts": [
+    "RAW_SIGNED_LNCRNA_ONLY_A1",
+    "RANK_ASSOCIATIONS_MIN_12_PAIRS",
+    "EXACT_SPARSE_DICTVECTORIZER_LASSO",
+    "ELEVEN_PRIMARY_FOUR_AUXILIARY_STATE_TARGETS",
+    "PATIENT_DISJOINT_FEATURE_LABEL_VIEWS",
+    "SEALED_OUTER_TEST",
+    "WEIGHTED_BCE_WITH_RESIDUAL_AND_DIRECTION_TERMS"
+  ],
+  "integration_repairs": [
+    "PURITY_OMISSION_NO_LONGER_FALLS_THROUGH_TO_MEDIAN_IMPUTATION",
+    "FULL_TASK_DAG_USES_FIVE_JOINT_CORES_AND_THIRTY_DOWNSTREAM_TASKS_WITH_NO_PRIVATE_STATE_TASK",
+    "SINGLECELL_ASSOCIATION_DISABLED_IN_PRIMARY_TEMPLATE_AS_REQUIRED_BY_EXECUTOR",
+    "SHARED_CORE_EXPORT_INCLUDES_ACTUAL_GENE_VECTORS",
+    "LOCAL_149_FORMAL_QUEUE_REQUIRES_SIGNED_DIAGNOSTIC_ADMISSION_AND_PERSISTENT_DEADLINE",
+    "EVIDENCE_SELECTION_REQUIRES_DISTINCT_TRAIN_VALIDATION_EVALUATION"
+  ],
+  "reconciled_downstream_semantics": [
+    "COMPUTATIONAL_PREDICTIONS_EXCLUDED_FROM_PHYSICAL_EVIDENCE",
+    "CERNAS_REQUIRE_MEDIATOR_CONTEXT_AND_AMBIGUOUS_ALIASES_ARE_REJECTED",
+    "MUTATION_SENTINELS_DO_NOT_ESTABLISH_LOCUS_WILD_TYPE_AND_AGGREGATES_ARE_NOT_DOUBLE_COUNTED",
+    "SINGLECELL_CELL_STATE_METADATA_AND_ADJUSTED_SIGNIFICANCE_ARE_PRESERVED",
+    "EMPTY_VALIDATION_AND_UNVERIFIED_DISTAL_TOPOLOGY_ARE_REJECTED_BEFORE_FITTING",
+    "CLINICAL_CONFLICTS_REJECTED_EXTRA_ENDPOINT_PATIENTS_RETAINED_AND_MISSING_VALUES_REMAIN_MISSING"
+  ],
+  "test_environment": {
+    "python": "3.11.15",
+    "torch": "2.13.0+cpu",
+    "torch_geometric": "2.8.0.post1",
+    "device": "cpu",
+    "exact_requirement_pins_tested": false
+  },
+  "regression_runs": [
+    {
+      "name": "final_runtime_r6",
+      "target_host": "149",
+      "counts": {
+        "tests": 438,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "elapsed_seconds": 251.93878987291828,
+      "record_kind": "DIRECT_PYTEST_RUN",
+      "component_runs": [],
+      "superseded_failure": null,
+      "excluded_baseline_failure": null,
+      "test_files": [
+        "tests/test_joint_backend_check.py",
+        "tests/test_joint_core_catalog.py",
+        "tests/test_joint_dispatch.py",
+        "tests/test_joint_downstream_adapters.py",
+        "tests/test_joint_local_execution.py",
+        "tests/test_joint_node_omics.py",
+        "tests/test_joint_node_omics_contract.py",
+        "tests/test_joint_node_omics_prepared.py",
+        "tests/test_joint_packaging.py",
+        "tests/test_joint_runtime_celltype_fusion.py",
+        "tests/test_joint_runtime_execution.py",
+        "tests/test_joint_runtime_modality_report.py",
+        "tests/test_joint_runtime_r4.py",
+        "tests/test_joint_runtime_r5_input_and_bindings.py",
+        "tests/test_joint_runtime_r5_module_semantics.py",
+        "tests/test_joint_runtime_r61_contracts_and_test_access.py",
+        "tests/test_joint_runtime_r62_material_semantics.py",
+        "tests/test_joint_runtime_r63_training_budget_and_baseline_compare.py",
+        "tests/test_joint_runtime_r6_repairs_and_context.py",
+        "tests/test_joint_source_package.py",
+        "tests/test_v32_covariate_contract.py",
+        "tests/test_v32_joint_shared_encoder.py"
+      ],
+      "result_sha256": "43639245083686db3cf490306f731300d931b12e3880e1f9eebf9cd7e7cae4ea",
+      "junit_sha256": "9579d71951ecdf96953e67f4847450804c28c45af771a0b2e96882277a92e1f8",
+      "log_sha256": "a9196198eb693772920e049bf14e4c442f4bf0ed260182573e5e1384a59a70f7"
+    },
+    {
+      "name": "final_public_reviewed_series",
+      "target_host": "149",
+      "counts": {
+        "tests": 878,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 3
+      },
+      "elapsed_seconds": 885.4238349180669,
+      "record_kind": "RECONCILED_REGRESSION_SERIES_NOT_A_SINGLE_PYTEST_RUN",
+      "component_runs": [
+        {
+          "name": "final_public_r4",
+          "actual_exit_code": 1,
+          "result_sha256": "00ab92c2f126c8b8b14cba159dbe8f9252ca55c58670187c345fbc9b644117a8",
+          "junit_sha256": "e7f3118a154737b056e663782569e5ea31b2feb278e2affadb69c0d97d291e08",
+          "log_sha256": "39b10c1c0e99e6b791d23c2cc38a7acd96d75f0ae74ddcde7ebed2b0a27826fa"
+        },
+        {
+          "name": "final_web_state_r1",
+          "actual_exit_code": 0,
+          "result_sha256": "f60cf2b38ef1326796560a015204a2ecd3fbee511de9869fa83ca430ce5efa39",
+          "junit_sha256": "f65a3c9c8fc8187239a1dc1adf216433ff016542914a4bdd2b73a3e1af502bfa",
+          "log_sha256": "c069a4b4fb649a32e0f0075f3ce7b0b1336c3f769167fb585493386d086f80fb"
+        }
+      ],
+      "superseded_failure": {
+        "test": "tests.test_v32_current_analysis_web.test_real_browser_filters_contexts_nulls_downloads_and_mobile_layout",
+        "resolution": "Web assertion now requires NOT_PRODUCED joint State and hidden controls, then entire web test module rerun"
+      },
+      "excluded_baseline_failure": "tests.test_v32_download_catalog_r7.test_r7_closes_pseudotime_gap_with_independent_server_authority",
+      "test_files": [
+        "tests/test_v32_atac_training.py",
+        "tests/test_v32_capability_parity.py",
+        "tests/test_v32_causal_regulatory_network.py",
+        "tests/test_v32_clinical_entity_training.py",
+        "tests/test_v32_clinical_km.py",
+        "tests/test_v32_clinical_numeric_replay.py",
+        "tests/test_v32_clinical_training.py",
+        "tests/test_v32_code_acceptance.py",
+        "tests/test_v32_core_export_model_use.py",
+        "tests/test_v32_current_analysis_web.py",
+        "tests/test_v32_current_binding_expansion.py",
+        "tests/test_v32_current_clinical_context.py",
+        "tests/test_v32_current_comparison_sources.py",
+        "tests/test_v32_current_core_export.py",
+        "tests/test_v32_current_core_prediction.py",
+        "tests/test_v32_current_drug_context.py",
+        "tests/test_v32_current_external_validation.py",
+        "tests/test_v32_current_model_use.py",
+        "tests/test_v32_current_omics_context.py",
+        "tests/test_v32_current_patient_context.py",
+        "tests/test_v32_current_primary_fusion.py",
+        "tests/test_v32_current_rule_evidence.py",
+        "tests/test_v32_current_single_cell_context.py",
+        "tests/test_v32_current_state_context.py",
+        "tests/test_v32_download_catalog.py",
+        "tests/test_v32_download_catalog_api.py",
+        "tests/test_v32_download_catalog_r7.py",
+        "tests/test_v32_drug_training.py",
+        "tests/test_v32_epigenetic_expression_head.py",
+        "tests/test_v32_evidence_direction_recovery_audit_query.py",
+        "tests/test_v32_evidence_fusion_adapter.py",
+        "tests/test_v32_evidence_identifier_recovery.py",
+        "tests/test_v32_evidence_interaction_rematerialization.py",
+        "tests/test_v32_evidence_semantic_wrapper.py",
+        "tests/test_v32_evidence_streaming_training.py",
+        "tests/test_v32_evidence_streaming_website.py",
+        "tests/test_v32_evidence_training.py",
+        "tests/test_v32_explicit_patient_consumers.py",
+        "tests/test_v32_full_model_contract.py",
+        "tests/test_v32_full_orchestration.py",
+        "tests/test_v32_gene_patient_omics.py",
+        "tests/test_v32_genomic_partition_training.py",
+        "tests/test_v32_genomic_resource_scope.py",
+        "tests/test_v32_genomic_training.py",
+        "tests/test_v32_integrated_model.py",
+        "tests/test_v32_model_and_graph.py",
+        "tests/test_v32_native_clinical_workflow.py",
+        "tests/test_v32_omics_ablation_comparison.py",
+        "tests/test_v32_omics_node_encoding.py",
+        "tests/test_v32_omics_node_inputs.py",
+        "tests/test_v32_orchestration.py",
+        "tests/test_v32_prediction_scope.py",
+        "tests/test_v32_prepared_audit.py",
+        "tests/test_v32_prepared_construction.py",
+        "tests/test_v32_single_cell_training.py",
+        "tests/test_v32_state_inputs.py",
+        "tests/test_v32_tcga_gene_source_binding.py"
+      ],
+      "result_sha256": "364a2c3737d355b500b30ca16125705dd9a5f8372be489bccb22510b8c6f973f",
+      "junit_sha256": "696a9c012d409587318ea0acd59d22dc67e1c98048779f5d938d0edfb2ba1ea4",
+      "log_sha256": "364a2c3737d355b500b30ca16125705dd9a5f8372be489bccb22510b8c6f973f"
+    }
+  ],
+  "known_baseline_collection_errors": {
+    "verified_on_clean_commit": "480ada4a6a7796f80ef30a0335a02a8cb0408422",
+    "count": 5,
+    "files": [
+      "test_v32_g012_external_archive_lock.py",
+      "test_v32_single_cell_r7_17c_cohort.py",
+      "test_v32_single_cell_r7_preflight_tool_bridge.py",
+      "test_v32_single_cell_r7_r6_low_memory.py",
+      "test_v32_single_cell_r7_streaming_tool_bridge.py"
+    ],
+    "missing_modules": [
+      "scripts.materialize_v32_g012_external_archive_lock_no_gpu_r1",
+      "scripts.transfer_v32_payloads_to_local_gpu"
+    ],
+    "baseline_log_sha256": "6f1872d297ae8338c825b43865fa2e8811a424199f3873cde73d217ddca08ec9",
+    "whole_repository_green_claimed": false
+  },
+  "external_artifact_tests_not_counted_as_passed": {
+    "file": "tests/test_v32_clinical_km_formal.py",
+    "cases": 2,
+    "required_artifact": "artifacts/v32_clinical_km_fresh_20260826_r1",
+    "reason": "External August clinical release is not part of this source checkout",
+    "reproduced_on_clean_base": true,
+    "baseline_log_sha256": "1768b032dfcf0d017614ff84013a7d3522a10a54e694003e5906095ff896d4d8"
+  },
+  "external_download_artifact_exclusions": {
+    "target_host": "149",
+    "reason": "Missing external August staging catalog/registry artifacts; reproduced on clean public baseline",
+    "base_commit": "480ada4a6a7796f80ef30a0335a02a8cb0408422",
+    "tests": [
+      {
+        "node_id": "tests/test_v32_download_catalog.py::test_formal_catalog_closes_all_54_contract_ids_without_hiding_gaps",
+        "status": "failed",
+        "message": "cc_hhgt.v32.download_catalog.DownloadCatalogError: Catalog SHA256 drift"
+      },
+      {
+        "node_id": "tests/test_v32_download_catalog.py::test_static_parts_are_secure_and_dynamic_results_have_no_placeholders",
+        "status": "failed",
+        "message": "cc_hhgt.v32.download_catalog.DownloadCatalogError: Catalog SHA256 drift"
+      },
+      {
+        "node_id": "tests/test_v32_download_catalog.py::test_loader_is_hash_pinned_and_catalog_entry_is_unambiguous",
+        "status": "failed",
+        "message": "FileNotFoundError: [Errno 2] No such file or directory: '/dsk2/user/dengsc/cla_joint_verify_20261101_r1/baseline/artifacts/v32_staging_download_catalog_20260827_r6/V32_STAGING_DOWNLOAD_CATALOG.json'"
+      },
+      {
+        "node_id": "tests/test_v32_download_catalog.py::test_request_time_resolver_rehashes_payloads_and_fails_closed",
+        "status": "failed",
+        "message": "cc_hhgt.v32.download_catalog.DownloadCatalogError: Catalog SHA256 drift"
+      },
+      {
+        "node_id": "tests/test_v32_download_catalog.py::test_independent_audit_passed_and_did_not_import_materializer",
+        "status": "failed",
+        "message": "FileNotFoundError: [Errno 2] No such file or directory: '/dsk2/user/dengsc/cla_joint_verify_20261101_r1/baseline/artifacts/v32_staging_download_catalog_20260827_r6_independent_audit_r2/DOWNLOAD_CATALOG_INDEPENDENT_AUDIT_BINDING.json'"
+      },
+      {
+        "node_id": "tests/test_v32_download_catalog_api.py::test_download_catalog_mount_is_optional_and_atomic",
+        "status": "failed",
+        "message": "cc_hhgt.v32.release_registry.ReleaseRegistryError: Cannot read release registry: /dsk2/user/dengsc/cla_joint_verify_20261101_r1/baseline/artifacts/v32_staging/core_registry_refresh_20260826_r1/RELEASE_REGISTRY.json"
+      },
+      {
+        "node_id": "tests/test_v32_download_catalog_r7.py::test_r7_closes_pseudotime_gap_with_independent_server_authority",
+        "status": "failed_on_clean_baseline",
+        "reason": "authority historical_remediation is missing or empty",
+        "baseline_log_sha256": "6f188089287c8e9de2c6d3fc3d06a27bb758d5ff6e9b41eab29cb18133ba2977",
+        "baseline_junit_sha256": "83a7b74245aa7dbaf2b799251c0546b8dc2ce13cc21f5bff6ce1990c01cdbe6c"
+      }
+    ]
+  },
+  "existing_optional_verification_dependencies": {
+    "target_host": "149",
+    "patient_authority_files_sha256": {
+      "SAMPLE_PATIENT_FOLD_MAP.tsv": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253",
+      "PATIENT_FOLD_AUTHORITY_RECEIPT.json": "1ef32bda9d14d87997f3b81c34b8aacce172de390db5c29aee011ca73ba317e0"
+    },
+    "rdkit_distribution": "rdkit-2025.9.3",
+    "browser": "chromium_headless_shell-1169",
+    "patient_data_added_to_git": false
+  },
+  "same_host_local_disk_verification": {
+    "target_host": "149",
+    "source_copy_receipt_sha256": "48fa4fba3c695f35e7b437aeb8f5e63e1c56f98361119986ba90d619d3ab8145",
+    "source_bytes_verified_equal_before_tests": true
+  },
+  "limitations": [
+    "NO_NEW_FULL_COHORT_JOINT_PREPARED_CAPSULE",
+    "NO_REAL_COHORT_OPTIMIZATION",
+    "NO_NEW_TRAINED_EMBEDDING_RELEASE",
+    "NO_WEBSITE_DEPLOYMENT",
+    "CAUSAL_NETWORK_CROSS_SOURCE_STUDY_SAMPLE_SPLIT_INCOMPLETE",
+    "FULL_SOURCE_CHECKOUT_REQUIRED_FOR_OPERATIONAL_CLI_NOT_ISOLATED_WHEEL"
+  ],
+  "paid_compute_started": false,
+  "production_deployed": false,
+  "post_validation_formatting": {
+    "target_host": "149",
+    "kind": "TRAILING_WHITESPACE_ONLY",
+    "python_ast_identity_verified": true,
+    "scientific_behavior_changed": false,
+    "files": [
+      {
+        "path": "cla_engine/prepare.py",
+        "before_sha256": "97e53a636dc466ae91ccc42d65f08c243f48ae9f1cfbc80161ed9cd1b44a6124",
+        "ast_identical": true,
+        "after_sha256": "338c18e51885a792077511dde7b23e5080b6056401cc7f52c8aba56f5eea8202"
+      },
+      {
+        "path": "cla_engine/tables.py",
+        "before_sha256": "8605e3c798c7335ac5f8c6d44719641f14b494c062e1306bea8db567fb18aa48",
+        "ast_identical": true,
+        "after_sha256": "992296c4157a0047ad45c0b2176200305b986b6c3fd619d7173c4f296580395f"
+      },
+      {
+        "path": "scripts/run_v32_evidence_streaming_training.py",
+        "before_sha256": "75f28d6a9e31f6c04801ca66e6043543faed159ddaf3a163a50339b45a824f69",
+        "ast_identical": true,
+        "after_sha256": "d26580613328bc41e204cfb75695dae67720e5e912cea4db8b8996493709f063"
+      },
+      {
+        "path": "tests/test_joint_downstream_adapters.py",
+        "before_sha256": "fcb5c33e5c5bf141bec9460b5b48dcce239e7662706ce07f09513e606e639dc9",
+        "ast_identical": true,
+        "after_sha256": "dd052dfdff5caef971e09b8842faa4f89d3f46d34bd7af88d7f24f7d2fa1d8b3"
+      }
+    ]
+  }
+}

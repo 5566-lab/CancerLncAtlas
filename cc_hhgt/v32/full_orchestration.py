@@ -1,15 +1,11 @@
 """Declarative orchestration contract for the complete V3.2 model bundle.
 
-The historical :mod:`cc_hhgt.v32.orchestration` module intentionally remains
-the five-task exact-pathway pilot contract.  This module describes the larger
-fresh-training DAG without changing that legacy behaviour and never starts a
-process, imports a training framework, or loads a checkpoint.
-
-All five exact-pathway core folds form phase zero.  Auxiliary heads form phase
-one, use only the matching fold's core checkpoint from the *same* V3.2 run,
-and must keep that core frozen.  Historical checkpoints and historical model
-results are forbidden for every task; reusable raw/static data are outside
-the scope of this task graph.
+All five joint Pathway/State folds form phase zero.  State is a weighted task
+of the shared encoder in that phase and never appears as a detached private
+head.  Independent downstream heads form phase one, use only the matching
+fold's joint checkpoint from the same V3.2 run, and keep that core frozen.
+This module is declarative: it never starts a process, imports a training
+framework, or loads a checkpoint.
 """
 from __future__ import annotations
 
@@ -23,9 +19,8 @@ from .orchestration import (
 )
 
 
-CORE_COMPONENT = "exact_pathway"
+CORE_COMPONENT = "pathway_state"
 AUXILIARY_COMPONENTS = (
-    "state",
     "clinical",
     "single_cell",
     "mutation_cnv",
@@ -58,6 +53,9 @@ TASK_FIELDS = frozenset(
         "core_frozen",
         "core_parameters_trainable",
         "core_gradient_policy",
+        "joint_tasks",
+        "task_weights",
+        "state_gradients_into_core",
     }
 )
 
@@ -87,13 +85,13 @@ def _core_task(run_id: str, patient_fold: int, seed: int) -> dict[str, Any]:
         "task_id": task_id,
         "run_id": run_id,
         "component": CORE_COMPONENT,
-        "task_type": "TRAIN_EXACT_PATHWAY_CORE",
+        "task_type": "TRAIN_JOINT_PATHWAY_STATE_CORE",
         "patient_fold": patient_fold,
         "seed": seed,
         "phase": CORE_PHASE,
         "depends_on": (),
         "fresh_init": True,
-        "fresh_init_scope": "FULL_COMPONENT",
+        "fresh_init_scope": "FULL_JOINT_COMPONENT",
         "historical_checkpoint_allowed": False,
         "historical_result_allowed": False,
         "historical_artifact_policy": "FORBIDDEN",
@@ -101,7 +99,10 @@ def _core_task(run_id: str, patient_fold: int, seed: int) -> dict[str, Any]:
         "core_checkpoint_task_id": None,
         "core_frozen": False,
         "core_parameters_trainable": True,
-        "core_gradient_policy": "TRAIN_FROM_SCRATCH",
+        "core_gradient_policy": "JOINT_PATHWAY_STATE_SHARED_GRADIENTS",
+        "joint_tasks": ("pathway", "state"),
+        "task_weights": {"pathway": 1.0, "state": 0.5},
+        "state_gradients_into_core": True,
     }
 
 
@@ -128,17 +129,20 @@ def _auxiliary_task(
         "core_frozen": True,
         "core_parameters_trainable": False,
         "core_gradient_policy": "DETACH_NO_GRAD",
+        "joint_tasks": (),
+        "task_weights": {},
+        "state_gradients_into_core": False,
     }
 
 
 def build_full_task_dag(
     *, run_id: str = "V3_2_FULL_INTEGRATED", seed: int = DEFAULT_SEED
 ) -> list[dict[str, Any]]:
-    """Build the deterministic forty-task complete V3.2 training DAG.
+    """Build the deterministic 35-task complete V3.2 training DAG.
 
-    The returned manifest is topologically ordered with all five core folds
-    first.  Every auxiliary task depends on the current run's matching-fold
-    core task and declares a newly initialized private head plus frozen core.
+    The returned manifest is topologically ordered with five joint folds
+    first.  Every independent auxiliary task depends on the current run's
+    matching-fold joint task and declares a fresh private head plus frozen core.
     """
 
     normalized_run, normalized_seed = _validate_run_seed(run_id, seed)
@@ -239,7 +243,7 @@ def validate_full_task_dag(tasks: Sequence[Mapping[str, Any]]) -> None:
     ]
     if max(core_indices) >= min(auxiliary_indices):
         raise OrchestrationContractError(
-            "All exact-pathway core folds must precede every auxiliary task"
+            "All joint Pathway/State folds must precede every auxiliary task"
         )
 
     for index, task in enumerate(tasks):
@@ -280,14 +284,17 @@ def validate_full_task_dag(tasks: Sequence[Mapping[str, Any]]) -> None:
         expected_core_id = _core_task_id(run_id, fold, seed)
         if component == CORE_COMPONENT:
             expected_values = {
-                "task_type": "TRAIN_EXACT_PATHWAY_CORE",
+                "task_type": "TRAIN_JOINT_PATHWAY_STATE_CORE",
                 "phase": CORE_PHASE,
-                "fresh_init_scope": "FULL_COMPONENT",
+                "fresh_init_scope": "FULL_JOINT_COMPONENT",
                 "checkpoint_input_policy": "NONE",
                 "core_checkpoint_task_id": None,
                 "core_frozen": False,
                 "core_parameters_trainable": True,
-                "core_gradient_policy": "TRAIN_FROM_SCRATCH",
+                "core_gradient_policy": "JOINT_PATHWAY_STATE_SHARED_GRADIENTS",
+                "joint_tasks": ("pathway", "state"),
+                "task_weights": {"pathway": 1.0, "state": 0.5},
+                "state_gradients_into_core": True,
             }
             if dependencies:
                 raise OrchestrationContractError("Core tasks cannot have dependencies")
@@ -301,6 +308,9 @@ def validate_full_task_dag(tasks: Sequence[Mapping[str, Any]]) -> None:
                 "core_frozen": True,
                 "core_parameters_trainable": False,
                 "core_gradient_policy": "DETACH_NO_GRAD",
+                "joint_tasks": (),
+                "task_weights": {},
+                "state_gradients_into_core": False,
             }
             if dependencies != (expected_core_id,):
                 raise OrchestrationContractError(
@@ -322,9 +332,9 @@ def ready_task_ids(
 ) -> list[str]:
     """Return tasks eligible to start under the mandatory two-phase barrier.
 
-    Even when one fold's core is complete, no auxiliary task becomes ready
-    until all five core folds are complete.  This makes "core first" an
-    executable scheduler rule in addition to a manifest ordering rule.
+    Even when one joint fold is complete, no auxiliary task becomes ready
+    until all five joint folds are complete.  This is an executable phase
+    barrier in addition to a manifest ordering rule.
     """
 
     validate_full_task_dag(tasks)

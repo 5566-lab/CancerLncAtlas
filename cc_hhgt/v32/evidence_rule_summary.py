@@ -20,7 +20,8 @@ CONTEXT = ["study_id", "route_type", "partner_id", "assay", "biosample", "tissue
            "species", "experiment_id", "intervention", "readout", "mediator_id", "source_cancer_id"]
 EVENT_COLUMNS = [*KEYS, "source_event_id", "source_id", "source_cancer_id", "route_type", "partner_id", "assay",
     "biosample", "tissue", "cell_line", "species", "experiment_id", "intervention", "readout", "mediator_id",
-    "direction", "review_value", "raw_occurrences", "study_tokens_json", "provenance_json", "detail_json"]
+    "direction", "review_value", "source_review_conflict", "raw_occurrences",
+    "study_tokens_json", "provenance_json", "detail_json"]
 COUNT_COLUMNS = ["raw_records", "deduplicated_context_events", "independent_studies", "direct_studies",
     "network_support_studies", "functional_bridge_studies", "prediction_sources", "unverified_provenance_records",
     "cancer_specific_studies", "global_studies", "reviewed_direct_studies"]
@@ -143,6 +144,11 @@ def validate_events(events):
     if not np.isfinite(n).all() or not n.ge(1).all() or not n.eq(n.astype(int)).all(): raise ValueError("Invalid raw occurrence counts")
     q = pd.to_numeric(events.review_value, errors="coerce").dropna()
     if not q.isin([0., 1.]).all(): raise ValueError("Review is accepted/rejected/unknown, not a model probability")
+    if events.source_review_conflict.isna().any() or (
+        len(events)
+        and not pd.api.types.is_bool_dtype(events.source_review_conflict.dtype)
+    ):
+        raise ValueError("Source review-conflict flags must be complete typed booleans")
     nondirect = events.route_type.ne("DIRECT_EXACT_ASSERTION")
     if events.loc[nondirect, "direction"].ne("unknown").any() or events.loc[nondirect, "review_value"].notna().any():
         raise ValueError("Indirect/predicted evidence cannot set direct direction or review")
@@ -178,12 +184,14 @@ def summarize_events(events, candidates):
             directions = set(copies.direction)-{"unknown"} if direct and verified else set()
             conflict = "conflicting" in directions or len(directions) > 1
             reviews = set(copies.review_value.dropna()) if direct and verified else set()
+            source_review_conflict = bool(copies.source_review_conflict.any())
             row.update(zip(KEYS, keys))
             row.update(context_id=stable_id("EVCONTEXT:", [*keys, *context]),
                 raw_records=int(copies.raw_occurrences.sum()), source_records=len(copies),
                 provenance_verified=verified, direction_conflict=conflict,
                 observed_direct_direction="conflicting" if conflict else next(iter(directions), "unknown"),
-                review_conflict=len(reviews)>1, review_value=next(iter(reviews)) if len(reviews)==1 else np.nan,
+                review_conflict=source_review_conflict or len(reviews)>1,
+                review_value=next(iter(reviews)) if len(reviews)==1 and not source_review_conflict else np.nan,
                 source_record_ids_json=json.dumps(sorted(copies.evidence_record_id)),
                 source_ids_json=json.dumps(sorted(set(copies.source_id))))
             local.append(row)

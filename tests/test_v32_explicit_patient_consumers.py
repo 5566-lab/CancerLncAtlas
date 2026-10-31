@@ -11,7 +11,7 @@ from cc_hhgt.v32.clinical_training import ClinicalTrainingError, patient_fold_ma
 from cc_hhgt.v32.genomic_training import GenomicTrainingError
 from cc_hhgt.v32.genomic_training import normalise_patient_folds as normalise_genomic_folds
 from cc_hhgt.v32.routing_fair_input import RoutingFairInputError, _validate_patient_folds
-from cc_hhgt.v32.state_training import StateTrainingError, validate_fold_manifest
+from cc_hhgt.v32.state_inputs import StateInputError, validate_fold_manifest
 
 
 def _folds() -> pd.DataFrame:
@@ -45,7 +45,7 @@ def test_formal_fold_consumers_keep_explicit_patient_identity(tmp_path) -> None:
         (normalise_genomic_folds, (GenomicTrainingError, ValueError)),
         (normalise_atac_folds, AtacTrainingError),
         (patient_fold_manifest, ClinicalTrainingError),
-        (validate_fold_manifest, StateTrainingError),
+        (validate_fold_manifest, StateInputError),
     ],
 )
 def test_formal_fold_consumers_reject_missing_patient_id(consumer, error) -> None:

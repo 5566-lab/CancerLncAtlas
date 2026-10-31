@@ -36,6 +36,8 @@ def _formal_manifest() -> pd.DataFrame:
                 "formal_eligible": [True],
                 "source_tier": ["primary_raw"],
                 "quality_status": ["PASS"],
+                "feature_universe_status": ["PASS"],
+                "donor_metadata_available": [True],
             }
         )
     )
@@ -202,6 +204,8 @@ def test_staging_is_not_formal_and_missing_cancers_are_null() -> None:
                 "formal_eligible": [False],
                 "source_tier": ["staging"],
                 "quality_status": ["PASS"],
+                "feature_universe_status": ["PASS"],
+                "donor_metadata_available": [True],
             }
         )
     )

@@ -262,10 +262,13 @@ def _identity(value: object, id_map: Mapping[str, str] | None = None) -> str:
 
 
 def _cancer(value: object) -> str:
-    text = _clean(value).upper()
-    if not text or text in {"PAN", "PANCAN", "PAN-CANCER", "PAN_CANCER", "ALL"}:
-        return "PAN_CANCER"
-    return re.sub(r"^(?:CANCER):", "", text)
+    from .evidence_semantics_r5 import cancer_context
+    return cancer_context(value)
+
+
+def _validated_row_context_r6(row: pd.Series, claimed: object) -> str:
+    from .evidence_semantics_r6 import validate_context
+    return validate_context(row, claimed)
 
 
 def _tokens(value: object) -> tuple[str, ...]:
@@ -317,8 +320,10 @@ def normalize_id_map(frame: pd.DataFrame | None) -> dict[str, str]:
         normalized_source = _identity(source)
         normalized_target = _identity(target)
         if normalized_source and normalized_target:
-            result[normalized_source] = normalized_target
-            result[_normalized_name(normalized_source)] = normalized_target
+            for alias in (normalized_source, _normalized_name(normalized_source)):
+                if alias in result and result[alias] != normalized_target:
+                    raise EvidenceTrainingContractError(f"AMBIGUOUS_ID_ALIAS:{alias}")
+                result[alias] = normalized_target
     return result
 
 
@@ -371,49 +376,39 @@ def normalize_exact_pathway_members(
     return value.drop_duplicates(["pathway_id", "member_id"]).reset_index(drop=True)
 
 
-def _quality_target(row: pd.Series, columns: Mapping[str, str | None], pmids: tuple[str, ...]) -> float:
-    review = _clean(_row_value(row, columns.get("manual_review_status"))).lower()
-    if re.search(r"accepted|validated|confirmed|curated|approved|pass", review):
-        return 1.0
-    if re.search(r"rejected|refuted|invalid|failed|false", review):
-        return 0.0
-    eligible = _truth(_row_value(row, columns.get("predictive_core_eligible")))
-    if eligible is not None:
-        return float(eligible)
-    tier = _clean(_row_value(row, columns.get("evidence_tier"))).lower()
-    if re.search(r"quarantine|rejected|unsupported|computational.only|invalid", tier):
-        return 0.0
-    if re.search(r"\ba1\b|\ba2\b|validated|high.confidence|causal.direct|physical.support", tier):
-        return 1.0
-    experimental = _truth(_row_value(row, columns.get("experimental")))
-    computational = _truth(_row_value(row, columns.get("computational")))
-    if experimental is True and pmids:
-        return 1.0
-    if experimental is False and computational is True:
-        return 0.0
-    return math.nan
+def _quality_target(
+    row: pd.Series,
+    columns: Mapping[str, str | None],
+    pmids: tuple[str, ...],
+) -> float:
+    from .evidence_semantics_v2 import review_quality_target
+    # Experimental/database eligibility is provenance, not adjudicated quality.
+    return review_quality_target(
+        _row_value(row, columns.get("manual_review_status"))
+    )
 
 
 def _direction_target(value: object, effect_sign: object = "") -> int:
-    text = f"{_clean(value)} {_clean(effect_sign)}".lower()
-    if re.search(r"negative|down|inhibit|repress|decreas|(?:^|\s)-1(?:\s|$)", text):
-        return 0
-    if re.search(r"positive|up|activat|stimulat|increas|(?:^|\s)\+?1(?:\s|$)", text):
-        return 2
-    if re.search(r"neutral|no.effect|unchanged", text):
-        return 1
-    return -1
+    from .evidence_semantics_r6 import direction_target
+    return direction_target(value, effect_sign)
 
 
 def _is_physical(row: pd.Series, columns: Mapping[str, str | None]) -> bool:
-    explicit = _truth(_row_value(row, columns.get("physical")))
-    if explicit is not None:
-        return explicit
+    from .evidence_semantics_r5 import predicted_method, physical_method
+
+    experiment = _clean(_row_value(row, columns.get("experiment_type")))
     text = " ".join(
         _clean(_row_value(row, columns.get(name)))
         for name in ("relation_type", "experiment_type", "interaction_type", "directness")
-    ).lower()
-    return bool(re.search(r"physical|binding|pull.?down|\brip\b|\bclip\b|chirp|co.?ip", text))
+    )
+    if _truth(_row_value(row, columns.get("computational"))) is True or predicted_method(text):
+        return False
+    if _truth(_row_value(row, columns.get("experimental"))) is not True:
+        return False
+    explicit = _truth(_row_value(row, columns.get("physical")))
+    if explicit is False:
+        return False
+    return explicit is True or physical_method(experiment)
 
 
 def _source_columns(frame: pd.DataFrame) -> dict[str, str | None]:
@@ -453,7 +448,7 @@ def _source_columns(frame: pd.DataFrame) -> dict[str, str | None]:
         "graph_assay_class": _column(frame, ["graph_assay_class"]),
         "experiment_type": _column(
             frame,
-            ["experiment_type", "experiment_family", "assay_type", "experimental_system"],
+            ["experiment_raw", "experiment_type", "experiment_family", "assay_type", "experimental_system"],
         ),
         "relation_type": _column(frame, ["relation_type", "interaction_class", "assertion_type"]),
         "interaction_type": _column(frame, ["interaction_type", "experimental_system_type"]),
@@ -466,7 +461,9 @@ def _source_columns(frame: pd.DataFrame) -> dict[str, str | None]:
         "evidence_tier": _column(frame, ["evidence_tier", "evidence_level"]),
         "predictive_core_eligible": _column(frame, ["predictive_core_eligible"]),
         "experimental": _column(frame, ["experimental", "is_experimental"]),
-        "computational": _column(frame, ["computational", "is_computational", "is_predicted"]),
+        "computational": _column(
+            frame, ["computational", "is_computational", "is_predicted", "is_prediction"]
+        ),
         "model_prediction": _column(frame, ["is_model_prediction"]),
         "physical": _column(frame, ["physical", "is_physical", "physical_interaction"]),
         "directness": _column(frame, ["directness"]),
@@ -548,7 +545,9 @@ def _normalize_source_rows(
                 "source_sha256": _clean(_row_value(row, columns["source_sha256"])),
                 "raw_event_id": raw_event_id,
                 "source_record_id": source_record_id,
-                "cancer_id": _cancer(_row_value(row, columns["cancer_id"])),
+                "cancer_id": _validated_row_context_r6(
+                    row, _row_value(row, columns["cancer_id"])
+                ),
                 "lncrna_id": lnc,
                 "partner_id": partner,
                 "pathway_id": exact_pathway,
@@ -642,14 +641,14 @@ def build_exact_event_bags(
     for raw in normalized:
         if raw["is_physical"] and raw["lncrna_id"] and raw["partner_id"]:
             fact_signature = _stable_sha256(
-                raw["source_database"],
-                raw["source_dataset"],
-                raw["source_record_id"],
-                raw["pmid"],
-                raw["lncrna_id"],
-                raw["partner_id"],
-                raw["relation_type"],
-                raw["experiment_type"],
+                raw["source_database"], raw["source_dataset"],
+                raw["source_record_id"], raw["pmid"], raw["lncrna_id"],
+                raw["partner_id"], raw["relation_type"], raw["experiment_type"],
+                raw["cancer_id"], raw["tissue"], raw["cell_line"], raw["species"],
+                raw["doi"], raw["experiment_id"], raw["biosample"],
+                raw["intervention"], raw["readout"], raw["mediator_id"],
+                raw["experiment_raw"], raw["graph_assay_class"],
+                raw["assay_subtype"],
             )
             physical_rows.append(
                 {
@@ -667,6 +666,10 @@ def build_exact_event_bags(
                     "source_dataset": raw["source_dataset"],
                     "source_record_id": raw["source_record_id"],
                     "pmid": raw["pmid"],
+                    **{key: raw[key] for key in (
+                        "doi", "experiment_id", "biosample", "intervention",
+                        "readout", "mediator_id", "tissue", "cell_line", "species"
+                    )},
                     "source_row_sha256": raw["source_row_sha256"],
                     "is_prediction": False,
                 }
@@ -674,6 +677,18 @@ def build_exact_event_bags(
 
         if not raw["lncrna_id"]:
             rejected_rows.append({**raw, "rejection_reason": "LNC_ID_UNMAPPED"})
+            continue
+        if raw["cancer_id"] in {"CONTEXT_UNRESOLVED", "CONTEXT_UNSPECIFIED"}:
+            rejected_rows.append({
+                **raw,
+                "rejection_reason": "CANCER_CONTEXT_UNRESOLVED_NOT_BROADCAST",
+            })
+            continue
+        if re.search(r"ceRNA|sponge", str(raw["relation_type"]), re.I) and not raw["pathway_id"]:
+            rejected_rows.append({
+                **raw,
+                "rejection_reason": "MEDIATED_RELATION_REQUIRES_MEDIATOR_NOT_DIRECT_EDGE",
+            })
             continue
         routes: dict[str, tuple[str, str, str]] = {}
         if raw["pathway_id"]:
@@ -728,22 +743,24 @@ def build_exact_event_bags(
                 # reviews before deduplicating database copies. Event IDs
                 # from older artifacts remain valid inputs; new materializations
                 # use these complete signatures.
-                *(raw[key] for key in ("doi", "experiment_id", "biosample", "intervention", "readout", "mediator_id",
-                    "tissue", "cell_line", "species", "experiment_raw", "graph_assay_class", "assay_subtype",
-                    "manual_review_status", "is_experimental", "is_computational", "is_model_prediction")),
+                *(raw[key] for key in (
+                    "doi", "experiment_id", "biosample", "intervention",
+                    "readout", "mediator_id", "tissue", "cell_line", "species",
+                    "experiment_raw", "graph_assay_class", "assay_subtype"
+                )),
             )
             event_id = "EV32:" + canonical_signature[:24]
             physical_fact_id = (
                 "PHYS:"
                 + _stable_sha256(
-                    raw["source_database"],
-                    raw["source_dataset"],
-                    raw["source_record_id"],
-                    raw["pmid"],
-                    raw["lncrna_id"],
-                    raw["partner_id"],
-                    raw["relation_type"],
-                    raw["experiment_type"],
+                    raw["source_database"], raw["source_dataset"],
+                    raw["source_record_id"], raw["pmid"], raw["lncrna_id"],
+                    raw["partner_id"], raw["relation_type"],
+                    raw["experiment_type"], raw["cancer_id"], raw["tissue"],
+                    raw["cell_line"], raw["species"], raw["doi"],
+                    raw["experiment_id"], raw["biosample"], raw["intervention"],
+                    raw["readout"], raw["mediator_id"], raw["experiment_raw"],
+                    raw["graph_assay_class"], raw["assay_subtype"],
                 )[:24]
                 if raw["is_physical"] and raw["partner_id"]
                 else ""
@@ -771,8 +788,14 @@ def build_exact_event_bags(
                     "graph_assay_class": raw["graph_assay_class"],
                     "relation_type": raw["relation_type"],
                     "direction_raw": raw["direction_raw"],
-                    "direction_target": int(raw["direction_target"]),
-                    "confidence_target": float(raw["confidence_target"]),
+                    "direction_target": (
+                        int(raw["direction_target"])
+                        if route_type == "DIRECT_EXACT_ASSERTION" else -1
+                    ),
+                    "confidence_target": (
+                        float(raw["confidence_target"])
+                        if route_type == "DIRECT_EXACT_ASSERTION" else math.nan
+                    ),
                     "manual_review_status": raw["manual_review_status"],
                     "tissue": raw["tissue"],
                     "cell_line": raw["cell_line"],
@@ -812,22 +835,47 @@ def build_exact_event_bags(
         "source_record_id", "pmid", "doi", "experiment_id", "biosample", "intervention", "readout", "mediator_id",
         "experiment_type", "experiment_raw",
         "experiment_family", "assay_subtype", "graph_assay_class", "relation_type",
-        "direction_raw", "direction_target", "confidence_target", "manual_review_status", "tissue", "cell_line",
+        "direction_raw", "direction_target", "confidence_target",
+        "manual_review_status", "review_conflict", "tissue", "cell_line",
         "species", "is_experimental", "is_computational", "is_physical",
         "is_model_prediction",
     ]
-    events = pd.DataFrame(event_rows, columns=event_columns)
-    for column in ("is_experimental", "is_computational", "is_physical", "is_model_prediction"):
-        events[column] = events[column].astype(bool)
-    if not events.empty:
-        duplicate_counts = events.groupby("event_id").size().rename("source_occurrence_count")
+    events = pd.DataFrame(event_rows)
+    if events.empty:
+        events = pd.DataFrame(columns=event_columns)
+    else:
+        resolved_rows: list[pd.Series] = []
+        for _, group in events.groupby("event_id", sort=True):
+            row = group.sort_values(
+                ["route_type", "source_database", "source_dataset",
+                 "source_record_id", "manual_review_status"]
+            ).iloc[0].copy()
+            quality = pd.to_numeric(
+                group["confidence_target"], errors="coerce"
+            ).to_numpy(float)
+            distinct = sorted(set(quality[np.isfinite(quality)].tolist()))
+            conflict = len(distinct) > 1
+            row["review_conflict"] = conflict
+            row["confidence_target"] = (
+                math.nan if conflict
+                else distinct[0] if len(distinct) == 1
+                else math.nan
+            )
+            if conflict:
+                row["manual_review_status"] = "conflict"
+            row["source_occurrence_count"] = int(len(group))
+            resolved_rows.append(row)
         events = (
-            events.sort_values(["event_id", "route_type"])
-            .drop_duplicates("event_id", keep="first")
-            .merge(duplicate_counts, on="event_id", how="left", validate="one_to_one")
+            pd.DataFrame(resolved_rows)
+            .reindex(columns=event_columns + ["source_occurrence_count"])
             .sort_values(EXACT_KEYS + ["event_id"])
             .reset_index(drop=True)
         )
+    for column in (
+        "is_experimental", "is_computational", "is_physical",
+        "is_model_prediction", "review_conflict",
+    ):
+        events[column] = events[column].astype(bool)
     lineage_columns = [
         "lineage_id", "event_id", "raw_event_id", "source_kind", "source_input",
         "source_row_index", "source_row_sha256", "source_sha256", "mapping_route",
@@ -847,8 +895,10 @@ def build_exact_event_bags(
     physical_columns = [
         "physical_fact_id", "cancer_id", "lncrna_id", "partner_id", "relation_type",
         "experiment_type", "experiment_raw", "experiment_family", "assay_subtype",
-        "graph_assay_class", "source_database", "source_dataset", "source_record_id",
-        "pmid", "source_row_sha256", "is_prediction",
+        "graph_assay_class", "source_database", "source_dataset",
+        "source_record_id", "pmid", "doi", "experiment_id", "biosample",
+        "intervention", "readout", "mediator_id", "tissue", "cell_line",
+        "species", "source_row_sha256", "is_prediction",
     ]
     physical = pd.DataFrame(physical_rows, columns=physical_columns)
     if not physical.empty:
@@ -1327,6 +1377,39 @@ def validate_core_embedding_lineage(
     if not manifest_path.is_file():
         raise EvidenceTrainingContractError(f"Missing V3.2 core manifest: {manifest_path}")
     payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    from .core_export_contract_r4 import EXPORT_FORMAT as R62_EXPORT_FORMAT, validate_export
+    if payload.get("export_format") == R62_EXPORT_FORMAT:
+        if require_current_g2_authority and (
+                not expected_manifest_sha256 or not expected_graph_authority_receipt_sha256):
+            raise EvidenceTrainingContractError(
+                "R6.2 Evidence requires external core-manifest and graph-receipt SHA256 bindings"
+            )
+        try:
+            payload, manifest_sha, _ = validate_export(
+                manifest_path,
+                fold=patient_fold,
+                expected_manifest_sha256=expected_manifest_sha256,
+                expected_graph_receipt_sha256=expected_graph_authority_receipt_sha256,
+            )
+        except (KeyError, TypeError, ValueError, RuntimeError) as exc:
+            raise EvidenceTrainingContractError(f"R6.2 core export failed validation: {exc}") from exc
+        item = payload["folds"][str(patient_fold)]
+        paths = {
+            node: _resolve_export_path(root, patient_fold, node, item["exports"][node]["path"])
+            for node in ("cancer", "lncRNA", "pathway")
+        }
+        return CoreEmbeddingLineage(
+            patient_fold=patient_fold,
+            manifest_path=manifest_path,
+            manifest_sha256=manifest_sha,
+            checkpoint_sha256=str(item["checkpoint_sha256"]),
+            core_parameter_sha256=str(item["core_parameter_sha256"]),
+            export_paths=paths,
+            export_sha256={node: str(item["exports"][node]["sha256"]) for node in paths},
+            formal_graph_variant="G2",
+            graph_authority_receipt_sha256=str(payload["graph_authority_receipt"]["sha256"]),
+            patient_fold_authority_receipt_sha256=None,
+        )
     observed_manifest_sha256 = file_sha256(manifest_path)
     required_top = {
         "export_format": CORE_EXPORT_FORMAT,
@@ -1636,46 +1719,87 @@ def build_bag_examples(
     event_feature_dim: int = 128,
     max_events: int = 64,
     preserve_assay_type: bool = False,
+    independent_supervision: bool = False,
 ) -> tuple[list[BagExample], pd.DataFrame]:
-    """Create private-head examples; core values are copied as immutable arrays."""
+    """Create private-head examples with immutable core arrays.
+
+    The corrected streaming mode derives targets from complete, independently
+    deduplicated study records before bounding model-input event tokens.  The
+    legacy default remains available for older non-formal consumers.
+    """
 
     if max_events < 1:
         raise EvidenceTrainingContractError("max_events must be positive")
-    required = set(EXACT_KEYS + ["event_id", "leakage_fold", "confidence_target", "direction_target"])
+    required = set(
+        EXACT_KEYS
+        + ["event_id", "leakage_fold", "confidence_target", "direction_target"]
+    )
     missing_columns = sorted(required - set(events.columns))
     if missing_columns:
-        raise EvidenceTrainingContractError(f"Events lack training columns: {missing_columns}")
+        raise EvidenceTrainingContractError(
+            f"Events lack training columns: {missing_columns}"
+        )
     examples: list[BagExample] = []
     missing_core: list[dict[str, Any]] = []
-    for key, group in events.groupby(EXACT_KEYS, observed=True, sort=True):
-        folds = sorted(set(pd.to_numeric(group.leakage_fold, errors="raise").astype(int)))
+    if independent_supervision:
+        from .evidence_semantics_v2 import bag_targets, independent_events
+
+    for key, raw_group in events.groupby(EXACT_KEYS, observed=True, sort=True):
+        folds = sorted(
+            set(pd.to_numeric(raw_group.leakage_fold, errors="raise").astype(int))
+        )
         if len(folds) != 1:
-            raise EvidenceTrainingContractError(f"Pair spans leakage folds: {key} -> {folds}")
-        group = group.sort_values("event_id").head(max_events)
+            raise EvidenceTrainingContractError(
+                f"Pair spans leakage folds: {key} -> {folds}"
+            )
         core_vector = core.vector_for(*key)
         if core_vector is None:
             missing_core.append(
                 {
                     **dict(zip(EXACT_KEYS, map(str, key), strict=True)),
                     "leakage_fold": folds[0],
-                    "event_count": int(len(group)),
+                    "event_count": int(len(raw_group)),
                     "unavailable_reason": "CORE_EMBEDDING_ID_MISSING",
                 }
             )
             continue
-        confidence_values = pd.to_numeric(group.confidence_target, errors="coerce").to_numpy(float)
-        confidence_target = (
-            float(np.mean(confidence_values[np.isfinite(confidence_values)]))
-            if np.isfinite(confidence_values).any()
-            else math.nan
-        )
-        directions = pd.to_numeric(group.direction_target, errors="coerce").fillna(-1).astype(int)
-        directions = directions[directions.isin([0, 1, 2])]
-        if directions.empty:
-            direction_target = -1
+
+        if independent_supervision:
+            independent = independent_events(raw_group)
+            confidence_target, direction_target = bag_targets(independent)
+            if "independent_study_id" not in independent:
+                independent["independent_study_id"] = ""
+            group = (
+                independent.sort_values(["independent_study_id", "event_id"])
+                .head(max_events)
+                .copy()
+            )
         else:
-            counts = directions.value_counts()
-            direction_target = int(counts.index[0]) if len(counts) == 1 or counts.iloc[0] > counts.iloc[1] else -1
+            group = raw_group.sort_values("event_id").head(max_events).copy()
+            confidence_values = pd.to_numeric(
+                group.confidence_target, errors="coerce"
+            ).to_numpy(float)
+            confidence_target = (
+                float(np.mean(confidence_values[np.isfinite(confidence_values)]))
+                if np.isfinite(confidence_values).any()
+                else math.nan
+            )
+            directions = (
+                pd.to_numeric(group.direction_target, errors="coerce")
+                .fillna(-1)
+                .astype(int)
+            )
+            directions = directions[directions.isin([0, 1, 2])]
+            if directions.empty:
+                direction_target = -1
+            else:
+                counts = directions.value_counts()
+                direction_target = (
+                    int(counts.index[0])
+                    if len(counts) == 1 or counts.iloc[0] > counts.iloc[1]
+                    else -1
+                )
+
         features = _event_feature_matrix(
             group, event_feature_dim, preserve_assay_type=preserve_assay_type
         )
@@ -1686,14 +1810,13 @@ def build_bag_examples(
                 key=tuple(map(str, key)),
                 event_features=features,
                 core_features=immutable_core,
-                confidence_target=confidence_target,
-                direction_target=direction_target,
+                confidence_target=float(confidence_target),
+                direction_target=int(direction_target),
                 leakage_fold=folds[0],
                 event_count=int(len(group)),
             )
         )
     return examples, pd.DataFrame(missing_core)
-
 
 def _require_torch():
     try:

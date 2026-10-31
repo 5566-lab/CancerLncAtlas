@@ -252,6 +252,26 @@ def _lineage(module_id: str) -> dict[str, object]:
                 ],
             }
         )
+    elif module_id == "state":
+        lineage.update(
+            {
+                "analysis_version": "CancerLncAtlas_V3.2_JOINT",
+                "trained_from_scratch": True,
+                "state_head_trained_from_scratch": True,
+                "core_parameters_frozen": False,
+                "state_gradients_into_core": True,
+                "task_weights": {"pathway": 1.0, "state": 0.5},
+                "gradient_proof": {
+                    "pathway_max_shared_grad": 0.25,
+                    "state_max_shared_grad": 0.125,
+                },
+                "trained_folds": 5,
+                "checkpoint_files": 5,
+                "release_ready": True,
+                "joint_architecture": "CC_HHGT_PYG_FULL_R62_JOINT",
+                "formal_graph_variant": "G2",
+            }
+        )
     else:
         lineage.update(
             {
@@ -372,6 +392,30 @@ def test_old_results_are_rejected(field: str, value: bool, match: str) -> None:
     lineage = _lineage("state")
     lineage[field] = value
     with pytest.raises(FullModelContractError, match=match):
+        validate_module_lineage("state", lineage)
+
+
+@pytest.mark.parametrize(
+    "field,value,match",
+    [
+        ("core_parameters_frozen", True, "update the shared encoder"),
+        ("state_gradients_into_core", False, "gradient attestation"),
+        ("task_weights", {"pathway": 1.0, "state": 0.0}, "task weights"),
+        ("joint_architecture", "PRIVATE_STATE_HEAD", "architecture identity"),
+        ("formal_graph_variant", "G1", "preregistered G2"),
+    ],
+)
+def test_joint_state_rejects_frozen_or_nonmainline_lineage(field, value, match) -> None:
+    lineage = _lineage("state")
+    lineage[field] = value
+    with pytest.raises(FullModelContractError, match=match):
+        validate_module_lineage("state", lineage)
+
+
+def test_joint_state_rejects_parent_core_checkpoint() -> None:
+    lineage = _lineage("state")
+    lineage["input_artifacts"].append(_artifact("v32_core_checkpoint", CORE_HASH))
+    with pytest.raises(FullModelContractError, match="may not consume"):
         validate_module_lineage("state", lineage)
 
 

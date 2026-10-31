@@ -1,10 +1,9 @@
-"""Fail-closed contract for the complete, newly trained V3.2 model.
+"""Fail-closed contract for the complete joint-mainline V3.2 model.
 
-The exact-pathway discovery model and every companion endpoint belong to one
-release, but they remain separate estimands.  Historical data and task
-definitions may be reused after hashing and re-standardisation.  Historical
-checkpoints, probabilities, rankings, and release tables may never be used as
-V3.2 predictions or training features.
+Exact Pathway and State share one encoder and both objectives update it. Other
+companion endpoints retain their registered policies and remain separate
+estimands. Historical checkpoints, probabilities, rankings, and release tables
+may never be used as V3.2 predictions or training features.
 """
 from __future__ import annotations
 
@@ -17,7 +16,7 @@ import numpy as np
 import pandas as pd
 
 
-FULL_CONTRACT_VERSION = "3.2.0-full-model-v1"
+FULL_CONTRACT_VERSION = "3.2.1-joint-mainline-v1"
 V32_ANALYSIS_PREFIX = "CancerLncAtlas_V3.2"
 N_FOLDS = 5
 DRUG_CROSS_DATASET_ASSOCIATION_POLICY = (
@@ -62,8 +61,8 @@ MODULE_CONTRACTS: dict[str, ModuleContract] = {
         target_keys=("cancer_id", "lncrna_id", "state_id"),
         probability_columns=("state_membership_probability",),
         split_unit="patient",
-        model_family="v32_frozen_core_private_state_head",
-        core_policy="FROZEN_V32_CORE_PRIVATE_HEAD_FROM_SCRATCH",
+        model_family="cc_hhgt_shared_state_head",
+        core_policy="JOINT_SHARED_ENCODER_FROM_SCRATCH",
         availability_column="availability",
         failure_reason_column="availability_reason",
     ),
@@ -199,7 +198,7 @@ class FullModelContractError(RuntimeError):
 
 
 def contract_manifest() -> dict[str, Any]:
-    """Return a JSON-serialisable description of the frozen module contract."""
+    """Return a JSON-serialisable description of the joint module contract."""
 
     return {
         "contract_version": FULL_CONTRACT_VERSION,
@@ -799,6 +798,49 @@ def validate_module_lineage(module_id: str, lineage: Mapping[str, Any]) -> None:
                     raise FullModelContractError(
                         f"Exact-pathway fold {expected_fold} has invalid provenance flag {flag}"
                     )
+    elif module_id == "state":
+        if audited_unavailable:
+            raise FullModelContractError("Joint State may not be audited-unavailable")
+        if lineage.get("trained_from_scratch") is not True:
+            raise FullModelContractError("Joint State encoder was not trained from scratch")
+        if lineage.get("state_head_trained_from_scratch") is not True:
+            raise FullModelContractError("Joint State head was not trained from scratch")
+        if lineage.get("core_parameters_frozen") is not False:
+            raise FullModelContractError("Joint State must update the shared encoder")
+        if lineage.get("state_gradients_into_core") is not True:
+            raise FullModelContractError(
+                "Joint State lacks its shared-encoder gradient attestation"
+            )
+        if lineage.get("task_weights") != {"pathway": 1.0, "state": 0.5}:
+            raise FullModelContractError(
+                "Joint task weights must be Pathway=1 and State=0.5"
+            )
+        proof = lineage.get("gradient_proof")
+        if not isinstance(proof, Mapping):
+            raise FullModelContractError("Joint State lacks a gradient proof")
+        for name in ("pathway_max_shared_grad", "state_max_shared_grad"):
+            value = proof.get(name)
+            if (
+                not isinstance(value, (int, float))
+                or isinstance(value, bool)
+                or not np.isfinite(value)
+                or value <= 0
+            ):
+                raise FullModelContractError(
+                    f"Joint State gradient proof is invalid: {name}"
+                )
+        if int(lineage.get("trained_folds", -1)) != N_FOLDS:
+            raise FullModelContractError("Joint State requires five trained folds")
+        if int(lineage.get("checkpoint_files", -1)) != N_FOLDS:
+            raise FullModelContractError("Joint State requires five joint checkpoints")
+        if lineage.get("release_ready") is not True:
+            raise FullModelContractError("Joint State is not release-ready")
+        if lineage.get("joint_architecture") != "CC_HHGT_PYG_FULL_R62_JOINT":
+            raise FullModelContractError("Joint State architecture identity differs")
+        if lineage.get("formal_graph_variant") != "G2":
+            raise FullModelContractError(
+                "Joint State must use the preregistered G2 graph"
+            )
     else:
         statistical_status = str(lineage.get("statistical_training_status", "TRAINED")).upper()
         formally_unavailable = statistical_status.startswith("UNAVAILABLE_")
@@ -1010,7 +1052,12 @@ def validate_module_lineage(module_id: str, lineage: Mapping[str, Any]) -> None:
         for artifact in lineage["input_artifacts"]
         if str(artifact["artifact_kind"]) == "v32_core_checkpoint"
     ]
-    if module_id != "exact_pathway":
+    if module_id in {"exact_pathway", "state"}:
+        if core_inputs:
+            raise FullModelContractError(
+                f"{module_id} may not consume a parent V3.2 core checkpoint"
+            )
+    else:
         if len(core_inputs) != 1:
             raise FullModelContractError(
                 f"{module_id} must consume exactly one current V3.2 core checkpoint"

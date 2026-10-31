@@ -336,17 +336,38 @@ def _normalise_mutation_calls(frame: pd.DataFrame, entity_kind: str) -> pd.DataF
     )
     # An observed event is callable.  A non-event is callable only when the
     # source explicitly supplied callability or wild-type status.
-    local["callable"] = local.event | explicit_callable | explicit_wildtype
+    event_text = frame[event_col].astype("string").str.strip().str.lower()
+    event_known = event_text.isin({"0", "1", "0.0", "1.0", "true", "false", "yes", "no", "y", "n", "t", "f"})
+    local["callable"] = event_known & (local.event | explicit_callable | explicit_wildtype)
+    if availability_col:
+        declared = frame[availability_col].notna()
+        explicit_false = declared & ~explicit_callable
+        if (explicit_false & local.event).any():
+            raise GenomicTrainingError("Contradictory observed mutation and explicit non-callability")
+        local.loc[explicit_false, "callable"] = False
     if burden_col:
-        local["burden"] = pd.to_numeric(frame[burden_col], errors="coerce").abs()
+        local["burden"] = pd.to_numeric(frame[burden_col], errors="coerce")
+        invalid = frame[burden_col].notna() & (~np.isfinite(local.burden) | local.burden.lt(0))
+        if invalid.any():raise GenomicTrainingError("Mutation burden must be finite and nonnegative; abs() is forbidden")
+        local["callable"] &= local.burden.notna()
     else:
         local["burden"] = local.event.astype(float)
     local.loc[~local.callable, ["event", "burden"]] = [False, np.nan]
-    grouped = local.groupby(
-        ["cancer_id", "patient_id", "entity_id"], observed=True, sort=False
-    ).agg(event=("event", "max"), callable=("callable", "max"), burden=("burden", "sum"))
-    result = grouped.reset_index()
-    result.loc[~result.callable, "burden"] = np.nan
+    # These inputs are per-patient/entity call aggregates, not raw variant rows.
+    # Identical copies are not extra mutations; contradictory aggregates require resolution.
+    local=local.drop_duplicates()
+    keys=["cancer_id","patient_id","entity_id"]
+    if local.duplicated(keys).any():
+        # Preserve the earlier explicit-noncallable priority contract. A WT copy
+        # cannot override an unavailable locus. Two observed contradictory counts fail.
+        any_missing=~local.groupby(keys,observed=True)["callable"].transform("all")
+        if (any_missing & local.event).any():raise GenomicTrainingError("Observed variant conflicts with explicit noncallability")
+        local.loc[any_missing,["event","callable","burden"]]=[False,False,np.nan]
+        local=local.drop_duplicates()
+        if local.duplicated(keys).any():raise GenomicTrainingError("Conflicting duplicate mutation aggregates; do not sum counts or choose row order")
+    result=local.reset_index(drop=True)
+    result.loc[~result.callable,"burden"]=np.nan
+
     return result
 
 
@@ -494,6 +515,7 @@ def normalise_cnv_calls(
         None,
     )
     value = pd.to_numeric(frame[value_col], errors="coerce")
+    if (frame[value_col].notna() & ~np.isfinite(value)).any():raise GenomicTrainingError("CNV value must be finite or explicitly missing")
     callable_value = _bool_series(frame[callable_col], "CNV callability") if callable_col else value.notna()
     local = pd.DataFrame(
         {
@@ -613,47 +635,40 @@ def segment_calls_from_raw(
     return gene, lnc, audit
 
 
-def _call_matrix(
-    calls: pd.DataFrame,
-    patients: Sequence[str],
-    entities: Sequence[str],
-    callable_entities: set[str] | None = None,
-) -> tuple[np.ndarray, np.ndarray, dict[str, int]]:
-    patient_index = {str(value): index for index, value in enumerate(patients)}
+def _call_matrix(calls: pd.DataFrame, patients: Sequence[str], entities: Sequence[str],
+                 callable_entities: set[str] | None = None) -> tuple[np.ndarray, np.ndarray, dict[str, int]]:
+    patient_index = {str(p): i for i,p in enumerate(patients)}
     entity_values = tuple(dict.fromkeys(map(str, entities)))
-    entity_index = {value: index for index, value in enumerate(entity_values)}
-    event = np.full((len(patients), len(entity_values)), np.nan, dtype=np.float32)
-    burden = np.full_like(event, np.nan)
-    if not calls.empty and entity_values:
-        assay_callable = calls.loc[
-            calls.patient_id.astype(str).isin(patient_index)
-            & calls.entity_id.astype(str).eq(ASSAY_CALLABLE_SENTINEL)
-            & calls.callable.astype(bool)
-        ]
-        for patient_id in assay_callable.patient_id.astype(str).unique():
-            position = patient_index[patient_id]
-            if callable_entities is None:
-                event[position, :] = 0.0
-                burden[position, :] = 0.0
-            else:
-                callable_positions = [
-                    entity_index[value]
-                    for value in entity_values
-                    if value in callable_entities
-                ]
-                event[position, callable_positions] = 0.0
-                burden[position, callable_positions] = 0.0
-        local = calls.loc[
-            calls.patient_id.astype(str).isin(patient_index)
-            & calls.entity_id.astype(str).isin(entity_index)
-            & calls.callable.astype(bool)
-        ]
-        for row in local.itertuples(index=False):
-            pi = patient_index[str(row.patient_id)]
-            ei = entity_index[str(row.entity_id)]
-            event[pi, ei] = float(bool(row.event))
-            burden[pi, ei] = float(row.burden) if pd.notna(row.burden) else float(bool(row.event))
-    return event, burden, entity_index
+    entity_index = {v:i for i,v in enumerate(entity_values)}
+    event = np.full((len(patients),len(entity_values)),np.nan,dtype=np.float32)
+    burden = np.full_like(event,np.nan)
+    if calls.empty: return event,burden,entity_index
+    # Sample assay presence is never a site-level wild-type certificate.
+    # A caller-supplied globally certified coverage set may initialize negatives;
+    # explicit unknown/noncallable entity rows always override those defaults.
+    if callable_entities is not None:
+        positions=[entity_index[v] for v in entity_values if v in callable_entities]
+        sentinel=calls.loc[calls.entity_id.astype(str).eq(ASSAY_CALLABLE_SENTINEL)]
+        for row in sentinel.itertuples(index=False):
+            if str(row.patient_id) in patient_index and pd.notna(row.callable) and bool(row.callable):
+                i=patient_index[str(row.patient_id)];event[i,positions]=0.;burden[i,positions]=0.
+    local=calls.loc[calls.patient_id.astype(str).isin(patient_index)&calls.entity_id.astype(str).isin(entity_index)]
+    for (patient,entity), group in local.groupby(["patient_id","entity_id"],sort=False):
+        i,j=patient_index[str(patient)],entity_index[str(entity)]
+        available=group.callable.notna() & group.callable.eq(True)
+        if not available.all() or group.event.isna().any():
+            event[i,j]=np.nan;burden[i,j]=np.nan;continue
+        values=pd.to_numeric(group.event,errors="coerce")
+        if values.isna().any() or not values.isin([0,1]).all():
+            raise GenomicTrainingError("Event must be explicit binary when callable")
+        if values.nunique()>1:
+            raise GenomicTrainingError("Conflicting duplicate entity mutation calls require upstream resolution")
+        event[i,j]=float(values.iloc[0])
+        b=pd.to_numeric(group.burden,errors="coerce")
+        if (group.burden.notna() & (~np.isfinite(b) | b.lt(0))).any():raise GenomicTrainingError("Nonfinite/negative callable burden")
+        if b.dropna().nunique()>1:raise GenomicTrainingError("Conflicting duplicate burden aggregates")
+        burden[i,j]=float(b.iloc[0]) if b.notna().all() else np.nan
+    return event,burden,entity_index
 
 
 def candidate_statistics(
@@ -812,6 +827,12 @@ def _resolve_manifest_path(manifest_path: Path, relative: str) -> Path:
 def _validate_core_manifest(path: str | Path) -> tuple[dict[str, Any], str, str]:
     source = Path(path).resolve()
     payload = json.loads(source.read_text(encoding="utf-8"))
+    from .core_export_contract_r4 import EXPORT_FORMAT as R62_EXPORT_FORMAT, validate_export
+    if payload.get("export_format") == R62_EXPORT_FORMAT:
+        try:
+            return validate_export(source)
+        except (KeyError, TypeError, ValueError, RuntimeError) as exc:
+            raise GenomicTrainingError(f"R6.2 core export failed validation: {exc}") from exc
     from .current_core_export import EXPORT_FORMAT, validate_current_export
     if payload.get("export_format") == EXPORT_FORMAT:
         return validate_current_export(source)

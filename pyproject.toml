@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cancerlncatlas-cc-hhgt"
-version = "3.2.0"
-description = "CancerLncAtlas V3.2 exact-pathway ranked-subtype CC-HHGT pilot"
+version = "3.2.1"
+description = "CancerLncAtlas V3.2 joint Pathway and State CC-HHGT workflow"
 requires-python = ">=3.10"
 dependencies = [
   "numpy>=1.26",
@@ -28,7 +28,11 @@ gnn = ["torch>=2.3", "torch-geometric>=2.6"]
 test = ["pytest>=8"]
 
 [project.scripts]
-cchhgt-v32 = "cc_hhgt.v32.cli:main"
+cancerlncatlas = "cla:main"
+cchhgt-v32 = "cla:main"
+
+[tool.setuptools]
+py-modules = ["cla"]
 
 [tool.setuptools.packages.find]
-include = ["cc_hhgt*"]
+include = ["cc_hhgt*", "cla_engine*"]

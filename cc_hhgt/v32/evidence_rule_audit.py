@@ -34,12 +34,13 @@ def sql_summary(events, candidates):
             min(direction) FILTER (WHERE direct AND direction<>'unknown') AS any_direction,
             coalesce(bool_or(direction='conflicting') FILTER (WHERE direct),false) AS direction_conflict,
             count(DISTINCT CAST(review_value AS DOUBLE)) FILTER (WHERE direct) AS n_review,
-            min(CAST(review_value AS DOUBLE)) FILTER (WHERE direct) AS review_value
+            min(CAST(review_value AS DOUBLE)) FILTER (WHERE direct) AS review_value,
+            bool_or(source_review_conflict) FILTER (WHERE direct) AS source_review_conflict
           FROM scoped GROUP BY {context_keys}
         ), study_review AS (
           SELECT {keys}, study_id, count(DISTINCT review_value) FILTER (WHERE n_review=1) AS n_review,
             min(review_value) FILTER (WHERE n_review=1) AS review_value,
-            bool_or(n_review>1) AS context_conflict
+            bool_or(n_review>1 OR coalesce(source_review_conflict,false)) AS context_conflict
           FROM contexts WHERE direct GROUP BY {keys},study_id
         ), q AS (
           SELECT {keys}, count(*) FILTER (WHERE n_review=1 AND NOT context_conflict) AS reviewed_direct_studies,

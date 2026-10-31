@@ -572,6 +572,12 @@ def _fold_frame(
     outer_train_count: int,
     outer_test_count: int,
 ) -> pd.DataFrame:
+    probability=np.asarray(probability,dtype=np.float32).copy()
+    reason=np.asarray(reason,dtype=object).copy()
+    if outer_test_count<=0:
+        probability[:]=np.nan;reason[:]="ATAC_NO_OUTER_TEST_PATIENTS"
+    elif outer_train_count<=0:
+        probability[:]=np.nan;reason[:]="ATAC_NO_OUTER_TRAIN_PATIENTS"
     available = np.isfinite(probability)
     final_reason = np.asarray(reason, dtype=object).copy()
     final_reason[available] = None

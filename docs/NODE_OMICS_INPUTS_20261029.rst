@@ -1,3 +1,15 @@
+Current joint-mainline update (2026-11-01)
+==========================================
+
+The default training entry is now cla.py with config/149.json. The verified
+patient-by-gene source product described below remains the input authority.
+The joint executor reads those original matrices and builds each inner view
+from source patients only. Native outer-fold graph aggregates cannot be reused
+as inner-view inputs. See JOINT_MAINLINE_20261101.rst for the enabled six-column
+configuration, artifact bindings and the distinction between prepared inputs
+and actually trained embeddings. Earlier native prepared receipts below do not
+certify a new joint prepared capsule or joint checkpoint.
+
 Measured CNV and promoter methylation node inputs
 ================================================
 

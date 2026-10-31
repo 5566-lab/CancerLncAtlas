@@ -173,7 +173,7 @@ capabilities:
     target_level: state
     new_training: &state_training
       required: true
-      allowed_initializations: [random, v32_core_frozen_new_head]
+      allowed_initializations: [random]
     gates: &state_gates
       artifact:
         required: true
