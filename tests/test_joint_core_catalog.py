@@ -170,7 +170,7 @@ def test_legacy_three_node_manifest_remains_generically_valid(tmp_path):
     validate_export(manifest)
 
 
-def test_state_primary_auxiliary_catalog_is_fixed_but_columns_remain_configurable():
+def test_expanded_state_catalog_seals_measurement_definitions_and_roles():
     cfg = read_json(ROOT / "config/149.json")
     validate_config_contract(cfg)
 
@@ -185,4 +185,6 @@ def test_state_primary_auxiliary_catalog_is_fixed_but_columns_remain_configurabl
     remapped = copy.deepcopy(cfg)
     for index, row in enumerate(remapped["targets"]):
         row["column"] = f"source_specific_column_{index}"
-    validate_config_contract(remapped)
+    with pytest.raises(Stop) as error:
+        validate_config_contract(remapped)
+    assert error.value.code == "TARGET_ROLE_CATALOG_DRIFT"

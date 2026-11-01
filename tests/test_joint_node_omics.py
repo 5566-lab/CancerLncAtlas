@@ -138,3 +138,22 @@ def test_model_rejects_graph_from_other_node_input_width():
     model = JointHGT(spec, config); graph = to_graph(old_arrays, "cpu")
     with pytest.raises(Stop) as error: model.encode(graph, 0)
     assert error.value.code == "NODE_INPUT_WIDTH_MISMATCH"
+
+
+def test_explicit_reference_exclusions_keep_masked_nodes_and_reject_unknowns(tmp_path):
+    root=tmp_path/'product';cfg=_product(root)
+    exclusion=root/'excluded.json';_write_json(exclusion,['ENSG000003'])
+    path=root/'COMPLETE.json';payload=json.loads(path.read_text())
+    payload['excluded_requested_genes']=_record(exclusion);_write_json(path,payload);cfg['complete']=_record(path)
+    reader=VerifiedGeneNodeOmics(cfg,['ENSG000003','ENSG000001','ENSG000002'],['BRCA'])
+    values,audit=reader.build_view('BRCA',['p0','p1'])
+    np.testing.assert_array_equal(values[0],[0,0,0,0])
+    np.testing.assert_allclose(values[1],[1,1,.3,1])
+    assert audit['reference_excluded_graph_genes']==['ENSG000003']
+    assert audit['channels']['cnv_signed']['missing_graph_genes']==2
+    assert reader.input_hashes()['gene_node_omics::excluded_requested_genes']==_record(exclusion)
+    with pytest.raises(Stop) as error:VerifiedGeneNodeOmics(cfg,['ENSG000004'],['BRCA'])
+    assert error.value.code=='GENE_NODE_OMICS_GRAPH_GENE_AXIS'
+    _write_json(exclusion,['ENSG000004'])
+    with pytest.raises(Stop) as error:VerifiedGeneNodeOmics(cfg,['ENSG000003'],['BRCA'])
+    assert error.value.code=='GENE_NODE_OMICS_INPUT_DRIFT'

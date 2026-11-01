@@ -6,8 +6,13 @@ import numpy as np
 import pandas as pd
 from .common import atomic_json,sha,read_json,verify_manifest,status
 
-def make_fixture(root,parquet=False):
+def make_fixture(root,parquet=False,expanded_states=False):
     root=Path(root);root.mkdir(parents=True,exist_ok=True);cfg=read_json(Path(__file__).resolve().parents[1]/'config/149.json');rng=np.random.default_rng(9041)
+    if not expanded_states:
+        from .state_catalog import legacy_fixture_targets
+        from cc_hhgt.v32.adjustment_policy import default_adjustment_contract
+        cfg.pop('state_catalog',None);cfg['targets']=legacy_fixture_targets()
+        cfg['adjustment_contract']=default_adjustment_contract()
     cancers=['C1','C2','C3'];lncs=[f'L{i}' for i in range(8)];genes=[f'G{i}' for i in range(6)];pathways=['P0','P1','P2','P3'];proteins=['R0','R1','R2','R3']
     cfg['gene_node_omics']={'enabled':False}  # Basic synthetic fixtures do not bind real patient assays.
     cfg['synthetic_fixture']=True;cfg['work_root']=str(root/'work');cfg['imports_root']=str(root/'imports');cfg['candidate_scope']['minimum_expression_cancers']=3;cfg['minimum_pairs']=12

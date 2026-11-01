@@ -1,0 +1,155 @@
+{
+  "base_commit": "333552a4d8acf56eb6c03fefa7501dfe273fd53c",
+  "errors": 0,
+  "failures": 0,
+  "format": "CLA_STATE_EXPANSION_VERIFICATION_V1",
+  "method_exceptions": [
+    "Bulk OXPHOS reuses Hallmark ssGSEA because the inspected signifinder Barkley method requires single-cell malignant labels.",
+    "Historical IPS uses hacksig; TMB/HRD/MSI/purity/ploidy are verified published results, not newly claimed runs of the packages listed as examples."
+  ],
+  "node_omics_fix": {
+    "action": "PRESERVE_NODES_WITH_BOTH_ASSAY_AVAILABILITY_MASKS_FALSE",
+    "all_explicitly_excluded_by_verified_product": true,
+    "exclusion_source": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/gene_node_omics_20261029_r1/patient_gene_matrices_r2/unresolved_or_non_coding_genes.json",
+      "sha256": "0ae37c5b40d4379441c34b33e333e8fec5a4ecd480cb184679e59031ba0d8c1d"
+    },
+    "missing_graph_genes": 955,
+    "target_host": "149",
+    "unknown_unmapped_graph_genes": 0
+  },
+  "production_release": false,
+  "real_all_cancer_model_training_completed": false,
+  "real_patient_scores": {
+    "RNA_cancers_complete": 33,
+    "RNA_new_dimensions": 18,
+    "SBS_quality_available_patients": 5641,
+    "cancers": 33,
+    "known_normal_source_rows_excluded": 1067,
+    "matrix_sha256": "130608d9046af22498b807283f1431e1244aab33ede5416011ed4b6c7668828e",
+    "native_values_compared": {
+      "historical": 1228171,
+      "rna": 187776
+    },
+    "normal_tissue_selected": false,
+    "patients": 10432,
+    "portable_R_wrapper_matches_original_CHOL_values": true,
+    "primary": 197,
+    "sbs_all_cells_and_missing_masks_match": true,
+    "state": "ALL_PATIENT_VALUES_INDEPENDENTLY_VERIFIED",
+    "target_host": "149",
+    "targets": 198
+  },
+  "real_prepared": {
+    "cancers": [
+      "BRCA",
+      "LUAD"
+    ],
+    "code_digest": "a9eda57344365c5e9759e82c54912794ff642f33450a89f53d8bc87a3a671827",
+    "node_input_dim": 6,
+    "patients": 1599,
+    "prepared_manifest_sha256": "5469f7fffa9f14adab13e6b1f6b708bd978f6696df87a1f77985f1ea9ecaaf6a",
+    "real_optimizer_training_run": false,
+    "scope": "Real two-cancer prepared integration; no all-cancer training or biological predictive accuracy claim",
+    "source_matrix_sha256": "130608d9046af22498b807283f1431e1244aab33ede5416011ed4b6c7668828e",
+    "state": "REAL_EXPANDED_PREPARED_VALIDATED",
+    "state_primary_targets": 197,
+    "synthetic_expanded_joint_gradient_test": "tests/test_joint_state_expansion.py::test_all_expanded_targets_enter_prepared_and_shared_gradient",
+    "target_host": "149",
+    "targets_with_trainable_rows": 197,
+    "targets_with_validation_rows": 195,
+    "task_weights": {
+      "pathway": 1.0,
+      "state": 0.5
+    },
+    "views": [
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17856,
+        "reference_excluded_nodes": 955,
+        "state_available": 11564,
+        "state_candidates": 12608,
+        "view": "BRCA__train2"
+      },
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17855,
+        "reference_excluded_nodes": 955,
+        "state_available": 11564,
+        "state_candidates": 12608,
+        "view": "BRCA__train3"
+      },
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17856,
+        "reference_excluded_nodes": 955,
+        "state_available": 11505,
+        "state_candidates": 12608,
+        "view": "BRCA__train4"
+      },
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17856,
+        "reference_excluded_nodes": 955,
+        "state_available": 11446,
+        "state_candidates": 12608,
+        "view": "BRCA__validation"
+      },
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17856,
+        "reference_excluded_nodes": 955,
+        "state_available": 11741,
+        "state_candidates": 12608,
+        "view": "LUAD__train2"
+      },
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17856,
+        "reference_excluded_nodes": 955,
+        "state_available": 11839,
+        "state_candidates": 12608,
+        "view": "LUAD__train3"
+      },
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17856,
+        "reference_excluded_nodes": 955,
+        "state_available": 11894,
+        "state_candidates": 12608,
+        "view": "LUAD__train4"
+      },
+      {
+        "gene_cnv_measured_nodes": 18489,
+        "gene_promoter_methylation_measured_nodes": 17856,
+        "reference_excluded_nodes": 955,
+        "state_available": 11768,
+        "state_candidates": 12608,
+        "view": "LUAD__validation"
+      }
+    ]
+  },
+  "regression_tests_passed": 263,
+  "requirements_verified": 31,
+  "skipped": 0,
+  "target_host": "149",
+  "task_weights": {
+    "pathway": 1.0,
+    "state": 0.5
+  },
+  "test_suites": [
+    "tests.test_joint_cancer_scope",
+    "tests.test_joint_core_catalog",
+    "tests.test_joint_dispatch",
+    "tests.test_joint_local_execution",
+    "tests.test_joint_node_omics",
+    "tests.test_joint_node_omics_prepared",
+    "tests.test_joint_packaging",
+    "tests.test_joint_runtime_execution",
+    "tests.test_joint_runtime_r5_input_and_bindings",
+    "tests.test_joint_runtime_r61_contracts_and_test_access",
+    "tests.test_joint_runtime_r62_material_semantics",
+    "tests.test_joint_source_package",
+    "tests.test_joint_state_expansion"
+  ]
+}

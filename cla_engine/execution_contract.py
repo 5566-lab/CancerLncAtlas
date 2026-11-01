@@ -9,9 +9,6 @@ from cc_hhgt.v32.adjustment_policy import validate_adjustment_contract, effectiv
 
 ENGINE_ID='CLA_FULL_PYG_R62_SINGLE_ENTRYPOINT_V1'
 METRIC_CONTRACT='CANCER_PATHWAY_AP_STATE_TARGET_THEN_FAMILY_AP_AND_PRECISION_V1'
-PRIMARY_STATE_IDS=frozenset({'EXTEND','RNAss','EREG.EXPss','DNAss','DMPss','ENHss','EREG-METHss',
-    'ImmuneScore','StromalScore','CYT','Leukocyte_fraction'})
-AUXILIARY_STATE_IDS=frozenset({'ESTIMATEScore','TumorPurity','ABSOLUTE_purity','ABSOLUTE_ploidy'})
 
 
 def baseline_contract(cfg):
@@ -36,13 +33,8 @@ def baseline_contract(cfg):
 def validate_config_contract(cfg):
     if cfg.get('execution_contract')!=ENGINE_ID:
         fail('EXECUTION_CONTRACT_MISSING','Only cla.py can produce current primary artifacts')
-    targets=cfg.get('targets',[])
-    observed={row.get('id'):row.get('role') for row in targets if isinstance(row,dict)}
-    expected={**{target:'primary' for target in PRIMARY_STATE_IDS},
-              **{target:'auxiliary' for target in AUXILIARY_STATE_IDS}}
-    if len(targets)!=len(expected) or observed!=expected:
-        fail('TARGET_ROLE_CATALOG_DRIFT','State catalog must retain the fixed 11 primary and 4 auxiliary IDs',
-            expected_primary=sorted(PRIMARY_STATE_IDS),expected_auxiliary=sorted(AUXILIARY_STATE_IDS))
+    from .state_catalog import validate_targets
+    validate_targets(cfg)
     try:validate_adjustment_contract(cfg.get('adjustment_contract'),[t['id'] for t in cfg['targets']])
     except ValueError as exc:fail('ADJUSTMENT_CONTRACT_INVALID',str(exc))
     if cfg.get('statistics',{}).get('cnv_transform')!='raw_signed':
@@ -56,6 +48,17 @@ def validate_config_contract(cfg):
 def verify_capsule_contract(root,cfg,spec):
     from .common import read_json
     root=Path(root);validate_config_contract(cfg)
+    if spec.get('state_catalog')!=cfg.get('state_catalog'):
+        fail('STATE_CATALOG_GENERATION','Prepared State catalog generation differs')
+    if spec.get('state_families')!={t['id']:t['family'] for t in cfg['targets'] if t['role']=='primary'}:
+        fail('STATE_FAMILY_DRIFT','Prepared State families differ from target definitions')
+    if cfg['sources']['state'].get('format')=='CLA_PATIENT_STATE_V1':
+        from .common import sha
+        materialization=root/'STATE_MATERIALIZATION.json'
+        if not materialization.is_file() or sha(materialization)!=cfg['sources']['state']['materialization_manifest_sha256']:
+            fail('STATE_MATERIALIZATION_HASH','Prepared source receipt differs from verified patient matrix')
+        if read_json(materialization).get('target_catalog_sha256')!=digest(cfg['targets']):
+            fail('STATE_MATERIALIZATION_CATALOG','Prepared source receipt has different targets')
     if read_json(root/'ADJUSTMENT_CONTRACT.json')!=cfg['adjustment_contract']:
         fail('ADJUSTMENT_CONTRACT_DRIFT','Capsule covariate policy differs from config')
     if read_json(root/'BASELINE_CONTRACT.json')!=baseline_contract(cfg):

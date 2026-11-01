@@ -90,10 +90,24 @@ class VerifiedGeneNodeOmics:
             fail("GENE_NODE_OMICS_PATIENT_AXIS_INVALID", "Source patient axis is invalid")
         self.source_genes = genes.gene_id.astype(str).tolist()
         requested = list(map(str, graph_genes))
-        if len(requested) != len(set(requested)) or set(requested) - set(self.source_genes):
-            fail("GENE_NODE_OMICS_GRAPH_GENE_AXIS", "Graph genes must be unique members of the verified source axis")
+        if len(requested) != len(set(requested)):
+            fail("GENE_NODE_OMICS_GRAPH_GENE_AXIS", "Graph genes must be unique")
+        self.excluded_record = None
+        exclusions = []
+        if p.get("excluded_requested_genes") is not None:
+            ep, self.excluded_record = _resolve(p["excluded_requested_genes"], base, "excluded_requested_genes")
+            exclusions = json.loads(ep.read_text())
+            if (not isinstance(exclusions, list) or len(exclusions) != len(set(exclusions))
+                    or any(not isinstance(g, str) or not re.fullmatch(r"ENSG\d+(?:_PAR_Y)?", g) for g in exclusions)
+                    or set(exclusions) & set(self.source_genes)):
+                fail("GENE_NODE_OMICS_EXCLUSION_AXIS_INVALID", "Invalid reference-exclusion catalog")
+        unknown = set(requested) - set(self.source_genes) - set(exclusions)
+        if unknown:
+            fail("GENE_NODE_OMICS_GRAPH_GENE_AXIS", "Genes are neither measured-axis members nor explicitly excluded", examples=sorted(unknown)[:8])
         positions = {gene: i for i, gene in enumerate(self.source_genes)}
-        self.gene_positions = np.asarray([positions[gene] for gene in requested], dtype=np.int64)
+        self.graph_source_positions = np.asarray([i for i, gene in enumerate(requested) if gene in positions], dtype=np.int64)
+        self.gene_positions = np.asarray([positions[requested[i]] for i in self.graph_source_positions], dtype=np.int64)
+        self.reference_excluded_graph_genes = sorted(set(requested) & set(exclusions))
         self.graph_genes = requested
         self.patients = patients.assign(cancer_id=patients.cancer_id.astype(str), patient_id=patients.patient_id.astype(str))
         partitions = p.get("partitions")
@@ -114,6 +128,8 @@ class VerifiedGeneNodeOmics:
             "gene_node_omics::genes": self.genes_record,
             "gene_node_omics::patients": self.patients_record,
         }
+        if self.excluded_record is not None:
+            self._input_hashes["gene_node_omics::excluded_requested_genes"] = self.excluded_record
 
     def _partition(self, cancer):
         cancer = str(cancer)
@@ -182,12 +198,12 @@ class VerifiedGeneNodeOmics:
             total = np.where(selected_mask, selected_values, 0.0).sum(axis=0, dtype=np.float64)
             measured = count > 0
             aggregate = np.divide(total, count, out=np.zeros(len(count), dtype=np.float64), where=measured).astype(np.float32)
-            block[:, 2 * offset] = aggregate
-            block[:, 2 * offset + 1] = measured.astype(np.float32)
+            block[self.graph_source_positions, 2 * offset] = aggregate
+            block[self.graph_source_positions, 2 * offset + 1] = measured.astype(np.float32)
             channel_audit[channel] = {
                 "observed_patient_gene_values": int(selected_mask.sum()),
                 "observed_graph_genes": int(measured.sum()),
-                "missing_graph_genes": int((~measured).sum()),
+                "missing_graph_genes": int(len(self.graph_genes) - measured.sum()),
                 "measured_zero_graph_genes": int((measured & (aggregate == 0)).sum()),
             }
         audit = {
@@ -198,6 +214,8 @@ class VerifiedGeneNodeOmics:
             "source_patient_sha256": digest(source),
             "source_gene_axis_sha256": digest(self.source_genes),
             "graph_gene_axis_sha256": digest(self.graph_genes),
+            "reference_excluded_graph_genes": self.reference_excluded_graph_genes,
+            "reference_exclusion_artifact": self.excluded_record,
             "feature_order": list(FEATURE_ORDER),
             "node_input_dim": NODE_INPUT_DIM,
             "block_sha256": _array_digest(block),
@@ -276,6 +294,15 @@ def verify_view_node_omics(root, spec, view, cfg):
     hashes=read_json(root/'INPUT_HASHES.json')
     if hashes.get('gene_node_omics::complete',{}).get('sha256')!=complete.get('sha256'):
         fail('NODE_OMICS_SOURCE_BINDING_DRIFT','COMPLETE product hash is not bound to prepared inputs')
+    excluded = audit.get('reference_excluded_graph_genes', [])
+    if excluded:
+        record = audit.get('reference_exclusion_artifact')
+        if (not isinstance(record, dict) or hashes.get('gene_node_omics::excluded_requested_genes') != record
+                or excluded != sorted(set(excluded)) or not set(excluded) <= set(spec['nodes']['gene'])):
+            fail('NODE_OMICS_REFERENCE_EXCLUSION_DRIFT', 'Excluded graph genes need a bound source receipt')
+        positions = {gene: i for i, gene in enumerate(spec['nodes']['gene'])}
+        if np.any(blocks['gene'][[positions[gene] for gene in excluded]] != 0):
+            fail('NODE_OMICS_EXCLUDED_GENE_VALUE', 'Reference-excluded genes must have zero availability and no assay value')
     if not audit.get('artifacts'):
         fail('NODE_OMICS_SOURCE_BINDING_DRIFT','Per-cancer assay source records are absent')
     for role,record in audit['artifacts'].items():

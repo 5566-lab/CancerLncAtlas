@@ -48,6 +48,192 @@ modules:
     - StromalScore
     - CYT
     - Leukocyte_fraction
+    - TumorPurity
+    - ABSOLUTE_purity
+    - ABSOLUTE_ploidy
+    - signifinder::Hypoxia_Buffa
+    - signifinder::EMT_Miow_Epithelial
+    - signifinder::EMT_Miow_Mesenchymal
+    - signifinder::CellCycle_Lundberg
+    - signifinder::MitoticIndex_Yang
+    - signifinder::CIN_Carter_70
+    - signifinder::DNArep_Kang
+    - signifinder::Glycolysis_Zhang
+    - signifinder::LipidMetabolism_Zheng
+    - signifinder::VEGF_Hu
+    - signifinder::IFN_Ayers
+    - signifinder::Tinflam_Ayers
+    - signifinder::APM_Wang
+    - signifinder::TLS_Cabrita
+    - signifinder::LRRC15CAF_Dominguez
+    - signifinder::ECM_Chakravarthy_up
+    - signifinder::ECM_Chakravarthy_down
+    - SenMayo
+    - OXPHOS
+    - IPS
+    - TMB
+    - HRD_total
+    - HRD_LOH
+    - HRD_TAI
+    - HRD_LST
+    - MSI
+    - Aneuploidy
+    - cibersort_relative::B.cells.memory
+    - cibersort_relative::B.cells.naive
+    - cibersort_relative::Dendritic.cells.activated
+    - cibersort_relative::Dendritic.cells.resting
+    - cibersort_relative::Eosinophils
+    - cibersort_relative::Macrophages.M0
+    - cibersort_relative::Macrophages.M1
+    - cibersort_relative::Macrophages.M2
+    - cibersort_relative::Mast.cells.activated
+    - cibersort_relative::Mast.cells.resting
+    - cibersort_relative::Monocytes
+    - cibersort_relative::NK.cells.activated
+    - cibersort_relative::NK.cells.resting
+    - cibersort_relative::Neutrophils
+    - cibersort_relative::Plasma.cells
+    - cibersort_relative::T.cells.CD4.memory.activated
+    - cibersort_relative::T.cells.CD4.memory.resting
+    - cibersort_relative::T.cells.CD4.naive
+    - cibersort_relative::T.cells.CD8
+    - cibersort_relative::T.cells.follicular.helper
+    - cibersort_relative::T.cells.gamma.delta
+    - cibersort_relative::T.cells.regulatory..Tregs.
+    - xCell::Adipocytes
+    - xCell::Astrocytes
+    - xCell::B-cells
+    - xCell::Basophils
+    - xCell::CD4+ T-cells
+    - xCell::CD4+ Tcm
+    - xCell::CD4+ Tem
+    - xCell::CD4+ memory T-cells
+    - xCell::CD4+ naive T-cells
+    - xCell::CD8+ T-cells
+    - xCell::CD8+ Tcm
+    - xCell::CD8+ Tem
+    - xCell::CD8+ naive T-cells
+    - xCell::CLP
+    - xCell::CMP
+    - xCell::Chondrocytes
+    - xCell::Class-switched memory B-cells
+    - xCell::DC
+    - xCell::Endothelial cells
+    - xCell::Eosinophils
+    - xCell::Epithelial cells
+    - xCell::Erythrocytes
+    - xCell::Fibroblasts
+    - xCell::GMP
+    - xCell::HSC
+    - xCell::Hepatocytes
+    - xCell::Keratinocytes
+    - xCell::MEP
+    - xCell::MPP
+    - xCell::MSC
+    - xCell::Macrophages
+    - xCell::Macrophages M1
+    - xCell::Macrophages M2
+    - xCell::Mast cells
+    - xCell::Megakaryocytes
+    - xCell::Melanocytes
+    - xCell::Memory B-cells
+    - xCell::Mesangial cells
+    - xCell::Monocytes
+    - xCell::Myocytes
+    - xCell::NK cells
+    - xCell::NKT
+    - xCell::Neurons
+    - xCell::Neutrophils
+    - xCell::Osteoblast
+    - xCell::Pericytes
+    - xCell::Plasma cells
+    - xCell::Platelets
+    - xCell::Preadipocytes
+    - xCell::Sebocytes
+    - xCell::Skeletal muscle
+    - xCell::Smooth muscle
+    - xCell::Tgd cells
+    - xCell::Th1 cells
+    - xCell::Th2 cells
+    - xCell::Tregs
+    - xCell::aDC
+    - xCell::cDC
+    - xCell::iDC
+    - xCell::ly Endothelial cells
+    - xCell::mv Endothelial cells
+    - xCell::naive B-cells
+    - xCell::pDC
+    - xCell::pro B-cells
+    - MCPcounter::B lineage
+    - MCPcounter::CD8 T cells
+    - MCPcounter::Cytotoxic lymphocytes
+    - MCPcounter::Endothelial cells
+    - MCPcounter::Fibroblasts
+    - MCPcounter::Monocytic lineage
+    - MCPcounter::Myeloid dendritic cells
+    - MCPcounter::NK cells
+    - MCPcounter::Neutrophils
+    - MCPcounter::T cells
+    - SBS::SBS1
+    - SBS::SBS2
+    - SBS::SBS3
+    - SBS::SBS4
+    - SBS::SBS5
+    - SBS::SBS6
+    - SBS::SBS7a
+    - SBS::SBS7b
+    - SBS::SBS7c
+    - SBS::SBS7d
+    - SBS::SBS8
+    - SBS::SBS9
+    - SBS::SBS10a
+    - SBS::SBS10b
+    - SBS::SBS10c
+    - SBS::SBS10d
+    - SBS::SBS11
+    - SBS::SBS12
+    - SBS::SBS13
+    - SBS::SBS14
+    - SBS::SBS15
+    - SBS::SBS16
+    - SBS::SBS17a
+    - SBS::SBS17b
+    - SBS::SBS18
+    - SBS::SBS19
+    - SBS::SBS20
+    - SBS::SBS21
+    - SBS::SBS22
+    - SBS::SBS23
+    - SBS::SBS24
+    - SBS::SBS25
+    - SBS::SBS26
+    - SBS::SBS28
+    - SBS::SBS29
+    - SBS::SBS30
+    - SBS::SBS31
+    - SBS::SBS32
+    - SBS::SBS33
+    - SBS::SBS34
+    - SBS::SBS35
+    - SBS::SBS36
+    - SBS::SBS37
+    - SBS::SBS38
+    - SBS::SBS39
+    - SBS::SBS40
+    - SBS::SBS41
+    - SBS::SBS42
+    - SBS::SBS44
+    - SBS::SBS84
+    - SBS::SBS85
+    - SBS::SBS86
+    - SBS::SBS87
+    - SBS::SBS88
+    - SBS::SBS89
+    - SBS::SBS90
+    - SBS::SBS91
+    - SBS::SBS92
+    - SBS::SBS93
+    - SBS::SBS94
     target_keys:
     - cancer_id
     - lncrna_id
@@ -57,9 +243,7 @@ modules:
     loss_weight: 0.5
     auxiliary_targets:
     - ESTIMATEScore
-    - TumorPurity
-    - ABSOLUTE_purity
-    - ABSOLUTE_ploidy
+    catalog_id: CLA_STATE_EXPANDED_20261101_V1
   clinical:
     enabled: true
     endpoints:

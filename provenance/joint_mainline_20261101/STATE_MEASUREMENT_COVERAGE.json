@@ -1,0 +1,2777 @@
+{
+  "cancers": 33,
+  "demo_prepared_target_coverage": {
+    "ABSOLUTE_ploidy": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "ABSOLUTE_purity": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "Aneuploidy": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "CYT": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "DMPss": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "DNAss": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "ENHss": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "EREG-METHss": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "EREG.EXPss": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "EXTEND": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "HRD_LOH": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "HRD_LST": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "HRD_TAI": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "HRD_total": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "IPS": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "ImmuneScore": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "Leukocyte_fraction": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::B lineage": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::CD8 T cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::Cytotoxic lymphocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::Endothelial cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::Fibroblasts": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::Monocytic lineage": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::Myeloid dendritic cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::NK cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::Neutrophils": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MCPcounter::T cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "MSI": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "OXPHOS": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "RNAss": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS1": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS10a": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS10b": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS10c": {
+      "available_train_rows": 181,
+      "available_validation_rows": 0,
+      "candidate_rows": 512
+    },
+    "SBS::SBS10d": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS11": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS12": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS13": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS14": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS15": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS16": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS17a": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS17b": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS18": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS19": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS2": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS20": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS21": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS22": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS23": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS24": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS25": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS26": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS28": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS29": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS3": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS30": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS31": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS32": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS33": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS34": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS35": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS36": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS37": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS38": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS39": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS4": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS40": {
+      "available_train_rows": 181,
+      "available_validation_rows": 0,
+      "candidate_rows": 512
+    },
+    "SBS::SBS41": {
+      "available_train_rows": 179,
+      "available_validation_rows": 61,
+      "candidate_rows": 512
+    },
+    "SBS::SBS42": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS44": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS5": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS6": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS7a": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS7b": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS7c": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS7d": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS8": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS84": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS85": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS86": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS87": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS88": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS89": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS9": {
+      "available_train_rows": 181,
+      "available_validation_rows": 59,
+      "candidate_rows": 512
+    },
+    "SBS::SBS90": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS91": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS92": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SBS::SBS93": {
+      "available_train_rows": 359,
+      "available_validation_rows": 59,
+      "candidate_rows": 512
+    },
+    "SBS::SBS94": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "SenMayo": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "StromalScore": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "TMB": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "TumorPurity": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::B.cells.memory": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::B.cells.naive": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Dendritic.cells.activated": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Dendritic.cells.resting": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Eosinophils": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Macrophages.M0": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Macrophages.M1": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Macrophages.M2": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Mast.cells.activated": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Mast.cells.resting": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Monocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::NK.cells.activated": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::NK.cells.resting": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Neutrophils": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::Plasma.cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::T.cells.CD4.memory.activated": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::T.cells.CD4.memory.resting": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::T.cells.CD4.naive": {
+      "available_train_rows": 266,
+      "available_validation_rows": 115,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::T.cells.CD8": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::T.cells.follicular.helper": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::T.cells.gamma.delta": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "cibersort_relative::T.cells.regulatory..Tregs.": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::APM_Wang": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::CIN_Carter_70": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::CellCycle_Lundberg": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::DNArep_Kang": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::ECM_Chakravarthy_down": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::ECM_Chakravarthy_up": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::EMT_Miow_Epithelial": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::EMT_Miow_Mesenchymal": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::Glycolysis_Zhang": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::Hypoxia_Buffa": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::IFN_Ayers": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::LRRC15CAF_Dominguez": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::LipidMetabolism_Zheng": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::MitoticIndex_Yang": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::TLS_Cabrita": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::Tinflam_Ayers": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "signifinder::VEGF_Hu": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Adipocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Astrocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::B-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Basophils": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD4+ T-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD4+ Tcm": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD4+ Tem": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD4+ memory T-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD4+ naive T-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD8+ T-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD8+ Tcm": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD8+ Tem": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CD8+ naive T-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CLP": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::CMP": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Chondrocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Class-switched memory B-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::DC": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Endothelial cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Eosinophils": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Epithelial cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Erythrocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Fibroblasts": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::GMP": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::HSC": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Hepatocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Keratinocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::MEP": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::MPP": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::MSC": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Macrophages": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Macrophages M1": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Macrophages M2": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Mast cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Megakaryocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Melanocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Memory B-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Mesangial cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Monocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Myocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::NK cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::NKT": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Neurons": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Neutrophils": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Osteoblast": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Pericytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Plasma cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Platelets": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Preadipocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Sebocytes": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Skeletal muscle": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Smooth muscle": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Tgd cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Th1 cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Th2 cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::Tregs": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::aDC": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::cDC": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::iDC": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::ly Endothelial cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::mv Endothelial cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::naive B-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::pDC": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    },
+    "xCell::pro B-cells": {
+      "available_train_rows": 360,
+      "available_validation_rows": 120,
+      "candidate_rows": 512
+    }
+  },
+  "format": "CLA_STATE_AGGREGATE_COVERAGE_V1",
+  "no_patient_identifiers": true,
+  "patients": 10432,
+  "targets": [
+    {
+      "cancers_with_measurements": 32,
+      "distinct_values": 9012,
+      "family": "stemness_telomere",
+      "id": "EXTEND",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 9012,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9999,
+      "family": "stemness_telomere",
+      "id": "RNAss",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 9999,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9500,
+      "family": "stemness_telomere",
+      "id": "EREG.EXPss",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 9999,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8606,
+      "family": "stemness_telomere",
+      "id": "DNAss",
+      "measurement": "DNA_METHYLATION",
+      "patients_measured": 8606,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8606,
+      "family": "stemness_telomere",
+      "id": "DMPss",
+      "measurement": "DNA_METHYLATION",
+      "patients_measured": 8606,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8606,
+      "family": "stemness_telomere",
+      "id": "ENHss",
+      "measurement": "DNA_METHYLATION",
+      "patients_measured": 8606,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8606,
+      "family": "stemness_telomere",
+      "id": "EREG-METHss",
+      "measurement": "DNA_METHYLATION",
+      "patients_measured": 8606,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 26,
+      "distinct_values": 8688,
+      "family": "immune_abundance",
+      "id": "ImmuneScore",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 8810,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 26,
+      "distinct_values": 8671,
+      "family": "stromal_abundance",
+      "id": "StromalScore",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 8810,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cytotoxicity",
+      "id": "CYT",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 30,
+      "distinct_values": 10015,
+      "family": "immune_abundance",
+      "id": "Leukocyte_fraction",
+      "measurement": "DNA_METHYLATION",
+      "patients_measured": 10029,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 26,
+      "distinct_values": 8738,
+      "family": "composition",
+      "id": "ESTIMATEScore",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 8810,
+      "role": "auxiliary"
+    },
+    {
+      "cancers_with_measurements": 26,
+      "distinct_values": 8738,
+      "family": "purity",
+      "id": "TumorPurity",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 8810,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 93,
+      "family": "purity",
+      "id": "ABSOLUTE_purity",
+      "measurement": "DNA_COPY_NUMBER",
+      "patients_measured": 9965,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 447,
+      "family": "ploidy",
+      "id": "ABSOLUTE_ploidy",
+      "measurement": "DNA_COPY_NUMBER",
+      "patients_measured": 9965,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "hypoxia",
+      "id": "signifinder::Hypoxia_Buffa",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "emt",
+      "id": "signifinder::EMT_Miow_Epithelial",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "emt",
+      "id": "signifinder::EMT_Miow_Mesenchymal",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_cycle",
+      "id": "signifinder::CellCycle_Lundberg",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "proliferation",
+      "id": "signifinder::MitoticIndex_Yang",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cin_expression",
+      "id": "signifinder::CIN_Carter_70",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 22,
+      "family": "dna_repair_expression",
+      "id": "signifinder::DNArep_Kang",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "glycolysis",
+      "id": "signifinder::Glycolysis_Zhang",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "lipid_metabolism",
+      "id": "signifinder::LipidMetabolism_Zheng",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "angiogenesis",
+      "id": "signifinder::VEGF_Hu",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "ifng_response",
+      "id": "signifinder::IFN_Ayers",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "tcell_inflamed",
+      "id": "signifinder::Tinflam_Ayers",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "antigen_presentation",
+      "id": "signifinder::APM_Wang",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "tls",
+      "id": "signifinder::TLS_Cabrita",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "caf_state",
+      "id": "signifinder::LRRC15CAF_Dominguez",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "ecm",
+      "id": "signifinder::ECM_Chakravarthy_up",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "ecm",
+      "id": "signifinder::ECM_Chakravarthy_down",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "senescence",
+      "id": "SenMayo",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "oxphos",
+      "id": "OXPHOS",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7,
+      "family": "immunophenoscore",
+      "id": "IPS",
+      "measurement": "RNA_EXPRESSION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9326,
+      "family": "mutation_burden",
+      "id": "TMB",
+      "measurement": "DNA_SNV",
+      "patients_measured": 9574,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 96,
+      "family": "hrd_scar",
+      "id": "HRD_total",
+      "measurement": "DNA_ALLELE_SPECIFIC_COPY_NUMBER",
+      "patients_measured": 9971,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 33,
+      "family": "hrd_scar",
+      "id": "HRD_LOH",
+      "measurement": "DNA_ALLELE_SPECIFIC_COPY_NUMBER",
+      "patients_measured": 9971,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 37,
+      "family": "hrd_scar",
+      "id": "HRD_TAI",
+      "measurement": "DNA_ALLELE_SPECIFIC_COPY_NUMBER",
+      "patients_measured": 9971,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 48,
+      "family": "hrd_scar",
+      "id": "HRD_LST",
+      "measurement": "DNA_ALLELE_SPECIFIC_COPY_NUMBER",
+      "patients_measured": 9971,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9954,
+      "family": "msi",
+      "id": "MSI",
+      "measurement": "DNA_SEQUENCING",
+      "patients_measured": 10366,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 40,
+      "family": "ploidy",
+      "id": "Aneuploidy",
+      "measurement": "DNA_COPY_NUMBER",
+      "patients_measured": 9850,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5244,
+      "family": "cell_composition",
+      "id": "cibersort_relative::B.cells.memory",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7341,
+      "family": "cell_composition",
+      "id": "cibersort_relative::B.cells.naive",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 4516,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Dendritic.cells.activated",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 4832,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Dendritic.cells.resting",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 1207,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Eosinophils",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6852,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Macrophages.M0",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8879,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Macrophages.M1",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10203,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Macrophages.M2",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 3810,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Mast.cells.activated",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6960,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Mast.cells.resting",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8663,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Monocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7960,
+      "family": "cell_composition",
+      "id": "cibersort_relative::NK.cells.activated",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 4174,
+      "family": "cell_composition",
+      "id": "cibersort_relative::NK.cells.resting",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 4024,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Neutrophils",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8276,
+      "family": "cell_composition",
+      "id": "cibersort_relative::Plasma.cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 2120,
+      "family": "cell_composition",
+      "id": "cibersort_relative::T.cells.CD4.memory.activated",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8605,
+      "family": "cell_composition",
+      "id": "cibersort_relative::T.cells.CD4.memory.resting",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 1004,
+      "family": "cell_composition",
+      "id": "cibersort_relative::T.cells.CD4.naive",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10067,
+      "family": "cell_composition",
+      "id": "cibersort_relative::T.cells.CD8",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9560,
+      "family": "cell_composition",
+      "id": "cibersort_relative::T.cells.follicular.helper",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 746,
+      "family": "cell_composition",
+      "id": "cibersort_relative::T.cells.gamma.delta",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7363,
+      "family": "cell_composition",
+      "id": "cibersort_relative::T.cells.regulatory..Tregs.",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10300,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7514,
+      "family": "cell_composition",
+      "id": "xCell::Adipocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9060,
+      "family": "cell_composition",
+      "id": "xCell::Astrocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8467,
+      "family": "cell_composition",
+      "id": "xCell::B-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7679,
+      "family": "cell_composition",
+      "id": "xCell::Basophils",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5409,
+      "family": "cell_composition",
+      "id": "xCell::CD4+ T-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5838,
+      "family": "cell_composition",
+      "id": "xCell::CD4+ Tcm",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7048,
+      "family": "cell_composition",
+      "id": "xCell::CD4+ Tem",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9514,
+      "family": "cell_composition",
+      "id": "xCell::CD4+ memory T-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6691,
+      "family": "cell_composition",
+      "id": "xCell::CD4+ naive T-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6796,
+      "family": "cell_composition",
+      "id": "xCell::CD8+ T-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7227,
+      "family": "cell_composition",
+      "id": "xCell::CD8+ Tcm",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5819,
+      "family": "cell_composition",
+      "id": "xCell::CD8+ Tem",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6152,
+      "family": "cell_composition",
+      "id": "xCell::CD8+ naive T-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10406,
+      "family": "cell_composition",
+      "id": "xCell::CLP",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6378,
+      "family": "cell_composition",
+      "id": "xCell::CMP",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7371,
+      "family": "cell_composition",
+      "id": "xCell::Chondrocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10084,
+      "family": "cell_composition",
+      "id": "xCell::Class-switched memory B-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8920,
+      "family": "cell_composition",
+      "id": "xCell::DC",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10175,
+      "family": "cell_composition",
+      "id": "xCell::Endothelial cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5717,
+      "family": "cell_composition",
+      "id": "xCell::Eosinophils",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10364,
+      "family": "cell_composition",
+      "id": "xCell::Epithelial cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 4808,
+      "family": "cell_composition",
+      "id": "xCell::Erythrocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8293,
+      "family": "cell_composition",
+      "id": "xCell::Fibroblasts",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7696,
+      "family": "cell_composition",
+      "id": "xCell::GMP",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10277,
+      "family": "cell_composition",
+      "id": "xCell::HSC",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6223,
+      "family": "cell_composition",
+      "id": "xCell::Hepatocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9239,
+      "family": "cell_composition",
+      "id": "xCell::Keratinocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10343,
+      "family": "cell_composition",
+      "id": "xCell::MEP",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6300,
+      "family": "cell_composition",
+      "id": "xCell::MPP",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10408,
+      "family": "cell_composition",
+      "id": "xCell::MSC",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9511,
+      "family": "cell_composition",
+      "id": "xCell::Macrophages",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9355,
+      "family": "cell_composition",
+      "id": "xCell::Macrophages M1",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9660,
+      "family": "cell_composition",
+      "id": "xCell::Macrophages M2",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9142,
+      "family": "cell_composition",
+      "id": "xCell::Mast cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7994,
+      "family": "cell_composition",
+      "id": "xCell::Megakaryocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9575,
+      "family": "cell_composition",
+      "id": "xCell::Melanocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6786,
+      "family": "cell_composition",
+      "id": "xCell::Memory B-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8871,
+      "family": "cell_composition",
+      "id": "xCell::Mesangial cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7202,
+      "family": "cell_composition",
+      "id": "xCell::Monocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6901,
+      "family": "cell_composition",
+      "id": "xCell::Myocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5482,
+      "family": "cell_composition",
+      "id": "xCell::NK cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10431,
+      "family": "cell_composition",
+      "id": "xCell::NKT",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10246,
+      "family": "cell_composition",
+      "id": "xCell::Neurons",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6354,
+      "family": "cell_composition",
+      "id": "xCell::Neutrophils",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8451,
+      "family": "cell_composition",
+      "id": "xCell::Osteoblast",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6854,
+      "family": "cell_composition",
+      "id": "xCell::Pericytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10303,
+      "family": "cell_composition",
+      "id": "xCell::Plasma cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5697,
+      "family": "cell_composition",
+      "id": "xCell::Platelets",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5403,
+      "family": "cell_composition",
+      "id": "xCell::Preadipocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9355,
+      "family": "cell_composition",
+      "id": "xCell::Sebocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5535,
+      "family": "cell_composition",
+      "id": "xCell::Skeletal muscle",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10408,
+      "family": "cell_composition",
+      "id": "xCell::Smooth muscle",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 5409,
+      "family": "cell_composition",
+      "id": "xCell::Tgd cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10428,
+      "family": "cell_composition",
+      "id": "xCell::Th1 cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9276,
+      "family": "cell_composition",
+      "id": "xCell::Th2 cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 7101,
+      "family": "cell_composition",
+      "id": "xCell::Tregs",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9820,
+      "family": "cell_composition",
+      "id": "xCell::aDC",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10419,
+      "family": "cell_composition",
+      "id": "xCell::cDC",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10373,
+      "family": "cell_composition",
+      "id": "xCell::iDC",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9875,
+      "family": "cell_composition",
+      "id": "xCell::ly Endothelial cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9753,
+      "family": "cell_composition",
+      "id": "xCell::mv Endothelial cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 8357,
+      "family": "cell_composition",
+      "id": "xCell::naive B-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 9340,
+      "family": "cell_composition",
+      "id": "xCell::pDC",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 6143,
+      "family": "cell_composition",
+      "id": "xCell::pro B-cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::B lineage",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10278,
+      "family": "cell_composition",
+      "id": "MCPcounter::CD8 T cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::Cytotoxic lymphocytes",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::Endothelial cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::Fibroblasts",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::Monocytic lineage",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::Myeloid dendritic cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::NK cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::Neutrophils",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 33,
+      "distinct_values": 10432,
+      "family": "cell_composition",
+      "id": "MCPcounter::T cells",
+      "measurement": "RNA_DECONVOLUTION",
+      "patients_measured": 10432,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 4645,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS1",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 3786,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS2",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 491,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS3",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1653,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS4",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 281,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS5",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2788,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS6",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 3207,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS7a",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2495,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS7b",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1180,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS7c",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1606,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS7d",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 926,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS8",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 101,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS9",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1475,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS10a",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 3863,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS10b",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 44,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS10c",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 508,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS10d",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 721,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS11",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1305,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS12",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 4114,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS13",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1029,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS14",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 3379,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS15",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1898,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS16",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 3474,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS17a",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2476,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS17b",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 850,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS18",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2282,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS19",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1285,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS20",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1700,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS21",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2417,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS22",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 798,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS23",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2626,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS24",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 578,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS25",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2611,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS26",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1005,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS28",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2069,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS29",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1819,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS30",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1426,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS31",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1000,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS32",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 3108,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS33",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1044,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS34",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 869,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS35",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 366,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS36",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 518,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS37",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 1919,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS38",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 3006,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS39",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 86,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS40",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 85,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS41",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 943,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS42",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 283,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS44",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 703,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS84",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 278,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS85",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2340,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS86",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 4462,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS87",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 771,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS88",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 794,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS89",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 537,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS90",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 2682,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS91",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 244,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS92",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 175,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS93",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    },
+    {
+      "cancers_with_measurements": 31,
+      "distinct_values": 342,
+      "family": "sbs_spectrum",
+      "id": "SBS::SBS94",
+      "measurement": "DNA_SNV",
+      "patients_measured": 5641,
+      "role": "primary"
+    }
+  ]
+}

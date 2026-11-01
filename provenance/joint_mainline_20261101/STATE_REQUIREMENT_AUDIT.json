@@ -1,0 +1,776 @@
+{
+  "format": "CLA_STATE_REQUIREMENT_AUDIT_V1",
+  "requirements": [
+    {
+      "demo_targets_with_trainable_rows": 6,
+      "interpretation_limits": [
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim.",
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim.",
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim.",
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim.",
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim.",
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim."
+      ],
+      "measured_patients_min": 8606,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Stemness",
+      "source_definitions_registered": true,
+      "targets": [
+        "RNAss",
+        "EREG.EXPss",
+        "DNAss",
+        "DMPss",
+        "ENHss",
+        "EREG-METHss"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Estimates telomerase activity from RNA; not telomere length."
+      ],
+      "measured_patients_min": 9012,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Telomerase",
+      "source_definitions_registered": true,
+      "targets": [
+        "EXTEND"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Hypoxia-associated RNA signature."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Hypoxia",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::Hypoxia_Buffa"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 2,
+      "interpretation_limits": [
+        "Native epithelial component; not a fabricated epithelial-minus-mesenchymal score.",
+        "Native mesenchymal component; not a fabricated difference score."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "EMT",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::EMT_Miow_Epithelial",
+        "signifinder::EMT_Miow_Mesenchymal"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Cell-cycle-associated transcription."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Cell_cycle",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::CellCycle_Lundberg"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Mitotic/proliferative expression signature."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Proliferation",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::MitoticIndex_Yang"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Senescence/SASP transcriptional signature; not senescent-cell proportion."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Senescence",
+      "source_definitions_registered": true,
+      "targets": [
+        "SenMayo"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "CIN70 expression proxy; not measured chromosomal instability."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "CIN_expression",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::CIN_Carter_70"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "DNA-repair-associated expression; not measured repair efficiency."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "DNA_repair_expression",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::DNArep_Kang"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Glycolysis-associated expression; not measured metabolic flux."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Glycolysis",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::Glycolysis_Zhang"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Bulk Hallmark ssGSEA reused. signifinder Barkley implementation requires malignant single-cell labels and is not applied to bulk; not measured respiratory flux."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "OXPHOS",
+      "source_definitions_registered": true,
+      "targets": [
+        "OXPHOS"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Lipid-metabolism-associated transcription."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Lipid_metabolism",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::LipidMetabolism_Zheng"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "VEGF/angiogenesis-associated expression."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "VEGF",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::VEGF_Hu"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "CYT",
+      "source_definitions_registered": true,
+      "targets": [
+        "CYT"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "IFN-gamma-associated transcriptional response."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "IFNG",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::IFN_Ayers"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Native T-cell-inflamed GEP."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "T_cell_inflamed",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::Tinflam_Ayers"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Antigen-processing/presentation expression signature."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "APM",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::APM_Wang"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Historical hacksig immunophenoscore in its native scale; not an added cohort-rescaled z score."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "IPS",
+      "source_definitions_registered": true,
+      "targets": [
+        "IPS"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "TLS-associated RNA signature; not histological confirmation."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "TLS",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::TLS_Cabrita"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "LRRC15-CAF-associated RNA state."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "CAF",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::LRRC15CAF_Dominguez"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 2,
+      "interpretation_limits": [
+        "Native ECM-up component.",
+        "Native ECM-down component."
+      ],
+      "measured_patients_min": 10432,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "ECM",
+      "source_definitions_registered": true,
+      "targets": [
+        "signifinder::ECM_Chakravarthy_up",
+        "signifinder::ECM_Chakravarthy_down"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim."
+      ],
+      "measured_patients_min": 8810,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Immune_score",
+      "source_definitions_registered": true,
+      "targets": [
+        "ImmuneScore"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim."
+      ],
+      "measured_patients_min": 8810,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Stromal_score",
+      "source_definitions_registered": true,
+      "targets": [
+        "StromalScore"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 96,
+      "interpretation_limits": [
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Relative proportions sum to one across 22 inferred immune cell types.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage.",
+        "Cell composition/abundance estimate; distinct from immune function. Not a cell percentage."
+      ],
+      "measured_patients_min": 10300,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Cell_composition",
+      "source_definitions_registered": true,
+      "targets": [
+        "cibersort_relative::B.cells.memory",
+        "cibersort_relative::B.cells.naive",
+        "cibersort_relative::Dendritic.cells.activated",
+        "cibersort_relative::Dendritic.cells.resting",
+        "cibersort_relative::Eosinophils",
+        "cibersort_relative::Macrophages.M0",
+        "cibersort_relative::Macrophages.M1",
+        "cibersort_relative::Macrophages.M2",
+        "cibersort_relative::Mast.cells.activated",
+        "cibersort_relative::Mast.cells.resting",
+        "cibersort_relative::Monocytes",
+        "cibersort_relative::NK.cells.activated",
+        "cibersort_relative::NK.cells.resting",
+        "cibersort_relative::Neutrophils",
+        "cibersort_relative::Plasma.cells",
+        "cibersort_relative::T.cells.CD4.memory.activated",
+        "cibersort_relative::T.cells.CD4.memory.resting",
+        "cibersort_relative::T.cells.CD4.naive",
+        "cibersort_relative::T.cells.CD8",
+        "cibersort_relative::T.cells.follicular.helper",
+        "cibersort_relative::T.cells.gamma.delta",
+        "cibersort_relative::T.cells.regulatory..Tregs.",
+        "xCell::Adipocytes",
+        "xCell::Astrocytes",
+        "xCell::B-cells",
+        "xCell::Basophils",
+        "xCell::CD4+ T-cells",
+        "xCell::CD4+ Tcm",
+        "xCell::CD4+ Tem",
+        "xCell::CD4+ memory T-cells",
+        "xCell::CD4+ naive T-cells",
+        "xCell::CD8+ T-cells",
+        "xCell::CD8+ Tcm",
+        "xCell::CD8+ Tem",
+        "xCell::CD8+ naive T-cells",
+        "xCell::CLP",
+        "xCell::CMP",
+        "xCell::Chondrocytes",
+        "xCell::Class-switched memory B-cells",
+        "xCell::DC",
+        "xCell::Endothelial cells",
+        "xCell::Eosinophils",
+        "xCell::Epithelial cells",
+        "xCell::Erythrocytes",
+        "xCell::Fibroblasts",
+        "xCell::GMP",
+        "xCell::HSC",
+        "xCell::Hepatocytes",
+        "xCell::Keratinocytes",
+        "xCell::MEP",
+        "xCell::MPP",
+        "xCell::MSC",
+        "xCell::Macrophages",
+        "xCell::Macrophages M1",
+        "xCell::Macrophages M2",
+        "xCell::Mast cells",
+        "xCell::Megakaryocytes",
+        "xCell::Melanocytes",
+        "xCell::Memory B-cells",
+        "xCell::Mesangial cells",
+        "xCell::Monocytes",
+        "xCell::Myocytes",
+        "xCell::NK cells",
+        "xCell::NKT",
+        "xCell::Neurons",
+        "xCell::Neutrophils",
+        "xCell::Osteoblast",
+        "xCell::Pericytes",
+        "xCell::Plasma cells",
+        "xCell::Platelets",
+        "xCell::Preadipocytes",
+        "xCell::Sebocytes",
+        "xCell::Skeletal muscle",
+        "xCell::Smooth muscle",
+        "xCell::Tgd cells",
+        "xCell::Th1 cells",
+        "xCell::Th2 cells",
+        "xCell::Tregs",
+        "xCell::aDC",
+        "xCell::cDC",
+        "xCell::iDC",
+        "xCell::ly Endothelial cells",
+        "xCell::mv Endothelial cells",
+        "xCell::naive B-cells",
+        "xCell::pDC",
+        "xCell::pro B-cells",
+        "MCPcounter::B lineage",
+        "MCPcounter::CD8 T cells",
+        "MCPcounter::Cytotoxic lymphocytes",
+        "MCPcounter::Endothelial cells",
+        "MCPcounter::Fibroblasts",
+        "MCPcounter::Monocytic lineage",
+        "MCPcounter::Myeloid dendritic cells",
+        "MCPcounter::NK cells",
+        "MCPcounter::Neutrophils",
+        "MCPcounter::T cells"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 2,
+      "interpretation_limits": [
+        "Tumor purity estimate; distinct from immune function.",
+        "Tumor purity estimate; distinct from immune function."
+      ],
+      "measured_patients_min": 8810,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Purity",
+      "source_definitions_registered": true,
+      "targets": [
+        "TumorPurity",
+        "ABSOLUTE_purity"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Published non-silent mutations per Mb; not a newly recomputed maftools value."
+      ],
+      "measured_patients_min": 9574,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "TMB",
+      "source_definitions_registered": true,
+      "targets": [
+        "TMB"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 4,
+      "interpretation_limits": [
+        "Published TCGA HRD scar component/total; retain original column hrd::HRD; not an RNA proxy or a new scarHRD run.",
+        "Published TCGA HRD scar component/total; retain original column hrd::hrd-loh; not an RNA proxy or a new scarHRD run.",
+        "Published TCGA HRD scar component/total; retain original column hrd::ai1; not an RNA proxy or a new scarHRD run.",
+        "Published TCGA HRD scar component/total; retain original column hrd::lst1; not an RNA proxy or a new scarHRD run."
+      ],
+      "measured_patients_min": 9971,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "HRD",
+      "source_definitions_registered": true,
+      "targets": [
+        "HRD_total",
+        "HRD_LOH",
+        "HRD_TAI",
+        "HRD_LST"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 2,
+      "interpretation_limits": [
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity."
+      ],
+      "measured_patients_min": 5641,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "APOBEC",
+      "source_definitions_registered": true,
+      "targets": [
+        "SBS::SBS2",
+        "SBS::SBS13"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 60,
+      "interpretation_limits": [
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity.",
+        "Exome-based signature estimate; minimum 50 SNVs and cosine 0.8; unavailable stays missing. SBS2/SBS13 are APOBEC-associated patterns, not direct enzyme activity."
+      ],
+      "measured_patients_min": 5641,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "SBS_spectrum",
+      "source_definitions_registered": true,
+      "targets": [
+        "SBS::SBS1",
+        "SBS::SBS2",
+        "SBS::SBS3",
+        "SBS::SBS4",
+        "SBS::SBS5",
+        "SBS::SBS6",
+        "SBS::SBS7a",
+        "SBS::SBS7b",
+        "SBS::SBS7c",
+        "SBS::SBS7d",
+        "SBS::SBS8",
+        "SBS::SBS9",
+        "SBS::SBS10a",
+        "SBS::SBS10b",
+        "SBS::SBS10c",
+        "SBS::SBS10d",
+        "SBS::SBS11",
+        "SBS::SBS12",
+        "SBS::SBS13",
+        "SBS::SBS14",
+        "SBS::SBS15",
+        "SBS::SBS16",
+        "SBS::SBS17a",
+        "SBS::SBS17b",
+        "SBS::SBS18",
+        "SBS::SBS19",
+        "SBS::SBS20",
+        "SBS::SBS21",
+        "SBS::SBS22",
+        "SBS::SBS23",
+        "SBS::SBS24",
+        "SBS::SBS25",
+        "SBS::SBS26",
+        "SBS::SBS28",
+        "SBS::SBS29",
+        "SBS::SBS30",
+        "SBS::SBS31",
+        "SBS::SBS32",
+        "SBS::SBS33",
+        "SBS::SBS34",
+        "SBS::SBS35",
+        "SBS::SBS36",
+        "SBS::SBS37",
+        "SBS::SBS38",
+        "SBS::SBS39",
+        "SBS::SBS40",
+        "SBS::SBS41",
+        "SBS::SBS42",
+        "SBS::SBS44",
+        "SBS::SBS84",
+        "SBS::SBS85",
+        "SBS::SBS86",
+        "SBS::SBS87",
+        "SBS::SBS88",
+        "SBS::SBS89",
+        "SBS::SBS90",
+        "SBS::SBS91",
+        "SBS::SBS92",
+        "SBS::SBS93",
+        "SBS::SBS94"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 1,
+      "interpretation_limits": [
+        "Precomputed MSIsensor2 quantitative score; not TIDE MSI expression model; no new clinical threshold."
+      ],
+      "measured_patients_min": 10366,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "MSI",
+      "source_definitions_registered": true,
+      "targets": [
+        "MSI"
+      ]
+    },
+    {
+      "demo_targets_with_trainable_rows": 2,
+      "interpretation_limits": [
+        "Published/native estimate; retain original scale; no causal or direct functional measurement claim.",
+        "Published altered-arm aneuploidy score; not CIN70 expression."
+      ],
+      "measured_patients_min": 9850,
+      "prepared_target_universe_verified": true,
+      "real_scores_present": true,
+      "requirement": "Ploidy_aneuploidy",
+      "source_definitions_registered": true,
+      "targets": [
+        "ABSOLUTE_ploidy",
+        "Aneuploidy"
+      ]
+    }
+  ],
+  "requirements_verified": 31,
+  "scope": "Scores materialized for all 33 cancers; real BRCA/LUAD prepared data validated; full model retraining is not claimed.",
+  "target_host": "149"
+}

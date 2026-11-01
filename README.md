@@ -90,9 +90,11 @@ a small demo does not establish a pan-cancer result.
 
 The main labels are cancer × lncRNA × exact-pathway/State association labels,
 derived from patient measurements in disjoint folds. They are not patient-level
-continuous regression targets or causal intervention effects. State has 11
-primary targets; four additional measurements retain auxiliary roles and do not
-silently become primary losses. See
+continuous regression targets or causal intervention effects. State now has 197
+primary targets plus auxiliary ESTIMATEScore, covering intrinsic transcriptional
+states, immune function, cell composition and genomic measurements. Original
+score definitions and missing-value masks are retained. See
+[the State catalog and scoring workflow](docs/STATE_EXPANSION_20261101.rst) and
 [the unified training contract](docs/JOINT_MAINLINE_20261101.rst).
 
 Verified gene-level CNV and promoter methylation measurements remain supported.

@@ -165,6 +165,10 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     fm=fm.loc[fm.cancer_id.isin(cancers)].copy()
     valfold=(fold+1)%5;trainfolds=[x for x in range(5) if x not in [fold,valfold]]
     state,p=state_wide(sources['state'],fm,targets);input_hashes['state']={'path':str(p),'sha256':sha(p)}
+    if sources['state'].get('format')=='CLA_PATIENT_STATE_V1':
+        sp=Path(sources['state']['materialization_manifest'])
+        atomic_json(out/'STATE_MATERIALIZATION.json',read_json(sp))
+        input_hashes['state_materialization']={'path':str(sp),'sha256':sha(sp)}
     rates=table(sources['detection']['path']);require(rates,['cancer_id','lncrna_id','detection_rate_logcpm_gt0'],'detection')
     rates,eligible,detection_report=detection_eligibility(rates,cfg['candidate_scope']['minimum_expression_cancers'])
     atomic_json(out/'DETECTION_AUDIT.json',detection_report)
@@ -236,6 +240,7 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     spec={'architecture':'CC_HHGT_PYG_FULL_R62_JOINT','nodes':ids,'relations':rels,'cancers':cancers,'states':stateids,'state_families':family,'feature_dims':feature_dims,'sc_dim':sc_dim,'sc_cell_types':cell_types,'singlecell_role':'interpretation_only' if interpretation_only else 'input_context','singlecell_association_role':sc_association_role,'singlecell_association_cell_types':sc_association_cell_types,'singlecell_association_feature_order':[f'{cell}:{feature}' for cell in sc_association_cell_types for feature in ('rho','abs_rho','neglog10_fdr','available')],'singlecell_association_dim':sc_association_dim,'singlecell_association_slice':sc_association_slice,'genomics_enabled':genetic_enabled,'gene_node_omics_enabled':gene_node_omics_enabled,'node_input_dim':len(node_input_feature_order),'node_input_feature_order':node_input_feature_order,'numeric_features':5+sc_association_dim+feature_dims['lncRNA']+sc_dim+1+3+1+target_genetic_width,'fold':fold,'validation_fold':valfold,'train_folds':trainfolds}
     if gene_node_omics_enabled:
         spec['gene_node_omics_complete_sha256']=gene_node_omics.complete_record['sha256']
+    spec['state_catalog']=cfg.get('state_catalog')
     spec['graph_variant']=variant;spec['backbone_source']='cc_hhgt/gnn.py::build_model(cc_hhgt)';spec['full_r1_checkpoint_compatible']=False
     spec['execution_contract']=ENGINE_ID;spec['precision_k']=cfg['gates']['precision_k'];spec['metrics_contract']=cfg['metrics_contract']
     atomic_json(out/'ADJUSTMENT_CONTRACT.json',cfg['adjustment_contract'])

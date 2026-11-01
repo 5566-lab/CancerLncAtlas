@@ -15,7 +15,8 @@ COMPOSITION = ('purity', 'leukocyte_fraction', 'cell_fraction_Macrophages.M0',
 COLUMNS = BASE + COMPOSITION
 NUMERIC = frozenset(('age_years',) + COMPOSITION)
 # Exact self/alias exclusions only. Other composition measures remain required.
-SELF_EXCLUSIONS = {'Leukocyte_fraction': {'leukocyte_fraction': 'TARGET_SELF_SAME_SOURCE_MEASUREMENT'}}
+SELF_EXCLUSIONS = {'Leukocyte_fraction': {'leukocyte_fraction': 'TARGET_SELF_SAME_SOURCE_MEASUREMENT'},
+    **{'cibersort_relative::Macrophages.'+m: {'cell_fraction_Macrophages.'+m: 'TARGET_SELF_SAME_SOURCE_MEASUREMENT'} for m in ('M0','M1','M2')}}
 # Purity from ESTIMATE is a derivative involving the ESTIMATE component scores.
 # It is excluded for these targets ONLY when the actual purity_source says so.
 PURITY_DEPENDENCIES = {
@@ -40,9 +41,9 @@ STATE_IDS = ('EXTEND','RNAss','EREG.EXPss','DNAss','DMPss','ENHss','EREG-METHss'
              'TumorPurity','ABSOLUTE_purity','ABSOLUTE_ploidy')
 
 
-def default_adjustment_contract():
+def default_adjustment_contract(targets=None):
     policies = {}
-    for target in ('__pathway__',) + STATE_IDS:
+    for target in dict.fromkeys(('__pathway__',) + STATE_IDS + tuple(targets or ())):
         excluded = dict(SELF_EXCLUSIONS.get(target,{}))
         policies[target] = {
             'requested': list(COLUMNS),

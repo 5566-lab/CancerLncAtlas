@@ -135,6 +135,9 @@ def state_wide(source,mapping,target_catalog):
     if source.get('bytes') and p.stat().st_size!=source['bytes']:fail('STATE_SIZE_MISMATCH','State byte size differs')
     f=table(p)
     if source.get('columns') and len(f.columns)!=source['columns']:fail('STATE_HEADER_COUNT_MISMATCH','State column count differs',actual=len(f.columns))
+    if source.get('format')=='CLA_PATIENT_STATE_V1':
+        from .state_materialize import verify_materialized_source
+        verify_materialized_source(source,f,mapping,target_catalog)
     aliases={'sample_id':['sample_id','Sample','sample','sample_barcode','SampleID','sampleID','bcr_sample_barcode'], 'patient_id':['patient_id','Patient','patient','patient_barcode','bcr_patient_barcode'], 'cancer_id':['cancer_id','cancer','Cancer','cancer_type','CancerType','project_id']}
     rename={}
     for canonical,options in aliases.items():

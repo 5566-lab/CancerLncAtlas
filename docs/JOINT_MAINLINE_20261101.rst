@@ -23,13 +23,11 @@ abs(r)>=0.15/q<=0.10 rule with reduced sample weight. State positives satisfy
 abs(r)>=0.20 without an extra FDR requirement. A zero is a statistical proxy
 negative, not an experimentally established absence of association.
 
-The 11 primary State targets are EXTEND, RNAss, EREG.EXPss, DNAss, DMPss, ENHss,
-EREG-METHss, ImmuneScore, StromalScore, CYT and Leukocyte_fraction. ESTIMATEScore,
-TumorPurity, ABSOLUTE_purity and ABSOLUTE_ploidy retain auxiliary roles. The
-existing target-specific covariate policy, raw-signed lncRNA-only A1 adjustment,
-minimum12 pairs, exact sparse DictVectorizer LASSO and task/family/cancer metric
-aggregation are retained. Input features and labels use different patient groups.
-Outer test measurements are sealed outside the training capsule.
+The expanded State catalog is CLA_STATE_EXPANDED_20261101_V1, with 197 primary
+targets plus auxiliary ESTIMATEScore. Purity and ploidy are primary targets in
+this revision. RNA signatures, composition estimates and genomic measurements
+retain separate source definitions and families. See STATE_EXPANSION_20261101.rst
+and config/state_catalog_20261101.json for the complete ordered catalog.
 
 The inherited September16 covariate policy allows an explicitly present but
 sparsely measured purity column to be omitted when source-patient coverage is
