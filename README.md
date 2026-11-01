@@ -90,12 +90,21 @@ a small demo does not establish a pan-cancer result.
 
 The main labels are cancer × lncRNA × exact-pathway/State association labels,
 derived from patient measurements in disjoint folds. They are not patient-level
-continuous regression targets or causal intervention effects. State now has 197
+continuous regression targets or causal intervention effects. State now has 482
 primary targets plus auxiliary ESTIMATEScore, covering intrinsic transcriptional
 states, immune function, cell composition and genomic measurements. Original
 score definitions and missing-value masks are retained. See
 [the State catalog and scoring workflow](docs/STATE_EXPANSION_20261101.rst) and
 [the unified training contract](docs/JOINT_MAINLINE_20261101.rst).
+
+The pathway scoring design uses five measured assays: RNA, targeted RPPA protein,
+phosphorylation, gene CNV and promoter methylation. Native MOGSA and lavaan parent
+factors are fitted separately on each prepared view's source patients. Label
+patients never fit these score parameters. Missing measurements retain their
+masks; there is no 95% coverage gate. Existing PROGENY/DoRothEA resource scores
+move unchanged to State using their legacy weighted implementation. Gene CNV and
+promoter methylation also retain their source-patient gene-node embedding role.
+See [the scoring methods, limits and reproduction commands](docs/PATHWAY_FUSION_20261101.rst).
 
 Verified gene-level CNV and promoter methylation measurements remain supported.
 Joint preparation aggregates their original patient matrices using each view's

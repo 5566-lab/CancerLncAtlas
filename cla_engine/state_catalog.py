@@ -6,19 +6,21 @@ import json
 from .common import fail
 
 CATALOG_ID='CLA_STATE_EXPANDED_20261101_V1'
+ROUTED_CATALOG_ID='CLA_STATE_ROUTED_PROGRAMS_20261101_V2'
 
-@lru_cache(maxsize=1)
-def _catalog():
-    path=Path(__file__).resolve().parents[1]/'config/state_catalog_20261101.json'
+@lru_cache(maxsize=2)
+def _catalog(version=CATALOG_ID):
+    filename='state_catalog_routed_20261101.json' if version==ROUTED_CATALOG_ID else 'state_catalog_20261101.json'
+    path=Path(__file__).resolve().parents[1]/'config'/filename
     value=json.loads(path.read_text())
-    if value.get('catalog_id')!=CATALOG_ID:fail('STATE_CATALOG_GENERATION','Wrong State registry')
+    if value.get('catalog_id')!=version:fail('STATE_CATALOG_GENERATION','Wrong State registry')
     return value
 
-def catalog():
-    return deepcopy(_catalog())
+def catalog(version=CATALOG_ID):
+    return deepcopy(_catalog(version))
 
-def expanded_targets():
-    return catalog()['targets']
+def expanded_targets(version=CATALOG_ID):
+    return catalog(version)['targets']
 
 def legacy_fixture_targets():
     return catalog()['legacy_fixture_targets']
@@ -31,11 +33,11 @@ def validate_targets(cfg):
         observed=cfg.get('targets',[])
         observed_roles={t.get('id'):t.get('role') for t in observed if isinstance(t,dict)}
         good=len(observed)==len(expected) and observed_roles=={t['id']:t['role'] for t in expected}
-    elif version==CATALOG_ID:
-        expected=expanded_targets();good=cfg.get('targets')==expected
+    elif version in (CATALOG_ID,ROUTED_CATALOG_ID):
+        expected=expanded_targets(version);good=cfg.get('targets')==expected
         if not cfg.get('synthetic_fixture'):
             source=cfg.get('sources',{}).get('state',{})
-            if source.get('format')!='CLA_PATIENT_STATE_V1' or source.get('catalog_id')!=CATALOG_ID:
+            if source.get('format')!='CLA_PATIENT_STATE_V1' or source.get('catalog_id')!=version:
                 fail('STATE_MATERIALIZATION_REQUIRED','Expanded targets require a verified patient State matrix')
     else:fail('STATE_CATALOG_GENERATION','Unknown State catalog',catalog=version)
     if not good:fail('TARGET_ROLE_CATALOG_DRIFT','Target identity, method, source, family or role differs from the reviewed catalog')

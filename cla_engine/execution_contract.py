@@ -41,6 +41,8 @@ def validate_config_contract(cfg):
         fail('PRIMARY_CNV_ESTIMAND_DRIFT','This patch keeps the existing raw-signed A1 primary; ranked A2 is a separate sensitivity')
     if cfg.get('metrics_contract')!=METRIC_CONTRACT:
         fail('METRICS_CONTRACT_MISSING','Explicit selection/evaluation units required')
+    from .pathway_fusion import validate_fusion_config
+    validate_fusion_config(cfg)
     baseline_contract(cfg)
     return cfg
 

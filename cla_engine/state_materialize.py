@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from .common import atomic_json,digest,fail,read_json,sha
-from .state_catalog import CATALOG_ID,catalog,expanded_targets
+from .state_catalog import CATALOG_ID,ROUTED_CATALOG_ID,catalog,expanded_targets
 from .cancer_scope import resolve_cancer_scope
 
 FORMAT='CLA_PATIENT_STATE_V1'
@@ -185,12 +185,12 @@ def materialize(historical,rna_root,sbs_root,patient_map,output,*,cancer_type='a
     return binding
 
 def verify_materialized_source(source,frame,mapping,targets):
-    if source.get('format')!=FORMAT or source.get('catalog_id')!=CATALOG_ID:fail('STATE_MATERIALIZATION_REQUIRED','Expanded State requires a verified patient-level materialization')
+    if source.get('format')!=FORMAT or source.get('catalog_id') not in (CATALOG_ID,ROUTED_CATALOG_ID):fail('STATE_MATERIALIZATION_REQUIRED','Expanded State requires a verified patient-level materialization')
     path=Path(source.get('materialization_manifest',''))
     if not path.is_file() or not source.get('materialization_manifest_sha256') or sha(path)!=source['materialization_manifest_sha256']:
         fail('STATE_MATERIALIZATION_HASH','Missing or changed materialization manifest')
     rec=read_json(path)
-    if rec.get('format')!=FORMAT or rec.get('state')!='COMPLETE' or rec.get('target_host')!='149' or rec.get('catalog_id')!=CATALOG_ID or rec.get('target_catalog_sha256')!=digest(targets):
+    if rec.get('format')!=FORMAT or rec.get('state')!='COMPLETE' or rec.get('target_host')!='149' or rec.get('catalog_id')!=source['catalog_id'] or targets!=expanded_targets(source['catalog_id']) or rec.get('target_catalog_sha256')!=digest(targets):
         fail('STATE_MATERIALIZATION_CATALOG','State source and reviewed target definitions differ')
     if not source.get('sha256') or rec['matrix']['sha256']!=source['sha256'] or rec['matrix']['bytes']!=source.get('bytes'):
         fail('STATE_MATERIALIZATION_MATRIX','Matrix binding differs from receipt')

@@ -1,6 +1,15 @@
 Joint Pathway/State mainline
 ===========================
 
+Current scoring update: the public configuration now uses
+CLA_STATE_ROUTED_PROGRAMS_20261101_V2 with 482 primary State targets plus
+ESTIMATEScore. The 198-dimension expansion described below is its unchanged
+base; 285 existing PROGENY/DoRothEA resource programs are additionally routed
+unchanged to State. Pathway targets now use source-fitted raw-omics MOGSA and
+supported lavaan parent factors. See PATHWAY_FUSION_20261101.rst for the current
+routing, missingness policy, package versions and exact Y/loss formulas.
+
+
 The executable primary workflow is cla.py with config/149.json. This integration
 reconciles public commit480ada4 with the later R6.2 executor and its September16
 adjustment-validator revision. The older frozen State training entry is removed.
@@ -23,7 +32,7 @@ abs(r)>=0.15/q<=0.10 rule with reduced sample weight. State positives satisfy
 abs(r)>=0.20 without an extra FDR requirement. A zero is a statistical proxy
 negative, not an experimentally established absence of association.
 
-The expanded State catalog is CLA_STATE_EXPANDED_20261101_V1, with 197 primary
+The base expanded State catalog is CLA_STATE_EXPANDED_20261101_V1, with 197 primary
 targets plus auxiliary ESTIMATEScore. Purity and ploidy are primary targets in
 this revision. RNA signatures, composition estimates and genomic measurements
 retain separate source definitions and families. See STATE_EXPANSION_20261101.rst

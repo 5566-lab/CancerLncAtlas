@@ -1,7 +1,16 @@
 Expanded patient State scores (2026-11-01)
 ==========================================
 
-The public configuration uses CLA_STATE_EXPANDED_20261101_V1: 198 measured or
+Current scoring update: the public configuration now uses
+CLA_STATE_ROUTED_PROGRAMS_20261101_V2 with 482 primary State targets plus
+ESTIMATEScore. The 198-dimension expansion described below is its unchanged
+base; 285 existing PROGENY/DoRothEA resource programs are additionally routed
+unchanged to State. Pathway targets now use source-fitted raw-omics MOGSA and
+supported lavaan parent factors. See PATHWAY_FUSION_20261101.rst for the current
+routing, missingness policy, package versions and exact Y/loss formulas.
+
+
+The base expansion uses CLA_STATE_EXPANDED_20261101_V1: 198 measured or
 estimated State dimensions, including 197 primary training targets and one
 auxiliary ESTIMATEScore. Pathway=1.0 and State=0.5 optimize the same live HHGT
 encoder. Expanding the State catalog does not change the task into patient-score

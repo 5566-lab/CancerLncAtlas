@@ -8,6 +8,14 @@ from .common import atomic_json,sha,read_json,verify_manifest,status
 
 def make_fixture(root,parquet=False,expanded_states=False):
     root=Path(root);root.mkdir(parents=True,exist_ok=True);cfg=read_json(Path(__file__).resolve().parents[1]/'config/149.json');rng=np.random.default_rng(9041)
+    # Generic execution fixtures test the established RNA/State contracts;
+    # raw-omics fusion has separate package and real-patient integration tests.
+    cfg['pathway_fusion']={'enabled':False}
+    if expanded_states:
+        from .state_catalog import CATALOG_ID,expanded_targets
+        from cc_hhgt.v32.adjustment_policy import default_adjustment_contract
+        cfg['state_catalog']=CATALOG_ID;cfg['targets']=expanded_targets()
+        cfg['adjustment_contract']=default_adjustment_contract([t['id'] for t in cfg['targets']])
     if not expanded_states:
         from .state_catalog import legacy_fixture_targets
         from cc_hhgt.v32.adjustment_policy import default_adjustment_contract
