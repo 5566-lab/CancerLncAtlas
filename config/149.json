@@ -257,17 +257,11 @@
   },
   "profiles": {
     "diagnostic": {
-      "cancers": [
-        "BRCA",
-        "HNSC",
-        "KIRC"
-      ],
       "max_lncrnas": 128,
       "max_pathways": 64,
       "pathway_candidates_per_cancer": 4096
     },
     "formal": {
-      "cancers": [],
       "max_lncrnas": null,
       "max_pathways": null,
       "pathway_candidates_per_cancer": 100000
@@ -1004,5 +998,7 @@
       "path": "/path/to/verified_inputs/patient_gene_matrices_r2/COMPLETE.json",
       "sha256": "21b1d23b90a62c7edefe477fbe4957182c1e17b739ce3a2d659208424a7748ce"
     }
-  }
+  },
+  "cancer_type": "all",
+  "cancer_list": []
 }

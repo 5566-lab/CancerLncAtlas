@@ -35,6 +35,7 @@ def prepare_lineage(root):
             'baseline_contract_sha256':sha(root/'BASELINE_CONTRACT.json'),
             'import_authority_sha256':sha(root/'IMPORT_AUTHORITY_BINDING.json'),
             'patient_authority_sha256':inputs['patient_map']['sha256'],
+            'cancer_scope_sha256':sha(root/'CANCER_SCOPE.json'),
             'cohorts_sha256':sha(root/'COHORTS.json'),'patient_assignments_sha256':sha(root/'PATIENT_ASSIGNMENTS.json')}
 
 def validate_prepared(root):
@@ -42,6 +43,11 @@ def validate_prepared(root):
     if m['metadata'].get('fold')!=spec['fold'] or m['metadata'].get('config_sha256')!=digest(cfg):fail('PREPARED_CONTRACT_MISMATCH','Config/fold and manifest differ')
     actual=prepare_lineage(root);stored=read_json(root/'LINEAGE.json')
     if actual!=stored:fail('PREPARED_LINEAGE_MISMATCH','Sources, code, candidates or task contract differ')
+    from .cancer_scope import resolve_cancer_scope
+    cancer_scope=read_json(root/'CANCER_SCOPE.json')
+    expected_scope=resolve_cancer_scope(cfg,cancer_scope['available_cancers'],m['metadata']['profile'])
+    if cancer_scope!=expected_scope or spec['cancers']!=expected_scope['selected_cancers'] or spec['nodes']['cancer']!=spec['cancers']:
+        fail('CANCER_SCOPE_MISMATCH','Prepared cancer scope, configuration and node catalog differ')
     from .execution_contract import verify_capsule_contract
     verify_capsule_contract(root,cfg,spec)
     if cfg['model']['task_weights']!={'pathway':1.,'state':.5}:fail('TASK_WEIGHT_DRIFT','Expected Pathway=1, State=.5')

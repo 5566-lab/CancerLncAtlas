@@ -89,8 +89,9 @@ def lock(root):
     finally:
         f.close()
 
-def config(path):
-    c=read_json(path)
+def config(path, *, cancer_type=None, cancer_list=None):
+    from .cancer_scope import override_selection
+    c=override_selection(read_json(path),cancer_type=cancer_type,cancer_list=cancer_list)
     if c.get('format')!='CLA_FULL_PYG_R62_CONFIG_V1':fail('CONFIG_GENERATION_MISMATCH','R6.2 config required; do not rename older configurations')
     if c['model']['task_weights']!={'pathway':1.0,'state':0.5}:fail('TASK_WEIGHT_DRIFT','Frozen loss: pathway=1, state=0.5')
     if c.get('subtype_feedback') is not False:fail('SUBTYPE_FEEDBACK_FORBIDDEN','Subtype is downstream only')

@@ -63,9 +63,11 @@ def import_local(archive,cfg):
     commit_import_authority(cfg,manifest,archive_sha256=sha(archive))
     return {'state':'LOCAL_INPUTS_IMPORTED','path':str(root),'files':len(manifest['files'])}
 
-def preflight(cfg,out,*,allow_unbound_optional=False):
+def preflight(cfg,out,*,allow_unbound_optional=False,profile='diagnostic'):
     from .controller import assert_controller
     from .execution_contract import validate_config_contract
+    from .cancer_scope import selection,resolve_cancer_scope
+    selection(cfg,profile)
     validate_config_contract(cfg);assert_controller(cfg)
     import_authority=verify_import_authority(cfg)
     out=Path(out);out.mkdir(parents=True,exist_ok=True);checks=[];bad=[]
@@ -101,7 +103,13 @@ def preflight(cfg,out,*,allow_unbound_optional=False):
     atomic_json(out/'INPUT_CHECK.json',report)
     if bad:fail('INPUT_CHECK_FAIL','Required actual paths/hash/readers not ready. No GPU launch.',blockers=bad,report=str(out/'INPUT_CHECK.json'))
     # Do not merely test names: execute real State join before paid work.
-    fm=patient_map(cfg['sources']['patient_map']['path']);measurements,_=state_wide(cfg['sources']['state'],fm,cfg['targets'])
+    fm=patient_map(cfg['sources']['patient_map']['path'])
+    cancer_scope=resolve_cancer_scope(cfg,fm.cancer_id.unique(),profile)
+    atomic_json(out/'CANCER_SCOPE.json',cancer_scope)
+    fm=fm.loc[fm.cancer_id.isin(cancer_scope['selected_cancers'])].copy()
+    measurements,_=state_wide(cfg['sources']['state'],fm,cfg['targets'])
+    report['cancer_scope']=cancer_scope
+    atomic_json(out/'INPUT_CHECK.json',report)
     coverage=measurements.groupby(['cancer_id','target_id'],observed=True).value.agg(['count','size']).reset_index()
     coverage.to_csv(out/'STATE_SOURCE_COVERAGE.tsv',sep='\t',index=False)
     status(out,'INPUT_CHECK_PASS_NOT_TRAINED',states=len(measurements.target_id.unique()),patient_rows=len(fm))

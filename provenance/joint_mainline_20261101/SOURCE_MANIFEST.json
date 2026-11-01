@@ -8,8 +8,8 @@
       "bytes": 344
     },
     "CODE_COMPLETION_NOTES.rst": {
-      "sha256": "26d117b7868438555e0ce8648859c56456eb91ce8ad2afbd51808756ba6f1294",
-      "bytes": 453713
+      "sha256": "7c051452bf4a5dbbc38106d6fc19d2e69ad19259664eb21e59bd0c65945c08bb",
+      "bytes": 460771
     },
     "CODE_COMPLETION_PLAN.json": {
       "sha256": "741c81fbeeea31a04bb52d6bc8890f26ce563bfc133afeee8b27754230ab4f26",
@@ -24,8 +24,8 @@
       "bytes": 271
     },
     "README.md": {
-      "sha256": "cd88bcd8d97deebcdf05d94f3ed8b4b897cd091be3f6cfe2075017c4530d78bc",
-      "bytes": 4721
+      "sha256": "70a0b333fe517fc36d90cc6593eec969c26b15a9cf64e28187661dea7ff40293",
+      "bytes": 6996
     },
     "cc_hhgt/__init__.py": {
       "sha256": "298da2505f66c6cc8affe9ea9e373c7bd94e8873e2d9d745a257c6cae15374a4",
@@ -1532,8 +1532,8 @@
       "bytes": 50229
     },
     "cla.py": {
-      "sha256": "7716d8cf052191c45d06a6f155e851ba8320c8a86efdf5c7823e732e156cef87",
-      "bytes": 17549
+      "sha256": "ea3a39bbc6696e022eb87e05c53e411f7677bb70d7c396c7101b5ad9fde75d33",
+      "bytes": 18618
     },
     "cla_engine/__init__.py": {
       "sha256": "c85e6860ad436502a43ad83e4a9e857cba07821e67f6db0e9c1878c7c73a3f2a",
@@ -1547,6 +1547,10 @@
       "sha256": "ad505d66eed418f655dc682afd0bee288ead750c8437e6e3701473a37b121a84",
       "bytes": 13720
     },
+    "cla_engine/cancer_scope.py": {
+      "sha256": "77b33cd4cbed46d6bc838c8115053b6167dd75961793e120bdb81dd4ab63a3b8",
+      "bytes": 2263
+    },
     "cla_engine/celltype_fusion.py": {
       "sha256": "7375ee0a211a311e6bd879d58944780c26963066ffd4f0533b43ffb52ede614f",
       "bytes": 16991
@@ -1556,8 +1560,8 @@
       "bytes": 8229
     },
     "cla_engine/common.py": {
-      "sha256": "a2c0bc2f2268b3d4c90c3751617870a7e1cbe7fa7a24e2def6c6fa3ff87487c5",
-      "bytes": 6815
+      "sha256": "b7f4641bbd1f5cc82561229df0137bc2c74ce6d00f24fd513ea245bcb3cfe968",
+      "bytes": 6971
     },
     "cla_engine/controller.py": {
       "sha256": "e769b337b8f76c7b95f000bfe9c926ed8d953ed1665fb7b95de2371d4728be71",
@@ -1612,8 +1616,8 @@
       "bytes": 4242
     },
     "cla_engine/inputs.py": {
-      "sha256": "2ec92a34eddc21002e1d1fcdede54bbeaac30be6e968cf52e18392f5b1487009",
-      "bytes": 13962
+      "sha256": "c94de0e94c2bcef7d6504542d7b84bf229d1342eee76be2d68eb699355d950fb",
+      "bytes": 14363
     },
     "cla_engine/interpretation.py": {
       "sha256": "6f99aee6f8c63f65cfe5bb90735f5efc31be661d3e994d3e911d70767b4a058d",
@@ -1624,8 +1628,8 @@
       "bytes": 9074
     },
     "cla_engine/lineage.py": {
-      "sha256": "1f9ab699ffb0c57a155478acb1a485cbf0ec78fe488445a2e307f05be6b373e7",
-      "bytes": 14907
+      "sha256": "b6ad4a85611c73aee863d91f197754fe1e53c15f469eee750805b0d2ef75b874",
+      "bytes": 15417
     },
     "cla_engine/local_execution.py": {
       "sha256": "73f20a8ffdea1cbd83685a6704379f2641ab0130d9f47ea1eeb44faf7d0bf7af",
@@ -1664,8 +1668,8 @@
       "bytes": 6831
     },
     "cla_engine/prepare.py": {
-      "sha256": "338c18e51885a792077511dde7b23e5080b6056401cc7f52c8aba56f5eea8202",
-      "bytes": 43958
+      "sha256": "af5d30d54df880b666c4bf46740be74c411067f9c1a78fbc546aad75765af288",
+      "bytes": 44106
     },
     "cla_engine/queue.py": {
       "sha256": "dbbc236ba1168f1348d82f067cd16287837128a35f6a0a99c245f2dcbab3d279",
@@ -1708,8 +1712,8 @@
       "bytes": 29299
     },
     "config/149.json": {
-      "sha256": "8f1be75153836ddd424869a488a9b3457d4daa0e7d6c4892aa490c18c5867d27",
-      "bytes": 32350
+      "sha256": "4ca712043c5d6ce908539514554175094a024232b60b2971075bbbdd9198e5cd",
+      "bytes": 32299
     },
     "config/model_v2.yaml": {
       "sha256": "b56e9357b0e0564d1313536b54dc71a1e756622f1da2fd2c5b4c70250fd7d397",
@@ -1860,8 +1864,8 @@
       "bytes": 5857
     },
     "docs/JOINT_MAINLINE_20261101.rst": {
-      "sha256": "bb7a8504703f594ce7e6b7bd8d09b6ccaf5f60a353744a58a0951de793ef050b",
-      "bytes": 9963
+      "sha256": "2c3506ab90cea54d9ecad1c4d0dd94debd629d93ff04fb06db19da374644b225",
+      "bytes": 10134
     },
     "docs/LOCAL_CNV_PATIENT_SCOPES_20261027.rst": {
       "sha256": "fb58811251ca8466c5d757661829f253f980fe6b2de8fd89655d7a1e9a6825b3",
@@ -1876,8 +1880,8 @@
       "bytes": 12776
     },
     "docs/NODE_OMICS_INPUTS_20261029.rst": {
-      "sha256": "a71895c6b1f31c8c7a4cca5d1b2d1ecc146d5776602464fddc18de10b8d33655",
-      "bytes": 18575
+      "sha256": "264f03ee4ea76072909b118254d786b486aaaa9002c33f0416dccf06475b0233",
+      "bytes": 18862
     },
     "docs/NOVEL_BINDING_DISCOVERY_20261028.rst": {
       "sha256": "511df7615621ea08666d30b1167444ab375527c1809bd66eafae3551ccbce15f",
@@ -2235,6 +2239,10 @@
       "sha256": "a8aed89fc4e21e329a366c646001c31231052d85011e28ded06a98a29efc292d",
       "bytes": 3940
     },
+    "provenance/joint_mainline_20261101/CANCER_SCOPE_VERIFICATION.json": {
+      "sha256": "312270793165f4f085c85d31e93e8788b50af0cfdb2677ccc76152168ba530bb",
+      "bytes": 2371
+    },
     "provenance/joint_mainline_20261101/IMPORTED_SOURCES.json": {
       "sha256": "7fe201e04156094e67a26fa993e40aafb257e4ca154b01d91f4c28a44d05cfe4",
       "bytes": 12237
@@ -2248,8 +2256,8 @@
       "bytes": 2378
     },
     "pyproject.toml": {
-      "sha256": "f0f9d933005554400f24c1e9c0258579b5c9058c549b6b4539938405361f1ccc",
-      "bytes": 794
+      "sha256": "30722f3498cdaa40965099fa633060a8141d5cb1d63a41c621ec9a4141b2d888",
+      "bytes": 832
     },
     "requirements/requirements-base.txt": {
       "sha256": "df8b678aae5c43b0141fc687f240706427298a7de485ba00d57fd16d3afadc93",
@@ -5055,6 +5063,10 @@
       "sha256": "8937ab04a1d2254a6c1f8a4e3d501fa293094be4d395dc2e96f3809716bfd6b9",
       "bytes": 1424
     },
+    "tests/test_joint_cancer_scope.py": {
+      "sha256": "fc06d2b3ae26dbc1705eb08dd65d7ddec35fc74d16002b430c29b19c47b1536d",
+      "bytes": 6292
+    },
     "tests/test_joint_core_catalog.py": {
       "sha256": "d0e49bcab19c14d0e7d9e661e1545c644d27c88ecab969650924024ff4e2ff9d",
       "bytes": 6675
@@ -6635,5 +6647,6 @@
       "sha256": "1721e50357ea127b90098368b76e6235bbe1eb2b98af6f8154f3f46fd68de261",
       "bytes": 5430
     }
-  }
+  },
+  "last_change_base_commit": "27eb517ac6fe2e4886d138f5d5f13c40ba2dfad3"
 }

@@ -1,0 +1,55 @@
+{
+  "format": "CLA_CANCER_SCOPE_VERIFICATION_V1",
+  "target_host": "149",
+  "base_commit": "27eb517ac6fe2e4886d138f5d5f13c40ba2dfad3",
+  "regression_tests_passed": 163,
+  "final_cancer_scope_tests_passed": 19,
+  "final_selected_checks_passed": 182,
+  "skipped": 0,
+  "regression_test_files": [
+    "tests.test_joint_dispatch",
+    "tests.test_joint_local_execution",
+    "tests.test_joint_node_omics_prepared",
+    "tests.test_joint_packaging",
+    "tests.test_joint_runtime_execution",
+    "tests.test_joint_runtime_r5_input_and_bindings",
+    "tests.test_joint_runtime_r62_material_semantics",
+    "tests.test_joint_source_package"
+  ],
+  "new_tests": [
+    "test_all_overrides_old_profile_subset",
+    "test_cli_aliases[--cancer-type---cancer-list]",
+    "test_cli_aliases[--cancer_type---cancer_list]",
+    "test_cli_scope_overrides_old_diagnostic_scope[all-selected0-expected0]",
+    "test_cli_scope_overrides_old_diagnostic_scope[list-selected1-expected1]",
+    "test_diagnostic_worker_rejects_scope_override_instead_of_ignoring_it",
+    "test_existing_profile_scope_survives_without_new_parameter",
+    "test_invalid_selection_fails[cfg0-CANCER_LIST_EMPTY]",
+    "test_invalid_selection_fails[cfg1-CANCER_LIST_EMPTY]",
+    "test_invalid_selection_fails[cfg2-CANCER_LIST_INVALID]",
+    "test_invalid_selection_fails[cfg3-CANCER_LIST_INVALID]",
+    "test_invalid_selection_fails[cfg4-CANCER_LIST_INVALID]",
+    "test_invalid_selection_fails[cfg5-CANCER_SCOPE]",
+    "test_invalid_selection_fails[cfg6-CANCER_LIST_WITH_ALL]",
+    "test_invalid_selection_fails[cfg7-CANCER_TYPE_INVALID]",
+    "test_invalid_selection_fails[cfg8-CANCER_TYPE_REQUIRED]",
+    "test_list_limits_actual_views_patients_baselines_and_cancer_nodes",
+    "test_normalized_list_and_configuration_is_not_mutated",
+    "test_prepared_scope_cannot_disagree_with_config"
+  ],
+  "validation_note": "All 182 cases passed together in the final test batch on host 149.",
+  "real_authority_sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253",
+  "real_all_cancer_count": 33,
+  "real_demo_cancers": [
+    "BRCA",
+    "LUAD"
+  ],
+  "real_patient_scope_resolution_verified": true,
+  "real_patient_preparation_or_training_run": false,
+  "synthetic_prepared_all_and_list_cli_verified": true,
+  "task_weights": {
+    "pathway": 1.0,
+    "state": 0.5
+  },
+  "production_release": false
+}

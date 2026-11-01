@@ -59,17 +59,27 @@ def parser():
     a=sub.add_parser('status');a.add_argument('directory')
     a=sub.add_parser('selftest-data');a.add_argument('--workdir');a.add_argument('--parquet',action='store_true')
     a=sub.add_parser('selftest');a.add_argument('--workdir');a.add_argument('--parquet',action='store_true');a.add_argument('--device',default='cpu')
+    for command in ('preflight','prepare','prepare-formal','run-queue','worker','gate'):
+        a=sub.choices[command]
+        a.add_argument('--cancer-type','--cancer_type',choices=['all','list'],default=None,
+                       help='all: every cancer in patient authority; list: only cancer_list')
+        a.add_argument('--cancer-list','--cancer_list',nargs='+',default=None,metavar='CANCER',
+                       help='Space-separated cancer IDs, e.g. BRCA LUAD; requires cancer_type=list')
+    sub.choices['preflight'].add_argument('--profile',choices=['diagnostic','formal'],default='diagnostic')
     return p
 
 def main():
     args=parser().parse_args()
     from cla_engine.common import config,read_json,atomic_json,status,Stop,lock,fail
+    def selected_config():
+        return config(args.config,cancer_type=getattr(args,'cancer_type',None),
+                      cancer_list=getattr(args,'cancer_list',None))
     try:
         from cla_engine.location import enter_command
         enter_command(args,ROOT)
         if args.command=='controller-init':
             from cla_engine.controller import enroll_controller
-            print(json.dumps(enroll_controller(config(args.config),args.role),ensure_ascii=False,indent=2));return 0
+            print(json.dumps(enroll_controller(selected_config(),args.role),ensure_ascii=False,indent=2));return 0
         if args.command=='freeze-model':
             from cla_engine.test_access import freeze_model
             print(json.dumps(freeze_model(args.prepared,args.run),ensure_ascii=False,indent=2));return 0
@@ -81,9 +91,9 @@ def main():
             print(export_local(args.output,args.root));return 0
         if args.command=='import-local':
             from cla_engine.inputs import import_local
-            print(json.dumps(import_local(args.archive,config(args.config)),ensure_ascii=False));return 0
+            print(json.dumps(import_local(args.archive,selected_config()),ensure_ascii=False));return 0
         if args.command in ['preflight','prepare']:
-            cfg=config(args.config)
+            cfg=selected_config()
             if args.command=='prepare' and args.profile=='formal':
                 fail('FORMAL_PREPARE_REQUIRES_SIGNED_ADMISSION','Use prepare-formal with a verified diagnostic run; direct formal preparation is disabled')
             if getattr(args,'variant',None):
@@ -92,16 +102,18 @@ def main():
             out=Path(args.output) if args.output else Path(cfg['work_root'])/('input_check' if args.command=='preflight' else f"{args.profile}/{cfg['graph']['variant']}/fold_{args.fold}/prepared")
             from cla_engine.inputs import preflight
             with lock(out.parent/(out.name+'_cpu_lock')):
-                preflight(cfg,out.parent/(out.name+'_preflight'))
+                preflight(cfg,out.parent/(out.name+'_preflight'),profile=args.profile)
                 if args.command=='prepare':
                     from cla_engine.prepare import prepare
                     prepare(cfg,out,args.fold,args.profile)
             return 0
         if args.command=='worker':
+            if (args.cancer_type is not None or args.cancer_list is not None) and not (args.plan or args.job_id):
+                fail('CANCER_SCOPE_ALREADY_PREPARED','Set cancer_type/cancer_list during prepare; a diagnostic worker uses the sealed prepared scope')
             from cla_engine.train import train
             r=train(args.prepared,args.output,device=args.device,deadline=args.deadline,
                 formal_plan=args.plan,formal_job_id=args.job_id,
-                formal_config=config(args.config) if args.plan or args.job_id else None)
+                formal_config=selected_config() if args.plan or args.job_id else None)
             return 75 if r['state']=='PAUSED_BUDGET_OR_SIGNAL' else 0
         if args.command=='supervise':
             from cla_engine.transport import supervise
@@ -140,7 +152,7 @@ def main():
             evaluate_fold(args.prepared,args.run,args.output);return 0
         if args.command=='gate':
             from cla_engine.evaluate import gate
-            r=gate(args.evaluations,config(args.config),args.output);return 0 if r['state']=='PREDICTION_GATE_PASS_NOT_DEPLOYED' else 3
+            r=gate(args.evaluations,selected_config(),args.output);return 0 if r['state']=='PREDICTION_GATE_PASS_NOT_DEPLOYED' else 3
         if args.command=='sets':
             from cla_engine.postprocess import make_sets
             make_sets(args.evaluations,args.output);return 0
@@ -150,10 +162,10 @@ def main():
         if args.command=='prepare-formal':
             from cla_engine.queue import create_plan
             from cla_engine.inputs import preflight
-            cfg=config(args.config);preflight(cfg,Path(args.output)/'preflight');create_plan(cfg,args.output,args.diagnostic_run);return 0
+            cfg=selected_config();preflight(cfg,Path(args.output)/'preflight',profile='formal');create_plan(cfg,args.output,args.diagnostic_run);return 0
         if args.command=='run-queue':
             from cla_engine.queue import run_queue
-            result=run_queue(ROOT,args.plan,config(args.config),args.output,hours=args.hours,
+            result=run_queue(ROOT,args.plan,selected_config(),args.output,hours=args.hours,
                 resume=args.resume,device=args.device);return result_exit_code(result)
         if args.command=='backend-check':
             from cla_engine.backend_check import run
@@ -163,7 +175,7 @@ def main():
             export_core(args.plan,args.queue_output,args.output,device=args.device);return 0
         if args.command=='module-plan':
             from cla_engine.modules import build_plan
-            result=build_plan(config(args.config),args.core_root,args.output,args.bindings)
+            result=build_plan(selected_config(),args.core_root,args.output,args.bindings)
             return 2 if any(j['missing_roles'] for j in result['jobs'].values()) else 0
         if args.command=='run-modules':
             from cla_engine.modules import run_modules
@@ -177,10 +189,10 @@ def main():
             run_audit(args.prepared,args.output,scope=args.scope,training=args.run);return 0
         if args.command=='singlecell-interpret':
             from cla_engine.singlecell_interpretation import interpret
-            interpret(args.queries,config(args.config),args.output,activity_path=args.activity,donor_path=args.donor_pairs,association_path=args.sc_association);return 0
+            interpret(args.queries,selected_config(),args.output,activity_path=args.activity,donor_path=args.donor_pairs,association_path=args.sc_association);return 0
         if args.command=='knowledge-paths':
             from cla_engine.knowledge_paths import knowledge_paths
-            knowledge_paths(args.queries,config(args.config),args.output,prepared=args.prepared);return 0
+            knowledge_paths(args.queries,selected_config(),args.output,prepared=args.prepared);return 0
         if args.command=='status':
             p=Path(args.directory)/'STATUS.json';print(json.dumps(read_json(p),ensure_ascii=False,indent=2));return 0
         if args.command=='selftest-data':

@@ -44,6 +44,48 @@ explicit prepared directory, output directory, device and deadline arguments.
 `bash run_model_workflow.sh --help` invokes this same CLI. The repository root
 contains one `cc_hhgt` import tree; the executor does not load a hidden older copy.
 
+## Cancer scope and a small demo
+
+The top-level configuration parameter `cancer_type` accepts `all` or `list`.
+`all` uses every cancer in the frozen patient map (33 in the current cohort).
+`list` requires a nonempty `cancer_list`; an unknown cancer is an error.
+The public configuration defaults to `"cancer_type": "all", "cancer_list": []`.
+For a two-cancer demo, set these fields in your bound configuration:
+
+```json
+"cancer_type": "list",
+"cancer_list": ["BRCA", "LUAD"]
+```
+
+Or override them on the command line on host 149:
+
+```bash
+python cla.py prepare --config LOCAL_CONFIG.json --profile diagnostic --cancer_type list --cancer_list BRCA LUAD --output NEW_DEMO_PREPARED
+python cla.py prepare --config LOCAL_CONFIG.json --profile diagnostic --cancer_type all --output NEW_ALL_CANCERS_PREPARED
+```
+
+Hyphenated aliases `--cancer-type` and `--cancer-list` also work. IDs are
+trimmed, uppercased, deduplicated and sorted. CLI options override configuration.
+`--cancer_type all` clears a configured list. Explicit selection overrides the
+old profile-level `cancers` field; old bound configurations without the new
+parameter retain their profile's cancer scope until explicitly overridden.
+
+Cancer scope and data-size profile are separate: `diagnostic` retains its
+lncRNA/pathway caps even with `all`. Only selected cancers contribute patient
+views, baselines, cancer nodes, node-omics aggregates and subsequent training.
+Global input checks and the fixed cross-cancer expression eligibility rule still
+use their original authority; they are not recalculated from two demo cancers.
+`CANCER_SCOPE.json` records the selection in preflight and prepared outputs.
+The prepared validator binds this record to configuration and node identities.
+
+Training consumes the prepared scope; it does not re-filter an existing capsule.
+A diagnostic worker rejects cancer overrides; select the cancers during `prepare`.
+Use a fresh output directory when changing scope. `preflight`, `prepare-formal`,
+`run-queue`, formal `worker` and `gate` accept the same options; pass identical
+overrides at each configuration-bound stage, or save the selection in the bound
+configuration once. Formal admission and evaluation gates remain required;
+a small demo does not establish a pan-cancer result.
+
 ## Inputs and targets
 
 The main labels are cancer × lncRNA × exact-pathway/State association labels,

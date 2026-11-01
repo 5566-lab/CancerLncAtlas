@@ -138,6 +138,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     from .execution_contract import validate_config_contract,baseline_contract,ENGINE_ID
     from .controller import assert_controller
     from .inputs import verify_import_authority
+    from .cancer_scope import selection,resolve_cancer_scope
+    selection(cfg,profile)
     validate_config_contract(cfg);assert_controller(cfg)
     imported=verify_import_authority(cfg)
     out=Path(out);sources=cfg['sources'];targets=cfg['targets'];model=cfg['model'];scope=cfg['profiles'][profile]
@@ -156,8 +158,11 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
         if p.is_file():
             h=sha(p);input_hashes[role]={'path':str(p),'sha256':h}
             if spec.get('sha256') and h!=spec['sha256']:fail('INPUT_DRIFT','Pinned input differs',role=role,path=str(p))
-    fm=patient_map(sources['patient_map']['path']);allc=sorted(fm.cancer_id.unique());cancers=scope['cancers'] or allc
-    if set(cancers)-set(allc):fail('CANCER_SCOPE','Configured cancer absent in patient map')
+    fm=patient_map(sources['patient_map']['path'])
+    cancer_scope=resolve_cancer_scope(cfg,fm.cancer_id.unique(),profile)
+    cancers=cancer_scope['selected_cancers']
+    atomic_json(out/'CANCER_SCOPE.json',cancer_scope)
+    fm=fm.loc[fm.cancer_id.isin(cancers)].copy()
     valfold=(fold+1)%5;trainfolds=[x for x in range(5) if x not in [fold,valfold]]
     state,p=state_wide(sources['state'],fm,targets);input_hashes['state']={'path':str(p),'sha256':sha(p)}
     rates=table(sources['detection']['path']);require(rates,['cancer_id','lncrna_id','detection_rate_logcpm_gt0'],'detection')
