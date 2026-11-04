@@ -1,6 +1,6 @@
 {
   "format": "CLA_M0_SCREENED_LASSO_DEMO_V1",
-  "status": "IMPLEMENTED_AND_TESTED_DEMO_RUNNING",
+  "status": "THREE_CANCER_DEMO_COMPLETE_AND_AUDITED",
   "target_host": "149",
   "cancers": [
     "BRCA",
@@ -24,10 +24,250 @@
   "result_root": "/dell_2/DSC/CancerLncAtlas/results/model/M0_LASSO_demo_20261105_r2",
   "tests": {
     "passed": 16,
-    "log_sha256": "85f31ccb994e100d28b927feb4d7ce04725cebf167e1896d3ccb7a731ee393a4"
+    "log_sha256": "85f31ccb994e100d28b927feb4d7ce04725cebf167e1896d3ccb7a731ee393a4",
+    "package_tests_passed": 6
   },
   "fixed_gene_set_rule": "All nonzero coefficients from final full-observed-data fit; no Top20 cap",
   "final_alpha_rule": "Median selected alpha ratio across valid outer folds",
   "upstream_labels": "Frozen native scores; not cross-cohort calibrated",
-  "paid_compute": false
+  "paid_compute": false,
+  "training_source_commit": "a9082362308bb547df2fd9943ac2a5e86f784d34",
+  "result_complete_sha256": "41751dd4b04abb83688721683c53e9a4e4cd557832a44bf3402f204a0ae22118",
+  "audit_complete_sha256": "7316c05cf574c98446eeb3ba19c482f4bace96c936de79944a1f5e3f47f71f29",
+  "figures_complete_sha256": "cd4da9cdaa12edb9c14939b8f84e015eda004f2fc16188bf85555eadbce27c2c",
+  "png": 13,
+  "pdf": 13,
+  "cases": [
+    {
+      "dataset": "TCGA",
+      "cohort": "BRCA",
+      "cancer_id": "BRCA",
+      "n_patients": 1090,
+      "n_features": 16871,
+      "n_targets": 2526,
+      "expression_unit": "log2(TPM+1)",
+      "cohort_pooling": false,
+      "model_inputs": [
+        "lncRNA_expression"
+      ],
+      "labels": "UNCHANGED_FROZEN_NATIVE_SCORES;NOT_CROSS_COHORT_CALIBRATED",
+      "fully_inductive_raw_pipeline": false,
+      "normalization_fit_in_m0": "training_patients_only",
+      "target_weights": {
+        "RNA_PATHWAY": 1.0,
+        "STATE": 0.5
+      },
+      "weight_note": "Independent regressions: each task weight is a constant and cancels in its objective.",
+      "full_common_gene_axis": true,
+      "legacy_detection_filter_applied": false,
+      "expression_harmonization": "Same_units_and_GENCODE_ids;upstream_quantification_pipelines_differ",
+      "batch_corrected": false,
+      "targets_evaluated": 2524,
+      "final_nonempty_signatures": 2456,
+      "final_selected_gene_rows": 569731,
+      "heldout_predictions": 2707915,
+      "min_abs_rho": 0.2,
+      "max_fdr": 0.05,
+      "seconds": 6898.85,
+      "legacy_features_before_annotation": 2173,
+      "upstream_label_exposure": "TCGA current frozen cohort TMM and expression eligibility; not fold-local raw RNA normalization"
+    },
+    {
+      "dataset": "CPTAC",
+      "cohort": "BRCA",
+      "cancer_id": "BRCA",
+      "n_patients": 121,
+      "n_features": 16871,
+      "n_targets": 8750,
+      "expression_unit": "log2(TPM+1)",
+      "cohort_pooling": false,
+      "model_inputs": [
+        "lncRNA_expression"
+      ],
+      "labels": "UNCHANGED_FROZEN_NATIVE_SCORES;NOT_CROSS_COHORT_CALIBRATED",
+      "fully_inductive_raw_pipeline": false,
+      "normalization_fit_in_m0": "training_patients_only",
+      "target_weights": {
+        "RNA_PATHWAY": 1.0,
+        "STATE": 0.5
+      },
+      "weight_note": "Independent regressions: each task weight is a constant and cancels in its objective.",
+      "full_common_gene_axis": true,
+      "legacy_detection_filter_applied": false,
+      "expression_harmonization": "Same_units_and_GENCODE_ids;upstream_quantification_pipelines_differ",
+      "batch_corrected": false,
+      "targets_evaluated": 4192,
+      "final_nonempty_signatures": 2801,
+      "final_selected_gene_rows": 124365,
+      "heldout_predictions": 494005,
+      "min_abs_rho": 0.2,
+      "max_fdr": 0.05,
+      "seconds": 1268.32,
+      "legacy_features_before_annotation": 60669,
+      "upstream_label_exposure": "CPTAC supplied log2(TPM+1); some frozen targets use cohort/global normalization"
+    },
+    {
+      "dataset": "TCGA",
+      "cohort": "LUAD",
+      "cancer_id": "LUAD",
+      "n_patients": 509,
+      "n_features": 16868,
+      "n_targets": 2536,
+      "expression_unit": "log2(TPM+1)",
+      "cohort_pooling": false,
+      "model_inputs": [
+        "lncRNA_expression"
+      ],
+      "labels": "UNCHANGED_FROZEN_NATIVE_SCORES;NOT_CROSS_COHORT_CALIBRATED",
+      "fully_inductive_raw_pipeline": false,
+      "normalization_fit_in_m0": "training_patients_only",
+      "target_weights": {
+        "RNA_PATHWAY": 1.0,
+        "STATE": 0.5
+      },
+      "weight_note": "Independent regressions: each task weight is a constant and cancels in its objective.",
+      "full_common_gene_axis": true,
+      "legacy_detection_filter_applied": false,
+      "expression_harmonization": "Same_units_and_GENCODE_ids;upstream_quantification_pipelines_differ",
+      "batch_corrected": false,
+      "targets_evaluated": 2535,
+      "final_nonempty_signatures": 2469,
+      "final_selected_gene_rows": 333173,
+      "heldout_predictions": 1286697,
+      "min_abs_rho": 0.2,
+      "max_fdr": 0.05,
+      "seconds": 2650.9,
+      "legacy_features_before_annotation": 2403,
+      "upstream_label_exposure": "TCGA current frozen cohort TMM and expression eligibility; not fold-local raw RNA normalization"
+    },
+    {
+      "dataset": "CPTAC",
+      "cohort": "LUAD",
+      "cancer_id": "LUAD",
+      "n_patients": 110,
+      "n_features": 16868,
+      "n_targets": 8750,
+      "expression_unit": "log2(TPM+1)",
+      "cohort_pooling": false,
+      "model_inputs": [
+        "lncRNA_expression"
+      ],
+      "labels": "UNCHANGED_FROZEN_NATIVE_SCORES;NOT_CROSS_COHORT_CALIBRATED",
+      "fully_inductive_raw_pipeline": false,
+      "normalization_fit_in_m0": "training_patients_only",
+      "target_weights": {
+        "RNA_PATHWAY": 1.0,
+        "STATE": 0.5
+      },
+      "weight_note": "Independent regressions: each task weight is a constant and cancels in its objective.",
+      "full_common_gene_axis": true,
+      "legacy_detection_filter_applied": false,
+      "expression_harmonization": "Same_units_and_GENCODE_ids;upstream_quantification_pipelines_differ",
+      "batch_corrected": false,
+      "targets_evaluated": 5834,
+      "final_nonempty_signatures": 2788,
+      "final_selected_gene_rows": 100530,
+      "heldout_predictions": 616850,
+      "min_abs_rho": 0.2,
+      "max_fdr": 0.05,
+      "seconds": 1976.85,
+      "legacy_features_before_annotation": 59361,
+      "upstream_label_exposure": "CPTAC supplied log2(TPM+1); some frozen targets use cohort/global normalization"
+    },
+    {
+      "dataset": "TCGA",
+      "cohort": "COAD",
+      "cancer_id": "COAD",
+      "n_patients": 454,
+      "n_features": 16871,
+      "n_targets": 2532,
+      "expression_unit": "log2(TPM+1)",
+      "cohort_pooling": false,
+      "model_inputs": [
+        "lncRNA_expression"
+      ],
+      "labels": "UNCHANGED_FROZEN_NATIVE_SCORES;NOT_CROSS_COHORT_CALIBRATED",
+      "fully_inductive_raw_pipeline": false,
+      "normalization_fit_in_m0": "training_patients_only",
+      "target_weights": {
+        "RNA_PATHWAY": 1.0,
+        "STATE": 0.5
+      },
+      "weight_note": "Independent regressions: each task weight is a constant and cancels in its objective.",
+      "full_common_gene_axis": true,
+      "legacy_detection_filter_applied": false,
+      "expression_harmonization": "Same_units_and_GENCODE_ids;upstream_quantification_pipelines_differ",
+      "batch_corrected": false,
+      "targets_evaluated": 2529,
+      "final_nonempty_signatures": 2465,
+      "final_selected_gene_rows": 276073,
+      "heldout_predictions": 1136822,
+      "min_abs_rho": 0.2,
+      "max_fdr": 0.05,
+      "seconds": 2075.54,
+      "legacy_features_before_annotation": 1838,
+      "upstream_label_exposure": "TCGA current frozen cohort TMM and expression eligibility; not fold-local raw RNA normalization"
+    },
+    {
+      "dataset": "CPTAC",
+      "cohort": "COAD",
+      "cancer_id": "COAD",
+      "n_patients": 106,
+      "n_features": 16871,
+      "n_targets": 8750,
+      "expression_unit": "log2(TPM+1)",
+      "cohort_pooling": false,
+      "model_inputs": [
+        "lncRNA_expression"
+      ],
+      "labels": "UNCHANGED_FROZEN_NATIVE_SCORES;NOT_CROSS_COHORT_CALIBRATED",
+      "fully_inductive_raw_pipeline": false,
+      "normalization_fit_in_m0": "training_patients_only",
+      "target_weights": {
+        "RNA_PATHWAY": 1.0,
+        "STATE": 0.5
+      },
+      "weight_note": "Independent regressions: each task weight is a constant and cancels in its objective.",
+      "full_common_gene_axis": true,
+      "legacy_detection_filter_applied": false,
+      "expression_harmonization": "Same_units_and_GENCODE_ids;upstream_quantification_pipelines_differ",
+      "batch_corrected": false,
+      "targets_evaluated": 3932,
+      "final_nonempty_signatures": 2192,
+      "final_selected_gene_rows": 107684,
+      "heldout_predictions": 391463,
+      "min_abs_rho": 0.2,
+      "max_fdr": 0.05,
+      "seconds": 1200.42,
+      "legacy_features_before_annotation": 60669,
+      "upstream_label_exposure": "CPTAC supplied log2(TPM+1); some frozen targets use cohort/global normalization"
+    }
+  ],
+  "independently_replayed_models": 196,
+  "verified_files": 134,
+  "cross_cohort_final_gene_set_overlap": "Descriptive comparison of identical target IDs; not a pooled signature or proof of calibrated Y",
+  "validation_limit": "M0 preprocessing and selection exclude outer-test patients; upstream frozen native scores can include cohort-level normalization",
+  "supervision": {
+    "original_wrapper_returncode": -9,
+    "reason": "Historical timeout wrapper replaced without worker interruption. After five completed cases, only unfinished BRCA was restarted with 24 workers; completed cases were retained and first-fold predictions matched exactly.",
+    "completion_evidence": "Root COMPLETE plus complete input-output hash and saved-model replay audit",
+    "record_sha256": "4d4b6d3762b4eb16cf2cb4653f444a49ddc9936542aac2cc83cb447ec700ae12",
+    "supervised_exit_sha256": "4d8b582e0e2a5a43673ee964e081a60af917cda1256031b3f02abe6e6952105b",
+    "remaining_case_relaunch_sha256": "da4175cc1f0261ac39edf21b5bdad244512ecc1115089e8483996839dbc05c8e",
+    "final_training_exit_code": 0,
+    "remaining_case_cpu_workers": 24
+  },
+  "metadata_clarification": "Original run/input receipts remain byte-identical. Their features_before_annotation is inherited from legacy M0; n_features and FEATURES.tsv describe actual full shared inputs. Public summaries rename this historical field; upstream_exposure describes frozen label lineage.",
+  "parallelism_replay": {
+    "target_host": "149",
+    "status": "PASS",
+    "original_workers": 8,
+    "new_workers": 24,
+    "outer_fold": 0,
+    "targets": 2524,
+    "predictions": 541554,
+    "max_absolute_prediction_error": 0.0,
+    "validation": "Identical input/fold/screen/alpha audit within numerical tolerance, plus saved first-fold held-out prediction equality",
+    "receipt_sha256": "0a2c37e7821a9ec06c4e76af770a32ecb73144dbbff138fd0100541f1e0d2140"
+  }
 }

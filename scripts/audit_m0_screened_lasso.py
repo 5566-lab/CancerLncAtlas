@@ -15,6 +15,9 @@ def main():
     root=Path(a.results);rec=json.loads((root/"COMPLETE.json").read_text())
     write_json(root/"AUDIT_PREFLIGHT.json",dict(target_host="149",operation="LASSO_INPUT_OUTPUT_AND_MODEL_REPLAY"))
     checked=0;replays=[];case_stats=[]
+    for field,rel in [("run_summary_sha256","RUN_SUMMARY.tsv"),("metrics_sha256","ALL_METRICS.parquet")]:
+        if field in rec:
+            assert sha(root/rel)==rec[field],rel;checked+=1
     for case in rec["cases"]:
         d=root/case;src=Path(a.inputs)/case
         done=json.loads((d/"COMPLETE.json").read_text());inp=json.loads((src/"COMPLETE.json").read_text())
@@ -72,7 +75,7 @@ def main():
                           final_selected_rows=len(final),evaluated_predictions=int(np.isfinite(pred.to_numpy()).sum())))
         print("AUDIT_CASE_PASS",case,flush=True)
     pd.DataFrame(replays).to_csv(root/"MODEL_REPLAY_CHECKS.tsv",sep="\t",index=False)
-    write_json(root/"AUDIT_COMPLETE.json",dict(status="PASS",target_host="149",verified_files=checked,
+    write_json(root/"AUDIT_COMPLETE.json",dict(status="PASS",target_host="149",implementation_sha256=sha(Path(__file__)),verified_files=checked,
        case_stats=case_stats,replayed_models=len(replays),input_hashes_verified=True,
        outer_test_patients_excluded_from_selection_by_unit_tests=True,final_thresholds_verified=True,
        score_calibration="NOT_ESTABLISHED_BETWEEN_COHORTS",cohort_pooling=False))

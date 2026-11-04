@@ -21,16 +21,24 @@ def main():
     rec=json.loads((root/"COMPLETE.json").read_text());cases=rec["cases"]
     write_json(out/"LAUNCH_PREFLIGHT.json",dict(target_host="149",action="PLOT_LASSO_DEMO",results_complete_sha256=sha(root/"COMPLETE.json")))
     plt.rcParams.update({"font.family":"DejaVu Sans","font.size":10,"axes.spines.top":False,"axes.spines.right":False,"pdf.fonttype":42})
-    rows=[];signatures=[]
+    rows=[];signatures=[];case_signatures={};case_models={};case_meta={};case_info={}
     for case in cases:
         d=root/case;m=pd.read_csv(d/"METRICS.tsv",sep="\t");fm=pd.read_csv(d/"FINAL_MODELS.tsv",sep="\t")
-        genes=pd.read_parquet(d/"FINAL_GENE_SETS.parquet");joined=m.merge(fm,on="target_id",suffixes=("","_model"),validate="one_to_one")
+        genes=pd.read_parquet(d/"FINAL_GENE_SETS.parquet");case_signatures[case]=genes;case_models[case]=fm;case_meta[case]=m.set_index("target_id");case_info[case]=json.loads((d/"INPUTS.json").read_text())["info"];joined=m.merge(fm,on="target_id",suffixes=("","_model"),validate="one_to_one")
         for layer,g in joined.groupby("layer"):
             v=g.loc[g.r2.notna()]
             rows.append(dict(case=case,layer=layer,n_evaluable=len(v),median_r2=v.r2.median(),
                 fraction_r2_positive=v.r2.gt(0).mean(),median_selected_genes=g.n_selected.median(),
                 nonempty_signatures=int(g.n_selected.gt(0).sum()),median_screened_genes=g.n_screened.median()))
-        signatures.append(genes.assign(case=case))
+        signatures.append(genes.assign(case=case).merge(
+            m[["target_id","r2","spearman","skill_vs_train_mean","n_oof","status"]].rename(
+                columns={"r2":"oof_r2","spearman":"oof_spearman","status":"oof_status"}),
+            on="target_id",how="left",validate="many_to_one"))
+        audit=pd.read_parquet(d/"FOLD_AUDIT.parquet")
+        eligible=audit.loc[audit.status.eq("FITTED")].groupby("target_id").outer_fold.nunique()
+        if "eligible_folds" in signatures[-1]:
+            signatures[-1]["eligible_folds"]=signatures[-1]["eligible_folds"].fillna(signatures[-1].target_id.map(eligible))
+        signatures[-1].to_csv(out/(case+"_FINAL_GENE_SETS.tsv.gz"),sep="\t",index=False)
         # Predetermined biology examples; selection does not depend on test performance.
         y=pd.read_parquet(Path(a.inputs)/case/"Y.parquet");pred=pd.read_parquet(d/"OOF_PREDICTIONS.parquet")
         targets=["STATE|signifinder::Hypoxia_Buffa","STATE|CYT::mean_log_GZMA_PRF1","STATE|stemness_rna::RNAss"]
@@ -70,6 +78,28 @@ def main():
     matrix=summary.pivot(index="case",columns="layer",values="median_r2").reindex(columns=[c for c in COLORS if c in set(summary.layer)])
     heatmap(matrix.rename(columns=LABELS),"Screened Lasso | median held-out R-squared","Median R-squared",out,"ALL_COHORTS_PERFORMANCE",vmin=-.3,vmax=1.)
     pd.concat(signatures,ignore_index=True).to_csv(out/"ALL_FINAL_GENE_SETS.tsv.gz",sep="\t",index=False)
+    overlap=[]
+    for cancer in sorted({v["cancer_id"] for v in case_info.values()}):
+        pair={case_info[k]["dataset"]:k for k in cases if case_info[k]["cancer_id"]==cancer}
+        if not {"TCGA","CPTAC"}<=set(pair):continue
+        ta,tb=pair["TCGA"],pair["CPTAC"]
+        ma,mb=case_models[ta],case_models[tb]
+        common=set(ma.loc[ma.status.eq("FITTED"),"target_id"])&set(mb.loc[mb.status.eq("FITTED"),"target_id"])
+        ga={k:set(v.lncrna_id) for k,v in case_signatures[ta].groupby("target_id")}
+        gb={k:set(v.lncrna_id) for k,v in case_signatures[tb].groupby("target_id")}
+        for target in sorted(common):
+            aa,bb=ga.get(target,set()),gb.get(target,set());nn=len(aa&bb);uu=len(aa|bb)
+            overlap.append(dict(cancer_id=cancer,target_id=target,layer=case_meta[ta].loc[target,"layer"],
+                 tcga_selected=len(aa),cptac_selected=len(bb),shared=nn,
+                 jaccard=nn/uu if uu else np.nan,tcga_fraction_shared=nn/len(aa) if aa else np.nan,
+                 cptac_fraction_shared=nn/len(bb) if bb else np.nan,both_nonempty=bool(aa and bb)))
+    od=pd.DataFrame(overlap,columns=["cancer_id","target_id","layer","tcga_selected","cptac_selected","shared","jaccard","tcga_fraction_shared","cptac_fraction_shared","both_nonempty"])
+    od.to_csv(out/"TCGA_CPTAC_LASSO_GENE_SET_OVERLAP.tsv",sep="\t",index=False)
+    if len(od):
+        od.loc[od.both_nonempty].groupby(["cancer_id","layer"]).agg(targets=("target_id","size"),
+            median_tcga_genes=("tcga_selected","median"),median_cptac_genes=("cptac_selected","median"),
+            median_shared=("shared","median"),median_jaccard=("jaccard","median")).reset_index().to_csv(
+                out/"TCGA_CPTAC_LASSO_OVERLAP_SUMMARY.tsv",sep="\t",index=False)
     for case in cases:
         for file in ["FINAL_MODELS.tsv","METRICS.tsv","GENE_SELECTION_STABILITY.tsv.gz"]:
             source=root/case/file
@@ -83,9 +113,11 @@ def main():
           "Final gene sets are nonzero coefficients from full-data refits; validation metrics evaluate the nested training procedure.\n"
           "No passing genes / no predictive validation signal yields an intercept-only model. No arbitrary Top20 fallback.\n"
           "Existing frozen cohort-native Y scores are unchanged and are not cross-cohort calibrated.\n"
+          "Some upstream native Y scores use cohort-level normalization; OOF validates M0 conditional on frozen labels, not a fully fold-local raw-data scoring pipeline.\n"
+          "Gene-set overlap is descriptive for identical target IDs; native score definitions/scales are not necessarily equivalent.\n"
           "No MOGSA; HHGT configuration and Pathway=1.0, State=0.5 are unchanged.\n")
     (out/"RESULTS_README.txt").write_text(text)
     write_json(out/"FIGURES_COMPLETE.json",dict(status="COMPLETE",target_host="149",cases=cases,
-       png=len(list(out.glob("*.png"))),pdf=len(list(out.glob("*.pdf"))),
+       implementation_sha256=sha(Path(__file__)),png=len(list(out.glob("*.png"))),pdf=len(list(out.glob("*.pdf"))),
        files={p.name:sha(p) for p in out.iterdir() if p.is_file()}))
 if __name__=="__main__":main()

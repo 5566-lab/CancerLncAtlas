@@ -82,3 +82,36 @@ scripts/prepare_m0_lasso_inputs.py --cancer-list BRCA LUAD COAD。
 绘图和审计分别为 scripts/plot_m0_screened_lasso.py、
 scripts/audit_m0_screened_lasso.py。依赖见 requirements/m0_lasso_20261104.txt。
 Windows 仅接收完成的图表和交接记录，不运行分析。
+
+模型与交付表的读法
+------------------
+
+对每个评分目标单独拟合标准化后的 Lasso：
+
+    min_beta (1 / (2n)) * sum_i (y_i - x_i @ beta)^2 + alpha * sum_j abs(beta_j)
+
+部署时使用导出的原始 log2(TPM+1) 单位系数与截距：
+
+    predicted_score = intercept + sum_g coefficient_g * log2(TPM_g + 1)
+
+缺失 X 用该模型保存的训练中位数填补。M0 各评分目标独立拟合，
+不把 Pathway 和 State 相加成一个 Y；1.0 与 0.5 是原 HHGT 联合损失权重。
+
+figures/ 中的每队列 FINAL_GENE_SETS.tsv.gz 和 ALL_FINAL_GENE_SETS.tsv.gz
+额外附带目标的折外 R2、Spearman、相对训练均值预测的 skill、样本数和状态。
+它们用于判断这份基因清单对应的预测是否有用，不代表已完成独立队列验证。
+DEMO_SUMMARY.tsv 汇总各数据层的表现，负 R2 不删除。
+TCGA_CPTAC_LASSO_GENE_SET_OVERLAP.tsv 按同名目标列出最终名单的交集、
+Jaccard 和两侧覆盖率；汇总表只统计两边均非空的名单。
+这些是描述性重叠，不代表两队列原生 Y 已经校准，也不产生合并的系数模型。
+
+本次沿用的 Y 中，部分评分包含队列级标准化。这里的折外结果是在这些冻结标签条件下，
+对 M0 的筛选、预处理与拟合做患者分割评估；不等于上游全部评分也已按训练折重新计算。
+TCGA 恢复的 X 来自原始 TPM，输入收据中的历史 upstream_exposure 字段仍说明原标签来源。
+
+字段兼容说明：已完成的 r2 输入及运行收据保留原始字节，其中 features_before_annotation
+是旧 M0 沿用的历史数量，不能解释为本次恢复完整 TPM 后的输入数量。
+实际输入以 n_features 和 FEATURES.tsv 为准；INPUTS.json 另有 previous_tcga_feature_count
+与 restored_tcga_features 记录恢复过程。后续准备入口将旧字段明确命名为
+legacy_features_before_annotation，并单列两队列交集前的注释 lncRNA 数量。
+公开完成汇总同样采用明确的历史字段名，原运行文件不改写。

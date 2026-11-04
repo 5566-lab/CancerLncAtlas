@@ -31,6 +31,10 @@ is limited to BRCA, LUAD and COAD; cohorts retain their original score labels
 and are fitted separately. There is no cross-cohort Y calibration claim.
 See [methods, output contracts and scope](docs/M0_CORRELATION_LASSO_DEMO.rst).
 
+All six cohort/cancer demo runs are complete and audited, with 13 PNG and 13 PDF figures.
+See [completion receipts and case counts](provenance/joint_mainline_20261101/M0_LASSO_DEMO_20261105.json).
+These are separate M0 models for frozen native scores; the HHGT target design remains pending.
+
 ## M0 lncRNA-only linear prediction (2026-11-04)
 
 The separate M0 baseline uses all available annotated lncRNA expression jointly

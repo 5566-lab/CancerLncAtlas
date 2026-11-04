@@ -42,6 +42,10 @@ def prepare(cfg_path,export_root,output,cancers):
             x,y,folds,meta,features,info,sources=data[dataset]
             x=x.reindex(columns=common)
             d=out/(dataset+"_"+info["cohort"]);d.mkdir()
+            info["legacy_features_before_annotation"]=info.pop("features_before_annotation",None)
+            info["upstream_label_exposure"]=info.pop("upstream_exposure",None)
+            info["tcga_annotated_lncrnas_before_intersection"]=len(lnc)
+            info["cptac_annotated_lncrnas_before_intersection"]=data["CPTAC"][0].shape[1]
             info.update(expression_unit="log2(TPM+1)",n_features=len(common),
                         full_common_gene_axis=True,legacy_detection_filter_applied=False,
                         expression_harmonization="Same_units_and_GENCODE_ids;upstream_quantification_pipelines_differ",

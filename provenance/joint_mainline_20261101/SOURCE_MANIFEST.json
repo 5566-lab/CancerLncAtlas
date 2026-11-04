@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 10651,
-      "sha256": "1053607e7e13d0951709d7ed226d912d2030750f845357b1aba921e33f0e10e5"
+      "bytes": 10944,
+      "sha256": "59b6a51fd636b2cb651e03adf3297dc8d8230afc955c4f36b1908917e6542fea"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -1974,8 +1974,8 @@
       "sha256": "dc4a4b0853870a88a969aeb4f00e03a7911da9dea42be31e08c10cd3ad4e7ffa"
     },
     "docs/M0_CORRELATION_LASSO_DEMO.rst": {
-      "bytes": 4765,
-      "sha256": "ae4b9b7c82653256fd488b8c0adf56ff96b2066c200158c70cedfc8e4304848b"
+      "bytes": 6830,
+      "sha256": "5f90eaa9227f74ba5356907a9d2d3afe9cdf56cdd8b3e8b9232e336cada02368"
     },
     "docs/M0_LINEAR_BASELINE.md": {
       "bytes": 7899,
@@ -2394,8 +2394,8 @@
       "sha256": "6204fd25817e18c381605e4150c683262333df7862fa7601ffe3cc8ee8598db0"
     },
     "provenance/joint_mainline_20261101/M0_LASSO_DEMO_20261105.json": {
-      "bytes": 1066,
-      "sha256": "975112136d27f806fb3d499086748e3b9f01c70f68cb7dfe39b5cccdffdf2d54"
+      "bytes": 11190,
+      "sha256": "2c523f9f9f8fa93170541b406dbd67a9c3cdb3db684c42375583b4fad14523c8"
     },
     "provenance/joint_mainline_20261101/MOGSA_RETIREMENT_20261104.json": {
       "bytes": 1819,
@@ -3014,8 +3014,8 @@
       "sha256": "2835baf67173ef6762b2f960bdcc8c8a50d92e1b3d933179daf2ef9a514d4579"
     },
     "scripts/audit_m0_screened_lasso.py": {
-      "bytes": 5547,
-      "sha256": "f42c5945c5cc52596527c3033c8a7f9be7083ee6d58339e34b6112ad6c3889bb"
+      "bytes": 5780,
+      "sha256": "fad9ea8a9b77e8e6c38290858612704c1fe189e4242018c54c6d0efdd673a183"
     },
     "scripts/audit_mc3_site_recurrence.py": {
       "bytes": 2898,
@@ -4150,8 +4150,8 @@
       "sha256": "bf4c1e635b1770ad05109daf4c9da750d4f909510e08b0d568ec2570dbdab94e"
     },
     "scripts/plot_m0_screened_lasso.py": {
-      "bytes": 7274,
-      "sha256": "cc9b1b75e242193d890cb266aa67d8a6d72aff21078b82c892c7f40f73c76a32"
+      "bytes": 10278,
+      "sha256": "fb07dad3b96ae01c0ca7c6be8f13c6b3d588d1a0f07ae0978fa9579279052cbc"
     },
     "scripts/preflight_v32_atac_training.py": {
       "bytes": 3037,
@@ -4182,8 +4182,8 @@
       "sha256": "b4ac8b3bf9e98858b0cee3c0a373dbd315f38e2ecd0f0a754f12b0b7975301f1"
     },
     "scripts/prepare_m0_lasso_inputs.py": {
-      "bytes": 4887,
-      "sha256": "5569fd14f17b43417b5fb6d28769f668758bf0811109ceb736fe3bfe8e6dbfdb"
+      "bytes": 5226,
+      "sha256": "7abf8adeced4c7e816572b5b2551518d242ca3c3b9d148d574d85c6f945521ac"
     },
     "scripts/prepare_v32_causal_regulatory_network.py": {
       "bytes": 3244,
@@ -6979,6 +6979,6 @@
     }
   },
   "format": "CLA_JOINT_MAINLINE_SOURCE_V1",
-  "last_change_base_commit": "7ac851d35d0dc4ecd7beab92e7015f995e573ee3",
+  "last_change_base_commit": "a9082362308bb547df2fd9943ac2a5e86f784d34",
   "target_host": "149"
 }
