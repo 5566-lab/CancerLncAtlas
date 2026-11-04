@@ -10,6 +10,7 @@ def make_fixture(root,parquet=False,expanded_states=False):
     root=Path(root);root.mkdir(parents=True,exist_ok=True);cfg=read_json(Path(__file__).resolve().parents[1]/'config/149.json');rng=np.random.default_rng(9041)
     # Synthetic fixtures explicitly exercise the established RNA/State executor.
     # They do not select or validate the future per-assay biological targets.
+    cfg.pop('rppa_input', None)  # Generic fixtures do not claim real RPPA500 inputs.
     cfg['pathway_fusion']={'enabled':False}
     cfg['pathway_target_policy']={'status':'EXPLICIT_EXISTING_RNA'}
     if expanded_states:

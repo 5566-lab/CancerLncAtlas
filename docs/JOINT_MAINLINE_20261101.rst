@@ -175,3 +175,12 @@ patients stay unavailable, and unverified distal topology is rejected at run
 time. Clinical endpoint and covariate conflicts fail closed; ExtraEndpoints-only
 patients remain in the universe, and entity-specific missing measurements stay
 missing throughout residualization and survival statistics.
+
+Current RPPA source (2026-11-04)
+------------------------------
+
+RPPA500 replaces the earlier 198-marker source for new measured-input
+materialization. See RPPA500_INPUTS_20261104.rst for exact source hashes,
+sample-vial quality exclusions, available features and preflight binding.
+Protein/phosphorylation prediction heads remain a separate implementation;
+this input replacement does not change Y, State weights or MOGSA retirement.

@@ -111,6 +111,16 @@ resource scores remain in State using their legacy weighted implementation.
 See [the current target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst) and
 [the historical scoring report](docs/PATHWAY_FUSION_20261101.rst).
 
+The current protein/phosphorylation input is the hash-pinned official TCPA
+RPPA500 download. Its 447 columns contain 433 markers with measurements; the
+quality-screened exact RNA sample-vial match covers 7,213 of 10,432 patients
+(69.14%). Other PTMs and non-gene measurements remain separate. The current
+download and paper/portal annotations have 29 different marker identities,
+which are explicitly reconciled against exact GDC antibody records. See
+[the RPPA500 input contract and reproducible commands](docs/RPPA500_INPUTS_20261104.rst).
+This replaces measured inputs; separate protein/phosphorylation heads are not
+implemented by this change.
+
 Verified gene-level CNV and promoter methylation measurements remain supported.
 Joint preparation aggregates their original patient matrices using each view's
 source patients, excluding that view's label patients. An outer-fold aggregate

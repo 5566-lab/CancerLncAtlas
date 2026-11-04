@@ -142,6 +142,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     selection(cfg,profile)
     from .pathway_fusion import require_pathway_targets
     require_pathway_targets(cfg)
+    from .rppa500 import validate_binding
+    rppa_input=validate_binding(cfg.get('rppa_input'), sha(Path(cfg['sources']['patient_map']['path'])))
     validate_config_contract(cfg);assert_controller(cfg)
     imported=verify_import_authority(cfg)
     out=Path(out);sources=cfg['sources'];targets=cfg['targets'];model=cfg['model'];scope=cfg['profiles'][profile]
@@ -154,6 +156,9 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     out.mkdir(parents=True,exist_ok=True);status(out,'CPU_PREPARING',fold=fold,profile=profile)
     # Each input hash is recorded; pinned sources additionally must match prior receipts.
     input_hashes={k:v for k,v in imported['bound_files'].items()}
+    if rppa_input is not None:
+        atomic_json(out/'RPPA_INPUT.json',rppa_input)
+        input_hashes['rppa_input::complete']=rppa_input['complete']
     for role,spec in sources.items():
         if not isinstance(spec,dict) or 'path' not in spec:continue
         p=Path(spec['path'])

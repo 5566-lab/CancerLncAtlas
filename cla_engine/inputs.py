@@ -70,6 +70,8 @@ def preflight(cfg,out,*,allow_unbound_optional=False,profile='diagnostic'):
     selection(cfg,profile)
     validate_config_contract(cfg);assert_controller(cfg)
     import_authority=verify_import_authority(cfg)
+    from .rppa500 import validate_binding
+    rppa_input=validate_binding(cfg.get('rppa_input'), sha(Path(cfg['sources']['patient_map']['path'])))
     out=Path(out);out.mkdir(parents=True,exist_ok=True);checks=[];bad=[]
     for role,rec in cfg['sources'].items():
         p=Path(rec['path']);actual=p
@@ -103,6 +105,8 @@ def preflight(cfg,out,*,allow_unbound_optional=False,profile='diagnostic'):
     atomic_json(out/'INPUT_CHECK.json',report)
     if bad:fail('INPUT_CHECK_FAIL','Required actual paths/hash/readers not ready. No GPU launch.',blockers=bad,report=str(out/'INPUT_CHECK.json'))
     # Do not merely test names: execute real State join before paid work.
+    if rppa_input is not None:
+        atomic_json(out/'RPPA_INPUT_VALIDATION.json',rppa_input)
     fm=patient_map(cfg['sources']['patient_map']['path'])
     cancer_scope=resolve_cancer_scope(cfg,fm.cancer_id.unique(),profile)
     atomic_json(out/'CANCER_SCOPE.json',cancer_scope)

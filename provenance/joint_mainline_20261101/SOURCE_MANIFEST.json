@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 7998,
-      "sha256": "0772ba41f0069a8162b3813629168b56163bc29b7d52410185993b537825712e"
+      "bytes": 8647,
+      "sha256": "b8f4c063f1e3caf0b3ffcae588fbd52fa7b712e6c81c9a8e40f3aacedf3843c7"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -1594,8 +1594,8 @@
       "sha256": "10f3687dff8da4ceef997207ab31ec4874a626fb0c19531191e9b0de893f0db6"
     },
     "cla_engine/fixture.py": {
-      "bytes": 12667,
-      "sha256": "053f40a157929739a45c59f064772e2d152b4dc64d641926c29d574433258c48"
+      "bytes": 12753,
+      "sha256": "c08502d9247d384b353285708a56ea80f2665a02f6adf586c880c4160c64ff54"
     },
     "cla_engine/genomics.py": {
       "bytes": 16494,
@@ -1614,8 +1614,8 @@
       "sha256": "f9d998ffc403be0bd2063ea3d202e45a502823cd6df4ccde1f92464f76be62cc"
     },
     "cla_engine/inputs.py": {
-      "bytes": 14363,
-      "sha256": "c94de0e94c2bcef7d6504542d7b84bf229d1342eee76be2d68eb699355d950fb"
+      "bytes": 14606,
+      "sha256": "c2a7259814df7c27b7783e99aba2e30c89d40089732837682926bc338868cdbc"
     },
     "cla_engine/interpretation.py": {
       "bytes": 2234,
@@ -1670,8 +1670,8 @@
       "sha256": "e2b92eb410c2212d46bce44de68fbf1e623443971a63502588544dec02f2f01d"
     },
     "cla_engine/prepare.py": {
-      "bytes": 44870,
-      "sha256": "2fd2778bc9e8177b1195058eadc2b484538eddea05c62daa92b682d29d66d749"
+      "bytes": 45170,
+      "sha256": "5d78c4527fdcf3a1ba6309a2b5cf9c24637a34feb4fde07a58c3784d49476a56"
     },
     "cla_engine/queue.py": {
       "bytes": 7446,
@@ -1684,6 +1684,10 @@
     "cla_engine/rppa.py": {
       "bytes": 4042,
       "sha256": "ec9e67276f10d63be4bb05ce2c5cbaeda8f17db89401a241062fad668df82758"
+    },
+    "cla_engine/rppa500.py": {
+      "bytes": 20639,
+      "sha256": "6c0c28a90a9d7ec47d6298d831a946a9ea1350ca19798053e27e7f08dc40ece5"
     },
     "cla_engine/runtime_guard.py": {
       "bytes": 7149,
@@ -1730,8 +1734,8 @@
       "sha256": "261d455a1f07f43615df17eb879491ada10fd954ad2c2ab28209e10cc2888d03"
     },
     "config/149.json": {
-      "bytes": 912535,
-      "sha256": "0ba5b49668950d152f087c80567acfd447a75107f9d0c538128cdb5f054dfb26"
+      "bytes": 912865,
+      "sha256": "764caf966a81fdc87116395fd53b32f66be303cbecfff4ce05ca701a9017df71"
     },
     "config/model_v2.yaml": {
       "bytes": 7145,
@@ -1857,6 +1861,10 @@
       "bytes": 1136,
       "sha256": "c07e5296e46d914af77a0bf94a775b37b5605e9b925568420d3fdcaf3c9aede1"
     },
+    "config/rppa500_sources_20261104.json": {
+      "bytes": 2613,
+      "sha256": "b2687114c37ccc14123a8496b9f657bcfbd6125bf6b1ff517e88d91d43dffc7d"
+    },
     "config/state_catalog_20261101.json": {
       "bytes": 128230,
       "sha256": "48c5933ef802fec73f70f3219a47d1d6f1ad77b6f0876d096e4b35440351f007"
@@ -1890,8 +1898,8 @@
       "sha256": "5ae6b278e55c7734cafd344de1ae4b1549b08c70d51a03d47fea81806768867d"
     },
     "docs/JOINT_MAINLINE_20261101.rst": {
-      "bytes": 10257,
-      "sha256": "517b6b54412b371b0bed0c713e5beaf665981b9a46440b967580c2a2e725ff38"
+      "bytes": 10693,
+      "sha256": "66a070ded1fe1f915105613cd5a5b38b51ea5cb9628e21938fa3187402006a84"
     },
     "docs/LOCAL_CNV_PATIENT_SCOPES_20261027.rst": {
       "bytes": 6451,
@@ -1932,6 +1940,10 @@
     "docs/PATIENT_INTERVENTION_20261028.rst": {
       "bytes": 5315,
       "sha256": "273a80eff321610c4876ec65f9a63e22d78152c89f38cfdd8249679dc2c69b7f"
+    },
+    "docs/RPPA500_INPUTS_20261104.rst": {
+      "bytes": 7950,
+      "sha256": "6e2fc8cd7602704123e927a80d654072168e7e2eaa9cee71e439070c2482c811"
     },
     "docs/SC_FROZEN_GEOMETRY_REPLAY_20261027.rst": {
       "bytes": 4384,
@@ -2297,6 +2309,10 @@
       "bytes": 1819,
       "sha256": "037a7b2dbdc8aeb0908e5bb5e586354ca6289a65344a08c504dbea8a5d552b2f"
     },
+    "provenance/joint_mainline_20261101/RPPA500_REPLACEMENT_20261104.json": {
+      "bytes": 4168,
+      "sha256": "9f82b616e64628fd332c8db68b42522f567f118f9f2cfd23b55b010662ca4272"
+    },
     "provenance/joint_mainline_20261101/STATE_EXPANSION_VERIFICATION.json": {
       "bytes": 5543,
       "sha256": "eafc66d5daba628c5afff12724908b6fc6eb382697bb0b70ca48483e155d2a54"
@@ -2336,6 +2352,10 @@
     "requirements/requirements-gnn.txt": {
       "bytes": 37,
       "sha256": "c5655807f3153fd7977b03a8e162080f95362aa440139259a9413941cf344e55"
+    },
+    "requirements/rppa500.txt": {
+      "bytes": 34,
+      "sha256": "5ab8a239c1418483ead11ccd73008173fdd3af6ae97f912357ede24da823b30a"
     },
     "run_model_workflow.sh": {
       "bytes": 182,
@@ -3422,8 +3442,8 @@
       "sha256": "8db01b160e6b29486ffc7661f6b0fec5ce6af47c3306ddf48a6a572724f85708"
     },
     "scripts/export_pathway_fusion_inputs_149.py": {
-      "bytes": 9339,
-      "sha256": "e29e1604ae2dfdf137a79acf55ac053de8a3b10fb4ab31df44dde9e4dec73439"
+      "bytes": 258,
+      "sha256": "e8a7cf45cbef949eed48183fc4446e93c6cb554d3c07a46ebb25e07ad7ed1765"
     },
     "scripts/export_pathway_gene_inputs_149.py": {
       "bytes": 7041,
@@ -3592,6 +3612,10 @@
     "scripts/materialize_native_genomic_cnv.py": {
       "bytes": 1805,
       "sha256": "9bb67e537003ac31d343bff9ab3dcea039ae83917ce954fed3c1db8818dfe968"
+    },
+    "scripts/materialize_rppa500_149.py": {
+      "bytes": 249,
+      "sha256": "832379dbe89df911c237d8e3e35567371942b6eb04cde4d937416ec0b59bb238"
     },
     "scripts/materialize_single_cell_hhgt_assets_149.py": {
       "bytes": 30167,
@@ -5277,6 +5301,10 @@
       "bytes": 2784,
       "sha256": "4bf79e63c15e91a83c41bcf79518ff4f68504e2b0dbe56cf1dd677927b5c574b"
     },
+    "tests/test_rppa500.py": {
+      "bytes": 7399,
+      "sha256": "e6006426eec8fad6a22a07fdd74f90cd39f1250536f78247883cd01e67921617"
+    },
     "tests/test_single_cell_batched_lasso.py": {
       "bytes": 8413,
       "sha256": "8ced993abd2ca78793a90fada7efc08d8d2362b0a1e7ef1f1ce019e948b2c45e"
@@ -6747,6 +6775,6 @@
     }
   },
   "format": "CLA_JOINT_MAINLINE_SOURCE_V1",
-  "last_change_base_commit": "d84df766866c2a0cefc0cbf89e6f1de3693ee676",
+  "last_change_base_commit": "b717fb0fa66b54d59efcd818b27ad9aaf4821357",
   "target_host": "149"
 }

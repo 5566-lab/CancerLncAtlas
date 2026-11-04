@@ -19057,6 +19057,15 @@
     }
   },
   "publication_allowed": false,
+  "rppa_input": {
+    "complete": {
+      "path": "/path/to/verified/RPPA500/COMPLETE.json",
+      "sha256": "81268a8f4b6528d61a30a2dfb2c7109fe5efb6dc97fc82229be2fd904235241c"
+    },
+    "format": "CLA_RPPA500_PATIENT_INPUT_V1",
+    "panel": "TCPA_RPPA500",
+    "role": "MEASURED_INPUT_STAGED_NOT_USED_BY_CURRENT_HHGT_HEADS"
+  },
   "seed": 20260726,
   "singlecell_association_cell_types": [],
   "singlecell_association_role": "disabled",

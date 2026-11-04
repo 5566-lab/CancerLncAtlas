@@ -1,0 +1,144 @@
+{
+  "MOGSA": "RETIRED",
+  "alignment_status_counts": {
+    "MATCHED_EXACT_PATIENT_AND_SAMPLE_VIAL": 7213,
+    "NO_FROZEN_RNA_PATIENT": 338,
+    "PRIOR_OFFICIAL_RPPA_SAMPLE_VIAL_EXCLUDED": 266,
+    "RNA_SAMPLE_VIAL_MISMATCH": 11
+  },
+  "all_missing_source_features": [
+    "AKT1",
+    "BETACATENINPS33S37T41",
+    "BRCA1",
+    "CASPASE3CLEAVED",
+    "FRA1",
+    "FRA1PS265",
+    "FRA1PS265CLEAVEDD22B1",
+    "HISTONEH2A",
+    "MDMXMDM4BETIHC00108",
+    "P14ARFBETA300340A",
+    "P14ARFBETIHC00196",
+    "RASD2ORITA502070",
+    "RASD2SIGHPA005839",
+    "RSK123"
+  ],
+  "annotation_panel_mismatch_count": 29,
+  "complete_sha256": "81268a8f4b6528d61a30a2dfb2c7109fe5efb6dc97fc82229be2fd904235241c",
+  "current_role": "MEASURED_INPUT_STAGED_NOT_USED_BY_CURRENT_HHGT_HEADS",
+  "denominator_patients": 10432,
+  "features_with_any_measurement_in_matched_patients": 433,
+  "independent_source_value_comparison": true,
+  "layers": [
+    {
+      "all_values_and_missingness_exactly_match_source": true,
+      "dimensions": 1,
+      "features_with_any_measurement": 1,
+      "layer": "OTHER_MEASUREMENT",
+      "observed_cells": 618,
+      "patients": 618,
+      "per_feature_max": 618,
+      "per_feature_min": 618,
+      "per_observed_feature_min": 618,
+      "percent": 5.92
+    },
+    {
+      "all_values_and_missingness_exactly_match_source": true,
+      "dimensions": 76,
+      "features_with_any_measurement": 74,
+      "layer": "PHOSPHORYLATION",
+      "observed_cells": 512636,
+      "patients": 7213,
+      "per_feature_max": 7213,
+      "per_feature_min": 0,
+      "per_observed_feature_min": 618,
+      "percent": 69.14
+    },
+    {
+      "all_values_and_missingness_exactly_match_source": true,
+      "dimensions": 358,
+      "features_with_any_measurement": 348,
+      "layer": "PROTEIN",
+      "observed_cells": 2319659,
+      "patients": 7213,
+      "per_feature_max": 7213,
+      "per_feature_min": 0,
+      "per_observed_feature_min": 618,
+      "percent": 69.14
+    },
+    {
+      "all_values_and_missingness_exactly_match_source": true,
+      "dimensions": 12,
+      "features_with_any_measurement": 10,
+      "layer": "PTM_OTHER",
+      "observed_cells": 69967,
+      "patients": 7213,
+      "per_feature_max": 7213,
+      "per_feature_min": 0,
+      "per_observed_feature_min": 6904,
+      "percent": 69.14
+    }
+  ],
+  "matched_patient_percent": 69.14,
+  "matched_patients": 7213,
+  "new_model_training": false,
+  "new_only_matched": 144,
+  "new_raw_imputation": false,
+  "new_score_calculation": false,
+  "non_gene_markers": [
+    "MITOCHONDRIA",
+    "PAR"
+  ],
+  "old_matched_patients": 7088,
+  "old_only_matched": 19,
+  "overlap_old_new": 7069,
+  "quality_status_counts": {
+    "Caution": 185,
+    "Under Evaluation": 3,
+    "Valid": 259
+  },
+  "resolved_gene_markers": 445,
+  "source_download_sha256": "787600590f0c08d7227ddae20c45747b29c3f91dfe50c70aa5dcebce65a1c435",
+  "source_samples": 7828,
+  "status": "PASS",
+  "target_host": "149",
+  "task_weights": {
+    "pathway": 1.0,
+    "state": 0.5
+  },
+  "validation": {
+    "demo": {
+      "all_layer_values_identical_to_full_cohort_slice": true,
+      "cancers": [
+        "BRCA",
+        "LUAD"
+      ],
+      "matched_patients": 1209,
+      "patients": 1599,
+      "scores_recomputed": false,
+      "status": "PASS",
+      "target_host": "149"
+    },
+    "import_renewal": "Same SHA256-verified original archive reimported via current CLI; no attestation bypass",
+    "joint_preflight": {
+      "patient_rows": 10432,
+      "rppa_input_validated": true,
+      "state": "INPUT_CHECK_PASS_NOT_TRAINED",
+      "states": 483
+    },
+    "regression_suites": [
+      "tests/test_rppa500.py",
+      "tests/test_rppa.py",
+      "tests/test_pathway_fusion.py",
+      "tests/test_joint_cancer_scope.py",
+      "tests/test_joint_core_catalog.py",
+      "tests/test_joint_packaging.py",
+      "tests/test_joint_source_package.py",
+      "tests/test_joint_local_execution.py",
+      "tests/test_joint_runtime_execution.py",
+      "tests/test_joint_node_omics_prepared.py",
+      "tests/test_v32_joint_shared_encoder.py"
+    ],
+    "regression_tests_passed": 116,
+    "verified_measurement_import_files": 81
+  }
+}

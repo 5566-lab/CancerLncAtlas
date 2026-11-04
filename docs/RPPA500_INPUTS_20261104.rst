@@ -1,0 +1,149 @@
+RPPA500 measured-input replacement (2026-11-04)
+=============================================
+
+The current RPPA input is the TCPA RPPA500 download, pinned by content hash.
+It replaces the earlier GDC TCGA-RPPA-pancan-clean.txt input for new RPPA
+materialization. This is a measurement replacement, not a new pathway score,
+patient regression model, or new protein/phosphorylation HHGT head. MOGSA remains
+retired and Pathway=1.0, State=0.5 remain unchanged.
+
+Verified artifacts and coverage
+-------------------------------
+
+The official archive is TCPA_TCGA_RPPA500.zip, SHA256
+787600590f0c08d7227ddae20c45747b29c3f91dfe50c70aa5dcebce65a1c435.
+Its TSV contains 7,828 sample-vial identifiers and 447 marker columns.
+All original numeric values and missing values are retained without imputation,
+rescaling, total-protein correction, or per-gene/per-site duplication.
+
+The frozen RNA authority contains 10,432 patients across 33 cancers. Exact
+patient/sample-vial matching admits 7,479 before preserving prior sample-quality
+exclusions. There are 338 source patients outside the authority, 11 sample-vial
+mismatches, and 266 exact matches excluded by existing official RPPA
+Do_not_use/pathology annotations. The final aligned input covers 7,213 patients
+(69.14%). It contains 144 matched patients absent from the old accepted set and
+does not retain 19 previously accepted patients; 7,069 are shared. These are
+sample-vial matches, not claims of matching protein/RNA aliquots.
+
+The actual downloaded panel contains:
+
+* 358 total-protein columns, of which 348 have measurements in matched patients.
+* 76 phosphorylation columns, of which 74 have measurements.
+* 12 other or composite PTM columns, of which 10 have measurements.
+* One mitochondria-wide measurement, observed in 618 patients (5.92%).
+
+The first three layers each have at least one measurement for all 7,213 accepted
+patients. Individual marker coverage varies. Fourteen columns are entirely
+missing in the official source itself. They remain named, unavailable features;
+they are not zero-valued labels. Thus 433 of the 447 columns have measurements.
+FEATURE_COVERAGE.tsv is the authority for per-marker denominators.
+
+Publication and online annotation discrepancy
+---------------------------------------------
+
+The 2024 Nature Cancer paper reports 357 total and 90 PTM markers. The current
+official downloadable matrix and the 447-entry paper/portal annotation catalog
+have 418 exact markers in common, with 29 matrix-only and 29 annotation-only
+markers. A cardinality of 447 does not prove these are identical panels.
+
+The adapter explicitly records this discrepancy instead of changing marker
+names to make the lists agree. All 29 matrix-only labels have exact records in
+the independently pinned GDC antibody annotation. The public source specification
+lists the exact expected 29-label discrepancy and refuses unexpected drift.
+
+Gene bridges use exact GDC antibody records, or an exact paper marker plus an
+unambiguous gene symbol in the bound GENCODE v36 reference. There are 445
+gene-mapped marker identities, including the entirely missing columns.
+PAR (poly-ADP-ribose) and MITOCHONDRIA are retained as non-gene measurements, with
+no invented gene edges. Multi-gene and multi-site antibodies remain single
+measurement features. Reported phosphosite labels are not isoform-sequence
+validation and do not establish activating or inhibitory function.
+
+The paper's PTM class is not synonymous with phosphorylation. Cleavage-labelled
+or composite markers, acetylation and other modifications retain a separate
+PTM_OTHER layer. Names alone do not establish the biochemical specificity of a
+composite marker. Portal/GDC validation statuses are retained: 259 Valid,
+185 Caution and 3 Under Evaluation. A portal flag is preserved without assuming
+it is a sample/antibody exclusion flag.
+
+Sample quality
+--------------
+
+The new release provides sample-vial IDs, whereas the legacy sample-quality
+file records aliquots. Known RPPA exclusions are conservatively propagated only
+within the exact sample-vial. Any Do_not_use or pathology exclusion rejects that
+vial, including mixed-quality aliquots, rather than pretending the new file
+identifies the usable aliquot. Records absent from the older quality file retain
+the published final-release QC basis; the missing older annotation is explicit.
+RNA and other assay quality flags are not treated as RPPA flags.
+
+Reproducible entry points
+------------------------
+
+Run all preparation and validation on host 149. Install requirements/rppa500.txt
+in an isolated environment in addition to the main dependencies.
+config/rppa500_sources_20261104.json pins the archive, TSV, portal annotation,
+paper supplementary workbook, GDC annotation, GENCODE and frozen patient map.
+Bind existing verified local paths without changing expected source hashes.
+The existing RNA/CNV/promoter-methylation artifact is referenced unchanged.
+
+::
+
+  python scripts/materialize_rppa500_149.py \
+    --source-spec BOUND_RPPA500_SOURCE_SPEC.json \
+    --cancer-type all --output NEW_RPPA500_DIRECTORY
+
+  python scripts/materialize_rppa500_149.py \
+    --source-spec BOUND_RPPA500_SOURCE_SPEC.json \
+    --cancer-type list --cancer-list BRCA LUAD --output NEW_DEMO_DIRECTORY
+
+  python scripts/materialize_rppa500_149.py \
+    --validate-binding RPPA500_BINDING.json
+
+The old export_pathway_fusion_inputs_149.py filename forwards to this current
+entry and no longer accepts legacy RPPA export arguments. No MOGSA operation
+is restored by this compatibility command.
+
+Bind the completed product in rppa_input in the local 149 configuration using
+its format, panel, COMPLETE.json path and SHA256. Joint preflight validates the
+new measurements and the frozen patient-map hash. A compatible future prepare
+records the binding in input lineage. Existing HHGT heads do not yet consume
+these per-patient protein/phosphorylation matrices; that role is explicitly
+recorded, rather than claiming trained embeddings or new supervision.
+
+The operational product is
+/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/.
+Current activation is recorded in the separate RPPA_CURRENT.json pointer.
+Raw measurements, patient identities and machine-bound configuration are not
+committed to GitHub. The public repository contains code, source hashes,
+aggregate audits and tests.
+
+Validation
+----------
+
+Every aligned value and missing mask is compared with the downloaded source
+using an independent exact sample-vial and prior-QC join. The validator checks
+source/product hashes, patient and feature axes, observed-cell counts, explicit
+availability masks, producer snapshot and the frozen authority. Old panel
+formats and changed source files fail validation. Per-cancer and per-marker
+coverage are retained; missing measurements never become negative labels.
+
+Verification on host 149 passed 116 regression tests, full real-input preflight
+(10,432 patients and 483 State columns), and a BRCA/LUAD demo with 1,599
+patients, of whom 1,209 have accepted RPPA500 measurements. Demo values and
+missing masks equal the corresponding full-cohort slice exactly. The import
+attestation was renewed through the normal import CLI after rechecking the
+unchanged original archive; signature verification was not bypassed.
+
+The bound current configuration is
+/dell_2/DSC/CancerLncAtlas/runtime/rppa500_20261104_r1/CURRENT_149_CONFIG.json;
+RPPA_CURRENT.json also records the active code checkout and input hash.
+
+Primary sources
+---------------
+
+* Paper: https://www.nature.com/articles/s43018-024-00817-x
+* Download: https://tcpa.drbioright.org/rppa500/download.html
+* Current antibody annotation: https://tcpa.drbioright.org/rppa500/annotation-antibody
+* Supplementary workbook: https://static-content.springer.com/esm/art%3A10.1038%2Fs43018-024-00817-x/MediaObjects/43018_2024_817_MOESM2_ESM.xlsx
+* GDC antibody annotation: https://api.gdc.cancer.gov/v0/data/62647302-b4d3-4a81-a7c0-d141f5dbd300

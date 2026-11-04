@@ -1,0 +1,83 @@
+{
+  "format": "CLA_RPPA500_SOURCE_SPEC_V1",
+  "panel": "TCPA_RPPA500",
+  "expected_matrix_shape": [
+    7828,
+    448
+  ],
+  "expected_annotation_panel_mismatch": [
+    "ALKBH5",
+    "CASPASE3",
+    "CASPASE9",
+    "CD86",
+    "CTLA4",
+    "E2F1",
+    "EZH2",
+    "FTO",
+    "IMP3",
+    "IRF3PS396",
+    "LDHB",
+    "MELANOMAGP100",
+    "METTL3",
+    "MITOCHONDRIA",
+    "P63",
+    "PAR",
+    "PDGFRB",
+    "PYGL",
+    "RETPY905",
+    "RHEB",
+    "RIP",
+    "RRM1",
+    "S100A4",
+    "STING",
+    "WTAP",
+    "YTHDF2",
+    "YTHDF3",
+    "ZAP70",
+    "ZEB1"
+  ],
+  "sources": {
+    "archive": {
+      "path": "/path/to/source/TCPA_TCGA_RPPA500.zip",
+      "sha256": "787600590f0c08d7227ddae20c45747b29c3f91dfe50c70aa5dcebce65a1c435"
+    },
+    "matrix": {
+      "path": "/path/to/source/TCPA_TCGA_RPPA500.tsv",
+      "sha256": "550fa3b69de7242f99f4d1d1ba5d02db5d2f45cb205775a808cddcc0afc43f9a"
+    },
+    "portal_annotation": {
+      "path": "/path/to/source/portal_annotation-antibody.json",
+      "sha256": "76076e6157a7ef9f70623a6c5833c3f05c1e3b57e9b8055f03d8cb5d5e7a5b21"
+    },
+    "paper_supplement": {
+      "path": "/path/to/source/43018_2024_817_MOESM2_ESM.xlsx",
+      "sha256": "734d1303264ed2d9b0a443fc3a62e5bafc12eb6cb878ce6c3c85f697783abaec"
+    },
+    "gdc_annotation": {
+      "path": "/path/to/source/TCGA_antibodies_descriptions.gencode.v36.tsv",
+      "sha256": "600798856a9ddc071480cc8c37ea815870d1455b19c63e053b3396585427b0ed"
+    },
+    "gtf": {
+      "path": "/path/to/source/gencode.v36.annotation.gtf.gz",
+      "sha256": "81359865bab048361cbeaf91c9441aac4c700b63978e6691d579d78bf2322d30"
+    },
+    "patient_map": {
+      "path": "/path/to/source/SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253"
+    },
+    "prior_sample_quality": {
+      "path": "/path/to/verified/merged_sample_quality_annotations.tsv",
+      "sha256": "e3190253ccb55f9f5ccc558b7f994577b2e90c2ee306814231b7d5f077364deb"
+    }
+  },
+  "gene_assays_unchanged": {
+    "path": "/path/to/verified/gene_assays/COMPLETE.json",
+    "sha256": "2c636b68786f3ab2e73c9014648b7949991cbba73f7a3d3a237a9e34c1e6599e"
+  },
+  "source_urls": {
+    "archive": "https://tcpa.drbioright.org/rppa500/_design/basic/download/TCPA_TCGA_RPPA500.zip",
+    "portal_annotation": "https://tcpa.drbioright.org/rppa500/annotation-antibody",
+    "paper_supplement": "https://static-content.springer.com/esm/art%3A10.1038%2Fs43018-024-00817-x/MediaObjects/43018_2024_817_MOESM2_ESM.xlsx",
+    "gdc_annotation": "https://api.gdc.cancer.gov/v0/data/62647302-b4d3-4a81-a7c0-d141f5dbd300"
+  }
+}
