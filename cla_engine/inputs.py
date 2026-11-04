@@ -72,6 +72,8 @@ def preflight(cfg,out,*,allow_unbound_optional=False,profile='diagnostic'):
     import_authority=verify_import_authority(cfg)
     from .rppa500 import validate_binding
     rppa_input=validate_binding(cfg.get('rppa_input'), sha(Path(cfg['sources']['patient_map']['path'])))
+    from .state_protein_map import validate_binding as validate_state_map
+    state_map=validate_state_map(cfg.get('state_protein_map'),cfg['targets'])
     out=Path(out);out.mkdir(parents=True,exist_ok=True);checks=[];bad=[]
     for role,rec in cfg['sources'].items():
         p=Path(rec['path']);actual=p
@@ -107,6 +109,8 @@ def preflight(cfg,out,*,allow_unbound_optional=False,profile='diagnostic'):
     # Do not merely test names: execute real State join before paid work.
     if rppa_input is not None:
         atomic_json(out/'RPPA_INPUT_VALIDATION.json',rppa_input)
+    if state_map is not None:
+        atomic_json(out/'STATE_PROTEIN_MAP_VALIDATION.json',state_map)
     fm=patient_map(cfg['sources']['patient_map']['path'])
     cancer_scope=resolve_cancer_scope(cfg,fm.cancer_id.unique(),profile)
     atomic_json(out/'CANCER_SCOPE.json',cancer_scope)

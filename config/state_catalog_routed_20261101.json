@@ -6066,7 +6066,7 @@
       "reason": "Preserved, not counted as independent primary State loss in this configured candidate"
     }
   ],
-  "primary_count": 197,
+  "primary_count": 482,
   "auxiliary_count": 1,
   "historical_source_sha256": "1812157c61d6403c3726555e31067afdd1ea3359385493608caae4e7b13d1e11",
   "method_packages": {

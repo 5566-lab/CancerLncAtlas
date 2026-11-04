@@ -201,6 +201,45 @@
         ],
         "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS"
       },
+      "DNARepair_Hallmark": {
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED",
+        "excluded": {},
+        "maximum_category_levels": 32,
+        "minimum_joint_valid_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_observed_fraction": 0.8,
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS"
+      },
       "DNAss": {
         "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED",
         "excluded": {},
@@ -14755,6 +14794,45 @@
         ],
         "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS"
       },
+      "TLS12_Chemokine_Published": {
+        "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED",
+        "excluded": {},
+        "maximum_category_levels": 32,
+        "minimum_joint_valid_fraction": 0.8,
+        "minimum_observed_count": 3,
+        "minimum_observed_fraction": 0.8,
+        "optional": [
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch"
+        ],
+        "purity_dependent_source_families": [],
+        "purity_source_column": "purity_source",
+        "requested": [
+          "age_years",
+          "sex",
+          "stage",
+          "molecular_subtype",
+          "clinical_subtype",
+          "technical_batch",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required": [
+          "age_years",
+          "sex",
+          "stage",
+          "purity",
+          "leukocyte_fraction",
+          "cell_fraction_Macrophages.M0",
+          "cell_fraction_Macrophages.M1",
+          "cell_fraction_Macrophages.M2"
+        ],
+        "required_missing_policy": "COMPLETE_CASE_NO_IMPUTED_REQUIRED_ADJUSTMENTS"
+      },
       "TMB": {
         "constant_policy": "REDUNDANT_IF_OBSERVED_AND_UNCHANGED;NEW_VARIATION_UNSUPPORTED",
         "excluded": {},
@@ -19118,21 +19196,29 @@
       "sha256": "b99ddbe390e5708654a02e8ec2149fcb8de7ea366702ae644ddc8b8369f6eafc"
     },
     "state": {
-      "bytes": 41214787,
-      "catalog_id": "CLA_STATE_ROUTED_PROGRAMS_20261101_V2",
-      "columns": 485,
+      "bytes": 41378687,
+      "catalog_id": "CLA_STATE_AUGMENTED_20261104_V3",
+      "columns": 487,
       "format": "CLA_PATIENT_STATE_V1",
-      "materialization_manifest": "/path/to/verified_inputs/STATE_ROUTED_MATERIALIZATION.json",
-      "materialization_manifest_sha256": "a493183ad2d634205861c9d060ea13c79d02da6e1f66c0fac0781d079cdb84c5",
-      "path": "/path/to/verified_inputs/STATE_ROUTED_PATIENT.parquet",
-      "sha256": "132955d833050a1518d1a4bca23c2406ddca5633bda167ff97b0ee6158d16588"
+      "materialization_manifest": "/path/to/verified/STATE_MATERIALIZATION.json",
+      "materialization_manifest_sha256": "addbe4fb1d221099513a1a560c3e5ef804ffa04ad795e56033e2a530a029a7ec",
+      "path": "/path/to/verified/STATE_AUGMENTED_PATIENT.parquet",
+      "sha256": "137be9ec6b6231e9011ba30f34581d89c8982001873b1ab931d660faa59d4af5"
     },
     "weighted_membership": {
       "path": "/path/to/verified_inputs/pathway_gene_member.parquet",
       "sha256": "6d34005cd45b8b2aaf47ba8dd0f57f6a6e4eae1d1bbc1a554b3bbe994ba3c324"
     }
   },
-  "state_catalog": "CLA_STATE_ROUTED_PROGRAMS_20261101_V2",
+  "state_catalog": "CLA_STATE_AUGMENTED_20261104_V3",
+  "state_protein_map": {
+    "complete": {
+      "path": "/path/to/verified/STATE_PROTEIN_MAP/COMPLETE.json",
+      "sha256": "52b5386322cf52559880dc9d26c94ab2893ba28e8dd6add0886fe47b40b8617e"
+    },
+    "format": "CLA_STATE_PROTEIN_MAP_V1",
+    "role": "SCORING_DEFINITION_PROTEIN_BRIDGE_NOT_AUTOMATIC_GRAPH_EDGES"
+  },
   "statistics": {
     "cnv_transform": "raw_signed",
     "equivalent_to_r7_rank_cnv_A2": false,
@@ -25099,6 +25185,30 @@
       "source": "R/07_bulk_regulator_activity.R; existing verified formal_pathway_activity",
       "source_kind": "routed_program",
       "unit": "LEGACY_WEIGHTED_ZSCORE_UNCHANGED"
+    },
+    {
+      "column": "panimmune_160_signatures::Wolf::Chemokine12_score",
+      "family": "tls",
+      "id": "TLS12_Chemokine_Published",
+      "interpretation": "Published Wolf Chemokine12_score using the 12-chemokine signature; preserved original values, distinct from Cabrita TLS and any newly calculated singscore; not histological TLS or absolute activity.",
+      "measurement": "RNA_EXPRESSION",
+      "method": "published_precomputed_panimmune_160_signatures",
+      "role": "primary",
+      "source": "https://api.gdc.cancer.gov/data/80a82092-161d-4615-9d96-e858f113618d",
+      "source_kind": "historical",
+      "unit": "PUBLISHED_PANIMMUNE_SCORE_NO_RESCALE"
+    },
+    {
+      "column": "HALLMARK::HALLMARK_DNA_REPAIR",
+      "family": "dna_repair_expression",
+      "id": "DNARepair_Hallmark",
+      "interpretation": "Existing Hallmark DNA-repair ssGSEA values preserved; expression proxy distinct from Kang DNArep and genomic HRD; not repair efficiency.",
+      "measurement": "RNA_EXPRESSION",
+      "method": "GSVA_ssGSEA_Hallmark",
+      "role": "primary",
+      "source": "https://www.gsea-msigdb.org/gsea/msigdb/human/geneset/HALLMARK_DNA_REPAIR",
+      "source_kind": "historical",
+      "unit": "EXISTING_GSVA_SSGSEA_NO_RESCALE"
     }
   ],
   "training": {

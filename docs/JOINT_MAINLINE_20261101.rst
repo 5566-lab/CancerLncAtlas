@@ -4,9 +4,10 @@ Joint Pathway/State mainline
 Current target status (2026-11-04): MOGSA and its derived lavaan parent
 targets are retired. The public configuration requires a replacement design;
 preparation and training do not automatically fall back to RNA activity_score.
-See PATHWAY_TARGET_POLICY_20261104.rst. State remains
-CLA_STATE_ROUTED_PROGRAMS_20261101_V2 with 482 primary targets plus ESTIMATEScore:
-the 198-dimension base and 285 existing PROGENY/DoRothEA programs are unchanged.
+See PATHWAY_TARGET_POLICY_20261104.rst. State now uses
+CLA_STATE_AUGMENTED_20261104_V3 with 484 primary targets plus ESTIMATEScore.
+The existing 483 scores are unchanged; published TLS12 and existing Hallmark
+DNA-repair scores are appended. See STATE_SIGNATURES_20261104.rst.
 
 
 The executable primary workflow is cla.py with config/149.json. This integration
@@ -179,7 +180,7 @@ missing throughout residualization and survival statistics.
 Current RPPA source (2026-11-04)
 ------------------------------
 
-RPPA500 replaces the earlier 198-marker source for new measured-input
+RPPA500 replaces the legacy GDC panel for new measured-input
 materialization. See RPPA500_INPUTS_20261104.rst for exact source hashes,
 sample-vial quality exclusions, available features and preflight binding.
 Protein/phosphorylation prediction heads remain a separate implementation;

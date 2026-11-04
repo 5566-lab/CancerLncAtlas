@@ -4,9 +4,10 @@ Expanded patient State scores (2026-11-01)
 Current target status (2026-11-04): MOGSA and its derived lavaan parent
 targets are retired. The public configuration requires a replacement design;
 preparation and training do not automatically fall back to RNA activity_score.
-See PATHWAY_TARGET_POLICY_20261104.rst. State remains
-CLA_STATE_ROUTED_PROGRAMS_20261101_V2 with 482 primary targets plus ESTIMATEScore:
-the 198-dimension base and 285 existing PROGENY/DoRothEA programs are unchanged.
+See PATHWAY_TARGET_POLICY_20261104.rst. State now uses
+CLA_STATE_AUGMENTED_20261104_V3 with 484 primary targets plus ESTIMATEScore.
+The existing 483 scores are unchanged; published TLS12 and existing Hallmark
+DNA-repair scores are appended. See STATE_SIGNATURES_20261104.rst.
 
 
 The base expansion uses CLA_STATE_EXPANDED_20261101_V1: 198 measured or

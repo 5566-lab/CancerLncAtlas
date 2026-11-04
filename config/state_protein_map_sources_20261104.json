@@ -1,0 +1,121 @@
+{
+  "format": "CLA_STATE_PROTEIN_MAP_SOURCES_V1",
+  "notes": {
+    "HGNC": "Existing project official HGNC crosswalk snapshot reused and hash-pinned; fresh Google-host download unavailable.",
+    "TLS": "Published score downloaded previously; original GDC archive is verified, no score recalculation.",
+    "definition_export": "Exact installed signifinder 1.9.5, hacksig 0.2.0 and original xCell package objects."
+  },
+  "reference_urls": {
+    "extend": "https://github.com/NNoureen/EXTEND/tree/v.1.0.0",
+    "hacksig": "https://github.com/Acare/hacksig",
+    "hgnc": "https://www.genenames.org/download/",
+    "lm22_original": "https://static-content.springer.com/esm/art%3A10.1038%2Fnmeth.3337/MediaObjects/41592_2015_BFnmeth3337_MOESM207_ESM.xls",
+    "mcp": "https://github.com/ebecht/MCPcounter",
+    "panimmune_sets": "https://api.gdc.cancer.gov/data/9b174979-fe97-48bc-9e97-9384b0519f03",
+    "signifinder": "https://github.com/CaluraLab/signifinder/tree/72b3918e4db764123f0d1410a086d16b4b8b0e54",
+    "xcell": "https://github.com/dviraran/xCell"
+  },
+  "sources": {
+    "dorothea": {
+      "bytes": 207350,
+      "path": "/path/to/verified/dorothea_human_ABC.tsv",
+      "sha256": "33fd5db592810641de3400f0796f048985012319ca1781bf913dd0f207d6227e"
+    },
+    "extend": {
+      "bytes": 3088,
+      "path": "/path/to/verified/EXTEND_v1.tar.gz",
+      "sha256": "1f504834135d148fa749b431712117a46726386d9330098d991e27b0486f3fb0"
+    },
+    "gtf": {
+      "bytes": 44507458,
+      "path": "/path/to/verified/gencode.v36.annotation.gtf.gz",
+      "sha256": "81359865bab048361cbeaf91c9441aac4c700b63978e6691d579d78bf2322d30"
+    },
+    "hacksig": {
+      "bytes": 367963,
+      "path": "/path/to/verified/HACKSIG_EXACT_DEFINITIONS.json",
+      "sha256": "16cdda3104d3b9d4ce34880affc9b901753dc35e89294b836942337d7bd8be7a"
+    },
+    "hallmark": {
+      "bytes": 48686,
+      "path": "/path/to/verified/msigdb_hallmark.gmt",
+      "sha256": "eecaf6dad908334ae885406ec72bdc0646d8917588ed7c219fac92fc5363f596"
+    },
+    "hgnc": {
+      "bytes": 6048037,
+      "path": "/path/to/verified/hgnc_alias_crosswalk.tsv",
+      "sha256": "de87aca76971b5996b09df79026c6bb1593340018399c960ac83757b2a6978d3"
+    },
+    "lm22": {
+      "bytes": 225962,
+      "path": "/path/to/verified/LM22_OFFICIAL_MATRIX.tsv",
+      "sha256": "2e625d2911a1336517dc0e02205a4e8ee8794af31cf1a7a5c597f84fdc185a33"
+    },
+    "lm22_degs": {
+      "bytes": 27842,
+      "path": "/path/to/verified/LM22_OFFICIAL_DEGS.tsv",
+      "sha256": "176232e00f1daa36db74c8d630c68a4d9132c91152923fadf404a204db53bb4c"
+    },
+    "lm22_original": {
+      "bytes": 434176,
+      "path": "/path/to/verified/LM22_MOESM207.xls",
+      "sha256": "a6216f8571ee056c5460a85f28ab5d2bfe5aca665cdb90a2bf3e30a38ac648f1"
+    },
+    "malta": {
+      "bytes": 520857,
+      "path": "/path/to/verified/DNAmethylation_and_RNAexpression_Stemness_Signatures.xlsx",
+      "sha256": "b08573a76be2fe4dff7049114144e0cc45f371df58302c3050b3328d3eb1c992"
+    },
+    "mcp": {
+      "bytes": 5342,
+      "path": "/path/to/verified/MCPcounter_genes.txt",
+      "sha256": "408f6c5d02c8f9bd2f1599c598367881853520934f8ce398a4886a8b296922bb"
+    },
+    "mcp_archive": {
+      "bytes": 94440,
+      "path": "/path/to/verified/MCPcounter_source.tar.gz",
+      "sha256": "c2a4a0ce996910e89b44427b940af8e2d73b788e866622d910e0b35e97131af3"
+    },
+    "panimmune_sets": {
+      "bytes": 98670,
+      "path": "/path/to/verified/PanImmune_GeneSet_Definitions.xlsx",
+      "sha256": "8467634278ca461ec7d0512f9935c0b17faad844e3543bba70ebc9cc704dda1e"
+    },
+    "progeny": {
+      "bytes": 13465885,
+      "path": "/path/to/verified/progeny_human.tsv",
+      "sha256": "fc42e442bd4b8386f5fcc75d463b22e6291dd67c408c23b31dc1c868933719f8"
+    },
+    "protein_graph": {
+      "bytes": 320465,
+      "path": "/path/to/verified/protein_gene_map.parquet",
+      "sha256": "b99ddbe390e5708654a02e8ec2149fcb8de7ea366702ae644ddc8b8369f6eafc"
+    },
+    "rppa_catalog": {
+      "bytes": 122371,
+      "path": "/path/to/verified/FEATURE_CATALOG.tsv",
+      "sha256": "a8416f85649a1de3a7eb503a969c5ad9c6f4f9ba818b4f7627b6735b74da2e32"
+    },
+    "rppa_coverage": {
+      "bytes": 21768,
+      "path": "/path/to/verified/FEATURE_COVERAGE.tsv",
+      "sha256": "6909304de43d70934418263603e6cb2e4154e2cd9b678956ef721a1dd54bb559"
+    },
+    "senmayo": {
+      "bytes": 1271,
+      "path": "/path/to/verified/SAUL_SEN_MAYO.json",
+      "sha256": "4716e3238ea4a82e65f09ee05dfe073dcfa428e95c307a7e1c3044431a8559e9"
+    },
+    "signifinder": {
+      "bytes": 667279,
+      "path": "/path/to/verified/SIGNIFINDER_EXACT_DEFINITIONS.json",
+      "sha256": "fb243d76650bf778f499c04448163113abc8cebbcb701a9a15a1eff52040d850"
+    },
+    "xcell": {
+      "bytes": 349784,
+      "path": "/path/to/verified/XCELL_ORIGINAL_DATA.json",
+      "sha256": "7c8a7103956dc331946e2470cdbcd3b74bf3cbb418934a6b52995203051b7f8a"
+    }
+  },
+  "target_host": "149"
+}

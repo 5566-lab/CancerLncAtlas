@@ -14,7 +14,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def test_complete_reviewed_catalog_and_measurement_separation():
     cfg=read_json(ROOT/'config/149.json');validate_config_contract(cfg)
     catalog={t['id']:t for t in cfg['targets']}
-    assert len(catalog)==483 and sum(t['role']=='primary' for t in catalog.values())==482
+    assert len(catalog)==485 and sum(t['role']=='primary' for t in catalog.values())==484
     assert {t['id'] for t in catalog.values() if t['role']=='auxiliary'}=={'ESTIMATEScore'}
     for target in ('EXTEND','RNAss','DNAss','SenMayo','OXPHOS','IPS','TMB','HRD_LOH','HRD_TAI','HRD_LST','MSI','Aneuploidy','ABSOLUTE_ploidy','TumorPurity','SBS::SBS2','SBS::SBS13'):
         assert catalog[target]['role']=='primary'

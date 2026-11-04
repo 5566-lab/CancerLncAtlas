@@ -7,10 +7,12 @@ from .common import fail
 
 CATALOG_ID='CLA_STATE_EXPANDED_20261101_V1'
 ROUTED_CATALOG_ID='CLA_STATE_ROUTED_PROGRAMS_20261101_V2'
+AUGMENTED_CATALOG_ID='CLA_STATE_AUGMENTED_20261104_V3'
 
-@lru_cache(maxsize=2)
+@lru_cache(maxsize=3)
 def _catalog(version=CATALOG_ID):
-    filename='state_catalog_routed_20261101.json' if version==ROUTED_CATALOG_ID else 'state_catalog_20261101.json'
+    filename={CATALOG_ID:'state_catalog_20261101.json',ROUTED_CATALOG_ID:'state_catalog_routed_20261101.json',AUGMENTED_CATALOG_ID:'state_catalog_augmented_20261104.json'}.get(version)
+    if filename is None:fail('STATE_CATALOG_GENERATION','Unknown State registry')
     path=Path(__file__).resolve().parents[1]/'config'/filename
     value=json.loads(path.read_text())
     if value.get('catalog_id')!=version:fail('STATE_CATALOG_GENERATION','Wrong State registry')
@@ -33,7 +35,7 @@ def validate_targets(cfg):
         observed=cfg.get('targets',[])
         observed_roles={t.get('id'):t.get('role') for t in observed if isinstance(t,dict)}
         good=len(observed)==len(expected) and observed_roles=={t['id']:t['role'] for t in expected}
-    elif version in (CATALOG_ID,ROUTED_CATALOG_ID):
+    elif version in (CATALOG_ID,ROUTED_CATALOG_ID,AUGMENTED_CATALOG_ID):
         expected=expanded_targets(version);good=cfg.get('targets')==expected
         if not cfg.get('synthetic_fixture'):
             source=cfg.get('sources',{}).get('state',{})

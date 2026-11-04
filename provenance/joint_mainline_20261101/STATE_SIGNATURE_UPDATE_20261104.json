@@ -1,0 +1,142 @@
+{
+  "MOGSA": "RETIRED",
+  "auxiliary_states": 1,
+  "baseline_commit": "140b98407ba2fa8616765a0a35aefe564433e7ad",
+  "catalog_id": "CLA_STATE_AUGMENTED_20261104_V3",
+  "current_code_digest": "f248cd4f417dadcc7e90ab3e90ce9813379d1f22ebce75c1a184f08df424a829",
+  "definition_reproduction": {
+    "resources": {
+      "HACKSIG_EXACT_DEFINITIONS.json": {
+        "byte_identical_reexport": true,
+        "sha256": "16cdda3104d3b9d4ce34880affc9b901753dc35e89294b836942337d7bd8be7a"
+      },
+      "LM22_OFFICIAL_DEGS.tsv": {
+        "byte_identical_reexport": true,
+        "sha256": "176232e00f1daa36db74c8d630c68a4d9132c91152923fadf404a204db53bb4c"
+      },
+      "LM22_OFFICIAL_MATRIX.tsv": {
+        "byte_identical_reexport": true,
+        "sha256": "2e625d2911a1336517dc0e02205a4e8ee8794af31cf1a7a5c597f84fdc185a33"
+      },
+      "SIGNIFINDER_EXACT_DEFINITIONS.json": {
+        "byte_identical_reexport": true,
+        "sha256": "fb243d76650bf778f499c04448163113abc8cebbcb701a9a15a1eff52040d850"
+      },
+      "XCELL_ORIGINAL_DATA.json": {
+        "byte_identical_reexport": true,
+        "sha256": "7c8a7103956dc331946e2470cdbcd3b74bf3cbb418934a6b52995203051b7f8a"
+      }
+    },
+    "status": "PASS",
+    "target_host": "149"
+  },
+  "demo": {
+    "all_values_and_missing_masks_equal_full_slice": true,
+    "cancers": [
+      "BRCA",
+      "LUAD"
+    ],
+    "patients": 1599
+  },
+  "hallmark_membership_matches_historical_scoring_cache": true,
+  "historical_hallmark_values_binary_equal": true,
+  "joint_task_weights": {
+    "pathway": 1.0,
+    "state": 0.5
+  },
+  "mapping": {
+    "mapping_status_counts": {
+      "AMBIGUOUS_SYMBOL": 704,
+      "MAPPED_PROTEIN": 288190,
+      "NON_PROTEIN_CODING_MEMBER": 34848,
+      "NO_FIXED_GENE_OR_PROTEIN_SIGNATURE": 70,
+      "PROBE_ONLY_NO_VERIFIED_PROTEIN_BRIDGE": 450,
+      "PROTEIN_CODING_WITHOUT_HGNC_UNIPROT": 379,
+      "UNRESOLVED_REFERENCE_GENE": 11833
+    },
+    "rows": 336474,
+    "states": 485,
+    "states_with_protein_mapping": 411,
+    "unique_mapped_genes": 21626
+  },
+  "mapping_complete_sha256": "52b5386322cf52559880dc9d26c94ab2893ba28e8dd6add0886fe47b40b8617e",
+  "new_mapping_automatically_used_as_graph_edges": false,
+  "new_patient_model_trained": false,
+  "new_scores": [
+    {
+      "coverage_percent": 86.8482,
+      "denominator": 10432,
+      "family": "tls",
+      "method": "published_precomputed_panimmune_160_signatures",
+      "patients": 9060,
+      "role": "primary",
+      "source": "https://api.gdc.cancer.gov/data/80a82092-161d-4615-9d96-e858f113618d",
+      "state_id": "TLS12_Chemokine_Published"
+    },
+    {
+      "coverage_percent": 100.0,
+      "denominator": 10432,
+      "family": "dna_repair_expression",
+      "method": "GSVA_ssGSEA_Hallmark",
+      "patients": 10432,
+      "role": "primary",
+      "source": "https://www.gsea-msigdb.org/gsea/msigdb/human/geneset/HALLMARK_DNA_REPAIR",
+      "state_id": "DNARepair_Hallmark"
+    }
+  ],
+  "new_scoring_performed": false,
+  "original_download_hashes_verified": {
+    "PanImmune_GeneSet_Definitions.xlsx": "8467634278ca461ec7d0512f9935c0b17faad844e3543bba70ebc9cc704dda1e",
+    "Scores_160_Signatures.tsv.gz": "823facbfe0a9301e737268e11f7d5654bf07ab002fa6cf9f0c5a1601f6e0cd54"
+  },
+  "patients": 10432,
+  "primary_states": 484,
+  "prior_state_values_and_missing_masks_unchanged": 483,
+  "published_tls_aliquot_policy": "historical 15-character sample ID; first nonmissing published aliquot (verified against every retained value)",
+  "published_tls_compared_values": 9060,
+  "published_tls_comparison_atol": 1e-12,
+  "published_tls_max_absolute_serialization_difference": 0.0,
+  "raw_aliquots": 9129,
+  "raw_unique_sample_ids": 9126,
+  "real_input_preflight": {
+    "host": "149",
+    "patient_rows": 10432,
+    "state": "INPUT_CHECK_PASS_NOT_TRAINED",
+    "states": 485
+  },
+  "regression_tests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 131
+  },
+  "resource_weight_checks": {
+    "dorothea": {
+      "rows": 13223,
+      "same_source_keys_and_weights": true
+    },
+    "progeny": {
+      "rows": 274143,
+      "same_source_keys_and_weights": true
+    }
+  },
+  "state_matrix_sha256": "137be9ec6b6231e9011ba30f34581d89c8982001873b1ab931d660faa59d4af5",
+  "states": 485,
+  "status": "PASS",
+  "target_host": "149",
+  "workbook_validation": {
+    "all_zip_members_crc_verified": true,
+    "bytes": 42020361,
+    "mapping_columns": 27,
+    "sha256": "0a00541cf2b106acdec15b3078ac5b058819d35be128229fbdc5804efcc568e1",
+    "sheet_row_counts_including_headers": {
+      "xl/worksheets/sheet1.xml": 8,
+      "xl/worksheets/sheet2.xml": 486,
+      "xl/worksheets/sheet3.xml": 486,
+      "xl/worksheets/sheet4.xml": 336475
+    },
+    "status": "PASS",
+    "target_host": "149",
+    "unicode_readme_verified": true
+  }
+}

@@ -144,6 +144,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     require_pathway_targets(cfg)
     from .rppa500 import validate_binding
     rppa_input=validate_binding(cfg.get('rppa_input'), sha(Path(cfg['sources']['patient_map']['path'])))
+    from .state_protein_map import validate_binding as validate_state_map
+    state_map=validate_state_map(cfg.get('state_protein_map'),cfg['targets'])
     validate_config_contract(cfg);assert_controller(cfg)
     imported=verify_import_authority(cfg)
     out=Path(out);sources=cfg['sources'];targets=cfg['targets'];model=cfg['model'];scope=cfg['profiles'][profile]
@@ -159,6 +161,9 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     if rppa_input is not None:
         atomic_json(out/'RPPA_INPUT.json',rppa_input)
         input_hashes['rppa_input::complete']=rppa_input['complete']
+    if state_map is not None:
+        atomic_json(out/'STATE_PROTEIN_MAP.json',state_map)
+        input_hashes['state_protein_map::complete']=state_map['complete']
     for role,spec in sources.items():
         if not isinstance(spec,dict) or 'path' not in spec:continue
         p=Path(spec['path'])
@@ -187,8 +192,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
         membership,membership_report=membership_join(membership,weighted)
     atomic_json(out/'MEMBERSHIP_ALIGNMENT.json',membership_report)
     hier=table(sources['hierarchy']['path']);binding=table(sources['binding']['path']);pg=table(sources['protein_gene']['path']);ppi=table(sources['ppi']['path']);cov=table(sources['covariates']['path'])
-    from .state_catalog import ROUTED_CATALOG_ID
-    if cfg.get('state_catalog')==ROUTED_CATALOG_ID:
+    from .state_catalog import ROUTED_CATALOG_ID,AUGMENTED_CATALOG_ID
+    if cfg.get('state_catalog') in (ROUTED_CATALOG_ID,AUGMENTED_CATALOG_ID):
         membership=membership.loc[membership.pathway_id.str.startswith('MSIGDB:')].copy()
     pathways=sorted(set(membership.pathway_id.astype(str)))
     if scope.get('max_pathways'):pathways=sorted(pathways,key=lambda v:hashlib.sha256(v.encode()).hexdigest())[:scope['max_pathways']];pathways.sort()

@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 8647,
-      "sha256": "b8f4c063f1e3caf0b3ffcae588fbd52fa7b712e6c81c9a8e40f3aacedf3843c7"
+      "bytes": 8742,
+      "sha256": "63d51eb01406a2c0de8206e9e4a175efd2e51d624bbacf2137b1d4a9534be5b9"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -1594,8 +1594,8 @@
       "sha256": "10f3687dff8da4ceef997207ab31ec4874a626fb0c19531191e9b0de893f0db6"
     },
     "cla_engine/fixture.py": {
-      "bytes": 12753,
-      "sha256": "c08502d9247d384b353285708a56ea80f2665a02f6adf586c880c4160c64ff54"
+      "bytes": 13113,
+      "sha256": "72c5ecd461447f7a096e008bc53bc266fb8eb87a6fcdf7d73aeec8d7d62480da"
     },
     "cla_engine/genomics.py": {
       "bytes": 16494,
@@ -1614,8 +1614,8 @@
       "sha256": "f9d998ffc403be0bd2063ea3d202e45a502823cd6df4ccde1f92464f76be62cc"
     },
     "cla_engine/inputs.py": {
-      "bytes": 14606,
-      "sha256": "c2a7259814df7c27b7783e99aba2e30c89d40089732837682926bc338868cdbc"
+      "bytes": 14859,
+      "sha256": "8fed0605fb527ae65c29408abbadb62b77afc85c99344b667888d5d4a95691ad"
     },
     "cla_engine/interpretation.py": {
       "bytes": 2234,
@@ -1670,8 +1670,8 @@
       "sha256": "e2b92eb410c2212d46bce44de68fbf1e623443971a63502588544dec02f2f01d"
     },
     "cla_engine/prepare.py": {
-      "bytes": 45170,
-      "sha256": "5d78c4527fdcf3a1ba6309a2b5cf9c24637a34feb4fde07a58c3784d49476a56"
+      "bytes": 45532,
+      "sha256": "eb79055d01f9c3419fd4e581e4f258724d57a0d44a77334933fff8eb4aca9f5f"
     },
     "cla_engine/queue.py": {
       "bytes": 7446,
@@ -1701,13 +1701,21 @@
       "bytes": 1369,
       "sha256": "b345000591d06109543f6fa4ce8ccbf93085d818bd04639be8f281800740a62a"
     },
+    "cla_engine/state_augment.py": {
+      "bytes": 6738,
+      "sha256": "caaabfa6163e217e5e20989b72d780a5e624e7685592c05cc7645c22abd633d7"
+    },
     "cla_engine/state_catalog.py": {
-      "bytes": 2043,
-      "sha256": "c2bf21fc6bc6272f66fe7f7acd4ab56dbe16799bfd8f23af096e20cf6a29af8d"
+      "bytes": 2271,
+      "sha256": "0776d63acc01926a38d3ac0e6a6b8c5e1afd1b8602791de07e94caedee11e2a6"
     },
     "cla_engine/state_materialize.py": {
-      "bytes": 17173,
-      "sha256": "65321aa5277c4daadb21ed4923ef6148afdad17cfe1b9542412b58dd5b1cd540"
+      "bytes": 17215,
+      "sha256": "f5a1dd882facac5a1105863d21f87d7cf5c69f85a752edd4368dd097f9067495"
+    },
+    "cla_engine/state_protein_map.py": {
+      "bytes": 21111,
+      "sha256": "e91e4d1d1b4eca792ed623b02735e72d45268c377249da5637a37f14515f7d67"
     },
     "cla_engine/state_route_programs.py": {
       "bytes": 5556,
@@ -1734,8 +1742,8 @@
       "sha256": "261d455a1f07f43615df17eb879491ada10fd954ad2c2ab28209e10cc2888d03"
     },
     "config/149.json": {
-      "bytes": 912865,
-      "sha256": "764caf966a81fdc87116395fd53b32f66be303cbecfff4ce05ca701a9017df71"
+      "bytes": 916920,
+      "sha256": "7748f21007ee997001cb893c7882e62b1c5e9aac610de5347e91e35441eed97c"
     },
     "config/model_v2.yaml": {
       "bytes": 7145,
@@ -1869,9 +1877,17 @@
       "bytes": 128230,
       "sha256": "48c5933ef802fec73f70f3219a47d1d6f1ad77b6f0876d096e4b35440351f007"
     },
+    "config/state_catalog_augmented_20261104.json": {
+      "bytes": 309960,
+      "sha256": "5f5cb75b15e8db2225ed164f6e4a3cd7c18792e64994d8cbd2790d7519e3e533"
+    },
     "config/state_catalog_routed_20261101.json": {
       "bytes": 308645,
-      "sha256": "9184c0ebe43e3ca30fbe1f607d3a53e60a32f8a6caf32a278350e32b804854be"
+      "sha256": "0f172261c308e0c36d4d7f4ec8756a5b79c613265d6c25cf60556fb1ea3b8f3a"
+    },
+    "config/state_protein_map_sources_20261104.json": {
+      "bytes": 4936,
+      "sha256": "d1a3dbe7e95957f98248e632b69698bf491e57f56fba571b52634d492da19c57"
     },
     "config/v32_historical_capability_parity.yaml": {
       "bytes": 18880,
@@ -1898,8 +1914,8 @@
       "sha256": "5ae6b278e55c7734cafd344de1ae4b1549b08c70d51a03d47fea81806768867d"
     },
     "docs/JOINT_MAINLINE_20261101.rst": {
-      "bytes": 10693,
-      "sha256": "66a070ded1fe1f915105613cd5a5b38b51ea5cb9628e21938fa3187402006a84"
+      "bytes": 10742,
+      "sha256": "5ac4b1cf3cfa9f2a17075db2e367aeda526463bf117acbfd38dd0f11c3c49d7b"
     },
     "docs/LOCAL_CNV_PATIENT_SCOPES_20261027.rst": {
       "bytes": 6451,
@@ -1958,8 +1974,8 @@
       "sha256": "6c2242835b4287b18c6454fc8f2b2f8c3c823cf07c68b6ce0799a6bd4ce3f025"
     },
     "docs/STATE_EXPANSION_20261101.rst": {
-      "bytes": 11651,
-      "sha256": "421f0003164de8257652eca187b04ad56f52d97c0879d8d0156d0a27667bfe36"
+      "bytes": 11709,
+      "sha256": "54ba94e04d2f1029ed694ef6dc2df846d8b9cb06985c6f2e262735708b1143d3"
     },
     "docs/STATE_MEASUREMENT_CONTRIBUTIONS_20261027.rst": {
       "bytes": 4059,
@@ -1968,6 +1984,10 @@
     "docs/STATE_PATIENT_SCOPES_20261027.rst": {
       "bytes": 10362,
       "sha256": "40fec85d9ec65477dc416bee95c9ea50a5516984aa6f20718f8e2ca5feaea5ad"
+    },
+    "docs/STATE_SIGNATURES_20261104.rst": {
+      "bytes": 7406,
+      "sha256": "069ba4f9f9e675df7f4eafbab527a055d8484737ac456b9c319083b344cb7764"
     },
     "docs/V32_COMPSHARE_CAPACITY_20260905.md": {
       "bytes": 890,
@@ -2325,6 +2345,10 @@
       "bytes": 41161,
       "sha256": "66d084bb4009566ac1351ef987e5dd3c5020e7fb2ef5cac02b9de30b6a6f5f1a"
     },
+    "provenance/joint_mainline_20261101/STATE_SIGNATURE_UPDATE_20261104.json": {
+      "bytes": 4783,
+      "sha256": "c698cb8538997279136fbb7cff63b18974a3e14d0d16bd76cadf850a015d85c0"
+    },
     "provenance/joint_mainline_20261101/TEST_PORTS.json": {
       "bytes": 2378,
       "sha256": "21c1d07bffe2ff39ebf2d55883b4345aaff8b4b72dfdc74112645664bb9f8222"
@@ -2356,6 +2380,10 @@
     "requirements/rppa500.txt": {
       "bytes": 34,
       "sha256": "5ab8a239c1418483ead11ccd73008173fdd3af6ae97f912357ede24da823b30a"
+    },
+    "requirements/state_signatures.txt": {
+      "bytes": 28,
+      "sha256": "9ad9e5b2840b70fbf799d72c37e9ed3a5d1c9c1214af5f9bcf66853ca1bb4b3d"
     },
     "run_model_workflow.sh": {
       "bytes": 182,
@@ -3449,6 +3477,10 @@
       "bytes": 7041,
       "sha256": "498aa084e1b728267c8a2e1da67db3c7306e95092f44d7ed7980c0aeaa0be5c6"
     },
+    "scripts/export_state_signature_definitions.R": {
+      "bytes": 1924,
+      "sha256": "9408bfbf20a3411d71c5721b2cd1a87494cf3b75c6a187d749fe7cd23655d6d7"
+    },
     "scripts/export_v32_core_embeddings.py": {
       "bytes": 8599,
       "sha256": "07fa6936d6d4703e9d6fc4ceadf724ab1cf795145be762c0e1c7df20dc6869f1"
@@ -3460,6 +3492,10 @@
     "scripts/export_v32_gencode_lnc_symbols.py": {
       "bytes": 1433,
       "sha256": "a46068ce0d25be958bf5d88bf77455b39f446e8239a42457588e8e298349e2ef"
+    },
+    "scripts/extract_lm22_reference_149.py": {
+      "bytes": 1614,
+      "sha256": "7f59cc1426403a8058ddc66f649f1ab9f8890d6262f314f5a36a6f86420ec689"
     },
     "scripts/extract_v32_datas7_lnc_topology.py": {
       "bytes": 5990,
@@ -5255,7 +5291,7 @@
     },
     "tests/test_joint_state_expansion.py": {
       "bytes": 7227,
-      "sha256": "8c56e190bc0eb7f4d58449a4ef5c3cfc8cc29c4fc92ebf5ac67e3e331f1fd801"
+      "sha256": "aef79e433bcacbe591d933956af657e0e007b00e210fb2a3d0129607347656ce"
     },
     "tests/test_label_contract.py": {
       "bytes": 3433,
@@ -5356,6 +5392,10 @@
     "tests/test_state_recurrence.py": {
       "bytes": 1734,
       "sha256": "21f440431441a50a99774f49f8ceea64366af859db7327426ddad3203b04ade6"
+    },
+    "tests/test_state_signature_update.py": {
+      "bytes": 6739,
+      "sha256": "02a7c0cb3535e59b188aeb6d9424acfff8723d171836ae2f01dcb9227bd9b139"
     },
     "tests/test_stats.py": {
       "bytes": 1876,
@@ -6775,6 +6815,6 @@
     }
   },
   "format": "CLA_JOINT_MAINLINE_SOURCE_V1",
-  "last_change_base_commit": "b717fb0fa66b54d59efcd818b27ad9aaf4821357",
+  "last_change_base_commit": "140b98407ba2fa8616765a0a35aefe564433e7ad",
   "target_host": "149"
 }
