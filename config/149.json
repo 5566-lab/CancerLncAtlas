@@ -19034,26 +19034,15 @@
     "weight_decay": 1e-05
   },
   "pathway_fusion": {
-    "assays": [
-      "RNA",
-      "CNV",
-      "METHYLATION",
-      "PROTEIN",
-      "PHOSPHORYLATION"
-    ],
-    "cache_root": "/path/to/new_joint_run/pathway_fusion_cache",
-    "complete": {
-      "path": "/path/to/verified_inputs/five_assay_pathway/COMPLETE.json",
-      "sha256": "7b1cdd8ffce776bb17331159f4fbefb39ff5b2bab3d6cb004eefa20edc45f92b"
-    },
-    "enabled": true,
-    "fit_scope": "PREPARED_SOURCE_PATIENTS_ONLY",
-    "format": "CLA_SOURCE_FITTED_FIVE_ASSAY_PATHWAY_FUSION_V2",
-    "nf": 10,
-    "r_libraries": [
-      "/path/to/pinned_R_library"
-    ],
-    "rscript": "Rscript"
+    "enabled": false,
+    "status": "RETIRED_20261104"
+  },
+  "pathway_target_policy": {
+    "automatic_fallback": false,
+    "decision": "Retire cohort-fitted MOGSA and derived parent targets; per-assay targets require a separate implementation.",
+    "replacement_implemented": false,
+    "retired_method": "MOGSA",
+    "status": "REPLACEMENT_REQUIRED"
   },
   "profiles": {
     "diagnostic": {

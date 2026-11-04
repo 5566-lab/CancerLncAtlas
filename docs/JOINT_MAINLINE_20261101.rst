@@ -1,13 +1,12 @@
 Joint Pathway/State mainline
 ===========================
 
-Current scoring update: the public configuration now uses
-CLA_STATE_ROUTED_PROGRAMS_20261101_V2 with 482 primary State targets plus
-ESTIMATEScore. The 198-dimension expansion described below is its unchanged
-base; 285 existing PROGENY/DoRothEA resource programs are additionally routed
-unchanged to State. Pathway targets now use source-fitted raw-omics MOGSA and
-supported lavaan parent factors. See PATHWAY_FUSION_20261101.rst for the current
-routing, missingness policy, package versions and exact Y/loss formulas.
+Current target status (2026-11-04): MOGSA and its derived lavaan parent
+targets are retired. The public configuration requires a replacement design;
+preparation and training do not automatically fall back to RNA activity_score.
+See PATHWAY_TARGET_POLICY_20261104.rst. State remains
+CLA_STATE_ROUTED_PROGRAMS_20261101_V2 with 482 primary targets plus ESTIMATEScore:
+the 198-dimension base and 285 existing PROGENY/DoRothEA programs are unchanged.
 
 
 The executable primary workflow is cla.py with config/149.json. This integration

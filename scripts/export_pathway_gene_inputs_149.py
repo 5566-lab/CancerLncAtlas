@@ -1,4 +1,4 @@
-"""Export intermediate RNA/gene CNV/promoter methylation blocks; add RPPA with export_pathway_fusion_inputs_149.py before scoring."""
+"""Export verified RNA/gene CNV/promoter methylation measurements; no scoring method is selected."""
 import collections, hashlib, json, socket, sys
 from pathlib import Path
 import numpy as np

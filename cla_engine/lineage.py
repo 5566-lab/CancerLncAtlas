@@ -39,6 +39,8 @@ def prepare_lineage(root):
             'cohorts_sha256':sha(root/'COHORTS.json'),'patient_assignments_sha256':sha(root/'PATIENT_ASSIGNMENTS.json')}
 
 def validate_prepared(root):
+    from .pathway_fusion import reject_retired_prepared
+    reject_retired_prepared(root)
     root=Path(root);m=verify_manifest(root);spec=read_json(root/'SPEC.json');cfg=read_json(root/'CONFIG.json')
     if m['metadata'].get('fold')!=spec['fold'] or m['metadata'].get('config_sha256')!=digest(cfg):fail('PREPARED_CONTRACT_MISMATCH','Config/fold and manifest differ')
     actual=prepare_lineage(root);stored=read_json(root/'LINEAGE.json')
@@ -82,8 +84,6 @@ def validate_prepared(root):
         expect_source=spec['train_folds'] if view['split']=='validation' else [j for j in spec['train_folds'] if j not in expect_label]
         if source!=expect_source or label!=expect_label:fail('VIEW_FOLD_ROLE_DRIFT',view['id'])
         if pr['feature_patient_hash']!=digest([p for p,k in assignments[c] if k in source]) or pr['label_patient_hash']!=digest([p for p,k in assignments[c] if k in label]):fail('PATIENT_COHORT_HASH_MISMATCH',view['id'])
-        from .pathway_fusion import verify_fusion_view
-        verify_fusion_view(folder,cfg,[p for p,k in assignments[c] if k in source],spec['nodes']['pathway'])
         from .execution_contract import verify_graph_view_audit
         verify_graph_view_audit(root,spec,view,cfg)
         for task in ('pathway','state'):

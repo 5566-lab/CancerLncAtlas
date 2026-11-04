@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 7839,
-      "sha256": "7670525d76f63cd31624f817239bb8d95f38f4c167e2bbbddaecc5231bbef0bf"
+      "bytes": 7998,
+      "sha256": "0772ba41f0069a8162b3813629168b56163bc29b7d52410185993b537825712e"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -1594,8 +1594,8 @@
       "sha256": "10f3687dff8da4ceef997207ab31ec4874a626fb0c19531191e9b0de893f0db6"
     },
     "cla_engine/fixture.py": {
-      "bytes": 12595,
-      "sha256": "cb07912deeb43529c3dc83a884fe3c5e830cc33777c314f57216e4886626d64a"
+      "bytes": 12667,
+      "sha256": "053f40a157929739a45c59f064772e2d152b4dc64d641926c29d574433258c48"
     },
     "cla_engine/genomics.py": {
       "bytes": 16494,
@@ -1626,8 +1626,8 @@
       "sha256": "5ddf95fa095caa730fdcf479fb6299aa703910d1e6c027e6c0b4530740c4e061"
     },
     "cla_engine/lineage.py": {
-      "bytes": 15581,
-      "sha256": "2ed24fa5b488fef08393c34936682c31ca0962bae3e5c83bd472b5f75bd6ac74"
+      "bytes": 15507,
+      "sha256": "8926c00d9c35c166fd988caf3e8c27ca2f5ecec21b8eb344746e9c9b50dd9c95"
     },
     "cla_engine/local_execution.py": {
       "bytes": 3838,
@@ -1662,16 +1662,16 @@
       "sha256": "e1171eb9e27df616e07660157a11771687a9d8d56d2e7bba548e1c44f222684e"
     },
     "cla_engine/pathway_fusion.py": {
-      "bytes": 13351,
-      "sha256": "3114e46f9ff0ae8488cb7efba936c1b5709181eb96b69180a0748c0533e2ebe5"
+      "bytes": 2194,
+      "sha256": "e27b63c62b38f85b95f68d84fecb38484dc9253ee17ea89b44ec8a8296a1d727"
     },
     "cla_engine/postprocess.py": {
       "bytes": 6831,
       "sha256": "e2b92eb410c2212d46bce44de68fbf1e623443971a63502588544dec02f2f01d"
     },
     "cla_engine/prepare.py": {
-      "bytes": 45802,
-      "sha256": "95e1cd4e0aaca92d94b39bd2519593dba4e19d9a4db7011b39536aa35f6befe8"
+      "bytes": 44870,
+      "sha256": "2fd2778bc9e8177b1195058eadc2b484538eddea05c62daa92b682d29d66d749"
     },
     "cla_engine/queue.py": {
       "bytes": 7446,
@@ -1706,8 +1706,8 @@
       "sha256": "65321aa5277c4daadb21ed4923ef6148afdad17cfe1b9542412b58dd5b1cd540"
     },
     "cla_engine/state_route_programs.py": {
-      "bytes": 5558,
-      "sha256": "3beb6fec3a163dda9c60272163527b6a97a8d3a6e908feff9d6916fd6262257c"
+      "bytes": 5556,
+      "sha256": "1a8ba5f3b805e5c337b4b5c59b0202ce6327ad911d9e43858ae7b9d8c1cb6c80"
     },
     "cla_engine/statistics.py": {
       "bytes": 7722,
@@ -1730,8 +1730,8 @@
       "sha256": "261d455a1f07f43615df17eb879491ada10fd954ad2c2ab28209e10cc2888d03"
     },
     "config/149.json": {
-      "bytes": 912775,
-      "sha256": "d67351d6dc35352d55dae1ea3b4ff6d05ddc69784ede9d74946ce7bab0d97124"
+      "bytes": 912535,
+      "sha256": "0ba5b49668950d152f087c80567acfd447a75107f9d0c538128cdb5f054dfb26"
     },
     "config/model_v2.yaml": {
       "bytes": 7145,
@@ -1890,8 +1890,8 @@
       "sha256": "5ae6b278e55c7734cafd344de1ae4b1549b08c70d51a03d47fea81806768867d"
     },
     "docs/JOINT_MAINLINE_20261101.rst": {
-      "bytes": 10329,
-      "sha256": "f30d23ee5ea8de5528e5104340a694932774ba9feeae3f69afb067d7be78a3cd"
+      "bytes": 10257,
+      "sha256": "517b6b54412b371b0bed0c713e5beaf665981b9a46440b967580c2a2e725ff38"
     },
     "docs/LOCAL_CNV_PATIENT_SCOPES_20261027.rst": {
       "bytes": 6451,
@@ -1922,8 +1922,12 @@
       "sha256": "bf17c358c06b1938da55d81e11581028d2f3025d7d00cd7315cbd4a178291d05"
     },
     "docs/PATHWAY_FUSION_20261101.rst": {
-      "bytes": 13363,
-      "sha256": "8e2ac754847973e7867105b58932474ad010cc66ce79f0f179edc1f7a78c39ed"
+      "bytes": 13702,
+      "sha256": "47b9d2a37da42ae7482488af2ca7326cabb9fc0908f4910569fc71cca5985c64"
+    },
+    "docs/PATHWAY_TARGET_POLICY_20261104.rst": {
+      "bytes": 1986,
+      "sha256": "6f2e8f5795b3770863dfd5b8182709d3011dacddcfa78aa30d242475416edbb5"
     },
     "docs/PATIENT_INTERVENTION_20261028.rst": {
       "bytes": 5315,
@@ -1942,8 +1946,8 @@
       "sha256": "6c2242835b4287b18c6454fc8f2b2f8c3c823cf07c68b6ce0799a6bd4ce3f025"
     },
     "docs/STATE_EXPANSION_20261101.rst": {
-      "bytes": 11723,
-      "sha256": "82fd8c4caa7aa177d7e35d7a1baad8c3fae0ea2ec6690cd8eb731289df7f5a9b"
+      "bytes": 11651,
+      "sha256": "421f0003164de8257652eca187b04ad56f52d97c0879d8d0156d0a27667bfe36"
     },
     "docs/STATE_MEASUREMENT_CONTRIBUTIONS_20261027.rst": {
       "bytes": 4059,
@@ -2289,6 +2293,10 @@
       "bytes": 15501,
       "sha256": "7f67e147492a50ffa0706c4c17c44f75ed87e781da3daef14e9907465c4fdda0"
     },
+    "provenance/joint_mainline_20261101/MOGSA_RETIREMENT_20261104.json": {
+      "bytes": 1819,
+      "sha256": "037a7b2dbdc8aeb0908e5bb5e586354ca6289a65344a08c504dbea8a5d552b2f"
+    },
     "provenance/joint_mainline_20261101/STATE_EXPANSION_VERIFICATION.json": {
       "bytes": 5543,
       "sha256": "eafc66d5daba628c5afff12724908b6fc6eb382697bb0b70ca48483e155d2a54"
@@ -2308,10 +2316,6 @@
     "pyproject.toml": {
       "bytes": 794,
       "sha256": "f0f9d933005554400f24c1e9c0258579b5c9058c549b6b4539938405361f1ccc"
-    },
-    "requirements/R_pathway_fusion.lock.json": {
-      "bytes": 1100,
-      "sha256": "0c27394404010da5eef5eed8974a78cb16721cd5ead96cdbb72a8cfc6a3cacfe"
     },
     "requirements/requirements-base.txt": {
       "bytes": 181,
@@ -3422,8 +3426,8 @@
       "sha256": "e29e1604ae2dfdf137a79acf55ac053de8a3b10fb4ab31df44dde9e4dec73439"
     },
     "scripts/export_pathway_gene_inputs_149.py": {
-      "bytes": 7074,
-      "sha256": "d47cc19a47bb48c6dbc1260b45203ab83cd04ab30fe59d4ef8be44609826e4ed"
+      "bytes": 7041,
+      "sha256": "498aa084e1b728267c8a2e1da67db3c7306e95092f44d7ed7980c0aeaa0be5c6"
     },
     "scripts/export_v32_core_embeddings.py": {
       "bytes": 8599,
@@ -3976,14 +3980,6 @@
     "scripts/parity_v32_single_cell_ucell_official.py": {
       "bytes": 11250,
       "sha256": "2103fa3f5e1530028ee1e5788144194efc451f75e78fb08a1d42a6419eaf4c3d"
-    },
-    "scripts/pathway_fusion_core.R": {
-      "bytes": 12331,
-      "sha256": "fdb9816d3b00b9ad07f32c10060de746e666e45ed015adc1142d210f034592df"
-    },
-    "scripts/pathway_fusion_run.R": {
-      "bytes": 6665,
-      "sha256": "282da48a3be48d3f19f1bf28530f16cd7a60dbbf23cc9422456534bcc4e871ce"
     },
     "scripts/preflight_v32_atac_training.py": {
       "bytes": 3037,
@@ -4810,8 +4806,8 @@
       "sha256": "dc0f44054abd8d0a0976171fdea0c8ac6f4185a902d4301e3da894f20f94da96"
     },
     "scripts/score_pathway_fusion_149.py": {
-      "bytes": 4149,
-      "sha256": "c722c543b080403cd4fb2db2f13cee24cafdf1f8f45224dbf2e65fcfb369323e"
+      "bytes": 429,
+      "sha256": "a572f470ce3d9a6c53c2952e799171c15c166e47d7e188d641df68b6568fa851"
     },
     "scripts/seal_v32_g012_r1_aborted_no_gpu.py": {
       "bytes": 28818,
@@ -5265,13 +5261,9 @@
       "bytes": 7685,
       "sha256": "244ce70b0c7536c5f073b7cb4c11d0bd7cd8d83bca051a11f465b3e12c7a3202"
     },
-    "tests/test_pathway_fusion.R": {
-      "bytes": 2842,
-      "sha256": "7938cc68fafeaa8008176ae9780f567239e2e46bf23b91b14166aae77576f2c0"
-    },
     "tests/test_pathway_fusion.py": {
-      "bytes": 6849,
-      "sha256": "124de7a254a159fd81c9cc04516fff0908437daabb2bcb8682361ea3f493cadd"
+      "bytes": 3914,
+      "sha256": "9174df9d9bafccb0c0d941ed86cd8710db3a221cf83192ccdbcde907614d3d68"
     },
     "tests/test_prepare_v32_formal_sampler.py": {
       "bytes": 1818,
@@ -6755,6 +6747,6 @@
     }
   },
   "format": "CLA_JOINT_MAINLINE_SOURCE_V1",
-  "last_change_base_commit": "27eb517ac6fe2e4886d138f5d5f13c40ba2dfad3",
+  "last_change_base_commit": "d84df766866c2a0cefc0cbf89e6f1de3693ee676",
   "target_host": "149"
 }

@@ -50,7 +50,7 @@ def route(cfg,output,*,cancer_type='all',cancer_list=None):
       'authority_patient_map_sha256':inputs['patient_map']['sha256'],'inputs':inputs,'matrix':_entry(p),'columns':list(result),
       'outputs':{q.name:_entry(q) for q in sorted(out.iterdir()) if q.is_file()},'scores_rescaled':False,
       'missing_policy':'NO_IMPUTATION; UNMEASURED_IS_NA_NOT_ZERO','selection_policy':'EXACT_FROZEN_PATIENT_AUTHORITY; CONFLICTING_DUPLICATES_REJECTED',
-      'biological_claim':'Existing observational scores routed to State unchanged; excluded from pathway MOGSA/CFA'}
+      'biological_claim':'Existing observational scores routed to State unchanged; separate from Pathway targets'}
     receipt=out/'STATE_MATERIALIZATION.json';atomic_json(receipt,record)
     binding={**_entry(p),'columns':len(result.columns),'format':FORMAT,'catalog_id':ROUTED_CATALOG_ID,
       'materialization_manifest':str(receipt.resolve()),'materialization_manifest_sha256':sha(receipt)}

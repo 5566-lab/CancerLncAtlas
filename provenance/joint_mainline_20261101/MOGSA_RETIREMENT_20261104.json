@@ -1,0 +1,43 @@
+{
+  "automatic_RNA_fallback": false,
+  "base_commit": "d84df766866c2a0cefc0cbf89e6f1de3693ee676",
+  "code_digest": "22e1cfdfd9a24c28226d31ddc421eb61dcc4225034543f0d9b0715eb8eb9027c",
+  "date": "2026-11-04",
+  "dedicated_R_lock_removed": true,
+  "derived_lavaan_targets_retired": true,
+  "format": "CLA_MOGSA_RETIREMENT_V1",
+  "gene_node_omics_preserved": true,
+  "historical_prepared_manifest_sha256": "51af210125f3e31eadd0f2604a18b9b2c18550d6afd02f1e4e95c4a665e99709",
+  "historical_results_are_current_training_targets": false,
+  "method": "MOGSA",
+  "new_HHGT_model_trained": false,
+  "paid_compute_started": false,
+  "prepared_rejection_checks": {
+    "REAL_FIVE_ASSAY_ALL_CONFIG.json": "MOGSA_RETIRED",
+    "REAL_FIVE_ASSAY_ALL_CONFIG.json_flag_only_disabled": "MOGSA_RETIRED",
+    "REAL_FIVE_ASSAY_DEMO_CONFIG.json": "MOGSA_RETIRED",
+    "REAL_FIVE_ASSAY_DEMO_CONFIG.json_flag_only_disabled": "MOGSA_RETIRED",
+    "public_config_pending_replacement": "PATHWAY_TARGET_REPLACEMENT_REQUIRED",
+    "real_BRCA_LUAD_prepared": "MOGSA_RETIRED"
+  },
+  "raw_inputs_preserved": true,
+  "regression": {
+    "code_digest": "22e1cfdfd9a24c28226d31ddc421eb61dcc4225034543f0d9b0715eb8eb9027c",
+    "log_sha256": "7ef33b79fbf2659d517cc11eee2a2801d47d62ace511c8218d0444ffa5f2dc49",
+    "passed": 475,
+    "scope": "tests/test_joint_*.py tests/test_v32_joint_shared_encoder.py tests/test_pathway_fusion.py",
+    "skipped": 1,
+    "summary": "475 passed, 1 skipped, 6 warnings in 342.71s (0:05:42)",
+    "synthetic_tests_not_patient_model_training": true,
+    "target_host": "149"
+  },
+  "replacement_implemented": false,
+  "replacement_status": "REPLACEMENT_REQUIRED",
+  "scoring_implementation_removed": true,
+  "status": "RETIRED_VALIDATED",
+  "target_host": "149",
+  "task_weights": {
+    "pathway": 1.0,
+    "state": 0.5
+  }
+}

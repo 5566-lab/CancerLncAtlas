@@ -140,6 +140,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     from .inputs import verify_import_authority
     from .cancer_scope import selection,resolve_cancer_scope
     selection(cfg,profile)
+    from .pathway_fusion import require_pathway_targets
+    require_pathway_targets(cfg)
     validate_config_contract(cfg);assert_controller(cfg)
     imported=verify_import_authority(cfg)
     out=Path(out);sources=cfg['sources'];targets=cfg['targets'];model=cfg['model'];scope=cfg['profiles'][profile]
@@ -183,12 +185,6 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     from .state_catalog import ROUTED_CATALOG_ID
     if cfg.get('state_catalog')==ROUTED_CATALOG_ID:
         membership=membership.loc[membership.pathway_id.str.startswith('MSIGDB:')].copy()
-    fusion_enabled=cfg.get('pathway_fusion',{}).get('enabled',False)
-    fusion=None
-    if fusion_enabled:
-        from .pathway_fusion import FittedPathwayScores
-        fusion=FittedPathwayScores(cfg,fm)
-        if set(membership.pathway_id)!=set(fusion.catalog['gene_sets']):fail('FUSION_MEMBERSHIP_UNIVERSE','Registered gene sets differ from graph membership')
     pathways=sorted(set(membership.pathway_id.astype(str)))
     if scope.get('max_pathways'):pathways=sorted(pathways,key=lambda v:hashlib.sha256(v.encode()).hexdigest())[:scope['max_pathways']];pathways.sort()
     for c in cancers:
@@ -270,7 +266,7 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
         pw=[p for p in pathways if p in pw_measured]
         coverage.append({'cancer':cancer,'pathway_activity_scope':{'universe':len(pathways),'measured':len(pw),
             'unmeasured':sorted(set(pathways)-pw_measured),'policy':'MEASURED_REQUIRED_FOR_ESTIMATION; UNMEASURED_STAY_UNAVAILABLE_IN_POOL'}})
-        Yp=np.full((len(patients),len(pathways)),np.nan) if fusion_enabled else matrix(pframe,'pathway_id','activity_score',patients,pathways,mp,required_entities=pw,report=alignment)
+        Yp=matrix(pframe,'pathway_id','activity_score',patients,pathways,mp,required_entities=pw,report=alignment)
         # The coding-gene expression universe does not cover every graph gene
         # (membership/protein crosswalk genes can be unmeasured in bulk RNA).
         # Unmeasured genes stay as zero-feature static nodes (no coexpression
@@ -369,11 +365,6 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
             provenance={'feature_patient_hash':digest(source_pat),'label_patient_hash':digest([patients[i] for i in label_ix]),'feature_folds':sourcefolds,'label_folds':labelfolds,'outer_test_excluded':fold not in sourcefolds+labelfolds,'cancer':cancer,'mutation':mut_report,'gene_protein_pathway_genomics':genetics_report,'gene_node_omics':node_omics_report}
             atomic_json(viewdir/'PROVENANCE.json',provenance)
             for task,(li,ti,tids,Y) in candidates.items():
-                if task=='pathway' and fusion_enabled:
-                    Y,fusion_report=fusion.view(cancer,source_pat,patients,pathways)
-                    input_hashes.update(fusion.input_hashes())
-                    atomic_json(viewdir/'PATHWAY_FUSION.json',fusion_report)
-                    coverage.append({'view':vid,'pathway_fusion':fusion_report})
                 # Distinct TME targets use a composition-preserving covariate contract.
                 dstat={k:np.zeros(len(li),dtype=bool if k=='available' else (np.int32 if k in ['n','rank'] else float)) for k in ['r','p','q','n','rank','available']};lstat={k:v.copy() for k,v in dstat.items()}
                 if task=='state':families={s:family[s] for s in tids}
@@ -493,7 +484,7 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
         if cfg.get('synthetic_fixture') and not p.exists():p=p.with_suffix('.tsv')
         if p.exists():input_hashes[rel]={'path':str(p),'sha256':sha(p)}
     atomic_json(out/'INPUT_HASHES.json',input_hashes)
-    atomic_json(out/'TASK_CONTRACT.json',{'task_weights':{'pathway':1.,'state':.5},'local_cnv_adjustment':'LNC_ONLY_A1_WITH_ACTUAL_DESIGN_MATRIX_RANK','cnv_covariate_transform':cfg.get('statistics',{}).get('cnv_transform','raw_signed'),'not_r7_rank_cnv_a2_contract':True,'pathway_label':'abs(r)>=.20 & q<=.05 OR abs(r)>=.15 & q<=.10','state_label':'abs(r)>=.20','fdr_family':'CANCER_TASK_TESTED_CANDIDATES','population':'POOLED_KNOWN_CANCERS_PATIENT_HOLDOUT_NOT_LOCO','same_source_sc_validation_claimed':False,'sc_role':spec['singlecell_role'],'sc_expression_used_by_primary':not interpretation_only,'singlecell_association_role':sc_association_role,'singlecell_association_used_by_primary':sc_association_dim>0,'singlecell_association_semantics':'EXTERNAL_EXACT_CANCER_LNCRNA_PATHWAY_CELLTYPE_RHO_ABS_RHO_NEGLOG10_FDR_AVAILABILITY;NOT_INDEPENDENT_VALIDATION','singlecell_association_feature_order':spec['singlecell_association_feature_order'],'singlecell_association_slice':sc_association_slice,'pathway_score_source':'SOURCE_PATIENT_FITTED_FIVE_ASSAY_MOGSA_AND_LAVAAN' if fusion_enabled else 'EXISTING_RNA_ACTIVITY_SCORE','pathway_score_assays':sorted(cfg['pathway_fusion']['assays']) if fusion_enabled else ['RNA'],'gene_cnv_and_promoter_methylation_roles':['SOURCE_PATIENT_NODE_EMBEDDING','LABEL_PATIENT_PATHWAY_SCORE'] if fusion_enabled else ['SOURCE_PATIENT_NODE_EMBEDDING'],'genomics_role':'SOURCE_FOLD_GENE_PROTEIN_PARTNER_PATHWAY_BACKGROUND_NOT_LABEL','gene_node_omics_role':'SOURCE_PATIENT_FOLD_LOCAL_GENE_CNV_AND_PROMOTER_METHYLATION_GRAPH_INPUT' if gene_node_omics_enabled else 'DISABLED_HISTORICAL_TWO_COLUMN_NODE_INPUT','gene_node_omics_feature_order':node_input_feature_order,'gene_node_omics_missingness':'EXPLICIT_MASK_NO_IMPUTATION','cnv_a2_role':'SEPARATE_COMMON_MASK_SENSITIVITY_NOT_PRIMARY_TARGET','formal_input_contract_unchanged_from_r7':False,'adjustment_contract_sha256':digest(cfg['adjustment_contract']),'metrics_contract':cfg['metrics_contract'],'baseline_contract_sha256':digest(baseline_contract(cfg)),'coexpression_contract':'PAIRWISE_COMMON_MASK_COEXPRESSION_R62_V1','binding_partner_scope':'NORMALIZE_BINDING_GLOBAL_PLUS_EXACT_CANCER','direct_evidence_used_by_primary':False,'sc_used_by_primary':(not interpretation_only) or sc_association_dim>0})
+    atomic_json(out/'TASK_CONTRACT.json',{'task_weights':{'pathway':1.,'state':.5},'local_cnv_adjustment':'LNC_ONLY_A1_WITH_ACTUAL_DESIGN_MATRIX_RANK','cnv_covariate_transform':cfg.get('statistics',{}).get('cnv_transform','raw_signed'),'not_r7_rank_cnv_a2_contract':True,'pathway_label':'abs(r)>=.20 & q<=.05 OR abs(r)>=.15 & q<=.10','state_label':'abs(r)>=.20','fdr_family':'CANCER_TASK_TESTED_CANDIDATES','population':'POOLED_KNOWN_CANCERS_PATIENT_HOLDOUT_NOT_LOCO','same_source_sc_validation_claimed':False,'sc_role':spec['singlecell_role'],'sc_expression_used_by_primary':not interpretation_only,'singlecell_association_role':sc_association_role,'singlecell_association_used_by_primary':sc_association_dim>0,'singlecell_association_semantics':'EXTERNAL_EXACT_CANCER_LNCRNA_PATHWAY_CELLTYPE_RHO_ABS_RHO_NEGLOG10_FDR_AVAILABILITY;NOT_INDEPENDENT_VALIDATION','singlecell_association_feature_order':spec['singlecell_association_feature_order'],'singlecell_association_slice':sc_association_slice,'pathway_score_source':'EXISTING_RNA_ACTIVITY_SCORE','pathway_score_assays':['RNA'],'gene_cnv_and_promoter_methylation_roles':['SOURCE_PATIENT_NODE_EMBEDDING'],'genomics_role':'SOURCE_FOLD_GENE_PROTEIN_PARTNER_PATHWAY_BACKGROUND_NOT_LABEL','gene_node_omics_role':'SOURCE_PATIENT_FOLD_LOCAL_GENE_CNV_AND_PROMOTER_METHYLATION_GRAPH_INPUT' if gene_node_omics_enabled else 'DISABLED_HISTORICAL_TWO_COLUMN_NODE_INPUT','gene_node_omics_feature_order':node_input_feature_order,'gene_node_omics_missingness':'EXPLICIT_MASK_NO_IMPUTATION','cnv_a2_role':'SEPARATE_COMMON_MASK_SENSITIVITY_NOT_PRIMARY_TARGET','formal_input_contract_unchanged_from_r7':False,'adjustment_contract_sha256':digest(cfg['adjustment_contract']),'metrics_contract':cfg['metrics_contract'],'baseline_contract_sha256':digest(baseline_contract(cfg)),'coexpression_contract':'PAIRWISE_COMMON_MASK_COEXPRESSION_R62_V1','binding_partner_scope':'NORMALIZE_BINDING_GLOBAL_PLUS_EXACT_CANCER','direct_evidence_used_by_primary':False,'sc_used_by_primary':(not interpretation_only) or sc_association_dim>0})
     from .source_lock import record_sources
     atomic_json(out/'SOURCE_FREEZE_RECEIPT.json',record_sources(cfg,input_hashes))
     atomic_json(out/'LINEAGE.json',prepare_lineage(out))

@@ -8,9 +8,10 @@ from .common import atomic_json,sha,read_json,verify_manifest,status
 
 def make_fixture(root,parquet=False,expanded_states=False):
     root=Path(root);root.mkdir(parents=True,exist_ok=True);cfg=read_json(Path(__file__).resolve().parents[1]/'config/149.json');rng=np.random.default_rng(9041)
-    # Generic execution fixtures test the established RNA/State contracts;
-    # raw-omics fusion has separate package and real-patient integration tests.
+    # Synthetic fixtures explicitly exercise the established RNA/State executor.
+    # They do not select or validate the future per-assay biological targets.
     cfg['pathway_fusion']={'enabled':False}
+    cfg['pathway_target_policy']={'status':'EXPLICIT_EXISTING_RNA'}
     if expanded_states:
         from .state_catalog import CATALOG_ID,expanded_targets
         from cc_hhgt.v32.adjustment_policy import default_adjustment_contract

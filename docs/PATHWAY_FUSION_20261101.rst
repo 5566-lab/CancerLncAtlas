@@ -1,3 +1,10 @@
+.. warning::
+
+   HISTORICAL RUN ONLY. MOGSA and the derived parent-scoring pipeline were retired
+   on 2026-11-04. Scores and prepared artifacts described below are not authorized
+   targets for new training. Commands below document the old run and are no
+   longer executable in the current code. See PATHWAY_TARGET_POLICY_20261104.rst.
+
 Five-assay pathway scoring and source-patient fitting
 ====================================================
 

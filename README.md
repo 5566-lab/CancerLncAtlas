@@ -15,6 +15,13 @@ All preparation, audits and training execute on host **149**. No command in this
 integration starts paid compute. The reviewed code and tests are not a newly
 trained model or a production release.
 
+## Pathway target status (2026-11-04)
+
+MOGSA and its derived parent targets are retired. The public configuration
+requires a replacement target design before preparation or training; it does
+not silently fall back to RNA scores. Separate per-assay heads are not yet
+implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
+
 ## Reproducible entry points
 
 Run these commands from a full source checkout on host 149. Install the
@@ -97,14 +104,12 @@ score definitions and missing-value masks are retained. See
 [the State catalog and scoring workflow](docs/STATE_EXPANSION_20261101.rst) and
 [the unified training contract](docs/JOINT_MAINLINE_20261101.rst).
 
-The pathway scoring design uses five measured assays: RNA, targeted RPPA protein,
-phosphorylation, gene CNV and promoter methylation. Native MOGSA and lavaan parent
-factors are fitted separately on each prepared view's source patients. Label
-patients never fit these score parameters. Missing measurements retain their
-masks; there is no 95% coverage gate. Existing PROGENY/DoRothEA resource scores
-move unchanged to State using their legacy weighted implementation. Gene CNV and
-promoter methylation also retain their source-patient gene-node embedding role.
-See [the scoring methods, limits and reproduction commands](docs/PATHWAY_FUSION_20261101.rst).
+The previous five-assay MOGSA/lavaan scoring design was retired on 2026-11-04.
+Its scores and prepared labels cannot be used for new training. Verified raw
+assays are retained for a future per-assay design. Existing PROGENY/DoRothEA
+resource scores remain in State using their legacy weighted implementation.
+See [the current target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst) and
+[the historical scoring report](docs/PATHWAY_FUSION_20261101.rst).
 
 Verified gene-level CNV and promoter methylation measurements remain supported.
 Joint preparation aggregates their original patient matrices using each view's
