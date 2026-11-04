@@ -1,0 +1,183 @@
+{
+  "MOGSA": "RETIRED",
+  "TCGA_inputs_unchanged": true,
+  "actual_methylation_checks": {
+    "TCGA_state_unchanged": true,
+    "current_pathway_ID_count": 2547,
+    "independent_measured_mean_checks": 217,
+    "status": "PASS",
+    "target_host": "149"
+  },
+  "base_commit": "b3ef9900c085f620eedc86590088f39473ef5ccb",
+  "current_mainline_and_CPTAC_tests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 154
+  },
+  "formal_input_check": {
+    "path": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/joint_preflight_r1_preflight/STATUS.json",
+    "sha256": "8086725111967e1de14182dfab7007b8cf979ca0e3ecfec7067f8f1cf838d6df",
+    "state": "INPUT_CHECK_PASS_NOT_TRAINED"
+  },
+  "format": "CLA_CPTAC_INTEGRATION_EVIDENCE_V1",
+  "input_validation": {
+    "MSigDB_pathway_axis": 2547,
+    "PTM_signature_axis": 624,
+    "cohorts": [
+      "BRCA",
+      "CCRCC",
+      "COAD",
+      "GBM",
+      "HNSCC",
+      "LSCC",
+      "LUAD",
+      "OV",
+      "PDAC",
+      "UCEC"
+    ],
+    "complete": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/bundle_r1/COMPLETE.json",
+      "sha256": "dc28d3f18db7aa4b8e48a13d0a37e87c1c5fa9898a82ac5194499988a84ab288"
+    },
+    "observed_state_count": 413,
+    "patients": 1043,
+    "state_axis_count": 485,
+    "status": "VERIFIED_CPTAC_ASSAYS_AND_NATIVE_SCORES_NOT_TRAINED",
+    "training_pooling": false,
+    "used_by_existing_HHGT_heads": false
+  },
+  "new_training": false,
+  "numerical_guard_validation": {
+    "checks": [
+      "Observed_ES_matches_pinned_Broad_on_nondegenerate_data",
+      "All_zero_weights_return_NA_without_aborting_other_samples"
+    ],
+    "patch": {
+      "changes": [
+        "Nonfinite_weighted_random_walk_returns_NA_ES_not_an_abort_or_imputed_zero",
+        "ES_only_calls_project.geneset_with_nperm_0;observed_ES_formula_unchanged"
+      ],
+      "inferential_pvalues_produced": false,
+      "original_md5": "650ef346686a5e6f7673749647bbc561",
+      "patched_md5": "5a050d0a3500c21997c4eb3f3d0c5f98"
+    },
+    "status": "PASS",
+    "target_host": "149"
+  },
+  "pathway_target_policy": {
+    "automatic_fallback": false,
+    "decision": "Retire cohort-fitted MOGSA and derived parent targets; per-assay targets require a separate implementation.",
+    "replacement_implemented": false,
+    "retired_method": "MOGSA",
+    "status": "REPLACEMENT_REQUIRED"
+  },
+  "product": {
+    "complete": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/bundle_r1/COMPLETE.json",
+      "sha256": "dc28d3f18db7aa4b8e48a13d0a37e87c1c5fa9898a82ac5194499988a84ab288"
+    },
+    "format": "CLA_CPTAC_INTEGRATED_INPUT_V1",
+    "role": "ALIGNED_EXTERNAL_COHORT_NATIVE_SCORES",
+    "training_pooling": false
+  },
+  "real_reader_checks": 87,
+  "repository_wide_pytest": {
+    "errors": 27,
+    "log": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/full_pytest.log",
+    "reason": "Unavailable optional h5py/fastapi and historical script modules; full log retained on 149",
+    "status": "COLLECTION_FAILED"
+  },
+  "summary": {
+    "assays": {
+      "methylation_gene": 716,
+      "phosphorylation": 1030,
+      "protein": 1030,
+      "rna": 1037
+    },
+    "calibrated_to_TCGA": false,
+    "clinical": [
+      {
+        "all_patients": 1043,
+        "coverage_percent": 99.712368168744,
+        "field": "age_years",
+        "observed_patients": 1040
+      },
+      {
+        "all_patients": 1043,
+        "coverage_percent": 99.90412272291466,
+        "field": "sex",
+        "observed_patients": 1042
+      },
+      {
+        "all_patients": 1043,
+        "coverage_percent": 87.823585810163,
+        "field": "stage",
+        "observed_patients": 916
+      },
+      {
+        "all_patients": 1043,
+        "coverage_percent": 91.46692233940557,
+        "field": "OS_days",
+        "observed_patients": 954
+      },
+      {
+        "all_patients": 1043,
+        "coverage_percent": 88.30297219558965,
+        "field": "PFS_days",
+        "observed_patients": 921
+      }
+    ],
+    "cohorts": 10,
+    "matched_all_four_assays": 716,
+    "patients": 1043,
+    "scores": [
+      {
+        "assayed_cohorts": 7,
+        "axis_targets": 2547,
+        "finite_scores": 1116753,
+        "layer": "METHYLATION_PATHWAY",
+        "observed_targets_any_cohort": 1607,
+        "per_assayed_cohort_max": 1607,
+        "per_assayed_cohort_min": 1606
+      },
+      {
+        "assayed_cohorts": 10,
+        "axis_targets": 624,
+        "finite_scores": 317984,
+        "layer": "PHOSPHO_PTMSEA",
+        "observed_targets_any_cohort": 444,
+        "per_assayed_cohort_max": 413,
+        "per_assayed_cohort_min": 328
+      },
+      {
+        "assayed_cohorts": 10,
+        "axis_targets": 2547,
+        "finite_scores": 1488462,
+        "layer": "PROTEIN_PATHWAY",
+        "observed_targets_any_cohort": 1697,
+        "per_assayed_cohort_max": 1611,
+        "per_assayed_cohort_min": 1378
+      },
+      {
+        "assayed_cohorts": 10,
+        "axis_targets": 2547,
+        "finite_scores": 1971337,
+        "layer": "RNA_PATHWAY",
+        "observed_targets_any_cohort": 1901,
+        "per_assayed_cohort_max": 1901,
+        "per_assayed_cohort_min": 1901
+      }
+    ],
+    "state_axis": 485,
+    "state_observed": 413,
+    "state_unavailable": 72,
+    "target_host": "149",
+    "trained": false
+  },
+  "target_host": "149",
+  "task_weights": {
+    "pathway": 1.0,
+    "state": 0.5
+  }
+}

@@ -22,6 +22,17 @@ requires a replacement target design before preparation or training; it does
 not silently fall back to RNA scores. Separate per-assay heads are not yet
 implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
 
+## CPTAC external cohort integration (2026-11-04)
+
+The CPTAC extension adds measured RNA, protein, site-level phosphorylation,
+promoter-related gene methylation and published clinical data for 1,043 tumor
+patients in ten harmonized cohorts. Per-assay Pathway scores and the current
+485-State axis retain missing masks and explicit native-scale metadata.
+The same gene/cancer/target identifiers do not establish equal calibration.
+The validated reader and preflight binding preserve the existing TCGA inputs;
+this extension does not train a new model or enable pooled targets.
+See [methods, coverage and demo commands](docs/CPTAC_INTEGRATION_20261104.rst).
+
 ## Reproducible entry points
 
 Run these commands from a full source checkout on host 149. Install the
@@ -112,7 +123,7 @@ resource scores remain in State using their legacy weighted implementation.
 See [the current target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst) and
 [the historical scoring report](docs/PATHWAY_FUSION_20261101.rst).
 
-The current protein/phosphorylation input is the hash-pinned official TCPA
+The TCGA protein/phosphorylation input is the hash-pinned official TCPA
 RPPA500 download. Its 447 columns contain 433 markers with measurements; the
 quality-screened exact RNA sample-vial match covers 7,213 of 10,432 patients
 (69.14%). Other PTMs and non-gene measurements remain separate. The current

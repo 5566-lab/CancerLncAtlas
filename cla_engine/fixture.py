@@ -11,6 +11,7 @@ def make_fixture(root,parquet=False,expanded_states=False,state_catalog_version=
     # Synthetic fixtures explicitly exercise the established RNA/State executor.
     # They do not select or validate the future per-assay biological targets.
     cfg.pop('state_protein_map', None)
+    cfg.pop('cptac_input', None)  # Synthetic TCGA fixtures do not claim real CPTAC data.
     if state_catalog_version is not None:expanded_states=True
     cfg.pop('rppa_input', None)  # Generic fixtures do not claim real RPPA500 inputs.
     cfg['pathway_fusion']={'enabled':False}

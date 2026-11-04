@@ -1,0 +1,95 @@
+{
+  "format": "CLA_CPTAC_SOURCE_SPEC_V1",
+  "target_host": "149",
+  "references": {
+    "gencode": {
+      "bytes": 44507458,
+      "path": "/public8/DSC/CancerLncAtlas/input/v3_1_target_context_assets_e0b44122/gencode/gencode.v36.annotation.gtf.gz",
+      "sha256": "81359865bab048361cbeaf91c9441aac4c700b63978e6691d579d78bf2322d30"
+    },
+    "hgnc": {
+      "bytes": 6048037,
+      "path": "/public8/DSC/CancerLncAtlas/input/hgnc_alias_crosswalk.tsv",
+      "sha256": "de87aca76971b5996b09df79026c6bb1593340018399c960ac83757b2a6978d3"
+    },
+    "protein_gene": {
+      "bytes": 320465,
+      "path": "/public8/DSC/CancerLncAtlas/results/v3_state_formal_runs/V3STATE-formal500-20260810T101223Z-a8803782dcf0_server_handoff/run/assets/standardized/protein_gene_map.parquet",
+      "sha256": "b99ddbe390e5708654a02e8ec2149fcb8de7ea366702ae644ddc8b8369f6eafc"
+    },
+    "tcga_patient_map": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/v32_routed_candidate_20260829_r1/patient_fold_authority_20260829_r1/SAMPLE_PATIENT_FOLD_MAP.tsv",
+      "sha256": "e05c20085be532159bb6a51f200a27923975c3caa6a90910290e10a5b60e6253"
+    },
+    "progeny": {
+      "path": "/public8/DSC/CancerLncAtlas/input/progeny_human.tsv",
+      "sha256": "fc42e442bd4b8386f5fcc75d463b22e6291dd67c408c23b31dc1c868933719f8"
+    },
+    "dorothea": {
+      "path": "/public8/DSC/CancerLncAtlas/input/dorothea_human_ABC.tsv",
+      "sha256": "33fd5db592810641de3400f0796f048985012319ca1781bf913dd0f207d6227e"
+    },
+    "mcp": {
+      "path": "/dsk2/user/dengsc/cla_state_signature_update_20261104_r1/sources/MCPcounter_genes.txt",
+      "sha256": "408f6c5d02c8f9bd2f1599c598367881853520934f8ce398a4886a8b296922bb"
+    },
+    "senmayo": {
+      "path": "/dsk2/user/dengsc/cla_state_expansion_20261101_r1/method_sources/SAUL_SEN_MAYO.json",
+      "sha256": "4716e3238ea4a82e65f09ee05dfe073dcfa428e95c307a7e1c3044431a8559e9"
+    },
+    "pathway_gmt": {
+      "path": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/sources/CURRENT_PATHWAYS.gmt",
+      "sha256": "f385badbd47ba21e0236cb455a4d0200ba27866c20be75ee9937eb5a75ad3f59"
+    },
+    "historical_networks": {
+      "path": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/sources/HISTORICAL_EXPRESSION_NETWORKS.json",
+      "sha256": "63cd33e18798755886712e6562501e88d65358b3cdc30d4fbe234132111fbdc8"
+    },
+    "ptm_gmt": {
+      "path": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/sources/PTMSIGDB_PATH_KINASE_V2.gmt",
+      "sha256": "444b579eb4b7ad28f0d02d9ab8623d3a691719bd4487baa4ed04c6fa22db2c23"
+    },
+    "state_protein_map_complete": {
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/state_protein_map_20261104_r1/COMPLETE.json",
+      "sha256": "52b5386322cf52559880dc9d26c94ab2893ba28e8dd6add0886fe47b40b8617e"
+    },
+    "tcga_state": {
+      "bytes": 41378687,
+      "catalog_id": "CLA_STATE_AUGMENTED_20261104_V3",
+      "columns": 487,
+      "format": "CLA_PATIENT_STATE_V1",
+      "materialization_manifest": "/dell_2/DSC/CancerLncAtlas/inputs/state_augmented_20261104_r1/STATE_MATERIALIZATION.json",
+      "materialization_manifest_sha256": "addbe4fb1d221099513a1a560c3e5ef804ffa04ad795e56033e2a530a029a7ec",
+      "path": "/dell_2/DSC/CancerLncAtlas/inputs/state_augmented_20261104_r1/STATE_AUGMENTED_PATIENT.parquet",
+      "sha256": "137be9ec6b6231e9011ba30f34581d89c8982001873b1ab931d660faa59d4af5"
+    },
+    "methylation_definition": {
+      "path": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/METHYLATION_DEFINITION.json",
+      "sha256": "ff5b15bf742e66a3296ac109dfa4bc3c3d0267950eaf25109c3b8639eba87380"
+    },
+    "malta": {
+      "bytes": 520857,
+      "path": "/public8/DSC/CancerLncAtlas/input/v3_1_target_context_assets_e0b44122/malta/DNAmethylation_and_RNAexpression_Stemness_Signatures.xlsx",
+      "sha256": "b08573a76be2fe4dff7049114144e0cc45f371df58302c3050b3328d3eb1c992"
+    }
+  },
+  "download_manifest": {
+    "path": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/repo/config/cptac_download_manifest_20261104.json",
+    "sha256": "abe1c2a12edf0b3cc406a8ef521e238aef7ebb9add145f5f4e8d5ac5d4fa6ae4"
+  },
+  "pre_downloaded_complete": {
+    "path": "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/raw/DOWNLOAD_COMPLETE.json",
+    "sha256": "8bd7c1630ebfaaf9758f93dea212715dcb8f1f403dfb0089e19316c9bdad7942"
+  },
+  "Rscript": "/usr/bin/Rscript",
+  "R_libraries": [
+    "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/R_library",
+    "/dsk2/user/dengsc/cla_state_expansion_20261101_r1/R_library",
+    "/public8/DSC/CancerLncAtlas/r_libs",
+    "/dsk2/user/dengsc/R/x86_64-pc-linux-gnu-library/4.5"
+  ],
+  "broad_source": {
+    "path": "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/sources/ssGSEA2.0",
+    "commit": "cae7bed2c357826c0d887ca528c0c9b272705006"
+  }
+}

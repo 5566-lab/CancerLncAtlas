@@ -19010,6 +19010,15 @@
     "python_executable": "/path/to/verified_inputs/python",
     "role": "149"
   },
+  "cptac_input": {
+    "complete": {
+      "path": "/path/to/verified/CPTAC/COMPLETE.json",
+      "sha256": "dc28d3f18db7aa4b8e48a13d0a37e87c1c5fa9898a82ac5194499988a84ab288"
+    },
+    "format": "CLA_CPTAC_INTEGRATED_INPUT_V1",
+    "role": "ALIGNED_EXTERNAL_COHORT_NATIVE_SCORES",
+    "training_pooling": false
+  },
   "disabled_modalities": [],
   "execution_contract": "CLA_FULL_PYG_R62_SINGLE_ENTRYPOINT_V1",
   "execution_location": {

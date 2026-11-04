@@ -146,6 +146,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     rppa_input=validate_binding(cfg.get('rppa_input'), sha(Path(cfg['sources']['patient_map']['path'])))
     from .state_protein_map import validate_binding as validate_state_map
     state_map=validate_state_map(cfg.get('state_protein_map'),cfg['targets'])
+    from .cptac_binding import validate_binding as validate_cptac
+    cptac=validate_cptac(cfg.get('cptac_input'),cfg['targets'],cfg['sources']['state'].get('sha256'))
     validate_config_contract(cfg);assert_controller(cfg)
     imported=verify_import_authority(cfg)
     out=Path(out);sources=cfg['sources'];targets=cfg['targets'];model=cfg['model'];scope=cfg['profiles'][profile]
@@ -164,6 +166,9 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     if state_map is not None:
         atomic_json(out/'STATE_PROTEIN_MAP.json',state_map)
         input_hashes['state_protein_map::complete']=state_map['complete']
+    if cptac is not None:
+        atomic_json(out/'CPTAC_INPUT.json',cptac)
+        input_hashes['cptac_input::complete']=cptac['complete']
     for role,spec in sources.items():
         if not isinstance(spec,dict) or 'path' not in spec:continue
         p=Path(spec['path'])

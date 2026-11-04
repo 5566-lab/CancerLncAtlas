@@ -1,0 +1,956 @@
+[
+  {
+    "name": "BRCA_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/BRCA/BRCA_meta.txt",
+    "role": "metadata",
+    "cohort": "BRCA",
+    "bytes": 7369,
+    "sha256": "16d00a3022fbafa9d29e74c0ee689ae63279911f04aeef2d21344ed51a0a5cb7",
+    "etag": "a012cc87f1a79c2ae398386427de17b0"
+  },
+  {
+    "name": "BRCA_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/BRCA/BRCA_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "BRCA",
+    "bytes": 1094,
+    "sha256": "27c5bbd3b25f2421db1fcc174a1d0cde9835a191eb8b8d957241ef0b531b9993",
+    "etag": "a4b3016240be6472063f7488362a46a5"
+  },
+  {
+    "name": "BRCA_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/BRCA/BRCA_survival.txt",
+    "role": "survival",
+    "cohort": "BRCA",
+    "bytes": 2444,
+    "sha256": "5fbd6f8e00efb747f3a0c8b98415ab77914f65e086f0db11bf14d2c2ea90dc30",
+    "etag": "44d1c74180ba4c0ddf032d860f2e19a5"
+  },
+  {
+    "name": "BRCA_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/BRCA/BRCA_phenotype.txt",
+    "role": "clinical",
+    "cohort": "BRCA",
+    "bytes": 227024,
+    "sha256": "7f9fa329e1352695ea898de6caecde43dfb45445c63911d9b649747517dd1091",
+    "etag": "7af96c2cec347673abcb912f1c9cbac8"
+  },
+  {
+    "name": "BRCA-gene_TPM_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/BRCA-gene_TPM_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "BRCA",
+    "bytes": 27900928,
+    "sha256": "f38fedc36311ffd3258e1165a6639b23eecd441ab71e9e691a4a1cb5ed66b74e",
+    "etag": "9e075847772816e0c385ba53b6b03bd5-4"
+  },
+  {
+    "name": "BRCA_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/BRCA/BRCA_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "BRCA",
+    "bytes": 21398351,
+    "sha256": "e584331bc77a440af50692c7874b736b3d135d01d96ce95d66af18cc64009b21",
+    "etag": "6f545bcc75763651d2d04b075d076d24-3"
+  },
+  {
+    "name": "BRCA_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/BRCA/BRCA_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "BRCA",
+    "bytes": 50633530,
+    "sha256": "64b2f52e9148747a0380b088892cd5d31cce6ac044c97e8bef88d599e084e190",
+    "etag": "bee964eea66bc76208554199c490a639-7"
+  },
+  {
+    "name": "CCRCC_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_meta.txt",
+    "role": "metadata",
+    "cohort": "CCRCC",
+    "bytes": 10979,
+    "sha256": "c332231f3cbd204094236dfd302977e70bbdddcf0049e862b60dd10244d04dae",
+    "etag": "acb3504fe09e22f2d89b1cdbd43b35f8"
+  },
+  {
+    "name": "CCRCC_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "CCRCC",
+    "bytes": 1030,
+    "sha256": "ee692071c563ae797e5d7670e2b8698049e2467eb30f5916f7707e798d1441be",
+    "etag": "6cdf00ce605d408ed3458d9d483118c6"
+  },
+  {
+    "name": "CCRCC_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "CCRCC",
+    "bytes": 800,
+    "sha256": "4e631863d653d09b11e249176f3318c96928240f02f631725b2053be7d92f6ea",
+    "etag": "5e545750c2078771cc21c54880e21e28"
+  },
+  {
+    "name": "CCRCC_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_survival.txt",
+    "role": "survival",
+    "cohort": "CCRCC",
+    "bytes": 2365,
+    "sha256": "79a02dd8f4bea4a5246d26c5d1433d4289961b34461f914ba305d1ec3bce9120",
+    "etag": "c37d93205993f228c3aee89e18ccbdec"
+  },
+  {
+    "name": "CCRCC_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_phenotype.txt",
+    "role": "clinical",
+    "cohort": "CCRCC",
+    "bytes": 191249,
+    "sha256": "929ce841da91caf2a03a58b1561929648f4be50b8b081f7182e2ad95ee936d0a",
+    "etag": "b8543462415505fde7f7deeb558e0cb3"
+  },
+  {
+    "name": "CCRCC_methylation_gene_beta_value_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_methylation_gene_beta_value_Tumor.txt",
+    "role": "methylation_gene",
+    "cohort": "CCRCC",
+    "bytes": 10571166,
+    "sha256": "ae7ea6fd9cb659175882d42068b579b77ff39d51eac720fcc81ee05164962f94",
+    "etag": "1b78b94c1b30d39fd27d6875e40721a7-2"
+  },
+  {
+    "name": "CCRCC_methylation_gene_beta_value_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_methylation_gene_beta_value_Normal.txt",
+    "role": "methylation_gene",
+    "cohort": "CCRCC",
+    "bytes": 7678344,
+    "sha256": "ee54010798052128600bdb09683e6071fda45c9cd0f33aee0a0203ead49c4d96",
+    "etag": "a1ac2fd407d0a988a9052a1f0bd6f633"
+  },
+  {
+    "name": "CCRCC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/CCRCC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "CCRCC",
+    "bytes": 42994444,
+    "sha256": "345b7577fc4a4a1e06ae9aaadddc9889d62372d6916a7e714b44d6691e82e958",
+    "etag": "b2bc637a169e1b4c7570821dfb434d45-6"
+  },
+  {
+    "name": "CCRCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "CCRCC",
+    "bytes": 16629110,
+    "sha256": "090077c25f0eeb59b737912f39dec98901db949e1f143bbc481d5cd731550f60",
+    "etag": "350580ba99c4c2cdb6af087aeea59453-2"
+  },
+  {
+    "name": "CCRCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "CCRCC",
+    "bytes": 13026061,
+    "sha256": "1b00d684cd99d870bee199128485c22d6cb079e0a01de3c044b7a4fdb1735618",
+    "etag": "e909ab5d3477392b8a76aa29e99ce99e-2"
+  },
+  {
+    "name": "CCRCC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "CCRCC",
+    "bytes": 46018835,
+    "sha256": "e373b43f03df3ddb5c648f5af4b57e4caa61e767c911dfd5aa1b3ded1b772d98",
+    "etag": "605149df9d8a83feddbb477c23c6f59e-6"
+  },
+  {
+    "name": "CCRCC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/CCRCC/CCRCC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "CCRCC",
+    "bytes": 36327869,
+    "sha256": "0fb82e502a316db8ebd6950f536cc5ef6a6a0573d9d21e435f13b797f6cb43f0",
+    "etag": "d72d21447ca08f9cfd3629872131f1cd-5"
+  },
+  {
+    "name": "COAD_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_meta.txt",
+    "role": "metadata",
+    "cohort": "COAD",
+    "bytes": 11672,
+    "sha256": "5242103f57fb5d919ab7e228dd36c97b669915d6bee88ae1e5a43c3aa270295e",
+    "etag": "7ccdf9b12fb31f9210d1b8088b2901d4"
+  },
+  {
+    "name": "COAD_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "COAD",
+    "bytes": 988,
+    "sha256": "1495c045402199d98670c8862ac01035b5521b3b8538b38c117fb80340009ac8",
+    "etag": "babcc2a71fdedaa2a5b39f5814138274"
+  },
+  {
+    "name": "COAD_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "COAD",
+    "bytes": 898,
+    "sha256": "7e43c6619464ae23a7c1162e9266f0c71175946fa290b37e0405a2e28a4f390c",
+    "etag": "ec7253799bcb540055a31dda01378e11"
+  },
+  {
+    "name": "COAD_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_survival.txt",
+    "role": "survival",
+    "cohort": "COAD",
+    "bytes": 2196,
+    "sha256": "42cb95dde9c4f67fd2cb33d30c86de0a3483bd9bec8f69ca024e44d514f51acb",
+    "etag": "490633e46fd844ce516fdcab0894054a"
+  },
+  {
+    "name": "COAD_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_phenotype.txt",
+    "role": "clinical",
+    "cohort": "COAD",
+    "bytes": 204627,
+    "sha256": "959ec27c2b668bfd2b0cd9ff811319efe62d3078c37c6ca590aa8be8b3b225d9",
+    "etag": "82d3bba9f0aae0c56a3a255069ff9785"
+  },
+  {
+    "name": "COAD-gene_TPM_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/COAD-gene_TPM_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "COAD",
+    "bytes": 22359212,
+    "sha256": "b98e3b34de2d312ee151aa8bb29584fe78f00ee630860f7504b343f5422de50e",
+    "etag": "331c8056de3ac27773409c6dafde0cdf-3"
+  },
+  {
+    "name": "COAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "COAD",
+    "bytes": 12293004,
+    "sha256": "fa2dde5f9165acdf6320d28e01dbad24b735ede320f5fab4a6ceab6c15aa0580",
+    "etag": "26ea0dea6bc74cec5b10cc7706c0e5f3-2"
+  },
+  {
+    "name": "COAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "COAD",
+    "bytes": 12515956,
+    "sha256": "a76a0cc0ab3986635e8745028eb0bcc64470035ab737cc0937ec7be114a09177",
+    "etag": "d7323b24f30ed1c212418c9d9a0983a7-2"
+  },
+  {
+    "name": "COAD_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "COAD",
+    "bytes": 30662724,
+    "sha256": "dfa526d0ec65755195269148edd5c4f87079a32645ef8cdb78fac7cd07167c4b",
+    "etag": "8430c2324fa9e53b449cf1c0d0819dce-4"
+  },
+  {
+    "name": "COAD_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/COAD/COAD_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "COAD",
+    "bytes": 31131857,
+    "sha256": "84bddc6e7ac01c7e240959a23a104684cabe4a98b9062fd6f5811cfe98083451",
+    "etag": "85ce271362f70621312e410a28e2603c-4"
+  },
+  {
+    "name": "GBM_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/GBM/GBM_meta.txt",
+    "role": "metadata",
+    "cohort": "GBM",
+    "bytes": 6809,
+    "sha256": "6617ef2f9010acec1eba09a765ca3e35e4ba2ea7ba75ba9e8734ed9ad94feecc",
+    "etag": "e8509bf0492a8cddf0f53f26ce97936c"
+  },
+  {
+    "name": "GBM_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/GBM/GBM_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "GBM",
+    "bytes": 1087,
+    "sha256": "51dc5cda8b5974690e9065751c5c3437b04ea210dfc895bcaee2e960e40ff2e1",
+    "etag": "7550061dd5655cf7f711114f25b15964"
+  },
+  {
+    "name": "GBM_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/GBM/GBM_survival.txt",
+    "role": "survival",
+    "cohort": "GBM",
+    "bytes": 2206,
+    "sha256": "92db5ea227ada51cecf14d9f3f8a79cb99489d30ac05e0cc071d1461ca6e659c",
+    "etag": "da26abcfcd261bd4da0a43ddc5c073d0"
+  },
+  {
+    "name": "GBM_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/GBM/GBM_phenotype.txt",
+    "role": "clinical",
+    "cohort": "GBM",
+    "bytes": 209875,
+    "sha256": "807c6b83236dfb96c10b8ad224f68b21fb356bca4bd14514095cb1c5256ea575",
+    "etag": "6478a030e1fe3646a50b457e4344b7dc"
+  },
+  {
+    "name": "GBM_methylation_gene_beta_value_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/GBM/GBM_methylation_gene_beta_value_Tumor.txt",
+    "role": "methylation_gene",
+    "cohort": "GBM",
+    "bytes": 9898368,
+    "sha256": "60e9a6fc173f8edc09ea237cfdf54d24358f7fe15b757dec7452589e76c392e6",
+    "etag": "b133cbfd956421a90c98019c589ce33d-2"
+  },
+  {
+    "name": "GBM-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/GBM-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "GBM",
+    "bytes": 24236937,
+    "sha256": "db738a805e253689366295ad71516fd16b96c871b8d0201ebba2e18dcfb46a7a",
+    "etag": "c2648b4ca0122884bf429a3dc36fd381-3"
+  },
+  {
+    "name": "GBM_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/GBM/GBM_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "GBM",
+    "bytes": 18033471,
+    "sha256": "d7393915eb8ec10c1c48bea03d78cd9ee2a3477f7bb4b93f808ffade03c2f01b",
+    "etag": "a7b7bc5f04e694b033e2096125859d97-3"
+  },
+  {
+    "name": "GBM_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/GBM/GBM_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "GBM",
+    "bytes": 65019693,
+    "sha256": "6dfbe3a23e70fabb428b81b30ec3493a96cbb09ca7cf9c48e0d093f777f6c467",
+    "etag": "10115b0ffe3cfe8d623c73df63a8140b-8"
+  },
+  {
+    "name": "HNSCC_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_meta.txt",
+    "role": "metadata",
+    "cohort": "HNSCC",
+    "bytes": 12087,
+    "sha256": "3c9e32ff8b51b4a22f967ca753185e01d79f69d860f9530f5587314bd06c80ac",
+    "etag": "faa579fde61dbd3cbd7e8a75e4de61c1"
+  },
+  {
+    "name": "HNSCC_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "HNSCC",
+    "bytes": 1080,
+    "sha256": "18037cf6f7322421d06094aab41cff95ad1ea0d3cbf8298013a1d315feb3c4e4",
+    "etag": "5dd865f8b6ccd801a8bbd9a8fecd7c45"
+  },
+  {
+    "name": "HNSCC_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "HNSCC",
+    "bytes": 620,
+    "sha256": "7c943da5e8f6152a399433a2f166294a2de327d7d0e6693dd75896747f32cec1",
+    "etag": "c5a1825b9f7f99fa10aba861f4693311"
+  },
+  {
+    "name": "HNSCC_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_survival.txt",
+    "role": "survival",
+    "cohort": "HNSCC",
+    "bytes": 2476,
+    "sha256": "fad996eb4d0744421b47bbda1b993b1430e917c78995b41f2f21e6ec7576a2c7",
+    "etag": "65443fa8109f44632129bb88c5047088"
+  },
+  {
+    "name": "HNSCC_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_phenotype.txt",
+    "role": "clinical",
+    "cohort": "HNSCC",
+    "bytes": 214773,
+    "sha256": "579f51424bfbff5f9baf17553c95c12dfd94fc4a51b2f3562768d7c255adbd10",
+    "etag": "368ea8e8d849775f6ec1f2d013b88905"
+  },
+  {
+    "name": "HNSCC_methylation_gene_beta_value_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_methylation_gene_beta_value_Tumor.txt",
+    "role": "methylation_gene",
+    "cohort": "HNSCC",
+    "bytes": 11001357,
+    "sha256": "ee771c0ed415b534e5532eb7452261e14fc0343d350baf336da46507d4371a69",
+    "etag": "86564d099265dd914e53f172f38de485-2"
+  },
+  {
+    "name": "HNSCC_methylation_gene_beta_value_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_methylation_gene_beta_value_Normal.txt",
+    "role": "methylation_gene",
+    "cohort": "HNSCC",
+    "bytes": 3405038,
+    "sha256": "f6fe7ae1108f3314b19cd0724f2cf860bb62dbdf88100aa612ddb3a3a9a806d0",
+    "etag": "2bc00ae4385e12c817fab9fe49f48b0f"
+  },
+  {
+    "name": "HNSCC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/HNSCC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "HNSCC",
+    "bytes": 39659006,
+    "sha256": "629f2342467d48abe6685fc8ad0245c67f10c0158b606cd700bc5a8205b3a176",
+    "etag": "a304f04d158856e3fd95026f241d5d4c-5"
+  },
+  {
+    "name": "HNSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "HNSCC",
+    "bytes": 18184418,
+    "sha256": "6d52dac50c55a4aa30e0aabaf3047a3a099875ea075b65d8f0bc83ac45a5c4b3",
+    "etag": "48cc71a1ef0d4d1bba267056a59a8607-3"
+  },
+  {
+    "name": "HNSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "HNSCC",
+    "bytes": 10542735,
+    "sha256": "0a067886f9b553d3de24d2dbab21e18037c44a50a52b9d60004d22dba3442adc",
+    "etag": "a4a3f5c753e58141ea62428cf3544e17-2"
+  },
+  {
+    "name": "HNSCC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "HNSCC",
+    "bytes": 54793177,
+    "sha256": "c793e056d97bb39dd11e0490f3ff44d8af9b2b5e368c609ca99912b38603e861",
+    "etag": "64d77d937bbeb2e1ae318eb9715933f7-7"
+  },
+  {
+    "name": "HNSCC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/HNSCC/HNSCC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "HNSCC",
+    "bytes": 32994426,
+    "sha256": "b23d8b000259af9ca39b6672cb32970ad67bcc6170e452d5ac5ec3cbd3de6dcf",
+    "etag": "f64ae6197418a01fc99a04964eabbe9c-4"
+  },
+  {
+    "name": "LSCC_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_meta.txt",
+    "role": "metadata",
+    "cohort": "LSCC",
+    "bytes": 12051,
+    "sha256": "6c334bbd8c9c4acfc94709a7fea5fd0181efa0881cee8ce1793085a5281a9d99",
+    "etag": "02bbca5d40a1821fe4b04cfe00169724"
+  },
+  {
+    "name": "LSCC_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "LSCC",
+    "bytes": 1186,
+    "sha256": "8198fcc0e10e6bfaaabbb9886437b8e805af11e8f581fbff5ba63ec562c5c0eb",
+    "etag": "9e84a6ee691cd39132b76d25d6875a62"
+  },
+  {
+    "name": "LSCC_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "LSCC",
+    "bytes": 1087,
+    "sha256": "5fdf25da74eba7a2f1cfeb3b7424b1cf6cc45cfc8163d721785abf908f424a27",
+    "etag": "5ec7376d5004ea8f3b7fd3bcabd9d452"
+  },
+  {
+    "name": "LSCC_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_survival.txt",
+    "role": "survival",
+    "cohort": "LSCC",
+    "bytes": 2471,
+    "sha256": "58561010e511669bb8f5484f51aaad50862454c57de12a8f9ab02c73b31edc75",
+    "etag": "d5d4b15be34b0a5d298fccb628d80eb7"
+  },
+  {
+    "name": "LSCC_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_phenotype.txt",
+    "role": "clinical",
+    "cohort": "LSCC",
+    "bytes": 212329,
+    "sha256": "34f17a653dd5ebce0cdf1257c4498fe6579e314d18d435d333e4bcc4db22ef8d",
+    "etag": "24db4563593760ee2c9079a225e14cb6"
+  },
+  {
+    "name": "LSCC_methylation_gene_beta_value_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_methylation_gene_beta_value_Tumor.txt",
+    "role": "methylation_gene",
+    "cohort": "LSCC",
+    "bytes": 10997080,
+    "sha256": "0638d837cb8ca5e3d4287aae79db361ba8925549ddef089c948dea59f5bed7bb",
+    "etag": "ed35a25b30b9d740885d1781c996aea9-2"
+  },
+  {
+    "name": "LSCC_methylation_gene_beta_value_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_methylation_gene_beta_value_Normal.txt",
+    "role": "methylation_gene",
+    "cohort": "LSCC",
+    "bytes": 9500587,
+    "sha256": "db000107d0c58fef8c87e04ea6a0987f50a4349a787f327498bc406590b5410f",
+    "etag": "12a444c2eb42a82a05ed86425efe97b2-2"
+  },
+  {
+    "name": "LSCC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/LSCC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "LSCC",
+    "bytes": 49107042,
+    "sha256": "6a6cb774442dc0c60e1e83f338595886e71e25c22ac31b8dbf383fb1c38b905c",
+    "etag": "c0f088a8450f90144d233774e79e4380-6"
+  },
+  {
+    "name": "LSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "LSCC",
+    "bytes": 20631271,
+    "sha256": "fd9f9cc0aed40942fd33d750d1d207bcdf9ea231fcddeff3cc8ac8fdf3e1384d",
+    "etag": "63a1c227fcf96782cef43ddf393499e6-3"
+  },
+  {
+    "name": "LSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "LSCC",
+    "bytes": 18920447,
+    "sha256": "ea3f8e5a1e42f708af87f6cdfc86d3fa63a96bfdc4f6f3316ba54380ea579aaf",
+    "etag": "221b8f9489f0abc9bdb2f61ffe8e3c8b-3"
+  },
+  {
+    "name": "LSCC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "LSCC",
+    "bytes": 62042879,
+    "sha256": "e14fe8506376ed8f755b6066873756971013d6371092d1b7e9e7644f1e370077",
+    "etag": "c8fa0d8dff7027291efef59fe2996e6d-8"
+  },
+  {
+    "name": "LSCC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LSCC/LSCC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "LSCC",
+    "bytes": 56979342,
+    "sha256": "f1c91d8b7d09bb8115e70dcda7546d8265d2404a1c5a740e76c45ba4dca02ad1",
+    "etag": "a16d7d950005b64f096829f476923bbe-7"
+  },
+  {
+    "name": "LUAD_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_meta.txt",
+    "role": "metadata",
+    "cohort": "LUAD",
+    "bytes": 12232,
+    "sha256": "f9facf713af130ad097c56794f1fbc9107334e02ad9bf0df3958b40d68b6af10",
+    "etag": "ef333ebea984527098b6c5af23de8e31"
+  },
+  {
+    "name": "LUAD_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "LUAD",
+    "bytes": 1092,
+    "sha256": "92aba1a2d482feccb2f3f1873e147758674ee7472519340d3859e0c43f983ddf",
+    "etag": "573d75d12d352a6a2f60cf886cec04fe"
+  },
+  {
+    "name": "LUAD_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "LUAD",
+    "bytes": 1010,
+    "sha256": "c6425a338baa30cdf33fcb617946ba6693d90100e729bbcc4ece7e9eea0ce623",
+    "etag": "9def61006d946f3c2cf036eb0b85a691"
+  },
+  {
+    "name": "LUAD_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_survival.txt",
+    "role": "survival",
+    "cohort": "LUAD",
+    "bytes": 2485,
+    "sha256": "ec420eae54ddc38eb4edc2b9ec5522f066f28f8e37675dde9394f59518de3080",
+    "etag": "ed432271bc2c5d5967eee1b1b15eb163"
+  },
+  {
+    "name": "LUAD_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_phenotype.txt",
+    "role": "clinical",
+    "cohort": "LUAD",
+    "bytes": 210137,
+    "sha256": "9f777402f7d7d53856a5adfc73c8291136430ddfad85641584426921609b349a",
+    "etag": "438449346f0703a0877cbfc56436b845"
+  },
+  {
+    "name": "LUAD_methylation_gene_beta_value_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_methylation_gene_beta_value_Tumor.txt",
+    "role": "methylation_gene",
+    "cohort": "LUAD",
+    "bytes": 10530218,
+    "sha256": "758663b0b44a97f48be3e502e180fed4c8f7d5f9a5cc848823b6f2e07dbea4e4",
+    "etag": "0deee67c97a4be565f4f49092360513e-2"
+  },
+  {
+    "name": "LUAD_methylation_gene_beta_value_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_methylation_gene_beta_value_Normal.txt",
+    "role": "methylation_gene",
+    "cohort": "LUAD",
+    "bytes": 10066392,
+    "sha256": "3b2fe968168b62db43803cc9a1bbe6625550aa928722b31b2fac9b4c11f42dd6",
+    "etag": "485871c69cf3fb469d9b10b1f7d55abe-2"
+  },
+  {
+    "name": "LUAD-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/LUAD-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "LUAD",
+    "bytes": 49521333,
+    "sha256": "54643304cf1678979c86b1ec54a2bac8bd50d19e6e16db200f43dda988867a45",
+    "etag": "93de688bf2de06974db87adb33585897-6"
+  },
+  {
+    "name": "LUAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "LUAD",
+    "bytes": 20132337,
+    "sha256": "746900f54072198481207ea13f8a7ba14dcabd52345bace0bef7438120c03845",
+    "etag": "ab9d627027d8b5343fc88c9922275ef8-3"
+  },
+  {
+    "name": "LUAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "LUAD",
+    "bytes": 18491662,
+    "sha256": "3cfc62b159276837dea644f457ebf6b212964320e0b3d8ac87168d82eb73747c",
+    "etag": "914156461cc01b6ffba0c45208bfeb79-3"
+  },
+  {
+    "name": "LUAD_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "LUAD",
+    "bytes": 57949691,
+    "sha256": "5dbdb71093de80b5f8c4e8893c754ea7b3db065c461d5f10e424aa70559d1868",
+    "etag": "e00cb6be453dc89d26c77f84ebb9fbdb-7"
+  },
+  {
+    "name": "LUAD_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/LUAD/LUAD_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "LUAD",
+    "bytes": 53242041,
+    "sha256": "eec7e5570cd35ec8bdfa4a6d5cf44a6df9309d6f824023e86460d27fd2fb89b4",
+    "etag": "a0f554d87bbdc516af26aee92b84eaf5-7"
+  },
+  {
+    "name": "OV_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_meta.txt",
+    "role": "metadata",
+    "cohort": "OV",
+    "bytes": 6029,
+    "sha256": "ab6b3bb70460c682492a98f7620cbbeda61baab6e4d8bc1e25d19c0580390123",
+    "etag": "115db0626cf14ef2d9abcfd506b424e9"
+  },
+  {
+    "name": "OV_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "OV",
+    "bytes": 664,
+    "sha256": "2c122ca238e35876f1166d7edef43ab87bd03b1c6baadcd97b1d9a9715d46312",
+    "etag": "5ad9121926f614a005233ab337aa9370"
+  },
+  {
+    "name": "OV_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "OV",
+    "bytes": 160,
+    "sha256": "318a82c237b00e8f47b86a6cd90eae685aff01b8d02a83b49b355608e1c09d6e",
+    "etag": "a5e23165aedf7b112b3b128347c649ff"
+  },
+  {
+    "name": "OV_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_survival.txt",
+    "role": "survival",
+    "cohort": "OV",
+    "bytes": 1689,
+    "sha256": "b1f5907fafb1594e39c6e3b196dfa791c3b8086ce0a9c6e4c93ad724553d3bb8",
+    "etag": "b4443200eb24636c5238eed1fbcd2adb"
+  },
+  {
+    "name": "OV_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_phenotype.txt",
+    "role": "clinical",
+    "cohort": "OV",
+    "bytes": 157772,
+    "sha256": "58c75e054cb98a551e6a06e21784eb70f428da14779ace530c5549bef9352e8b",
+    "etag": "2b30e3fd54908f57662ff8a473d15b0f"
+  },
+  {
+    "name": "OV-gene_TPM_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/OV-gene_TPM_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "OV",
+    "bytes": 21068056,
+    "sha256": "14a1840080cc993a872aae7f0451c9abbef12d33d77cf0fd190d4e75162bc2e5",
+    "etag": "d7098867a9f6a86be13ec340ff78684e-3"
+  },
+  {
+    "name": "OV_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "OV",
+    "bytes": 12506387,
+    "sha256": "274c22512ab70e2a07197ca6e51d268038c90e903bac823c1b27b7950af4ae6f",
+    "etag": "bd5747090f0f07f31f22c0fe99f7c8ac-2"
+  },
+  {
+    "name": "OV_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "OV",
+    "bytes": 3007610,
+    "sha256": "6fc249b27c9284b598a94860c1e36f4fd45843f65b14c4ccdfbc0153725bb07a",
+    "etag": "b0af3c1c2e065d97f23798c49e290cd2"
+  },
+  {
+    "name": "OV_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "OV",
+    "bytes": 29097272,
+    "sha256": "509b6daee400feff78896eda5b9ce3ddba13ffb45e94f4165711834b0a0a943e",
+    "etag": "55f388fc59cb42528f2f6f650776a75f-4"
+  },
+  {
+    "name": "OV_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/OV/OV_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "OV",
+    "bytes": 8222958,
+    "sha256": "16d2980e042d75e619f39f4672cff519911f8425af2ccf76b53a70b434928000",
+    "etag": "dadd8bc49a85b30cd924e83eee25f230"
+  },
+  {
+    "name": "PDAC_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_meta.txt",
+    "role": "metadata",
+    "cohort": "PDAC",
+    "bytes": 11358,
+    "sha256": "ce53f0acf92cbbbf165c8c27425c27b7b6de301c2e95279eaf124c37a2316d33",
+    "etag": "ed49d065289becf6c1764cafd5425c21"
+  },
+  {
+    "name": "PDAC_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "PDAC",
+    "bytes": 1155,
+    "sha256": "089f7a166f4b90e888c367aa1582d6bc675b572c7207ee4d7670daa325b1e36b",
+    "etag": "c1e537a6f2ab63cb55997cb9b2672eef"
+  },
+  {
+    "name": "PDAC_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "PDAC",
+    "bytes": 484,
+    "sha256": "9f1dcb19bfb6a4630901edbc7b4e1ad77d70fb2d47eb6c8459620a524a3dd9c4",
+    "etag": "1a5b99fa4343d1af5220fa0fef4a0483"
+  },
+  {
+    "name": "PDAC_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_survival.txt",
+    "role": "survival",
+    "cohort": "PDAC",
+    "bytes": 2340,
+    "sha256": "d953102e92d1cd8749d47b85fba99ad6fe67ff70737edf5bbbbe945033510ed4",
+    "etag": "25f1fd53bf9764665c1b7e2e0bc31b65"
+  },
+  {
+    "name": "PDAC_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_phenotype.txt",
+    "role": "clinical",
+    "cohort": "PDAC",
+    "bytes": 206286,
+    "sha256": "91c4511765e6c99e3e9b1a3711f31d313a1dee408072dafe375fcfc6f1af4a52",
+    "etag": "4e1944e11ff33445ac9c1bc486dbc253"
+  },
+  {
+    "name": "PDAC_methylation_gene_beta_value_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_methylation_gene_beta_value_Tumor.txt",
+    "role": "methylation_gene",
+    "cohort": "PDAC",
+    "bytes": 9492479,
+    "sha256": "e52cc9854727304b208df30b563d0562926444aab261ab5e294a70e2aff7b74f",
+    "etag": "cda8372737309cd0124e8d09ab0ab704-2"
+  },
+  {
+    "name": "PDAC_methylation_gene_beta_value_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_methylation_gene_beta_value_Normal.txt",
+    "role": "methylation_gene",
+    "cohort": "PDAC",
+    "bytes": 2999450,
+    "sha256": "9e20d8ca9a3547ee528182a3068a76d7239ab12d616f7f34d794b38117abe836",
+    "etag": "25545bf14ce38b8c83fbd522adef772b"
+  },
+  {
+    "name": "PDAC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/PDAC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "PDAC",
+    "bytes": 49286207,
+    "sha256": "5eabc635d802c66f07033577a4a15d26ff26c39d4dcb0525aaec276d93d32a15",
+    "etag": "35419098966342e181ac4144e4d7d7b7-6"
+  },
+  {
+    "name": "PDAC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "PDAC",
+    "bytes": 16800925,
+    "sha256": "e1be4bed67bfdac6fff7b12487b8af9e0e2a0e93901039f5f9124e180f24f6bd",
+    "etag": "89fc06959209a18a7dcea7c4e43755e5-3"
+  },
+  {
+    "name": "PDAC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "PDAC",
+    "bytes": 7177097,
+    "sha256": "beb1bc33ee52d10f0f7a6fa0bfc0de97916471c37d80c5cb655ee0d0a2452ce9",
+    "etag": "28df1a80dba71b39ba6c2002d3b584de"
+  },
+  {
+    "name": "PDAC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "PDAC",
+    "bytes": 48706052,
+    "sha256": "be6834314f24daaebab9f56ad5736e314af87d7868115963e25b9e82aaf1a89f",
+    "etag": "438070ec41f129521945764cc0a7472b-6"
+  },
+  {
+    "name": "PDAC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/PDAC/PDAC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "PDAC",
+    "bytes": 22119041,
+    "sha256": "090f38557f48f8b615b077658385077b1a9e5625001547431db404ffee8d515e",
+    "etag": "68a3b3a548ca72dae932d0c94beedcfb-3"
+  },
+  {
+    "name": "UCEC_meta.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_meta.txt",
+    "role": "metadata",
+    "cohort": "UCEC",
+    "bytes": 13972,
+    "sha256": "4058a8420129dd37f4d9035e1d87beb70a800ce9cb42754f74e7ad3d35f3020b",
+    "etag": "cd37b41d3e913fbf8fa70e42e0e16daa"
+  },
+  {
+    "name": "UCEC_Tumor_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_Tumor_CaseList.txt",
+    "role": "case_list",
+    "cohort": "UCEC",
+    "bytes": 949,
+    "sha256": "9f8db0ff8d82a54f9fc962f53ca4300107d08bc644b734912eccc3147a647545",
+    "etag": "fce315330f8ee7b70cc3355e5083d298"
+  },
+  {
+    "name": "UCEC_Normal_CaseList.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_Normal_CaseList.txt",
+    "role": "case_list",
+    "cohort": "UCEC",
+    "bytes": 97,
+    "sha256": "79ee61ccfa92e1e8bb1f17b94a7176a062aa40e1c0acb46294af99c7a84fce9e",
+    "etag": "87236d2e563d8e23d68f8a24b86edd3b"
+  },
+  {
+    "name": "UCEC_survival.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_survival.txt",
+    "role": "survival",
+    "cohort": "UCEC",
+    "bytes": 2212,
+    "sha256": "2f5b5396a65d86a057275abf8f8ec9c3b3d6cd721179f705f8c19b74a19f4088",
+    "etag": "ceecb8a8b08da66f721ed9750f6c367c"
+  },
+  {
+    "name": "UCEC_phenotype.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_phenotype.txt",
+    "role": "clinical",
+    "cohort": "UCEC",
+    "bytes": 197288,
+    "sha256": "89ddc8c4953184d32a592cf0240ba97658fc2bb78e7caa37ab90dd74dd5e87ad",
+    "etag": "d9382b778206e31bee692747ba01ebba"
+  },
+  {
+    "name": "UCEC_methylation_gene_beta_value_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_methylation_gene_beta_value_Tumor.txt",
+    "role": "methylation_gene",
+    "cohort": "UCEC",
+    "bytes": 9809287,
+    "sha256": "63bc6f852d7e4602c1d39202c671f436acafc15996756f27d90aa8f44c532a16",
+    "etag": "14f71cd6dd813932b7c9edc9ce7b01f4-2"
+  },
+  {
+    "name": "UCEC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x+1)_BCM.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/CPTAC_pan_cancer_RNASeq_TPM_for_Xinpei/UCEC-gene_TPM_removed_circRNA_tumor_normal_raw_log2(x%2B1)_BCM.txt",
+    "role": "rna",
+    "cohort": "UCEC",
+    "bytes": 27988462,
+    "sha256": "666cde4561e7b62b7093337ad5076f2600e1e093fb6db69f9521aee2ef0b7dfb",
+    "etag": "8405e1c7031284a34b25d8495514c30d-4"
+  },
+  {
+    "name": "UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "protein",
+    "cohort": "UCEC",
+    "bytes": 16560392,
+    "sha256": "aea5d956b3496530faf86052886de19e857e96294a2dbcb3adb9702457865d36",
+    "etag": "377db6b91992e1cdcf042fb92c753157-2"
+  },
+  {
+    "name": "UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_proteomics_gene_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "protein",
+    "cohort": "UCEC",
+    "bytes": 3354332,
+    "sha256": "225df3e7827fbeec499deba3d773828935dbe722559730a902c66f9dabe1d229",
+    "etag": "dd22e9a214f1b2cd4ebffe40d39007f8"
+  },
+  {
+    "name": "UCEC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_phospho_site_abundance_log2_reference_intensity_normalized_Tumor.txt",
+    "role": "phosphorylation",
+    "cohort": "UCEC",
+    "bytes": 57212205,
+    "sha256": "0cb6fe7b534b00018cffbc77a64d014f72571baa4b49ad4fc4009cb060c0c70f",
+    "etag": "fd35f20d46736067d7bb5de4f26cf5b9-7"
+  },
+  {
+    "name": "UCEC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "url": "https://cptac-pancancer-data.s3.us-west-2.amazonaws.com/data_freeze_v1.2_reorganized/UCEC/UCEC_phospho_site_abundance_log2_reference_intensity_normalized_Normal.txt",
+    "role": "phosphorylation",
+    "cohort": "UCEC",
+    "bytes": 14102105,
+    "sha256": "45551e71b6eaed7ae8279b7c68d12d6d46bce0822f9580be0cd6164c4566df7f",
+    "etag": "16752231bf7005c97ddb4aa34b0c7eef-2"
+  }
+]

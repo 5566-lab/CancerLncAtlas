@@ -1,0 +1,2 @@
+# Additional Python dependency for original Malta workbook; core deps in existing requirements.
+openpyxl==3.1.5

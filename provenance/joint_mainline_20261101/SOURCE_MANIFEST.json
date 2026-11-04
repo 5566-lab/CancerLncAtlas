@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 8742,
-      "sha256": "63d51eb01406a2c0de8206e9e4a175efd2e51d624bbacf2137b1d4a9534be5b9"
+      "bytes": 9396,
+      "sha256": "93d2fe6f4201933b2f8af67a41a2442826082512a3abcf1b8be9e19a18fd3465"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -1569,6 +1569,38 @@
       "bytes": 9220,
       "sha256": "a7377f77d500b7a79309c504be9b25de2dbce2c61829bee1a3b797126276aff9"
     },
+    "cla_engine/cptac_binding.py": {
+      "bytes": 7478,
+      "sha256": "52c2eeab5c5d5433b924b04adb4e1f62844f63a4a4cb8476b537e4bf022a4365"
+    },
+    "cla_engine/cptac_bundle.py": {
+      "bytes": 22330,
+      "sha256": "7028af78928aee05ab65c2bfd601831e3f40671e123f956b0f63d8291b67c105"
+    },
+    "cla_engine/cptac_download.py": {
+      "bytes": 4968,
+      "sha256": "e9c684f07559e0bbc346cb4243034cd1ee4d100dba59b209afaedcdc88eb8465"
+    },
+    "cla_engine/cptac_materialize.py": {
+      "bytes": 14561,
+      "sha256": "b67940257ab5b018ed140a9c2af3e8e99d22fecfc65321377e9bbae69c3603b7"
+    },
+    "cla_engine/cptac_native_states.py": {
+      "bytes": 6012,
+      "sha256": "54ad26d3620225c2f49c5eefe25b2ff022e688da45dd9f0eff5eaf5b028513a2"
+    },
+    "cla_engine/cptac_omics_prepare.py": {
+      "bytes": 6695,
+      "sha256": "90b5f585eb7f9843aef50b8140cf2315a1d4ec521683ee0ebc1e93b23888d54c"
+    },
+    "cla_engine/cptac_pipeline.py": {
+      "bytes": 6394,
+      "sha256": "0cbc496edd53c7a3f7aa0b0da1154d690475a3f0d7e2051ff609152ad0a8a018"
+    },
+    "cla_engine/cptac_scope.py": {
+      "bytes": 925,
+      "sha256": "f1dffd3711838368440fd03761ff5ae564874266a7d67dd2cb97ea7ad42e9bf0"
+    },
     "cla_engine/diagnostic_matrix.py": {
       "bytes": 32801,
       "sha256": "2d7c906d482a5433e58b64ca8f099b9d55a352b7ec13c337ff423c6326c7f0a1"
@@ -1594,8 +1626,8 @@
       "sha256": "10f3687dff8da4ceef997207ab31ec4874a626fb0c19531191e9b0de893f0db6"
     },
     "cla_engine/fixture.py": {
-      "bytes": 13113,
-      "sha256": "72c5ecd461447f7a096e008bc53bc266fb8eb87a6fcdf7d73aeec8d7d62480da"
+      "bytes": 13203,
+      "sha256": "8bd1139e079bdf3bc4b9cc275ac7cf8b62ed5c2baa15eb5be6986869b7c1f4bc"
     },
     "cla_engine/genomics.py": {
       "bytes": 16494,
@@ -1614,8 +1646,8 @@
       "sha256": "f9d998ffc403be0bd2063ea3d202e45a502823cd6df4ccde1f92464f76be62cc"
     },
     "cla_engine/inputs.py": {
-      "bytes": 14859,
-      "sha256": "8fed0605fb527ae65c29408abbadb62b77afc85c99344b667888d5d4a95691ad"
+      "bytes": 15114,
+      "sha256": "d5e4d9b5b151b9419abd4b5cf8e228dc7d16a0fda0e2d7bf986f14b36a14a34b"
     },
     "cla_engine/interpretation.py": {
       "bytes": 2234,
@@ -1670,8 +1702,8 @@
       "sha256": "e2b92eb410c2212d46bce44de68fbf1e623443971a63502588544dec02f2f01d"
     },
     "cla_engine/prepare.py": {
-      "bytes": 45532,
-      "sha256": "eb79055d01f9c3419fd4e581e4f258724d57a0d44a77334933fff8eb4aca9f5f"
+      "bytes": 45840,
+      "sha256": "5dd483604c9b07ec49dbf00df8913cb2c5b6aeba0b638553b91ad79d85e60d7f"
     },
     "cla_engine/queue.py": {
       "bytes": 7446,
@@ -1742,8 +1774,16 @@
       "sha256": "261d455a1f07f43615df17eb879491ada10fd954ad2c2ab28209e10cc2888d03"
     },
     "config/149.json": {
-      "bytes": 916920,
-      "sha256": "7748f21007ee997001cb893c7882e62b1c5e9aac610de5347e91e35441eed97c"
+      "bytes": 917237,
+      "sha256": "70456db37d74b904b2cf0e68be5cd138ce32836987290f1f8778b01fb21be91f"
+    },
+    "config/cptac_149_sources_20261104.json": {
+      "bytes": 4775,
+      "sha256": "d3bb00510cbf63013ed106805bdbf9c6f1ca4f143ac4d314ae8f7bff43bf9a59"
+    },
+    "config/cptac_download_manifest_20261104.json": {
+      "bytes": 44316,
+      "sha256": "abe1c2a12edf0b3cc406a8ef521e238aef7ebb9add145f5f4e8d5ac5d4fa6ae4"
     },
     "config/model_v2.yaml": {
       "bytes": 7145,
@@ -1900,6 +1940,10 @@
     "docs/CAUSAL_REGULATORY_NETWORKS_20261101.rst": {
       "bytes": 9690,
       "sha256": "0ef67878f907d09d053198c551aa104193864a13447a2b044766be6251ebab71"
+    },
+    "docs/CPTAC_INTEGRATION_20261104.rst": {
+      "bytes": 11356,
+      "sha256": "61491640cf90666b94086a0e918fe5fba057cdcbf1ce9e173120fb159e1965e8"
     },
     "docs/GENCODE_NATIVE_ANNOTATION_20261027.rst": {
       "bytes": 5812,
@@ -2313,6 +2357,10 @@
       "bytes": 2371,
       "sha256": "312270793165f4f085c85d31e93e8788b50af0cfdb2677ccc76152168ba530bb"
     },
+    "provenance/joint_mainline_20261101/CPTAC_INTEGRATION_20261104.json": {
+      "bytes": 5393,
+      "sha256": "6f0468dfdb86230ff1424ae15a55a8883488355cf040f679364faa5ec184d05e"
+    },
     "provenance/joint_mainline_20261101/FIVE_ASSAY_SCORING_VALIDATION.json": {
       "bytes": 42760,
       "sha256": "6032b722d597efec3f8f7f8140442d0434809512e104ddfd52dc40e652bf7d63"
@@ -2356,6 +2404,14 @@
     "pyproject.toml": {
       "bytes": 794,
       "sha256": "f0f9d933005554400f24c1e9c0258579b5c9058c549b6b4539938405361f1ccc"
+    },
+    "requirements/cptac.txt": {
+      "bytes": 112,
+      "sha256": "30447a0c022b0ddc84c4eb8f1c2ae9734e930cd342658500b07d5325305b8fc1"
+    },
+    "requirements/cptac_R_versions.json": {
+      "bytes": 409,
+      "sha256": "9b34b8b453fd0e85d29c369f3897066e61b12e43c92cde92da4aaf97412b6b8d"
     },
     "requirements/requirements-base.txt": {
       "bytes": 181,
@@ -3440,6 +3496,10 @@
     "scripts/convert_v32_evidence_recovered_to_parquet.py": {
       "bytes": 12073,
       "sha256": "9ba451c73fe07e768a5c27b191fa4108ccd51d5b849c2a61b514b935819d701e"
+    },
+    "scripts/cptac_ptm_compat.R": {
+      "bytes": 1446,
+      "sha256": "6ca6e0d04df6471d8e469fe12c58961c365454b265fb688c51efb0593b888e65"
     },
     "scripts/delete_v32_methylation_raw_after_closure.py": {
       "bytes": 4404,
@@ -4861,6 +4921,22 @@
       "bytes": 3479,
       "sha256": "3a0d643254412478e500dcf72cb798c63258cae90dc92d77e829fad04fcd2f48"
     },
+    "scripts/score_cptac_extra_states.R": {
+      "bytes": 3887,
+      "sha256": "2d8a3da0ffe0076212cb7c185386d5ff45952f3419cb64412c6bf0acc7dd4d61"
+    },
+    "scripts/score_cptac_protein.R": {
+      "bytes": 2683,
+      "sha256": "bc84bbc7996c0d00a87a3c29f427b0997b60c8a03cd0e0e07e3b87d72d1eb88e"
+    },
+    "scripts/score_cptac_ptm.R": {
+      "bytes": 2098,
+      "sha256": "aaaa7e397a44f70b4b7f2602d130810b16806caa3d92fb7d634c309f30a3ee1f"
+    },
+    "scripts/score_cptac_rna.R": {
+      "bytes": 13060,
+      "sha256": "eee59934e2577af78d8896aaa519a42a52dcc3e2cfe0410d443c9ddb60a98843"
+    },
     "scripts/score_expanded_rna_states.R": {
       "bytes": 8334,
       "sha256": "dc0f44054abd8d0a0976171fdea0c8ac6f4185a902d4301e3da894f20f94da96"
@@ -5172,6 +5248,10 @@
     "tests/test_convergence_diagnostic.py": {
       "bytes": 2294,
       "sha256": "2d41a245852a19ea2910fca05904711584df72d016bef5e39f452d66ee43e68e"
+    },
+    "tests/test_cptac.py": {
+      "bytes": 6936,
+      "sha256": "b08a2bc3b61095fe810e8b17b840769dd2f34e48bbf667ce9ca91a703c89606d"
     },
     "tests/test_exact_pathway_primary.py": {
       "bytes": 11389,
@@ -6812,9 +6892,13 @@
     "tests/test_website_single_cell_query_semantics.py": {
       "bytes": 5430,
       "sha256": "1721e50357ea127b90098368b76e6235bbe1eb2b98af6f8154f3f46fd68de261"
+    },
+    "tests/verify_cptac_ptm_guard.R": {
+      "bytes": 2180,
+      "sha256": "e7e1ffc5eed11b98f688a6f965a4401b25c7aab03da788033e9aebfb8af20ba1"
     }
   },
   "format": "CLA_JOINT_MAINLINE_SOURCE_V1",
-  "last_change_base_commit": "140b98407ba2fa8616765a0a35aefe564433e7ad",
+  "last_change_base_commit": "b3ef9900c085f620eedc86590088f39473ef5ccb",
   "target_host": "149"
 }

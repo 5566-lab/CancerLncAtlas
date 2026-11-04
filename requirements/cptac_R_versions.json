@@ -1,0 +1,19 @@
+{
+  "R": "R version 4.5.2 (2025-10-31)",
+  "packages": {
+    "GSVA": "2.4.9",
+    "signifinder": "1.9.5",
+    "MCPcounter": "1.2.0",
+    "hacksig": "0.2.0",
+    "xCell": "1.1.0",
+    "EXTEND": "1.0",
+    "jsonlite": "2.0.0",
+    "data.table": "1.18.4",
+    "pacman": "0.5.1",
+    "gtools": "3.9.5",
+    "verification": "1.45",
+    "doParallel": "1.0.17",
+    "foreach": "1.5.2",
+    "magrittr": "2.0.5"
+  }
+}

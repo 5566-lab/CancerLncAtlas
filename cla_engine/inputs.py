@@ -74,6 +74,8 @@ def preflight(cfg,out,*,allow_unbound_optional=False,profile='diagnostic'):
     rppa_input=validate_binding(cfg.get('rppa_input'), sha(Path(cfg['sources']['patient_map']['path'])))
     from .state_protein_map import validate_binding as validate_state_map
     state_map=validate_state_map(cfg.get('state_protein_map'),cfg['targets'])
+    from .cptac_binding import validate_binding as validate_cptac
+    cptac=validate_cptac(cfg.get('cptac_input'),cfg['targets'],cfg['sources']['state'].get('sha256'))
     out=Path(out);out.mkdir(parents=True,exist_ok=True);checks=[];bad=[]
     for role,rec in cfg['sources'].items():
         p=Path(rec['path']);actual=p
@@ -111,6 +113,8 @@ def preflight(cfg,out,*,allow_unbound_optional=False,profile='diagnostic'):
         atomic_json(out/'RPPA_INPUT_VALIDATION.json',rppa_input)
     if state_map is not None:
         atomic_json(out/'STATE_PROTEIN_MAP_VALIDATION.json',state_map)
+    if cptac is not None:
+        atomic_json(out/'CPTAC_INPUT_VALIDATION.json',cptac)
     fm=patient_map(cfg['sources']['patient_map']['path'])
     cancer_scope=resolve_cancer_scope(cfg,fm.cancer_id.unique(),profile)
     atomic_json(out/'CANCER_SCOPE.json',cancer_scope)

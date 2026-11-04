@@ -1,0 +1,38 @@
+options(stringsAsFactors=FALSE)
+stopifnot(Sys.info()[['nodename']]=='149')
+a<-commandArgs(trailingOnly=TRUE)
+.libPaths(c(strsplit(a[1],':',fixed=TRUE)[[1]],.libPaths()))
+script.dir<-a[2];out<-a[3];helper<-a[4]
+dir.create(out,recursive=TRUE,showWarnings=FALSE)
+source(file.path(script.dir,'src','ssGSEA2.0.R'));original_core<-ssGSEA2
+features<-paste0('SITE',seq_len(20),'-p')
+m<-cbind(A=seq_len(20)+.2,B=rev(seq_len(20))+.7,C=sin(seq_len(20))+.3)
+write_input<-function(m,path){
+ writeLines(c('#1.2',paste(nrow(m),ncol(m),sep='\t')),path)
+ z<-data.frame(Name=features,Description='site',m,check.names=FALSE)
+ write.table(z,path,sep='\t',quote=FALSE,row.names=FALSE,append=TRUE,col.names=TRUE)
+}
+input<-file.path(out,'nondegenerate.gct');write_input(m,input)
+gmt<-file.path(out,'signature.gmt')
+writeLines(c(paste(c('P_UP','reference',paste0(features[1:6],';u')),collapse='\t'),
+ paste(c('P_BOTH','reference',paste0(features[1:3],';u'),paste0(features[14:17],';d')),collapse='\t')),gmt)
+run<-function(fn,input,prefix) {
+ set.seed(20261104)
+ fn(input.ds=input,output.prefix=prefix,gene.set.databases=gmt,sample.norm.type='none',weight=1,
+ statistic='area.under.RES',output.score.type='ES',nperm=1,combine.mode='combine.off',
+ min.overlap=5,correl.type='rank',global.fdr=FALSE,extended.output=TRUE,par=FALSE,
+ export.signat.gct=FALSE,param.file=TRUE,log.file=paste0(prefix,'.log'))
+ parse.gctx(paste0(prefix,'-scores.gct'))@mat
+}
+ref<-run(original_core,input,file.path(out,'reference'))
+source(helper);patch<-load_cptac_ptm_core(script.dir,out)
+actual<-run(ssGSEA2,input,file.path(out,'patched'))
+stopifnot(isTRUE(all.equal(ref,actual,tolerance=1e-12)))
+m[,1]<-0
+zero<-file.path(out,'zero_weight.gct');write_input(m,zero)
+masked<-run(ssGSEA2,zero,file.path(out,'zero'))
+stopifnot(all(is.na(masked[,1])),isTRUE(all.equal(ref[,-1,drop=FALSE],masked[,-1,drop=FALSE],tolerance=1e-12)))
+jsonlite::write_json(list(status='PASS',target_host='149',checks=c('Observed_ES_matches_pinned_Broad_on_nondegenerate_data',
+ 'All_zero_weights_return_NA_without_aborting_other_samples'),patch=patch),
+ file.path(out,'VALIDATION.json'),auto_unbox=TRUE,pretty=TRUE)
+cat('PTM_NUMERICAL_GUARD_VALIDATED\n')
