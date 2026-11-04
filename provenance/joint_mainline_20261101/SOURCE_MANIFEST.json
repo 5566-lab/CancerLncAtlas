@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 10137,
-      "sha256": "2d44af928f7c5d5c56d1fdb9735acb98216fe1adea718edda6020ba8d4883137"
+      "bytes": 10651,
+      "sha256": "1053607e7e13d0951709d7ed226d912d2030750f845357b1aba921e33f0e10e5"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -128,6 +128,10 @@
     "cc_hhgt/m0_linear.py": {
       "bytes": 11549,
       "sha256": "312fd06eda9ec0a36572eaaeb39579e5264cd518aa81e2b9b21a767612920706"
+    },
+    "cc_hhgt/m0_screened_lasso.py": {
+      "bytes": 9056,
+      "sha256": "7dfa7adab6c30932a0172ead6437275179761339d9773cab9a4d0ae2c2575131"
     },
     "cc_hhgt/materialize.py": {
       "bytes": 4297,
@@ -1969,6 +1973,10 @@
       "bytes": 6451,
       "sha256": "dc4a4b0853870a88a969aeb4f00e03a7911da9dea42be31e08c10cd3ad4e7ffa"
     },
+    "docs/M0_CORRELATION_LASSO_DEMO.rst": {
+      "bytes": 4765,
+      "sha256": "ae4b9b7c82653256fd488b8c0adf56ff96b2066c200158c70cedfc8e4304848b"
+    },
     "docs/M0_LINEAR_BASELINE.md": {
       "bytes": 7899,
       "sha256": "1605b9f8486c3d794efaa859c4a88b2489cb0d396c656a06798065344334b2aa"
@@ -2385,6 +2393,10 @@
       "bytes": 3652,
       "sha256": "6204fd25817e18c381605e4150c683262333df7862fa7601ffe3cc8ee8598db0"
     },
+    "provenance/joint_mainline_20261101/M0_LASSO_DEMO_20261105.json": {
+      "bytes": 1066,
+      "sha256": "975112136d27f806fb3d499086748e3b9f01c70f68cb7dfe39b5cccdffdf2d54"
+    },
     "provenance/joint_mainline_20261101/MOGSA_RETIREMENT_20261104.json": {
       "bytes": 1819,
       "sha256": "037a7b2dbdc8aeb0908e5bb5e586354ca6289a65344a08c504dbea8a5d552b2f"
@@ -2424,6 +2436,10 @@
     "requirements/cptac_R_versions.json": {
       "bytes": 409,
       "sha256": "9b34b8b453fd0e85d29c369f3897066e61b12e43c92cde92da4aaf97412b6b8d"
+    },
+    "requirements/m0_lasso_20261104.txt": {
+      "bytes": 13,
+      "sha256": "4e9ae52dd645078bde42243e839b8266949ec58f0d206b3ece5840980d3c9f62"
     },
     "requirements/m0_plot_20261104.txt": {
       "bytes": 102,
@@ -2997,6 +3013,10 @@
       "bytes": 5014,
       "sha256": "2835baf67173ef6762b2f960bdcc8c8a50d92e1b3d933179daf2ef9a514d4579"
     },
+    "scripts/audit_m0_screened_lasso.py": {
+      "bytes": 5547,
+      "sha256": "f42c5945c5cc52596527c3033c8a7f9be7083ee6d58339e34b6112ad6c3889bb"
+    },
     "scripts/audit_mc3_site_recurrence.py": {
       "bytes": 2898,
       "sha256": "83f2c52a50ef04f41abff1d7caa4d85d1efb6956c23bb1e1bec7afd1cf279330"
@@ -3548,6 +3568,10 @@
     "scripts/evaluate_v32_formal.py": {
       "bytes": 5130,
       "sha256": "8db01b160e6b29486ffc7661f6b0fec5ce6af47c3306ddf48a6a572724f85708"
+    },
+    "scripts/export_m0_full_tcga_tpm.R": {
+      "bytes": 2365,
+      "sha256": "c1f1e22bd342e35bce8787a9c13ad93b9c105c8e74cb6a05ed9cb7f9b340eae8"
     },
     "scripts/export_pathway_fusion_inputs_149.py": {
       "bytes": 258,
@@ -4125,6 +4149,10 @@
       "bytes": 11107,
       "sha256": "bf4c1e635b1770ad05109daf4c9da750d4f909510e08b0d568ec2570dbdab94e"
     },
+    "scripts/plot_m0_screened_lasso.py": {
+      "bytes": 7274,
+      "sha256": "cc9b1b75e242193d890cb266aa67d8a6d72aff21078b82c892c7f40f73c76a32"
+    },
     "scripts/preflight_v32_atac_training.py": {
       "bytes": 3037,
       "sha256": "290b870abab01360479a4219e1145019de81bde2d7cdf34fc6eee3d82506c0ec"
@@ -4152,6 +4180,10 @@
     "scripts/preflight_v32_single_cell_r7_portable_server.py": {
       "bytes": 27249,
       "sha256": "b4ac8b3bf9e98858b0cee3c0a373dbd315f38e2ecd0f0a754f12b0b7975301f1"
+    },
+    "scripts/prepare_m0_lasso_inputs.py": {
+      "bytes": 4887,
+      "sha256": "5569fd14f17b43417b5fb6d28769f668758bf0811109ceb736fe3bfe8e6dbfdb"
     },
     "scripts/prepare_v32_causal_regulatory_network.py": {
       "bytes": 3244,
@@ -4664,6 +4696,10 @@
     "scripts/run_m0_linear.py": {
       "bytes": 15619,
       "sha256": "bfa724ff9c9c918a36c59b28a1b4a68bbbcc10597862f5aba1eebebc7cf295f3"
+    },
+    "scripts/run_m0_screened_lasso.py": {
+      "bytes": 15642,
+      "sha256": "b31eb69d3c4dcd0ff91e38f0b8bf1be91afd4f007b886932972a75d60b06489e"
     },
     "scripts/run_native_annotation_workflow.py": {
       "bytes": 715,
@@ -5420,6 +5456,14 @@
     "tests/test_m0_scope.py": {
       "bytes": 1473,
       "sha256": "8646d220a6180946eebe7eaf163cd82dff77eba0a3f133823ebcd5b79ef3d2cd"
+    },
+    "tests/test_m0_screened_lasso.py": {
+      "bytes": 3579,
+      "sha256": "3c04f208ca7b3b74294738fb5f27fcc4232a8e738a74ea60d09cd759b2022aca"
+    },
+    "tests/test_m0_screened_lasso_runner.py": {
+      "bytes": 2969,
+      "sha256": "186f2ad77cb28d329d38c9be9b86336dad1d431f87240ef9303a07ed09d49f9d"
     },
     "tests/test_materialize.py": {
       "bytes": 839,
@@ -6935,6 +6979,6 @@
     }
   },
   "format": "CLA_JOINT_MAINLINE_SOURCE_V1",
-  "last_change_base_commit": "70c93884dfe2a6418f524ee1bdd1c3d150a4e734",
+  "last_change_base_commit": "7ac851d35d0dc4ecd7beab92e7015f995e573ee3",
   "target_host": "149"
 }

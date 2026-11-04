@@ -1,0 +1,33 @@
+{
+  "format": "CLA_M0_SCREENED_LASSO_DEMO_V1",
+  "status": "IMPLEMENTED_AND_TESTED_DEMO_RUNNING",
+  "target_host": "149",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "cohorts": [
+    "TCGA",
+    "CPTAC"
+  ],
+  "cohort_pooling": false,
+  "min_abs_spearman_rho": 0.2,
+  "max_bh_fdr": 0.05,
+  "minimum_observed_pairs": 10,
+  "target_weights_HHGT_unchanged": {
+    "pathway": 1.0,
+    "state": 0.5
+  },
+  "input_root": "/dsk2/user/dengsc/cla_m0_lasso_20261104_r1/inputs_r1",
+  "input_complete_sha256": "4eb3c8c162880891c53f3f9a7a32fd0c0eb485d7a949623adb2e151923e62294",
+  "result_root": "/dell_2/DSC/CancerLncAtlas/results/model/M0_LASSO_demo_20261105_r2",
+  "tests": {
+    "passed": 16,
+    "log_sha256": "85f31ccb994e100d28b927feb4d7ce04725cebf167e1896d3ccb7a731ee393a4"
+  },
+  "fixed_gene_set_rule": "All nonzero coefficients from final full-observed-data fit; no Top20 cap",
+  "final_alpha_rule": "Median selected alpha ratio across valid outer folds",
+  "upstream_labels": "Frozen native scores; not cross-cohort calibrated",
+  "paid_compute": false
+}

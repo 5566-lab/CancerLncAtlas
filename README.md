@@ -22,6 +22,15 @@ requires a replacement target design before preparation or training; it does
 not silently fall back to RNA scores. Separate per-assay heads are not yet
 implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
 
+## Correlation-screened Lasso demo (2026-11-05)
+
+The three-cancer extension restores the full shared TCGA/CPTAC lncRNA input
+axis, screens associations inside each training split, and fits Lasso to export
+fixed nonzero gene sets with weights and fold selection frequencies. The demo
+is limited to BRCA, LUAD and COAD; cohorts retain their original score labels
+and are fitted separately. There is no cross-cohort Y calibration claim.
+See [methods, output contracts and scope](docs/M0_CORRELATION_LASSO_DEMO.rst).
+
 ## M0 lncRNA-only linear prediction (2026-11-04)
 
 The separate M0 baseline uses all available annotated lncRNA expression jointly
