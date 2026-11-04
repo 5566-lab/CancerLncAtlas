@@ -22,6 +22,19 @@ requires a replacement target design before preparation or training; it does
 not silently fall back to RNA scores. Separate per-assay heads are not yet
 implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
 
+## M0 lncRNA-only linear prediction (2026-11-04)
+
+The separate M0 baseline uses all available annotated lncRNA expression jointly
+in per-cancer Ridge regressions for existing native Pathway and State scores.
+TCGA and CPTAC remain separate cohorts. Five patient-disjoint outer folds,
+validation-only regularization selection, explicit missing labels and a
+training-mean comparator produce auditable out-of-fold predictions. This is a
+baseline for frozen cohort scores, not a replacement for the pending HHGT target
+design or a claim of fully inductive raw-data validation.
+
+Run `scripts/run_m0_linear.py` on host 149 and export figures with
+`scripts/plot_m0_linear.py`. See [M0 methods, outputs and limitations](docs/M0_LINEAR_BASELINE.md).
+
 ## CPTAC external cohort integration (2026-11-04)
 
 The CPTAC extension adds measured RNA, protein, site-level phosphorylation,

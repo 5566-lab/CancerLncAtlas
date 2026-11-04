@@ -247,8 +247,8 @@ def _vector_metrics(observed: np.ndarray, predicted: np.ndarray) -> dict[str, np
     valid_r2 = denominator > 0
     r2[valid_r2] = 1.0 - np.sum(np.square(residual), axis=0)[valid_r2] / denominator[valid_r2]
 
-    observed_rank = pd.DataFrame(observed).rank(axis=0, method="average").to_numpy(float)
-    predicted_rank = pd.DataFrame(predicted).rank(axis=0, method="average").to_numpy(float)
+    observed_rank = pd.DataFrame(observed).rank(axis=0, method="average").to_numpy(float, copy=True)
+    predicted_rank = pd.DataFrame(predicted).rank(axis=0, method="average").to_numpy(float, copy=True)
     observed_rank -= observed_rank.mean(axis=0)
     predicted_rank -= predicted_rank.mean(axis=0)
     rank_denominator = np.sqrt(

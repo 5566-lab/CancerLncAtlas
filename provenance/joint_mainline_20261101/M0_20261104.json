@@ -1,0 +1,125 @@
+{
+  "format": "CLA_M0_LNCRNA_LINEAR_RUN_V1",
+  "target_host": "149",
+  "base_commit": "70c93884dfe2a6418f524ee1bdd1c3d150a4e734",
+  "operation": "M0_NATIVE_SCORE_PREDICTION",
+  "training": {
+    "status": "COMPLETE",
+    "target_host": "149",
+    "code_hash": "0ea04090c2c16c8370fe390088511a2e23cc6c8f79711d935cb591b835336ed0",
+    "studies": 43,
+    "patients": 11469,
+    "evaluated_targets": 135434,
+    "heldout_predictions": 31339273,
+    "config_sha256": "cf64f27d698a5b2d24e6e625dd0a37a173a26caa016ddf4773682cca39862364",
+    "run_summary_sha256": "0fd4c41ff32564ff53526ea8dc1a293a2c852e9cab937cddc377a4b9347abb5b",
+    "metrics_sha256": "b9879cae829e7af15af0953337f32cf0a90d1ad6a5ae8a0fc181bb13125b8760"
+  },
+  "complete": {
+    "path": "/dell_2/DSC/CancerLncAtlas/results/model/M0_20261104_r2/COMPLETE.json",
+    "sha256": "0d03c7c42780ec686dd43f8fcab8c6134b31243954ef0a4f9c4dbfc05cf681d2"
+  },
+  "result_root": "/dell_2/DSC/CancerLncAtlas/results/model/M0_20261104_r2",
+  "datasets": [
+    "TCGA",
+    "CPTAC"
+  ],
+  "cohort_pooling": false,
+  "predictors": [
+    "lncRNA_expression"
+  ],
+  "fully_inductive_raw_pipeline": false,
+  "gpu_used": false,
+  "core_tests": 11,
+  "runtime": {
+    "target_host": "149",
+    "python": "3.11.15 (main, Jun 11 2026, 15:20:16) [GCC 14.3.0]",
+    "packages": {
+      "numpy": "2.4.6",
+      "pandas": "3.0.5",
+      "scipy": "1.17.1",
+      "scikit-learn": "1.9.0",
+      "pyarrow": "25.0.0",
+      "matplotlib": "3.11.2",
+      "contourpy": "1.3.3",
+      "cycler": "0.12.1",
+      "fonttools": "4.68.0",
+      "kiwisolver": "1.5.1",
+      "pillow": "13.0.0"
+    }
+  },
+  "audit": {
+    "status": "PASS",
+    "target_host": "149",
+    "studies": 43,
+    "unique_source_files": 123,
+    "output_files_verified": 16147,
+    "replayed": [
+      {
+        "study": "CPTAC_BRCA",
+        "checkpoint": "fold_0_mask_0000.npz",
+        "values": 97775
+      },
+      {
+        "study": "CPTAC_BRCA",
+        "checkpoint": "fold_0_mask_0003.npz",
+        "values": 3
+      },
+      {
+        "study": "CPTAC_LUAD",
+        "checkpoint": "fold_0_mask_0000.npz",
+        "values": 87362
+      },
+      {
+        "study": "CPTAC_LUAD",
+        "checkpoint": "fold_0_mask_0002.npz",
+        "values": 16
+      },
+      {
+        "study": "TCGA_ACC",
+        "checkpoint": "fold_0_mask_0000.npz",
+        "values": 39008
+      },
+      {
+        "study": "TCGA_ACC",
+        "checkpoint": "fold_0_mask_0001.npz",
+        "values": 135
+      },
+      {
+        "study": "TCGA_BRCA",
+        "checkpoint": "fold_0_mask_0000.npz",
+        "values": 532356
+      },
+      {
+        "study": "TCGA_BRCA",
+        "checkpoint": "fold_0_mask_0001.npz",
+        "values": 860
+      }
+    ],
+    "predictors": "lncRNA_expression_only",
+    "outcome_imputation": false,
+    "upstream_fully_inductive": false
+  },
+  "audit_receipt": {
+    "path": "/dell_2/DSC/CancerLncAtlas/results/model/M0_20261104_r2/M0_AUDIT.json",
+    "sha256": "5f3708023f2776136e7451acac184474ea52650fee982e3e3df47fbddd404adf"
+  },
+  "test_suite": {
+    "passed": 17,
+    "receipt_sha256": "6489acc9a6103ce9f79f6edc0d612e4b8cd8cb7bc3461c4a7cdfa81d42a84b8e"
+  },
+  "figures": {
+    "png": 92,
+    "pdf": 92,
+    "complete_sha256": "b427cd0517c6b47065f967319edafe7f70c067018565da11de8eb771ecb214cf",
+    "windows_copy": {
+      "status": "PASS",
+      "source_host": "149",
+      "destination": "D:\\public8\\DSC\\CancerLncAtlas\\results\\model\\\u56fe\u7247\\M0_20261104_r2",
+      "files_verified": 191,
+      "png_count": 92,
+      "pdf_count": 92,
+      "manifest_sha256": "b427cd0517c6b47065f967319edafe7f70c067018565da11de8eb771ecb214cf"
+    }
+  }
+}
