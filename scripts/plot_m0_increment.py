@@ -37,7 +37,7 @@ def plot(inputs,output,selected_layers=None):
             z=good.loc[good.display_layer.eq(layer)]
             if cancer!="ALL":z=z.loc[z.cancer_id.eq(cancer)]
             d=z.delta_r2_combined_vs_mrna
-            summary.append(dict(layer=layer,cancer_id=cancer,n_targets=len(z),improved=int((d>1e-9).sum()),worse=int((d< -1e-9).sum()),ties=int((d.abs()<=1e-9).sum()),median_delta_r2=d.median(),**{"median_r2_"+a:z["r2_"+a].median() for a in ARMS}))
+            summary.append(dict(layer=layer,cancer_id=cancer,n_targets=len(z),improved=int((d>1e-9).sum()),improved_with_positive_combined_r2=int(((d>1e-9)&z.r2_combined.gt(0)).sum()),worse=int((d< -1e-9).sum()),ties=int((d.abs()<=1e-9).sum()),median_delta_r2=d.median(),**{"median_r2_"+a:z["r2_"+a].median() for a in ARMS}))
     pd.DataFrame(summary).to_csv(output/"PLOT_SUMMARY.tsv",sep="\t",index=False)
     tab.to_csv(output/"PLOT_TARGETS.tsv",sep="\t",index=False)
     plt.rcParams.update({"font.family":"DejaVu Sans","font.size":11,"axes.spines.top":False,"axes.spines.right":False,"pdf.fonttype":42})
@@ -55,7 +55,7 @@ def plot(inputs,output,selected_layers=None):
     # Every separate figure uses exactly the same target denominator and y scale.
     vals=good[["r2_"+a for a in ARMS]].to_numpy().ravel()
     lower=min(-.1,float(np.nanmin(vals))-.08) if len(vals) else -.1
-    upper=max(.2,float(np.nanmax(vals))+.12) if len(vals) else 1
+    upper=max(1.05,float(np.nanmax(vals))+.12) if len(vals) else 1
     for j,a in enumerate(ARMS,1):
         fig,axs=plt.subplots(1,len(layers),figsize=(max(8,4.2*len(layers)),4.8),squeeze=False,sharey=True)
         for ax,layer in zip(axs[0],layers):
@@ -64,11 +64,11 @@ def plot(inputs,output,selected_layers=None):
                 if len(z):
                     ax.scatter(i+rng.uniform(-.18,.18,len(z)),z,s=10,color=COLORS[a],alpha=.35,rasterized=True)
                     med=np.median(z);ax.plot([i-.25,i+.25],[med,med],color="#222222",lw=2)
-                    ax.text(i,upper-.02*(upper-lower),f"n={len(z)}\nmedian={med:.3f}",ha="center",va="top",fontsize=9)
+                    ax.text(i,.97,f"n={len(z)}\nmedian={med:.3f}",transform=ax.get_xaxis_transform(),ha="center",va="top",fontsize=9,bbox=dict(facecolor="white",edgecolor="none",alpha=.8))
                 else:ax.text(i,0,"No common\nsuccessful targets",ha="center",fontsize=8)
             ax.axhline(0,color="#999999",ls="--",lw=.8);ax.set_xticks(range(3),CANCERS);ax.set_xlim(-.6,2.6);ax.set_yscale("symlog",linthresh=.5);ax.set_ylim(lower,upper);ax.set_title(NAMES[layer])
         axs[0,0].set_ylabel("Held-out pooled R2 (five folds)")
-        fig.suptitle(LABELS[a]+" | clinical and DNA purity covariates included",y=1.04,fontsize=15)
+        fig.suptitle(LABELS[a]+" | clinical covariates + DNA purity (except purity targets)",y=1.04,fontsize=15)
         fig.text(.5,-.02,"Symmetric-log y axis outside [-0.5, 0.5]. Each point: one cancer x target. Same targets in all three figures; failed models excluded and reported separately.",ha="center",fontsize=10)
         fig.tight_layout();save(fig,f"0{j}_"+a+"_performance")
     fig,axs=plt.subplots(2,len(layers),figsize=(max(9,4.8*len(layers)),8.8),squeeze=False)
