@@ -199,3 +199,7 @@ joint State task. Remaining requirements are tracked in `CODE_COMPLETION_PLAN.js
 Raw TCGA/GDC, single-cell, clinical, drug and materialized patient data are not
 distributed here. Use permitted sources and record their checksums. See
 `SECURITY.md`, `data/README.md`, `CITATION.cff`, `LICENSE` and `NOTICE`.
+
+### Three-arm comparison for non-RNA assay targets
+
+The BRCA/LUAD/COAD demo compares lncRNA, mRNA and their union on identical held-out CPTAC protein/phosphosite endpoints (measured methylation as a secondary layer), with unpenalized clinical and fixed DNA purity covariates. See [the comparison contract](docs/M0_THREE_ARM_DEMO.rst) for scope, outputs and native-label normalization limits. Code readiness and result completion are recorded separately in the provenance receipt.

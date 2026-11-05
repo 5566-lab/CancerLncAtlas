@@ -1,0 +1,39 @@
+{
+  "target_host": "149",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "arms": [
+    "lncrna",
+    "mrna",
+    "combined"
+  ],
+  "primary_layers": [
+    "PROTEIN_PATHWAY",
+    "PHOSPHO_PTMSEA"
+  ],
+  "secondary_layers": [
+    "METHYLATION_PATHWAY"
+  ],
+  "target_cohort": "CPTAC",
+  "min_abs_rho": 0.1,
+  "max_fdr": 0.05,
+  "screening": "TRAIN_ONLY_PARTIAL_RANK_CLINICAL_PURITY;BH_ALL_CANDIDATES_WITHIN_EACH_ARM_TARGET",
+  "penalized_features": "RNA_COEFFICIENTS_ONLY",
+  "unpenalized_covariates": [
+    "age",
+    "sex",
+    "stage",
+    "fixed_DNA_purity"
+  ],
+  "split_authority": "EXISTING_JOINT_DEMO_FIVE_OUTER_FOLDS_AND_INNER_HOLDOUTS",
+  "native_y": "UPSTREAM_NATIVE_ASSAY_PREPROCESSING_RETAINED;NOT_REFIT_WITHIN_FOLDS",
+  "comparison": "PAIRED_IDENTICAL_PATIENTS_Y_COVARIATES_SPLITS",
+  "primary_question": "OUTER_HELDOUT_COMBINED_VERSUS_MRNA_INCREMENT",
+  "absolute_pathway_activation": false,
+  "causal_claim": false,
+  "rna_derived_targets_included": false,
+  "bootstrap": "1000_PAIRED_PATIENT_RESAMPLES_OF_FIXED_OOF_ERRORS;EXPLORATORY;NO_MODEL_REFITTING_OR_MULTIPLE_TARGET_CORRECTION"
+}

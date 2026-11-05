@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 11577,
-      "sha256": "2c68eccf41b36093698f0a8e3113e4a12a2f85a23a97c92dd109d033d090782d"
+      "bytes": 12058,
+      "sha256": "fc1c2acc7db58bc8c31cdd844d5c715397884aaf2312eee1cae36591f8e1dede"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -144,6 +144,10 @@
     "cc_hhgt/m0_screened_lasso.py": {
       "bytes": 9056,
       "sha256": "7dfa7adab6c30932a0172ead6437275179761339d9773cab9a4d0ae2c2575131"
+    },
+    "cc_hhgt/m0_three_arm.py": {
+      "bytes": 6275,
+      "sha256": "ae4bdcf2308ec536c325956b18bacb8b5cbdcd8282602423800cd4901bce364b"
     },
     "cc_hhgt/materialize.py": {
       "bytes": 4297,
@@ -1809,6 +1813,10 @@
       "bytes": 1894,
       "sha256": "f5594817bf534ba27f90a6448bab5b3307337a7d4a6b6ba1dd55b366e53613b7"
     },
+    "config/m0_three_arm_20261105.json": {
+      "bytes": 1111,
+      "sha256": "c37e54ce7c5080a624b272ae863630d3ff365d5095a216a282effc26fb98ba97"
+    },
     "config/model_v2.yaml": {
       "bytes": 7145,
       "sha256": "b56e9357b0e0564d1313536b54dc71a1e756622f1da2fd2c5b4c70250fd7d397"
@@ -2000,6 +2008,10 @@
     "docs/M0_LINEAR_BASELINE.md": {
       "bytes": 7899,
       "sha256": "1605b9f8486c3d794efaa859c4a88b2489cb0d396c656a06798065344334b2aa"
+    },
+    "docs/M0_THREE_ARM_DEMO.rst": {
+      "bytes": 4911,
+      "sha256": "6d67973674af184e83ffbc2eb876bcbb7f31e783e19a7dc0baf9b17782e68b84"
     },
     "docs/NATIVE_TRANSCRIPT_PROMOTERS_20261027.rst": {
       "bytes": 7315,
@@ -2420,6 +2432,10 @@
     "provenance/joint_mainline_20261101/M0_LASSO_DEMO_20261105.json": {
       "bytes": 11190,
       "sha256": "2c523f9f9f8fa93170541b406dbd67a9c3cdb3db684c42375583b4fad14523c8"
+    },
+    "provenance/joint_mainline_20261101/M0_THREE_ARM_20261105.json": {
+      "bytes": 1519,
+      "sha256": "36457a5ce3cbade6e190d3629ae3425a332e38a63025a426d169283e82f0e9d1"
     },
     "provenance/joint_mainline_20261101/MOGSA_RETIREMENT_20261104.json": {
       "bytes": 1819,
@@ -3653,6 +3669,10 @@
       "bytes": 7907,
       "sha256": "8441ca8ea7e8eeda735bb3a22837ffb87ba31e0397233972c23a5cc7ca9e352e"
     },
+    "scripts/finalize_m0_three_arm.py": {
+      "bytes": 7104,
+      "sha256": "356711d252b9798d06d08cdd8870853c2bb77840a29df8a74d4d12c20ee94816"
+    },
     "scripts/finalize_v32_release_report.py": {
       "bytes": 9058,
       "sha256": "dc0f001f6cb6ca506152510a8aa0b849414100650886485b0548a0eacb687088"
@@ -4757,6 +4777,10 @@
       "bytes": 15642,
       "sha256": "b31eb69d3c4dcd0ff91e38f0b8bf1be91afd4f007b886932972a75d60b06489e"
     },
+    "scripts/run_m0_three_arm.py": {
+      "bytes": 14038,
+      "sha256": "2ecdf8945b2d440b9289b477746bff6b545b8f519ee4649e3db75ca4c4df61f1"
+    },
     "scripts/run_native_annotation_workflow.py": {
       "bytes": 715,
       "sha256": "dc6430e67e1a3199f697a93e7218a1c54b7e68a1bbe99dbb0579e14b3218143f"
@@ -5528,6 +5552,10 @@
     "tests/test_m0_screened_lasso_runner.py": {
       "bytes": 2969,
       "sha256": "186f2ad77cb28d329d38c9be9b86336dad1d431f87240ef9303a07ed09d49f9d"
+    },
+    "tests/test_m0_three_arm.py": {
+      "bytes": 6172,
+      "sha256": "e40a6bb21fbfd6224c7f302d803025e871038b06c6d16b95ab594b2549a592e3"
     },
     "tests/test_materialize.py": {
       "bytes": 839,
