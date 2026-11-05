@@ -1,0 +1,221 @@
+{
+  "target_host": "149",
+  "status": "COMPLETED_DEMO_WITH_SPARSE_ASSAY_EXTRAPOLATION_LIMITATION",
+  "tests": "28 passed",
+  "audit": {
+    "checks": [
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41580,
+        "max_graph_residual": 2.6971288748911262e-14,
+        "phase": "outer0",
+        "predictions": 855820,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41510,
+        "max_graph_residual": 2.7812264346060054e-14,
+        "phase": "outer1",
+        "predictions": 895070,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41550,
+        "max_graph_residual": 2.6393673354843633e-14,
+        "phase": "outer2",
+        "predictions": 773160,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41570,
+        "max_graph_residual": 2.5866443712377923e-14,
+        "phase": "outer3",
+        "predictions": 692240,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41580,
+        "max_graph_residual": 2.6225882279098126e-14,
+        "phase": "outer4",
+        "predictions": 855380,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41570,
+        "max_graph_residual": 2.7543093082495095e-14,
+        "phase": "final",
+        "predictions": 0,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58160,
+        "max_graph_residual": 1.9852532535419593e-14,
+        "phase": "outer0",
+        "predictions": 1120470,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58190,
+        "max_graph_residual": 2.118626284933797e-14,
+        "phase": "outer1",
+        "predictions": 1206490,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58170,
+        "max_graph_residual": 2.1738391941862125e-14,
+        "phase": "outer2",
+        "predictions": 1231320,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58140,
+        "max_graph_residual": 2.0346388816630317e-14,
+        "phase": "outer3",
+        "predictions": 1189720,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58200,
+        "max_graph_residual": 1.9808546081244598e-14,
+        "phase": "outer4",
+        "predictions": 1260170,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58190,
+        "max_graph_residual": 2.0111200926976415e-14,
+        "phase": "final",
+        "predictions": 0,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39130,
+        "max_graph_residual": 4.5088018716289454e-14,
+        "phase": "outer0",
+        "predictions": 758330,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39160,
+        "max_graph_residual": 4.5938051428167744e-14,
+        "phase": "outer1",
+        "predictions": 765190,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39110,
+        "max_graph_residual": 4.591855189156095e-14,
+        "phase": "outer2",
+        "predictions": 735470,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39140,
+        "max_graph_residual": 4.593095841908799e-14,
+        "phase": "outer3",
+        "predictions": 720850,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39060,
+        "max_graph_residual": 4.644004628158151e-14,
+        "phase": "outer4",
+        "predictions": 788230,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39140,
+        "max_graph_residual": 4.6512415972424884e-14,
+        "phase": "final",
+        "predictions": 0,
+        "status": "PASS"
+      }
+    ],
+    "checks_description": [
+      "all phase checksums",
+      "outcomes exactly equal original prepared native Y",
+      "no held-out patient in fit or preprocessing",
+      "identical patients/outcomes/covariate baseline across three arms and ablations",
+      "target-assay exclusion and purity self-exclusion",
+      "finite predictions",
+      "graph-system residual tolerance"
+    ],
+    "paired_comparators_per_patient_target": 10,
+    "status": "PASS",
+    "target_host": "149"
+  },
+  "native_y_changed": false,
+  "existing_tcga_inputs_preserved": true,
+  "actual_input_counts": {
+    "target_host": "149",
+    "method": "Graph-regularized Ridge Regression",
+    "cancers": [
+      "BRCA",
+      "LUAD",
+      "COAD"
+    ],
+    "rna_arms": [
+      "lncrna",
+      "mrna",
+      "combined"
+    ],
+    "reuse": [
+      "existing RNA and Y matrices",
+      "existing five outer folds and inner holdouts",
+      "m0_covariates clinical design",
+      "m0_three_arm metrics and paired comparison",
+      "plot_m0_increment figure generator"
+    ],
+    "new_inputs": [
+      "CPTAC gene CNV",
+      "CPTAC gene mutation"
+    ],
+    "existing_inputs": [
+      "CPTAC protein abundance",
+      "CPTAC phosphosite abundance",
+      "typed experimental RPI",
+      "STRING PPI"
+    ],
+    "omitted_target_assay": true,
+    "rna_targets": "Retain lncRNA predictors; audit constituent overlap; mRNA and combined are reconstruction comparators",
+    "clinical": "Unpenalized age,sex,stage,DNA purity; exclude purity covariate and genomic blocks when predicting DNA purity",
+    "missingness": "training-only feature medians and assay-availability indicators; mutation missing is not wild type",
+    "network": "normalized Laplacian on RNA-gene coefficients; excluded-arm nodes are unobserved topology-only bridges",
+    "grid": {
+      "eta": [
+        0,
+        0.1,
+        1,
+        10
+      ],
+      "ridge_lambda": "13 log-spaced 1e-4 through 1e2"
+    },
+    "comparators": [
+      "rna_only ridge",
+      "same multiomics without graph",
+      "same multiomics graph ridge",
+      "shared omics-only baseline"
+    ],
+    "outputs": "/dell_2/DSC/CancerLncAtlas/results/model/M0_GRAPH_RIDGE_MULTIOMICS_demo_20261105_r1"
+  },
+  "limitation": "COAD protein/phosphosite held-out kernels exceed training magnitude; training-only support bounding required before interpreting negative gains",
+  "diagnostic_sha256": "a187ce94f271ee393e570b84c58e4e5eb3a92506b93c96543d1a8e2bb83f6cd8"
+}

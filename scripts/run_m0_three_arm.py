@@ -190,7 +190,17 @@ def run(aligned,splits,covariates,cancer,output,workers,config=None):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
-    for n in ['aligned','splits','covariates','cancer','output']:p.add_argument('--'+n,required=True)
-    p.add_argument('--workers',type=int,default=8);p.add_argument('--config');a=p.parse_args()
+    for n in ['cancer','output']:p.add_argument('--'+n,required=True)
+    for n in ['aligned','splits','covariates']:p.add_argument('--'+n)
+    p.add_argument('--workers',type=int,default=8);p.add_argument('--config')
+    p.add_argument('--estimator',choices=['lasso','graph_ridge'],default='lasso')
+    p.add_argument('--omics-input',help='Verified graph-ridge multiomics input directory')
+    a=p.parse_args()
     if not 1<=a.workers<=24:raise ValueError('At most 24 CPU workers')
-    run(a.aligned,a.splits,a.covariates,a.cancer,a.output,a.workers,a.config)
+    if a.estimator=='graph_ridge':
+        if not a.omics_input:p.error('--graph_ridge requires --omics-input')
+        from run_graph_ridge import run as run_graph
+        run_graph(a.omics_input,a.output,a.cancer)
+    else:
+        if not all([a.aligned,a.splits,a.covariates]):p.error('Lasso requires --aligned, --splits and --covariates')
+        run(a.aligned,a.splits,a.covariates,a.cancer,a.output,a.workers,a.config)

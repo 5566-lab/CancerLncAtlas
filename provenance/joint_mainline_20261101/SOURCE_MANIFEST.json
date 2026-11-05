@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 12297,
-      "sha256": "a169aeb0c4cb054bcc1820ee5850c7b377d106f2cff660e5065215108db5b2be"
+      "bytes": 13050,
+      "sha256": "c61311e9b6392f820ca6c44e00fd301667346c932f37e6bd8734d7a7cd312214"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -108,6 +108,10 @@
     "cc_hhgt/graph_contract.py": {
       "bytes": 9813,
       "sha256": "b1f0dea7184dd330cbb2b6aadc7e1781ac55d7fe6cd8f5bc9a21bc67e4c7ce98"
+    },
+    "cc_hhgt/graph_ridge.py": {
+      "bytes": 6216,
+      "sha256": "f65a47e49387e64a59eb0df18c09f5ef995d3816b98d3a16db38da00ceaa1ac1"
     },
     "cc_hhgt/ids.py": {
       "bytes": 10768,
@@ -1813,6 +1817,10 @@
       "bytes": 44316,
       "sha256": "abe1c2a12edf0b3cc406a8ef521e238aef7ebb9add145f5f4e8d5ac5d4fa6ae4"
     },
+    "config/m0_graph_ridge_20261105.json": {
+      "bytes": 1535,
+      "sha256": "25a772206bc38995e13442beb1aa723afa90ebeab5a74a10cd12ef6c6282a030"
+    },
     "config/m0_joint_demo_20261105.json": {
       "bytes": 1894,
       "sha256": "f5594817bf534ba27f90a6448bab5b3307337a7d4a6b6ba1dd55b366e53613b7"
@@ -2016,6 +2024,10 @@
     "docs/M0_CORRELATION_LASSO_DEMO.rst": {
       "bytes": 6830,
       "sha256": "5f90eaa9227f74ba5356907a9d2d3afe9cdf56cdd8b3e8b9232e336cada02368"
+    },
+    "docs/M0_GRAPH_RIDGE_20261105.rst": {
+      "bytes": 6843,
+      "sha256": "c71ec2019ea2535c0fa545ad7779e7ce20f2b6ef855f4c42e916798e78aa194b"
     },
     "docs/M0_JOINT_CLINICAL_DEMO.rst": {
       "bytes": 8432,
@@ -2444,6 +2456,10 @@
     "provenance/joint_mainline_20261101/M0_ALL_TARGET_INCREMENT_20261105.json": {
       "bytes": 4947,
       "sha256": "c178235af360c101fb725a85a4b86e8609a5142a19d311a28190d191067ec429"
+    },
+    "provenance/joint_mainline_20261101/M0_GRAPH_RIDGE_R1_20261106.json": {
+      "bytes": 6491,
+      "sha256": "a838c79b1a5357e6e9f57eec0f14226def66f6c1d1fe9c49a0e7e0324ab3543b"
     },
     "provenance/joint_mainline_20261101/M0_JOINT_CLINICAL_20261105.json": {
       "bytes": 13390,
@@ -3073,6 +3089,14 @@
       "bytes": 4261,
       "sha256": "186ba07ec4448e3897570372c9a3967ced113687e354eac2cc0f492fa6c9f3a1"
     },
+    "scripts/audit_graph_ridge.py": {
+      "bytes": 4063,
+      "sha256": "2d0045c41e2cca8f9f59fb983e332423fbdffeace3b3e00ed2f3150939029520"
+    },
+    "scripts/audit_graph_ridge_overlap.py": {
+      "bytes": 3995,
+      "sha256": "bc4b9dbae776924d1002059b0615ff0d1a73b30d315f4f1b3f30e89dc98710b3"
+    },
     "scripts/audit_local_cnv_source_replay.py": {
       "bytes": 1915,
       "sha256": "c0e129e43a0e78943af513bd55d5ba4c3df2deeb773c3eff754e473e0d61b33d"
@@ -3588,6 +3612,10 @@
     "scripts/compare_fold_local_normalization.R": {
       "bytes": 1476,
       "sha256": "657decfa9b4cf87b1e9d9918ae2d92f54f9f505d87b680f26c7ffb4185e3f463"
+    },
+    "scripts/compare_graph_ridge_previous.py": {
+      "bytes": 3215,
+      "sha256": "d92872a23147c9a05baf16d4e5e3d53b027c27a1f93366a57eedf3ca8309ac59"
     },
     "scripts/compare_v32_routing_architectures.py": {
       "bytes": 2404,
@@ -4230,8 +4258,8 @@
       "sha256": "2103fa3f5e1530028ee1e5788144194efc451f75e78fb08a1d42a6419eaf4c3d"
     },
     "scripts/plot_m0_increment.py": {
-      "bytes": 9355,
-      "sha256": "663e1b4511401b34491d7c687014b606ba9b2a980ce22d766e28c77c501f37fa"
+      "bytes": 9477,
+      "sha256": "689549d8099372c64f226346902475455c6640713cccae915442f309c5e295d4"
     },
     "scripts/plot_m0_linear.py": {
       "bytes": 11107,
@@ -4268,6 +4296,10 @@
     "scripts/preflight_v32_single_cell_r7_portable_server.py": {
       "bytes": 27249,
       "sha256": "b4ac8b3bf9e98858b0cee3c0a373dbd315f38e2ecd0f0a754f12b0b7975301f1"
+    },
+    "scripts/prepare_graph_ridge.py": {
+      "bytes": 9088,
+      "sha256": "ff54946858ccb8e6a8e4f71b9e1f89e744eddf587f44ae12e6cb8c7894abac30"
     },
     "scripts/prepare_m0_joint_covariates.py": {
       "bytes": 4027,
@@ -4785,6 +4817,10 @@
       "bytes": 1438,
       "sha256": "fae03d8215012385acda99bc31042d5d7263517777bc39cfdb6581174216b844"
     },
+    "scripts/report_graph_ridge.py": {
+      "bytes": 10343,
+      "sha256": "a3bf8676289139bfef2446a2376f36562405a384627c74befaf6f8e21204b893"
+    },
     "scripts/report_m0_alltargets.py": {
       "bytes": 9862,
       "sha256": "51ea2e2805aafa62faa5144d861e07c66c260424847bb8ce1a7eedc86557a5e7"
@@ -4796,6 +4832,10 @@
     "scripts/run_code_acceptance.py": {
       "bytes": 1744,
       "sha256": "06dd1784278e70763d963726e98b1abe75bdc8caa0138dafdbce71f8b54f0664"
+    },
+    "scripts/run_graph_ridge.py": {
+      "bytes": 12557,
+      "sha256": "0c699dfd677c8b3a044218565c2d5dee884e477aabfdee8802eeb960240dc368"
     },
     "scripts/run_m0_joint_lasso.py": {
       "bytes": 15889,
@@ -4810,8 +4850,8 @@
       "sha256": "b31eb69d3c4dcd0ff91e38f0b8bf1be91afd4f007b886932972a75d60b06489e"
     },
     "scripts/run_m0_three_arm.py": {
-      "bytes": 15794,
-      "sha256": "ed3e8554f549235b0110e0031c9e3dc64d3541aae3163dd14f33c799e478aa15"
+      "bytes": 16356,
+      "sha256": "6fe8a281afc1fee090e8c93ab65603dcc026171ed33a82ef88f71b247528ed57"
     },
     "scripts/run_native_annotation_workflow.py": {
       "bytes": 715,
@@ -5464,6 +5504,10 @@
     "tests/test_graph_event_experts.py": {
       "bytes": 4858,
       "sha256": "80edb65bb2d2f50fc960033143cd4486ec7ad45d6f1266786f57ad0a15b2fe38"
+    },
+    "tests/test_graph_ridge.py": {
+      "bytes": 3107,
+      "sha256": "0e259424f2b564f76e180a17f0d98071d0978b0ddd2cd4a07cf2e8d4a1110583"
     },
     "tests/test_joint_backend_check.py": {
       "bytes": 1424,

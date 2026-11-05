@@ -23,7 +23,7 @@ def classify(f):
         f.loc[f.target_id.str.contains("ESTIMATE::TumorPurity",regex=False),"display_layer"]="STATE_RNA"
     return f
 
-def plot(inputs,output,selected_layers=None):
+def plot(inputs,output,selected_layers=None,model_label=None,coverage_caption=None):
     assert socket.gethostname()=="149"
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     tab=classify(pd.concat([pd.read_csv(Path(p)/"ALL_TARGET_COMPARISONS.tsv",sep="\t") for p in inputs],ignore_index=True))
@@ -68,7 +68,7 @@ def plot(inputs,output,selected_layers=None):
                 else:ax.text(i,0,"No common\nsuccessful targets",ha="center",fontsize=8)
             ax.axhline(0,color="#999999",ls="--",lw=.8);ax.set_xticks(range(3),CANCERS);ax.set_xlim(-.6,2.6);ax.set_yscale("symlog",linthresh=.5);ax.set_ylim(lower,upper);ax.set_title(NAMES[layer])
         axs[0,0].set_ylabel("Held-out pooled R2 (five folds)")
-        fig.suptitle(LABELS[a]+" | clinical covariates + DNA purity (except purity targets)",y=1.04,fontsize=15)
+        fig.suptitle(LABELS[a]+" | "+(model_label or "clinical covariates + DNA purity (except purity targets)"),y=1.04,fontsize=15)
         fig.text(.5,-.02,"Symmetric-log y axis outside [-0.5, 0.5]. Each point: one cancer x target. Same targets in all three figures; failed models excluded and reported separately.",ha="center",fontsize=10)
         fig.tight_layout();save(fig,f"0{j}_"+a+"_performance")
     fig,axs=plt.subplots(2,len(layers),figsize=(max(9,4.8*len(layers)),8.8),squeeze=False)
@@ -88,7 +88,7 @@ def plot(inputs,output,selected_layers=None):
         ax.axhline(0,color="#666666",ls="--",lw=1);ax.set_xticks(range(3),CANCERS);ax.set_yscale("symlog",linthresh=.05);ax.set_ylabel("Delta R2 = combined - mRNA")
         n=len(d);pos=int((d>1e-9).sum());pct=100*pos/n if n else 0
         ax.set_title(f"Improved: {pos}/{n} ({pct:.1f}%) | median delta={np.median(d):+.3f}" if n else "No common successful targets",fontsize=11)
-    fig.suptitle("Does adding lncRNA improve prediction?",fontsize=17,y=1.02)
+    fig.suptitle((model_label+" | " if model_label else "")+"Does adding lncRNA improve prediction?",fontsize=17,y=1.02)
     fig.text(.5,-.015,"All points retained. Symmetric-log axes: linear within +/-0.5 (top), +/-0.05 (bottom). Above diagonal / delta > 0: improvement.",ha="center",fontsize=10)
     fig.tight_layout();save(fig,"04_combined_vs_mrna_comparison")
     # Explicit all-attempted training coverage, independent of common-success performance.
@@ -108,7 +108,7 @@ def plot(inputs,output,selected_layers=None):
                 ax.bar(np.arange(3)+(j-1)*.24,vv,width=.24,label=LABELS[a],color=COLORS[a])
             ax.set_xticks(range(3),CANCERS);ax.set_ylim(0,105);ax.set_title(NAMES[layer]);ax.legend(frameon=False,fontsize=8)
         axs[0,0].set_ylabel("Successful targets / all attempted (%)")
-        fig.suptitle("Training coverage | zero RNA in any fold or final fit = failure",y=1.04)
+        fig.suptitle(coverage_caption or "Training coverage | zero RNA in any fold or final fit = failure",y=1.04)
         fig.tight_layout();save(fig,"05_training_coverage")
         pd.DataFrame(rows).to_csv(output/"PLOT_TRAINING_COVERAGE.tsv",sep="\t",index=False)
     files={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.suffix in ["tsv",".tsv",".png",".pdf"]}

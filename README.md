@@ -22,6 +22,17 @@ requires a replacement target design before preparation or training; it does
 not silently fall back to RNA scores. Separate per-assay heads are not yet
 implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
 
+## Graph-regularized ridge multiomics demo (2026-11-06)
+
+The existing three-arm entry supports `--estimator graph_ridge --omics-input <verified-root>`.
+It reuses the CPTAC BRCA/LUAD/COAD RNA, outcomes, folds, clinical/purity handling and
+plot functions. PPI/RPI regularize RNA coefficients; matched gene CNV, mutation,
+protein and phosphosite measurements enter as target-eligible predictor blocks.
+The comparison includes ordinary ridge on the same inputs and a shared-omics-only
+baseline. Protein/phosphosite and genomic-derived outcomes exclude their own
+measurement blocks. RNA-derived labels retain lncRNA predictors, with constituent
+and scoring-background overlap disclosed. See [model and validation details](docs/M0_GRAPH_RIDGE_20261105.rst).
+
 ## Joint TCGA/CPTAC M0 with clinical covariates (2026-11-05)
 
 The joint demo restores a common lncRNA expression axis and fits shared lncRNA

@@ -1,0 +1,52 @@
+{
+  "target_host": "149",
+  "method": "Graph-regularized Ridge Regression",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "rna_arms": [
+    "lncrna",
+    "mrna",
+    "combined"
+  ],
+  "reuse": [
+    "existing RNA and Y matrices",
+    "existing five outer folds and inner holdouts",
+    "m0_covariates clinical design",
+    "m0_three_arm metrics and paired comparison",
+    "plot_m0_increment figure generator"
+  ],
+  "new_inputs": [
+    "CPTAC gene CNV",
+    "CPTAC gene mutation"
+  ],
+  "existing_inputs": [
+    "CPTAC protein abundance",
+    "CPTAC phosphosite abundance",
+    "typed experimental RPI",
+    "STRING PPI"
+  ],
+  "omitted_target_assay": true,
+  "rna_targets": "Retain lncRNA predictors; audit constituent overlap; mRNA and combined are reconstruction comparators",
+  "clinical": "Unpenalized age,sex,stage,DNA purity; exclude purity covariate and genomic blocks when predicting DNA purity",
+  "missingness": "training-only feature medians and assay-availability indicators; mutation missing is not wild type",
+  "network": "normalized Laplacian on RNA-gene coefficients; excluded-arm nodes are unobserved topology-only bridges",
+  "grid": {
+    "eta": [
+      0,
+      0.1,
+      1,
+      10
+    ],
+    "ridge_lambda": "13 log-spaced 1e-4 through 1e2"
+  },
+  "comparators": [
+    "rna_only ridge",
+    "same multiomics without graph",
+    "same multiomics graph ridge",
+    "shared omics-only baseline"
+  ],
+  "outputs": "/dell_2/DSC/CancerLncAtlas/results/model/M0_GRAPH_RIDGE_MULTIOMICS_demo_20261105_r1"
+}
