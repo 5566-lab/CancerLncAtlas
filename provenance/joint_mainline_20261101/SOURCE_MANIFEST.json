@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 13050,
-      "sha256": "c61311e9b6392f820ca6c44e00fd301667346c932f37e6bd8734d7a7cd312214"
+      "bytes": 13452,
+      "sha256": "2f2602b01ac5da9ba9d14f952aec2f45ad5cb1b7395b7148b0a33ef1f96cd5c3"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -110,8 +110,8 @@
       "sha256": "b1f0dea7184dd330cbb2b6aadc7e1781ac55d7fe6cd8f5bc9a21bc67e4c7ce98"
     },
     "cc_hhgt/graph_ridge.py": {
-      "bytes": 6216,
-      "sha256": "f65a47e49387e64a59eb0df18c09f5ef995d3816b98d3a16db38da00ceaa1ac1"
+      "bytes": 6867,
+      "sha256": "a46eb91586583606ae70bc065748b464c9b986be6b8ad3a3168174c6365d4e70"
     },
     "cc_hhgt/ids.py": {
       "bytes": 10768,
@@ -1817,9 +1817,13 @@
       "bytes": 44316,
       "sha256": "abe1c2a12edf0b3cc406a8ef521e238aef7ebb9add145f5f4e8d5ac5d4fa6ae4"
     },
+    "config/graph_ridge_input_sources_20261105.json": {
+      "bytes": 2857,
+      "sha256": "db3123e611a0a9491cf15a7caeae1ac82c05b02f2d63a4d58303541582cda654"
+    },
     "config/m0_graph_ridge_20261105.json": {
-      "bytes": 1535,
-      "sha256": "25a772206bc38995e13442beb1aa723afa90ebeab5a74a10cd12ef6c6282a030"
+      "bytes": 1755,
+      "sha256": "9c2c889b8fc0e93e6c9c44b1992a94a4ab99cf333f1f1d4482bc31408fb8b5f0"
     },
     "config/m0_joint_demo_20261105.json": {
       "bytes": 1894,
@@ -2026,8 +2030,8 @@
       "sha256": "5f90eaa9227f74ba5356907a9d2d3afe9cdf56cdd8b3e8b9232e336cada02368"
     },
     "docs/M0_GRAPH_RIDGE_20261105.rst": {
-      "bytes": 6843,
-      "sha256": "c71ec2019ea2535c0fa545ad7779e7ce20f2b6ef855f4c42e916798e78aa194b"
+      "bytes": 12548,
+      "sha256": "1353f34f76ad794c91d37f999b3c590dbc00483f1c51d9355952e6e12344c656"
     },
     "docs/M0_JOINT_CLINICAL_DEMO.rst": {
       "bytes": 8432,
@@ -2460,6 +2464,10 @@
     "provenance/joint_mainline_20261101/M0_GRAPH_RIDGE_R1_20261106.json": {
       "bytes": 6491,
       "sha256": "a838c79b1a5357e6e9f57eec0f14226def66f6c1d1fe9c49a0e7e0324ab3543b"
+    },
+    "provenance/joint_mainline_20261101/M0_GRAPH_RIDGE_R2_20261106.json": {
+      "bytes": 38520,
+      "sha256": "0bd747ae7b2eafb1c3e25f49e7f3a4f27767d15054e21a0bddfba254e7322fab"
     },
     "provenance/joint_mainline_20261101/M0_JOINT_CLINICAL_20261105.json": {
       "bytes": 13390,
@@ -3090,8 +3098,8 @@
       "sha256": "186ba07ec4448e3897570372c9a3967ced113687e354eac2cc0f492fa6c9f3a1"
     },
     "scripts/audit_graph_ridge.py": {
-      "bytes": 4063,
-      "sha256": "2d0045c41e2cca8f9f59fb983e332423fbdffeace3b3e00ed2f3150939029520"
+      "bytes": 5409,
+      "sha256": "9112c405e6790d00c5a83a59bdff06bf5bc2e6c2a593a220e4f4072589452e3d"
     },
     "scripts/audit_graph_ridge_overlap.py": {
       "bytes": 3995,
@@ -3660,6 +3668,10 @@
     "scripts/discover_v32_drug_core_unavailable_probe.py": {
       "bytes": 7921,
       "sha256": "4d98ba2a6b471fc946ca6706dd61cad1d8d4d108e6c71bf76dced01a0390b117"
+    },
+    "scripts/download_graph_ridge_inputs.py": {
+      "bytes": 2399,
+      "sha256": "3dcd558cebfc37bbf0644e57d9748aef5f35eb5906e0d65357089e0f73f933e3"
     },
     "scripts/download_v32_pancancer_segment_cnv.py": {
       "bytes": 1791,
@@ -4818,8 +4830,8 @@
       "sha256": "fae03d8215012385acda99bc31042d5d7263517777bc39cfdb6581174216b844"
     },
     "scripts/report_graph_ridge.py": {
-      "bytes": 10343,
-      "sha256": "a3bf8676289139bfef2446a2376f36562405a384627c74befaf6f8e21204b893"
+      "bytes": 10925,
+      "sha256": "5ebf92ea8c5a42e884c7575b4983c0c12e30486e5fe50465893b25d0d1c63e77"
     },
     "scripts/report_m0_alltargets.py": {
       "bytes": 9862,
@@ -5506,8 +5518,8 @@
       "sha256": "80edb65bb2d2f50fc960033143cd4486ec7ad45d6f1266786f57ad0a15b2fe38"
     },
     "tests/test_graph_ridge.py": {
-      "bytes": 3107,
-      "sha256": "0e259424f2b564f76e180a17f0d98071d0978b0ddd2cd4a07cf2e8d4a1110583"
+      "bytes": 3730,
+      "sha256": "6fed21e678a84db261b301090a4350fb2de5ae4ad989aa9ffd1917a24c36f772"
     },
     "tests/test_joint_backend_check.py": {
       "bytes": 1424,

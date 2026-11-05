@@ -27,7 +27,7 @@ def target_policy(row):
     else:raise ValueError('UNCLASSIFIED_TARGET_LAYER: '+str(layer))
     return dict(allowed_blocks=tuple(b for b in BLOCKS if b not in exclude),excluded_blocks=tuple(sorted(exclude)),role=role,use_purity=uses_purity(tid))
 
-def fit_transform(raw,train,add_availability=False):
+def fit_transform(raw,train,add_availability=False,clip_training_range=False):
     raw=np.asarray(raw,float)
     if np.isinf(raw).any():raise ValueError('INFINITE_INPUT')
     if add_availability:raw=np.column_stack([raw,np.isfinite(raw).any(axis=1).astype(float)])
@@ -36,16 +36,20 @@ def fit_transform(raw,train,add_availability=False):
     x=raw[:,idx]
     with warnings.catch_warnings():
         warnings.simplefilter('ignore',RuntimeWarning);med=np.nanmedian(x[train],axis=0)
+    lower=np.nanmin(x[train],axis=0);upper=np.nanmax(x[train],axis=0)
+    if clip_training_range:x=np.clip(x,lower,upper)
     z=np.where(np.isfinite(x),x,med);mu=z[train].mean(axis=0);sd=z[train].std(axis=0)
     ok=sd>1e-10;idx=idx[ok];med=med[ok];mu=mu[ok];sd=sd[ok];z=(z[:,ok]-mu)/sd
     if not len(idx):raise ValueError('NO_VARIABLE_TRAINING_FEATURES')
-    return z,dict(index=idx,median=med,mean=mu,scale=sd,add_availability=add_availability,original_width=raw.shape[1]-int(add_availability))
+    return z,dict(index=idx,median=med,mean=mu,scale=sd,add_availability=add_availability,original_width=raw.shape[1]-int(add_availability),clip_training_range=clip_training_range,lower=lower[ok],upper=upper[ok])
 
 def transform(raw,spec):
     raw=np.asarray(raw,float)
     if raw.shape[1]!=spec['original_width']:raise ValueError('FEATURE_WIDTH_MISMATCH')
     if spec['add_availability']:raw=np.column_stack([raw,np.isfinite(raw).any(axis=1).astype(float)])
-    x=raw[:,spec['index']];return (np.where(np.isfinite(x),x,spec['median'])-spec['mean'])/spec['scale']
+    x=raw[:,spec['index']]
+    if spec.get('clip_training_range',False):x=np.clip(x,spec['lower'],spec['upper'])
+    return (np.where(np.isfinite(x),x,spec['median'])-spec['mean'])/spec['scale']
 
 _FACTORS={}
 def solve_graph(lap,b,eta,tol=1e-9,maxiter=200):
@@ -85,8 +89,12 @@ def make_context(blocks,features,lap,cov,train,use_purity,progress=None):
             key=(arm,eta);k,st=normalized_kernel(xr[:,selected],train,lap,eta,sr['index'][selected]);kernels[key]=k;stats[key]=st
             if progress:progress(arm,eta,st)
     for block in BLOCKS:
-        xb,sb=fit_transform(blocks[block],train,True);pre[block]=sb
+        xb,sb=fit_transform(blocks[block],train,True,clip_training_range=block in ['PROTEIN','PHOSPHO']);pre[block]=sb
         kernels[block],stats[block]=normalized_kernel(xb,train)
+        if block in ['PROTEIN','PHOSPHO']:
+            maximum=float(np.diag(kernels[block]).max())
+            if maximum>len(train)+1e-5:raise ValueError('SPARSE_ASSAY_SUPPORT_BOUND_FAILED')
+            stats[block].update(training_support_bounded=True,max_query_kernel_diagonal=maximum)
     return dict(kernels=kernels,preprocess=pre,stats=stats,design=za,design_spec=spec,supported=supported,train_preprocessing=train)
 
 def combined_kernel(ctx,arm,eta,allowed,variant):

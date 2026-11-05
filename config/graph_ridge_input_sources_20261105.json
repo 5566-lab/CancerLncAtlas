@@ -1,0 +1,56 @@
+[
+  {
+    "cancer": "BRCA",
+    "layer": "CNV",
+    "url": "https://www.linkedomics.org/data_download/CPTAC-BRCA/HS_CPTAC_BRCA_2018_CNA.cct",
+    "source_page": "https://www.linkedomics.org/data_download/CPTAC-BRCA/",
+    "description": "SCNV (Gene level, Tumor, log2) Download Gene Copy Number Change (GISTIC2, Log2ratio) 122 23692 cct",
+    "sha256": "00182f114e00e2003ed38938391160e8d5f53eaa8614de6c890f1dea2cf3bcc9",
+    "bytes": 18409158
+  },
+  {
+    "cancer": "BRCA",
+    "layer": "MUTATION",
+    "url": "https://www.linkedomics.org/data_download/CPTAC-BRCA/HS_CPTAC_BRCA_2018_MUT_GENE.cbt",
+    "source_page": "https://www.linkedomics.org/data_download/CPTAC-BRCA/",
+    "description": "Mutation (Gene level, Tumor) Download Gene Mutation Status (GATK) 122 10940 cbt",
+    "sha256": "4869672f802c7fbae8c56b798ef9c025f6c4e18438c5fa790d0a0bad83106e92",
+    "bytes": 2376816
+  },
+  {
+    "cancer": "LUAD",
+    "layer": "CNV",
+    "url": "https://linkedomics.org/data_download/CPTAC-LUAD/HS_CPTAC_LUAD_cnv_gene_LR.cct",
+    "source_page": "https://www.linkedomics.org/data_download/CPTAC-LUAD/",
+    "description": "SCNV (Gene level, Tumor) Download Gene level copy number data gene Copy Number Change (log ratios) 109 19267 cct",
+    "sha256": "b98fd616ada569b82b87f4b4ba2706dbd9b59adbdcf0e73899f07872bdf5c950",
+    "bytes": 15614899
+  },
+  {
+    "cancer": "LUAD",
+    "layer": "MUTATION",
+    "url": "https://linkedomics.org/data_download/CPTAC-LUAD/HS_CPTAC_LUAD_somatic_mutation_gene.cbt",
+    "source_page": "https://www.linkedomics.org/data_download/CPTAC-LUAD/",
+    "description": "Mutation (Gene level, Tumor) Download Gene level somatic mutation gene Mutation Status 109 11859 cbt",
+    "sha256": "ed470acb64976e6adc53323795cafcba692e3333dfb994d79b6b600329115b65",
+    "bytes": 2663393
+  },
+  {
+    "cancer": "COAD",
+    "layer": "CNV",
+    "url": "https://linkedomics.org/cptac-colon/Human__CPTAC_COAD__VU__SCNA__ExomeSeq__01_28_2016__BCM__Gene__BCM_CopyWriteR_GISTIC2.cct.gz",
+    "source_page": "https://www.linkedomics.org/data_download/CPTAC-COAD/",
+    "description": "SCNV (Gene level, log ratio) Download Copy number change at the gene level, GISTIC2 log ratio gene Copy Number Change (GISTIC2, Log2ratio) 105 25187 cct",
+    "sha256": "fc6ea33c13103a2b1a1a3beda0fd94b23b70e357e5ee93585da75d5463bd1e94",
+    "bytes": 492665
+  },
+  {
+    "cancer": "COAD",
+    "layer": "MUTATION",
+    "url": "https://linkedomics.org/cptac-colon/Human__CPTAC_COAD__WUSM__Mutation__GAIIx__03_01_2017__BCM__Gene__GATK_Pipeline.cbt",
+    "source_page": "https://www.linkedomics.org/data_download/CPTAC-COAD/",
+    "description": "Mutation (Gene level) Download Somatic mutations includes SNVs and Indels gene Mutation Status (GATK) 106 15174 cbt",
+    "sha256": "a168bd31a707bf67229a2d2a554f2439ee05d32db0aea86734fb200d3b752f29",
+    "bytes": 3315656
+  }
+]

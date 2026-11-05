@@ -53,3 +53,14 @@ def test_missing_mutation_is_not_wildtype():
 def test_rna_target_does_not_disallow_lncrna_input():
     p=target_policy(dict(layer='RNA_PATHWAY',target_id='RNA_PATHWAY|x'))
     assert p['role']=='RNA_DERIVED_TARGET' and not p['excluded_blocks']
+
+
+def test_sparse_assay_training_support_bounds_unseen_extremes():
+    raw=np.array([[1.,3.],[1.+1e-6,5.],[np.nan,4.],[1e6,-1e6]])
+    tr=np.arange(3);z,sp=fit_transform(raw,tr,True,clip_training_range=True)
+    np.testing.assert_allclose(transform(raw,sp),z)
+    assert np.max(np.abs(z[3]))<=np.max(np.abs(z[tr]))+1e-9
+    alt=raw.copy();alt[3]*=-999
+    zz,ss=fit_transform(alt,tr,True,clip_training_range=True)
+    np.testing.assert_allclose(z[tr],zz[tr]);np.testing.assert_allclose(sp['lower'],ss['lower']);np.testing.assert_allclose(sp['upper'],ss['upper'])
+    assert np.isfinite(z).all() and sp['original_width']==2

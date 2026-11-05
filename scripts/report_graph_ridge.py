@@ -12,7 +12,7 @@ from prepare_graph_ridge import dump
 from cla_engine.common import sha
 GROUPS={'01_assay_targets':['PROTEIN_PATHWAY','PHOSPHO_PTMSEA','METHYLATION_PATHWAY'],'02_rna_pathway':['RNA_PATHWAY'],'03_tf':['TF'],'04_state_rna':['STATE_RNA'],'05_state_other':['STATE_OTHER']}
 
-def report(source,output,inputs,evidence=None):
+def report(source,output,inputs,evidence=None,audit_file=None):
     assert socket.gethostname()=='149';source=Path(source);out=Path(output);out.mkdir(parents=True,exist_ok=True)
     dump(out/'LAUNCH_PREFLIGHT.json',dict(target_host='149',stage='REPORT',source=str(source),code_sha256=sha(Path(__file__))))
     tables=[];metrics=[];statuses=[];audits=[]
@@ -38,8 +38,9 @@ def report(source,output,inputs,evidence=None):
         ov=pd.read_csv(evidence/'STATE_LNCRNA_OVERLAP_AUDIT.tsv',sep='\t')
         cols=['cancer_id','target_id','overlap_status','direct_lncrna_count','direct_lncrna_gene_ids']
         primary=primary.merge(ov[cols],on=['cancer_id','target_id'],how='left',validate='one_to_one')
-        for name in ['STATE_LNCRNA_OVERLAP_AUDIT.tsv','RNA_SHARED_SYMBOL_AUDIT.tsv','FINAL_AUDIT.json','DOWNLOAD_COMPLETE.json']:
-            (out/name).write_bytes((evidence/name).read_bytes())
+        for name in ['STATE_LNCRNA_OVERLAP_AUDIT.tsv','RNA_SHARED_SYMBOL_AUDIT.tsv','FINAL_AUDIT.json','DOWNLOAD_COMPLETE.json','ORIGINAL_CODE_REUSE_AUDIT.json']:
+            src=Path(audit_file) if name=='FINAL_AUDIT.json' and audit_file else evidence/name
+            (out/name).write_bytes(src.read_bytes())
     primary.to_csv(out/'ALL_TARGET_COMPARISONS.tsv',sep='\t',index=False);pstatus.to_csv(out/'ALL_ARM_TARGET_METRICS.tsv',sep='\t',index=False)
     for name,layers in GROUPS.items():
         plot([str(out)],out/name,layers,model_label='Graph ridge + multiomics',coverage_caption='Training coverage | all five held-out folds and final fit required')
@@ -61,7 +62,7 @@ def report(source,output,inputs,evidence=None):
                 if len(v):
                     ax.scatter(j+rng.uniform(-.15,.15,len(v)),v,s=8,alpha=.25,color=COLORS[arm],rasterized=True);ax.plot([j-.25,j+.25],[np.median(v)]*2,color='black',lw=2)
                 ar.append(dict(effect=effect,arm=arm,layer=layer,n_targets=len(v),improved=int((v>1e-9).sum()),median_delta=float(np.median(v)) if len(v) else np.nan))
-            ax.axhline(0,color='#888888',ls='--');ax.set_xticks(range(len(layers)),[NAMES[x].replace(' pathways','').replace(' (RNA-derived)','').replace(' (non-RNA / source endpoints)','') for x in layers],rotation=55,ha='right');ax.set_yscale('symlog',linthresh=.05);ax.set_title(LABELS[arm])
+            ax.axhline(0,color='#888888',ls='--');ax.set_xticks(range(len(layers)),[{'STATE_RNA':'State (RNA)','STATE_OTHER':'State (other)'}.get(x,NAMES[x].replace(' pathways','')) for x in layers],rotation=55,ha='right');ax.set_yscale('symlog',linthresh=.05);ax.set_title(LABELS[arm])
         axs[0].set_ylabel('Paired held-out Delta R2');fig.suptitle(label);fig.tight_layout()
         for ext in ['png','pdf']:fig.savefig(out/(file+'.'+ext),dpi=300,bbox_inches='tight')
         plt.close(fig)
@@ -72,13 +73,13 @@ def report(source,output,inputs,evidence=None):
     for folder,layers in GROUPS.items():
         links=' | '.join(f'<a href="{folder}/{i:02d}_{slug}.png">{label}</a> (<a href="{folder}/{i:02d}_{slug}.pdf">PDF</a>)' for i,slug,label in [(1,'lncrna_performance','lncRNA'),(2,'mrna_performance','mRNA'),(3,'combined_performance','lncRNA + mRNA'),(4,'combined_vs_mrna_comparison','Comparison'),(5,'training_coverage','Coverage')]);rows.append('<tr><td>'+', '.join(NAMES[x] for x in layers)+'</td><td>'+links+'</td></tr>')
     text="<!doctype html><meta charset='utf-8'><title>Graph ridge multiomics comparison</title><style>body{font:16px Arial;max-width:1250px;margin:35px auto;padding:20px;color:#223344}td,th{padding:14px;border-bottom:1px solid #ddd;text-align:left}p{line-height:1.6}a{color:#176294}</style><h1>Graph-regularized ridge: three RNA arms</h1>"
-    text+="<p>CPTAC BRCA, LUAD and COAD. All arms share target-eligible CNV, mutation, protein and phosphosite inputs. Original five outer folds, native Y and clinical/purity handling are reused. Hyperparameters and preprocessing use training data only. Upstream native scores retain their original cohort preprocessing.</p>"
+    text+="<p>CPTAC BRCA, LUAD and COAD. All arms share target-eligible CNV, mutation, protein and phosphosite inputs. Original five outer folds, native Y and clinical/purity handling are reused. Hyperparameters and preprocessing use training data only. Upstream native scores retain their original cohort preprocessing. In revision 2, protein and phosphosite values are bounded by their observed TRAINING min/max before scaling; no coverage threshold is added. The original unbounded run is retained as a diagnostic comparison.</p>"
     text+="<p>Protein targets exclude protein inputs; phosphosite targets exclude phosphosite inputs. Genomic-derived State targets exclude corresponding genomic blocks. DNA purity excludes itself and genomic blocks. RNA-derived targets retain lncRNA predictors; direct constituent overlap must be considered. mRNA-containing models may reconstruct their score definitions.</p>"
     text+="<p>PPI/RPI constrain RNA coefficients. Unobserved arm nodes are topology-only bridges, never extra measured mRNA expression. The graph assumes coefficient smoothness, not activation/inhibition or causal regulation. Ridge weights are dense. Evaluation requires supported prediction across all five folds plus a final fit.</p><table><tr><th>Score family</th><th>Figures</th></tr>"+''.join(rows)+"</table>"
     text+="<p>Ablations: <a href='06_multiomics_gain.png'>Added multiomics</a> | <a href='07_graph_gain.png'>Added graph</a> | <a href='08_rna_increment_over_omics.png'>RNA beyond shared multiomics</a></p><p>Tables: <a href='PRIMARY_SUMMARY.tsv'>Primary summary</a> | <a href='ALL_TARGET_COMPARISONS.tsv'>Every primary target</a> | <a href='ALL_TRAINING_STATUS.tsv'>All training status</a> | <a href='PAIRED_ABLATIONS.tsv'>Paired ablations</a> | <a href='INPUT_COVERAGE.tsv'>Input coverage</a> | <a href='GRAPH_STRENGTH_SELECTION.tsv'>Graph strength</a></p>"
-    text+="<p>RNA overlap: <a href='STATE_LNCRNA_OVERLAP_AUDIT.tsv'>State constituent audit</a> | <a href='RNA_SHARED_SYMBOL_AUDIT.tsv'>Coding/lncRNA shared symbols</a>. Coding-symbol selection follows upstream same-symbol TPM summation and is not proof of zero lncRNA contribution. <a href='FINAL_AUDIT.json'>Prediction and leakage checks</a>.</p>"
+    text+="<p>Existing code: <a href='ORIGINAL_CODE_REUSE_AUDIT.json'>Original M0 module hashes and unchanged entry functions</a>. The Lasso implementation remains available; this run adds a graph-ridge estimator.</p><p>RNA overlap: <a href='STATE_LNCRNA_OVERLAP_AUDIT.tsv'>State constituent audit</a> | <a href='RNA_SHARED_SYMBOL_AUDIT.tsv'>Coding/lncRNA shared symbols</a>. Coding-symbol selection follows upstream same-symbol TPM summation and is not proof of zero lncRNA contribution. <a href='FINAL_AUDIT.json'>Prediction and leakage checks</a>.</p>"
     (out/'OPEN_REPORT.html').write_text(text,encoding='utf-8')
     dump(out/'REPORT_COMPLETE.json',dict(target_host='149',status='COMPLETE',source=str(source),summary=summary,files={p.relative_to(out).as_posix():sha(p) for p in out.rglob('*') if p.is_file() and p!=out/'REPORT_COMPLETE.json'}))
     print('REPORT_COMPLETE',json.dumps(summary),flush=True)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--output',required=True);p.add_argument('--inputs',required=True);p.add_argument('--evidence');a=p.parse_args();report(a.source,a.output,a.inputs,a.evidence)
+    p=argparse.ArgumentParser();p.add_argument('--source',required=True);p.add_argument('--output',required=True);p.add_argument('--inputs',required=True);p.add_argument('--evidence');p.add_argument('--audit-file');a=p.parse_args();report(a.source,a.output,a.inputs,a.evidence,a.audit_file)

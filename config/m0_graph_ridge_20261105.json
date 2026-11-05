@@ -48,5 +48,7 @@
     "same multiomics graph ridge",
     "shared omics-only baseline"
   ],
-  "outputs": "/dell_2/DSC/CancerLncAtlas/results/model/M0_GRAPH_RIDGE_MULTIOMICS_demo_20261105_r1"
+  "outputs": "/dell_2/DSC/CancerLncAtlas/results/model/M0_GRAPH_RIDGE_MULTIOMICS_demo_20261106_r2",
+  "sparse_assay_scaling": "Protein and phosphosite observed values bounded to TRAINING observed min/max before applying train median/mean/sd; RNA/CNV/mutation unchanged; no outcome-dependent bounds",
+  "revision": "r2"
 }

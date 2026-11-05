@@ -1,0 +1,1288 @@
+{
+  "target_host": "149",
+  "status": "COMPLETED_AND_AUDITED",
+  "revision": "r2",
+  "tests": "29 passed",
+  "audit": {
+    "checks": [
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41580,
+        "max_bounded_assay_kernel_diagonal": 2.8629301476692612,
+        "max_graph_residual": 2.6971288748911262e-14,
+        "phase": "outer0",
+        "predictions": 855820,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41510,
+        "max_bounded_assay_kernel_diagonal": 2.67133288290404,
+        "max_graph_residual": 2.7812264346060054e-14,
+        "phase": "outer1",
+        "predictions": 895070,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41550,
+        "max_bounded_assay_kernel_diagonal": 3.1535613968951846,
+        "max_graph_residual": 2.6393673354843633e-14,
+        "phase": "outer2",
+        "predictions": 773160,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41570,
+        "max_bounded_assay_kernel_diagonal": 2.963320604384846,
+        "max_graph_residual": 2.5866443712377923e-14,
+        "phase": "outer3",
+        "predictions": 692240,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41580,
+        "max_bounded_assay_kernel_diagonal": 2.8835758391151853,
+        "max_graph_residual": 2.6225882279098126e-14,
+        "phase": "outer4",
+        "predictions": 855380,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "BRCA",
+        "fitted_models": 41570,
+        "max_bounded_assay_kernel_diagonal": 3.017367426847339,
+        "max_graph_residual": 2.7543093082495095e-14,
+        "phase": "final",
+        "predictions": 0,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58160,
+        "max_bounded_assay_kernel_diagonal": 2.8284852108778087,
+        "max_graph_residual": 1.9852532535419593e-14,
+        "phase": "outer0",
+        "predictions": 1120470,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58190,
+        "max_bounded_assay_kernel_diagonal": 2.5164665528715426,
+        "max_graph_residual": 2.118626284933797e-14,
+        "phase": "outer1",
+        "predictions": 1206490,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58170,
+        "max_bounded_assay_kernel_diagonal": 2.744934026168552,
+        "max_graph_residual": 2.1738391941862125e-14,
+        "phase": "outer2",
+        "predictions": 1231320,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58140,
+        "max_bounded_assay_kernel_diagonal": 2.7283207860884446,
+        "max_graph_residual": 2.0346388816630317e-14,
+        "phase": "outer3",
+        "predictions": 1189720,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58200,
+        "max_bounded_assay_kernel_diagonal": 2.742295485462875,
+        "max_graph_residual": 1.9808546081244598e-14,
+        "phase": "outer4",
+        "predictions": 1260170,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "LUAD",
+        "fitted_models": 58190,
+        "max_bounded_assay_kernel_diagonal": 2.8072250009099613,
+        "max_graph_residual": 2.0111200926976415e-14,
+        "phase": "final",
+        "predictions": 0,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39130,
+        "max_bounded_assay_kernel_diagonal": 2.6183481487002833,
+        "max_graph_residual": 4.5088018716289454e-14,
+        "phase": "outer0",
+        "predictions": 758330,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39160,
+        "max_bounded_assay_kernel_diagonal": 3.436073549255919,
+        "max_graph_residual": 4.5938051428167744e-14,
+        "phase": "outer1",
+        "predictions": 765190,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39110,
+        "max_bounded_assay_kernel_diagonal": 3.3411594069971797,
+        "max_graph_residual": 4.591855189156095e-14,
+        "phase": "outer2",
+        "predictions": 735470,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39140,
+        "max_bounded_assay_kernel_diagonal": 3.187700910777212,
+        "max_graph_residual": 4.593095841908799e-14,
+        "phase": "outer3",
+        "predictions": 720850,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39060,
+        "max_bounded_assay_kernel_diagonal": 3.234011172928736,
+        "max_graph_residual": 4.644004628158151e-14,
+        "phase": "outer4",
+        "predictions": 788230,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      },
+      {
+        "cancer_id": "COAD",
+        "fitted_models": 39140,
+        "max_bounded_assay_kernel_diagonal": 3.418996343295168,
+        "max_graph_residual": 4.6512415972424884e-14,
+        "phase": "final",
+        "predictions": 0,
+        "rna_only_baseline_invariant": true,
+        "status": "PASS"
+      }
+    ],
+    "checks_description": [
+      "all phase checksums",
+      "outcomes exactly equal original prepared native Y",
+      "no held-out patient in fit or preprocessing",
+      "identical patients/outcomes/covariate baseline across three arms and ablations",
+      "target-assay exclusion and purity self-exclusion",
+      "finite predictions",
+      "graph-system residual tolerance"
+    ],
+    "paired_comparators_per_patient_target": 10,
+    "status": "PASS",
+    "target_host": "149"
+  },
+  "original_code_reuse": {
+    "target_host": "149",
+    "baseline_commit": "6a5ef2d8da65486e2b88322ece1ad9c6cde72d27",
+    "original_functions": {
+      "verify_receipt": true,
+      "core_hash": true,
+      "phase_fit": true,
+      "summarize": true,
+      "run": true
+    },
+    "unchanged_modules": [
+      {
+        "path": "cc_hhgt/m0_covariates.py",
+        "whole_file_unchanged": true,
+        "sha256": "4f0ff71c94f4fb1d96e499413f3b118c696df41e25d46aa6aa6a3e4c1fe0c235"
+      },
+      {
+        "path": "cc_hhgt/m0_joint_lasso.py",
+        "whole_file_unchanged": true,
+        "sha256": "5f1291a59377a6cfc5af02368500b33b64c3326b14425d6fc7673ae127407c62"
+      },
+      {
+        "path": "cc_hhgt/m0_joint_scores.py",
+        "whole_file_unchanged": true,
+        "sha256": "60b7fa4a430dffa630cd758b4728a2a6cd7c4e06d27f5a2db60d05d8fca437e6"
+      },
+      {
+        "path": "cc_hhgt/m0_linear.py",
+        "whole_file_unchanged": true,
+        "sha256": "312fd06eda9ec0a36572eaaeb39579e5264cd518aa81e2b9b21a767612920706"
+      },
+      {
+        "path": "cc_hhgt/m0_no_screen.py",
+        "whole_file_unchanged": true,
+        "sha256": "4fc8a41d0172257c3700a36baea084c22ad348eba87fc1a526497f6d0263e6ce"
+      },
+      {
+        "path": "cc_hhgt/m0_screened_lasso.py",
+        "whole_file_unchanged": true,
+        "sha256": "7dfa7adab6c30932a0172ead6437275179761339d9773cab9a4d0ae2c2575131"
+      },
+      {
+        "path": "cc_hhgt/m0_three_arm.py",
+        "whole_file_unchanged": true,
+        "sha256": "2e196a2c5556d057fcddad7643432ca3c739ba253793019be8c294b62c82b930"
+      }
+    ],
+    "entry_change": "CLI estimator dispatch added; default remains Lasso; all previous top-level function ASTs unchanged",
+    "new_solver": "cc_hhgt/graph_ridge.py",
+    "new_runner": "scripts/run_graph_ridge.py"
+  },
+  "inputs": "/dell_2/DSC/CancerLncAtlas/inputs/graph_ridge_20261105_r1",
+  "outputs": "/dell_2/DSC/CancerLncAtlas/results/model/M0_GRAPH_RIDGE_MULTIOMICS_demo_20261106_r2",
+  "native_y_changed": false,
+  "existing_tcga_inputs_preserved": true,
+  "source_manifest": "config/graph_ridge_input_sources_20261105.json",
+  "source_reuse_verification_sha256": "cd882e9d90fa7323a626e78ae02861c8c9b7ce85ebc32b69db47b82422cd1522",
+  "primary_summary": [
+    {
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "746",
+      "improved_with_positive_combined_r2": "162",
+      "median_delta_r2": "-0.00036519090207935",
+      "median_r2_lncrna": "-0.0209588841470931",
+      "median_r2_mrna": "-0.0156208728098027",
+      "median_r2_combined": "-0.016937880122478897"
+    },
+    {
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "614",
+      "improved_with_positive_combined_r2": "334",
+      "median_delta_r2": "0.0043759765276713",
+      "median_r2_lncrna": "0.03757870509166565",
+      "median_r2_mrna": "0.025231079448215253",
+      "median_r2_combined": "0.03117535832607895"
+    },
+    {
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "1946",
+      "improved_with_positive_combined_r2": "1192",
+      "median_delta_r2": "-0.00235682137611545",
+      "median_r2_lncrna": "0.09067743862920119",
+      "median_r2_mrna": "0.09918654250008499",
+      "median_r2_combined": "0.09778019786841666"
+    },
+    {
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "412",
+      "improved_with_positive_combined_r2": "326",
+      "median_delta_r2": "-0.0261949924568805",
+      "median_r2_lncrna": "0.2887277963952963",
+      "median_r2_mrna": "0.3910380392498367",
+      "median_r2_combined": "0.3630290207166323"
+    },
+    {
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "4",
+      "improved_with_positive_combined_r2": "4",
+      "median_delta_r2": "-6.526636510362227e-05",
+      "median_r2_lncrna": "0.0520338509372094",
+      "median_r2_mrna": "0.0329477238385911",
+      "median_r2_combined": "0.0408482927991744"
+    },
+    {
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "56",
+      "improved_with_positive_combined_r2": "19",
+      "median_delta_r2": "-0.0229479951464578",
+      "median_r2_lncrna": "0.22479521747788495",
+      "median_r2_mrna": "0.3226358762848589",
+      "median_r2_combined": "0.3008487526863065"
+    },
+    {
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "13",
+      "improved_with_positive_combined_r2": "12",
+      "median_delta_r2": "-0.0579856777855088",
+      "median_r2_lncrna": "0.4427149555234899",
+      "median_r2_mrna": "0.7871776296418919",
+      "median_r2_combined": "0.7080089728835663"
+    }
+  ],
+  "ablation_summary": [
+    {
+      "effect": "delta_multiomics",
+      "arm": "lncrna",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "4010",
+      "median_delta": "0.11777938365720919"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "lncrna",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "739",
+      "median_delta": "0.0649454094270631"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "lncrna",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "622",
+      "median_delta": "-0.0038307418998235"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "lncrna",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "1391",
+      "median_delta": "-0.0659322141464139"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "lncrna",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "29",
+      "median_delta": "-0.1360535285786355"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "lncrna",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "83",
+      "median_delta": "-0.07201875753517581"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "lncrna",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "4",
+      "median_delta": "-0.0211417814879309"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "mrna",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "3914",
+      "median_delta": "0.1037376853764422"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "mrna",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "738",
+      "median_delta": "0.059020699667774706"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "mrna",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "388",
+      "median_delta": "-0.004950422800563899"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "mrna",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "226",
+      "median_delta": "-0.1403114910626784"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "mrna",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "12",
+      "median_delta": "-0.0971887151913599"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "mrna",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "50",
+      "median_delta": "-0.13846783559542936"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "mrna",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "4",
+      "median_delta": "-0.0363958421902837"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "combined",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "3868",
+      "median_delta": "0.10238735178454005"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "combined",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "727",
+      "median_delta": "0.055388755136794754"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "combined",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "447",
+      "median_delta": "-0.0055939219792108495"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "combined",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "293",
+      "median_delta": "-0.1351181527045881"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "combined",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "8",
+      "median_delta": "-0.1332781603974554"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "combined",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "45",
+      "median_delta": "-0.13384708434521203"
+    },
+    {
+      "effect": "delta_multiomics",
+      "arm": "combined",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "4",
+      "median_delta": "-0.0572979329544932"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "lncrna",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "1310",
+      "median_delta": "-0.0003081846598617"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "lncrna",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "362",
+      "median_delta": "-0.00012243887576810002"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "lncrna",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "669",
+      "median_delta": "-5.515356111073996e-05"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "lncrna",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "938",
+      "median_delta": "-0.0002913698363104"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "lncrna",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "236",
+      "median_delta": "-0.0003903568090882"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "lncrna",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "52",
+      "median_delta": "-2.1363748669428473e-07"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "lncrna",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "4",
+      "median_delta": "-0.0009086594997367"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "mrna",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "1814",
+      "median_delta": "-0.00014818127845420002"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "mrna",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "362",
+      "median_delta": "-0.00036209406251115"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "mrna",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "644",
+      "median_delta": "-1.13744822729904e-06"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "mrna",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "645",
+      "median_delta": "-0.0002494564197412"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "mrna",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "583",
+      "median_delta": "0.0042894405146364"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "mrna",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "62",
+      "median_delta": "-0.00025839955522349997"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "mrna",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "3",
+      "median_delta": "-0.0006643443647443"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "combined",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "1495",
+      "median_delta": "-8.853845906040339e-05"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "combined",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "367",
+      "median_delta": "-0.00011914226730045"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "combined",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "810",
+      "median_delta": "5.159946570108126e-08"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "combined",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "243",
+      "median_delta": "0.0"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "combined",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "301",
+      "median_delta": "-0.0007934279285944"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "combined",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "28",
+      "median_delta": "0.0"
+    },
+    {
+      "effect": "delta_graph",
+      "arm": "combined",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "4",
+      "median_delta": "-0.0008549573038302"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "lncrna",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "1300",
+      "median_delta": "-0.0216183659203004"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "lncrna",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "525",
+      "median_delta": "0.0033016681882972"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "lncrna",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "741",
+      "median_delta": "-0.0011156722050222"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "lncrna",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "5491",
+      "median_delta": "0.0729192654517443"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "lncrna",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "813",
+      "median_delta": "0.3774804248238131"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "lncrna",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "370",
+      "median_delta": "0.0585368440890546"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "lncrna",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "8",
+      "median_delta": "0.0248362775470412"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "mrna",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "1790",
+      "median_delta": "-0.01315287231241605"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "mrna",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "451",
+      "median_delta": "-0.0023144371815107"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "mrna",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "1161",
+      "median_delta": "0.00295359987757005"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "mrna",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "5613",
+      "median_delta": "0.1557763013923051"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "mrna",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "812",
+      "median_delta": "0.7131553332758751"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "mrna",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "375",
+      "median_delta": "0.13592384650581302"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "mrna",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "7",
+      "median_delta": "0.0240645708053426"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "combined",
+      "layer": "PROTEIN_PATHWAY",
+      "n_targets": "4358",
+      "improved": "1690",
+      "median_delta": "-0.01437297908772065"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "combined",
+      "layer": "PHOSPHO_PTMSEA",
+      "n_targets": "948",
+      "improved": "500",
+      "median_delta": "0.0011613803520312501"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "combined",
+      "layer": "METHYLATION_PATHWAY",
+      "n_targets": "1606",
+      "improved": "1038",
+      "median_delta": "0.00266215390429215"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "combined",
+      "layer": "RNA_PATHWAY",
+      "n_targets": "5703",
+      "improved": "5603",
+      "median_delta": "0.1283803087943048"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "combined",
+      "layer": "TF",
+      "n_targets": "813",
+      "improved": "812",
+      "median_delta": "0.6486484916636759"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "combined",
+      "layer": "STATE_RNA",
+      "n_targets": "402",
+      "improved": "380",
+      "median_delta": "0.11217560513834475"
+    },
+    {
+      "effect": "delta_rna_over_omics_only",
+      "arm": "combined",
+      "layer": "STATE_OTHER",
+      "n_targets": "9",
+      "improved": "8",
+      "median_delta": "0.0208827246551905"
+    }
+  ],
+  "matched_previous_lasso_summary": [
+    {
+      "display_layer": "METHYLATION_PATHWAY",
+      "arm": "combined",
+      "current_variant": "multiomics_graph",
+      "n_targets": "55",
+      "median_previous_r2": "0.052301276086629045",
+      "median_current_r2": "0.17251345172205468",
+      "median_paired_delta": "0.08828632704200234",
+      "improved": "37"
+    },
+    {
+      "display_layer": "METHYLATION_PATHWAY",
+      "arm": "combined",
+      "current_variant": "rna_only",
+      "n_targets": "55",
+      "median_previous_r2": "0.052301276086629045",
+      "median_current_r2": "0.16574754975382966",
+      "median_paired_delta": "0.10108657172878854",
+      "improved": "38"
+    },
+    {
+      "display_layer": "METHYLATION_PATHWAY",
+      "arm": "lncrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "55",
+      "median_previous_r2": "-0.07901561726151796",
+      "median_current_r2": "0.15496950832299905",
+      "median_paired_delta": "0.25650921188114373",
+      "improved": "51"
+    },
+    {
+      "display_layer": "METHYLATION_PATHWAY",
+      "arm": "lncrna",
+      "current_variant": "rna_only",
+      "n_targets": "55",
+      "median_previous_r2": "-0.07901561726151796",
+      "median_current_r2": "0.0931451252378872",
+      "median_paired_delta": "0.16375179743517154",
+      "improved": "48"
+    },
+    {
+      "display_layer": "METHYLATION_PATHWAY",
+      "arm": "mrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "55",
+      "median_previous_r2": "0.01789107333564066",
+      "median_current_r2": "0.19809678956504073",
+      "median_paired_delta": "0.11739694800540645",
+      "improved": "44"
+    },
+    {
+      "display_layer": "METHYLATION_PATHWAY",
+      "arm": "mrna",
+      "current_variant": "rna_only",
+      "n_targets": "55",
+      "median_previous_r2": "0.01789107333564066",
+      "median_current_r2": "0.22177693599509207",
+      "median_paired_delta": "0.18168759178621308",
+      "improved": "46"
+    },
+    {
+      "display_layer": "PHOSPHO_PTMSEA",
+      "arm": "combined",
+      "current_variant": "multiomics_graph",
+      "n_targets": "131",
+      "median_previous_r2": "0.10860633936141684",
+      "median_current_r2": "0.32305607106476275",
+      "median_paired_delta": "0.19751537995865753",
+      "improved": "123"
+    },
+    {
+      "display_layer": "PHOSPHO_PTMSEA",
+      "arm": "combined",
+      "current_variant": "rna_only",
+      "n_targets": "131",
+      "median_previous_r2": "0.10860633936141684",
+      "median_current_r2": "0.23298344561808104",
+      "median_paired_delta": "0.11173948176984039",
+      "improved": "104"
+    },
+    {
+      "display_layer": "PHOSPHO_PTMSEA",
+      "arm": "lncrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "131",
+      "median_previous_r2": "0.07981234348939492",
+      "median_current_r2": "0.31914457771872595",
+      "median_paired_delta": "0.2280485497062371",
+      "improved": "128"
+    },
+    {
+      "display_layer": "PHOSPHO_PTMSEA",
+      "arm": "lncrna",
+      "current_variant": "rna_only",
+      "n_targets": "131",
+      "median_previous_r2": "0.07981234348939492",
+      "median_current_r2": "0.200707196124151",
+      "median_paired_delta": "0.09260863843194433",
+      "improved": "108"
+    },
+    {
+      "display_layer": "PHOSPHO_PTMSEA",
+      "arm": "mrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "131",
+      "median_previous_r2": "0.12233400423434204",
+      "median_current_r2": "0.31111113557834014",
+      "median_paired_delta": "0.1879708970561479",
+      "improved": "121"
+    },
+    {
+      "display_layer": "PHOSPHO_PTMSEA",
+      "arm": "mrna",
+      "current_variant": "rna_only",
+      "n_targets": "131",
+      "median_previous_r2": "0.12233400423434204",
+      "median_current_r2": "0.23538002767540178",
+      "median_paired_delta": "0.09331809851810702",
+      "improved": "107"
+    },
+    {
+      "display_layer": "PROTEIN_PATHWAY",
+      "arm": "combined",
+      "current_variant": "multiomics_graph",
+      "n_targets": "705",
+      "median_previous_r2": "0.19624095228032845",
+      "median_current_r2": "0.3297632547253688",
+      "median_paired_delta": "0.12359630529652221",
+      "improved": "579"
+    },
+    {
+      "display_layer": "PROTEIN_PATHWAY",
+      "arm": "combined",
+      "current_variant": "rna_only",
+      "n_targets": "705",
+      "median_previous_r2": "0.19624095228032845",
+      "median_current_r2": "0.2508913426750792",
+      "median_paired_delta": "0.06247226369970926",
+      "improved": "530"
+    },
+    {
+      "display_layer": "PROTEIN_PATHWAY",
+      "arm": "lncrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "705",
+      "median_previous_r2": "0.12331007045639708",
+      "median_current_r2": "0.2992455041764642",
+      "median_paired_delta": "0.15072272263961017",
+      "improved": "627"
+    },
+    {
+      "display_layer": "PROTEIN_PATHWAY",
+      "arm": "lncrna",
+      "current_variant": "rna_only",
+      "n_targets": "705",
+      "median_previous_r2": "0.12331007045639708",
+      "median_current_r2": "0.17995317310445846",
+      "median_paired_delta": "0.054540278991979885",
+      "improved": "499"
+    },
+    {
+      "display_layer": "PROTEIN_PATHWAY",
+      "arm": "mrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "705",
+      "median_previous_r2": "0.19536754266163825",
+      "median_current_r2": "0.345459842089498",
+      "median_paired_delta": "0.13456513500430856",
+      "improved": "601"
+    },
+    {
+      "display_layer": "PROTEIN_PATHWAY",
+      "arm": "mrna",
+      "current_variant": "rna_only",
+      "n_targets": "705",
+      "median_previous_r2": "0.19536754266163825",
+      "median_current_r2": "0.26367980034053196",
+      "median_paired_delta": "0.06430134173329871",
+      "improved": "545"
+    },
+    {
+      "display_layer": "RNA_PATHWAY",
+      "arm": "combined",
+      "current_variant": "multiomics_graph",
+      "n_targets": "4597",
+      "median_previous_r2": "0.6136054451157327",
+      "median_current_r2": "0.41216383917917665",
+      "median_paired_delta": "-0.17581386679958322",
+      "improved": "495"
+    },
+    {
+      "display_layer": "RNA_PATHWAY",
+      "arm": "combined",
+      "current_variant": "rna_only",
+      "n_targets": "4597",
+      "median_previous_r2": "0.6136054451157327",
+      "median_current_r2": "0.5608689651330423",
+      "median_paired_delta": "-0.024001613133054822",
+      "improved": "1906"
+    },
+    {
+      "display_layer": "RNA_PATHWAY",
+      "arm": "lncrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "4597",
+      "median_previous_r2": "0.359591666267305",
+      "median_current_r2": "0.327645631858245",
+      "median_paired_delta": "-0.03979658364102312",
+      "improved": "1801"
+    },
+    {
+      "display_layer": "RNA_PATHWAY",
+      "arm": "lncrna",
+      "current_variant": "rna_only",
+      "n_targets": "4597",
+      "median_previous_r2": "0.359591666267305",
+      "median_current_r2": "0.4122971564917217",
+      "median_paired_delta": "0.036200102218728714",
+      "improved": "2858"
+    },
+    {
+      "display_layer": "RNA_PATHWAY",
+      "arm": "mrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "4597",
+      "median_previous_r2": "0.6390731614978132",
+      "median_current_r2": "0.442123418460201",
+      "median_paired_delta": "-0.16252317657823268",
+      "improved": "546"
+    },
+    {
+      "display_layer": "RNA_PATHWAY",
+      "arm": "mrna",
+      "current_variant": "rna_only",
+      "n_targets": "4597",
+      "median_previous_r2": "0.6390731614978132",
+      "median_current_r2": "0.5989627549746219",
+      "median_paired_delta": "-0.007165242340059441",
+      "improved": "2186"
+    },
+    {
+      "display_layer": "STATE_OTHER",
+      "arm": "combined",
+      "current_variant": "multiomics_graph",
+      "n_targets": "1",
+      "median_previous_r2": "-1.0311141304920795",
+      "median_current_r2": "-0.0006989123302625355",
+      "median_paired_delta": "1.030415218161817",
+      "improved": "1"
+    },
+    {
+      "display_layer": "STATE_OTHER",
+      "arm": "combined",
+      "current_variant": "rna_only",
+      "n_targets": "1",
+      "median_previous_r2": "-1.0311141304920795",
+      "median_current_r2": "0.09001061885307238",
+      "median_paired_delta": "1.1211247493451517",
+      "improved": "1"
+    },
+    {
+      "display_layer": "STATE_OTHER",
+      "arm": "lncrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "1",
+      "median_previous_r2": "0.10475935768694555",
+      "median_current_r2": "-0.015420464713967963",
+      "median_paired_delta": "-0.12017982240091352",
+      "improved": "0"
+    },
+    {
+      "display_layer": "STATE_OTHER",
+      "arm": "lncrna",
+      "current_variant": "rna_only",
+      "n_targets": "1",
+      "median_previous_r2": "0.10475935768694555",
+      "median_current_r2": "0.08430480926568584",
+      "median_paired_delta": "-0.02045454842125971",
+      "improved": "0"
+    },
+    {
+      "display_layer": "STATE_OTHER",
+      "arm": "mrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "1",
+      "median_previous_r2": "-1.387201902135451",
+      "median_current_r2": "0.02041605363937382",
+      "median_paired_delta": "1.4076179557748247",
+      "improved": "1"
+    },
+    {
+      "display_layer": "STATE_OTHER",
+      "arm": "mrna",
+      "current_variant": "rna_only",
+      "n_targets": "1",
+      "median_previous_r2": "-1.387201902135451",
+      "median_current_r2": "0.056709620469532984",
+      "median_paired_delta": "1.443911522604984",
+      "improved": "1"
+    },
+    {
+      "display_layer": "STATE_RNA",
+      "arm": "combined",
+      "current_variant": "multiomics_graph",
+      "n_targets": "286",
+      "median_previous_r2": "0.7381718142330909",
+      "median_current_r2": "0.42522749002604854",
+      "median_paired_delta": "-0.25603257981398403",
+      "improved": "25"
+    },
+    {
+      "display_layer": "STATE_RNA",
+      "arm": "combined",
+      "current_variant": "rna_only",
+      "n_targets": "286",
+      "median_previous_r2": "0.7381718142330909",
+      "median_current_r2": "0.6108385755216775",
+      "median_paired_delta": "-0.07398192296285505",
+      "improved": "79"
+    },
+    {
+      "display_layer": "STATE_RNA",
+      "arm": "lncrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "286",
+      "median_previous_r2": "0.5186589038325042",
+      "median_current_r2": "0.3269176118148297",
+      "median_paired_delta": "-0.16536179239771298",
+      "improved": "64"
+    },
+    {
+      "display_layer": "STATE_RNA",
+      "arm": "lncrna",
+      "current_variant": "rna_only",
+      "n_targets": "286",
+      "median_previous_r2": "0.5186589038325042",
+      "median_current_r2": "0.44164039001328204",
+      "median_paired_delta": "-0.057391067214793146",
+      "improved": "103"
+    },
+    {
+      "display_layer": "STATE_RNA",
+      "arm": "mrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "286",
+      "median_previous_r2": "0.7521515395762515",
+      "median_current_r2": "0.4573527922681545",
+      "median_paired_delta": "-0.22608085705493203",
+      "improved": "33"
+    },
+    {
+      "display_layer": "STATE_RNA",
+      "arm": "mrna",
+      "current_variant": "rna_only",
+      "n_targets": "286",
+      "median_previous_r2": "0.7521515395762515",
+      "median_current_r2": "0.6427039382675535",
+      "median_paired_delta": "-0.0428152199436842",
+      "improved": "97"
+    },
+    {
+      "display_layer": "TF",
+      "arm": "combined",
+      "current_variant": "multiomics_graph",
+      "n_targets": "798",
+      "median_previous_r2": "0.8983644109492369",
+      "median_current_r2": "0.712111618677914",
+      "median_paired_delta": "-0.15219802060622284",
+      "improved": "24"
+    },
+    {
+      "display_layer": "TF",
+      "arm": "combined",
+      "current_variant": "rna_only",
+      "n_targets": "798",
+      "median_previous_r2": "0.8983644109492369",
+      "median_current_r2": "0.8674779188547814",
+      "median_paired_delta": "-0.015785331116326462",
+      "improved": "258"
+    },
+    {
+      "display_layer": "TF",
+      "arm": "lncrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "798",
+      "median_previous_r2": "0.7313007326478558",
+      "median_current_r2": "0.44782939603525",
+      "median_paired_delta": "-0.23546162514010682",
+      "improved": "62"
+    },
+    {
+      "display_layer": "TF",
+      "arm": "lncrna",
+      "current_variant": "rna_only",
+      "n_targets": "798",
+      "median_previous_r2": "0.7313007326478558",
+      "median_current_r2": "0.6188778243864889",
+      "median_paired_delta": "-0.09165258114570524",
+      "improved": "146"
+    },
+    {
+      "display_layer": "TF",
+      "arm": "mrna",
+      "current_variant": "multiomics_graph",
+      "n_targets": "798",
+      "median_previous_r2": "0.9004354847305102",
+      "median_current_r2": "0.7886424950152365",
+      "median_paired_delta": "-0.09086243071377659",
+      "improved": "39"
+    },
+    {
+      "display_layer": "TF",
+      "arm": "mrna",
+      "current_variant": "rna_only",
+      "n_targets": "798",
+      "median_previous_r2": "0.9004354847305102",
+      "median_current_r2": "0.8933788540823224",
+      "median_paired_delta": "-0.00021414170665712273",
+      "improved": "395"
+    }
+  ],
+  "report_archive": {
+    "target_host": "149",
+    "status": "PACKAGED_PENDING_VISUAL_REVIEW",
+    "archive": "/dsk2/user/dengsc/cla_graph_ridge_20261105_r1/M0_GRAPH_RIDGE_MULTIOMICS_demo_20261106_r2.zip",
+    "bytes": 56496527,
+    "sha256": "400df2445764a903b8bfdb5f6e272085501e722757152d6a19741afeab8f1db3",
+    "png": 28,
+    "pdf": 28,
+    "report": "/dell_2/DSC/CancerLncAtlas/results/model/M0_GRAPH_RIDGE_MULTIOMICS_REPORT_demo_20261106_r2",
+    "report_receipt_sha256": "f4e282b0f7e0bbb95d62b6a4217a42425d6b7c12591dd7afbfdfce2e36313a5d"
+  },
+  "visual_review": {
+    "status": "PASS",
+    "figures": [
+      "01_assay_targets/03_combined_performance.png",
+      "01_assay_targets/04_combined_vs_mrna_comparison.png",
+      "02_rna_pathway/04_combined_vs_mrna_comparison.png",
+      "07_graph_gain.png"
+    ]
+  },
+  "r1_code_commit_retained": "668547c1636892930fe09c0735219e647e65efaa",
+  "limitations": [
+    "CPTAC three-cancer retrospective demo; native upstream Y normalization retained",
+    "Sparse-assay support bounds developed after reviewing r1; not independent external validation",
+    "RNA score constituent/background overlap disclosed; not independent activation evidence",
+    "Multiomics blocks equally weighted by training kernel trace; graph penalty does not generally improve performance",
+    "Ridge is dense and does not provide a sparse selected signature",
+    "Primary targets require complete fivefold success; old Lasso comparisons use matched common-success endpoints"
+  ]
+}

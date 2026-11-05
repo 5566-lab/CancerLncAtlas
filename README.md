@@ -32,6 +32,11 @@ The comparison includes ordinary ridge on the same inputs and a shared-omics-onl
 baseline. Protein/phosphosite and genomic-derived outcomes exclude their own
 measurement blocks. RNA-derived labels retain lncRNA predictors, with constituent
 and scoring-background overlap disclosed. See [model and validation details](docs/M0_GRAPH_RIDGE_20261105.rst).
+The r2 three-cancer fit is complete: 29 tests and all 18 result audits passed.
+Training-only support bounds prevent sparse-assay extrapolation; pure RNA
+baselines remain unchanged. Protein paired median combined-minus-mRNA R2 is
+-0.0024; phosphosite programs +0.0044. These are small, target-dependent effects,
+not a general gain from adding lncRNA. Original Lasso code and prior results are retained.
 
 ## Joint TCGA/CPTAC M0 with clinical covariates (2026-11-05)
 
