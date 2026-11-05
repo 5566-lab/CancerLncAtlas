@@ -74,7 +74,7 @@ def matched_predictions(frames):
         if not f.index.equals(result.index):
             raise ValueError('Three arms did not evaluate identical held-out patients')
         for c in ('observed', 'train_mean_baseline', 'covariate_only_baseline'):
-            if not np.allclose(f[c], result[c], rtol=1e-10, atol=1e-10, equal_nan=False):
+            if len(f) and not np.allclose(f[c], result[c], rtol=1e-10, atol=1e-10, equal_nan=False):
                 raise ValueError('Three-arm outcome/covariate-baseline mismatch: ' + c)
         result['prediction_' + arm] = f.predicted
     return result.reset_index()

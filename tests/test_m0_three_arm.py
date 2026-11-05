@@ -56,12 +56,15 @@ def test_paired_metric_direction_and_ties():
     assert r['delta_r2_conditional_bootstrap_low']>0
 
 
-def test_three_arm_end_to_end_is_paired_and_detects_complementary_signal(tmp_path):
+def test_three_arm_end_to_end_is_paired_and_detects_complementary_signal(tmp_path,monkeypatch):
     # Scientific integration test: a hidden target depends on both RNA classes.
     # The fixture also contains an all-missing assay, which must not be imputed.
     import sys
     sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
     from run_m0_three_arm import run
+    import run_m0_three_arm
+    def forbidden(*a,**kw):raise AssertionError("Correlation screen must never run")
+    monkeypatch.setattr(run_m0_three_arm,"cohort_screen",forbidden)
     from cla_engine.common import sha
     rng=np.random.default_rng(2001);n=120;p=20;idx=pd.Index(['P'+str(i) for i in range(n)])
     a=tmp_path/'aligned'/'BRCA';c=tmp_path/'cov'/'BRCA';s=tmp_path/'splits'/'BRCA'
@@ -86,7 +89,10 @@ def test_three_arm_end_to_end_is_paired_and_detects_complementary_signal(tmp_pat
     sp['final']={'train':list(range(n)),'test':[]};(s/'SPLITS.json').write_text(json.dumps(sp))
     output=tmp_path/'out';summary=run(a.parent,s.parent,c.parent,'BRCA',output,1)
     res=pd.read_csv(output/'BRCA/TARGET_COMPARISON.tsv',sep='\t')
-    assert summary['n_paired_targets']==2 and res.complete_fivefold.all()
+    assert summary['n_paired_targets']==2
+    assert not res.loc[res.layer.eq('METHYLATION_PATHWAY'),'complete_fivefold'].any()
+    res=res.loc[res.complete_fivefold]
+    assert len(res)==2
     assert res.n_patients.eq(n).all()
     assert (res.r2_combined>res.r2_mrna+.1).all() and (res.r2_combined>res.r2_lncrna+.1).all()
     meta=pd.read_csv(output/'BRCA/TARGETS.tsv',sep='\t')

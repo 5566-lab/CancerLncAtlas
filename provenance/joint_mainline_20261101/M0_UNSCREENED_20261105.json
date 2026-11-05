@@ -1,0 +1,10 @@
+{
+  "target_host": "149",
+  "status": "TESTED_READY_FOR_THREE_CANCER_RERUN",
+  "test_summary": "27 passed in 6.85s",
+  "screening_enabled": false,
+  "zero_rna_is_failure": true,
+  "reference_code_commit": "ffbb20ce92a9b4f29ec04e71917c534c82d57c62",
+  "reference_output": "/dell_2/DSC/CancerLncAtlas/results/model/M0_THREE_ARM_demo_20261105_r1",
+  "output": "/dell_2/DSC/CancerLncAtlas/results/model/M0_THREE_ARM_UNSCREENED_demo_20261105_r1"
+}

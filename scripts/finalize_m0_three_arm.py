@@ -9,7 +9,7 @@ from run_m0_linear import write_json
 from cc_hhgt.m0_three_arm import ARMS,ARM_LABELS
 
 
-def finalize(root):
+def finalize(root,previous=None):
     if socket.gethostname()!='149':raise RuntimeError('Host 149 required')
     root=Path(root);frames=[];layers=[];receipts=[];coverage=[]
     for cancer in ['BRCA','LUAD','COAD']:
@@ -38,6 +38,7 @@ def finalize(root):
     plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False,'pdf.fonttype':42})
     colors={'lncrna':'#3C9277','mrna':'#2878B5','combined':'#D97724'}
     def save(fig,name):
+        if f.empty:fig.text(.5,.5,'No targets succeeded in all three arms',ha='center',va='center',bbox=dict(facecolor='white',edgecolor='none',alpha=.9))
         fig.savefig(figs/(name+'.png'),dpi=300,bbox_inches='tight');fig.savefig(figs/(name+'.pdf'),bbox_inches='tight');plt.close(fig)
     for cancer in ['BRCA','LUAD','COAD']:
         f=val.loc[val.cancer_id.eq(cancer)&val.complete_fivefold].copy();a=agg.loc[agg.cancer_id.eq(cancer)]
@@ -47,7 +48,7 @@ def finalize(root):
             z=a.loc[a.arm.eq(arm)].set_index('layer').reindex(names)
             ax.bar(xx+(i-1)*width,z.median_oof_r2,width,label=ARM_LABELS[arm],color=colors[arm])
         ax.set_xticks(xx,[n.replace('_',' ') for n in names],rotation=15,ha='right');ax.set_ylabel('Median target OOF R2');ax.axhline(0,color='gray',lw=.8);ax.legend(frameon=False)
-        ax.set_title(cancer+' | Same measured targets and held-out patients');save(fig,cancer+'_01_three_arm_r2')
+        ax.set_title(cancer+' | Common successful targets and held-out patients');save(fig,cancer+'_01_three_arm_r2')
         fig,ax=plt.subplots(figsize=(6.6,5.5))
         for name,g in f.groupby('layer'):ax.scatter(g.r2_mrna,g.r2_combined,s=9,alpha=.45,label=name.replace('_',' '),rasterized=True)
         ax.set_xscale('symlog',linthresh=.1);ax.set_yscale('symlog',linthresh=.1)
@@ -58,7 +59,7 @@ def finalize(root):
             z=a.loc[a.arm.eq(arm)].set_index('layer').reindex(names)
             values=100*z.positive_r2_targets/z.n_targets
             ax.bar(xx+(i-1)*width,values,width,label=ARM_LABELS[arm],color=colors[arm])
-        ax.set_xticks(xx,[n.replace('_',' ') for n in names],rotation=15,ha='right');ax.set_ylim(0,100);ax.set_ylabel('Targets with OOF R2 > 0 (%)');ax.legend(frameon=False);ax.set_title(cancer+' | Prediction coverage');save(fig,cancer+'_03_positive_r2')
+        ax.set_xticks(xx,[n.replace('_',' ') for n in names],rotation=15,ha='right');ax.set_ylim(0,100);ax.set_ylabel('Targets with OOF R2 > 0 (%)');ax.legend(frameon=False);ax.set_title(cancer+' | R2 > 0 among common successful targets');save(fig,cancer+'_03_positive_r2')
         fig,ax=plt.subplots(figsize=(11,7))
         top=f.loc[f.delta_r2_combined_vs_mrna.notna()].assign(size=lambda z:z.delta_r2_combined_vs_mrna.abs()).nlargest(20,'size').sort_values('delta_r2_combined_vs_mrna')
         yy=np.arange(len(top));ax.hlines(yy,top.delta_r2_conditional_bootstrap_low,top.delta_r2_conditional_bootstrap_high,color='#B6B6B6',lw=1.3)
@@ -67,11 +68,16 @@ def finalize(root):
         ax.set_xlabel('OOF delta R2: combined minus mRNA');ax.set_title(cancer+' | Largest differences (exploratory selection)')
         fig.text(.12,.005,'Intervals: paired patient bootstrap of fixed OOF errors; no model refitting or multiplicity correction.',fontsize=8)
         save(fig,cancer+'_04_largest_paired_differences')
+    extra={}
+    if (root/'BRCA'/'TARGET_TRAINING_STATUS.tsv').exists():
+        from cc_hhgt.m0_no_screen import append_failure_reports
+        extra=append_failure_reports(root,previous)
     summary=dict(target_host='149',status='COMPLETE',cases=receipts,total_target_comparisons=len(val),complete_fivefold_target_comparisons=int(val.complete_fivefold.sum()),figures_png=len(list(figs.glob('*.png'))),figures_pdf=len(list(figs.glob('*.pdf'))),primary_comparison='COMBINED_VS_MRNA_PAIRED_OOF',cohort_scope='CPTAC_ONLY_FOR_CURRENT_NATIVE_ASSAY_LABELS',interpretation='Retrospective prediction of native assay-derived scores; no causal or absolute activation claim. Native upstream normalization was not refit within outer folds. Bootstrap intervals condition on fitted OOF predictions and are exploratory.')
+    summary.update(extra)
     write_json(root/'SUMMARY.json',summary)
     files={p.relative_to(root).as_posix():sha(p) for p in root.iterdir() if p.is_file() and p.suffix in ['.tsv','.json'] and p.name not in ['COMPLETE.json','STATUS.json','PROCESSES.json']}
     files.update({p.relative_to(root).as_posix():sha(p) for p in figs.iterdir() if p.is_file()})
     write_json(root/'COMPLETE.json',dict(status='COMPLETE',target_host='149',summary=summary,files=files));print(json.dumps(summary),flush=True)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--results',required=True);a=p.parse_args();finalize(a.results)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--results',required=True);p.add_argument('--previous');a=p.parse_args();finalize(a.results,a.previous)

@@ -1,86 +1,104 @@
 Three RNA predictor arms for non-RNA assay endpoints
 ===================================================
 
-Question and scope
+Current experiment
 ------------------
-For BRCA, LUAD and COAD, compare lncRNA, protein-coding mRNA, and their union.
-The primary endpoints are prepared PROTEIN_PATHWAY and PHOSPHO_PTMSEA scores.
-METHYLATION_PATHWAY is a separate secondary layer, only when measured.
-RNA pathways, RNA-derived States, TF footprints and RNA deconvolution scores
-are excluded by an explicit assay-layer whitelist.
+Compare lncRNA, protein-coding mRNA and their union for BRCA, LUAD and COAD.
+The current default is config/m0_three_arm_unscreened_20261105.json.
+All measured, annotated genes enter training-local quality checks. There is
+no RNA-outcome correlation cutoff, p-value cutoff, FDR cutoff, or top-k
+association preselection. The screened run of 2026-11-05 is a reference
+experiment, reproducible with its explicit original --config.
 
-The current native assay labels in these aligned inputs are CPTAC-only.
-TCGA patients without these labels cannot contribute supervised examples.
-This experiment does not constitute a TCGA replication, does not benchmark
-individual raw protein abundances, and does not claim causal regulation or
-absolute pathway activation. All-missing layers remain missing, not zero.
+The primary targets are PROTEIN_PATHWAY and PHOSPHO_PTMSEA. Measured
+METHYLATION_PATHWAY targets form a separate secondary analysis. These
+prepared native assay targets currently cover CPTAC only; this is not
+TCGA replication or prediction of individual raw protein abundances.
+RNA-derived pathways, States, TF scores and deconvolution scores are excluded.
 
-Matched comparison
+Inputs and fitting
 ------------------
-Use the same measured GENCODE v36 gene-level log2(TPM+1) data. lncRNA features
-are annotated lncRNA genes; mRNA features are annotated protein_coding genes.
-The combined arm is their disjoint union. No historical expression filters
-or zero-filled missing genes are introduced. The lncRNA axis is checked
-against the existing joint M0 input values.
+Use the same measured GENCODE v36 gene-level log2(TPM+1) data, patient
+splits, targets and clinical/purity values as the screened reference.
+lncRNA and protein_coding annotation classes are disjoint. No historical
+expression filters or zero-filled missing genes are introduced.
 
-Restrict the existing joint-demo outer and inner patient splits to CPTAC;
-never reassign patients per arm. Training-only partial rank correlation
-adjusts for age, sex, stage and fixed source DNA purity, then applies
-abs(rho) >= 0.10 and BH FDR <= 0.05. BH includes all candidate genes within
-each arm and target, so the combined arm has a larger testing family.
-This compares the complete predefined pipelines, not only feature additions
-with an otherwise fixed selected mRNA set. It is not the full HHGT screening
-procedure, which also has other adjustment requirements.
+Quality checks use only the current training rows: require at least two
+observed expression values per training cohort and positive residual
+variance after clinical/purity projection. Fit missing-expression medians
+and scaling on these training rows. Required clinical/purity values are not
+imputed. The same quality definitions apply to all three RNA arms.
 
-Clinical and purity coefficients are unpenalized. Only RNA coefficients have
-an L1 penalty. Missing required clinical or purity values exclude that
-patient for the corresponding fit; no purity imputation or RNA substitution.
-Use identical Lasso alpha grids and inner holdouts, followed by five outer
-fold evaluations. Numeric transforms, clinical encodings, missing expression
-medians and screening are estimated only from the relevant training rows.
-Final models are fit after outer evaluation using the median tuned penalty
-ratio from at least three valid outer folds; these fits do not supply test
-performance estimates.
+Age, sex, stage and fixed source DNA purity remain unpenalized covariates.
+Only RNA coefficients receive the Lasso penalty. Keep the same 25 penalty
+ratios and existing inner holdouts to isolate the effect of removing
+association screening. Five outer folds estimate prediction performance.
+After evaluation, fit final signatures using the median penalty ratio from
+at least three tuned folds. Zero-RNA tuned folds retain their penalty ratio
+for final tuning; they are still counted as failed RNA models.
 
-Before comparison, assert identical patient-target-fold keys, target values
-and clinical-only baseline predictions across the three arms. Reject a
-comparison if these differ. Report pooled out-of-fold R2, RMSE and Spearman
-per target, since each native endpoint has one unchanged score definition
-across folds, as well as foldwise metrics. Layer summaries include only
-targets evaluated in all five folds. A best arm can still have negative R2;
-report positive R2 counts and improvement over the same clinical-only model.
+Failure policy
+--------------
+A fit with no nonzero RNA coefficient is FAILED_NO_RNA_SELECTED, not a
+successful clinical-only model. Zero-variable RNA, inadequate observations
+and convergence failures are also recorded explicitly. Failed fits export
+neither successful predictions nor a successful model.
 
-The main quantity is combined-minus-mRNA held-out R2. Confidence intervals
-use 1000 paired patient bootstrap draws of fixed OOF predictions. They do
-not incorporate training/model-selection variability, do not adjust for
-multiple targets and must not be read as replicated biological discoveries.
-Many pathway gene sets overlap, so target counts are descriptive, not
-independent biological replications.
+A target/arm is a complete training success only when all five outer fits
+produce a nonempty RNA model with held-out predictions, and the final fit
+also selects RNA. A final nonempty signature with failed outer folds is
+retained separately as unvalidated, excluded from FINAL_SIGNATURES.tsv.gz.
 
-Upstream-label limitation
--------------------------
-Native protein, phosphosite and methylation score preprocessing is retained
-from the prepared assay products. Some upstream normalizations (including
-cohort-centered phosphosite inputs) used the original assay cohort and are
-not refit within the outer training folds. Predictor fitting is training-only,
-but this benchmark is a retrospective comparison on those fixed labels,
-not a fully inductive validation of the whole assay-scoring pipeline.
+Do not force RNA selection or eliminate the zero-RNA penalty candidate to
+make training appear successful. Do not substitute clinical-only predictions
+for failed RNA fits. Clinical-only baselines are retained only for successful
+RNA fits as a reference comparator.
 
-Execution and outputs
----------------------
-All preparation, tests, training and figures run on host 149. Queue behind
-existing joint-demo jobs, keeping at most 24 total training workers and one
-BLAS thread per fitting worker. An isolated source checkout preserves the
-currently running joint demo. No paid GPU is required.
+Evaluation
+----------
+Keep all attempted targets in failure denominators. Report per-arm failures
+and successes in TARGET_TRAINING_STATUS.tsv and ARM_TARGET_METRICS.tsv.
+The three-arm R2 comparison uses the intersection of targets successful in
+all three arms, and asserts identical held-out patients, labels and baseline
+predictions. Report failure coverage alongside these conditional metrics:
+better scores on a selected successful subset alone do not establish a
+better overall model.
+
+FINAL_SIGNATURES.tsv.gz contains complete training successes only.
+ALL_NONEMPTY_FINAL_SIGNATURES.tsv.gz additionally retains nonempty final
+fits with failed evaluation folds, explicitly flagged as unvalidated.
+Do not treat a nonempty signature as proof of useful prediction; examine
+out-of-fold R2 and improvement over covariates.
+
+When --previous points to the screened reference, reclassify that run by
+the same zero-RNA failure policy. SCREENING_POLICY_COMPARISON.tsv reports
+success coverage before/after and performance on identical targets
+successful under both policies. Do not compare medians over changing sets.
+
+Bootstrap intervals use paired patient draws of fixed out-of-fold errors;
+they do not refit models or correct for multiple pathway comparisons.
+Pathways overlap and their counts are descriptive, not independent
+biological replications.
+
+Upstream labels
+---------------
+Native assay preprocessing is retained, including upstream cohort-centered
+phosphosite normalization. It was not refit within outer folds. This is
+retrospective prediction of fixed scores, not fully inductive validation of
+the complete assay pipeline, absolute pathway activation or causation.
+
+Execution and delivery
+----------------------
+Run all preparation, audits, tests, training and figures on hostname 149.
+Record target_host=149 before running. At most 24 total fitting workers,
+one BLAS thread per worker, no paid GPU.
 
 Run scripts/run_m0_three_arm.py with --aligned, --splits, --covariates,
---cancer, --output and --workers. The aligned, split and covariate directories
-are the completed joint-demo inputs. Then run scripts/finalize_m0_three_arm.py
---results OUTPUT after all three cancers complete.
+--cancer, --output, --workers and optional --config. After all three cancers
+complete, run scripts/finalize_m0_three_arm.py --results OUTPUT
+--previous SCREENED_OUTPUT.
 
-Key artifacts: TARGET_COMPARISON.tsv, FOLD_COMPARISON.tsv,
-PAIRED_OOF_PREDICTIONS.parquet, TARGETS.tsv availability, FINAL_SIGNATURES.tsv.gz,
-FINAL_COVARIATE_COEFFICIENTS.tsv and hashed fitted model checkpoints.
-Finalization produces four matched PNG/PDF figures per cancer plus aggregate
-comparison and coverage tables. Patient-level values remain in the private
-server results and are not included in Git publication.
+Export paired PNG/PDF figures and summary/failure/signature tables to a new
+M0_THREE_ARM_UNSCREENED_demo_20261105_r1 directory in the user's model image
+folder. Patient-level data and fitted patient-level predictions stay on 149
+and are excluded from Git and the public delivery archive.

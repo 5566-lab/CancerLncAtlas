@@ -14,6 +14,7 @@ from cc_hhgt.m0_covariates import complete_rows
 from cc_hhgt.m0_joint_lasso import cohort_screen
 from cc_hhgt.m0_three_arm import ARMS, feature_axes, select_targets, restrict_split, matched_predictions, compare_target, regression_metrics
 import run_m0_joint_lasso as fit_worker
+from cc_hhgt import m0_no_screen as no_screen
 
 
 def verify_receipt(directory, names):
@@ -23,34 +24,42 @@ def verify_receipt(directory, names):
 
 
 def core_hash():
-    paths=[Path(__file__), ROOT/'scripts/run_m0_joint_lasso.py',ROOT/'cc_hhgt/m0_three_arm.py',ROOT/'cc_hhgt/m0_joint_lasso.py',ROOT/'cc_hhgt/m0_covariates.py',ROOT/'cc_hhgt/m0_screened_lasso.py']
+    paths=[Path(__file__), ROOT/'scripts/run_m0_joint_lasso.py',ROOT/'cc_hhgt/m0_three_arm.py',ROOT/'cc_hhgt/m0_joint_lasso.py',ROOT/'cc_hhgt/m0_covariates.py',ROOT/'cc_hhgt/m0_screened_lasso.py',ROOT/'cc_hhgt/m0_no_screen.py']
     return hashlib.sha256(''.join(sha(p) for p in paths).encode()).hexdigest()
 
 
-def phase_fit(x, y, cov, ids, sf, si, split, inner, ratios, feature_ids, phase, arm, out, workers):
+def phase_fit(x, y, cov, ids, sf, si, split, inner, ratios, feature_ids, phase, arm, out, workers, require_nonzero_rna=False):
     ft=np.asarray(split['train'],int);te=np.asarray(split['test'],int)
     tr=np.asarray(inner['train'],int) if inner else np.empty(0,int)
     va=np.asarray(inner['validation'],int) if inner else np.empty(0,int)
     fit_worker.G=dict(x=x,cohort=cov.cohort.to_numpy(str),covariates=cov,target_ids=ids,yf=y,yi=y if inner else None,
                       ft=ft,tr=tr,va=va,te=te,sf=sf,si=si,final=inner is None,ratios=ratios)
+    no_screen.G=fit_worker.G;no_screen._CONTEXTS.clear()
+    worker=no_screen.worker if sf is None else fit_worker.worker
     audits=[];models={};genes=[];predictions=[]
     t0=time.time()
     with concurrent.futures.ProcessPoolExecutor(max_workers=workers,mp_context=multiprocessing.get_context('fork')) as pool:
-        for n,res in enumerate(pool.map(fit_worker.worker,range(len(ids)),chunksize=4),1):
+        for n,res in enumerate(pool.map(worker,range(len(ids)),chunksize=4),1):
             j=res['j'];tid=ids[j]
             row={k:v for k,v in res.items() if k not in ['j','model','rows','prediction','baseline','covariate_baseline']}
             row.update(target_id=tid,phase=phase,arm=arm)
             if res['status']=='FITTED':
-                model=res['model'];models[tid]=model;idx=model['feature_index']
+                model=res['model'];idx=model['feature_index']
+                if require_nonzero_rna and not len(idx):
+                    row.update(status=no_screen.FAIL_ZERO,n_selected=0,dual_gap=model['dual_gap'],n_eligible=model['n_eligible'])
+                    audits.append(row)
+                    if n%20==0 or n==len(ids):print(phase,arm,n,'/',len(ids),'seconds',round(time.time()-t0),flush=True)
+                    continue
+                models[tid]=model
                 row.update(n_selected=len(idx),dual_gap=model['dual_gap'],n_eligible=model['n_eligible'])
                 if len(idx):
-                    genes.append(pd.DataFrame(dict(target_id=tid,feature_id=feature_ids[idx],coefficient=model['coefficient'],screening_rho=sf['rho'][idx,j],screening_fdr=sf['q'][idx,j],phase=phase,arm=arm)))
+                    genes.append(pd.DataFrame(dict(target_id=tid,feature_id=feature_ids[idx],coefficient=model['coefficient'],screening_rho=sf['rho'][idx,j] if sf is not None else np.nan,screening_fdr=sf['q'][idx,j] if sf is not None else np.nan,phase=phase,arm=arm)))
                 ix=res['rows']
                 if len(ix):
                     predictions.append(pd.DataFrame(dict(patient_id=cov.index[ix],cohort=cov.cohort.iloc[ix].to_numpy(),target_id=tid,observed=y[ix,j],predicted=res['prediction'],train_mean_baseline=res['baseline'],covariate_only_baseline=res['covariate_baseline'],phase=phase)))
             audits.append(row)
-            if n%100==0 or n==len(ids):print(phase,arm,n,'/',len(ids),'seconds',round(time.time()-t0),flush=True)
-    fit_worker.G={}
+            if n%20==0 or n==len(ids):print(phase,arm,n,'/',len(ids),'seconds',round(time.time()-t0),flush=True)
+    fit_worker.G={};no_screen.G={};no_screen._CONTEXTS.clear()
     audit=pd.DataFrame(audits)
     audit.to_parquet(out/'AUDIT.parquet',index=False)
     joblib.dump(models,out/'MODELS.joblib',compress=3)
@@ -60,7 +69,8 @@ def phase_fit(x, y, cov, ids, sf, si, split, inner, ratios, feature_ids, phase, 
     return audit
 
 
-def summarize(out, meta, features):
+def summarize(out, meta, features, require_nonzero_rna=False):
+    if require_nonzero_rna:return no_screen.summarize(out,meta,features)
     combined={}
     for arm in ARMS:
         combined[arm]=pd.concat([pd.read_parquet(out/f'outer{k}'/arm/'PREDICTIONS.parquet') for k in range(5)],ignore_index=True)
@@ -102,11 +112,13 @@ def summarize(out, meta, features):
     return dict(n_paired_targets=len(result),n_complete_fivefold_targets=int(result.complete_fivefold.sum()),n_paired_predictions=len(paired),by_layer=result.groupby('layer').size().to_dict())
 
 
-def run(aligned,splits,covariates,cancer,output,workers):
+def run(aligned,splits,covariates,cancer,output,workers,config=None):
     if socket.gethostname()!='149':raise RuntimeError('Run on 149')
     if cancer not in ['BRCA','LUAD','COAD']:raise ValueError('Three-cancer demo only')
     src=Path(aligned)/cancer;sp=Path(splits)/cancer;cv=Path(covariates)/cancer;out=Path(output)/cancer;out.mkdir(parents=True,exist_ok=True)
-    contract=json.loads((ROOT/'config/m0_three_arm_20261105.json').read_text())
+    contract=json.loads((Path(config) if config else ROOT/'config/m0_three_arm_unscreened_20261105.json').read_text())
+    require_nonzero_rna=contract.get('zero_rna_is_failure',False)
+    screen_enabled=contract.get('screening_enabled',True)
     launch=dict(target_host='149',code_hash=core_hash(),config=contract,input_receipt_sha256=sha(src/'COMPLETE.json'),covariate_receipt_sha256=sha(cv/'COMPLETE.json'),splits_sha256=sha(sp/'SPLITS.json'),cancer=cancer)
     if (out/'LAUNCH_PREFLIGHT.json').exists() and json.loads((out/'LAUNCH_PREFLIGHT.json').read_text())!=launch:raise ValueError('Existing experiment differs')
     write_json(out/'LAUNCH_PREFLIGHT.json',launch)
@@ -154,16 +166,19 @@ def run(aligned,splits,covariates,cancer,output,workers):
                 rec=json.loads((d/'COMPLETE.json').read_text());verify_receipt(d,list(rec['files']));audit=pd.read_parquet(d/'AUDIT.parquet');print('RESUME',cancer,phase,arm,flush=True)
             else:
                 xx=x[:,axes[arm]];feature_ids=features.feature_id.to_numpy()[axes[arm]]
-                print('SCREEN',cancer,phase,arm,'targets',len(ids),flush=True)
-                with threadpool_limits(limits=min(workers,8)):
-                    sf=cohort_screen(xx[ft],y[ft],cov.cohort.iloc[ft],min_abs_rho=contract['min_abs_rho'],max_fdr=contract['max_fdr'],covariates=cov.iloc[ft],target_ids=ids)
-                    si=cohort_screen(xx[tr],y[tr],cov.cohort.iloc[tr],min_abs_rho=contract['min_abs_rho'],max_fdr=contract['max_fdr'],covariates=cov.iloc[tr],target_ids=ids) if inner else None
+                print('SCREEN' if screen_enabled else 'QUALITY_ONLY',cancer,phase,arm,'targets',len(ids),flush=True)
+                if screen_enabled:
+                    with threadpool_limits(limits=min(workers,8)):
+                        sf=cohort_screen(xx[ft],y[ft],cov.cohort.iloc[ft],min_abs_rho=contract['min_abs_rho'],max_fdr=contract['max_fdr'],covariates=cov.iloc[ft],target_ids=ids)
+                        si=cohort_screen(xx[tr],y[tr],cov.cohort.iloc[tr],min_abs_rho=contract['min_abs_rho'],max_fdr=contract['max_fdr'],covariates=cov.iloc[tr],target_ids=ids) if inner else None
+                else:
+                    sf=si=None
                 ratios=np.array([np.median(chosen[arm].get(t,[])) if len(chosen[arm].get(t,[]))>=3 else np.nan for t in ids]) if not inner else np.full(len(ids),np.nan)
-                audit=phase_fit(xx,y,cov,ids,sf,si,spec[phase],spec[inner] if inner else None,ratios,feature_ids,phase,arm,d,workers)
+                audit=phase_fit(xx,y,cov,ids,sf,si,spec[phase],spec[inner] if inner else None,ratios,feature_ids,phase,arm,d,workers,require_nonzero_rna)
                 del sf,si,xx
             if inner:
-                for row in audit.loc[audit.status.eq('FITTED')].itertuples():chosen[arm].setdefault(row.target_id,[]).append(float(row.ratio))
-    summary=summarize(out,meta,features)
+                for row in audit.loc[audit.status.isin(['FITTED',no_screen.FAIL_ZERO])].itertuples():chosen[arm].setdefault(row.target_id,[]).append(float(row.ratio))
+    summary=summarize(out,meta,features,require_nonzero_rna)
     summary.update(cancer_id=cancer,cohort='CPTAC',n_patients=len(keep),clinical_and_purity_complete=int(good.sum()),n_features={a:len(v) for a,v in axes.items()},seconds=round(time.time()-start),upstream_assay_preprocessing='NATIVE_RETAINED_NOT_FOLD_REFIT')
     write_json(out/'COMPLETE.json',dict(status='COMPLETE',target_host='149',launch=launch,summary=summary,files={p.name:sha(p) for p in out.iterdir() if p.is_file() and p.name!='COMPLETE.json'}))
     print('CASE_COMPLETE',json.dumps(summary),flush=True);return summary
@@ -171,6 +186,6 @@ def run(aligned,splits,covariates,cancer,output,workers):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for n in ['aligned','splits','covariates','cancer','output']:p.add_argument('--'+n,required=True)
-    p.add_argument('--workers',type=int,default=8);a=p.parse_args()
+    p.add_argument('--workers',type=int,default=8);p.add_argument('--config');a=p.parse_args()
     if not 1<=a.workers<=24:raise ValueError('At most 24 CPU workers')
-    run(a.aligned,a.splits,a.covariates,a.cancer,a.output,a.workers)
+    run(a.aligned,a.splits,a.covariates,a.cancer,a.output,a.workers,a.config)
