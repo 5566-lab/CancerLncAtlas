@@ -4226,8 +4226,8 @@
       "sha256": "2103fa3f5e1530028ee1e5788144194efc451f75e78fb08a1d42a6419eaf4c3d"
     },
     "scripts/plot_m0_increment.py": {
-      "bytes": 8236,
-      "sha256": "a14e4354c743ada8a65aeb9ea7b4b5fcdf73f4ab105bc972186a59391e5b278a"
+      "bytes": 9193,
+      "sha256": "a8e35503ecde858ede8e6539ea385979beb52cfc1726d89a2ccd960344119b8c"
     },
     "scripts/plot_m0_linear.py": {
       "bytes": 11107,

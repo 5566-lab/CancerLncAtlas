@@ -23,11 +23,12 @@ def classify(f):
         f.loc[f.target_id.str.contains("ESTIMATE::TumorPurity",regex=False),"display_layer"]="STATE_RNA"
     return f
 
-def plot(inputs,output):
+def plot(inputs,output,selected_layers=None):
     assert socket.gethostname()=="149"
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     tab=classify(pd.concat([pd.read_csv(Path(p)/"ALL_TARGET_COMPARISONS.tsv",sep="\t") for p in inputs],ignore_index=True))
     if tab.duplicated(["cancer_id","target_id"]).any():raise ValueError("Overlapping targets in plot inputs")
+    if selected_layers:tab=tab.loc[tab.display_layer.isin(selected_layers)].copy()
     good=tab.loc[tab.complete_fivefold & np.isfinite(tab[["r2_"+a for a in ARMS]]).all(axis=1)].copy()
     layers=[k for k in NAMES if (tab.display_layer==k).any()]
     summary=[]
@@ -41,6 +42,13 @@ def plot(inputs,output):
     tab.to_csv(output/"PLOT_TARGETS.tsv",sep="\t",index=False)
     plt.rcParams.update({"font.family":"DejaVu Sans","font.size":11,"axes.spines.top":False,"axes.spines.right":False,"pdf.fonttype":42})
     def save(fig,name):
+        from matplotlib.ticker import FixedLocator,FuncFormatter
+        for ax in fig.axes:
+            for axis,scale in [(ax.xaxis,ax.get_xscale()),(ax.yaxis,ax.get_yscale())]:
+                if scale=="symlog":
+                    ticks=[-10000,-1000,-100,-10,-1,0,1,10,100,1000,10000]
+                    if "Delta" in ax.get_ylabel() and axis is ax.yaxis:ticks=[-10000,-1000,-100,-10,-1,-.1,0,.1,1,10,100,1000,10000]
+                    axis.set_major_locator(FixedLocator(ticks));axis.set_major_formatter(FuncFormatter(lambda v,pos:f"{v:g}"));axis.set_minor_locator(FixedLocator([]))
         for ext in ["png","pdf"]:fig.savefig(output/(name+"."+ext),dpi=300,bbox_inches="tight")
         plt.close(fig)
     rng=np.random.default_rng(20261105)
@@ -58,10 +66,10 @@ def plot(inputs,output):
                     med=np.median(z);ax.plot([i-.25,i+.25],[med,med],color="#222222",lw=2)
                     ax.text(i,upper-.02*(upper-lower),f"n={len(z)}\nmedian={med:.3f}",ha="center",va="top",fontsize=9)
                 else:ax.text(i,0,"No common\nsuccessful targets",ha="center",fontsize=8)
-            ax.axhline(0,color="#999999",ls="--",lw=.8);ax.set_xticks(range(3),CANCERS);ax.set_xlim(-.6,2.6);ax.set_ylim(lower,upper);ax.set_title(NAMES[layer])
-        axs[0,0].set_ylabel("Held-out pooled R? (five folds)")
+            ax.axhline(0,color="#999999",ls="--",lw=.8);ax.set_xticks(range(3),CANCERS);ax.set_xlim(-.6,2.6);ax.set_yscale("symlog",linthresh=.5);ax.set_ylim(lower,upper);ax.set_title(NAMES[layer])
+        axs[0,0].set_ylabel("Held-out pooled R2 (five folds)")
         fig.suptitle(LABELS[a]+" | clinical and DNA purity covariates included",y=1.04,fontsize=15)
-        fig.text(.5,-.02,"Each point: one cancer ? target. Same targets in all three figures; failed models excluded and reported separately.",ha="center",fontsize=10)
+        fig.text(.5,-.02,"Symmetric-log y axis outside [-0.5, 0.5]. Each point: one cancer x target. Same targets in all three figures; failed models excluded and reported separately.",ha="center",fontsize=10)
         fig.tight_layout();save(fig,f"0{j}_"+a+"_performance")
     fig,axs=plt.subplots(2,len(layers),figsize=(max(9,4.8*len(layers)),8.8),squeeze=False)
     for j,layer in enumerate(layers):
@@ -70,18 +78,18 @@ def plot(inputs,output):
             zz=z.loc[z.cancer_id.eq(c)];ax.scatter(zz.r2_mrna,zz.r2_combined,s=17,alpha=.6,color=["#4778ad","#b45b62","#779d48"][i],label=c,rasterized=True)
         lo=min(-.1,z[["r2_mrna","r2_combined"]].min().min()-.05) if len(z) else -.1
         hi=max(.2,z[["r2_mrna","r2_combined"]].max().max()+.05) if len(z) else 1
-        ax.plot([lo,hi],[lo,hi],color="#777777",ls="--",lw=1);ax.set_xlim(lo,hi);ax.set_ylim(lo,hi);ax.set_xlabel("mRNA R?");ax.set_ylabel("lncRNA + mRNA R?");ax.set_title(NAMES[layer]);ax.legend(frameon=False,fontsize=8)
+        ax.plot([lo,hi],[lo,hi],color="#777777",ls="--",lw=1);ax.set_xscale("symlog",linthresh=.5);ax.set_yscale("symlog",linthresh=.5);ax.set_xlim(lo,hi);ax.set_ylim(lo,hi);ax.set_xlabel("mRNA R2");ax.set_ylabel("lncRNA + mRNA R2");ax.set_title(NAMES[layer]);ax.legend(frameon=False,fontsize=8)
         ax=axs[1,j];d=z.delta_r2_combined_vs_mrna.to_numpy()
         for i,c in enumerate(CANCERS):
             dd=z.loc[z.cancer_id.eq(c),"delta_r2_combined_vs_mrna"].to_numpy()
             if len(dd):
                 ax.scatter(i+rng.uniform(-.18,.18,len(dd)),dd,s=12,alpha=.5,color=np.where(dd>1e-9,"#23836b",np.where(dd< -1e-9,"#b75e59","#999999")),rasterized=True)
                 ax.plot([i-.25,i+.25],[np.median(dd)]*2,color="#222222",lw=2)
-        ax.axhline(0,color="#666666",ls="--",lw=1);ax.set_xticks(range(3),CANCERS);ax.set_ylabel("?R? = combined ? mRNA")
+        ax.axhline(0,color="#666666",ls="--",lw=1);ax.set_xticks(range(3),CANCERS);ax.set_yscale("symlog",linthresh=.05);ax.set_ylabel("Delta R2 = combined - mRNA")
         n=len(d);pos=int((d>1e-9).sum());pct=100*pos/n if n else 0
-        ax.set_title(f"Improved: {pos}/{n} ({pct:.1f}%) | median ?={np.median(d):+.3f}" if n else "No common successful targets",fontsize=11)
+        ax.set_title(f"Improved: {pos}/{n} ({pct:.1f}%) | median delta={np.median(d):+.3f}" if n else "No common successful targets",fontsize=11)
     fig.suptitle("Does adding lncRNA improve prediction?",fontsize=17,y=1.02)
-    fig.text(.5,-.015,"Above diagonal / ?R? > 0: improvement. Exploratory OOF results; target families are correlated; no causal claim.",ha="center",fontsize=10)
+    fig.text(.5,-.015,"All points retained. Symmetric-log axes: linear within +/-0.5 (top), +/-0.05 (bottom). Above diagonal / delta > 0: improvement.",ha="center",fontsize=10)
     fig.tight_layout();save(fig,"04_combined_vs_mrna_comparison")
     # Explicit all-attempted training coverage, independent of common-success performance.
     statuses=[]
@@ -107,4 +115,4 @@ def plot(inputs,output):
     (output/"COMPLETE.json").write_text(json.dumps(dict(target_host="149",inputs=inputs,common_successful_targets=len(good),files=files),indent=2))
     print(json.dumps(summary,indent=2))
 if __name__=="__main__":
-    p=argparse.ArgumentParser();p.add_argument("--inputs",nargs="+",required=True);p.add_argument("--output",required=True);a=p.parse_args();plot(a.inputs,a.output)
+    p=argparse.ArgumentParser();p.add_argument("--inputs",nargs="+",required=True);p.add_argument("--output",required=True);p.add_argument("--layers",nargs="+");a=p.parse_args();plot(a.inputs,a.output,a.layers)
