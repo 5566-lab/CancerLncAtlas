@@ -3682,8 +3682,8 @@
       "sha256": "8441ca8ea7e8eeda735bb3a22837ffb87ba31e0397233972c23a5cc7ca9e352e"
     },
     "scripts/finalize_m0_three_arm.py": {
-      "bytes": 7551,
-      "sha256": "b549190abf4ba369398cf3f0ceaf4903f5a9df59bc143adb8f85c213f6a52365"
+      "bytes": 8601,
+      "sha256": "0bbfcb9da53920a817891c3e4ffd448c4643bd3b539146d78491ed068301addd"
     },
     "scripts/finalize_v32_release_report.py": {
       "bytes": 9058,

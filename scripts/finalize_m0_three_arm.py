@@ -72,6 +72,21 @@ def finalize(root,previous=None):
     if (root/'BRCA'/'TARGET_TRAINING_STATUS.tsv').exists():
         from cc_hhgt.m0_no_screen import append_failure_reports
         extra=append_failure_reports(root,previous)
+        if previous is not None:
+            # The old paired-score table omits some attempted targets lacking
+            # enough evaluation observations. Keep them in failure denominators.
+            reference=pd.read_csv(root/'SCREENING_POLICY_COMPARISON.tsv',sep='\t')
+            for cancer in ['BRCA','LUAD','COAD']:
+                old=Path(previous)/cancer
+                meta=pd.read_csv(old/'TARGETS.tsv',sep='\t')
+                for arm in ARMS:
+                    attempted=set()
+                    for phase in [f'outer{k}' for k in range(5)]+['final']:
+                        attempted.update(pd.read_parquet(old/phase/arm/'AUDIT.parquet',columns=['target_id']).target_id)
+                    for layer,g in meta.groupby('layer'):
+                        mask=reference.cancer_id.eq(cancer)&reference.arm.eq(arm)&reference.layer.eq(layer)
+                        reference.loc[mask,'old_attempted_targets']=len(attempted&set(g.target_id))
+            reference.to_csv(root/'SCREENING_POLICY_COMPARISON.tsv',sep='\t',index=False)
     summary=dict(target_host='149',status='COMPLETE',cases=receipts,total_target_comparisons=len(val),complete_fivefold_target_comparisons=int(val.complete_fivefold.sum()),figures_png=len(list(figs.glob('*.png'))),figures_pdf=len(list(figs.glob('*.pdf'))),primary_comparison='COMBINED_VS_MRNA_PAIRED_OOF',cohort_scope='CPTAC_ONLY_FOR_CURRENT_NATIVE_ASSAY_LABELS',interpretation='Retrospective prediction of native assay-derived scores; no causal or absolute activation claim. Native upstream normalization was not refit within outer folds. Bootstrap intervals condition on fitted OOF predictions and are exploratory.')
     summary.update(extra)
     write_json(root/'SUMMARY.json',summary)
