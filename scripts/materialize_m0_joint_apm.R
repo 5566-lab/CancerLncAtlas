@@ -1,0 +1,34 @@
+# Gaussian-kernel GSVA with training observations as the frozen reference.
+options(stringsAsFactors=FALSE);stopifnot(Sys.info()[['nodename']]=='149')
+a<-commandArgs(trailingOnly=TRUE);root<-a[1];.libPaths(c(strsplit(a[2],':',fixed=TRUE)[[1]],.libPaths()))
+suppressPackageStartupMessages({library(GSVA);library(data.table);library(jsonlite);library(BiocParallel)})
+setDTthreads(1);register(SerialParam());stopifnot(as.character(packageVersion('GSVA'))=='2.4.9')
+manifest<-read_json(file.path(root,'APM_INPUT.json'),simplifyVector=TRUE);stopifnot(manifest$target_host=='149')
+z<-fread(file.path(root,'APM_EXPRESSION.tsv.gz'),check.names=FALSE);e<-t(as.matrix(z[,-1,with=FALSE]));colnames(e)<-z[[1]];rm(z)
+specs<-read_json(file.path(root,'SPLITS.json'),simplifyVector=FALSE);genes<-unlist(read_json(file.path(root,'APM_GENES.json')))
+out<-file.path(root,'apm');dir.create(out,showWarnings=FALSE)
+frozen_apm<-function(e,train,genes){
+ keep<-rowSums(is.finite(e[,train,drop=FALSE]))==length(train) & apply(e[,train,drop=FALSE],1,sd)>0
+ keep[is.na(keep)]<-FALSE;ex<-e[keep,,drop=FALSE];ref<-ex[,train,drop=FALSE]
+ valid<-colSums(!is.finite(ex))==0L;query<-ex[,valid,drop=FALSE]
+ ix<-match(intersect(genes,rownames(ex)),rownames(ex));result<-rep(NA_real_,ncol(e))
+ if(length(ix)<1L)return(list(score=result,genes=rownames(ex),signature_genes=character()))
+ A<-.Call('matrix_density_R',as.double(t(ref)),as.double(t(query)),ncol(ref),ncol(query),nrow(ref),as.integer(TRUE),FALSE,as.integer(1),FALSE,PACKAGE='GSVA')
+ cdf<-t(matrix(A,ncol(query),nrow(query)));dimnames(cdf)<-dimnames(query)
+ ranks<-GSVA:::compute.col.ranks(cdf,ties.method='last')
+ scores<-GSVA:::.compute_gsva_scores(ranks,list(APM_Wang=ix),tau=1,maxDiff=TRUE,absRanking=FALSE,sparse=FALSE,any_na=FALSE,na_use='everything',minSize=1L,ondisk=FALSE,verbose=FALSE)
+ result[valid]<-as.numeric(scores)
+ list(score=result,genes=rownames(ex),signature_genes=rownames(ex)[ix])
+}
+set.seed(20261105);small<-matrix(rnorm(60*24),60,24,dimnames=list(paste0('G',1:60),paste0('S',1:24)))
+gg<-paste0('G',1:12);expected<-GSVA::gsva(GSVA::gsvaParam(small,list(APM_Wang=gg),kcdf='Gaussian'),verbose=FALSE,BPPARAM=SerialParam())
+actual<-frozen_apm(small,1:24,gg)$score;stopifnot(max(abs(actual-as.numeric(expected)))<1e-10)
+write_json(list(target_host='149',native_max_error=max(abs(actual-as.numeric(expected)))),file.path(out,'NATIVE_CHECK.json'),auto_unbox=TRUE)
+run<-function(name){tryCatch({
+ train<-as.integer(unlist(specs[[name]]$train))+1L;cat('APM_START',name,length(train),'\n');flush.console();ans<-frozen_apm(e,train,genes)
+ fwrite(data.table(patient_id=colnames(e),score=ans$score),file.path(out,paste0(name,'.tsv')),sep='\t')
+ write_json(list(target_host='149',split=name,train_patients=colnames(e)[train],background=ans$genes,signature=ans$signature_genes,method='GSVA_Gaussian_kernel_training_reference',input_sha256=manifest$expression_sha256),file.path(out,paste0(name,'.json')),auto_unbox=TRUE,digits=NA)
+ cat('APM_COMPLETE',name,'\n');flush.console();TRUE
+},error=function(err){cat('APM_ERROR',name,conditionMessage(err),'\n');FALSE})}
+ok<-parallel::mclapply(names(specs),run,mc.cores=as.integer(a[3]),mc.preschedule=FALSE)
+stopifnot(all(unlist(ok)));write_json(list(target_host='149',status='COMPLETE',splits=names(specs)),file.path(out,'COMPLETE.json'),auto_unbox=TRUE)

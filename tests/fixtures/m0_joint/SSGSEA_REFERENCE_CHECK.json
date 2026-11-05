@@ -1,0 +1,7 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "maximum_absolute_error": 6.661338147750939e-15,
+  "reference": "GSVA_2.4.9_internal_ssgsea_normalization_FALSE",
+  "package_version_verified_from": "requirements/cptac_R_versions.json and installed GSVA DESCRIPTION"
+}

@@ -1,0 +1,56 @@
+{
+  "target_host": "149",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "model": "M0_SHARED_LNCRNA_LASSO_UNPENALIZED_CLINICAL",
+  "correlation_screen": true,
+  "min_abs_rho": 0.1,
+  "max_fdr": 0.05,
+  "selection_scope": "TRAINING_ONLY",
+  "last_user_instruction": "Include clinical information and fixed source purity as unpenalized covariates; final prediction requires them.",
+  "supersedes": "No correlation prescreen",
+  "hhgt_existing_weak_threshold": {
+    "min_abs_effect": 0.15,
+    "max_fdr": 0.1
+  },
+  "hhgt_definition_not_automatically_replaced": true,
+  "correlation_definition": "CLINICAL_PURITY_COHORT_ADJUSTED_RANK_CORRELATION_TRAIN_ONLY",
+  "adjustments": [
+    "cohort",
+    "age_years",
+    "sex",
+    "stage",
+    "DNA_purity",
+    "cohort_by_purity"
+  ],
+  "not_HHGT_clinical_composition_CNV_adjustment": true,
+  "fdr_family": "CANCER_TARGET_ALL_SUPPLIED_LNCRNAS",
+  "min_pairs": 12,
+  "batch_fit": "TRAIN_ONLY_COHORT_OFFSETS_SHARED_COEFFICIENTS",
+  "validation": "COHORT_STRATIFIED_5_FOLD_AND_BIDIRECTIONAL_LEAVE_COHORT_OUT",
+  "covariate_missing_policy": "COMPLETE_CASE_NO_IMPUTATION",
+  "purity_source": {
+    "TCGA": "absolute_purity",
+    "CPTAC": "WES_purity"
+  },
+  "purity_value_policy": "FIXED_SOURCE_VALUES_NO_RNA_RECOMPUTATION_OR_AVERAGING",
+  "purity_target_policy": "EXCLUDE_SAME_SOURCE_PURITY_WHEN_PREDICTING_PURITY_ITSELF",
+  "lncrna_only_input_superseded_by_user": true,
+  "prediction_requires": [
+    "lncRNA_expression",
+    "age_years",
+    "sex",
+    "stage",
+    "purity",
+    "cohort"
+  ],
+  "covariate_fit": "UNPENALIZED_WEIGHTED_LEAST_SQUARES_PROJECTION;L1_ONLY_ON_LNCRNA",
+  "baseline": "SAME_TRAINING_PATIENTS_COVARIATE_ONLY_MODEL",
+  "full_HHGT_adjustment": false,
+  "excluded_harmonized_targets": {
+    "STATE|ESTIMATE::TumorPurity": "COSINE_PURITY_NOT_CALIBRATED_ON_CURRENT_RNA_BACKGROUND;KEEP_NATIVE_SOURCE_ENDPOINTS_SEPARATE"
+  }
+}

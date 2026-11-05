@@ -22,8 +22,8 @@
       "sha256": "766120bafdace2d5d0d82e1b29424a26530bf39c0c0f30490974d9246b911fd5"
     },
     "README.md": {
-      "bytes": 10944,
-      "sha256": "59b6a51fd636b2cb651e03adf3297dc8d8230afc955c4f36b1908917e6542fea"
+      "bytes": 11577,
+      "sha256": "2c68eccf41b36093698f0a8e3113e4a12a2f85a23a97c92dd109d033d090782d"
     },
     "cc_hhgt/__init__.py": {
       "bytes": 96,
@@ -124,6 +124,18 @@
     "cc_hhgt/label_contract.py": {
       "bytes": 13658,
       "sha256": "559aae0dbd5563d9627c2319572955a68e81e10318e1800e7a10e8e8ce70cd7f"
+    },
+    "cc_hhgt/m0_covariates.py": {
+      "bytes": 3613,
+      "sha256": "4f0ff71c94f4fb1d96e499413f3b118c696df41e25d46aa6aa6a3e4c1fe0c235"
+    },
+    "cc_hhgt/m0_joint_lasso.py": {
+      "bytes": 9374,
+      "sha256": "5f1291a59377a6cfc5af02368500b33b64c3326b14425d6fc7673ae127407c62"
+    },
+    "cc_hhgt/m0_joint_scores.py": {
+      "bytes": 13702,
+      "sha256": "60b7fa4a430dffa630cd758b4728a2a6cd7c4e06d27f5a2db60d05d8fca437e6"
     },
     "cc_hhgt/m0_linear.py": {
       "bytes": 11549,
@@ -1793,6 +1805,10 @@
       "bytes": 44316,
       "sha256": "abe1c2a12edf0b3cc406a8ef521e238aef7ebb9add145f5f4e8d5ac5d4fa6ae4"
     },
+    "config/m0_joint_demo_20261105.json": {
+      "bytes": 1894,
+      "sha256": "f5594817bf534ba27f90a6448bab5b3307337a7d4a6b6ba1dd55b366e53613b7"
+    },
     "config/model_v2.yaml": {
       "bytes": 7145,
       "sha256": "b56e9357b0e0564d1313536b54dc71a1e756622f1da2fd2c5b4c70250fd7d397"
@@ -1976,6 +1992,10 @@
     "docs/M0_CORRELATION_LASSO_DEMO.rst": {
       "bytes": 6830,
       "sha256": "5f90eaa9227f74ba5356907a9d2d3afe9cdf56cdd8b3e8b9232e336cada02368"
+    },
+    "docs/M0_JOINT_CLINICAL_DEMO.rst": {
+      "bytes": 8432,
+      "sha256": "73030149966b4f38153e6f7695db4c1b9fc4e87121f5a7acedc8ad282bf7c977"
     },
     "docs/M0_LINEAR_BASELINE.md": {
       "bytes": 7899,
@@ -2393,6 +2413,10 @@
       "bytes": 3652,
       "sha256": "6204fd25817e18c381605e4150c683262333df7862fa7601ffe3cc8ee8598db0"
     },
+    "provenance/joint_mainline_20261101/M0_JOINT_CLINICAL_20261105.json": {
+      "bytes": 11707,
+      "sha256": "ee1f9fd7bef5be60431f12bd46bef151fa8fa2b8a78dbc1bf5b9533cc7d732ca"
+    },
     "provenance/joint_mainline_20261101/M0_LASSO_DEMO_20261105.json": {
       "bytes": 11190,
       "sha256": "2c523f9f9f8fa93170541b406dbd67a9c3cdb3db684c42375583b4fad14523c8"
@@ -2436,6 +2460,10 @@
     "requirements/cptac_R_versions.json": {
       "bytes": 409,
       "sha256": "9b34b8b453fd0e85d29c369f3897066e61b12e43c92cde92da4aaf97412b6b8d"
+    },
+    "requirements/m0_joint_20261105.txt": {
+      "bytes": 314,
+      "sha256": "d1f013ace10fe222b9a6726a4d366ececcd5f62c91ccb1fb1442cea11ff1b7c7"
     },
     "requirements/m0_lasso_20261104.txt": {
       "bytes": 13,
@@ -3501,6 +3529,10 @@
       "bytes": 58068,
       "sha256": "236b417cbd2cb537a90d1a14b458bd945f766e22b236e2508a81618143f1ff0b"
     },
+    "scripts/cache_m0_joint_scores.py": {
+      "bytes": 9005,
+      "sha256": "afb4ab578043af69f0b847410b29d684f3a6756443ab3e1cb891ac5e09d2ac8a"
+    },
     "scripts/check_v32_cesc_rescue_packages.R": {
       "bytes": 236,
       "sha256": "1241ecb4a8adcc3023d28988b2baba69403707491d1aadd044132b5ff0953dab"
@@ -3616,6 +3648,10 @@
     "scripts/finalize_and_audit_v32_local_cnv_r3.py": {
       "bytes": 44948,
       "sha256": "491aab81f5bb348fcc8c9350f761bacc0a051c400c52c3cddfb82425d75f30ed"
+    },
+    "scripts/finalize_m0_joint_lasso.py": {
+      "bytes": 7907,
+      "sha256": "8441ca8ea7e8eeda735bb3a22837ffb87ba31e0397233972c23a5cc7ca9e352e"
     },
     "scripts/finalize_v32_release_report.py": {
       "bytes": 9058,
@@ -3748,6 +3784,10 @@
     "scripts/materialize_gdc_star_counts.py": {
       "bytes": 1210,
       "sha256": "3eba594d051fe14f489807adabc1ff278f0a1a5b300feb5237022b5ee6ccda81"
+    },
+    "scripts/materialize_m0_joint_apm.R": {
+      "bytes": 3330,
+      "sha256": "63806ccf22175d0a94273cb25ffa79cb42f7c6b57a46b8d04cb629045f91c1af"
     },
     "scripts/materialize_native_genomic_cnv.py": {
       "bytes": 1805,
@@ -4180,6 +4220,18 @@
     "scripts/preflight_v32_single_cell_r7_portable_server.py": {
       "bytes": 27249,
       "sha256": "b4ac8b3bf9e98858b0cee3c0a373dbd315f38e2ecd0f0a754f12b0b7975301f1"
+    },
+    "scripts/prepare_m0_joint_covariates.py": {
+      "bytes": 4027,
+      "sha256": "014c3b0c48d90e905c308648b22436804e1220de0aff7ba5526457d69d654ed0"
+    },
+    "scripts/prepare_m0_joint_rna.py": {
+      "bytes": 7165,
+      "sha256": "efb979bfd483dae5904ee1576bb818fa622cde45ca8f9ff84b5036342757dc40"
+    },
+    "scripts/prepare_m0_joint_splits.py": {
+      "bytes": 3339,
+      "sha256": "857c1f6165407a60577e3c34b090a3ba42e96b33b754e8043cf8f150597ab040"
     },
     "scripts/prepare_m0_lasso_inputs.py": {
       "bytes": 5226,
@@ -4692,6 +4744,10 @@
     "scripts/run_code_acceptance.py": {
       "bytes": 1744,
       "sha256": "06dd1784278e70763d963726e98b1abe75bdc8caa0138dafdbce71f8b54f0664"
+    },
+    "scripts/run_m0_joint_lasso.py": {
+      "bytes": 15889,
+      "sha256": "8200f877fc162858862701c0165c3f4b9ed157c727a81af2d4e7d96cb5fdc5db"
     },
     "scripts/run_m0_linear.py": {
       "bytes": 15619,
@@ -5269,6 +5325,10 @@
       "bytes": 2167,
       "sha256": "a6609c29c12d0847deab498993d112555c0b156be6d65e9dd03941c02d647eed"
     },
+    "tests/fixtures/m0_joint/SSGSEA_REFERENCE_CHECK.json": {
+      "bytes": 266,
+      "sha256": "3af919d8e717163028db88f04e052882574020290ead2ac13650f8cd910afb16"
+    },
     "tests/fixtures/single_cell_batched_lasso_benchmark_preflight_149.json": {
       "bytes": 202,
       "sha256": "8909439c6c694ab42008fdb5b58c1ad606c60a5abbda4b89eb77302af056673f"
@@ -5448,6 +5508,10 @@
     "tests/test_local_cnv_residualization.py": {
       "bytes": 8707,
       "sha256": "88da7b9767ed16af5d01392a7100fb1900ceb042623a21d3cccae770ba01d841"
+    },
+    "tests/test_m0_joint.py": {
+      "bytes": 8083,
+      "sha256": "6bbf233c1efee1012585224a393e9da3f47315c95d2e58c84b82a8f24810b14e"
     },
     "tests/test_m0_linear.py": {
       "bytes": 3270,

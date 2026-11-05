@@ -1,0 +1,409 @@
+{
+  "status": "IMPLEMENTED_AND_TESTED_FULL_DEMO_RUNNING",
+  "target_host": "149",
+  "scientific_config": {
+    "target_host": "149",
+    "cancers": [
+      "BRCA",
+      "LUAD",
+      "COAD"
+    ],
+    "model": "M0_SHARED_LNCRNA_LASSO_UNPENALIZED_CLINICAL",
+    "correlation_screen": true,
+    "min_abs_rho": 0.1,
+    "max_fdr": 0.05,
+    "selection_scope": "TRAINING_ONLY",
+    "last_user_instruction": "Include clinical information and fixed source purity as unpenalized covariates; final prediction requires them.",
+    "supersedes": "No correlation prescreen",
+    "hhgt_existing_weak_threshold": {
+      "min_abs_effect": 0.15,
+      "max_fdr": 0.1
+    },
+    "hhgt_definition_not_automatically_replaced": true,
+    "correlation_definition": "CLINICAL_PURITY_COHORT_ADJUSTED_RANK_CORRELATION_TRAIN_ONLY",
+    "adjustments": [
+      "cohort",
+      "age_years",
+      "sex",
+      "stage",
+      "DNA_purity",
+      "cohort_by_purity"
+    ],
+    "not_HHGT_clinical_composition_CNV_adjustment": true,
+    "fdr_family": "CANCER_TARGET_ALL_SUPPLIED_LNCRNAS",
+    "min_pairs": 12,
+    "batch_fit": "TRAIN_ONLY_COHORT_OFFSETS_SHARED_COEFFICIENTS",
+    "validation": "COHORT_STRATIFIED_5_FOLD_AND_BIDIRECTIONAL_LEAVE_COHORT_OUT",
+    "covariate_missing_policy": "COMPLETE_CASE_NO_IMPUTATION",
+    "purity_source": {
+      "TCGA": "absolute_purity",
+      "CPTAC": "WES_purity"
+    },
+    "purity_value_policy": "FIXED_SOURCE_VALUES_NO_RNA_RECOMPUTATION_OR_AVERAGING",
+    "purity_target_policy": "EXCLUDE_SAME_SOURCE_PURITY_WHEN_PREDICTING_PURITY_ITSELF",
+    "lncrna_only_input_superseded_by_user": true,
+    "prediction_requires": [
+      "lncRNA_expression",
+      "age_years",
+      "sex",
+      "stage",
+      "purity",
+      "cohort"
+    ],
+    "covariate_fit": "UNPENALIZED_WEIGHTED_LEAST_SQUARES_PROJECTION;L1_ONLY_ON_LNCRNA",
+    "baseline": "SAME_TRAINING_PATIENTS_COVARIATE_ONLY_MODEL",
+    "full_HHGT_adjustment": false,
+    "excluded_harmonized_targets": {
+      "STATE|ESTIMATE::TumorPurity": "COSINE_PURITY_NOT_CALIBRATED_ON_CURRENT_RNA_BACKGROUND;KEEP_NATIVE_SOURCE_ENDPOINTS_SEPARATE"
+    }
+  },
+  "integration_check": {
+    "target_host": "149",
+    "status": "PASS",
+    "results": [
+      {
+        "cancer_id": "BRCA",
+        "target_id": "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_ADIPOGENESIS",
+        "n_fit": 878,
+        "n_test": 214,
+        "n_screened": 4279,
+        "n_selected": 693,
+        "purity_used": true,
+        "dual_gap": 9.113497396752782e-05
+      },
+      {
+        "cancer_id": "BRCA",
+        "target_id": "STATE|signifinder::Hypoxia_Buffa",
+        "n_fit": 878,
+        "n_test": 214,
+        "n_screened": 5314,
+        "n_selected": 290,
+        "purity_used": true,
+        "dual_gap": 9.002452208203837e-05
+      },
+      {
+        "cancer_id": "BRCA",
+        "target_id": "STATE_NATIVE_TCGA|absolute_purity_ploidy::purity",
+        "n_fit": 820,
+        "n_test": 197,
+        "n_screened": 4782,
+        "n_selected": 135,
+        "purity_used": false,
+        "dual_gap": 8.680361029228534e-05
+      },
+      {
+        "cancer_id": "BRCA",
+        "target_id": "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_ADIPOGENESIS",
+        "n_fit": 79,
+        "n_test": 21,
+        "n_screened": 3,
+        "n_selected": 2,
+        "purity_used": true,
+        "dual_gap": 4.459210778406941e-13
+      },
+      {
+        "cancer_id": "LUAD",
+        "target_id": "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_ADIPOGENESIS",
+        "n_fit": 453,
+        "n_test": 113,
+        "n_screened": 6452,
+        "n_selected": 81,
+        "purity_used": true,
+        "dual_gap": 9.581468762664969e-05
+      },
+      {
+        "cancer_id": "LUAD",
+        "target_id": "STATE|signifinder::Hypoxia_Buffa",
+        "n_fit": 454,
+        "n_test": 113,
+        "n_screened": 4349,
+        "n_selected": 222,
+        "purity_used": true,
+        "dual_gap": 9.002376709708881e-05
+      },
+      {
+        "cancer_id": "LUAD",
+        "target_id": "STATE_NATIVE_TCGA|absolute_purity_ploidy::purity",
+        "n_fit": 375,
+        "n_test": 94,
+        "n_screened": 2672,
+        "n_selected": 69,
+        "purity_used": false,
+        "dual_gap": 5.756785124427788e-05
+      },
+      {
+        "cancer_id": "LUAD",
+        "target_id": "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_ADIPOGENESIS",
+        "n_fit": 88,
+        "n_test": 20,
+        "n_screened": 2,
+        "n_selected": 0,
+        "purity_used": true,
+        "dual_gap": -1.6653345369377348e-16
+      },
+      {
+        "cancer_id": "COAD",
+        "target_id": "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_ADIPOGENESIS",
+        "n_fit": 379,
+        "n_test": 98,
+        "n_screened": 3927,
+        "n_selected": 155,
+        "purity_used": true,
+        "dual_gap": 7.111819288790899e-05
+      },
+      {
+        "cancer_id": "COAD",
+        "target_id": "STATE|signifinder::Hypoxia_Buffa",
+        "n_fit": 379,
+        "n_test": 98,
+        "n_screened": 962,
+        "n_selected": 131,
+        "purity_used": true,
+        "dual_gap": 5.000349923195424e-05
+      },
+      {
+        "cancer_id": "COAD",
+        "target_id": "STATE_NATIVE_TCGA|absolute_purity_ploidy::purity",
+        "n_fit": 343,
+        "n_test": 84,
+        "n_screened": 2722,
+        "n_selected": 52,
+        "purity_used": false,
+        "dual_gap": 1.701756022531864e-05
+      },
+      {
+        "cancer_id": "COAD",
+        "target_id": "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_ADIPOGENESIS",
+        "n_fit": 75,
+        "n_test": 18,
+        "n_screened": 0,
+        "n_selected": 0,
+        "purity_used": true,
+        "dual_gap": 0.0
+      }
+    ]
+  },
+  "single_cell_purity_audit": {
+    "target_host": "149",
+    "status": "NO_MATCHED_BULK_PATIENT_SC_PURITY_FOUND_IN_CHECKED_CURRENT_ARTIFACTS",
+    "scope": [
+      "current Git source",
+      "active config covariates",
+      "processed tcga_association_covariates",
+      "sc_sample_summary",
+      "bulk_sc_replication",
+      "input resource and dataset manifests",
+      "project input/result directory names to depth 3",
+      "available conversation exports and local Codex sessions"
+    ],
+    "sc_samples": 617,
+    "sc_columns": [
+      "dataset_id",
+      "cancer_id",
+      "sample_id",
+      "patient_id",
+      "n_cells",
+      "malignant_cells",
+      "non_malignant_cells",
+      "uncertain_cells",
+      "sample_id_raw",
+      "sample_class"
+    ],
+    "matched_demo_bulk_ids": {
+      "BRCA": 0,
+      "LUAD": 0,
+      "COAD": 0
+    },
+    "active_purity_sources": [
+      "ESTIMATE in active R62 purity",
+      "ABSOLUTE in absolute_purity"
+    ],
+    "processed_purity_sources": [
+      "ABSOLUTE",
+      "TCGA_publication"
+    ],
+    "caveat": "A differently named external artifact may still exist; no global nonexistence claim."
+  },
+  "covariate_coverage": [
+    {
+      "cancer_id": "BRCA",
+      "cohort": "CPTAC",
+      "n": 121,
+      "n_clinical_complete": 109,
+      "n_clinical_purity_complete": 100,
+      "n_purity": 109
+    },
+    {
+      "cancer_id": "BRCA",
+      "cohort": "TCGA",
+      "n": 1090,
+      "n_clinical_complete": 1066,
+      "n_clinical_purity_complete": 992,
+      "n_purity": 1015
+    },
+    {
+      "cancer_id": "LUAD",
+      "cohort": "CPTAC",
+      "n": 110,
+      "n_clinical_complete": 110,
+      "n_clinical_purity_complete": 108,
+      "n_purity": 108
+    },
+    {
+      "cancer_id": "LUAD",
+      "cohort": "TCGA",
+      "n": 509,
+      "n_clinical_complete": 482,
+      "n_clinical_purity_complete": 459,
+      "n_purity": 483
+    },
+    {
+      "cancer_id": "COAD",
+      "cohort": "CPTAC",
+      "n": 106,
+      "n_clinical_complete": 103,
+      "n_clinical_purity_complete": 102,
+      "n_purity": 105
+    },
+    {
+      "cancer_id": "COAD",
+      "cohort": "TCGA",
+      "n": 454,
+      "n_clinical_complete": 441,
+      "n_clinical_purity_complete": 375,
+      "n_purity": 388
+    }
+  ],
+  "unit_regression_tests": {
+    "passed": 27,
+    "log_sha256": "642ec0fbd2dbaefee9928bbaa86b09d98c48f911951eafa68ef324ca86c4f4da"
+  },
+  "native_R_parity": {
+    "fixed": {
+      "target_host": "149",
+      "status": "PASS",
+      "results": [
+        {
+          "method": "Hypoxia_Buffa",
+          "max_absolute_error": 4.218847493575595e-15
+        },
+        {
+          "method": "CellCycle_Lundberg",
+          "max_absolute_error": 4.547473508864641e-12
+        },
+        {
+          "method": "MitoticIndex_Yang",
+          "max_absolute_error": 3.694822225952521e-13
+        },
+        {
+          "method": "CIN_Carter_70",
+          "max_absolute_error": 9.663381206337363e-13
+        },
+        {
+          "method": "Glycolysis_Zhang",
+          "max_absolute_error": 6.217248937900877e-15
+        },
+        {
+          "method": "LipidMetabolism_Zheng",
+          "max_absolute_error": 5.329070518200751e-15
+        },
+        {
+          "method": "VEGF_Hu",
+          "max_absolute_error": 4.884981308350689e-15
+        },
+        {
+          "method": "IFN_Ayers",
+          "max_absolute_error": 4.884981308350689e-15
+        },
+        {
+          "method": "Tinflam_Ayers",
+          "max_absolute_error": 3.3306690738754696e-16
+        },
+        {
+          "method": "TLS_Cabrita",
+          "max_absolute_error": 4.884981308350689e-15
+        }
+      ]
+    },
+    "xcell": {
+      "target_host": "149",
+      "max_absolute_error": 1.609823385706477e-15,
+      "status": "PASS"
+    },
+    "other": {
+      "STATE|MCPcounter::B lineage": {
+        "max_abs_error": 4.440892098500626e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::CD8 T cells": {
+        "max_abs_error": 4.884981308350689e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::Cytotoxic lymphocytes": {
+        "max_abs_error": 2.886579864025407e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::Endothelial cells": {
+        "max_abs_error": 2.6645352591003757e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::Fibroblasts": {
+        "max_abs_error": 2.6645352591003757e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::Monocytic lineage": {
+        "max_abs_error": 4.6629367034256575e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::Myeloid dendritic cells": {
+        "max_abs_error": 2.220446049250313e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::NK cells": {
+        "max_abs_error": 4.0245584642661925e-16,
+        "pass": true
+      },
+      "STATE|MCPcounter::Neutrophils": {
+        "max_abs_error": 3.774758283725532e-15,
+        "pass": true
+      },
+      "STATE|MCPcounter::T cells": {
+        "max_abs_error": 4.6629367034256575e-15,
+        "pass": true
+      },
+      "STATE|ESTIMATE::ImmuneScore": {
+        "max_abs_error": 1.6370904631912708e-11,
+        "pass": true
+      },
+      "STATE|ESTIMATE::StromalScore": {
+        "max_abs_error": 1.4779288903810084e-11,
+        "pass": true
+      },
+      "STATE|ESTIMATE::ESTIMATEScore": {
+        "max_abs_error": 1.77351466845721e-11,
+        "pass": true
+      },
+      "STATE|ESTIMATE::TumorPurity": {
+        "max_abs_error": 1.5543122344752192e-15,
+        "pass": true
+      },
+      "STATE|IPS::ips_score": {
+        "max_abs_error": 0.0,
+        "pass": true
+      },
+      "CAF": {
+        "max_abs_error": 3.552713678800501e-15,
+        "pass": true
+      },
+      "EXTEND": {
+        "max_abs_error": 1.887379141862766e-15,
+        "pass": true
+      }
+    }
+  },
+  "purity_parity_limitation": "Numerical parity does not establish calibration; harmonized RNA-derived purity was excluded",
+  "result_root": "/dell_2/DSC/CancerLncAtlas/results/model/M0_JOINT_CLINICAL_demo_20261105_r1",
+  "source_package_tests_passed": 6,
+  "other_test_count": 27,
+  "integration_targets_checked": 12
+}

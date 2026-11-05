@@ -22,6 +22,16 @@ requires a replacement target design before preparation or training; it does
 not silently fall back to RNA scores. Separate per-assay heads are not yet
 implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
 
+## Joint TCGA/CPTAC M0 with clinical covariates (2026-11-05)
+
+The joint demo restores a common lncRNA expression axis and fits shared lncRNA
+coefficients within BRCA, LUAD and COAD. Age, sex, stage, fixed source DNA purity
+and cohort terms enter as **unpenalized** covariates, as explicitly selected by
+the user. Training-only partial-rank screening uses `|rho| >= 0.10, FDR <= 0.05`.
+Validation reports the improvement over a clinical/purity-only baseline.
+See [methods, input requirements and limitations](docs/M0_JOINT_CLINICAL_DEMO.rst).
+A completed model requires result receipts; code availability is not training completion.
+
 ## Correlation-screened Lasso demo (2026-11-05)
 
 The three-cancer extension restores the full shared TCGA/CPTAC lncRNA input
