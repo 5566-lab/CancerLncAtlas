@@ -25,7 +25,7 @@ def worker(j):
     purity=uses_purity(tid); eligible=complete_rows(cov,purity); y=G["yf"][:,j]
     ft=G["ft"]; ft=ft[np.isfinite(y[ft]) & eligible[ft]]
     base=dict(j=j,n_fit=len(ft),purity_covariate_used=purity,
-        adjustment="AGE_SEX_STAGE_COHORT_FIXED_DNA_PURITY",
+        adjustment="AGE_SEX_STAGE_COHORT"+("_FIXED_DNA_PURITY" if purity else "_PURITY_SELF_EXCLUDED"),
         screening_applied=False,n_candidates=x.shape[1])
     if len(ft)<12:
         return dict(**base,status="INSUFFICIENT_OBSERVED_TRAINING")

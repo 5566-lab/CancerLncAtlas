@@ -142,16 +142,16 @@
       "sha256": "312fd06eda9ec0a36572eaaeb39579e5264cd518aa81e2b9b21a767612920706"
     },
     "cc_hhgt/m0_no_screen.py": {
-      "bytes": 17300,
-      "sha256": "6110e1753128dc2f056379dea71ce97974c875ed4a9c21c78f90c555515b426f"
+      "bytes": 17344,
+      "sha256": "4fc8a41d0172257c3700a36baea084c22ad348eba87fc1a526497f6d0263e6ce"
     },
     "cc_hhgt/m0_screened_lasso.py": {
       "bytes": 9056,
       "sha256": "7dfa7adab6c30932a0172ead6437275179761339d9773cab9a4d0ae2c2575131"
     },
     "cc_hhgt/m0_three_arm.py": {
-      "bytes": 6286,
-      "sha256": "965253e2eee86cc28f0e3da3f529654ac6c6bb457bd70447f7abfcf335f38fd5"
+      "bytes": 6511,
+      "sha256": "2e196a2c5556d057fcddad7643432ca3c739ba253793019be8c294b62c82b930"
     },
     "cc_hhgt/materialize.py": {
       "bytes": 4297,
@@ -1821,6 +1821,10 @@
       "bytes": 1111,
       "sha256": "c37e54ce7c5080a624b272ae863630d3ff365d5095a216a282effc26fb98ba97"
     },
+    "config/m0_three_arm_alltargets_20261105.json": {
+      "bytes": 1921,
+      "sha256": "1adbd0256e858e91ead152c79ac25b64092e690f904dcb3986c3455497436a8e"
+    },
     "config/m0_three_arm_unscreened_20261105.json": {
       "bytes": 1570,
       "sha256": "029a5c5127c2726b5c7977c2a19a5db5fde2234b7be6e64f9ca76776f7b1ff5b"
@@ -2004,6 +2008,10 @@
     "docs/LOCAL_CNV_PATIENT_SCOPES_20261027.rst": {
       "bytes": 6451,
       "sha256": "dc4a4b0853870a88a969aeb4f00e03a7911da9dea42be31e08c10cd3ad4e7ffa"
+    },
+    "docs/M0_ALL_TARGET_INCREMENT_20261105.rst": {
+      "bytes": 1930,
+      "sha256": "71e905b5708325e3618f320a6d23808d7b4b86d1746877457887de3f43295abf"
     },
     "docs/M0_CORRELATION_LASSO_DEMO.rst": {
       "bytes": 6830,
@@ -4217,6 +4225,10 @@
       "bytes": 11250,
       "sha256": "2103fa3f5e1530028ee1e5788144194efc451f75e78fb08a1d42a6419eaf4c3d"
     },
+    "scripts/plot_m0_increment.py": {
+      "bytes": 8236,
+      "sha256": "a14e4354c743ada8a65aeb9ea7b4b5fcdf73f4ab105bc972186a59391e5b278a"
+    },
     "scripts/plot_m0_linear.py": {
       "bytes": 11107,
       "sha256": "bf4c1e635b1770ad05109daf4c9da750d4f909510e08b0d568ec2570dbdab94e"
@@ -4790,8 +4802,8 @@
       "sha256": "b31eb69d3c4dcd0ff91e38f0b8bf1be91afd4f007b886932972a75d60b06489e"
     },
     "scripts/run_m0_three_arm.py": {
-      "bytes": 15260,
-      "sha256": "71622492b3e75c16258224798574b871731719fdf2eb7f05df12130dc81acbd3"
+      "bytes": 15794,
+      "sha256": "ed3e8554f549235b0110e0031c9e3dc64d3541aae3163dd14f33c799e478aa15"
     },
     "scripts/run_native_annotation_workflow.py": {
       "bytes": 715,
@@ -5544,6 +5556,10 @@
     "tests/test_local_cnv_residualization.py": {
       "bytes": 8707,
       "sha256": "88da7b9767ed16af5d01392a7100fb1900ceb042623a21d3cccae770ba01d841"
+    },
+    "tests/test_m0_alltargets.py": {
+      "bytes": 1173,
+      "sha256": "65b1c6641e44775e9c5f0d8b870f48e4dc56f95988b98814933746424523bd2a"
     },
     "tests/test_m0_joint.py": {
       "bytes": 8083,

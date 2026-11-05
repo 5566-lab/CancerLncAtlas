@@ -29,16 +29,19 @@ def feature_axes(annotation):
     return a, axes
 
 
-def select_targets(metadata, cohort='CPTAC'):
-    # Explicit assay-layer whitelist. RNA-derived States, TF activities and RNA
-    # pathways never enter this comparison merely because of their names.
-    m = metadata.loc[metadata.cohort.eq(cohort) & metadata.layer.isin(LAYERS)].copy()
+def select_targets(metadata, cohort='CPTAC', layers=None):
+    # RNA-derived endpoints require an explicit extension contract.
+    layers = tuple(LAYERS if layers is None else layers)
+    if not layers or set(layers) - set(LAYERS) - {'RNA_PATHWAY', 'STATE'}:
+        raise ValueError('Unsupported target layers')
+    m = metadata.loc[metadata.cohort.eq(cohort) & metadata.layer.isin(layers)].copy()
     if m.target_id.duplicated().any():
         raise ValueError('Duplicate native assay target')
     if not m.target_id.str.split('|').str[0].eq(m.layer).all():
         raise ValueError('Target layer/provenance mismatch')
     m['scope'] = 'NATIVE_CPTAC_ONLY'
     m['analysis_role'] = np.where(m.layer.eq('METHYLATION_PATHWAY'), 'SECONDARY', 'PRIMARY')
+    m.loc[m.layer.isin(['RNA_PATHWAY','STATE']), 'analysis_role'] = 'EXPLORATORY_EXISTING_SCORE_RECONSTRUCTION'
     m['normalization_limit'] = 'Upstream native assay preprocessing retained; not fitted anew within outer folds'
     return m.reset_index(drop=True)
 

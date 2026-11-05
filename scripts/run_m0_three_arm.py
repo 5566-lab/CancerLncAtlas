@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT));sys.path.insert(0,str(ROOT/'scripts'))
 from cla_engine.common import sha
 from run_m0_linear import write_json
-from cc_hhgt.m0_covariates import complete_rows
+from cc_hhgt.m0_covariates import complete_rows, uses_purity
 from cc_hhgt.m0_joint_lasso import cohort_screen
 from cc_hhgt.m0_three_arm import ARMS, feature_axes, select_targets, restrict_split, matched_predictions, compare_target, regression_metrics
 import run_m0_joint_lasso as fit_worker
@@ -139,12 +139,17 @@ def run(aligned,splits,covariates,cancer,output,workers,config=None):
     del original_lnc,raw
     cov=pd.read_parquet(cv/'COVARIATES.parquet').reindex(keep)
     if not cov.cohort.eq('CPTAC').all():raise ValueError('CPTAC covariate alignment failure')
-    meta=select_targets(pd.read_csv(src/'NATIVE_TARGETS.tsv',sep='\t'))
+    meta=select_targets(pd.read_csv(src/'NATIVE_TARGETS.tsv',sep='\t'), layers=contract.get('target_layers'))
+    # State is first for early checkpoint availability; values themselves are unchanged.
+    if contract.get('target_layers'):
+        meta=meta.assign(_order=meta.layer.map({'STATE':0,'RNA_PATHWAY':1}).fillna(2)).sort_values('_order',kind='stable').drop(columns='_order').reset_index(drop=True)
     yf=pd.read_parquet(src/'CPTAC_NATIVE_Y.parquet',columns=meta.target_id.to_list()).reindex(keep)
     if np.isinf(yf.to_numpy()).any():raise ValueError('Infinite native assay score')
     good=complete_rows(cov,True)
     meta['n_observed_y']=np.isfinite(yf.to_numpy()).sum(axis=0)
-    meta['n_observed_y_and_clinical_purity']=np.isfinite(yf.loc[good].to_numpy()).sum(axis=0)
+    eligibility=np.column_stack([complete_rows(cov,uses_purity(t)) for t in meta.target_id])
+    meta['n_observed_y_and_clinical_purity']=(np.isfinite(yf.to_numpy()) & eligibility).sum(axis=0)
+    meta['purity_covariate_used']=[uses_purity(t) for t in meta.target_id]
     meta['availability']=np.where(meta.n_observed_y.eq(0),'NO_MEASURED_Y','OBSERVED_NATIVE_Y')
     meta.to_csv(out/'TARGETS.tsv',sep='\t',index=False)
     features.to_csv(out/'FEATURES.tsv',sep='\t',index=False)
@@ -156,8 +161,8 @@ def run(aligned,splits,covariates,cancer,output,workers,config=None):
     chosen={a:{} for a in ARMS};start=time.time()
     for phase,inner in [(f'outer{k}',f'inner{k}') for k in range(5)]+[('final',None)]:
         ft=np.asarray(spec[phase]['train'],int);tr=np.asarray(spec[inner]['train'],int) if inner else np.empty(0,int)
-        valid=np.flatnonzero((np.isfinite(yf.iloc[ft].to_numpy())&good[ft,None]).sum(axis=0)>=12)
-        if inner:valid=valid[(np.isfinite(yf.iloc[tr,valid].to_numpy())&good[tr,None]).sum(axis=0)>=12]
+        valid=np.flatnonzero((np.isfinite(yf.iloc[ft].to_numpy())&eligibility[ft]).sum(axis=0)>=12)
+        if inner:valid=valid[(np.isfinite(yf.iloc[tr,valid].to_numpy())&eligibility[tr][:,valid]).sum(axis=0)>=12]
         ids=meta.target_id.to_numpy()[valid].tolist();y=yf.iloc[:,valid].to_numpy(float)
         if not len(ids):raise ValueError('No assay targets have enough observed training patients')
         for arm in ARMS:

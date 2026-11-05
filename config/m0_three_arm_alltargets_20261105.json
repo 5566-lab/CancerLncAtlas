@@ -1,0 +1,47 @@
+{
+  "target_host": "149",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "arms": [
+    "lncrna",
+    "mrna",
+    "combined"
+  ],
+  "primary_layers": [
+    "RNA_PATHWAY",
+    "STATE"
+  ],
+  "secondary_layers": [],
+  "target_cohort": "CPTAC",
+  "screening": "NONE;TRAIN_ONLY_FINITE_AND_RESIDUAL_VARIANCE_QUALITY_CHECKS",
+  "penalized_features": "RNA_COEFFICIENTS_ONLY",
+  "unpenalized_covariates": [
+    "age",
+    "sex",
+    "stage",
+    "fixed_DNA_purity"
+  ],
+  "split_authority": "EXISTING_JOINT_DEMO_FIVE_OUTER_FOLDS_AND_INNER_HOLDOUTS",
+  "native_y": "EXISTING_CPTAC_NATIVE_SCORES_UNCHANGED;UPSTREAM_PREPROCESSING_NOT_REFIT_WITHIN_FOLDS",
+  "comparison": "PAIRED_IDENTICAL_SUCCESSFUL_TARGETS_PATIENTS_Y_COVARIATES_SPLITS_WITH_ALL_ATTEMPTED_FAILURE_DENOMINATORS",
+  "primary_question": "COMBINED_VERSUS_MRNA_INCREMENT_FOR_ALL_EXISTING_CPTAC_SCORES",
+  "absolute_pathway_activation": false,
+  "causal_claim": false,
+  "rna_derived_targets_included": true,
+  "bootstrap": "1000_PAIRED_PATIENT_RESAMPLES_OF_FIXED_OOF_ERRORS;EXPLORATORY;NO_MODEL_REFITTING_OR_MULTIPLE_TARGET_CORRECTION",
+  "screening_enabled": false,
+  "zero_rna_is_failure": true,
+  "failure_rule": "ANY_ZERO_RNA_OR_OTHER_FAILURE_IN_FIVE_OUTER_FOLDS_OR_FINAL_EXCLUDES_SUCCESS",
+  "quality_rule": "At least two observed values per training cohort; positive residual variance after clinical/purity projection; train-only median imputation and scaling",
+  "hyperparameter_policy": "Same 25 alpha ratios and inner holdout splits as screened reference; no correlation/FDR preselection",
+  "target_layers": [
+    "RNA_PATHWAY",
+    "STATE"
+  ],
+  "interpretation": "RNA-derived scores are reconstruction targets; do not infer independent assay prediction or causal regulation",
+  "purity_self_prediction": "Exclude DNA purity covariate when DNA purity is the target",
+  "execution_scope": "Same three-cancer CPTAC demo as existing assay benchmark"
+}
