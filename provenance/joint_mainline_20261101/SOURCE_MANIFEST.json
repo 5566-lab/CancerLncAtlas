@@ -2426,8 +2426,8 @@
       "sha256": "6204fd25817e18c381605e4150c683262333df7862fa7601ffe3cc8ee8598db0"
     },
     "provenance/joint_mainline_20261101/M0_JOINT_CLINICAL_20261105.json": {
-      "bytes": 11707,
-      "sha256": "ee1f9fd7bef5be60431f12bd46bef151fa8fa2b8a78dbc1bf5b9533cc7d732ca"
+      "bytes": 13390,
+      "sha256": "0ba95e167d654769134f3c737f47f931f8aec453fbfe06bb87524d2d921ba2a3"
     },
     "provenance/joint_mainline_20261101/M0_LASSO_DEMO_20261105.json": {
       "bytes": 11190,

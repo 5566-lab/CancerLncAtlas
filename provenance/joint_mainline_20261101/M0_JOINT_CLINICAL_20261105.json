@@ -1,5 +1,5 @@
 {
-  "status": "IMPLEMENTED_AND_TESTED_FULL_DEMO_RUNNING",
+  "status": "FULL_DEMO_COMPLETE",
   "target_host": "149",
   "scientific_config": {
     "target_host": "149",
@@ -405,5 +405,59 @@
   "result_root": "/dell_2/DSC/CancerLncAtlas/results/model/M0_JOINT_CLINICAL_demo_20261105_r1",
   "source_package_tests_passed": 6,
   "other_test_count": 27,
-  "integration_targets_checked": 12
+  "integration_targets_checked": 12,
+  "training_code_commit": "6ae3dde2b34596ed1fe18ea485cb66833ace7c7b",
+  "result_summary": {
+    "target_host": "149",
+    "status": "COMPLETE",
+    "cases": [
+      {
+        "cancer_id": "BRCA",
+        "n_patients": 1211,
+        "cohort_counts": {
+          "TCGA": 1090,
+          "CPTAC": 121
+        },
+        "n_input_lncrnas": 16871,
+        "n_final_models": 4258,
+        "nonempty_signatures": 2804,
+        "selected_gene_rows": 772507,
+        "heldout_predictions": 2736534,
+        "seconds": 19865
+      },
+      {
+        "cancer_id": "LUAD",
+        "n_patients": 619,
+        "cohort_counts": {
+          "TCGA": 509,
+          "CPTAC": 110
+        },
+        "n_input_lncrnas": 16868,
+        "n_final_models": 5919,
+        "nonempty_signatures": 2577,
+        "selected_gene_rows": 450114,
+        "heldout_predictions": 1693483,
+        "seconds": 5956
+      },
+      {
+        "cancer_id": "COAD",
+        "n_patients": 560,
+        "cohort_counts": {
+          "TCGA": 454,
+          "CPTAC": 106
+        },
+        "n_input_lncrnas": 16871,
+        "n_final_models": 4016,
+        "nonempty_signatures": 2411,
+        "selected_gene_rows": 357097,
+        "heldout_predictions": 1264630,
+        "seconds": 3909
+      }
+    ],
+    "total_final_models": 14193,
+    "nonempty_signatures": 7792,
+    "shared_targets_both_cohorts_positive_r2_and_increment": 6508,
+    "note": "Positive metrics are descriptive screening flags, not a causal or independently replicated signature claim. Missing clinical/purity values and unsupported clinical categories reduce evaluation coverage."
+  },
+  "result_complete_sha256": "a1e21a5a9d13bd5f2aa379b124aaa4b2f253f37a97d78a7d43eb9773669885a7"
 }
