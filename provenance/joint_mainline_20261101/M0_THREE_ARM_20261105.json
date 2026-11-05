@@ -1,5 +1,5 @@
 {
-  "status": "TESTED_DEMO_QUEUED_OR_RUNNING",
+  "status": "FULL_THREE_ARM_DEMO_COMPLETE",
   "target_host": "149",
   "source_base_commit": "6ae3dde2b34596ed1fe18ea485cb66833ace7c7b",
   "scientific_config": {
@@ -41,7 +41,83 @@
     "rna_derived_targets_included": false,
     "bootstrap": "1000_PAIRED_PATIENT_RESAMPLES_OF_FIXED_OOF_ERRORS;EXPLORATORY;NO_MODEL_REFITTING_OR_MULTIPLE_TARGET_CORRECTION"
   },
-  "training_results_available": false,
+  "training_results_available": true,
   "test_log_sha256": "013a2701f387f9b7dcee1aa8a4ecfbf5be791871d293c2b91b7e32d7a47d499a",
-  "test_summary": "21 passed in 4.59s"
+  "test_summary": "21 passed in 4.59s",
+  "training_code_commit": "70f14ef445102d4f75714f043e93406583e66c19",
+  "result_summary": {
+    "target_host": "149",
+    "status": "COMPLETE",
+    "cases": [
+      {
+        "n_paired_targets": 1854,
+        "n_complete_fivefold_targets": 1832,
+        "n_paired_predictions": 176154,
+        "by_layer": {
+          "PHOSPHO_PTMSEA": 324,
+          "PROTEIN_PATHWAY": 1530
+        },
+        "cancer_id": "BRCA",
+        "cohort": "CPTAC",
+        "n_patients": 121,
+        "clinical_and_purity_complete": 100,
+        "n_features": {
+          "lncrna": 16871,
+          "mrna": 19912,
+          "combined": 36783
+        },
+        "seconds": 3781,
+        "upstream_assay_preprocessing": "NATIVE_RETAINED_NOT_FOLD_REFIT"
+      },
+      {
+        "n_paired_targets": 3518,
+        "n_complete_fivefold_targets": 3490,
+        "n_paired_predictions": 353541,
+        "by_layer": {
+          "METHYLATION_PATHWAY": 1606,
+          "PHOSPHO_PTMSEA": 366,
+          "PROTEIN_PATHWAY": 1546
+        },
+        "cancer_id": "LUAD",
+        "cohort": "CPTAC",
+        "n_patients": 110,
+        "clinical_and_purity_complete": 108,
+        "n_features": {
+          "lncrna": 16868,
+          "mrna": 19912,
+          "combined": 36780
+        },
+        "seconds": 6910,
+        "upstream_assay_preprocessing": "NATIVE_RETAINED_NOT_FOLD_REFIT"
+      },
+      {
+        "n_paired_targets": 1619,
+        "n_complete_fivefold_targets": 1586,
+        "n_paired_predictions": 141313,
+        "by_layer": {
+          "PHOSPHO_PTMSEA": 295,
+          "PROTEIN_PATHWAY": 1324
+        },
+        "cancer_id": "COAD",
+        "cohort": "CPTAC",
+        "n_patients": 106,
+        "clinical_and_purity_complete": 102,
+        "n_features": {
+          "lncrna": 16871,
+          "mrna": 19912,
+          "combined": 36783
+        },
+        "seconds": 2652,
+        "upstream_assay_preprocessing": "NATIVE_RETAINED_NOT_FOLD_REFIT"
+      }
+    ],
+    "total_target_comparisons": 6991,
+    "complete_fivefold_target_comparisons": 6908,
+    "figures_png": 12,
+    "figures_pdf": 12,
+    "primary_comparison": "COMBINED_VS_MRNA_PAIRED_OOF",
+    "cohort_scope": "CPTAC_ONLY_FOR_CURRENT_NATIVE_ASSAY_LABELS",
+    "interpretation": "Retrospective prediction of native assay-derived scores; no causal or absolute activation claim. Native upstream normalization was not refit within outer folds. Bootstrap intervals condition on fitted OOF predictions and are exploratory."
+  },
+  "result_complete_sha256": "d88a6b021eb883dc93ec074fb96cf196bf4cabc0ee54618408a73bcb4cd1c2ba"
 }
