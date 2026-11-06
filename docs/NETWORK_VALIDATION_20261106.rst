@@ -310,3 +310,38 @@ the original module solver on identical partitions, checks the exact zero-power
 ridge fallback, verifies 72 saved models, and rejects resolution-one provenance.
 Actual patient performance and final artifacts remain pending until the new
 33 phases and their independent audits complete.
+
+Resolution-four comparative report
+----------------------------------
+
+After both experiments and their independent audits complete, the
+scripts/report_network_resolution_validation.py reporter compares the fine union
+with the original coarse union, adaptive-omics ridge, equal ridge, the legacy
+RNA Laplacian and five fine random-network controls. It binds the original
+summary and phase files, checks identical input receipts, shared core code and
+split definitions, and pairs every prediction with the original equal-ridge
+patient's observed label. A missing patient, changed label or duplicate
+prediction rejects the comparison.
+
+It exports all candidate training statuses, successful and failed target
+counts, actual observed/evaluated patient coverage, selected hyperparameters,
+per-cancer/per-repeat paired differences and three-arm comparisons. Target
+evaluation requires five outer fits and the final fit; finite negative R2 is
+retained. Six PNG/PDF figure pairs include one figure per RNA arm, arm
+differences, fine-versus-coarse/adaptive differences, and primary protein/phospho
+patient-bootstrap intervals.
+
+The primary bootstrap uses the same patient support across both repeats and
+all compared methods. It holds the original common-support target variance
+fixed, uses equal score-family and cancer weights, and averages the errors of
+five null models rather than their predictions. Intervals are conditional on
+the fitted models. All-layer figures average only targets available in both
+outer repetitions. The report preserves the exploratory status of the
+topology-based resolution change and the retrospective, platform-native label
+definition; it makes no TCPA-CPTAC calibration claim.
+
+Synthetic report tests verify an independently calculated R2, model difference
+and five-null error contrast, retain unavailable and failed targets and
+negative R2, reject incorrect pairing, and check all six figure pairs. These
+test outputs are separate from actual patient results. A generated report is
+explicitly marked as requiring scientific and visual review.

@@ -1,0 +1,12 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "new_tests": 2,
+  "total_unique_relevant_tests": 25,
+  "training_core_unchanged": true,
+  "files": {
+    "scripts/report_network_resolution_validation.py": "b76ffe9540db9b11df11692d8bcc689a10ae438bf1c45ab83d96a23a97ff9940",
+    "tests/test_network_resolution_reporting.py": "ef539c8d1bc53510fb13624cc6db46e0aca9081f2642e84fef6b19885741b0f0"
+  },
+  "scope": "Synthetic report tests only; actual patient figures and conclusions pending"
+}

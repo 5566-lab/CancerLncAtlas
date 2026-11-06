@@ -1,0 +1,10 @@
+{
+  "target_host": "149",
+  "stage": "SYNTHETIC_FINE_REPORT_TESTS",
+  "time": 1793946854.2307007,
+  "temporary_directory": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/tmp/fine_report_tests_1793946854216138430",
+  "code": {
+    "scripts/report_network_resolution_validation.py": "b76ffe9540db9b11df11692d8bcc689a10ae438bf1c45ab83d96a23a97ff9940",
+    "tests/test_network_resolution_reporting.py": "ef539c8d1bc53510fb13624cc6db46e0aca9081f2642e84fef6b19885741b0f0"
+  }
+}
