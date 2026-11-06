@@ -1,0 +1,11 @@
+{
+  "target_host": "149",
+  "stage": "COMPILED_EXPORT_AND_INDEPENDENT_AUDIT_TEST",
+  "code": {
+    "cc_hhgt/network_ridge_predict_fast.py": "1fa36522ffc4c39a86b78ca7f426e69b89f7d122c8912b9000621cccee6f21be",
+    "scripts/audit_network_compiled_models.py": "36b3ac9ec41befa24ec1cbb4b27af81f8acf4a80cbf8c8ce5abbd28a70444c9b",
+    "tests/test_network_fast_predict.py": "ec12d0297ae2e338d450bee4284d302b90aa9fe8f1af12f6425426a9e40af626"
+  },
+  "temporary_directory": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/tmp/compiled_export_tests_1793954521979949950",
+  "time": 1793954521.990434
+}

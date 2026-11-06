@@ -1,0 +1,43 @@
+         72304456 function calls (71421941 primitive calls) in 85.242 seconds
+
+   Ordered by: cumulative time
+   List reduced from 298 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    1.696    1.696   85.242   85.242 /dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/reporting_repo/cc_hhgt/network_ridge_predict.py:12(coefficients)
+   220591    0.957    0.000   72.906    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/indexing.py:1192(__getitem__)
+   220591    1.279    0.000   70.922    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/indexing.py:1740(_getitem_axis)
+   220604    1.251    0.000   65.150    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/frame.py:4292(_ixs)
+   220591    9.852    0.000   57.833    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/internals/managers.py:1153(fast_xs)
+        3    0.991    0.330   38.119   12.706 /dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/reporting_repo/cc_hhgt/network_ridge_predict.py:37(<listcomp>)
+  1288628    3.603    0.000   20.147    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/internals/blocks.py:1934(iget)
+   220591    0.323    0.000   19.545    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/internals/managers.py:111(interleaved_dtype)
+   220591    2.659    0.000   19.174    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/cast.py:1306(find_common_type)
+  1288670    9.864    0.000   15.106    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/arrays/arrow/array.py:721(__getitem__)
+   220591    1.454    0.000   14.049    0.000 {built-in method fromkeys}
+  1288621    1.293    0.000    8.401    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/arrays/string_.py:257(__hash__)
+  1288621    1.199    0.000    7.109    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/base.py:474(__hash__)
+   127783    0.407    0.000    6.618    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/generic.py:6179(__getattr__)
+20203454/20203430    4.888    0.000    6.481    0.000 {built-in method builtins.isinstance}
+  1288621    2.941    0.000    5.909    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/base.py:150(__hash__)
+  1614073    3.547    0.000    5.137    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/arrays/string_.py:235(__eq__)
+   127777    0.423    0.000    3.935    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/indexes/base.py:5446(_can_hold_identifiers_and_holds_name)
+   220591    0.898    0.000    3.798    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/series.py:945(__getitem__)
+  1288676    3.165    0.000    3.166    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/indexers/utils.py:441(check_array_indexer)
+   220604    0.533    0.000    3.017    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/frame.py:686(_constructor_sliced_from_mgr)
+  3865863    1.619    0.000    2.968    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/base.py:153(<genexpr>)
+   220634    0.370    0.000    2.272    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/indexes/base.py:1033(view)
+   220628    1.474    0.000    2.143    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/generic.py:6119(__finalize__)
+   220597    0.364    0.000    2.111    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/common.py:105(is_bool_indexer)
+2078503/1196036    1.134    0.000    1.976    0.000 {built-in method builtins.len}
+   220591    0.606    0.000    1.937    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/series.py:1029(_get_value)
+   220609    0.581    0.000    1.863    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/indexes/base.py:779(_view)
+   220616    0.344    0.000    1.708    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/generic.py:294(_from_mgr)
+   127777    0.184    0.000    1.665    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/common.py:610(is_string_dtype)
+  3808210    1.304    0.000    1.627    0.000 {built-in method builtins.getattr}
+  1103087    0.730    0.000    1.593    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/generic.py:43(_instancecheck)
+   220591    0.550    0.000    1.510    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/indexing.py:1688(_validate_integer)
+   127778    0.173    0.000    1.454    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/common.py:1600(_is_dtype)
+   127783    0.275    0.000    1.451    0.000 /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/lib/python3.11/site-packages/pandas/core/dtypes/common.py:142(is_object_dtype)
+
+

@@ -1,0 +1,16 @@
+{
+  "target_host": "149",
+  "stage": "ONE_REAL_MODEL_EXPORT_EQUIVALENCE_AND_TIMING",
+  "model_key": [
+    "STATE|absolute_purity_ploidy::purity",
+    "module_ridge_union",
+    "combined"
+  ],
+  "source_selection": "First lexicographic completed State purity target; no predictive performance consulted",
+  "code": {
+    "cc_hhgt/network_ridge_predict.py": "0035b1a3434d399c2b51bbfebacc6d56d0c0cb7c75a1f62fbb3a22d4771848d7",
+    "cc_hhgt/network_ridge_predict_fast.py": "1fa36522ffc4c39a86b78ca7f426e69b89f7d122c8912b9000621cccee6f21be"
+  },
+  "final_receipt_sha256": "bfe0bb049e728bc6b70079559b4bd1df2d45a46425be20ed54734a11e2ce6239",
+  "time": 1793954116.0199175
+}

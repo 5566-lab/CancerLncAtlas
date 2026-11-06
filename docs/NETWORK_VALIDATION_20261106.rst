@@ -345,3 +345,38 @@ and five-null error contrast, retain unavailable and failed targets and
 negative R2, reject incorrect pairing, and check all six figure pairs. These
 test outputs are separate from actual patient results. A generated report is
 explicitly marked as requiring scientific and visual review.
+
+Vectorized frozen-model export
+------------------------------
+
+The optional cc_hhgt.network_ridge_predict_fast API exports the same coefficients
+as the frozen predictor without constructing a pandas row for every feature.
+Its compile_model function stores coefficients, feature order, nuisance
+coefficients and frozen preprocessing once; predict_compiled reuses them for
+subsequent query batches. The compiled artifact contains fitted parameters,
+not reference-patient rows. This changes export and prediction efficiency,
+not model fitting, network weights, target definitions or validation splits.
+
+The regression test compares 272 saved base/module models with the frozen API,
+including missing assays, availability indicators, dropped constant features,
+background groups, query reordering and missing clinical data. It also checks
+88 models through the independent normal-equation artifact audit using cached
+compiled exports. Legacy Laplacian models retain their separate prediction
+contract.
+
+One completed BRCA union model was additionally checked on actual inputs:
+92,833 exported coefficients and all 109 supported predictions were identical
+between implementations. Compilation took approximately 1.46 seconds and the
+compiled full-cohort prediction took 2.08 seconds in that run. The original
+export took 85.25 seconds under cProfile, mainly in repeated pandas row access;
+profiling overhead means these timings are not a controlled speedup ratio.
+This bounded check demonstrates export equivalence, not heldout predictive
+performance or universal runtime.
+
+Run scripts/audit_network_compiled_models.py with the same input, network and
+result directories and a new output directory. Use --resolution4 for the six
+fine-module variants. An optional --validation-receipt binds the tested export
+implementation. The audit retains the original target-selection and independent
+kernel/refit checks, writes explicit export-code bindings, and compiles each
+checked model once. Operational audit supervisors must monitor live progress
+without applying a fixed short deadline to an otherwise productive audit.

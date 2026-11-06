@@ -1,0 +1,34 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "model_key": [
+    "STATE|absolute_purity_ploidy::purity",
+    "module_ridge_union",
+    "combined"
+  ],
+  "coefficient_checks": {
+    "RNA": {
+      "features": 34925,
+      "max_abs_difference": 0.0
+    },
+    "PROTEIN": {
+      "features": 11922,
+      "max_abs_difference": 0.0
+    },
+    "PHOSPHO": {
+      "features": 45986,
+      "max_abs_difference": 0.0
+    }
+  },
+  "fast_compile_seconds": 1.461565128993243,
+  "profiled_original_export_seconds": 85.24743450200185,
+  "compiled_prediction_seconds": 2.0771746959071606,
+  "profiling_overhead_in_original_timing": true,
+  "n_supported": 109,
+  "max_abs_prediction_difference": 0.0,
+  "scope": "One existing actual model; equivalence and performance check, not heldout accuracy or universal speed benchmark",
+  "files": {
+    "PROFILE.txt": "0f9025106b45c8956b986dffd5aa0d8631dfb99e7e57834b15da32fbdcbf224d"
+  },
+  "time": 1793954323.614403
+}
