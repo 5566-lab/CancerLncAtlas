@@ -1,0 +1,91 @@
+{
+  "target_host": "149",
+  "status": "PASS_ALL_FIVE_PROTEIN_FOLDS",
+  "patients": 102,
+  "all_heldout_patients_exactly_once": true,
+  "fitted_pathways_checked": 6855,
+  "heldout_r2_checked": 6855,
+  "maximum_r2_error": 1.3322676295501878e-15,
+  "folds": [
+    {
+      "target_host": "149",
+      "status": "PASS_INDEPENDENT_NUMERICAL_RECONSTRUCTION",
+      "fitted_pathways": 1371,
+      "heldout_r2_checked": 1371,
+      "max_reference_error": 6.661338147750939e-16,
+      "max_score_error": 2.6645352591003757e-15,
+      "max_prediction_error": 1.9984014443252818e-15,
+      "max_r2_error": 8.881784197001252e-16,
+      "code_sha256": {
+        "cla_engine/rppa500.py": "13df369c90043cb6ebfd3cdb90e055d698dc221305e45e4869fe0a5c6dcd0a5c",
+        "scripts/audit_tcpa_cptac_common_panel.py": "b68b19dc805495b022d45338b1d31de23ed78a85cc48f5f4591d68e05c67cef2",
+        "scripts/score_tcpa_cptac_paired_protein_pilot.py": "0132dad3ed4dc7a985fe85bc8e2d349a87985df619f57003813978d5cbadc711"
+      },
+      "scientific_limit": "Numerical verification of the one-fold diagnostic, not validated cross-platform activity or prospective transfer."
+    },
+    {
+      "target_host": "149",
+      "status": "PASS_INDEPENDENT_NUMERICAL_RECONSTRUCTION",
+      "fitted_pathways": 1371,
+      "heldout_r2_checked": 1371,
+      "max_reference_error": 4.440892098500626e-16,
+      "max_score_error": 1.7763568394002505e-15,
+      "max_prediction_error": 2.6645352591003757e-15,
+      "max_r2_error": 1.1102230246251565e-15,
+      "code_sha256": {
+        "cla_engine/rppa500.py": "13df369c90043cb6ebfd3cdb90e055d698dc221305e45e4869fe0a5c6dcd0a5c",
+        "scripts/audit_tcpa_cptac_common_panel.py": "b68b19dc805495b022d45338b1d31de23ed78a85cc48f5f4591d68e05c67cef2",
+        "scripts/score_tcpa_cptac_paired_protein_pilot.py": "0132dad3ed4dc7a985fe85bc8e2d349a87985df619f57003813978d5cbadc711"
+      },
+      "scientific_limit": "Numerical verification of the one-fold diagnostic, not validated cross-platform activity or prospective transfer."
+    },
+    {
+      "target_host": "149",
+      "status": "PASS_INDEPENDENT_NUMERICAL_RECONSTRUCTION",
+      "fitted_pathways": 1371,
+      "heldout_r2_checked": 1371,
+      "max_reference_error": 6.661338147750939e-16,
+      "max_score_error": 1.7763568394002505e-15,
+      "max_prediction_error": 2.6645352591003757e-15,
+      "max_r2_error": 1.1102230246251565e-15,
+      "code_sha256": {
+        "cla_engine/rppa500.py": "13df369c90043cb6ebfd3cdb90e055d698dc221305e45e4869fe0a5c6dcd0a5c",
+        "scripts/audit_tcpa_cptac_common_panel.py": "b68b19dc805495b022d45338b1d31de23ed78a85cc48f5f4591d68e05c67cef2",
+        "scripts/score_tcpa_cptac_paired_protein_pilot.py": "0132dad3ed4dc7a985fe85bc8e2d349a87985df619f57003813978d5cbadc711"
+      },
+      "scientific_limit": "Numerical verification of the one-fold diagnostic, not validated cross-platform activity or prospective transfer."
+    },
+    {
+      "target_host": "149",
+      "status": "PASS_INDEPENDENT_NUMERICAL_RECONSTRUCTION",
+      "fitted_pathways": 1371,
+      "heldout_r2_checked": 1371,
+      "max_reference_error": 4.440892098500626e-16,
+      "max_score_error": 1.7763568394002505e-15,
+      "max_prediction_error": 2.6645352591003757e-15,
+      "max_r2_error": 9.71445146547012e-16,
+      "code_sha256": {
+        "cla_engine/rppa500.py": "13df369c90043cb6ebfd3cdb90e055d698dc221305e45e4869fe0a5c6dcd0a5c",
+        "scripts/audit_tcpa_cptac_common_panel.py": "b68b19dc805495b022d45338b1d31de23ed78a85cc48f5f4591d68e05c67cef2",
+        "scripts/score_tcpa_cptac_paired_protein_pilot.py": "0132dad3ed4dc7a985fe85bc8e2d349a87985df619f57003813978d5cbadc711"
+      },
+      "scientific_limit": "Numerical verification of the one-fold diagnostic, not validated cross-platform activity or prospective transfer."
+    },
+    {
+      "target_host": "149",
+      "status": "PASS_INDEPENDENT_NUMERICAL_RECONSTRUCTION",
+      "fitted_pathways": 1371,
+      "heldout_r2_checked": 1371,
+      "max_reference_error": 4.440892098500626e-16,
+      "max_score_error": 1.7763568394002505e-15,
+      "max_prediction_error": 3.552713678800501e-15,
+      "max_r2_error": 1.3322676295501878e-15,
+      "code_sha256": {
+        "cla_engine/rppa500.py": "13df369c90043cb6ebfd3cdb90e055d698dc221305e45e4869fe0a5c6dcd0a5c",
+        "scripts/audit_tcpa_cptac_common_panel.py": "b68b19dc805495b022d45338b1d31de23ed78a85cc48f5f4591d68e05c67cef2",
+        "scripts/score_tcpa_cptac_paired_protein_pilot.py": "0132dad3ed4dc7a985fe85bc8e2d349a87985df619f57003813978d5cbadc711"
+      },
+      "scientific_limit": "Numerical verification of the one-fold diagnostic, not validated cross-platform activity or prospective transfer."
+    }
+  ]
+}

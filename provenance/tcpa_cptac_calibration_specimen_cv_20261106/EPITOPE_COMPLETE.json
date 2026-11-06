@@ -1,0 +1,64 @@
+{
+  "target_host": "149",
+  "status": "COMPLETE_CURATED_SITE_SEQUENCE_AUDIT",
+  "sites": 5,
+  "max_common_sites_per_signature": 3,
+  "signatures_passing_existing_minimum": 0,
+  "source_sha256": {
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/repo/config/rppa500_retrospective_phospho_evidence_20261106.json": "085c17440340f9d663f90b7bf6074d0e36694e3bd3c5da62727a7ac41bbe3c8d",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/FETCH_RECEIPT.json": "04486a15fb216bdcb4d44fded9376d967c0e083ccf61fb41a22e037e7d8ea545",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000173_v1_biospecimen.json": "3dd67e02a161dc32c918767b183d79951efaf2af4105bfa1e6a0dbc1cfe9e5da",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000174_v1_biospecimen.json": "144199decf03c28e41edfd033f73a58b8da8b12c5a122505fd08fe022c1ce8a7",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000111_v1_biospecimen.json": "cd205d95c5befb680e54be4208af97c1cb3eefb429637169dca62a51ce2ff253",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000113_v1_biospecimen.json": "980614dda43e4807e0d7099f97ea4b1b27a8406d1fa23abce37e8fa805805810",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000114_v1_biospecimen.json": "5a38bf640b06d5560d587f559a3a0259d0c7ba44779fe1dc50d3adc540cd513a",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000115_v1_biospecimen.json": "ab466c8f76bf6b61f407ef72b5ef06933c2bea2bcdc9a891e83403e408962dca",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_9456.pdf": "65f0285572b8b7e1d27ebcf8cfd6a7213f7c5bc4fa45acafaf93daf523e9ab1b",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_9455.pdf": "94e6739a14ddb000d6ca6ade356726dc5f42d34526e207a701958c1898fa1695",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_13050.pdf": "6118228a57f4e67935eaaf6621cd35f2e34cab356014e2686d4db74ef33830e4",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_2696.pdf": "2a1975e9670e26f4d1e95b7d6bbc11148a60da977e2959c11facf7c3b1d62063",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_3891.pdf": "03acacc5f19bd3bce7cec6217f48ba400ec96a0f28ddb701fcb20eb82f8241f4",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_3377.pdf": "701aa4015e1f21c2cd1d9d007756b29ebc9ae306ef7f8529478d95b0c7b68623",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_9205.pdf": "c767ce134c77794f23e0d394e9f64f88d8145d126fbea9af0988d8acbe0d96f3",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_3061.pdf": "7f26230185d5262be33e0810f8a1d762076d0532c5b605582bf4c8495e3d92c0",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_2101.pdf": "dd7d785454340cf6913e5c63bc46a6596483ed77a7f33e154dfddaf2855b30a3",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_2105.pdf": "dafff718bd4309fcf161f2a306b2171cc9de57fa29fd7a17609bc3652b111cc2",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_3617.pdf": "e0b8a1ad4be01f37b6bfb3f92b94b004e32404037a0fd1011fa6ae41d665df0d",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/CST_2900.pdf": "b5a32bfcd873579f02b336c8880e9b8e8bbfeccd5e57ce8ecc3562fab1742095",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/FETCH_RECEIPT.json": "77b7de1e437235f22b85a592b4298264480481729d2d7ef4f94a6f53a83b7a77",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/Q13541.json": "5bf5afca8b8b0ff9876da97ebb9ee7ecf9e6ff7b1a2c1797f8b8a338bd2bfd39",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/Q13315.json": "10cfeaef0673e144ed81e35ded9b0b0612454af269efef0998d0b08630d10e34",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/P15056.json": "1a1dbc2fb58a216c7d0d3016d9ca24099f7bd333f18a4bf9043c9065c7873f02",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/O15530.json": "0e25eb77c733b67f628421d8178dc4dadeab3b2f4d8ee20e2b690beadc528d64",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/refseq.fasta": "09bc637ae5d35d22bc0c24972b2cbf54b7278cd555c343427e659cdb69fea2f6",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/CST_9452.pdf": "122fda160486dfb94f85b66f945e9f8936e15aea126aa5692d9fb65dec15d4cb",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/CST_2873.pdf": "31cfa0bb059537e0e7ff75c14eece6b52483ada90b6b697b86b6bbee314d38f1",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/sequence_sources_r1/CST_3062.pdf": "e14e846c2dc6ce34fe892ec9dae9ad94d2585b07744437786264e4911bada351",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/COMPLETE.json": "81268a8f4b6528d61a30a2dfb2c7109fe5efb6dc97fc82229be2fd904235241c",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/FEATURE_CATALOG.tsv": "a8416f85649a1de3a7eb503a969c5ad9c6f4f9ba818b4f7627b6735b74da2e32",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/DOWNLOAD_COMPLETE.json": "3330c9db802642239a7a62b494d60e6e393174d3b2b892231c40c2becfdce4b4",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/retrospective_sources/BRCA_BI_phospho.tsv.gz": "4e25dc178ce51c5cb24eedbe794ed2558886d8973de38026f9eba19b3fb02214",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/bundle_r1/COMPLETE.json": "dc28d3f18db7aa4b8e48a13d0a37e87c1c5fa9898a82ac5194499988a84ab288",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/bundle_r1/PTM_SIGNATURE_SITE_GENE_BRIDGE.parquet": "d78c8e3dcfd696745e7ad5e7adc05f45a41e1408cd5d4d5c290b7ceb0784b005",
+    "/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/sources/PTMSIGDB_PATH_KINASE_V2.gmt": "444b579eb4b7ad28f0d02d9ab8623d3a691719bd4487baa4ed04c6fa22db2c23"
+  },
+  "limitations": [
+    "Manufacturer specificity and sequence matches are supporting evidence, not new experimental validation of this RPPA batch.",
+    "No assumption that a pan-family antibody equals a single phosphoproteomic feature.",
+    "Unreviewed features remain outside this pilot; they are retained in the full mapping table."
+  ],
+  "files": {
+    "COMMON_PTM_SIGNATURE_COVERAGE.tsv": {
+      "sha256": "926298046ea5140c0824c1b54ea85ee4a7a009f8171dbb53dec193479a936f0e"
+    },
+    "CURATED_PAIRED_SITES.tsv": {
+      "sha256": "1a89df86c79ddca2fc490187371fc05b84e3a175d125c87d929205689ce89bbd"
+    },
+    "KNOWN_SINGLE_SITE_EXCLUSIONS.tsv": {
+      "sha256": "078030fc19fefa69cc9c13e5cb70e89eb6fafc67bf8bc2d469856cdfd5e2305e"
+    },
+    "LAUNCH_PREFLIGHT.json": {
+      "sha256": "07c6cbf4f3dcefb4db7551ecfbc4bd22d558eb38ec6d4b2907de15da2b1efb0f"
+    }
+  }
+}

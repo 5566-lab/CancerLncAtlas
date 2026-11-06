@@ -1,0 +1,101 @@
+{
+  "format": "CLA_CURATED_RPPA_RETROSPECTIVE_PHOSPHO_V1",
+  "scope": "Five BRCA candidate sites with measured retrospective data, reviewed manufacturer specificity, and exact human RefSeq/UniProt windows; not exhaustive RPPA500 validation.",
+  "sites": [
+    {
+      "rppa_phospho": "RPPA500:X4EBP1PS65",
+      "rppa_total": "RPPA500:X4EBP1",
+      "gene_symbol": "EIF4EBP1",
+      "gene_id": "ENSG00000187840",
+      "uniprot": "Q13541",
+      "refseq": "NP_004086.1",
+      "human_position": 65,
+      "residue": "S",
+      "phospho_catalog": "9456",
+      "total_catalog": "9452",
+      "evidence_note": "Human reactivity and Ser65 specificity are reported; immunogen was mouse sequence."
+    },
+    {
+      "rppa_phospho": "RPPA500:X4EBP1PT70",
+      "rppa_total": "RPPA500:X4EBP1",
+      "gene_symbol": "EIF4EBP1",
+      "gene_id": "ENSG00000187840",
+      "uniprot": "Q13541",
+      "refseq": "NP_004086.1",
+      "human_position": 70,
+      "residue": "T",
+      "phospho_catalog": "9455",
+      "total_catalog": "9452",
+      "evidence_note": "Human reactivity and Thr70 specificity are reported; immunogen was rat sequence."
+    },
+    {
+      "rppa_phospho": "RPPA500:ATMPS1981",
+      "rppa_total": "RPPA500:ATM",
+      "gene_symbol": "ATM",
+      "gene_id": "ENSG00000149311",
+      "uniprot": "Q13315",
+      "refseq": "NP_000042.3",
+      "human_position": 1981,
+      "residue": "S",
+      "phospho_catalog": "13050",
+      "total_catalog": "2873",
+      "evidence_note": "Manufacturer identifies phosphorylated human ATM Ser1981."
+    },
+    {
+      "rppa_phospho": "RPPA500:BRAFPS445",
+      "rppa_total": "RPPA500:BRAF",
+      "gene_symbol": "BRAF",
+      "gene_id": "ENSG00000157764",
+      "uniprot": "P15056",
+      "refseq": "NP_004324.2",
+      "human_position": 446,
+      "residue": "S",
+      "phospho_catalog": "2696",
+      "total_catalog": "ab33899",
+      "evidence_note": "Manufacturer explicitly maps historical Ser445 to current human Ser446. Total antibody is RPPA-release Valid; vendor also reports extra bands in an unpurified WB comparison."
+    },
+    {
+      "rppa_phospho": "RPPA500:PDK1PS241",
+      "rppa_total": "RPPA500:PDK1",
+      "gene_symbol": "PDPK1",
+      "gene_id": "ENSG00000140992",
+      "uniprot": "O15530",
+      "refseq": "NP_001248745.1",
+      "human_position": 241,
+      "residue": "S",
+      "phospho_catalog": "3061",
+      "total_catalog": "3062",
+      "evidence_note": "Manufacturer identifies phosphoinositide-dependent kinase PDPK1 Ser241, not pyruvate dehydrogenase kinase PDK1."
+    }
+  ],
+  "exclusions": [
+    {
+      "rppa_phospho": "RPPA500:SRCPY416",
+      "catalog": "2101",
+      "human_src_site": "Y419",
+      "reason": "Manufacturer reports potential SRC-family and phosphorylated receptor-kinase cross-reactivity; not a single SRC site measurement."
+    },
+    {
+      "rppa_phospho": "RPPA500:SRCPY527",
+      "catalog": "2105",
+      "human_src_site": "Y530",
+      "reason": "Manufacturer reports possible YES/FYN/FGR/YRK cross-reactivity; not a single SRC site measurement."
+    },
+    {
+      "rppa_phospho": "RPPA500:P70S6KPT389",
+      "catalog": "9205",
+      "reason": "Manufacturer detects both p70 T389 and p85 T412 and potentially S6KII T388; no single-isoform equivalence."
+    },
+    {
+      "rppa_phospho": "RPPA500:HISTONEH3PS10",
+      "catalog": "3377",
+      "reason": "Histone-family epitope not proven H3C1-specific; neighboring K9 modification affects binding."
+    }
+  ],
+  "total_braf_source": "https://www.abcam.com/en-us/products/primary-antibodies/braf-antibody-ep152y-ab33899",
+  "limitations": [
+    "Manufacturer specificity and sequence matches are supporting evidence, not new experimental validation of this RPPA batch.",
+    "No assumption that a pan-family antibody equals a single phosphoproteomic feature.",
+    "Unreviewed features remain outside this pilot; they are retained in the full mapping table."
+  ]
+}

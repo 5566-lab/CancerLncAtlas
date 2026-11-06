@@ -1,0 +1,12 @@
+{
+  "target_host": "149",
+  "status": "PASS_ALL_PHOSPHO_SITE_FOLDS",
+  "patients": 102,
+  "site_mode_fold_metrics": 50,
+  "heldout_rows_checked": 1020,
+  "max_coefficient_error": 1.1102230246251565e-15,
+  "max_value_error": 2.220446049250313e-15,
+  "max_r2_error": 8.881784197001252e-16,
+  "producer_sha256": "b399ede6040d440f444d9dd1820f129924480c53ab7107acd9bd2d1614f6f9c0",
+  "interpretation": "Both raw and residual values are numerically verified; they represent different outcomes, not treatment efficacy or causal activation."
+}

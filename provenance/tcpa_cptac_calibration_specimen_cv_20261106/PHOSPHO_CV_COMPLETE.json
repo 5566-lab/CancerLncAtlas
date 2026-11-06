@@ -1,0 +1,161 @@
+{
+  "target_host": "149",
+  "status": "COMPLETE_FIVE_FOLD_SITE_RESIDUAL_DIAGNOSTIC",
+  "patients": 102,
+  "sites": 5,
+  "label_dependencies": [
+    "PROTEIN",
+    "PHOSPHORYLATION"
+  ],
+  "common_phospho_pathway_scores": false,
+  "reason": "Curated common-site panel supports at most3 members per PTMsigDB signature, below existing minimum5.",
+  "production_calibration": false,
+  "summary": [
+    {
+      "feature_id": "RPPA500:ATMPS1981",
+      "gene_symbol": "ATM",
+      "human_site": "S1981",
+      "mode": "RAW",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.22144074673979103,
+      "positive_folds": 2,
+      "min_train_pairs": 38,
+      "min_test_pairs": 7
+    },
+    {
+      "feature_id": "RPPA500:ATMPS1981",
+      "gene_symbol": "ATM",
+      "human_site": "S1981",
+      "mode": "TOTAL_PROTEIN_ADJUSTED",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.21631252453912322,
+      "positive_folds": 1,
+      "min_train_pairs": 38,
+      "min_test_pairs": 7
+    },
+    {
+      "feature_id": "RPPA500:BRAFPS445",
+      "gene_symbol": "BRAF",
+      "human_site": "S446",
+      "mode": "RAW",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.017454823117190953,
+      "positive_folds": 2,
+      "min_train_pairs": 78,
+      "min_test_pairs": 17
+    },
+    {
+      "feature_id": "RPPA500:BRAFPS445",
+      "gene_symbol": "BRAF",
+      "human_site": "S446",
+      "mode": "TOTAL_PROTEIN_ADJUSTED",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.0433224188797247,
+      "positive_folds": 1,
+      "min_train_pairs": 78,
+      "min_test_pairs": 17
+    },
+    {
+      "feature_id": "RPPA500:PDK1PS241",
+      "gene_symbol": "PDPK1",
+      "human_site": "S241",
+      "mode": "RAW",
+      "completed_folds": 5,
+      "mean_fold_r2": 0.09624464483037917,
+      "positive_folds": 4,
+      "min_train_pairs": 78,
+      "min_test_pairs": 17
+    },
+    {
+      "feature_id": "RPPA500:PDK1PS241",
+      "gene_symbol": "PDPK1",
+      "human_site": "S241",
+      "mode": "TOTAL_PROTEIN_ADJUSTED",
+      "completed_folds": 5,
+      "mean_fold_r2": 0.0017652976136927512,
+      "positive_folds": 3,
+      "min_train_pairs": 78,
+      "min_test_pairs": 17
+    },
+    {
+      "feature_id": "RPPA500:X4EBP1PS65",
+      "gene_symbol": "EIF4EBP1",
+      "human_site": "S65",
+      "mode": "RAW",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.04057974644195013,
+      "positive_folds": 0,
+      "min_train_pairs": 74,
+      "min_test_pairs": 16
+    },
+    {
+      "feature_id": "RPPA500:X4EBP1PS65",
+      "gene_symbol": "EIF4EBP1",
+      "human_site": "S65",
+      "mode": "TOTAL_PROTEIN_ADJUSTED",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.03552648849011129,
+      "positive_folds": 1,
+      "min_train_pairs": 74,
+      "min_test_pairs": 16
+    },
+    {
+      "feature_id": "RPPA500:X4EBP1PT70",
+      "gene_symbol": "EIF4EBP1",
+      "human_site": "T70",
+      "mode": "RAW",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.039660904793940396,
+      "positive_folds": 3,
+      "min_train_pairs": 78,
+      "min_test_pairs": 17
+    },
+    {
+      "feature_id": "RPPA500:X4EBP1PT70",
+      "gene_symbol": "EIF4EBP1",
+      "human_site": "T70",
+      "mode": "TOTAL_PROTEIN_ADJUSTED",
+      "completed_folds": 5,
+      "mean_fold_r2": -0.07902753720967479,
+      "positive_folds": 4,
+      "min_train_pairs": 78,
+      "min_test_pairs": 17
+    }
+  ],
+  "source_sha256": {
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/epitope_audit_r1/COMPLETE.json": "9a1a283075069a7b6ca6993465328d41c151d1d6dc5c75c921a4c9566c90a594",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/epitope_audit_r1/CURATED_PAIRED_SITES.tsv": "1a89df86c79ddca2fc490187371fc05b84e3a175d125c87d929205689ce89bbd",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_audit_r1/COMPLETE.json": "750134b5a17e259c69c52f571df09c0570726e40625d6803cd853363b74de030",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_audit_r1/PATIENT_SPECIMEN_CONCORDANCE.tsv": "5f352c362c3f8f721ebb2eec04489fb1cb46c981085547e253868c3a4df3f517",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/COMPLETE.json": "81268a8f4b6528d61a30a2dfb2c7109fe5efb6dc97fc82229be2fd904235241c",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/PATIENT_AUTHORITY.parquet": "5377c8dffb39785064a1d72ab9e0ea32fd6022d987685199030e7dc1209e13f2",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/PHOSPHORYLATION.parquet": "b7c8a0073b779cc0dfa0aa8bdfceeaac96fe1469f45e29b571e50e21168ca2b7",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/PROTEIN.parquet": "76125acf77d1564ffea7765ffa0fb053fe4d1bbbb2911f82cdf9ec798aff458e",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/DOWNLOAD_COMPLETE.json": "3330c9db802642239a7a62b494d60e6e393174d3b2b892231c40c2becfdce4b4",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/retrospective_sources/BRCA_BI_phospho.tsv.gz": "4e25dc178ce51c5cb24eedbe794ed2558886d8973de38026f9eba19b3fb02214",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/retrospective_sources/BRCA_BI_protein.tsv.gz": "4f25c15988bc61af5c041e7190418bf7ebedd8311a47d98aa5cbc83e4b4ea8a9"
+  },
+  "limitations": [
+    "Five sites are a bounded first reviewed panel, not all RPPA500 phospho markers.",
+    "Residuals are relative phospho signals after linear total-protein adjustment, not phosphorylation occupancy.",
+    "Different fold references are never pooled into one cross-fold Y.",
+    "PDC metadata establish vial concordance; direct processed-column-to-aliquot lineage remains unverified."
+  ],
+  "files": {
+    "SITE_CV_SUMMARY.tsv": {
+      "sha256": "fc514c7187e8e6aace3936db04e8824e0b829bcf3f5b27853349a94086cf8fc7"
+    },
+    "TRAIN_FOLD_PARAMETERS.tsv": {
+      "sha256": "1047bf8fe4267ceb4e73aef8db927834cae029a90de202f99db1da998a9ddc7b"
+    },
+    "SITE_FOLD_METRICS.tsv": {
+      "sha256": "90add584d709944175bd2ee12685dfa10c4e234dcb1cacba818a1dfdfc44d4a8"
+    },
+    "LAUNCH_PREFLIGHT.json": {
+      "sha256": "ab1044ad1070c13bad0ab05166df2e2553373656568fc7183cf50951fdead2db"
+    },
+    "HELDOUT_SITE_VALUES.parquet": {
+      "sha256": "370e2942450ff2b9c710ef563f2ab1d2d8c6269a91c0ef55556cbb7adfc3aafe"
+    }
+  }
+}

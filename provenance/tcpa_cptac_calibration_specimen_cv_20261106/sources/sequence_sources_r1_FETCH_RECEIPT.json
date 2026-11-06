@@ -1,0 +1,61 @@
+{
+  "target_host": "149",
+  "records": [
+    {
+      "name": "Q13541.json",
+      "url": "https://rest.uniprot.org/uniprotkb/Q13541.json",
+      "sha256": "5bf5afca8b8b0ff9876da97ebb9ee7ecf9e6ff7b1a2c1797f8b8a338bd2bfd39",
+      "bytes": 65772,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "Q13315.json",
+      "url": "https://rest.uniprot.org/uniprotkb/Q13315.json",
+      "sha256": "10cfeaef0673e144ed81e35ded9b0b0612454af269efef0998d0b08630d10e34",
+      "bytes": 308794,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "P15056.json",
+      "url": "https://rest.uniprot.org/uniprotkb/P15056.json",
+      "sha256": "1a1dbc2fb58a216c7d0d3016d9ca24099f7bd333f18a4bf9043c9065c7873f02",
+      "bytes": 165656,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "O15530.json",
+      "url": "https://rest.uniprot.org/uniprotkb/O15530.json",
+      "sha256": "0e25eb77c733b67f628421d8178dc4dadeab3b2f4d8ee20e2b690beadc528d64",
+      "bytes": 110316,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "refseq.fasta",
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&id=NP_004086.1%2CNP_000042.3%2CNP_004324.2%2CNP_001248745.1&rettype=fasta&retmode=text",
+      "sha256": "09bc637ae5d35d22bc0c24972b2cbf54b7278cd555c343427e659cdb69fea2f6",
+      "bytes": 4779,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_9452.pdf",
+      "url": "https://media.cellsignal.com/pdf/9452.pdf",
+      "sha256": "122fda160486dfb94f85b66f945e9f8936e15aea126aa5692d9fb65dec15d4cb",
+      "bytes": 250340,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_2873.pdf",
+      "url": "https://media.cellsignal.com/pdf/2873.pdf",
+      "sha256": "31cfa0bb059537e0e7ff75c14eece6b52483ada90b6b697b86b6bbee314d38f1",
+      "bytes": 251491,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_3062.pdf",
+      "url": "https://media.cellsignal.com/pdf/3062.pdf",
+      "sha256": "e14e846c2dc6ce34fe892ec9dae9ad94d2585b07744437786264e4911bada351",
+      "bytes": 249493,
+      "status": "DOWNLOADED"
+    }
+  ]
+}

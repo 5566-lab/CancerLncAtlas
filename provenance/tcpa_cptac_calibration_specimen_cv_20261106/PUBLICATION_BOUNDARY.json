@@ -1,0 +1,8 @@
+{
+  "target_host": "149",
+  "patient_level_outputs_in_public_git": false,
+  "supplier_pdfs_in_public_git": false,
+  "unified_production_Y": false,
+  "original_network_inputs_changed": false,
+  "previous104_patient_pilot_retained": true
+}

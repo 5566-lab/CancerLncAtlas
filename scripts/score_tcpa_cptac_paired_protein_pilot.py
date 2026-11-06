@@ -33,7 +33,7 @@ def calibration_fit(x,y,train):
 
 def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
-def run(rppa,bundle,mapping,retrospective,output):
+def run(rppa,bundle,mapping,retrospective,output,specimens,heldout_fold=0):
     assert socket.gethostname()=="149"
     out=Path(output);out.mkdir(parents=True,exist_ok=True)
     if any(out.iterdir()):raise ValueError("Use a new output directory")
@@ -47,7 +47,7 @@ def run(rppa,bundle,mapping,retrospective,output):
         man=json.loads(bind(root/complete).read_text())
         return bind(root/rel,man["files"][rel]["sha256"])
     (out/"LAUNCH_PREFLIGHT.json").write_text(json.dumps(dict(target_host="149",action="BRCA_PAIRED_COMMON_PROTEIN_HELDOUT_DIAGNOSTIC",
-        reference="Frozen patient_fold_id; fold0 held out; independent scalers per assay fitted on train only",
+        reference="Frozen patient_fold_id; selected fold held out; independent scalers per assay fitted on train only",
         weights="Equal nonnegative; no fitted gene weights",score_type="COMMON_PANEL_ABUNDANCE_NOT_ABSOLUTE_ACTIVATION",
         missing="NA kept; mean divides by observed fixed-panel members; counts exported",
         acceptance="No calibrated unified Y is promoted; all pathway rows including failures retained",
@@ -55,9 +55,20 @@ def run(rppa,bundle,mapping,retrospective,output):
     pairs=pd.read_csv(product(mapping,"RETROSPECTIVE_PATIENT_PAIR_CANDIDATES.tsv"),sep="\t")
     pairs=pairs.loc[pairs.dataset.eq("BRCA_BI_protein") & pairs.in_current_rppa_rna_scope].sort_values("patient_id")
     assert pairs.patient_id.is_unique
+    specimens=Path(specimens)
+    specimen_receipt=json.loads(bind(specimens/"COMPLETE.json").read_text())
+    assert specimen_receipt["status"]=="COMPLETE_PDC_COHORT_METADATA_VIAL_CONCORDANCE"
+    proof=pd.read_csv(product(specimens,"PATIENT_SPECIMEN_CONCORDANCE.tsv"),sep="\t")
+    eligible=proof.loc[proof.dataset.eq("BRCA_BI_protein")].copy()
+    assert eligible.patient_id.is_unique
+    pairs=pairs.merge(eligible[["patient_id","pdc_vial_concordant","status"]],on="patient_id",how="left",validate="one_to_one")
+    if pairs.status.isna().any():raise ValueError("MISSING_SPECIMEN_AUDIT")
+    assert pairs.pdc_vial_concordant.eq(pairs.status.eq("SAME_VIAL_IN_PDC_COHORT_METADATA")).all()
+    pairs.to_csv(out/"PAIR_ELIGIBILITY.tsv",sep="\t",index=False)
+    pairs=pairs.loc[pairs.pdc_vial_concordant].copy()
     ids=pairs.patient_id.tolist()
     authority=pd.read_parquet(product(rppa,"PATIENT_AUTHORITY.parquet")).set_index("patient_id").loc[ids]
-    folds=pd.to_numeric(authority.patient_fold_id).to_numpy(int);test=folds==0;train=~test
+    folds=pd.to_numeric(authority.patient_fold_id).to_numpy(int);test=folds==heldout_fold;train=~test
     assert test.any() and train.any()
     fitmap=pd.read_csv(product(mapping,"RETROSPECTIVE_COMMON_PROTEIN_CANDIDATES.tsv"),sep="\t")
     fitmap=fitmap.loc[fitmap.dataset.eq("BRCA_BI") & fitmap.primary_candidate].sort_values("gene_id")
@@ -110,9 +121,9 @@ def run(rppa,bundle,mapping,retrospective,output):
              median_heldout_pearson=float(d.heldout_pearson.median()) if len(d) else None,
              calibration_lower_mse_than_raw_panel_mean=int(d.heldout_mse.lt(d.heldout_uncalibrated_mse).sum())))
     result=dict(target_host="149",status="COMPLETE_EXPLORATORY_HELDOUT_DIAGNOSTIC",
-        patients=len(ids),train_patients=int(train.sum()),heldout_patients=int(test.sum()),primary_panel_genes=int(usable.sum()),
+        patients=len(ids),heldout_fold=int(heldout_fold),train_patients=int(train.sum()),heldout_patients=int(test.sum()),primary_panel_genes=int(usable.sum()),
         pathway_axis=len(metrics),summaries=summaries,calibration_validated_for_production=False,
-        same_sample_vial_verified=False,same_aliquot_verified=False,
+        pdc_cohort_metadata_same_vial=True,processed_column_to_aliquot_lineage_verified=False,same_aliquot_verified=False,
         prospective_cptac_transfer_validated=False,source_sha256=sources,
         limitations=["Single held-out fold; no repeated or external validation or inferential pathway selection.",
           "Scores depend on observed members; patient-specific coverage exported. Missing is never zero.",
@@ -124,5 +135,6 @@ def run(rppa,bundle,mapping,retrospective,output):
     print(json.dumps({k:result[k] for k in ["status","patients","train_patients","heldout_patients","primary_panel_genes","summaries"]}),flush=True)
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
-    for key in ["rppa","bundle","mapping","retrospective","output"]:p.add_argument("--"+key,required=True)
-    a=p.parse_args();run(a.rppa,a.bundle,a.mapping,a.retrospective,a.output)
+    for key in ["rppa","bundle","mapping","retrospective","output","specimens"]:p.add_argument("--"+key,required=True)
+    p.add_argument("--heldout-fold",type=int,default=0)
+    a=p.parse_args();run(a.rppa,a.bundle,a.mapping,a.retrospective,a.output,a.specimens,a.heldout_fold)

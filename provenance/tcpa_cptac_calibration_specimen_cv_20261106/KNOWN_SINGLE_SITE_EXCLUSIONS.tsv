@@ -1,0 +1,5 @@
+rppa_phospho	catalog	human_src_site	reason
+RPPA500:SRCPY416	2101	Y419	Manufacturer reports potential SRC-family and phosphorylated receptor-kinase cross-reactivity; not a single SRC site measurement.
+RPPA500:SRCPY527	2105	Y530	Manufacturer reports possible YES/FYN/FGR/YRK cross-reactivity; not a single SRC site measurement.
+RPPA500:P70S6KPT389	9205		Manufacturer detects both p70 T389 and p85 T412 and potentially S6KII T388; no single-isoform equivalence.
+RPPA500:HISTONEH3PS10	3377		Histone-family epitope not proven H3C1-specific; neighboring K9 modification affects binding.

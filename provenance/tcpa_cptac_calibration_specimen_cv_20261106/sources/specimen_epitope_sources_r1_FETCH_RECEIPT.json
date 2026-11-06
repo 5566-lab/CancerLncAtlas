@@ -1,0 +1,197 @@
+{
+  "target_host": "149",
+  "records": [
+    {
+      "name": "PDC000173_v1_biospecimen.json",
+      "url": "https://pdc.cancer.gov/graphql?query=%7BbiospecimenPerStudy%28study_id%3A%22b8da9eeb-57b8-11e8-b07a-00a098d917f8%22%29%7Baliquot_id+sample_id+case_id+aliquot_submitter_id+sample_submitter_id+case_submitter_id+aliquot_status+case_status+sample_status+project_name+sample_type+disease_type+primary_site+pool+taxon%7D%7D",
+      "study": {
+        "pdc_study_id": "PDC000173",
+        "study_id": "b8da9eeb-57b8-11e8-b07a-00a098d917f8",
+        "study_submitter_id": "TCGA BRCA Proteome S015-1",
+        "submitter_id_name": "TCGA Breast Cancer Proteome",
+        "study_shortname": "TCGA BRCA Proteome S015-1",
+        "study_version": "1",
+        "is_latest_version": "yes"
+      },
+      "sha256": "3dd67e02a161dc32c918767b183d79951efaf2af4105bfa1e6a0dbc1cfe9e5da",
+      "bytes": 58353,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "PDC000174_v1_biospecimen.json",
+      "url": "https://pdc.cancer.gov/graphql?query=%7BbiospecimenPerStudy%28study_id%3A%22b93bb1e9-57b8-11e8-b07a-00a098d917f8%22%29%7Baliquot_id+sample_id+case_id+aliquot_submitter_id+sample_submitter_id+case_submitter_id+aliquot_status+case_status+sample_status+project_name+sample_type+disease_type+primary_site+pool+taxon%7D%7D",
+      "study": {
+        "pdc_study_id": "PDC000174",
+        "study_id": "b93bb1e9-57b8-11e8-b07a-00a098d917f8",
+        "study_submitter_id": "TCGA BRCA Phosphoproteome S015-2",
+        "submitter_id_name": "TCGA Breast Cancer Phosphoproteome",
+        "study_shortname": "TCGA BRCA Phosphoproteome S015-2",
+        "study_version": "1",
+        "is_latest_version": "yes"
+      },
+      "sha256": "144199decf03c28e41edfd033f73a58b8da8b12c5a122505fd08fe022c1ce8a7",
+      "bytes": 58353,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "PDC000111_v1_biospecimen.json",
+      "url": "https://pdc.cancer.gov/graphql?query=%7BbiospecimenPerStudy%28study_id%3A%22b998098f-57b8-11e8-b07a-00a098d917f8%22%29%7Baliquot_id+sample_id+case_id+aliquot_submitter_id+sample_submitter_id+case_submitter_id+aliquot_status+case_status+sample_status+project_name+sample_type+disease_type+primary_site+pool+taxon%7D%7D",
+      "study": {
+        "pdc_study_id": "PDC000111",
+        "study_id": "b998098f-57b8-11e8-b07a-00a098d917f8",
+        "study_submitter_id": "TCGA COAD Proteome S016-1",
+        "submitter_id_name": "TCGA Colon Cancer Proteome",
+        "study_shortname": "TCGA COAD Proteome S016-1",
+        "study_version": "1",
+        "is_latest_version": "yes"
+      },
+      "sha256": "cd205d95c5befb680e54be4208af97c1cb3eefb429637169dca62a51ce2ff253",
+      "bytes": 50447,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "PDC000113_v1_biospecimen.json",
+      "url": "https://pdc.cancer.gov/graphql?query=%7BbiospecimenPerStudy%28study_id%3A%22ba4e17a5-57b8-11e8-b07a-00a098d917f8%22%29%7Baliquot_id+sample_id+case_id+aliquot_submitter_id+sample_submitter_id+case_submitter_id+aliquot_status+case_status+sample_status+project_name+sample_type+disease_type+primary_site+pool+taxon%7D%7D",
+      "study": {
+        "pdc_study_id": "PDC000113",
+        "study_id": "ba4e17a5-57b8-11e8-b07a-00a098d917f8",
+        "study_submitter_id": "TCGA OV Proteome S020-2",
+        "submitter_id_name": "TCGA Ovarian JHU Proteome",
+        "study_shortname": "TCGA OV Proteome S020-2",
+        "study_version": "1",
+        "is_latest_version": "yes"
+      },
+      "sha256": "980614dda43e4807e0d7099f97ea4b1b27a8406d1fa23abce37e8fa805805810",
+      "bytes": 67264,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "PDC000114_v1_biospecimen.json",
+      "url": "https://pdc.cancer.gov/graphql?query=%7BbiospecimenPerStudy%28study_id%3A%22baa8ae46-57b8-11e8-b07a-00a098d917f8%22%29%7Baliquot_id+sample_id+case_id+aliquot_submitter_id+sample_submitter_id+case_submitter_id+aliquot_status+case_status+sample_status+project_name+sample_type+disease_type+primary_site+pool+taxon%7D%7D",
+      "study": {
+        "pdc_study_id": "PDC000114",
+        "study_id": "baa8ae46-57b8-11e8-b07a-00a098d917f8",
+        "study_submitter_id": "TCGA OV Proteome S020-3",
+        "submitter_id_name": "TCGA Ovarian PNNL Proteome",
+        "study_shortname": "TCGA OV Proteome S020-3",
+        "study_version": "1",
+        "is_latest_version": "yes"
+      },
+      "sha256": "5a38bf640b06d5560d587f559a3a0259d0c7ba44779fe1dc50d3adc540cd513a",
+      "bytes": 46143,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "PDC000115_v1_biospecimen.json",
+      "url": "https://pdc.cancer.gov/graphql?query=%7BbiospecimenPerStudy%28study_id%3A%22bb076b33-57b8-11e8-b07a-00a098d917f8%22%29%7Baliquot_id+sample_id+case_id+aliquot_submitter_id+sample_submitter_id+case_submitter_id+aliquot_status+case_status+sample_status+project_name+sample_type+disease_type+primary_site+pool+taxon%7D%7D",
+      "study": {
+        "pdc_study_id": "PDC000115",
+        "study_id": "bb076b33-57b8-11e8-b07a-00a098d917f8",
+        "study_submitter_id": "TCGA OV Phosphoproteome S020-4",
+        "submitter_id_name": "TCGA Ovarian PNNL Phosphoproteome Velos Qexactive",
+        "study_shortname": "TCGA OV Phosphoproteome S020-4",
+        "study_version": "1",
+        "is_latest_version": "yes"
+      },
+      "sha256": "ab466c8f76bf6b61f407ef72b5ef06933c2bea2bcdc9a891e83403e408962dca",
+      "bytes": 37998,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_9456.pdf",
+      "url": "https://media.cellsignal.com/pdf/9456.pdf",
+      "catalog_number": "9456",
+      "sha256": "65f0285572b8b7e1d27ebcf8cfd6a7213f7c5bc4fa45acafaf93daf523e9ab1b",
+      "bytes": 250846,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_9455.pdf",
+      "url": "https://media.cellsignal.com/pdf/9455.pdf",
+      "catalog_number": "9455",
+      "sha256": "94e6739a14ddb000d6ca6ade356726dc5f42d34526e207a701958c1898fa1695",
+      "bytes": 250575,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_13050.pdf",
+      "url": "https://media.cellsignal.com/pdf/13050.pdf",
+      "catalog_number": "13050",
+      "sha256": "6118228a57f4e67935eaaf6621cd35f2e34cab356014e2686d4db74ef33830e4",
+      "bytes": 252395,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_2696.pdf",
+      "url": "https://media.cellsignal.com/pdf/2696.pdf",
+      "catalog_number": "2696",
+      "sha256": "2a1975e9670e26f4d1e95b7d6bbc11148a60da977e2959c11facf7c3b1d62063",
+      "bytes": 254012,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_3891.pdf",
+      "url": "https://media.cellsignal.com/pdf/3891.pdf",
+      "catalog_number": "3891",
+      "sha256": "03acacc5f19bd3bce7cec6217f48ba400ec96a0f28ddb701fcb20eb82f8241f4",
+      "bytes": 252657,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_3377.pdf",
+      "url": "https://media.cellsignal.com/pdf/3377.pdf",
+      "catalog_number": "3377",
+      "sha256": "701aa4015e1f21c2cd1d9d007756b29ebc9ae306ef7f8529478d95b0c7b68623",
+      "bytes": 254943,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_9205.pdf",
+      "url": "https://media.cellsignal.com/pdf/9205.pdf",
+      "catalog_number": "9205",
+      "sha256": "c767ce134c77794f23e0d394e9f64f88d8145d126fbea9af0988d8acbe0d96f3",
+      "bytes": 253857,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_3061.pdf",
+      "url": "https://media.cellsignal.com/pdf/3061.pdf",
+      "catalog_number": "3061",
+      "sha256": "7f26230185d5262be33e0810f8a1d762076d0532c5b605582bf4c8495e3d92c0",
+      "bytes": 250245,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_2101.pdf",
+      "url": "https://media.cellsignal.com/pdf/2101.pdf",
+      "catalog_number": "2101",
+      "sha256": "dd7d785454340cf6913e5c63bc46a6596483ed77a7f33e154dfddaf2855b30a3",
+      "bytes": 252194,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_2105.pdf",
+      "url": "https://media.cellsignal.com/pdf/2105.pdf",
+      "catalog_number": "2105",
+      "sha256": "dafff718bd4309fcf161f2a306b2171cc9de57fa29fd7a17609bc3652b111cc2",
+      "bytes": 250010,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_3617.pdf",
+      "url": "https://media.cellsignal.com/pdf/3617.pdf",
+      "catalog_number": "3617",
+      "sha256": "e0b8a1ad4be01f37b6bfb3f92b94b004e32404037a0fd1011fa6ae41d665df0d",
+      "bytes": 251793,
+      "status": "DOWNLOADED"
+    },
+    {
+      "name": "CST_2900.pdf",
+      "url": "https://media.cellsignal.com/pdf/2900.pdf",
+      "catalog_number": "2900",
+      "sha256": "b5a32bfcd873579f02b336c8880e9b8e8bbfeccd5e57ce8ecc3562fab1742095",
+      "bytes": 193822,
+      "status": "DOWNLOADED"
+    }
+  ]
+}

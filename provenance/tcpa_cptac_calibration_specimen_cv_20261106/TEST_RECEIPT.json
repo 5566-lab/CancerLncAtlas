@@ -1,0 +1,44 @@
+{
+  "target_host": "149",
+  "distinct_test_count": 43,
+  "repeated_reference_tests_in_phospho_run": 2,
+  "records": [
+    {
+      "log": "parser_bridge_tests_r2.log",
+      "sha256": "ba14524d882ffedb95a9a83496a7d7a601039343b276a522aa1b1a2f7397fba9",
+      "last_line": "34 passed in 1.60s",
+      "run_passed": 34
+    },
+    {
+      "log": "pilot_tests.log",
+      "sha256": "16790b00b11983e516839653d9f35b7af2780f72dedf9baf350699a1783525d8",
+      "last_line": "2 passed in 2.89s",
+      "run_passed": 2
+    },
+    {
+      "log": "specimen_tests.log",
+      "sha256": "fc42dfa932c4825657d33650941181e188e1e98bcf3be51b27e1265e17c23261",
+      "last_line": "3 passed in 1.43s",
+      "run_passed": 3
+    },
+    {
+      "log": "epitope_tests.log",
+      "sha256": "713cb745db13ebdb750562e8ee8425b1a4f6a828300a8863d3e4b604a9a1ff73",
+      "last_line": "2 passed in 0.46s",
+      "run_passed": 2
+    },
+    {
+      "log": "phospho_and_reference_tests.log",
+      "sha256": "aa016fad2ff0f9f0c064ef3f65eafefc1a72e90f7d7ab01338481482011339d4",
+      "last_line": "4 passed in 2.88s",
+      "run_passed": 4
+    }
+  ],
+  "code_sha256": {
+    "tests/test_tcpa_cptac_protein_pilot.py": "a10791311eba71311c9f7644ed8d8c09224da2e69c4f3a12cd9fb48dbc0f9662",
+    "tests/test_tcpa_cptac_epitopes.py": "5d26725389b1478de689bc8baa497bcd1e217be9795a44875d7bae43c3283db1",
+    "tests/test_tcpa_cptac_phospho.py": "a52f2afe967c11e2c2792693b33f9e512b0035835a08bf5fc9e560633a315d8b",
+    "tests/test_tcpa_cptac_specimens.py": "129a45804896b70f2cc7d594e99739c9305dc04659495a28e06f01d616a26936",
+    "tests/test_tcpa_cptac_bridge.py": "30e8c5125807b27ad0fd1a75c14285fc80f5d00355040c778290a841050e9854"
+  }
+}

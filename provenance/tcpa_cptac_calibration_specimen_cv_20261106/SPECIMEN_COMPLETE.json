@@ -1,0 +1,75 @@
+{
+  "target_host": "149",
+  "status": "COMPLETE_PDC_COHORT_METADATA_VIAL_CONCORDANCE",
+  "summary": [
+    {
+      "dataset": "BRCA_BI_phospho",
+      "status": "SAME_VIAL_IN_PDC_COHORT_METADATA",
+      "patients": 102
+    },
+    {
+      "dataset": "BRCA_BI_phospho",
+      "status": "SAMPLE_VIAL_MISMATCH",
+      "patients": 2
+    },
+    {
+      "dataset": "BRCA_BI_protein",
+      "status": "SAME_VIAL_IN_PDC_COHORT_METADATA",
+      "patients": 102
+    },
+    {
+      "dataset": "BRCA_BI_protein",
+      "status": "SAMPLE_VIAL_MISMATCH",
+      "patients": 2
+    },
+    {
+      "dataset": "COADREAD_VU_protein",
+      "status": "SAME_VIAL_IN_PDC_COHORT_METADATA",
+      "patients": 74
+    },
+    {
+      "dataset": "OV_JHU_protein",
+      "status": "SAME_VIAL_IN_PDC_COHORT_METADATA",
+      "patients": 89
+    },
+    {
+      "dataset": "OV_PNNL_phospho",
+      "status": "SAME_VIAL_IN_PDC_COHORT_METADATA",
+      "patients": 50
+    },
+    {
+      "dataset": "OV_PNNL_protein",
+      "status": "SAME_VIAL_IN_PDC_COHORT_METADATA",
+      "patients": 62
+    }
+  ],
+  "source_sha256": {
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/mapping_r1/COMPLETE.json": "905a8fe559d346e11c103536e6a08f7f6f21f07fce8be80d3bad2da73c240af4",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/COMPLETE.json": "81268a8f4b6528d61a30a2dfb2c7109fe5efb6dc97fc82229be2fd904235241c",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/mapping_r1/RETROSPECTIVE_PATIENT_PAIR_CANDIDATES.tsv": "d90158abb3e8e20eecc4da7f2554d5a86f6b365261c473253b32d2781e5db7ec",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/PATIENT_ALIGNMENT.tsv": "8e04f013bbff3d528fec35752eff74a95ed902be8f57f2789694e94880853312",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/FETCH_RECEIPT.json": "04486a15fb216bdcb4d44fded9376d967c0e083ccf61fb41a22e037e7d8ea545",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000173_v1_biospecimen.json": "3dd67e02a161dc32c918767b183d79951efaf2af4105bfa1e6a0dbc1cfe9e5da",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000174_v1_biospecimen.json": "144199decf03c28e41edfd033f73a58b8da8b12c5a122505fd08fe022c1ce8a7",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000111_v1_biospecimen.json": "cd205d95c5befb680e54be4208af97c1cb3eefb429637169dca62a51ce2ff253",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000113_v1_biospecimen.json": "980614dda43e4807e0d7099f97ea4b1b27a8406d1fa23abce37e8fa805805810",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000114_v1_biospecimen.json": "5a38bf640b06d5560d587f559a3a0259d0c7ba44779fe1dc50d3adc540cd513a",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/specimen_epitope_sources_r1/PDC000115_v1_biospecimen.json": "ab466c8f76bf6b61f407ef72b5ef06933c2bea2bcdc9a891e83403e408962dca"
+  },
+  "limitations": [
+    "The matrix columns carry patient IDs only. Concordance uses the matched PDC study metadata.",
+    "This is not direct processed-column-to-aliquot lineage; it does not prove identical lysate/portion.",
+    "Excluded/nonprimary/pool entries and ambiguous multiple vials are not accepted as matches."
+  ],
+  "files": {
+    "SPECIMEN_CONCORDANCE_SUMMARY.tsv": {
+      "sha256": "b14f262caf2adb9a611e902ba7b4ee2f2aeca6c4529e222d0a54b5854dcb19c2"
+    },
+    "LAUNCH_PREFLIGHT.json": {
+      "sha256": "071feb554b13e764df594599ad08fbf00b65f3f3c9d547f1c47c48991b546f7b"
+    },
+    "PATIENT_SPECIMEN_CONCORDANCE.tsv": {
+      "sha256": "5f352c362c3f8f721ebb2eec04489fb1cb46c981085547e253868c3a4df3f517"
+    }
+  }
+}
