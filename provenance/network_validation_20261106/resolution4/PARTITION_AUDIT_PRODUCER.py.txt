@@ -1,0 +1,57 @@
+"""Compare actual fixed union communities with fitted degree-preserving nulls."""
+import os
+for k in ("OPENBLAS_NUM_THREADS","OMP_NUM_THREADS","MKL_NUM_THREADS","NUMEXPR_NUM_THREADS"):os.environ[k]="1"
+import pathlib,json,socket,hashlib,time
+import numpy as np
+import pandas as pd
+from sklearn.metrics import adjusted_rand_score,normalized_mutual_info_score
+from sklearn.metrics.cluster import contingency_matrix
+assert socket.gethostname()=="149"
+P=pathlib.Path("/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1")
+I=pathlib.Path("/dell_2/DSC/CancerLncAtlas/inputs/network_validation_20261106_r3")
+O=P/"partition_comparison_r1"
+O.mkdir()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+(O/"PREFLIGHT.json").write_text(json.dumps(dict(target_host="149",purpose="Read-only comparison of actual fixed union and null communities; no outcomes, features or refitting",producer_sha256=sha(pathlib.Path(__file__)),scope="Network-connected anchors only; excludes shared unmapped background",time=time.time()),indent=2))
+rows=[];sources=[];sizes=[]
+for cancer in ("BRCA","LUAD","COAD"):
+    root=I/cancer
+    receipt=json.loads((root/"COMPLETE.json").read_text())
+    def read(mode):
+        name="MODULES_"+mode+".tsv"
+        assert sha(root/name)==receipt["files"][name]
+        sources.append(dict(cancer=cancer,file=name,sha256=sha(root/name)))
+        f=pd.read_csv(root/name,sep="\t").set_index("node_id")["module"]
+        assert f.index.is_unique and f.notna().all() and (f>=0).all()
+        for kind in ("ALL_CONNECTED","L","G"):
+            a=f if kind=="ALL_CONNECTED" else f[f.index.str.startswith(kind+":")]
+            count=a.value_counts()
+            sizes.append(dict(cancer=cancer,mode=mode,node_type=kind,nodes=len(a),communities=len(count),largest_community_nodes=int(count.max()),median_community_nodes=float(count.median()),largest_community_fraction=float(count.max()/len(a))))
+        return f
+    real=read("union")
+    for seed in (101,202,303,404,505):
+        random=read("random_"+str(seed))
+        assert set(real.index)==set(random.index)
+        random=random.reindex(real.index)
+        for kind in ("ALL_CONNECTED","L","G"):
+            take=np.ones(len(real),bool) if kind=="ALL_CONNECTED" else real.index.str.startswith(kind+":")
+            a,b=real[take].to_numpy(),random[take].to_numpy()
+            contingency=contingency_matrix(a,b,sparse=True)
+            same_pairs=int(np.sum(contingency.data*(contingency.data-1)//2))
+            na=np.bincount(a);nb=np.bincount(b)
+            apairs=int(np.sum(na*(na-1)//2));bpairs=int(np.sum(nb*(nb-1)//2))
+            rows.append(dict(cancer=cancer,seed=seed,node_type=kind,nodes=len(a),
+                real_communities=len(np.unique(a)),null_communities=len(np.unique(b)),
+                adjusted_rand_index=float(adjusted_rand_score(a,b)),
+                normalized_mutual_information=float(normalized_mutual_info_score(a,b)),
+                real_within_module_pair_retention=float(same_pairs/apairs),
+                null_within_module_pairs_also_real=float(same_pairs/bpairs),
+                real_within_module_pairs=apairs,null_within_module_pairs=bpairs))
+f=pd.DataFrame(rows);f.to_csv(O/"PARTITION_SIMILARITY.tsv",sep="\t",index=False)
+pd.DataFrame(sizes).to_csv(O/"COMMUNITY_SIZES.tsv",sep="\t",index=False)
+summary=f.groupby("node_type").agg(ari_min=("adjusted_rand_index","min"),ari_median=("adjusted_rand_index","median"),ari_max=("adjusted_rand_index","max"),pair_retention_min=("real_within_module_pair_retention","min"),pair_retention_max=("real_within_module_pair_retention","max"))
+summary.to_csv(O/"SUMMARY.tsv",sep="\t")
+(O/"SOURCES.json").write_text(json.dumps(sources,indent=2))
+(O/"COMPLETE.json").write_text(json.dumps(dict(target_host="149",status="PASS",comparisons=len(rows),patient_outcomes_read=False,original_partitions_changed=False,files={p.name:sha(p) for p in O.iterdir() if p.is_file()},time=time.time()),indent=2))
+print(summary.to_string())
+print("PARTITION_COMPARISON_PASS",len(rows))

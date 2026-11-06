@@ -262,3 +262,51 @@ bounded saved-artifact check, not independent external prediction validation.
 A four-target synthetic fixture checks 88 saved models, both purity policies
 and rejection of a checksum change. Real-patient audit receipts must be reviewed
 separately before claiming the final artifacts have passed.
+
+Resolution-four follow-up (structural amendment)
+------------------------------------------------
+
+A graph-only audit found that the resolution-one union assigns 99.43%, 99.71%
+and 99.39% of connected BRCA, LUAD and COAD lncRNA anchors to one community.
+Their coefficients remain independent, but almost all connected lncRNAs share
+one network shrinkage multiplier. Unconnected lncRNAs remain in the separate
+background group. Thus this representation supplies coarse lncRNA information.
+Degree-preserving nulls also change community counts and sizes; edge overlap
+alone does not describe how much the fitted grouping changes.
+
+A subsequent topology-only probe used resolutions 1, 2, 4 and 8 with seed 1979.
+Resolution four is the smallest tested value for which the largest lncRNA group
+contains at most 25% of connected lncRNAs in every cancer. This structural
+criterion was set after inspecting the topology probe, without inspecting
+patient predictive metrics. Resolution four yields 84/86/88 lncRNA-containing
+communities and largest fractions 21.71%/18.08%/17.15% for BRCA/LUAD/COAD.
+This is an exploratory, structurally motivated amendment, not a claim that the
+original experiment prespecified this choice or that finer modules predict better.
+
+The follow-up retains all original candidate targets, patients, three RNA arms,
+clinical adjustment, target-source exclusions, two-by-five outer splits and
+two-by-three inner tuning. The ridge and weighting equations are unchanged.
+It fits the union and the same five degree-preserving null graphs, all partitioned
+at resolution four. The original experiment remains a complete coarse-module
+and Laplacian comparison. Coarse, fine, adaptive-omics and equal-ridge methods
+must be compared on matching patient/target support before a performance claim.
+
+Prepare separate network inputs on host149::
+
+  python scripts/prepare_network_resolution4.py \\
+    --networks /PATH/TO/VERIFIED_NETWORK_R3 \\
+    --output /NEW/RESOLUTION4_INPUTS
+
+The existing three-arm entry accepts the additional estimator::
+
+  python scripts/run_m0_three_arm.py --estimator network_resolution4 \\
+    --omics-input /PATH/TO/VERIFIED_PATIENT_INPUTS \\
+    --network-controls /PATH/TO/RESOLUTION4_INPUTS \\
+    --output /NEW/RESOLUTION4_RESULTS --cancer BRCA --phase repeat0_outer0
+
+The follow-up runner validates the resolution-four provenance and reuses the
+frozen core solver. Its synthetic regression test compares it numerically with
+the original module solver on identical partitions, checks the exact zero-power
+ridge fallback, verifies 72 saved models, and rejects resolution-one provenance.
+Actual patient performance and final artifacts remain pending until the new
+33 phases and their independent audits complete.

@@ -1,0 +1,40 @@
+import os
+for k in ("OPENBLAS_NUM_THREADS","OMP_NUM_THREADS","MKL_NUM_THREADS","NUMEXPR_NUM_THREADS"):os.environ[k]="1"
+import socket,pathlib,json,time,hashlib
+import numpy as np,pandas as pd,networkx as nx
+assert socket.gethostname()=="149"
+P=pathlib.Path("/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1")
+N=pathlib.Path("/dell_2/DSC/CancerLncAtlas/inputs/network_validation_20261106_r3")
+O=P/"resolution_probe_r1"
+O.mkdir()
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+(O/"PREFLIGHT.json").write_text(json.dumps(dict(target_host="149",purpose="Graph-only fixed resolution probe; no outcomes or patient predictors",resolutions=[1,2,4,8],seed=1979,producer_sha256=sha(pathlib.Path(__file__)),time=time.time()),indent=2))
+rows=[]
+for c in ("BRCA","LUAD","COAD"):
+    folder=N/c
+    rec=json.loads((folder/"COMPLETE.json").read_text())
+    for name in ("TYPED_union.parquet","NODES.tsv"):
+        assert sha(folder/name)==rec["files"][name]
+    nodes=pd.read_csv(folder/"NODES.tsv",sep="\t").node_id.to_numpy()
+    e=pd.read_parquet(folder/"TYPED_union.parquet")
+    graph=nx.Graph()
+    for kind,part in e.groupby("kind",sort=True):
+        w=part.weight.to_numpy(float);w=w/w.sum()
+        graph.add_weighted_edges_from(zip(part.lo.astype(int),part.hi.astype(int),w))
+    for resolution in (1,2,4,8):
+        communities=nx.community.louvain_communities(graph,weight="weight",resolution=resolution,seed=1979)
+        communities=sorted(communities,key=lambda v:min(v))
+        mapping={nodes[i]:j for j,group in enumerate(communities) for i in group}
+        f=pd.DataFrame(mapping.items(),columns=["node_id","module"])
+        f.to_csv(O/(c+"_resolution"+str(resolution)+".tsv"),sep="\t",index=False)
+        if resolution==1:
+            original=pd.read_csv(folder/"MODULES_union.tsv",sep="\t").set_index("node_id").module
+            pd.testing.assert_series_equal(f.set_index("node_id").module.sort_index(),original.sort_index())
+        for typ in ("ALL","L","G"):
+            ff=f if typ=="ALL" else f[f.node_id.str.startswith(typ+":")]
+            sizes=ff.module.value_counts()
+            rows.append(dict(cancer=c,resolution=resolution,node_type=typ,nodes=len(ff),communities=len(sizes),largest_group=int(sizes.max()),largest_group_fraction=float(sizes.max()/len(ff)),singleton_nodes=int(sizes.eq(1).sum())))
+        pd.DataFrame(rows).to_csv(O/"RESULTS.tsv",sep="\t",index=False)
+        print("PROBE",c,resolution,[r for r in rows[-3:] if r["node_type"]=="L"][0],flush=True)
+(O/"COMPLETE.json").write_text(json.dumps(dict(target_host="149",status="COMPLETE",source_outcomes_used=False,training_modified=False,files={p.name:sha(p) for p in O.iterdir() if p.is_file()},time=time.time()),indent=2))
+print("RESOLUTION_PROBE_COMPLETE",flush=True)

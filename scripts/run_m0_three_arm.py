@@ -193,15 +193,18 @@ if __name__=='__main__':
     for n in ['cancer','output']:p.add_argument('--'+n,required=True)
     for n in ['aligned','splits','covariates']:p.add_argument('--'+n)
     p.add_argument('--workers',type=int,default=8);p.add_argument('--config')
-    p.add_argument('--estimator',choices=['lasso','graph_ridge','network_validation'],default='lasso')
+    p.add_argument('--estimator',choices=['lasso','graph_ridge','network_validation','network_resolution4'],default='lasso')
     p.add_argument('--omics-input',help='Verified graph-ridge multiomics input directory')
     p.add_argument('--network-controls',help='Verified typed network/null-control directory')
     p.add_argument('--phase',help='Network validation phase: repeat0_outer0 through repeat1_outer4, or final')
     a=p.parse_args()
     if not 1<=a.workers<=24:raise ValueError('At most 24 CPU workers')
-    if a.estimator=='network_validation':
+    if a.estimator in ('network_validation','network_resolution4'):
         if not all([a.omics_input,a.network_controls,a.phase]):p.error('Network validation requires --omics-input, --network-controls and --phase')
-        from run_network_validation import run as run_network
+        if a.estimator=='network_resolution4':
+            from run_network_resolution_validation import run as run_network
+        else:
+            from run_network_validation import run as run_network
         run_network(a.omics_input,a.network_controls,a.output,a.cancer,a.phase)
     elif a.estimator=='graph_ridge':
         if not a.omics_input:p.error('--graph_ridge requires --omics-input')

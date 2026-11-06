@@ -1,0 +1,17 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "patient_performance_pending": true,
+  "test": "test_resolution_runner_matches_frozen_solver_and_zero_power",
+  "scope": [
+    "Same-partition prediction, parameter and lambda agreement with original solver",
+    "Exact zero-power equal-ridge predictions",
+    "72 saved-model round-trips",
+    "Wrong-resolution rejection"
+  ],
+  "code_sha256": {
+    "scripts/run_network_resolution_validation.py": "1da919ea0ec880e2457ec7b02f86c2728bb11636459adb3808977d0de71a0b8d",
+    "tests/test_network_resolution_validation.py": "412a64551b769dbe4a9e829503b4169018f305ce5f0b45376886e3a365a9b81d"
+  },
+  "topology_only_choice": true
+}

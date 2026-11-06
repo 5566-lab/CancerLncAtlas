@@ -1,0 +1,41 @@
+{
+  "target_host": "149",
+  "status": "REGISTERED_BEFORE_INSPECTING_PATIENT_METRICS",
+  "reason": "Resolution-1 union puts 99.39%-99.71% of connected lncRNA anchors in one group, so the module prior gives nearly all connected lncRNA the same shrinkage multiplier.",
+  "selection_basis": "Graph-only probe at resolutions 1,2,4,8; choose the smallest tested resolution keeping the largest connected-lncRNA group at or below 25% in all three cancers. This criterion was set after inspecting the topology probe, without patient outcomes.",
+  "resolution": 4,
+  "seed": 1979,
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "targets": "All original 8750 candidate outcomes per cancer; same failure rules",
+  "arms": [
+    "lncrna",
+    "mrna",
+    "combined"
+  ],
+  "models": [
+    "union",
+    "random_101",
+    "random_202",
+    "random_303",
+    "random_404",
+    "random_505"
+  ],
+  "validation": "Same two repetitions of five outer folds and two repetitions of three inner folds, plus final fit; same 17-lambda and four-power grids",
+  "primary_endpoints": [
+    "PROTEIN_PATHWAY",
+    "PHOSPHO_PTMSEA"
+  ],
+  "interpretation": "Exploratory structurally motivated follow-up, not originally prespecified; original experiment retained in full.",
+  "required_comparisons": [
+    "Resolution4 union vs resolution1 union",
+    "Resolution4 union vs adaptive-omics and equal ridge",
+    "Resolution4 union vs five resolution4 degree-preserving nulls",
+    "All three RNA arms on matched patients and targets"
+  ],
+  "scope_note": "No change to patient assays, native scores, clinical covariates, source exclusions or splits.",
+  "time": 1793944079.5786507
+}

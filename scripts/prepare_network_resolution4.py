@@ -1,0 +1,55 @@
+"""Materialize a graph-only resolution amendment without changing patient inputs."""
+import os
+for k in ("OPENBLAS_NUM_THREADS","OMP_NUM_THREADS","MKL_NUM_THREADS","NUMEXPR_NUM_THREADS"):os.environ[k]="1"
+import socket,pathlib,json,time,hashlib,shutil
+import numpy as np,pandas as pd,networkx as nx
+assert socket.gethostname()=="149"
+import argparse
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--networks",required=True);parser.add_argument("--output",required=True);parser.add_argument("--probe")
+args=parser.parse_args()
+SOURCE=pathlib.Path(args.networks)
+OUT=pathlib.Path(args.output)
+OUT.mkdir(exist_ok=False)
+MODES=("union","random_101","random_202","random_303","random_404","random_505")
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def dump(p,d):p.write_text(json.dumps(d,indent=2)+"\n")
+dump(OUT/"PREFLIGHT.json",dict(target_host="149",purpose="Graph-only resolution-4 follow-up; no patient values or outcomes used",source=str(SOURCE),producer_sha256=sha(pathlib.Path(__file__)),resolution=4,seed=1979,time=time.time()))
+for c in ("BRCA","LUAD","COAD"):
+    src=SOURCE/c;out=OUT/c;out.mkdir()
+    receipt=json.loads((src/"COMPLETE.json").read_text())
+    names=["FEATURE_MAP.parquet","NODES.tsv","CORRECTED_RNA_NETWORK_AUDIT.json"]+["TYPED_"+m+".parquet" for m in MODES]
+    for name in names:assert sha(src/name)==receipt["files"][name],name
+    nodes=pd.read_csv(src/"NODES.tsv",sep="\t").node_id.to_numpy()
+    fmap=pd.read_parquet(src/"FEATURE_MAP.parquet")
+    rows=[]
+    for mode in MODES:
+        e=pd.read_parquet(src/("TYPED_"+mode+".parquet"))
+        g=nx.Graph()
+        for kind,part in e.groupby("kind",sort=True):
+            w=part.weight.to_numpy(float);w=w/w.sum()
+            g.add_weighted_edges_from(zip(part.lo.astype(int),part.hi.astype(int),w))
+        comm=nx.community.louvain_communities(g,weight="weight",resolution=4,seed=1979)
+        comm=sorted(comm,key=lambda v:min(v))
+        mapping={nodes[i]:j for j,group in enumerate(comm) for i in group}
+        frame=pd.DataFrame(mapping.items(),columns=["node_id","module"])
+        frame.to_csv(out/("MODULES_"+mode+".tsv"),sep="\t",index=False)
+        fmap["module_"+mode]=fmap.anchor.map(mapping).fillna(-1).astype(int)
+        for typ in ("ALL","L","G"):
+            f=frame if typ=="ALL" else frame[frame.node_id.str.startswith(typ+":")]
+            sizes=f.module.value_counts()
+            rows.append(dict(cancer=c,mode=mode,resolution=4,node_type=typ,nodes=len(f),communities=len(sizes),largest_nodes=int(sizes.max()),largest_fraction=float(sizes.max()/len(f))))
+        if mode=="union":
+            r=next(r for r in rows if r["mode"]=="union" and r["node_type"]=="L")
+            assert r["largest_fraction"]<=0.25
+            if args.probe:
+                original=pd.read_csv(pathlib.Path(args.probe)/(c+"_resolution4.tsv"),sep="\t")
+                pd.testing.assert_frame_equal(frame,original)
+        print("PARTITION_PREPARED",c,mode,len(comm),flush=True)
+    fmap.to_parquet(out/"FEATURE_MAP.parquet",index=False)
+    pd.DataFrame(rows).to_csv(out/"PARTITION_AUDIT.tsv",sep="\t",index=False)
+    for name in ("NODES.tsv","CORRECTED_RNA_NETWORK_AUDIT.json"):shutil.copyfile(src/name,out/name)
+    dump(out/"PROVENANCE.json",dict(target_host="149",original_network_receipt=sha(src/"COMPLETE.json"),resolution=4,seed=1979,fitted_modes=MODES,unfitted_ppi_rpi_columns="Retained original values for compatibility with shared context builder; no follow-up PPI-only/RPI-only model uses them",source_files={n:sha(src/n) for n in names}))
+    dump(out/"COMPLETE.json",dict(target_host="149",status="COMPLETE",files={p.name:sha(p) for p in out.iterdir() if p.is_file()}))
+dump(OUT/"ALL_COMPLETE.json",dict(target_host="149",status="COMPLETE",cancers=["BRCA","LUAD","COAD"],resolution=4,patient_outcomes_read=False,time=time.time()))
+print("ALL_RESOLUTION4_INPUTS_COMPLETE",flush=True)
