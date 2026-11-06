@@ -11,12 +11,14 @@ from cc_hhgt.m0_covariates import complete_rows
 from cc_hhgt.m0_three_arm import regression_metrics,compare_target
 from cc_hhgt.graph_ridge import *
 from prepare_graph_ridge import dump
+from cc_hhgt.network_evidence import require_physical_network_receipt
 VARIANTS=('rna_only','multiomics_ridge','multiomics_graph','omics_only')
 
 def run(source,output,cancer):
     if socket.gethostname()!='149':raise RuntimeError('HOST_149_REQUIRED')
     src=Path(source)/cancer;out=Path(output)/cancer;out.mkdir(parents=True,exist_ok=True)
-    launch=dict(target_host='149',cancer=cancer,input_receipt=sha(src/'COMPLETE.json'),code={str(p.relative_to(ROOT)):sha(p) for p in [Path(__file__),ROOT/'cc_hhgt/graph_ridge.py',ROOT/'cc_hhgt/m0_covariates.py',ROOT/'cc_hhgt/m0_three_arm.py']},etas=ETAS,lambdas=LAMBDAS.tolist(),split_policy='UNCHANGED_M0_FIVE_FOLDS',preprocessing='TRAIN_ONLY_X_MEDIAN_SCALE_QUALITY; all covariate-complete training patients including those without specific Y; no held-out fitting',variants=VARIANTS)
+    require_physical_network_receipt(json.loads((src/'NETWORK_AUDIT.json').read_text()))
+    launch=dict(target_host='149',cancer=cancer,input_receipt=sha(src/'COMPLETE.json'),code={str(p.relative_to(ROOT)):sha(p) for p in [Path(__file__),ROOT/'cc_hhgt/graph_ridge.py',ROOT/'cc_hhgt/m0_covariates.py',ROOT/'cc_hhgt/m0_three_arm.py',ROOT/'cc_hhgt/network_evidence.py']},etas=ETAS,lambdas=LAMBDAS.tolist(),split_policy='UNCHANGED_M0_FIVE_FOLDS',preprocessing='TRAIN_ONLY_X_MEDIAN_SCALE_QUALITY; all covariate-complete training patients including those without specific Y; no held-out fitting',variants=VARIANTS)
     if (out/'LAUNCH_PREFLIGHT.json').exists() and json.loads((out/'LAUNCH_PREFLIGHT.json').read_text())!=json.loads(json.dumps(launch)):raise ValueError('EXPERIMENT_DRIFT')
     dump(out/'LAUNCH_PREFLIGHT.json',launch)
     rec=json.loads((src/'COMPLETE.json').read_text())

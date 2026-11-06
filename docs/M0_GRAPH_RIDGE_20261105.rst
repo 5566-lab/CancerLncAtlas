@@ -263,3 +263,20 @@ Result root:
 Report root:
 ``/dell_2/DSC/CancerLncAtlas/results/model/M0_GRAPH_RIDGE_MULTIOMICS_REPORT_demo_20261106_r2``.
 Patient-level inputs and predictions remain outside the public Git repository.
+
+
+Physical RPI evidence correction (2026-11-06)
+-------------------------------------------
+
+The original RPI admission rule included ``experimental_unspecified``. An audit
+found expression/abundance, reporter and unspecified evidence in that class;
+these are not physical RNA-protein interaction evidence. The historical graph
+gain figures therefore describe the old contaminated prior and must not be
+interpreted as a validated physical PPI/RPI result. Patient measurements, native
+Y and the non-network ridge comparisons are unchanged.
+
+The preparation gate now requires an explicit physical method and a
+``physical_binding`` evidence family. Historical input receipts are rejected
+by the graph-ridge launcher. Corrected controlled experiments are documented in
+``docs/NETWORK_VALIDATION_20261106.rst``; their final results are reported only
+after all repeated nested-CV phases finish.

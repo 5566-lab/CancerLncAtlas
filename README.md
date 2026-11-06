@@ -32,6 +32,11 @@ The comparison includes ordinary ridge on the same inputs and a shared-omics-onl
 baseline. Protein/phosphosite and genomic-derived outcomes exclude their own
 measurement blocks. RNA-derived labels retain lncRNA predictors, with constituent
 and scoring-background overlap disclosed. See [model and validation details](docs/M0_GRAPH_RIDGE_20261105.rst).
+The 2026-11-06 evidence audit found nonphysical expression/reporter records in the
+old RPI prior. Those historical graph-gain results are not validated physical-RPI
+results. The launcher now requires explicit physical evidence; corrected network
+controls and repeated nested CV are described in
+[network validation](docs/NETWORK_VALIDATION_20261106.rst).
 The r2 three-cancer fit is complete: 29 tests and all 18 result audits passed.
 Training-only support bounds prevent sparse-assay extrapolation; pure RNA
 baselines remain unchanged. Protein paired median combined-minus-mRNA R2 is

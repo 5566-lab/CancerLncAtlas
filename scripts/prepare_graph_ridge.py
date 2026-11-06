@@ -7,6 +7,7 @@ from scipy import sparse
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from cc_hhgt.m0_three_arm import feature_axes,restrict_split
 from cla_engine.common import sha
+from cc_hhgt.network_evidence import physical_rpi_mask
 
 def dump(p,d):p.write_text(json.dumps(d,indent=2,sort_keys=True,default=str))
 def verify(p,h):
@@ -31,9 +32,11 @@ def network(authority,features,cancer):
     pp=tables['ppi'];a=pp.protein_id_a.map(gm);b=pp.protein_id_b.map(gm)
     pp=pd.DataFrame(dict(a=a,b=b,weight=pp.weight,kind='PPI'))
     ri=tables['lnc_protein_binding'];original=len(ri)
-    allowed=['eclip','other_clip','rip','rna_capture','other_physical','experimental_unspecified']
-    ri=ri[ri.graph_assay_class.isin(allowed)&(~ri.is_context_specific | ri.cancer_id.eq(cancer))].copy()
+    physical=physical_rpi_mask(ri);excluded_nonphysical=int((~physical&~ri.graph_assay_class.isin(['predicted','unknown'])).sum())
+    ri=ri[physical&(~ri.is_context_specific | ri.cancer_id.eq(cancer))].copy()
     ri=pd.DataFrame(dict(a=ri.lncrna_id.str.removeprefix('LNC:'),b=ri.protein_id.map(gm),weight=ri.weight,kind='RPI'))
+    coding=set(features.loc[features.feature_type.eq('mrna'),'gene_id']);lnc=set(features.loc[features.feature_type.eq('lncrna'),'gene_id'])
+    pp=pp[pp.a.isin(coding)&pp.b.isin(coding)];ri=ri[ri.a.isin(lnc)&ri.b.isin(coding)]
     e=pd.concat([pp,ri],ignore_index=True);e=e[e.a.isin(axis)&e.b.isin(axis)&e.a.ne(e.b)]
     if not np.isfinite(e.weight).all() or e.weight.le(0).any():raise ValueError('INVALID_NETWORK_WEIGHT')
     e['i']=e.a.map(axis);e['j']=e.b.map(axis)
@@ -43,7 +46,7 @@ def network(authority,features,cancer):
     adj=sparse.coo_matrix((collapsed.weight,(collapsed.lo,collapsed.hi)),shape=(len(axis),len(axis))).tocsr();adj=adj+adj.T
     degree=np.asarray(adj.sum(axis=1)).ravel();inv=np.divide(1,np.sqrt(degree),out=np.zeros_like(degree),where=degree>0)
     lap=sparse.diags((degree>0).astype(float))-sparse.diags(inv)@adj@sparse.diags(inv)
-    audit=dict(nodes=len(axis),undirected_edges=len(collapsed),by_kind=provenance.kind.value_counts().to_dict(),connected_nodes=int((degree>0).sum()),connected_lncrna=int(((degree>0)&features.feature_type.eq('lncrna')).sum()),connected_mrna=int(((degree>0)&features.feature_type.eq('mrna')).sum()),rpi_source_rows=original,rpi_policy='EXPERIMENTAL_CLASSES_ONLY; GLOBAL_OR_MATCHING_CANCER; UNKNOWN_AND_PREDICTED_EXCLUDED',ppi_policy='EXISTING_STRING_CONFIDENCE_PRIOR; ASSOCIATION_NOT_ASSUMED_DIRECT_PHYSICAL',projection='PPI maps protein pairs to unambiguous encoding genes; RPI maps lncRNA to partner encoding gene',latent_bridge='Unmeasured RNA-arm genes remain topology-only coefficients in I+eta*L; no expression from excluded arm is supplied')
+    audit=dict(nodes=len(axis),undirected_edges=len(collapsed),by_kind=provenance.kind.value_counts().to_dict(),connected_nodes=int((degree>0).sum()),connected_lncrna=int(((degree>0)&features.feature_type.eq('lncrna')).sum()),connected_mrna=int(((degree>0)&features.feature_type.eq('mrna')).sum()),rpi_source_rows=original,rpi_rejected_nonphysical_experimental_rows=excluded_nonphysical,rpi_policy='EXPLICIT_PHYSICAL_METHOD_AND_FAMILY_REQUIRED; lncRNA_TO_CODING_RNA_PROXY; GLOBAL_OR_MATCHING_CANCER; ABUNDANCE_REPORTER_UNSPECIFIED_PREDICTED_EXCLUDED',ppi_policy='EXISTING_STRING_CONFIDENCE_PRIOR; ASSOCIATION_NOT_ASSUMED_DIRECT_PHYSICAL',projection='PPI maps protein pairs to unambiguous encoding genes; RPI maps lncRNA to partner encoding gene',latent_bridge='Unmeasured RNA-arm genes remain topology-only coefficients in I+eta*L; no expression from excluded arm is supplied')
     return lap.tocsr(),provenance,audit
 
 def prepare(work,output):
