@@ -1,0 +1,18 @@
+{
+  "target_host": "149",
+  "purpose": "Aggregate graph-source and feature-map audit; no patient-level rows or scores exported",
+  "source": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/network_source_review_r1",
+  "files": {
+    "RPI_EVIDENCE_COUNTS.tsv": "d54389b0f80e31f3fa3abb7cb1abe09b45e141af1855564284e10f896c2cdafc",
+    "execution.log": "308aa178f37fca72570d571d9d7e26f44eb408bd2ef7528870ac1752a5a58040",
+    "EVIDENCE_BINDINGS.json": "2cd5ce66444f333e763235ad43136a9704ce65da55cb3a9da4d60e65f38ef465",
+    "PREFLIGHT.json": "0e69e2299c1238c83d2f4fe5550aa5d10cfe92bc926b9d026edf8a683d755d1a",
+    "LUAD_REVIEW.json": "f5205b5bed42c5fc784cdb5bb04b49c2d0b22a077127057cd55d9f538e0ac3f6",
+    "COAD_REVIEW.json": "bdd0498fa4cb84083fd73254f9ca72b4628996657c951302a7b5d17600a407ad",
+    "audit_network_source_r1.py.txt": "d6e5f43c90913efa9d971443283c0e2463e13f651d4e0628fab3e3ab5eafca8b",
+    "COMPLETE.json": "d742b83738fb55f5b51f1dfba417070f55cadbdd4168eccc0a6cf387d23f77b2",
+    "PHASE_PARITY.json": "492234a8b4feb698d4e585416fe1b8f92335d5f4d3c57a289d893c31a782a391",
+    "BRCA_REVIEW.json": "4f03ea71f29a6e2bdd65d0a48b5123a34108c762b4f0d23166c71778a7e7ecb6"
+  },
+  "time": 1793964681.2315361
+}

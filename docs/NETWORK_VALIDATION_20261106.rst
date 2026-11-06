@@ -220,7 +220,7 @@ with the pinned Python environment and the repository on PYTHONPATH::
   python scripts/diagnose_network_prior.py --output /NEW/DIAGNOSTIC_DIRECTORY
 
 These simulated results demonstrate sensitivity under the stated data
-construction. They do not establish that physical PPI/RPI improves the actual
+construction. They do not establish that these PPI/RPI priors improve the actual
 patient outcomes. That conclusion still requires all prespecified patient
 phases, failure/coverage audits, paired comparisons and uncertainty intervals.
 
@@ -476,3 +476,64 @@ not external validation, absolute pathway activation or causal lncRNA effects.
 
 Aggregate original-scope review evidence is in
 provenance/network_validation_20261106/original_review.
+
+
+Actual source-network and feature-map reconstruction
+---------------------------------------------------
+
+An independent host149 audit reconstructed every observed typed edge and RNA
+proxy edge from the hash-bound authority tables for BRCA, LUAD and COAD. It
+also checked all 395,642 feature-map rows (131,816 / 142,044 / 121,782), including
+feature order, unambiguous gene mapping, biological node type, retained unmapped
+features and saved module assignments. All reconstructed values matched.
+
+Typed PPI edge counts are 76,532 / 76,532 / 76,403 and typed RPI counts are
+77,083 / 73,390 / 75,304. All fifteen typed null graphs retain the exact
+per-relation unweighted degrees and weight multisets. This does not establish
+weighted-node-strength preservation or complete null-chain mixing. The module
+membership columns were checked; the Louvain optimization was not rerun.
+
+The PPI source is a four-column STRING association table. It does not establish
+that every PPI edge is direct physical binding. The RPI gate requires explicit
+physical-binding assay annotations, which is stricter than the retired generic
+experimental category; this audit is not new literature-level verification of
+every experiment. The source policy and its biological limitations must remain
+separate from the numerical correctness of graph construction.
+
+The fine follow-up changes only the union and five null module assignments.
+Patient predictors, native outcomes, covariates, candidate targets and original
+split inputs retain their original checksums. At this audit snapshot, all 31
+launched original/fine phase pairs had identical input receipts, common solver
+code and full outer/inner split definitions. The two unlaunched phase pairs and
+the complete fine-result comparison remain pending. No training or score files
+were altered by this audit. Evidence and the exact executed audit source are in
+``provenance/network_validation_20261106/source_review/``.
+
+Cancer-specific interpretation of the original comparison
+---------------------------------------------------------
+
+The original coarse union underperforms adaptive-omics ridge in all three
+cancers for both primary assay layers. In the combined RNA arm, the paired
+family-balanced mean R2 differences are:
+
+.. csv-table:: Combined-arm coarse union minus adaptive-omics ridge
+   :header: "Cancer", "Protein delta R2", "Phosphorylation delta R2"
+
+   "BRCA", -0.026862, -0.013848
+   "LUAD", -0.052818, -0.021235
+   "COAD", -0.065077, -0.026833
+
+All six conditional paired-bootstrap intervals exclude zero below it. These
+intervals condition on the fitted cross-validation models; they are not external
+validation and do not include model-refitting uncertainty. In contrast, the
+coarse union improves over equal-ridge in all six comparisons. Thus a positive
+comparison with equal-ridge alone does not establish improvement over a stronger
+network-free baseline.
+
+The lncRNA increment is heterogeneous. Within the coarse union, protein
+combined-minus-mRNA differences are -0.010026 / +0.003478 / +0.007982; their
+three-cancer average interval crosses zero. Phosphorylation differences are
++0.006022 / +0.001477 / +0.002397, with the latter two individual intervals
+crossing zero. In adaptive-omics ridge, adding lncRNA lowers the protein result
+in all three cancers. These are original-model results; the finer-network
+follow-up is still required before the full network-modeling conclusion.

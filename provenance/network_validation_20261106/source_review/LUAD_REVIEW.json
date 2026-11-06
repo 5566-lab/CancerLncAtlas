@@ -1,0 +1,112 @@
+{
+  "cancer": "LUAD",
+  "feature_mapping": [
+    {
+      "block": "RNA",
+      "connected_union": 13682,
+      "features": 36780,
+      "mapped": 36780
+    },
+    {
+      "block": "CNV",
+      "connected_union": 9995,
+      "features": 19267,
+      "mapped": 18479
+    },
+    {
+      "block": "MUTATION",
+      "connected_union": 6132,
+      "features": 11859,
+      "mapped": 11428
+    },
+    {
+      "block": "PROTEIN",
+      "connected_union": 8006,
+      "features": 12433,
+      "mapped": 12433
+    },
+    {
+      "block": "PHOSPHO",
+      "connected_union": 43955,
+      "features": 61705,
+      "mapped": 61705
+    }
+  ],
+  "legacy_edges": 149766,
+  "null_controls": [
+    {
+      "degree_equal": true,
+      "edges": 76532,
+      "kind": "PPI",
+      "seed": 101,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 73390,
+      "kind": "RPI",
+      "seed": 101,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 76532,
+      "kind": "PPI",
+      "seed": 202,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 73390,
+      "kind": "RPI",
+      "seed": 202,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 76532,
+      "kind": "PPI",
+      "seed": 303,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 73390,
+      "kind": "RPI",
+      "seed": 303,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 76532,
+      "kind": "PPI",
+      "seed": 404,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 73390,
+      "kind": "RPI",
+      "seed": 404,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 76532,
+      "kind": "PPI",
+      "seed": 505,
+      "weight_multiset_equal": true
+    },
+    {
+      "degree_equal": true,
+      "edges": 73390,
+      "kind": "RPI",
+      "seed": 505,
+      "weight_multiset_equal": true
+    }
+  ],
+  "patient_input_hashes_unchanged": true,
+  "source_reconstruction_exact": true,
+  "typed_ppi_edges": 76532,
+  "typed_rpi_edges": 73390
+}

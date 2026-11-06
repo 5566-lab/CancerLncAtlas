@@ -1,0 +1,8 @@
+{
+  "producer": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/audit_network_source_r1.py",
+  "producer_sha256": "d6e5f43c90913efa9d971443283c0e2463e13f651d4e0628fab3e3ab5eafca8b",
+  "purpose": "Independent read-only reconstruction of bound graph inputs and follow-up parity.",
+  "read_only_sources": true,
+  "target_host": "149",
+  "time": 1793964241.7549658
+}

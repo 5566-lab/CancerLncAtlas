@@ -1,0 +1,177 @@
+"""Independent read-only reconstruction of bound graph inputs and follow-up parity."""
+import os
+for k in ("OPENBLAS_NUM_THREADS","OMP_NUM_THREADS","MKL_NUM_THREADS","NUMEXPR_NUM_THREADS"):
+    os.environ[k]="1"
+os.environ["PYTHONDONTWRITEBYTECODE"]="1"
+import pathlib,socket,json,time,hashlib,sys,re
+assert socket.gethostname()=="149"
+R=pathlib.Path("/dell_2/DSC/CancerLncAtlas")
+P=R/"runtime/network_validation_20261106_r1"
+OUT=P/"network_source_review_r1"
+OUT.mkdir(exist_ok=True)
+def sha(p):
+    h=hashlib.sha256()
+    with pathlib.Path(p).open("rb") as f:
+        for chunk in iter(lambda:f.read(8*1024*1024),b""):h.update(chunk)
+    return h.hexdigest()
+def dump(p,d):p.write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
+def read(p):return json.loads(p.read_text())
+dump(OUT/"PREFLIGHT.json",dict(target_host="149",purpose=__doc__,producer=str(pathlib.Path(__file__)),producer_sha256=sha(__file__),time=time.time(),read_only_sources=True))
+sys.path.insert(0,"/dsk2/user/dengsc/cla_m0_joint_20261105_r1/python_deps")
+import numpy as np,pandas as pd,pyarrow.parquet as pq
+NET=R/"inputs/network_validation_20261106_r3"
+FNET=R/"inputs/network_resolution4_20261106_r1"
+INPUT=R/"inputs/graph_ridge_20261106_verified_r1"
+T=R/"results/model/NETWORK_VALIDATION_demo_20261106_r2"
+F=R/"results/model/NETWORK_RESOLUTION4_demo_20261106_r1"
+evidence={}
+def verify(p,h):
+    observed=sha(p);assert observed==h,(str(p),observed,h)
+    evidence[str(p)]=observed
+def receipt(root):
+    d=read(root/"COMPLETE.json")
+    assert d["status"]=="COMPLETE"
+    for name,h in d["files"].items():verify(root/name,h)
+    evidence[str(root/"COMPLETE.json")]=sha(root/"COMPLETE.json")
+    return d
+authority=pathlib.Path(read(NET/"BRCA/BOUND_SOURCES.json")["authority"])
+ar=read(authority);tables={}
+for key in ("ppi","protein_gene_encoding","lnc_protein_binding"):
+    item=ar["artifacts"][key];verify(item["path"],item["sha256"])
+    tables[key]=pd.read_parquet(item["path"])
+pg=tables["protein_gene_encoding"]
+unique=pg.groupby("protein_id").gene_id.nunique()
+pg=pg[pg.protein_id.isin(unique[unique.eq(1)].index)].drop_duplicates("protein_id")
+gm={p:g.removeprefix("GENE:") for p,g in zip(pg.protein_id,pg.gene_id)}
+rr=tables["lnc_protein_binding"]
+classes={"eclip","other_clip","rip","rna_capture","other_physical"}
+assays={"eclip","clip_unspecified","hits_clip","iclip","par_clip","rip","chart","chirp","rap","rna_pulldown","co_ip","emsa"}
+admit=np.array([c in classes and f=="physical_binding" and isinstance(a,str) and bool(a) and set(a.split("|"))<=assays for c,f,a in zip(rr.graph_assay_class,rr.experiment_family,rr.assay_subtype)])
+assert not rr.loc[admit,"experiment_family"].isin(["expression_or_abundance","reporter","computational_prediction"]).any()
+evidence_counts=rr.assign(physical_rpi_admitted=admit).groupby(["physical_rpi_admitted","source_database","graph_assay_class","experiment_family","assay_subtype"],dropna=False).size().rename("rows").reset_index()
+evidence_counts.to_csv(OUT/"RPI_EVIDENCE_COUNTS.tsv",sep="\t",index=False)
+pp=tables["ppi"]
+ppi_pairs=[(gm.get(a),gm.get(b),float(w)) for a,b,w in zip(pp.protein_id_a,pp.protein_id_b,pp.weight)]
+summary=[];phase_checks=[]
+def canon_frame(frame):
+    return {(int(a),int(b),str(k)):float(w) for a,b,k,w in frame[["lo","hi","kind","weight"]].itertuples(index=False,name=None)}
+def validate_edges(p,expected):
+    d=pd.read_parquet(p)
+    assert not d.duplicated(["lo","hi","kind"]).any()
+    observed=canon_frame(d)
+    assert observed==expected,(str(p),len(observed),len(expected))
+    assert np.isfinite(d.weight).all() and d.weight.gt(0).all() and d.lo.ne(d.hi).all()
+    return d
+for c in ("BRCA","LUAD","COAD"):
+    print("REVIEW_START",c,flush=True)
+    n=NET/c;f=FNET/c;inp=INPUT/c
+    nr=receipt(n);fr=receipt(f);ir=receipt(inp)
+    bound=read(n/"BOUND_SOURCES.json")
+    for key in ("authority","annotation","input_receipt"):verify(bound[key],bound[key+"_sha256"])
+    original_input=pathlib.Path(bound["input_receipt"]).parent
+    old=read(original_input/"COMPLETE.json")
+    for name in ("RNA.parquet","CNV.parquet","MUTATION.parquet","PROTEIN.parquet","PHOSPHO.parquet","Y.parquet","COVARIATES.parquet","RNA_FEATURES.tsv","TARGETS.tsv","SPLITS.json"):
+        assert old["files"][name]==ir["files"][name],(c,name,"PATIENT_INPUT_CHANGED")
+    fm=pd.read_parquet(n/"FEATURE_MAP.parquet");ff=pd.read_parquet(f/"FEATURE_MAP.parquet")
+    attrs=["block","position","feature_id","gene_id","anchor","rna_arm","mapping_status"]
+    pd.testing.assert_frame_equal(fm[attrs],ff[attrs],check_exact=True)
+    pd.testing.assert_frame_equal(fm[["module_ppi","module_rpi"]],ff[["module_ppi","module_rpi"]],check_exact=True)
+    ft=pd.read_csv(inp/"RNA_FEATURES.tsv",sep="\t")
+    lnc=set(ft.loc[ft.feature_type.eq("lncrna"),"gene_id"]);coding=set(ft.loc[ft.feature_type.eq("mrna"),"gene_id"])
+    assert lnc.isdisjoint(coding) and ft.gene_id.is_unique and ft.feature_id.is_unique
+    ann=pd.read_csv(bound["annotation"],sep="\t")
+    symbol_candidates={}
+    for symbol,gene in ann[["reference_symbol","gene_id"]].itertuples(index=False,name=None):
+        if pd.notna(symbol) and pd.notna(gene):symbol_candidates.setdefault(symbol,set()).add(gene)
+    sym={s:next(iter(v)) for s,v in symbol_candidates.items() if len(v)==1}
+    block_counts=[]
+    for block in ("RNA","CNV","MUTATION","PROTEIN","PHOSPHO"):
+        actual=fm[fm.block.eq(block)].reset_index(drop=True)
+        schema=pq.read_schema(inp/(block+".parquet"));meta=json.loads(schema.metadata[b"pandas"])
+        index={v for v in meta["index_columns"] if isinstance(v,str)}
+        cols=[v for v in schema.names if v not in index]
+        assert actual.feature_id.tolist()==cols
+        assert actual.position.tolist()==list(range(len(cols)))
+        for pos,col in enumerate(cols):
+            arm=None;status="EXACT_GENE_ID"
+            if block=="RNA":
+                row=ft.iloc[pos];assert col==row.feature_id
+                gene=row.gene_id;arm=row.feature_type;anchor=("L:" if arm=="lncrna" else "G:")+gene
+            elif block in ("PROTEIN","PHOSPHO"):
+                match=re.fullmatch(r"ENSG[0-9]+",col.partition(":")[2].partition("|")[0].partition(".")[0])
+                gene=match.group(0) if match else None
+                anchor="G:"+gene if gene else None
+                if gene is None:status="UNMAPPED_FEATURE_ID"
+            else:
+                gene=sym.get(col.partition(":")[2])
+                anchor=(("L:" if gene in lnc else "G:")+gene) if gene else None
+                status="UNAMBIGUOUS_REFERENCE_SYMBOL" if gene else "UNMAPPED_OR_AMBIGUOUS_SYMBOL"
+            row=actual.iloc[pos]
+            for key,value in [("gene_id",gene),("anchor",anchor),("rna_arm",arm),("mapping_status",status)]:
+                assert (pd.isna(row[key]) if value is None else row[key]==value),(c,block,col,key)
+        block_counts.append(dict(block=block,features=len(actual),mapped=int(actual.anchor.notna().sum()),connected_union=int(actual.module_union.ge(0).sum())))
+    nodes=pd.read_csv(n/"NODES.tsv",sep="\t").node_id.tolist()
+    assert nodes==sorted(set(fm.anchor.dropna()))
+    assert nodes==pd.read_csv(f/"NODES.tsv",sep="\t").node_id.tolist()
+    axis={v:i for i,v in enumerate(nodes)}
+    selected=rr.loc[admit & ((~rr.is_context_specific)|rr.cancer_id.eq(c))]
+    rpi_pairs=[(a.removeprefix("LNC:"),gm.get(b),float(w)) for a,b,w in zip(selected.lncrna_id,selected.protein_id,selected.weight)]
+    expected_by_kind={}
+    for kind,pairs in (("PPI",ppi_pairs),("RPI",rpi_pairs)):
+        expected={}
+        for ga,gb,w in pairs:
+            if ga is None or gb is None:continue
+            a=axis.get(("L:" if kind=="RPI" else "G:")+ga);b=axis.get("G:"+gb)
+            if a is None or b is None or a==b:continue
+            if kind=="PPI":a,b=sorted((a,b))
+            key=(a,b,kind);expected[key]=max(expected.get(key,-np.inf),w)
+        observed=validate_edges(n/(kind+"_EDGES.parquet"),expected)
+        validate_edges(n/("TYPED_"+kind.lower()+".parquet"),expected)
+        expected_by_kind[kind]=expected
+    validate_edges(n/"TYPED_union.parquet",{**expected_by_kind["PPI"],**expected_by_kind["RPI"]})
+    legacy_expected={};rnaaxis=dict(zip(ft.gene_id,range(len(ft))))
+    for kind,pairs in (("PPI",ppi_pairs),("RPI",rpi_pairs)):
+        for ga,gb,w in pairs:
+            if ga not in (lnc if kind=="RPI" else coding) or gb not in coding or ga==gb:continue
+            a,b=sorted((rnaaxis[ga],rnaaxis[gb]));key=(a,b,kind);legacy_expected[key]=max(legacy_expected.get(key,-np.inf),w)
+    validate_edges(n/"CORRECTED_RNA_NETWORK_EDGES.parquet",legacy_expected)
+    nulls=[]
+    for seed in (101,202,303,404,505):
+        null=pd.read_parquet(n/("TYPED_random_"+str(seed)+".parquet"))
+        for kind in ("PPI","RPI"):
+            q=null[null.kind.eq(kind)]
+            expected=expected_by_kind[kind];original=pd.DataFrame([(a,b,w) for (a,b,k),w in expected.items()],columns=["lo","hi","weight"])
+            assert len(q)==len(expected) and not q.duplicated(["lo","hi"]).any() and q.lo.ne(q.hi).all()
+            assert np.array_equal(np.bincount(np.r_[q.lo,q.hi],minlength=len(nodes)),np.bincount(np.r_[original.lo,original.hi],minlength=len(nodes)))
+            assert np.array_equal(np.sort(q.weight),np.sort(original.weight))
+            assert all(nodes[int(v)].startswith("G:") for v in q.hi)
+            assert all(nodes[int(v)].startswith("L:" if kind=="RPI" else "G:") for v in q.lo)
+            nulls.append(dict(seed=seed,kind=kind,edges=len(q),degree_equal=True,weight_multiset_equal=True))
+    for root,mapping in ((n,fm),(f,ff)):
+        for mod in [v for v in mapping.columns if v.startswith("module_")]:
+            path=root/("MODULES_"+mod.removeprefix("module_")+".tsv")
+            if not path.exists():
+                assert root==f and mod in ("module_ppi","module_rpi");continue
+            groups=pd.read_csv(path,sep="\t");assert groups.node_id.is_unique
+            mapped=mapping.anchor.map(dict(zip(groups.node_id,groups.module))).fillna(-1).astype(int)
+            assert np.array_equal(mapped.to_numpy(),mapping[mod].to_numpy())
+    prov=read(f/"PROVENANCE.json");assert prov["resolution"]==4 and prov["seed"]==1979
+    assert prov["original_network_receipt"]==sha(n/"COMPLETE.json")
+    for name,h in prov["source_files"].items():verify(n/name,h)
+    for phase in ["final"]+["repeat"+str(r)+"_outer"+str(k) for r in (0,1) for k in range(5)]:
+        a=T/c/phase;b=F/c/phase
+        if not (b/"LAUNCH_PREFLIGHT.json").exists():
+            phase_checks.append(dict(cancer=c,phase=phase,status="NOT_YET_LAUNCHED"));continue
+        la=read(a/"LAUNCH_PREFLIGHT.json");lb=read(b/"LAUNCH_PREFLIGHT.json")
+        assert la["target_host"]==lb["target_host"]=="149"
+        assert la["input_receipt"]==lb["input_receipt"]==sha(inp/"COMPLETE.json")
+        assert la["network_receipt"]==sha(n/"COMPLETE.json") and lb["network_receipt"]==sha(f/"COMPLETE.json")
+        assert all(lb["code"][k]==v for k,v in la["code"].items())
+        assert read(a/"SPLIT.json")==read(b/"SPLIT.json")
+        phase_checks.append(dict(cancer=c,phase=phase,status="PASS",original_launch_sha256=sha(a/"LAUNCH_PREFLIGHT.json"),fine_launch_sha256=sha(b/"LAUNCH_PREFLIGHT.json"),split_sha256=sha(a/"SPLIT.json"),fine_split_sha256=sha(b/"SPLIT.json")))
+    row=dict(cancer=c,feature_mapping=block_counts,typed_ppi_edges=len(expected_by_kind["PPI"]),typed_rpi_edges=len(expected_by_kind["RPI"]),legacy_edges=len(legacy_expected),null_controls=nulls,source_reconstruction_exact=True,patient_input_hashes_unchanged=True)
+    summary.append(row);dump(OUT/(c+"_REVIEW.json"),row);print("REVIEW_PASS",c,len(fm),len(legacy_expected),flush=True)
+dump(OUT/"PHASE_PARITY.json",dict(target_host="149",phases=phase_checks,passed=sum(r["status"]=="PASS" for r in phase_checks),pending=sum(r["status"]!="PASS" for r in phase_checks)))
+dump(OUT/"EVIDENCE_BINDINGS.json",evidence)
+dump(OUT/"COMPLETE.json",dict(target_host="149",status="PASS_BOUND_GRAPH_INPUT_RECONSTRUCTION",cancers=summary,authority_sha256=sha(authority),ppi_interpretation="STRING association prior; direct physical binding is not established by this four-column artifact",rpi_interpretation="Explicit physical-binding assay annotation required; not a new literature-level validation of every experiment",scope_limits=["All actual feature-to-gene/anchor rows checked; no new assay/identifier mapping invented","All actual typed and RNA-proxy observed edges reconstructed independently from source tables","All typed null unweighted degrees and weight multisets verified; no weighted-node-strength or complete-mixing claim","Fine network grouping membership checked; Louvain optimization itself not rerun","All launched phase input/code/split identities checked; unlaunched phases remain pending","No training data, scores, fitted models or delivered reports modified"],files={p.name:sha(p) for p in OUT.iterdir() if p.is_file() and p.name!="COMPLETE.json"},time=time.time()))
+print("ALL_NETWORK_SOURCE_REVIEW_PASS",sum(r["status"]=="PASS" for r in phase_checks),"of33phase_pairs",flush=True)

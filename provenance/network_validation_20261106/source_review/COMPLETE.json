@@ -1,0 +1,363 @@
+{
+  "authority_sha256": "bdd82248ff27a6274b7cce01ab6ee212bc3c77ee476dce6b6dac6934cb34cbf2",
+  "cancers": [
+    {
+      "cancer": "BRCA",
+      "feature_mapping": [
+        {
+          "block": "RNA",
+          "connected_union": 14635,
+          "features": 36783,
+          "mapped": 36783
+        },
+        {
+          "block": "CNV",
+          "connected_union": 10620,
+          "features": 23692,
+          "mapped": 20885
+        },
+        {
+          "block": "MUTATION",
+          "connected_union": 5399,
+          "features": 9448,
+          "mapped": 8907
+        },
+        {
+          "block": "PROTEIN",
+          "connected_union": 8397,
+          "features": 12022,
+          "mapped": 12022
+        },
+        {
+          "block": "PHOSPHO",
+          "connected_union": 38600,
+          "features": 49871,
+          "mapped": 49871
+        }
+      ],
+      "legacy_edges": 153459,
+      "null_controls": [
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 101,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 77083,
+          "kind": "RPI",
+          "seed": 101,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 202,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 77083,
+          "kind": "RPI",
+          "seed": 202,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 303,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 77083,
+          "kind": "RPI",
+          "seed": 303,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 404,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 77083,
+          "kind": "RPI",
+          "seed": 404,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 505,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 77083,
+          "kind": "RPI",
+          "seed": 505,
+          "weight_multiset_equal": true
+        }
+      ],
+      "patient_input_hashes_unchanged": true,
+      "source_reconstruction_exact": true,
+      "typed_ppi_edges": 76532,
+      "typed_rpi_edges": 77083
+    },
+    {
+      "cancer": "LUAD",
+      "feature_mapping": [
+        {
+          "block": "RNA",
+          "connected_union": 13682,
+          "features": 36780,
+          "mapped": 36780
+        },
+        {
+          "block": "CNV",
+          "connected_union": 9995,
+          "features": 19267,
+          "mapped": 18479
+        },
+        {
+          "block": "MUTATION",
+          "connected_union": 6132,
+          "features": 11859,
+          "mapped": 11428
+        },
+        {
+          "block": "PROTEIN",
+          "connected_union": 8006,
+          "features": 12433,
+          "mapped": 12433
+        },
+        {
+          "block": "PHOSPHO",
+          "connected_union": 43955,
+          "features": 61705,
+          "mapped": 61705
+        }
+      ],
+      "legacy_edges": 149766,
+      "null_controls": [
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 101,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 73390,
+          "kind": "RPI",
+          "seed": 101,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 202,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 73390,
+          "kind": "RPI",
+          "seed": 202,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 303,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 73390,
+          "kind": "RPI",
+          "seed": 303,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 404,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 73390,
+          "kind": "RPI",
+          "seed": 404,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76532,
+          "kind": "PPI",
+          "seed": 505,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 73390,
+          "kind": "RPI",
+          "seed": 505,
+          "weight_multiset_equal": true
+        }
+      ],
+      "patient_input_hashes_unchanged": true,
+      "source_reconstruction_exact": true,
+      "typed_ppi_edges": 76532,
+      "typed_rpi_edges": 73390
+    },
+    {
+      "cancer": "COAD",
+      "feature_mapping": [
+        {
+          "block": "RNA",
+          "connected_union": 13861,
+          "features": 36783,
+          "mapped": 36783
+        },
+        {
+          "block": "CNV",
+          "connected_union": 11021,
+          "features": 25187,
+          "mapped": 21986
+        },
+        {
+          "block": "MUTATION",
+          "connected_union": 8073,
+          "features": 15174,
+          "mapped": 14706
+        },
+        {
+          "block": "PROTEIN",
+          "connected_union": 6335,
+          "features": 9151,
+          "mapped": 9151
+        },
+        {
+          "block": "PHOSPHO",
+          "connected_union": 25703,
+          "features": 35487,
+          "mapped": 35487
+        }
+      ],
+      "legacy_edges": 151680,
+      "null_controls": [
+        {
+          "degree_equal": true,
+          "edges": 76403,
+          "kind": "PPI",
+          "seed": 101,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 75304,
+          "kind": "RPI",
+          "seed": 101,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76403,
+          "kind": "PPI",
+          "seed": 202,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 75304,
+          "kind": "RPI",
+          "seed": 202,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76403,
+          "kind": "PPI",
+          "seed": 303,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 75304,
+          "kind": "RPI",
+          "seed": 303,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76403,
+          "kind": "PPI",
+          "seed": 404,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 75304,
+          "kind": "RPI",
+          "seed": 404,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 76403,
+          "kind": "PPI",
+          "seed": 505,
+          "weight_multiset_equal": true
+        },
+        {
+          "degree_equal": true,
+          "edges": 75304,
+          "kind": "RPI",
+          "seed": 505,
+          "weight_multiset_equal": true
+        }
+      ],
+      "patient_input_hashes_unchanged": true,
+      "source_reconstruction_exact": true,
+      "typed_ppi_edges": 76403,
+      "typed_rpi_edges": 75304
+    }
+  ],
+  "files": {
+    "BRCA_REVIEW.json": "4f03ea71f29a6e2bdd65d0a48b5123a34108c762b4f0d23166c71778a7e7ecb6",
+    "COAD_REVIEW.json": "bdd0498fa4cb84083fd73254f9ca72b4628996657c951302a7b5d17600a407ad",
+    "EVIDENCE_BINDINGS.json": "2cd5ce66444f333e763235ad43136a9704ce65da55cb3a9da4d60e65f38ef465",
+    "LUAD_REVIEW.json": "f5205b5bed42c5fc784cdb5bb04b49c2d0b22a077127057cd55d9f538e0ac3f6",
+    "PHASE_PARITY.json": "492234a8b4feb698d4e585416fe1b8f92335d5f4d3c57a289d893c31a782a391",
+    "PREFLIGHT.json": "0e69e2299c1238c83d2f4fe5550aa5d10cfe92bc926b9d026edf8a683d755d1a",
+    "RPI_EVIDENCE_COUNTS.tsv": "d54389b0f80e31f3fa3abb7cb1abe09b45e141af1855564284e10f896c2cdafc"
+  },
+  "ppi_interpretation": "STRING association prior; direct physical binding is not established by this four-column artifact",
+  "rpi_interpretation": "Explicit physical-binding assay annotation required; not a new literature-level validation of every experiment",
+  "scope_limits": [
+    "All actual feature-to-gene/anchor rows checked; no new assay/identifier mapping invented",
+    "All actual typed and RNA-proxy observed edges reconstructed independently from source tables",
+    "All typed null unweighted degrees and weight multisets verified; no weighted-node-strength or complete-mixing claim",
+    "Fine network grouping membership checked; Louvain optimization itself not rerun",
+    "All launched phase input/code/split identities checked; unlaunched phases remain pending",
+    "No training data, scores, fitted models or delivered reports modified"
+  ],
+  "status": "PASS_BOUND_GRAPH_INPUT_RECONSTRUCTION",
+  "target_host": "149",
+  "time": 1793964405.5503654
+}
