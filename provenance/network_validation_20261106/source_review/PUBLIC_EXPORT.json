@@ -4,7 +4,6 @@
   "source": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/network_source_review_r1",
   "files": {
     "RPI_EVIDENCE_COUNTS.tsv": "d54389b0f80e31f3fa3abb7cb1abe09b45e141af1855564284e10f896c2cdafc",
-    "execution.log": "308aa178f37fca72570d571d9d7e26f44eb408bd2ef7528870ac1752a5a58040",
     "EVIDENCE_BINDINGS.json": "2cd5ce66444f333e763235ad43136a9704ce65da55cb3a9da4d60e65f38ef465",
     "PREFLIGHT.json": "0e69e2299c1238c83d2f4fe5550aa5d10cfe92bc926b9d026edf8a683d755d1a",
     "LUAD_REVIEW.json": "f5205b5bed42c5fc784cdb5bb04b49c2d0b22a077127057cd55d9f538e0ac3f6",
@@ -14,5 +13,8 @@
     "PHASE_PARITY.json": "492234a8b4feb698d4e585416fe1b8f92335d5f4d3c57a289d893c31a782a391",
     "BRCA_REVIEW.json": "4f03ea71f29a6e2bdd65d0a48b5123a34108c762b4f0d23166c71778a7e7ecb6"
   },
-  "time": 1793964681.2315361
+  "time": 1793964681.2315361,
+  "server_only_artifacts": [
+    "execution.log"
+  ]
 }
