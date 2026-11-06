@@ -149,3 +149,31 @@ def test_prior_official_exclusions_and_mixed_aliquots_are_preserved():
     with pytest.raises(Stop) as e:
         align_samples(d, authority(), q)
     assert e.value.code == 'RPPA500_QUALITY_FLAG'
+
+
+@pytest.mark.parametrize('label, expected', [
+    ('STAT3-pY705', ['Y705']),
+    ('AKT2_pS474', ['S474']),
+    ('S6_pS235S236', ['S235', 'S236']),
+    ('P70S6K_pT389', ['T389']),
+    ('PRAS40_pT246', ['T246']),
+    ('FRS2ALPHA_pY196', ['Y196']),
+    ('MERIT40_pS29', ['S29']),
+    ('AURORAABC_pT288pT232pT198', ['T288', 'T232', 'T198']),
+    ('GSK3ALPHABETA_pS21S9', ['S21', 'S9']),
+    ('FRA1PS265CLEAVEDD22B1', []),
+])
+def test_phosphosite_labels_exclude_protein_name_numbers(label, expected):
+    from cla_engine.rppa500 import phosphosite_labels
+    assert phosphosite_labels(label) == expected
+
+
+def test_catalog_uses_suffix_parser_without_changing_antibody_identity():
+    x = catalog('STAT3PY705', kind='ptm').iloc[0]
+    assert x.reported_phosphosite_labels == 'Y705'
+    assert x.feature_id == 'RPPA500:STAT3PY705'
+    assert x.site_resolution == 'ANTIBODY_LABEL_ONLY_NOT_ISOFORM_SEQUENCE_VALIDATED'
+
+
+def test_total_protein_name_is_not_sent_to_phosphosite_parser():
+    assert catalog('RPS6', kind='total').iloc[0].reported_phosphosite_labels == ''

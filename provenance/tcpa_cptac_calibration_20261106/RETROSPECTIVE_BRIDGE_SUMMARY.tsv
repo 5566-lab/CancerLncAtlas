@@ -1,0 +1,7 @@
+cancer	center	layer	source_samples	source_features	rppa500_patient_overlap	current_rppa_rna_patient_overlap	same_sample_vial_verified
+BRCA	BI	protein	105	9733	105	104	False
+BRCA	BI	phospho	105	18806	105	104	False
+OV	JHU	protein	122	7625	116	89	False
+OV	PNNL	protein	84	6475	79	62	False
+OV	PNNL	phospho	69	4119	64	50	False
+COADREAD	VU	protein	90	5538	80	74	False

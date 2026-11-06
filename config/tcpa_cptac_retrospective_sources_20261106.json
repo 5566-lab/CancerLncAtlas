@@ -1,0 +1,88 @@
+{
+  "target_host": "149",
+  "source_pages": [
+    "https://www.linkedomics.org/data_download/TCGA-BRCA/",
+    "https://www.linkedomics.org/data_download/TCGA-OV/",
+    "https://www.linkedomics.org/data_download/TCGA-COADREAD/"
+  ],
+  "files": [
+    {
+      "cancer": "BRCA",
+      "layer": "protein",
+      "center": "BI",
+      "url": "https://linkedomics.org/data_download/TCGA-BRCA/Human__TCGA_BRCA__BI__Proteome__QExact__01_28_2016__BI__Gene__CDAP_iTRAQ_UnsharedLogRatio_r2.cct.gz",
+      "sha256": "4f25c15988bc61af5c041e7190418bf7ebedd8311a47d98aa5cbc83e4b4ea8a9",
+      "bytes": 2543706,
+      "samples": 105,
+      "first_features": [
+        "A1BG"
+      ],
+      "checksum_kind": "locally_computed_download_snapshot_not_publisher_checksum"
+    },
+    {
+      "cancer": "BRCA",
+      "layer": "phospho",
+      "center": "BI",
+      "url": "https://linkedomics.org/data_download/TCGA-BRCA/Human__TCGA_BRCA__BI__Phosphoproteome__QExact__01_28_2016__BI__Phosphosite__CDAP_iTRAQ_LogRatio_r3.cct.gz",
+      "sha256": "4e25dc178ce51c5cb24eedbe794ed2558886d8973de38026f9eba19b3fb02214",
+      "bytes": 4559506,
+      "samples": 105,
+      "first_features": [
+        "ACADVL_s522__NP_000009.1:s522"
+      ],
+      "checksum_kind": "locally_computed_download_snapshot_not_publisher_checksum"
+    },
+    {
+      "cancer": "OV",
+      "layer": "protein",
+      "center": "JHU",
+      "url": "https://linkedomics.org/data_download/TCGA-OV/Human__TCGA_OV__JHU__Proteome__Velos__01_28_2016__JHU__Gene__CDAP_iTRAQ_UnsharedLogRatio_r2.cct.gz",
+      "sha256": "ea0151e72324a1cf00f0c322903b0f3143a448e5c34c81ddf8d18002d790b8fd",
+      "bytes": 2158829,
+      "samples": 122,
+      "first_features": [
+        "A1BG"
+      ],
+      "checksum_kind": "locally_computed_download_snapshot_not_publisher_checksum"
+    },
+    {
+      "cancer": "OV",
+      "layer": "protein",
+      "center": "PNNL",
+      "url": "https://linkedomics.org/data_download/TCGA-OV/Human__TCGA_OV__PNNL__Proteome__Velos___QExact__01_28_2016__PNNL__Gene__CDAP_iTRAQ_UnsharedLogRatio_r2.cct",
+      "sha256": "dc1f09912429296cb08099545124270b8f68052093800b9c44d7c7e9d9ab1173",
+      "bytes": 3767068,
+      "samples": 84,
+      "first_features": [
+        "A1BG"
+      ],
+      "checksum_kind": "locally_computed_download_snapshot_not_publisher_checksum"
+    },
+    {
+      "cancer": "OV",
+      "layer": "phospho",
+      "center": "PNNL",
+      "url": "https://linkedomics.org/data_download/TCGA-OV/Human__TCGA_OV__PNNL__Phosphoproteome__Velos___QExact__01_28_2016__PNNL__Phosphosite__CDAP_iTRAQ_LogRato_r3.cct",
+      "sha256": "f5ec2610fd882a3ece156c9b650c5468e331e8a60ad995a798766f0fc8a2be15",
+      "bytes": 1821376,
+      "samples": 69,
+      "first_features": [
+        "PSEN1_s43__NP_000012.1:s43"
+      ],
+      "checksum_kind": "locally_computed_download_snapshot_not_publisher_checksum"
+    },
+    {
+      "cancer": "COADREAD",
+      "layer": "protein",
+      "center": "VU",
+      "url": "https://linkedomics.org/data_download/TCGA-COADREAD/Human__TCGA_COADREAD__VU__Proteome__Velos__01_28_2016__VU__Gene__CDAP_UnsharedPrecursorArea_r2.cct",
+      "sha256": "b409c6d2c6a5f2fa20619df6fcefa987a63fafaa6b92c540a3892cca5d002375",
+      "bytes": 2912139,
+      "samples": 90,
+      "first_features": [
+        "A1BG"
+      ],
+      "checksum_kind": "locally_computed_download_snapshot_not_publisher_checksum"
+    }
+  ]
+}

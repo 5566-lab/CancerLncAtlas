@@ -1,0 +1,11 @@
+source_cohort	common_single_gene_antibodies	primary_unique_valid_common_proteins	protein_pathways_any	protein_pathways_ge3	protein_pathways_ge5	protein_pathways_ge10
+BRCA	319	192	1395	626	342	93
+CCRCC	305	183	1375	590	325	85
+COAD	276	170	1350	557	303	71
+GBM	300	181	1382	574	327	81
+HNSCC	314	189	1390	591	334	87
+LSCC	321	193	1409	618	339	91
+LUAD	313	188	1394	595	339	88
+OV	293	181	1388	588	310	81
+PDAC	306	182	1376	592	328	86
+UCEC	309	187	1392	601	333	90

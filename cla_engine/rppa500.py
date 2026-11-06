@@ -19,6 +19,19 @@ def marker_key(value):
     return re.sub('[^A-Z0-9]', '', re.sub(r'^X(?=\d)', '', str(value).upper()))
 
 
+def phosphosite_labels(value):
+    """Read the terminal suffix of a known phosphorylation antibody label.
+
+    Layer classification must precede this parser; it cannot classify a name
+    such as RPS6 as total protein versus a compressed phosphorylation label.
+
+    This parses the reported label; it does not validate sequence coordinates or
+    resolve pan-family antibodies into individual proteins.
+    """
+    match = re.search(r"P[STY]\d+(?:P?[STY]\d+)*$", marker_key(value))
+    return re.findall(r"[STY]\d+", match.group(0)) if match else []
+
+
 def bound_path(spec):
     p = Path(spec['path']).resolve()
     if not p.is_file() or len(spec.get('sha256', '')) != 64 or sha(p) != spec['sha256']:
@@ -109,7 +122,7 @@ def feature_catalog(columns, portal, paper, gdc, names):
             'portal_flag': pp.get('flag', ''),  # Preserved; not assumed to be a QC exclusion.
             'company': pp.get('source', '') or ss.get('Company', '') or '|'.join(sorted(set(gg.source))),
             'catalog_number': str(pp.get('catalog_number', '') or ss.get('Catalog_Number', '') or '|'.join(sorted(set(gg.catalog_number.astype(str))))),
-            'reported_phosphosite_labels': '|'.join(re.findall(r'[STY]\d+', key)) if layer == 'PHOSPHORYLATION' else '',
+            'reported_phosphosite_labels': '|'.join(phosphosite_labels(column)) if layer == 'PHOSPHORYLATION' else '',
             'site_resolution': 'ANTIBODY_LABEL_ONLY_NOT_ISOFORM_SEQUENCE_VALIDATED',
             'measurement_unit': 'ONE_ANTIBODY_TARGET_NOT_DUPLICATED_PER_GENE_OR_SITE',
         })

@@ -1,0 +1,14 @@
+RPPA500/CPTAC calibration progress, 2026-11-06
+Six public retrospective TCGA-CPTAC measurement matrices were downloaded and SHA256-bound on host149. Local checksums identify downloaded snapshots, not publisher-provided checksums.
+Patient-level bridge: BRCA 105 source /105 RPPA500 /104 current RNA+RPPA; OV JHU protein 122/116/89; OV PNNL protein84/79/62, phospho69/64/50; colorectal protein90/80/74 (COAD51, READ23).
+Patient barcode matches do not establish same sample-vial/aliquot. OV centers have overlapping cases.
+The published current prospective CPTAC inputs and running network experiments remain unchanged.
+
+The RPPA parser now reads the terminal phosphorylation suffix only after layer classification. Eight historical labels included protein-name fragments as sites (e.g. STAT3 Y705 incorrectly contained T3). Original immutable input catalog is retained; a corrected mapping audit is delivered. Pan-family and multisite antibodies remain unresolved single measurements, never duplicated as site-specific evidence.
+
+A diagnostic BRCA protein scoring/calibration run uses 82 training and22 held-out patients (existing fold0),174 train-usable shared protein candidates (single gene/single antibody, official Valid status). Each platform is standardized on training patients only. The same named pathway panel is averaged over observed members with equal positive weights, with patient-level counts retained; missing remains NA. Per-pathway OLS maps RPPA to retrospective MS on training patients, then predicts held-out patients.
+At least3 shared proteins:584 pathways,342 positive held-out R2,median R2 .04890779. At least5:322,166,.00734440. At least10:83,48,.02814662. These coverage strata are descriptive, not new admission rules. All2547 candidate rows, including unsupported/failing pathways, remain in HELDOUT_PATHWAY_METRICS.tsv.
+
+Validation:34 RPPA/barcode tests plus2 reference-isolation/scoring tests pass. Independent reconstruction of1371 fitted pathway scores/predictions/held-out R2 agrees to floating-point precision (maxR2 difference9.72e-16).
+
+This is not a released unified Y. Same-specimen proof, phosphosite sequence/epitope verification, total-protein-adjusted phospho scores, repeated/external calibration evaluation and transfer to the current prospective CPTAC cohort remain incomplete. Published source assays include upstream cohort normalization. Per-patient missing-member mixtures remain a limitation. A positive one-fold R2 is not sufficient evidence for production equivalence.

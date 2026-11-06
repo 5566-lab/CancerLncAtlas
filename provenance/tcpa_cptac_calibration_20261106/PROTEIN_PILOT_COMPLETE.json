@@ -1,0 +1,104 @@
+{
+  "target_host": "149",
+  "status": "COMPLETE_EXPLORATORY_HELDOUT_DIAGNOSTIC",
+  "patients": 104,
+  "train_patients": 82,
+  "heldout_patients": 22,
+  "primary_panel_genes": 174,
+  "pathway_axis": 2547,
+  "summaries": [
+    {
+      "min_panel_genes_descriptive_only": 1,
+      "pathways": 1371,
+      "positive_heldout_r2": 894,
+      "median_heldout_r2": 0.06581977490233026,
+      "median_heldout_pearson": 0.3732165982698836,
+      "calibration_lower_mse_than_raw_panel_mean": 1291
+    },
+    {
+      "min_panel_genes_descriptive_only": 3,
+      "pathways": 584,
+      "positive_heldout_r2": 342,
+      "median_heldout_r2": 0.04890779014775365,
+      "median_heldout_pearson": 0.35001701789318124,
+      "calibration_lower_mse_than_raw_panel_mean": 562
+    },
+    {
+      "min_panel_genes_descriptive_only": 5,
+      "pathways": 322,
+      "positive_heldout_r2": 166,
+      "median_heldout_r2": 0.007344403993902848,
+      "median_heldout_pearson": 0.33191622304250734,
+      "calibration_lower_mse_than_raw_panel_mean": 309
+    },
+    {
+      "min_panel_genes_descriptive_only": 10,
+      "pathways": 83,
+      "positive_heldout_r2": 48,
+      "median_heldout_r2": 0.02814662375317767,
+      "median_heldout_pearson": 0.3698977002077607,
+      "calibration_lower_mse_than_raw_panel_mean": 82
+    }
+  ],
+  "calibration_validated_for_production": false,
+  "same_sample_vial_verified": false,
+  "same_aliquot_verified": false,
+  "prospective_cptac_transfer_validated": false,
+  "source_sha256": {
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/mapping_r1/COMPLETE.json": "905a8fe559d346e11c103536e6a08f7f6f21f07fce8be80d3bad2da73c240af4",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/mapping_r1/RETROSPECTIVE_PATIENT_PAIR_CANDIDATES.tsv": "d90158abb3e8e20eecc4da7f2554d5a86f6b365261c473253b32d2781e5db7ec",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/COMPLETE.json": "81268a8f4b6528d61a30a2dfb2c7109fe5efb6dc97fc82229be2fd904235241c",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/PATIENT_AUTHORITY.parquet": "5377c8dffb39785064a1d72ab9e0ea32fd6022d987685199030e7dc1209e13f2",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/mapping_r1/RETROSPECTIVE_COMMON_PROTEIN_CANDIDATES.tsv": "9a38668e9264ee703f86fdbfcf93d7159059398b812513136290e87e20acb859",
+    "/dell_2/DSC/CancerLncAtlas/inputs/rppa500_20261104_r4/PROTEIN.parquet": "76125acf77d1564ffea7765ffa0fb053fe4d1bbbb2911f82cdf9ec798aff458e",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/DOWNLOAD_COMPLETE.json": "3330c9db802642239a7a62b494d60e6e393174d3b2b892231c40c2becfdce4b4",
+    "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/retrospective_sources/BRCA_BI_protein.tsv.gz": "4f25c15988bc61af5c041e7190418bf7ebedd8311a47d98aa5cbc83e4b4ea8a9",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/bundle_r1/COMPLETE.json": "dc28d3f18db7aa4b8e48a13d0a37e87c1c5fa9898a82ac5194499988a84ab288",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/bundle_r1/PATHWAY_GENE_PROTEIN_BRIDGE.parquet": "4c28cce3a2179a647d829268015d0b8f765b3236f8475ec77789a07e851e8f79"
+  },
+  "limitations": [
+    "Single held-out fold; no repeated or external validation or inferential pathway selection.",
+    "Scores depend on observed members; patient-specific coverage exported. Missing is never zero.",
+    "Published assays include upstream cohort normalization; this is not fully inductive raw-assay validation.",
+    "Pathway scores measure shared-panel protein abundance, not absolute pathway activation.",
+    "No single universal TCGA/CPTAC Y or formal training input is created."
+  ],
+  "files": {
+    "RPPA_TO_MS_PREDICTED_SCORE.parquet": {
+      "sha256": "5631bc7317cca79a81a759e2d9bf4d46adbea902b11e2f4d048ce4ff24663118",
+      "bytes": 3806750
+    },
+    "RPPA_OBSERVED_COUNTS.parquet": {
+      "sha256": "2aa6882efd59bdbdde2253cb8abce8aa917830eb9d78dcbe7d701765af1cd4b1",
+      "bytes": 2644192
+    },
+    "HELDOUT_PATHWAY_METRICS.tsv": {
+      "sha256": "0391848421af3159e27139d643c5de432314da48a79332b162c6419f8a6db15d",
+      "bytes": 488022
+    },
+    "MS_OBSERVED_COUNTS.parquet": {
+      "sha256": "ab305c36e315740c3d4dc0934cc7205083f06f75d6910bbeac6036f409c38962",
+      "bytes": 2658616
+    },
+    "PATIENT_SPLIT.tsv": {
+      "sha256": "813bb47e7006739fe52452efcc362d606d6ba15c6a530011d097e694bedf1dc1",
+      "bytes": 2197
+    },
+    "MS_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "576ab411aa14733d174283c446786633e80b556e905da35a1d8153005be01476",
+      "bytes": 3794254
+    },
+    "TRAIN_REFERENCE.tsv": {
+      "sha256": "152bf114c721c5656db58c7d9009e57d90bac91dcf4f7213dc025aa57ba8026b",
+      "bytes": 23600
+    },
+    "LAUNCH_PREFLIGHT.json": {
+      "sha256": "04b3575a675ec7c7ea24ba26440f6531464fc351621ef47960ad5618e4d2bc83",
+      "bytes": 602
+    },
+    "RPPA_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "e3d0063c94627c56098ccfbd903c929668bafee7bcb156debb86178a8059850c",
+      "bytes": 3806750
+    }
+  }
+}
