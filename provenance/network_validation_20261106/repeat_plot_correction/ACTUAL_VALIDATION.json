@@ -1,0 +1,14 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "scope": "Independent pivot of actual original metrics; means require both repeats0and1",
+  "corrected_figure07_rows": 146804,
+  "corrected_figure05_rows": 47187,
+  "max_figure07_difference": 0.0,
+  "max_figure05_difference": 0.0,
+  "negative_r2_rows_preserved": 37715,
+  "raw_metrics_unchanged": true,
+  "correction_complete_sha256": "bd1bcbf514f7fef8a52c5f129e98cb7b2d7dcd0796965a8039fed054207a9db3",
+  "source_summary_sha256": "65dab0c4b0f9d8f6abfd9329ef73fb123a85df601fbf1367709f0b67a9536d3a",
+  "time": 1793961580.7783282
+}

@@ -1,0 +1,24 @@
+{
+  "target_host": "149",
+  "status": "CORRECTION_REQUIRED",
+  "figure05_single_repeat_model_targets": 243,
+  "figure07_single_repeat_model_targets": 756,
+  "figure05_distinct_cancer_targets": 27,
+  "figure07_distinct_cancer_targets": 27,
+  "scope": "Original fig05 protein/phospho network-ablation and fig07 protein/phospho heatmap; no raw score, model or metric modified",
+  "summary_sha256": "65dab0c4b0f9d8f6abfd9329ef73fb123a85df601fbf1367709f0b67a9536d3a",
+  "producer_sha256": "2c829ea56f3ee8d08f06a50257c367922b49aa0fc9b733b482d650b6571f3b9c",
+  "source_files": {
+    "ALL_TARGET_METRICS.parquet": "553f712dba137e1de07035a1183d97597355d8249e19347c98c99351bae32838",
+    "PAIRED_MODEL_DELTAS.parquet": "448e704fa61bf50f9f3a191288324f06f046d1c1e18f8c1fe7bc1516090303b3"
+  },
+  "files": {
+    "FIGURE05_SINGLE_REPEAT_TARGETS.tsv": "ac2e21f3e2d412b28ef12e160ab762031f6ffb72d9ad69eb120d05cc0f53dc2a",
+    "FIGURE05_REPEAT_COVERAGE.tsv": "904ecc088ea59f2b632c8c3489e859fdf9f9e8fc557d9199235b41fa0f1687af",
+    "PREFLIGHT.json": "4d7a657a411bd63b4c354865695c2cb6b5870069d2c7c9d0c3bc912b879c9307",
+    "SELF_TEST.json": "8b0e4913c52d12ebdbceb2f0cb5528882080cf47d1cf7cfdd99c5e6ed6f09610",
+    "FIGURE07_SINGLE_REPEAT_TARGETS.tsv": "3887d950e73f3ed97e25389786b8905f5115aa16fcd538fddd7cf7009b411beb",
+    "FIGURE07_REPEAT_COVERAGE.tsv": "e3b822a2aa437ee63435d7e8e7b7dc011d55ffd01dd95b81525dd42968dca83f"
+  },
+  "time": 1793960880.4916675
+}

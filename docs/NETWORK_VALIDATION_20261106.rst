@@ -380,3 +380,42 @@ implementation. The audit retains the original target-selection and independent
 kernel/refit checks, writes explicit export-code bindings, and compiles each
 checked model once. Operational audit supervisors must monitor live progress
 without applying a fixed short deadline to an otherwise productive audit.
+
+
+Complete-repeat plot correction
+-------------------------------
+
+Review of the completed original experiment found 27 cancer-target selections
+that completed only one of the two outer-CV repeats. The original figure 05
+network-ablation averaging included 243 such model-target combinations, and
+figure 07 included 756. Its caption described a two-repeat mean, so these two
+figures require a complete-repeat restriction. The per-repeat prediction
+metrics and failure tables are correct and remain unchanged.
+
+After the frozen original report generator finishes, run the reviewed
+two-figure producer on host149::
+
+  python scripts/plot_network_validation_complete_repeats.py \
+    --summary /PATH/TO/ORIGINAL_REPORT \
+    --output /NEW/REVIEWED_TWO_FIGURE_DIRECTORY
+
+Use its figure 05 and figure 07 PNG/PDF exports for the reviewed report.
+The command verifies source checksums, rejects duplicate/unknown repeats,
+requires both repeats 0 and 1, and preserves finite negative R2. It writes
+the exact plotted values, heatmap cells and excluded singleton counts.
+The original frozen generator is retained for the running experiment's source
+bindings; the complete-repeat producer is a required report-review step.
+
+The regression test includes incomplete repeats, failed targets and negative
+scores, verifies both PNG/PDF pairs and exact plotted means, rejects invalid
+repeat identities and source checksum drift, and leaves raw metric files
+unchanged. On actual original results, an independent pivot reproduced all
+146,804 figure-07 and 47,187 figure-05 plotted means exactly. All 37,715
+negative figure-07 model-target means were retained. These are model-target
+counts, not patient counts.
+
+Aggregate correction/test evidence is in
+provenance/network_validation_20261106/repeat_plot_correction.
+This correction changes visual aggregation only. It neither refits models nor
+establishes predictive benefit; the fine-module comparison still requires its
+full experiment and review.

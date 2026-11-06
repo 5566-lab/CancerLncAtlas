@@ -1,0 +1,35 @@
+{
+  "target_host": "149",
+  "status": "GENERATED_REVIEW_PENDING",
+  "scope": "Original figures05and07 only; all raw per-repeat metrics and failure tables retained unchanged",
+  "source_summary_sha256": "65dab0c4b0f9d8f6abfd9329ef73fb123a85df601fbf1367709f0b67a9536d3a",
+  "source_files": {
+    "ALL_TARGET_METRICS.parquet": "553f712dba137e1de07035a1183d97597355d8249e19347c98c99351bae32838",
+    "PAIRED_MODEL_DELTAS.parquet": "448e704fa61bf50f9f3a191288324f06f046d1c1e18f8c1fe7bc1516090303b3"
+  },
+  "selections": [
+    {
+      "figure": "figure05",
+      "available_model_targets": 47430,
+      "both_repeat_model_targets": 47187,
+      "single_repeat_model_targets_excluded": 243
+    },
+    {
+      "figure": "figure07",
+      "available_model_targets": 147560,
+      "both_repeat_model_targets": 146804,
+      "single_repeat_model_targets_excluded": 756
+    }
+  ],
+  "files": {
+    "FIGURE05_PLOTTED_VALUES.parquet": "486c5d3c80206430e7432e05064b89b47d71f14311cc282272dc6c3b4b325f81",
+    "FIGURE07_PLOTTED_VALUES.parquet": "6d876b8c9423d4059cf2ba13d783614bc83e79f49139f22827bc1b1fd4e51229",
+    "FIGURE07_HEATMAP.tsv": "d5bc99f5efae6f68ddf3842bc20ba0d4cf7f3be9d80e2b1c0a68ac6b4d3f3e53",
+    "05_network_ablation.pdf": "e859219846cd8ea85e4fea97603adc3efd1bfa26e3efcafbf09de3775ad0fc87",
+    "REPEAT_SELECTION.tsv": "202e0ae1a9a913f294a8f4f584c686f4eee6143942d84e943b00605a395a8eef",
+    "07_model_performance_table.png": "613dfb317ecda0b81db7e6605e21ccbaf0e4abefa383e11fc98001e1d2664ea0",
+    "PREFLIGHT.json": "0f742864df620db2d5e00cd1b16e127464ef9e1935a1cab4fc61f480eea18ca9",
+    "05_network_ablation.png": "ec5cffeb2988fbd895ee1c10bc5653af70be6d72c4dcef0c8072144370afafca",
+    "07_model_performance_table.pdf": "9ec879d5b5af0631a595f599ebbe8739d1ac693b8b5f4491bcd2af55d57a902b"
+  }
+}

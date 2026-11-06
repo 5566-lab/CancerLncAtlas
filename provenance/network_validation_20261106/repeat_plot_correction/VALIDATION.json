@@ -1,0 +1,10 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "new_pytest_tests": 1,
+  "test_duration_seconds": 18.58,
+  "unique_relevant_pytest_total": 27,
+  "whole_project_suite": false,
+  "scope": "Both-repeat plotting correction; actual means independently reproduced; visual and full scientific review are separate",
+  "frozen_training_and_reporting_sources_unchanged": true
+}
