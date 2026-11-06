@@ -1,0 +1,13 @@
+scenario	baseline	mean_delta_r2	median_delta_r2	improved_seeds	tied_seeds	seeds
+no_feature_signal	equal_ridge	-0.0037184019199610675	-6.335155744108256e-05	2	2	10
+no_feature_signal	shuffled_module	-0.0018509507443195017	-1.4916436558154444e-07	4	1	10
+no_feature_signal	oracle_support	-0.00950786843567245	-0.0008628458106265668	2	0	10
+one_module_opposite_signs	equal_ridge	0.613688921933807	0.6185962362729935	10	0	10
+one_module_opposite_signs	shuffled_module	0.6114860161490785	0.6001953803951634	10	0	10
+one_module_opposite_signs	oracle_support	-0.06316581880559918	-0.060962382348793254	0	0	10
+one_module_positive	equal_ridge	0.5972771076426646	0.5792944285627608	10	0	10
+one_module_positive	shuffled_module	0.5762542849929737	0.579294428562762	10	0	10
+one_module_positive	oracle_support	-0.07513243746967638	-0.062256336536108625	0	0	10
+signal_dispersed	equal_ridge	-0.0008828821504251016	4.440892098500626e-16	2	5	10
+signal_dispersed	shuffled_module	-0.000442889772463706	-0.00021763614143199828	2	3	10
+signal_dispersed	oracle_support	-0.0008828821504259677	4.440892098500626e-16	2	5	10

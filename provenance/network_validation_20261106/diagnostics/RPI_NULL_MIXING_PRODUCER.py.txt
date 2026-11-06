@@ -1,0 +1,17 @@
+import socket,pathlib,os,json,sys,time
+assert socket.gethostname()=='149'
+for v in ['OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS']:os.environ[v]='1'
+import pandas as pd,numpy as np
+from scripts.prepare_network_validation import rewire
+from cla_engine.common import sha
+P=pathlib.Path('/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1');O=P/'null_mixing_audit_r1';O.mkdir(exist_ok=True);N=pathlib.Path('/dell_2/DSC/CancerLncAtlas/inputs/network_validation_20261106_r3')
+(O/'PREFLIGHT.json').write_text(json.dumps(dict(target_host='149',purpose='Further swaps diagnostic; no change to fitted null graphs',start='existing typed random_101 RPI after five swaps per edge',additional_steps=[5,10],code_sha256=sha(pathlib.Path(__file__)))))
+rows=[]
+for c in ['BRCA','LUAD','COAD']:
+ real=pd.read_parquet(N/c/'RPI_EDGES.parquet');orig=set(zip(real.lo,real.hi));nn=len(pd.read_csv(N/c/'NODES.tsv',sep='\t'));e=pd.read_parquet(N/c/'TYPED_random_101.parquet');e=e[e.kind.eq('RPI')].copy();degree=np.bincount(np.r_[e.lo,e.hi],minlength=nn)
+ for step,extra in [(5,0),(10,5),(20,10)]:
+  if extra:e,audit=rewire(e,nn,202611060+step,bipartite=True,swaps_per_edge=extra)
+  assert np.array_equal(degree,np.bincount(np.r_[e.lo,e.hi],minlength=nn))
+  rows.append(dict(cancer=c,total_successful_swaps_per_edge=step,edge_overlap_with_true=len(set(zip(e.lo,e.hi))&orig)/len(e),degree_exact=True));print(rows[-1],flush=True)
+ pd.DataFrame(rows).to_csv(O/'MIXING.tsv',sep='\t',index=False)
+(O/'COMPLETE.json').write_text(json.dumps(dict(target_host='149',status='COMPLETE',files={p.name:sha(p) for p in O.iterdir() if p.is_file()}),indent=2))

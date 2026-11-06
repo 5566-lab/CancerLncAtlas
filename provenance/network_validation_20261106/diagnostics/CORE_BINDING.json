@@ -1,0 +1,10 @@
+{
+  "target_host": "149",
+  "core": {
+    "cc_hhgt/network_ridge.py": "d8a919ae4268f38aa11ff8efe8c39dd9a1f5c145a56fb4f68a507b927cd425ea",
+    "cc_hhgt/graph_ridge.py": "a46eb91586583606ae70bc065748b464c9b986be6b8ad3a3168174c6365d4e70",
+    "cc_hhgt/m0_covariates.py": "4f0ff71c94f4fb1d96e499413f3b118c696df41e25d46aa6aa6a3e4c1fe0c235"
+  },
+  "training_launch_sha256": "e18d53b27ad95ad276927c0d91a0420cc5d84621f16acd9fe6aa6e9f7387ffc7",
+  "same_core_as_running_patient_models": true
+}

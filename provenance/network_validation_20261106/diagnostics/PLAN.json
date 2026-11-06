@@ -1,0 +1,67 @@
+{
+  "target_host": "149",
+  "status": "FIXED_BEFORE_SIMULATION",
+  "seeds": [
+    202611060,
+    202611061,
+    202611062,
+    202611063,
+    202611064,
+    202611065,
+    202611066,
+    202611067,
+    202611068,
+    202611069
+  ],
+  "training_n": 100,
+  "independent_test_n": 200,
+  "features": 400,
+  "modules": 20,
+  "module_size": 20,
+  "signal_sd": 3.0,
+  "noise_sd": 1.0,
+  "scenarios": [
+    "one_module_positive",
+    "one_module_opposite_signs",
+    "signal_dispersed",
+    "no_feature_signal"
+  ],
+  "inner_repeats": 2,
+  "inner_folds": 3,
+  "lambda_grid": [
+    9.999999999999999e-06,
+    3.1622776601683795e-05,
+    0.0001,
+    0.00031622776601683794,
+    0.001,
+    0.0031622776601683794,
+    0.01,
+    0.03162277660168379,
+    0.1,
+    0.31622776601683794,
+    1.0,
+    3.1622776601683795,
+    10.0,
+    31.622776601683793,
+    100.0,
+    316.2277660168379,
+    1000.0
+  ],
+  "power_grid": [
+    0.0,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "models": [
+    "equal_ridge",
+    "true_module",
+    "shuffled_module",
+    "oracle_support"
+  ],
+  "oracle": "Known nonzero features; diagnostic comparator only",
+  "code_sha256": "e4fa3ea00270e8a46ab1f8578bc2a8f6881a1eeb5991a8be8a8eda4d5e9394a9",
+  "real_patient_data_used": false,
+  "patient_experiment_changed": false,
+  "numerical_zero_tolerance": 1e-10
+}

@@ -177,3 +177,49 @@ implement those papers' adaptive-Laplacian algorithms:
 
 * https://pmc.ncbi.nlm.nih.gov/articles/PMC3423227/
 * https://pmc.ncbi.nlm.nih.gov/articles/PMC3217586/
+
+
+Independent diagnostic findings (patient fits still pending)
+------------------------------------------------------------
+
+The corrected typed RPI graphs contain 77,083 / 73,390 / 75,304 edges for
+BRCA / LUAD / COAD. Their connected lncRNA counts are 3,523 / 3,435 / 3,615,
+out of about 16,870 candidate lncRNAs before training-only quality checks.
+These are topology coverage counts, not successfully trained gene sets.
+Degree-preserving RPI nulls retain 43.4--45.8 percent of original edges;
+PPI nulls retain about 2.7 percent. Interpretation must retain this difference
+in the strength of the topology perturbation. Equal degree does not preserve
+weighted node strengths or community sizes. A continuation of one null chain
+per cancer from five to ten and twenty successful swaps per edge leaves
+original-edge overlap nearly unchanged (BRCA 45.5 percent, LUAD 44.1 percent,
+COAD 43.5 percent at twenty). This supports stability of this overlap
+diagnostic; it is not a proof of full Markov-chain convergence.
+
+An independent synthetic diagnostic checks whether the implemented module
+weighting can exploit a deliberately informative grouping. Ten fixed seeds use
+100 training samples, 200 independent test samples and 400 features in twenty
+modules. All parameters use the same nested training-only grids as the patient
+model; the independent test outcomes do not select parameters. Both a correct
+partition and a size-preserving shuffled partition are supplied directly. This
+checks the weighting estimator, not biological edge validity or the community
+construction algorithm.
+
+When the signal is concentrated in one module, mean test R2 is 0.802 for the
+correct grouping, 0.204 for equal ridge and 0.225 for shuffled grouping. With
+opposite coefficient signs in that module, the corresponding values are
+0.820, 0.206 and 0.208. Correct grouping improves over both controls in all ten
+seeds for these two settings. When signal is dispersed over every module,
+mean R2 is 0.243 / 0.244 / 0.243: the supplied grouping has no useful advantage.
+The no-feature-signal setting retains an unpenalized predictive clinical
+covariate, so its R2 near 0.48 is not an RNA prediction gain.
+
+The full per-seed results, fixed plan and bound core hashes are in
+``provenance/network_validation_20261106/diagnostics``. Reproduce on host 149
+with the pinned Python environment and the repository on PYTHONPATH::
+
+  python scripts/diagnose_network_prior.py --output /NEW/DIAGNOSTIC_DIRECTORY
+
+These simulated results demonstrate sensitivity under the stated data
+construction. They do not establish that physical PPI/RPI improves the actual
+patient outcomes. That conclusion still requires all prespecified patient
+phases, failure/coverage audits, paired comparisons and uncertainty intervals.

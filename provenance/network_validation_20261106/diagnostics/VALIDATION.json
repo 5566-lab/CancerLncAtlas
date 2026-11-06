@@ -1,0 +1,12 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "rows": 160,
+  "seeds": 10,
+  "scenarios": 4,
+  "models": 4,
+  "all_expected_combinations_unique": true,
+  "summary_recalculated": true,
+  "source_hash_verified": true,
+  "all_output_hashes_verified": true
+}
