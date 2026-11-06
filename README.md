@@ -190,6 +190,11 @@ which are explicitly reconciled against exact GDC antibody records. See
 This replaces measured inputs; separate protein/phosphorylation heads are not
 implemented by this change.
 
+Retrospective BRCA and both OV centers now have independently checked five-fold
+common-protein calibration diagnostics. They do not replace native training Y;
+COAD calibration is explicitly withheld pending its input-scale/zero contract.
+See [the actual calibration results and limits](docs/TCPA_CPTAC_CALIBRATION_STATUS_20261106.rst).
+
 Verified gene-level CNV and promoter methylation measurements remain supported.
 Joint preparation aggregates their original patient matrices using each view's
 source patients, excluding that view's label patients. An outer-fold aggregate

@@ -1,0 +1,21 @@
+{
+  "target_host": "149",
+  "action": "WITHIN_CANCER_FIVE_FROZEN_FOLD_PROTEIN_CALIBRATION",
+  "dataset": "OV_JHU",
+  "cancer_id": "OV",
+  "folds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "code_sha256": {
+    "scripts/score_tcpa_cptac_protein_cv.py": "cf09a50a81dd4baf4443b9c21d75094f4f279d8cde2e37409a9342fa96f34117",
+    "scripts/score_tcpa_cptac_paired_protein_pilot.py": "1b7a82e270cc84ed93bee23be287a9728cdad02bf5209f63f8b88ea0576e9eca"
+  },
+  "tuning": false,
+  "additional_repeats": false,
+  "pooling_cancers": false,
+  "aggregation": "Per-pathway equal mean of five fold R2; no pooling differently referenced fold Y"
+}

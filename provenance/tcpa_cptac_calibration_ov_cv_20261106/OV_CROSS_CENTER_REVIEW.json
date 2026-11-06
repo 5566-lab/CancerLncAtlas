@@ -1,0 +1,36 @@
+{
+  "target_host": "149",
+  "status": "PASS_FROZEN_AUTHORITY_AND_CENTER_OVERLAP",
+  "cohorts": [
+    {
+      "dataset": "ov_jhu",
+      "patients": 89,
+      "panel_genes_by_fold": [
+        152,
+        152,
+        152,
+        152,
+        152
+      ],
+      "all_frozen_fold_assignments_verified": true,
+      "complete_sha256": "63b4e5848652b34c58666a3bd9197c3c8ef0afbd33f40e9c2d1606a8925dd726"
+    },
+    {
+      "dataset": "ov_pnnl",
+      "patients": 62,
+      "panel_genes_by_fold": [
+        136,
+        136,
+        136,
+        136,
+        136
+      ],
+      "all_frozen_fold_assignments_verified": true,
+      "complete_sha256": "cec7671876d71732c4cda51090f36aee4730c85238b36b949c93e2b19703fc7d"
+    }
+  ],
+  "overlap_patients": 26,
+  "union_patients": 125,
+  "independent_cohorts": false,
+  "counts_may_be_summed": false
+}

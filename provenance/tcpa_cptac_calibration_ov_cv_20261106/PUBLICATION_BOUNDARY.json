@@ -1,0 +1,8 @@
+{
+  "aggregate_only": true,
+  "patient_rows_included": false,
+  "raw_assays_included": false,
+  "vendor_pdfs_included": false,
+  "production_Y_changed": false,
+  "network_live_code_changed": false
+}

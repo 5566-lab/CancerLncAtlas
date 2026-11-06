@@ -1,0 +1,12 @@
+{
+  "target_host": "149",
+  "action": "OV_TWO_SEPARATE_CENTERS_FIVE_FROZEN_FOLDS",
+  "time": 1793975418.8760126,
+  "cohort_overlap_not_independent": true,
+  "unified_training_Y": false,
+  "tests": "7 passed",
+  "source_code_sha256": {
+    "score_tcpa_cptac_protein_cv.py": "cf09a50a81dd4baf4443b9c21d75094f4f279d8cde2e37409a9342fa96f34117",
+    "score_tcpa_cptac_paired_protein_pilot.py": "1b7a82e270cc84ed93bee23be287a9728cdad02bf5209f63f8b88ea0576e9eca"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "passed": 7,
+  "files": [
+    "tests/test_tcpa_cptac_cohort_selection.py",
+    "tests/test_tcpa_cptac_protein_pilot.py",
+    "tests/test_tcpa_cptac_phospho.py"
+  ],
+  "log_sha256": "87e2773e42122760f0a4999b2a31e46c331b64548732ee3ce2fe0c7b52f583de"
+}

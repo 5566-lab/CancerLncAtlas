@@ -1,0 +1,58 @@
+{
+  "target_host": "149",
+  "status": "COAD_CALIBRATION_WITHHELD_UNRESOLVED_INPUT_CONTRACT",
+  "dataset": "COADREAD_VU",
+  "measured": {
+    "dataset": "COADREAD_VU",
+    "shape": [
+      5538,
+      90
+    ],
+    "quantiles": [
+      0.0,
+      0.0,
+      0.0,
+      22.5463,
+      25.779825000000002,
+      31.981481,
+      38.7549
+    ],
+    "negative": 0,
+    "zero": 179162,
+    "positive": 319258,
+    "source_sha256": "b409c6d2c6a5f2fa20619df6fcefa987a63fafaa6b92c540a3892cca5d002375"
+  },
+  "zero_fraction": 0.35945989326271016,
+  "evidence": {
+    "download_page": "https://linkedomics.org/data_download/TCGA-COADREAD/",
+    "download_page_claim": "CDAP Log2ratio",
+    "CDAP_report": "https://proteomic.datacommons.cancer.gov/pdc/assets/CDAP_ProteinReports_description_20160503.pdf",
+    "CDAP_definition": "Unshared Area is summed precursor peak area for label-free measurements, not an iTRAQ reference ratio",
+    "pdc_study_uuid": "b998098f-57b8-11e8-b07a-00a098d917f8",
+    "pdc_study_version": "1",
+    "original_file": "TCGA_Colon_VU_Proteome_CDAP.r2.precursor_area.tsv",
+    "pdc_file_id": "17f71e7f-b889-4eaf-8b4d-2a2b0ce5909a"
+  },
+  "inference": "Distribution is compatible with transformed abundances and unquantified zeros; transform and zero encoding are NOT verified from matching original cells.",
+  "retrieval": [
+    {
+      "endpoint": "PDC returned CloudFront file URL",
+      "result": "HTTP 403"
+    },
+    {
+      "endpoint": "Official legacy Georgetown Phase_II_Data URL",
+      "result": "Connection refused"
+    },
+    {
+      "endpoint": "PDC version-pinned quantDataMatrix unshared_precursor_area",
+      "result": "Matrix data not found"
+    }
+  ],
+  "action": "No COAD calibration; no double log transform; no zero-to-NA conversion without source proof; original file unchanged.",
+  "code_guard": "protein_source rejects COADREAD_VU until source contract is resolved",
+  "production_Y_changed": false,
+  "documents": {
+    "LinkedOmicsManual_1.2.pdf": "7f372da2d5dbfbcbc36d5a68d70df5bd393dc2ec5ee150ba3012e3bf4f6281dd",
+    "CDAP_ProteinReports_description_20160503.pdf": "7eefc75383b17c94739ba769bc367ee209c2328bda471f8f22c4f90f5b198771"
+  }
+}

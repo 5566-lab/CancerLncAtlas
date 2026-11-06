@@ -1,0 +1,228 @@
+{
+  "target_host": "149",
+  "status": "COMPLETE_WITHIN_CANCER_FIVE_FOLD_DIAGNOSTIC",
+  "dataset": "OV_PNNL",
+  "cancer_id": "OV",
+  "patients": 62,
+  "heldout_counts": [
+    8,
+    12,
+    17,
+    16,
+    9
+  ],
+  "all_patients_heldout_exactly_once": true,
+  "pathway_axis": 2547,
+  "summary": [
+    {
+      "minimum_panel_genes_descriptive": 1,
+      "all_five_fold_pathways": 1237,
+      "positive_mean_fold_r2": 637,
+      "positive_in_all_five": 122,
+      "median_mean_fold_r2": 0.009719435199884146
+    },
+    {
+      "minimum_panel_genes_descriptive": 3,
+      "all_five_fold_pathways": 479,
+      "positive_mean_fold_r2": 216,
+      "positive_in_all_five": 33,
+      "median_mean_fold_r2": -0.03569929760955317
+    },
+    {
+      "minimum_panel_genes_descriptive": 5,
+      "all_five_fold_pathways": 223,
+      "positive_mean_fold_r2": 108,
+      "positive_in_all_five": 16,
+      "median_mean_fold_r2": -0.017335371224533224
+    },
+    {
+      "minimum_panel_genes_descriptive": 10,
+      "all_five_fold_pathways": 49,
+      "positive_mean_fold_r2": 28,
+      "positive_in_all_five": 4,
+      "median_mean_fold_r2": 0.025952439914240826
+    }
+  ],
+  "production_unified_Y": false,
+  "prospective_transfer_validated": false,
+  "code_sha256": {
+    "scripts/score_tcpa_cptac_protein_cv.py": "cf09a50a81dd4baf4443b9c21d75094f4f279d8cde2e37409a9342fa96f34117",
+    "scripts/score_tcpa_cptac_paired_protein_pilot.py": "1b7a82e270cc84ed93bee23be287a9728cdad02bf5209f63f8b88ea0576e9eca"
+  },
+  "files": {
+    "PATHWAY_CV_SUMMARY.tsv": {
+      "sha256": "0820249c57dd908fcc51bc1e3ca9e77ea7f5e0cf87a460880e820db377b78149"
+    },
+    "ALL_FOLD_PATHWAY_METRICS.tsv": {
+      "sha256": "b19f2f15a12b1fdf87dfd77cddada17f0a01ff3e1e7e818ee25df64a862a1bb7"
+    },
+    "LAUNCH_PREFLIGHT.json": {
+      "sha256": "db1baae314b6c74e1946561c55061572a41d787f0bedf2bcb4b2c7863af0e388"
+    },
+    "fold0/RPPA_TO_MS_PREDICTED_SCORE.parquet": {
+      "sha256": "f340ee8b860ec46d09d3148060ff4e328aebe42f4a5ac9c453d00d0755f3d555"
+    },
+    "fold0/RPPA_OBSERVED_COUNTS.parquet": {
+      "sha256": "8f20624b09ac99a9c2903b94a90f768af621430b62abeb40c194a01ff1a5a3c9"
+    },
+    "fold0/HELDOUT_PATHWAY_METRICS.tsv": {
+      "sha256": "11090294aeb8958adf875f2ab75b224e81222d0146cb8a751e61d1f28a4a017f"
+    },
+    "fold0/MS_OBSERVED_COUNTS.parquet": {
+      "sha256": "efbc5a48a3dc63022b5d8c423a5ef4f4bec8160a9bf5fbcb0f6fee951905184d"
+    },
+    "fold0/PATIENT_SPLIT.tsv": {
+      "sha256": "02bf50d66cda53b2912045e2d4dcd89f799842fe5279f4859e849028162ec192"
+    },
+    "fold0/MS_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "9bd88849f3bfbb907f2879600c3b904cf7b84df5a528d0a30cded701688ff3ea"
+    },
+    "fold0/TRAIN_REFERENCE.tsv": {
+      "sha256": "3697cdc08bc87f7fb0177669dc8f4723a3f4442ace2975382eccf525c6bb5b50"
+    },
+    "fold0/PAIR_ELIGIBILITY.tsv": {
+      "sha256": "4cd48acc1925df579260afea23d371880e53db79954cbe8795a04c723aafee5e"
+    },
+    "fold0/LAUNCH_PREFLIGHT.json": {
+      "sha256": "663a7fbb93c63448d8f88c880ccf1231e1d4c65467a0e28ed82ce951c6967c01"
+    },
+    "fold0/COMPLETE.json": {
+      "sha256": "1492cf66213fb84a2c84201cc414431b1a12af06864750f1a46a4bf603b2e124"
+    },
+    "fold0/RPPA_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "befdbb36eca12d694ba423b5b69cb3aa959f4bdf6a3b9fadb9e96f10b1367a67"
+    },
+    "fold3/RPPA_TO_MS_PREDICTED_SCORE.parquet": {
+      "sha256": "29ff4361dee2403eb10c6986ac0b0b03737a12ca6802f21dd9ff0978b08d5af6"
+    },
+    "fold3/RPPA_OBSERVED_COUNTS.parquet": {
+      "sha256": "8f20624b09ac99a9c2903b94a90f768af621430b62abeb40c194a01ff1a5a3c9"
+    },
+    "fold3/HELDOUT_PATHWAY_METRICS.tsv": {
+      "sha256": "75758cc45114a91f8a1bdd6f7b8c1a7f5bb9e475e728a3a82ca76f5adafcb107"
+    },
+    "fold3/MS_OBSERVED_COUNTS.parquet": {
+      "sha256": "efbc5a48a3dc63022b5d8c423a5ef4f4bec8160a9bf5fbcb0f6fee951905184d"
+    },
+    "fold3/PATIENT_SPLIT.tsv": {
+      "sha256": "f30d607f2917ca21a3a25514ab8a3f8fb5e950b20c8ee2d6ff3ba28b1c9d529e"
+    },
+    "fold3/MS_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "defc84aae647100b80b98bf0f408545a52a9b89c258d32181471287b3be89c03"
+    },
+    "fold3/TRAIN_REFERENCE.tsv": {
+      "sha256": "6ed4214021c7b172ed6da5ac53dd17aacc9976e20cdfaa542efd49becd8bba1a"
+    },
+    "fold3/PAIR_ELIGIBILITY.tsv": {
+      "sha256": "4cd48acc1925df579260afea23d371880e53db79954cbe8795a04c723aafee5e"
+    },
+    "fold3/LAUNCH_PREFLIGHT.json": {
+      "sha256": "663a7fbb93c63448d8f88c880ccf1231e1d4c65467a0e28ed82ce951c6967c01"
+    },
+    "fold3/COMPLETE.json": {
+      "sha256": "5bc0aeafe57db44e7f104580eea11b52419755b76bc9f99fc7747bf3af5643f5"
+    },
+    "fold3/RPPA_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "a87abc55cb7ea3b46ec51e42bea3d80c5a67afde6e2d6ae05c5820c9c1b87649"
+    },
+    "fold1/RPPA_TO_MS_PREDICTED_SCORE.parquet": {
+      "sha256": "f437ce4e1b0f829961de82a93330f294e3cde24fb494c8340419b9b302b9dd1d"
+    },
+    "fold1/RPPA_OBSERVED_COUNTS.parquet": {
+      "sha256": "8f20624b09ac99a9c2903b94a90f768af621430b62abeb40c194a01ff1a5a3c9"
+    },
+    "fold1/HELDOUT_PATHWAY_METRICS.tsv": {
+      "sha256": "faa49c60bd99a0771e2a8b3e7f5e53adf0c9f57187aefa7cec62f3843054a04c"
+    },
+    "fold1/MS_OBSERVED_COUNTS.parquet": {
+      "sha256": "efbc5a48a3dc63022b5d8c423a5ef4f4bec8160a9bf5fbcb0f6fee951905184d"
+    },
+    "fold1/PATIENT_SPLIT.tsv": {
+      "sha256": "eca50b7de7acb45033c2c4a9fc4ac851be1d09d4ecf386e6a34389e5f21ca21a"
+    },
+    "fold1/MS_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "11d8d7cc4ba4ce0b0fdc9d4fc12c1c856e59f11f8f0ee8b723baa9c06207e57c"
+    },
+    "fold1/TRAIN_REFERENCE.tsv": {
+      "sha256": "55412f8f3e7c7273c237b8379135d3c8a956857eb56a20f04c586cc481915bbd"
+    },
+    "fold1/PAIR_ELIGIBILITY.tsv": {
+      "sha256": "4cd48acc1925df579260afea23d371880e53db79954cbe8795a04c723aafee5e"
+    },
+    "fold1/LAUNCH_PREFLIGHT.json": {
+      "sha256": "663a7fbb93c63448d8f88c880ccf1231e1d4c65467a0e28ed82ce951c6967c01"
+    },
+    "fold1/COMPLETE.json": {
+      "sha256": "b1dd135d6c975a03e287f4bbc7dfc21d85675966d71188767d95602efa70f650"
+    },
+    "fold1/RPPA_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "eb4f13e11b8460c394c65a8296131b9a1563ee9df483f702acfffb65b066bda2"
+    },
+    "fold4/RPPA_TO_MS_PREDICTED_SCORE.parquet": {
+      "sha256": "8882098f8c40f60f21ad72a4d3d94de2ec4b05c635005fd39d67e7844e67eb38"
+    },
+    "fold4/RPPA_OBSERVED_COUNTS.parquet": {
+      "sha256": "8f20624b09ac99a9c2903b94a90f768af621430b62abeb40c194a01ff1a5a3c9"
+    },
+    "fold4/HELDOUT_PATHWAY_METRICS.tsv": {
+      "sha256": "ce9ccbc113051d69f903ba699b93dbbc563be8bde4754068004cf14e2267b634"
+    },
+    "fold4/MS_OBSERVED_COUNTS.parquet": {
+      "sha256": "efbc5a48a3dc63022b5d8c423a5ef4f4bec8160a9bf5fbcb0f6fee951905184d"
+    },
+    "fold4/PATIENT_SPLIT.tsv": {
+      "sha256": "646eb7a22209ee4b44bbfdd28d212eba266331bfc6cc399769b9e398c2c1b2f7"
+    },
+    "fold4/MS_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "c1c70d055039e6b0f803d8d7d7610520f7951370d1c14f0faca3a23063182408"
+    },
+    "fold4/TRAIN_REFERENCE.tsv": {
+      "sha256": "6a52a91671a30a9cb7952ddeffd5e8fb2d5fe96faac4e9ba863ad3123305d437"
+    },
+    "fold4/PAIR_ELIGIBILITY.tsv": {
+      "sha256": "4cd48acc1925df579260afea23d371880e53db79954cbe8795a04c723aafee5e"
+    },
+    "fold4/LAUNCH_PREFLIGHT.json": {
+      "sha256": "663a7fbb93c63448d8f88c880ccf1231e1d4c65467a0e28ed82ce951c6967c01"
+    },
+    "fold4/COMPLETE.json": {
+      "sha256": "f7ab236f87f7092024912450a08afb54cb39482a55f513b9e54aae474af3d2ba"
+    },
+    "fold4/RPPA_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "d36c3129d1a4ecbb2be8949ba319b21743c81ff0b3187155906934146474e197"
+    },
+    "fold2/RPPA_TO_MS_PREDICTED_SCORE.parquet": {
+      "sha256": "92e9456eab639d588200107b9fe56c4fe18f9b932b36ec0c817f32c2b6334de8"
+    },
+    "fold2/RPPA_OBSERVED_COUNTS.parquet": {
+      "sha256": "8f20624b09ac99a9c2903b94a90f768af621430b62abeb40c194a01ff1a5a3c9"
+    },
+    "fold2/HELDOUT_PATHWAY_METRICS.tsv": {
+      "sha256": "0de0b9efd5b1a53b29d1d3c5f1fbdb275ffab862c861a42806c5353bc2414d9c"
+    },
+    "fold2/MS_OBSERVED_COUNTS.parquet": {
+      "sha256": "efbc5a48a3dc63022b5d8c423a5ef4f4bec8160a9bf5fbcb0f6fee951905184d"
+    },
+    "fold2/PATIENT_SPLIT.tsv": {
+      "sha256": "012920cf588acb359df1b629865f77d6ba6c37cc24cac7656af46c04db19e8d1"
+    },
+    "fold2/MS_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "84cf99597e106b9d4f0d7cbbe5d0bdc39b98a67de90b6b7b754d45c0d1f61e83"
+    },
+    "fold2/TRAIN_REFERENCE.tsv": {
+      "sha256": "3edec6ef5be3f6d9a167e63f5eb8ce4d9dce336268b727b05f010e1fd0a9a924"
+    },
+    "fold2/PAIR_ELIGIBILITY.tsv": {
+      "sha256": "4cd48acc1925df579260afea23d371880e53db79954cbe8795a04c723aafee5e"
+    },
+    "fold2/LAUNCH_PREFLIGHT.json": {
+      "sha256": "663a7fbb93c63448d8f88c880ccf1231e1d4c65467a0e28ed82ce951c6967c01"
+    },
+    "fold2/COMPLETE.json": {
+      "sha256": "aac46d06842ce4fc89fb010d4491f0ddd7e963a9c31bb81527c11370aa2de620"
+    },
+    "fold2/RPPA_COMMON_PANEL_SCORE.parquet": {
+      "sha256": "5f3ed28b93fc476ce84ff062c3c92e23457fd14c7da99dde301a0c5a6562ea62"
+    }
+  }
+}

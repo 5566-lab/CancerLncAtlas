@@ -11,6 +11,27 @@ import numpy as np
 import pandas as pd
 from scipy.stats import pearsonr,spearmanr
 
+
+COHORT_CANCERS={"BRCA_BI":("BRCA",),"OV_JHU":("OV",),"OV_PNNL":("OV",),"COADREAD_VU":("COAD","READ")}
+
+def cohort_pairs(pairs,dataset,cancer_id):
+    if dataset not in COHORT_CANCERS or cancer_id not in COHORT_CANCERS[dataset]:
+        raise ValueError("INCOMPATIBLE_DATASET_CANCER")
+    selected=pairs.loc[pairs.dataset.eq(dataset+"_protein") & pairs.in_current_rppa_rna_scope & pairs.cancer_id.eq(cancer_id)].sort_values("patient_id").copy()
+    if selected.empty:raise ValueError("NO_ELIGIBLE_PATIENTS")
+    if not selected.patient_id.is_unique:raise ValueError("DUPLICATE_PATIENT")
+    return selected
+
+def protein_source(manifest,dataset):
+    candidates=[r for r in manifest["files"] if r["cancer"]+"_"+r["center"]==dataset and r["layer"]=="protein"]
+    if len(candidates)!=1:raise ValueError("SOURCE_NOT_UNIQUE")
+    rec=candidates[0]
+    if dataset=="COADREAD_VU":
+        raise ValueError("UNRESOLVED_COAD_PRECURSOR_SCALE_AND_ZERO_ENCODING: original CDAP comparison required")
+    if dataset not in COHORT_CANCERS or "CDAP_iTRAQ_UnsharedLogRatio_r2" not in rec["url"]:
+        raise ValueError("UNREVIEWED_PROTEIN_MEASUREMENT_CONTRACT")
+    return rec
+
 def standardize_train(values,train):
     values=np.asarray(values,float);reference=values[train]
     count=np.isfinite(reference).sum(axis=0)
@@ -33,7 +54,7 @@ def calibration_fit(x,y,train):
 
 def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
-def run(rppa,bundle,mapping,retrospective,output,specimens,heldout_fold=0):
+def run(rppa,bundle,mapping,retrospective,output,specimens,heldout_fold=0,dataset="BRCA_BI",cancer_id="BRCA"):
     assert socket.gethostname()=="149"
     out=Path(output);out.mkdir(parents=True,exist_ok=True)
     if any(out.iterdir()):raise ValueError("Use a new output directory")
@@ -46,20 +67,20 @@ def run(rppa,bundle,mapping,retrospective,output,specimens,heldout_fold=0):
     def product(root,rel,complete="COMPLETE.json"):
         man=json.loads(bind(root/complete).read_text())
         return bind(root/rel,man["files"][rel]["sha256"])
-    (out/"LAUNCH_PREFLIGHT.json").write_text(json.dumps(dict(target_host="149",action="BRCA_PAIRED_COMMON_PROTEIN_HELDOUT_DIAGNOSTIC",
+    (out/"LAUNCH_PREFLIGHT.json").write_text(json.dumps(dict(target_host="149",action="PAIRED_COMMON_PROTEIN_HELDOUT_DIAGNOSTIC",dataset=dataset,cancer_id=cancer_id,
         reference="Frozen patient_fold_id; selected fold held out; independent scalers per assay fitted on train only",
         weights="Equal nonnegative; no fitted gene weights",score_type="COMMON_PANEL_ABUNDANCE_NOT_ABSOLUTE_ACTIVATION",
         missing="NA kept; mean divides by observed fixed-panel members; counts exported",
         acceptance="No calibrated unified Y is promoted; all pathway rows including failures retained",
         pooling="No application to current prospective CPTAC cohort and no model input changes"),indent=2))
     pairs=pd.read_csv(product(mapping,"RETROSPECTIVE_PATIENT_PAIR_CANDIDATES.tsv"),sep="\t")
-    pairs=pairs.loc[pairs.dataset.eq("BRCA_BI_protein") & pairs.in_current_rppa_rna_scope].sort_values("patient_id")
+    pairs=cohort_pairs(pairs,dataset,cancer_id)
     assert pairs.patient_id.is_unique
     specimens=Path(specimens)
     specimen_receipt=json.loads(bind(specimens/"COMPLETE.json").read_text())
     assert specimen_receipt["status"]=="COMPLETE_PDC_COHORT_METADATA_VIAL_CONCORDANCE"
     proof=pd.read_csv(product(specimens,"PATIENT_SPECIMEN_CONCORDANCE.tsv"),sep="\t")
-    eligible=proof.loc[proof.dataset.eq("BRCA_BI_protein")].copy()
+    eligible=proof.loc[proof.dataset.eq(dataset+"_protein")].copy()
     assert eligible.patient_id.is_unique
     pairs=pairs.merge(eligible[["patient_id","pdc_vial_concordant","status"]],on="patient_id",how="left",validate="one_to_one")
     if pairs.status.isna().any():raise ValueError("MISSING_SPECIMEN_AUDIT")
@@ -68,13 +89,14 @@ def run(rppa,bundle,mapping,retrospective,output,specimens,heldout_fold=0):
     pairs=pairs.loc[pairs.pdc_vial_concordant].copy()
     ids=pairs.patient_id.tolist()
     authority=pd.read_parquet(product(rppa,"PATIENT_AUTHORITY.parquet")).set_index("patient_id").loc[ids]
+    assert authority.cancer_id.eq(cancer_id).all()
     folds=pd.to_numeric(authority.patient_fold_id).to_numpy(int);test=folds==heldout_fold;train=~test
     assert test.any() and train.any()
     fitmap=pd.read_csv(product(mapping,"RETROSPECTIVE_COMMON_PROTEIN_CANDIDATES.tsv"),sep="\t")
-    fitmap=fitmap.loc[fitmap.dataset.eq("BRCA_BI") & fitmap.primary_candidate].sort_values("gene_id")
+    fitmap=fitmap.loc[fitmap.dataset.eq(dataset) & fitmap.primary_candidate].sort_values("gene_id")
     assert fitmap.gene_id.is_unique and fitmap.rppa_feature_id.is_unique and fitmap.ms_gene_symbol.is_unique
     rx=pd.read_parquet(product(rppa,"PROTEIN.parquet")).set_index("patient_id").loc[ids,fitmap.rppa_feature_id].to_numpy(float)
-    manifest=json.loads(bind(retrospective).read_text());rec=next(r for r in manifest["files"] if r["cancer"]=="BRCA" and r["layer"]=="protein")
+    manifest=json.loads(bind(retrospective).read_text());rec=protein_source(manifest,dataset)
     ms=pd.read_csv(bind(rec["path"],rec["sha256"]),sep="\t",index_col=0)
     cx=ms.loc[fitmap.ms_gene_symbol,pairs.native_patient_id].to_numpy(float).T
     rz,rm,rs,rv=standardize_train(rx,train);cz,cm,cs,cv=standardize_train(cx,train)
@@ -121,7 +143,7 @@ def run(rppa,bundle,mapping,retrospective,output,specimens,heldout_fold=0):
              median_heldout_pearson=float(d.heldout_pearson.median()) if len(d) else None,
              calibration_lower_mse_than_raw_panel_mean=int(d.heldout_mse.lt(d.heldout_uncalibrated_mse).sum())))
     result=dict(target_host="149",status="COMPLETE_EXPLORATORY_HELDOUT_DIAGNOSTIC",
-        patients=len(ids),heldout_fold=int(heldout_fold),train_patients=int(train.sum()),heldout_patients=int(test.sum()),primary_panel_genes=int(usable.sum()),
+        dataset=dataset,cancer_id=cancer_id,measurement="CDAP_iTRAQ_UnsharedLogRatio_r2",patients=len(ids),heldout_fold=int(heldout_fold),train_patients=int(train.sum()),heldout_patients=int(test.sum()),primary_panel_genes=int(usable.sum()),
         pathway_axis=len(metrics),summaries=summaries,calibration_validated_for_production=False,
         pdc_cohort_metadata_same_vial=True,processed_column_to_aliquot_lineage_verified=False,same_aliquot_verified=False,
         prospective_cptac_transfer_validated=False,source_sha256=sources,
@@ -136,5 +158,7 @@ def run(rppa,bundle,mapping,retrospective,output,specimens,heldout_fold=0):
 if __name__=="__main__":
     p=argparse.ArgumentParser(description=__doc__)
     for key in ["rppa","bundle","mapping","retrospective","output","specimens"]:p.add_argument("--"+key,required=True)
-    p.add_argument("--heldout-fold",type=int,default=0)
-    a=p.parse_args();run(a.rppa,a.bundle,a.mapping,a.retrospective,a.output,a.specimens,a.heldout_fold)
+    p.add_argument("--heldout-fold",type=int,default=0,choices=range(5))
+    p.add_argument("--dataset",default="BRCA_BI",choices=list(COHORT_CANCERS))
+    p.add_argument("--cancer-id",default="BRCA")
+    a=p.parse_args();run(a.rppa,a.bundle,a.mapping,a.retrospective,a.output,a.specimens,a.heldout_fold,a.dataset,a.cancer_id)

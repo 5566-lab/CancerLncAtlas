@@ -1,0 +1,84 @@
+{
+  "target_host": "149",
+  "status": "PASS_INDEPENDENT_COHORT_CV",
+  "dataset": "OV_PNNL",
+  "cancer_id": "OV",
+  "patients": 62,
+  "heldout_exactly_once": true,
+  "folds": [
+    {
+      "fold": 0,
+      "patients": 62,
+      "heldout": 8,
+      "fitted_pathways": 1243,
+      "heldout_r2_checked": 1237,
+      "maximum_errors": {
+        "reference": 4.440892098500626e-16,
+        "score": 1.7763568394002505e-15,
+        "prediction": 2.220446049250313e-15,
+        "r2": 9.769962616701378e-15,
+        "slope": 8.881784197001252e-16
+      }
+    },
+    {
+      "fold": 1,
+      "patients": 62,
+      "heldout": 12,
+      "fitted_pathways": 1243,
+      "heldout_r2_checked": 1243,
+      "maximum_errors": {
+        "reference": 4.440892098500626e-16,
+        "score": 1.7763568394002505e-15,
+        "prediction": 2.220446049250313e-15,
+        "r2": 2.6645352591003757e-15,
+        "slope": 7.771561172376096e-16
+      }
+    },
+    {
+      "fold": 2,
+      "patients": 62,
+      "heldout": 17,
+      "fitted_pathways": 1243,
+      "heldout_r2_checked": 1243,
+      "maximum_errors": {
+        "reference": 4.440892098500626e-16,
+        "score": 1.7763568394002505e-15,
+        "prediction": 1.7763568394002505e-15,
+        "r2": 1.9984014443252818e-15,
+        "slope": 6.661338147750939e-16
+      }
+    },
+    {
+      "fold": 3,
+      "patients": 62,
+      "heldout": 16,
+      "fitted_pathways": 1243,
+      "heldout_r2_checked": 1243,
+      "maximum_errors": {
+        "reference": 4.440892098500626e-16,
+        "score": 8.881784197001252e-16,
+        "prediction": 2.4424906541753444e-15,
+        "r2": 1.3322676295501878e-15,
+        "slope": 7.771561172376096e-16
+      }
+    },
+    {
+      "fold": 4,
+      "patients": 62,
+      "heldout": 9,
+      "fitted_pathways": 1243,
+      "heldout_r2_checked": 1243,
+      "maximum_errors": {
+        "reference": 4.440892098500626e-16,
+        "score": 1.7763568394002505e-15,
+        "prediction": 1.7763568394002505e-15,
+        "r2": 4.440892098500626e-15,
+        "slope": 1.5543122344752192e-15
+      }
+    }
+  ],
+  "summary_pathways": 2547,
+  "production_validation": false,
+  "input_receipt_sha256": "cec7671876d71732c4cda51090f36aee4730c85238b36b949c93e2b19703fc7d",
+  "source_code_sha256": "5c4c070b83494a0319f3dda145b7a2c824febf64f14c71296cb927a8f2904290"
+}
