@@ -1,0 +1,9 @@
+{
+  "target_host": "149",
+  "original_report": "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1",
+  "numerical_review": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7",
+  "visual_review": "00c18178b16f2ca1fee14bed2f8e6d014a1be65c0dd5749d248ac54df51a0af4",
+  "final_conclusion": "76fd2dce15c225e2eb350aab4d4ba42ed2e4a07a35c8a45d61c80695189d24c4",
+  "publication_scope": "Aggregate metrics and plots only; no patient-level assay or prediction rows",
+  "time": 1793979929.6065335
+}

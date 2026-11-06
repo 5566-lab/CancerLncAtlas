@@ -1,0 +1,29 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "phases_per_experiment": 33,
+  "phase_pair_input_and_split_bindings": 33,
+  "audits": {
+    "phase_eligibility_review_r1": {
+      "receipt_sha256": "76f18d8a0d14eae65cbe8a7ee321e86e6697aaaa94e39da77a7aa622d4589a85",
+      "phase_receipts": 66
+    },
+    "heldout_integrity_r1": {
+      "receipt_sha256": "6db5e3ac9d9c1b719b9541a472a227d0a42acbafe02caa0fb86422b838023045",
+      "phase_receipts": 30
+    },
+    "resolution4_heldout_integrity_r1": {
+      "receipt_sha256": "3f91d6b36dd555c6a45939d70818779ad1f6f8683a0f69b587ab7d0307c725bd",
+      "phase_receipts": 30
+    }
+  },
+  "independent_metric_rows": 499050,
+  "raw_fine_predictions": 49789494,
+  "primary_cancer_targets": 5243,
+  "time": 1793979535.9838514
+}

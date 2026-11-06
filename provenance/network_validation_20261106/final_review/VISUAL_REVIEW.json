@@ -1,0 +1,28 @@
+{
+  "target_host": "149",
+  "status": "PASS_VISUAL_REVIEW",
+  "inspection": "All six original PNG images and all six independently rendered one-page PDF previews viewed individually; readable axes/titles and comparison directions; negative R2 and negative delta visible; no clipped labels seen.",
+  "files": {
+    "01_fine_lncrna_performance.pdf": "471dfc4cfaa478c39da1977cbdfbf5bd8698896d23d11b676c7af9c2cfeca582",
+    "01_fine_lncrna_performance.png": "5e7c06006b3c35b21ec031061f90669c6c96018aa478880cdc7b1d5f8e28b039",
+    "02_fine_mrna_performance.pdf": "6cb4269627a48bbf0724bb8d66aa89d3b28a7316430f30edbb81c9b12389936a",
+    "02_fine_mrna_performance.png": "ee42efa441ef862d8952789b5ccec42d8b1ac22b1c42f4a9b42e7f7817ce90f1",
+    "03_fine_combined_performance.pdf": "b9a320be24c17492a58803d2620718611ea6f27ecf32566369722d01f70b9be7",
+    "03_fine_combined_performance.png": "e77e59293336df69e0e2746cd0c271cc0b3ff1ffe03cdb85a7003d3e783b09e6",
+    "04_fine_three_arm_comparison.pdf": "69e38ee83b561b0c15146ec5ba01a25ae72837f5db18a653fdcce3fe63ea317b",
+    "04_fine_three_arm_comparison.png": "4ff3b874496abe04ef932d167945fe1ba1b5024c4f9c49bd6c61615f18b1e56f",
+    "05_fine_vs_coarse_and_adaptive.pdf": "1868323a70a29f5dc7d9d792b203488bbd33888d36137a5820ef5eb4a51106c1",
+    "05_fine_vs_coarse_and_adaptive.png": "4d4050b5c3faeee7846b1b15e8cd6b661ea1bc8ec178dc833cc3c958f569f95d",
+    "06_fine_primary_patient_bootstrap.pdf": "db02979048efbf4eb14a0798f4e13c78bd149634281169510e9828c8b819832d",
+    "06_fine_primary_patient_bootstrap.png": "47a164ee6c9da64b41f3272e59ddc6535553c31611e298a6c9ea633baa8218dd"
+  },
+  "pdf_previews": {
+    "01_fine_lncrna_performance_pdf.png": "723733839720022202ccc51d53a0c80c10154d0736819320d728abebe11651cb",
+    "02_fine_mrna_performance_pdf.png": "8b374ec2bede8a25196795e08cc8ce447c3b153217972f053912c6535bf74898",
+    "03_fine_combined_performance_pdf.png": "41f2ead7de6de251a183f16ffc5c9fc0f785bef3d35d2f38bcea67fd8f3ece74",
+    "04_fine_three_arm_comparison_pdf.png": "a906b5b418ea28ce0138f0091494f6ee43df6ffe63c7a15b6024d25dac6eb340",
+    "05_fine_vs_coarse_and_adaptive_pdf.png": "aed1ca4538d41c7cabda8b03957556f1c3860d2d08f8c40d35e0d532b11b60c5",
+    "06_fine_primary_patient_bootstrap_pdf.png": "42b5586a189e2616ace7f5d7c9e59837d1f77a2ef1f2fe8110c38de445fb2e4f"
+  },
+  "limitations": "Symlog axes are nonlinear. Black bars are target medians, not confidence intervals. Missing methylation panels in BRCA/COAD represent unavailable outcomes."
+}

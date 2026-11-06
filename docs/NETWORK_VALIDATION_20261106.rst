@@ -179,8 +179,8 @@ implement those papers' adaptive-Laplacian algorithms:
 * https://pmc.ncbi.nlm.nih.gov/articles/PMC3217586/
 
 
-Independent diagnostic findings (patient fits still pending)
-------------------------------------------------------------
+Independent diagnostic findings
+-------------------------------
 
 The corrected typed RPI graphs contain 77,083 / 73,390 / 75,304 edges for
 BRCA / LUAD / COAD. Their connected lncRNA counts are 3,523 / 3,435 / 3,615,
@@ -221,8 +221,8 @@ with the pinned Python environment and the repository on PYTHONPATH::
 
 These simulated results demonstrate sensitivity under the stated data
 construction. They do not establish that these PPI/RPI priors improve the actual
-patient outcomes. That conclusion still requires all prespecified patient
-phases, failure/coverage audits, paired comparisons and uncertainty intervals.
+patient outcomes. The completed patient comparisons and their reviews are reported in the final
+results section below.
 
 
 Matched RNA increment and interval interpretation
@@ -308,8 +308,8 @@ The follow-up runner validates the resolution-four provenance and reuses the
 frozen core solver. Its synthetic regression test compares it numerically with
 the original module solver on identical partitions, checks the exact zero-power
 ridge fallback, verifies 72 saved models, and rejects resolution-one provenance.
-Actual patient performance and final artifacts remain pending until the new
-33 phases and their independent audits complete.
+All 33 fine phases and their independent audits are complete; final results
+and their limitations are reported below.
 
 Resolution-four comparative report
 ----------------------------------
@@ -417,16 +417,15 @@ counts, not patient counts.
 Aggregate correction/test evidence is in
 provenance/network_validation_20261106/repeat_plot_correction.
 This correction changes visual aggregation only. It neither refits models nor
-establishes predictive benefit; the fine-module comparison still requires its
-full experiment and review.
+establishes predictive benefit. The fine-module comparison and review are now
+complete, with results below.
 
 
 Reviewed original experiment results
 ------------------------------------
 
-The original 33-phase experiment is complete. This subsection reports its
-results only; the resolution-four follow-up remains pending, so the full
-network-improvement goal is not yet complete. Inputs and native outcomes are
+The original 33-phase experiment is complete. This subsection reports original
+results; the completed resolution-four comparison appears in the final section. Inputs and native outcomes are
 CPTAC BRCA, LUAD and COAD, not calibrated TCPA-CPTAC pooled labels.
 
 Primary comparisons use 4,325 protein and 918 phospho cancer-target selections
@@ -502,10 +501,10 @@ separate from the numerical correctness of graph construction.
 
 The fine follow-up changes only the union and five null module assignments.
 Patient predictors, native outcomes, covariates, candidate targets and original
-split inputs retain their original checksums. At this audit snapshot, all 31
-launched original/fine phase pairs had identical input receipts, common solver
-code and full outer/inner split definitions. The two unlaunched phase pairs and
-the complete fine-result comparison remain pending. No training or score files
+split inputs retain their original checksums. All 33
+original/fine phase pairs now have verified identical input receipts, common
+solver code and full outer/inner split definitions. All phases and their complete
+fine-result comparison have passed final audits. No training or score files
 were altered by this audit. Evidence and the exact executed audit source are in
 ``provenance/network_validation_20261106/source_review/``.
 
@@ -535,5 +534,90 @@ combined-minus-mRNA differences are -0.010026 / +0.003478 / +0.007982; their
 three-cancer average interval crosses zero. Phosphorylation differences are
 +0.006022 / +0.001477 / +0.002397, with the latter two individual intervals
 crossing zero. In adaptive-omics ridge, adding lncRNA lowers the protein result
-in all three cancers. These are original-model results; the finer-network
-follow-up is still required before the full network-modeling conclusion.
+in all three cancers. These are original-model results; the completed finer-network results and
+final interpretation follow below.
+
+
+Final three-cancer results and interpretation
+--------------------------------------------
+
+Both experiments completed 33 of 33 phases without failed execution phases.
+Only BRCA, LUAD and COAD were trained: 33 means three cancers multiplied by
+ten outer-validation phases (two repetitions of five folds) plus one final fit.
+Each phase contains many model/arm/target fits; unavailable or insufficiently
+observed candidate targets remain explicitly failed.
+
+Independent eligibility checks passed all 66 phases (21,945,000 attempted
+model-target audit rows). Each experiment passed 30 heldout-identity audits.
+Fine metrics were reconstructed from 49,789,494 raw predictions: 499,050 metric
+records and 945,000 candidate-status records were compared with the report.
+All 136 primary bootstrap point estimates agreed within 5.0e-16; successful
+R2 differs by at most 8.81e-12. Already-failed near-constant State records can
+have extreme negative R2; their large absolute rounding differences are tiny
+in relative terms and never enter successful comparisons.
+
+The primary common-support analysis includes 4,325 protein and 918 phospho
+cancer-target selections, not independent patients or distinct pathways.
+The combined-arm contrasts use equal score-family/cancer weighting and
+2,000 paired patient-bootstrap replicates.
+
+.. csv-table:: Fine union minus comparator: mean paired delta R2
+   :header: "Comparator", "Protein", "95% interval", "Phospho", "95% interval"
+
+   "Coarse union", 0.002549, "[0.002207; 0.002899]", 0.001168, "[0.000936; 0.001415]"
+   "Adaptive-omics ridge", -0.045703, "[-0.049168; -0.042481]", -0.019471, "[-0.021894; -0.017113]"
+   "Equal-omics ridge", 0.044081, "[0.041219; 0.047043]", 0.021119, "[0.018560; 0.024021]"
+   "Mean five fine-null errors", 0.006333, "[0.005829; 0.006873]", 0.000425, "[0.000048; 0.000816]"
+
+Finer modules give small improvements over coarse groups but remain below
+adaptive-omics ridge in each cancer and primary assay layer. Beating equal
+ridge alone does not establish advantage over the stronger non-network model.
+The five nulls are diagnostic controls, not a permutation significance test.
+
+Within the fine model, combined-minus-mRNA mean delta R2 is +0.000922 for protein
+(interval -0.001330 to +0.003380) and +0.003491 for phospho (+0.002038 to +0.004982).
+Protein changes are -0.009742 / +0.004307 / +0.008200 in BRCA / LUAD / COAD;
+phospho changes are +0.006292 / +0.001369 / +0.002812, with the latter two
+individual phospho intervals crossing zero. lncRNA increments are heterogeneous
+and small here; no universal absence of biological information follows.
+All three RNA arms also include the same eligible non-RNA inputs and
+unpenalized clinical covariates.
+
+Finer groups correct a coarse shrinkage representation; they do not average
+expression, merge measured features or force coefficient signs to agree.
+Only 20.7--22.5 percent of quality-eligible lncRNAs have RPI connections in the
+actual feature maps; disconnected features stay in background groups.
+The study does not establish that coverage, static topology or sample size alone
+caused the weak network benefit. Adaptive-omics ridge is the supported strong
+predictive reference for this demo; network models remain reproducible controls.
+No extra fits were added merely to seek a positive result.
+
+RNA-derived pathway, TF and State outcomes in mRNA-containing arms are score
+reconstruction; their combined-minus-mRNA median changes are negative in all
+three cancers. Methylation is evaluable only in LUAD and median R2 is negative
+in every arm. Each cancer has only three jointly evaluable non-RNA State targets,
+not a validation of the complete catalog. TWO_REPEAT_THREE_ARM_SUMMARY.tsv
+requires both repetitions and all three arms.
+
+All six fine PNGs and six PDF page previews passed visual review, in addition
+to the eleven reviewed original figure pairs. The default original plotting
+entry now enforces complete repeats in figures 05 and 07; its four relevant
+tests and actual plotted-value checks passed before integration. Frozen code
+and the unmodified generated report remain archived.
+
+Saved-artifact checks cover the prespecified bounded selection of 352 original
+and 288 fine models, 16 cancer-target selections per experiment, not every model.
+Intervals condition on fitted CV models and fixed common-support target variance,
+without model refitting. Point estimates were independently reconstructed;
+the full resampling was not independently repeated. Native upstream scoring is
+unchanged, phospho labels are not total-protein-adjusted, and separate BRCA/OV
+cross-platform diagnostics have not replaced these outcomes. COAD cross-platform
+source-scale verification remains unresolved. These results do not establish
+absolute activation, causal effects or prospective external validity.
+Dense Ridge weights are not a Lasso-selected signature.
+
+Aggregate numerical, visual, repeat-consistency and phase evidence, all six
+fine figure pairs, and Chinese conclusions are under
+provenance/network_validation_20261106/final_review/.
+The private delivery entry is FINAL_REPORT.html, with the fine report in
+resolution4/. Original detailed reports and failed-target records are retained.

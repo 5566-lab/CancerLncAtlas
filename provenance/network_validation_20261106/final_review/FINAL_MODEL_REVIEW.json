@@ -1,0 +1,97 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "fine_models_checked": 288,
+  "fine_cancer_target_selections": 16,
+  "original_models_checked": 352,
+  "original_cancer_target_selections": 16,
+  "reports": [
+    {
+      "target_host": "149",
+      "status": "PASS",
+      "cancer": "BRCA",
+      "models_checked": 90,
+      "targets_checked": 5,
+      "max_abs_kernel_difference": 7.803464541211723e-10,
+      "max_abs_independent_refit_difference": 4.743469617096707e-09,
+      "all_queries_reordered_correctly": true,
+      "all_missing_clinical_rejected": true,
+      "min_training_patients": 100,
+      "max_training_patients": 100,
+      "bound_complete_sha256": "347a9677eaef456eef87968db14f7fa5063f0a2da4254d7fd049f1d290e9fa00",
+      "selection_sha256": "d59e7fb783a0e5d0c8dcc718f0ad07ca93e90e4a0e4e6693336b82e7ebee7e67",
+      "exact_selected_target_variant_arm_axis": true,
+      "all_source_and_code_bindings_verified": true,
+      "scope": "Bounded artifact verification; no all-target or predictive-benefit claim",
+      "time": 1793968203.7388172
+    },
+    {
+      "target_host": "149",
+      "status": "PASS",
+      "cancer": "LUAD",
+      "models_checked": 108,
+      "targets_checked": 6,
+      "max_abs_kernel_difference": 2.0145307644270358e-10,
+      "max_abs_independent_refit_difference": 3.6925484891980886e-10,
+      "all_queries_reordered_correctly": true,
+      "all_missing_clinical_rejected": true,
+      "min_training_patients": 104,
+      "max_training_patients": 108,
+      "bound_complete_sha256": "a1632ec2078195d75191e6ee20dbd477412a5c60ca6f336ec6818a5c31a959e5",
+      "selection_sha256": "8c9ad1517ffc517dc94a14898b44cfd215e228b877f562614890a08b343eb83d",
+      "exact_selected_target_variant_arm_axis": true,
+      "all_source_and_code_bindings_verified": true,
+      "scope": "Bounded artifact verification; no all-target or predictive-benefit claim",
+      "time": 1793968204.0252635
+    },
+    {
+      "target_host": "149",
+      "status": "PASS",
+      "cancer": "COAD",
+      "models_checked": 90,
+      "targets_checked": 5,
+      "max_abs_kernel_difference": 7.457856554538012e-11,
+      "max_abs_independent_refit_difference": 5.9867488744203e-10,
+      "all_queries_reordered_correctly": true,
+      "all_missing_clinical_rejected": true,
+      "min_training_patients": 93,
+      "max_training_patients": 102,
+      "bound_complete_sha256": "bf23a4426bf4445ac93d97fd21377ebd5ae3aa536ee8d7034c314c5a63d14fa9",
+      "selection_sha256": "d59e7fb783a0e5d0c8dcc718f0ad07ca93e90e4a0e4e6693336b82e7ebee7e67",
+      "exact_selected_target_variant_arm_axis": true,
+      "all_source_and_code_bindings_verified": true,
+      "scope": "Bounded artifact verification; no all-target or predictive-benefit claim",
+      "time": 1793968204.3156488
+    }
+  ],
+  "original_artifact_bindings": [
+    {
+      "cancer": "BRCA",
+      "models": 110,
+      "targets": 5,
+      "complete_sha256": "fe24ce66b743cf31ac8b04d31554b4b939ee8aca63b0cfe6f41ad952b779671b"
+    },
+    {
+      "cancer": "LUAD",
+      "models": 132,
+      "targets": 6,
+      "complete_sha256": "2185c5f3746167b7cc307b5f6beff49f48ad5e4245d89fba02fbcbbaa7e7409a"
+    },
+    {
+      "cancer": "COAD",
+      "models": 110,
+      "targets": 5,
+      "complete_sha256": "550ee7925bc9fe83195e0962d37038125421b239e5153a7179f26f44169cdaee"
+    }
+  ],
+  "all_complete_sha256": "2ac4d3513355e737e9eb9bf556c2f82a5819dd430d013e0a9c8ffec46a0a6c15",
+  "scope": "Exact prescribed bounded artifacts; not every target model, not new external validation",
+  "goal_complete": false,
+  "files": {
+    "PREFLIGHT.json": "9173492c7af32445482a13c50f03fccc71be183630cb563ed6d3ba31d0efbd83",
+    "LUAD_REVIEW.json": "0c99bd035ca5616582ceab10e2fad3e8a05e9caac3b0d1871cc85692bca20a21",
+    "COAD_REVIEW.json": "fd4c0b806c1920eecf6ecd4d18cf10e467e1c61b0a886451b631cba33c46b8ce",
+    "BRCA_REVIEW.json": "7d314ed167cf602857c1a2eb2690c742ac9e7411c8be5e9eeb892fda35114e46"
+  },
+  "time": 1793968204.4453216
+}

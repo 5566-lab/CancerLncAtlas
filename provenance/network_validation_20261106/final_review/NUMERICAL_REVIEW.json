@@ -1,0 +1,82 @@
+{
+  "target_host": "149",
+  "status": "PASS_INDEPENDENT_RAW_METRICS_AND_SCIENTIFIC_REPORT_COMPARISON",
+  "synthetic": false,
+  "checks": {
+    "raw_metrics": {
+      "rows": 499050,
+      "max_absolute_difference": {
+        "r2": 549755813888.0,
+        "rmse": 1.8189894035458565e-12,
+        "pearson": 4.008821052892131e-11,
+        "sse": 9.5367431640625e-07,
+        "sst": 9.5367431640625e-07
+      }
+    },
+    "raw_status": {
+      "rows": 945000,
+      "max_absolute_difference": {}
+    },
+    "paired_deltas": {
+      "rows": 827130,
+      "max_absolute_difference": {
+        "delta_r2": 8.79518680108049e-12
+      }
+    },
+    "gain_summary": {
+      "rows": 1140,
+      "max_absolute_difference": {
+        "median_delta_r2": 9.161211286107251e-13,
+        "mean_delta_r2": 4.947431353485854e-15
+      }
+    },
+    "three_arms": {
+      "rows": 27571,
+      "max_absolute_difference": {
+        "lncrna": 8.79518680108049e-12,
+        "mrna": 5.846434447676074e-12,
+        "combined": 6.410094677278266e-12,
+        "combined_minus_mrna": 5.63660229602192e-13,
+        "lncrna_minus_mrna": 2.9487523534044158e-12
+      }
+    },
+    "coverage": {
+      "rows": 756,
+      "max_absolute_difference": {}
+    },
+    "bootstrap_points": {
+      "rows": 136,
+      "max_absolute_difference": {
+        "family_balanced_mean_delta_r2": 4.996003610813204e-16
+      }
+    }
+  },
+  "negative_finite_metric_rows_retained": 90427,
+  "failure_state_rows_retained": 448722,
+  "common_primary_cancer_targets": 5243,
+  "source_files": {
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/BRCA_repeat0/INDEPENDENT_METRICS.parquet": "2b4f7263912ec37d2163c954e94649ebf9d13ae60693297f2b2221c744bc49b3",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/BRCA_repeat0/INDEPENDENT_STATUS.parquet": "c2a42522d579d905942a534c01ddf061f9deb4085a79327597cae156646ef71b",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/BRCA_repeat1/INDEPENDENT_METRICS.parquet": "fd7178ea65faffac8ab7f5ff7609e7d0667672df8bf5527640bb05b8c7d63496",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/BRCA_repeat1/INDEPENDENT_STATUS.parquet": "2c5e929e7ccd2a2413fc6cd9521745bef106eff7d2b174fcb26d7907c949d1cd",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/LUAD_repeat0/INDEPENDENT_METRICS.parquet": "ddd1f88e1c12de4646555cbc679ec76664b91ced5d74e7b7cf15dfef44fcc874",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/LUAD_repeat0/INDEPENDENT_STATUS.parquet": "25e1a16cd50da1d135c731702eb403916624313d7b1a6e29a4d81520ec0c985f",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/LUAD_repeat1/INDEPENDENT_METRICS.parquet": "c52083a00d6d98b6eb6a0013d5e485f1227892a7f1f25135bfcfaa669ccc55a8",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/LUAD_repeat1/INDEPENDENT_STATUS.parquet": "997e420bd95a05f1963239327384213401f5847bb54d0a0b0e2b7206080e41f9",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/COAD_repeat0/INDEPENDENT_METRICS.parquet": "46aca6c861f5445143ac437f4a16d9d9502fd6289b4bcc3a003bea0170a01d6c",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/COAD_repeat0/INDEPENDENT_STATUS.parquet": "5e36ba6d3ab513b3efec80e957f9ac36f993aabe529c11abc93b8c0c1d1e2813",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/COAD_repeat1/INDEPENDENT_METRICS.parquet": "1466d08c1d146f49eea8f301f5cbf3dd2ecd497e633912ab319840cbcb1aa26c",
+    "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_raw_metric_review_r1/COAD_repeat1/INDEPENDENT_STATUS.parquet": "9db37c40cae44add508a22e4eef4661fbbb0a025d76b2a31ca17ede94aa01553",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1/FINE_TARGET_METRICS.parquet": "9a5a91109d0b0f19234030f4deb5f6e357031f227d5e1c295d48e7ed91e961d4",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1/FINE_TRAINING_STATUS.parquet": "5b4a07c90b6f513a861b1ce363189b9e87051a9b1278bdf3bf89434edd6ef473",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_VALIDATION_REPORT_demo_20261106_r2/ALL_TARGET_METRICS.parquet": "553f712dba137e1de07035a1183d97597355d8249e19347c98c99351bae32838",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1/FINE_PAIRED_MODEL_DELTAS.parquet": "f0c53d00eebc20f214d16bef21b5c51d5947995a487483bba62c2f85be47aa8c",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1/FINE_GAIN_SUMMARY.tsv": "5425b2d4c38f56febef763110b83835180803bf8c1d144c9f5022494df09d0b9",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1/FINE_THREE_ARM_COMPARISONS.parquet": "fdf43db221c6dfbf7bf202f2d027bb3a968912da91801be48654e3935c25b017",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1/FINE_COVERAGE_SUMMARY.tsv": "7effe0dbe0c08457c07d362890402cb57b484b43b708ed8468f6497f60d7db16",
+    "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_RESOLUTION4_REPORT_demo_20261106_r1/FINE_PATIENT_BOOTSTRAP.tsv": "8fb780d318b0f037f010109616c9029856e6311171241a866f5c1ef3a36883de"
+  },
+  "producer_sha256": "1a3413facb33c55f2b296dadd0b5be05657514d4702c55bc343a85015cf3c3fa",
+  "bootstrap_interval_scope": "Checked complete point estimates, interval ordering and recorded replicate count. Intervals use previously tested producer; no independent resampling in this review.",
+  "time": 1793979102.9731336
+}

@@ -22,6 +22,20 @@ requires a replacement target design before preparation or training; it does
 not silently fall back to RNA scores. Separate per-assay heads are not yet
 implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
 
+## Reviewed three-cancer network comparison (2026-11-06)
+
+Both network experiments completed: **BRCA, LUAD and COAD only**, with
+33 phases each = 3 cancers × (2 repeats × 5 outer folds + 1 final fit).
+All 66 phase eligibility audits and both sets of 30 heldout-identity audits passed.
+Finer modules improve combined-arm protein/phospho mean paired R² by only
++0.00255/+0.00117 over coarse modules, remaining below adaptive-omics Ridge
+by -0.04570/-0.01947. Adding lncRNA to mRNA within the fine model gives
++0.00092 for protein (interval crosses zero) and +0.00349 for phospho.
+These are CPTAC native retrospective targets, not pooled calibrated TCGA/CPTAC Y.
+See [complete methods and final results](docs/NETWORK_VALIDATION_20261106.rst)
+and [Chinese conclusions](provenance/network_validation_20261106/final_review/FINAL_CONCLUSIONS_ZH.txt).
+The graph-ridge and Lasso sections below describe earlier experiments.
+
 ## Graph-regularized ridge multiomics demo (2026-11-06)
 
 The existing three-arm entry supports `--estimator graph_ridge --omics-input <verified-root>`.

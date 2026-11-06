@@ -1,0 +1,32 @@
+{
+  "target_host": "149",
+  "status": "PASS_ALL_FIVE_CORRUPTION_CHECKS",
+  "checks": [
+    {
+      "case": "wrong_r2",
+      "status": "CORRECTLY_REJECTED",
+      "expected_error": "r2"
+    },
+    {
+      "case": "missing_metric_row",
+      "status": "CORRECTLY_REJECTED",
+      "expected_error": "DIFFERENT_ROW_AXIS"
+    },
+    {
+      "case": "wrong_failure_flag",
+      "status": "CORRECTLY_REJECTED",
+      "expected_error": "success"
+    },
+    {
+      "case": "wrong_null_difference",
+      "status": "CORRECTLY_REJECTED",
+      "expected_error": "delta_r2"
+    },
+    {
+      "case": "wrong_bootstrap_point",
+      "status": "CORRECTLY_REJECTED",
+      "expected_error": "family_balanced_mean_delta_r2"
+    }
+  ],
+  "time": 1793973805.8911583
+}

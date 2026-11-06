@@ -1,0 +1,9 @@
+{
+  "target_host": "149",
+  "all_metric_rows": 499050,
+  "large_absolute_r2_difference_rows": 38,
+  "large_difference_successful_rows": 0,
+  "max_successful_absolute_r2_difference": 8.804845741394729e-12,
+  "max_relative_r2_difference": 8.804845741394729e-12,
+  "failed_extreme_metrics_retained": true
+}
