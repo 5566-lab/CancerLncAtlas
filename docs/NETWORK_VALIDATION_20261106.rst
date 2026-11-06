@@ -241,3 +241,24 @@ fixed and resamples paired prediction losses. Its intervals are expressed in
 Delta R2 units. It neither refits CV models nor recomputes target variance for
 each bootstrap replicate. This restriction accompanies the existing statement
 that the intervals are conditional on the fitted models.
+
+Saved final-model verification
+------------------------------
+
+After a cancer's final phase is complete, run
+``scripts/audit_network_final_models.py`` with the verified input, network,
+result and new audit-output directories. It selects the first lexicographic
+fully fitted target per layer and purity-covariate policy, without consulting
+prediction performance. For each selected target it checks all three RNA arms
+and the shared omics-only control across base, adaptive-omics, PPI, RPI, union
+and one null-module estimator.
+
+The audit verifies bound artifact hashes, reconstructs frozen preprocessing,
+compares exported-coefficient predictions with the training kernel and an
+independent normal-equation solve, permutes query rows, and checks rejection of
+missing required clinical data. It covers the base/module prediction helper;
+legacy Laplacian models are outside this helper's export contract. This is a
+bounded saved-artifact check, not independent external prediction validation.
+A four-target synthetic fixture checks 88 saved models, both purity policies
+and rejection of a checksum change. Real-patient audit receipts must be reviewed
+separately before claiming the final artifacts have passed.

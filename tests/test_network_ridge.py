@@ -137,3 +137,22 @@ def test_historical_graph_inputs_are_refused():
     from cc_hhgt.network_evidence import require_physical_network_receipt
     with pytest.raises(ValueError,match='RPI_EVIDENCE_GATE_MISSING'):require_physical_network_receipt({'rpi_policy':'EXPERIMENTAL_CLASSES_ONLY'})
     require_physical_network_receipt({'rpi_policy':'EXPLICIT_PHYSICAL_METHOD_AND_FAMILY_REQUIRED; TEST'})
+
+
+def test_saved_final_model_audit_and_checksum_gate(tmp_path):
+    import json, pandas as pd, pytest
+    from scripts.audit_network_final_models import audit_cancer, checked_receipt
+    test_end_to_end_nested_outer_and_final(tmp_path)
+    audit_cancer(tmp_path/"input", tmp_path/"net", tmp_path/"out", tmp_path/"artifact_audit", "COAD")
+    receipt = json.loads((tmp_path/"artifact_audit/COAD/COMPLETE.json").read_text())
+    assert receipt["status"] == "PASS" and receipt["models_checked"] == 88
+    assert receipt["targets_checked"] == 4 and not receipt["new_external_validation"]
+    checks = pd.read_csv(tmp_path/"artifact_audit/COAD/CHECKS.tsv", sep="\t")
+    assert set(checks.arm) == {"lncrna", "mrna", "combined", "shared"}
+    assert checks.purity.nunique() == 2
+    assert checks.missing_clinical_rejected.all() and checks.reordered_query_pass.all()
+    final = tmp_path/"out/COAD/final"
+    with (final/"TARGETS.tsv").open("a") as f:
+        f.write("\n")
+    with pytest.raises(ValueError, match="ARTIFACT_CHECKSUM_DRIFT"):
+        checked_receipt(final, ["TARGETS.tsv"])

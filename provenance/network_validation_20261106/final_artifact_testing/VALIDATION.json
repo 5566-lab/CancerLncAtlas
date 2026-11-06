@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "synthetic_fixture_only": true,
+  "real_patient_artifact_checks_pending": true,
+  "models_checked": 88,
+  "targets_checked": 4,
+  "test": "test_saved_final_model_audit_and_checksum_gate",
+  "checks": [
+    "Frozen preprocessing reconstruction",
+    "Kernel/coefficient prediction agreement",
+    "Independent normal-equation refit",
+    "Query-order invariance",
+    "Missing required clinical rejection",
+    "Target-source input exclusion",
+    "Checksum drift rejection"
+  ],
+  "code_sha256": {
+    "scripts/audit_network_final_models.py": "d57ea8e2935b28ad6758e3394fafe36abef39b1b97efd81da1ff4eb10ac26c93",
+    "tests/test_network_ridge.py": "6538f8fa73194c59468905f27d3845a50520f2997d3c08bb0ed5e4f14ce4b88d"
+  }
+}
