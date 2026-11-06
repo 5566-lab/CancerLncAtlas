@@ -8,6 +8,8 @@ from scripts.prepare_graph_ridge import dump
 from scripts.run_network_validation import check_receipt
 from scripts.plot_m0_increment import classify
 from cc_hhgt.network_ridge import MODES,ARMS
+from cc_hhgt.graph_ridge import target_policy
+from cc_hhgt.m0_covariates import complete_rows
 CANCERS=('BRCA','LUAD','COAD')
 KEYS=['target_id','variant','arm']
 
@@ -20,7 +22,10 @@ def summarize(source,inputs,networks,output):
     assert socket.gethostname()=='149';src=Path(source);out=Path(output);out.mkdir(parents=True,exist_ok=True);dump(out/'PREFLIGHT.json',dict(target_host='149',stage='NETWORK_VALIDATION_REPORT',source=str(src),code=sha(Path(__file__))))
     statuses=[];metrics=[];hyper=[];coverage=[];audits=[];partitions=[];receipt_codes=[]
     for c in CANCERS:
-        case=src/c;meta=classify(pd.read_csv(case/'final/TARGETS.tsv',sep='\t'));meta['family']=meta.family.fillna('UNSPECIFIED');phases=[f'repeat{r}_outer{k}' for r in range(2) for k in range(5)]+['final'];ad={};stats={0:[],1:[]}
+        case=src/c;meta=classify(pd.read_csv(case/'final/TARGETS.tsv',sep='\t'));meta['family']=meta.family.fillna('UNSPECIFIED')
+        native=pd.read_parquet(Path(inputs)/c/'Y.parquet');cov=pd.read_parquet(Path(inputs)/c/'COVARIATES.parquet').reindex(native.index)
+        meta['n_observed_y']=meta.target_id.map(native.notna().sum());meta['n_covariate_eligible_y']=[int((native[row['target_id']].notna().to_numpy()&complete_rows(cov,target_policy(row)['use_purity'])).sum()) for row in meta.to_dict('records')]
+        phases=[f'repeat{r}_outer{k}' for r in range(2) for k in range(5)]+['final'];ad={};stats={0:[],1:[]}
         for phase in phases:
             folder=case/phase
             if not (folder/'COMPLETE.json').exists():raise ValueError('INCOMPLETE_PHASE: '+str(folder))
@@ -47,7 +52,9 @@ def summarize(source,inputs,networks,output):
         part=pd.read_csv(Path(networks)/c/'PARTITION_AUDIT.tsv',sep='\t');part['cancer_id']=c;partitions.append(part)
     if any(code!=receipt_codes[0] for code in receipt_codes):raise ValueError('MIXED_TRAINING_CODE')
     met=pd.concat(metrics,ignore_index=True);status=pd.concat(statuses,ignore_index=True);met.to_parquet(out/'ALL_TARGET_METRICS.parquet',index=False);status.to_parquet(out/'ALL_TRAINING_STATUS.parquet',index=False);pd.concat(hyper).to_csv(out/'HYPERPARAMETERS.tsv',sep='\t',index=False);pd.DataFrame(coverage).to_csv(out/'NETWORK_FEATURE_COVERAGE.tsv',sep='\t',index=False);pd.concat(partitions).to_csv(out/'NETWORK_PARTITIONS.tsv',sep='\t',index=False);pd.DataFrame(audits).to_csv(out/'PHASE_AUDIT.tsv',sep='\t',index=False)
-    good=met[met.success&np.isfinite(met.r2)].copy();keys=['cancer_id','repeat','target_id','display_layer','family','arm'];wide=good.pivot(index=keys,columns='variant',values='r2').reset_index();wide.to_parquet(out/'PAIRED_MODEL_R2.parquet',index=False)
+    good=met[met.success&np.isfinite(met.r2)].copy();good['query_support_excluded']=good.n_covariate_eligible_y-good.n;good['evaluated_fraction_of_observed_y']=good.n/good.n_observed_y
+    good.groupby(['cancer_id','repeat','variant','arm','display_layer']).agg(targets=('target_id','size'),median_observed_y=('n_observed_y','median'),median_clinical_eligible_y=('n_covariate_eligible_y','median'),median_evaluated_patients=('n','median'),minimum_evaluated_patients=('n','min'),median_evaluated_fraction=('evaluated_fraction_of_observed_y','median'),maximum_query_support_exclusions=('query_support_excluded','max')).reset_index().to_csv(out/'PATIENT_COVERAGE_SUMMARY.tsv',sep='\t',index=False)
+    keys=['cancer_id','repeat','target_id','display_layer','family','arm'];wide=good.pivot(index=keys,columns='variant',values='r2').reset_index();wide.to_parquet(out/'PAIRED_MODEL_R2.parquet',index=False)
     summary=good.groupby(['repeat','variant','arm','display_layer']).agg(targets=('r2','size'),median_r2=('r2','median'),mean_r2=('r2','mean'),positive=('r2',lambda a:int(a.gt(0).sum()))).reset_index();summary.to_csv(out/'MODEL_SUMMARY.tsv',sep='\t',index=False)
     comparisons=[];contrasts=[('module_ridge_union','ridge_adaptive_omics'),('module_ridge_union','ridge_equal'),('module_ridge_union','rna_laplacian_union'),('ridge_adaptive_omics','ridge_equal'),('rna_laplacian_union','ridge_equal'),('module_ridge_ppi','ridge_adaptive_omics'),('module_ridge_rpi','ridge_adaptive_omics')]+[('module_ridge_union','module_ridge_union_random_'+str(s)) for s in [101,202,303,404,505]]
     for method,baseline in contrasts:
