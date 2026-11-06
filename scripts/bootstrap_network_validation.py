@@ -20,7 +20,7 @@ def family_mean_bootstrap(delta,valid,families,counts):
 def bootstrap(source,inputs,summary,replicates=2000):
     assert socket.gethostname()=='149';source=Path(source);inputs=Path(inputs);out=Path(summary)
     if not (out/'SUMMARY_COMPLETE.json').exists():raise ValueError('SUMMARY_NOT_VERIFIED')
-    dump(out/'BOOTSTRAP_PREFLIGHT.json',dict(target_host='149',source=str(source),summary_receipt=sha(out/'SUMMARY_COMPLETE.json'),code=sha(Path(__file__)),replicates=replicates,unit='patient within cancer',paired_repeats=True,target_aggregation='equal families, equal targets within family, equal cancers',interval='conditional on existing fitted CV models; does not repeat model fitting',null_baseline='mean squared prediction error across five independently fitted degree-preserving null graphs; not prediction averaging'))
+    dump(out/'BOOTSTRAP_PREFLIGHT.json',dict(target_host='149',source=str(source),summary_receipt=sha(out/'SUMMARY_COMPLETE.json'),code=sha(Path(__file__)),replicates=replicates,unit='patient within cancer',paired_repeats=True,target_aggregation='equal families, equal targets within family, equal cancers',interval='conditional on existing fitted CV models; does not repeat model fitting',target_variance='Original common-support variance fixed; bootstrap reweights patient losses in Delta R2 units',null_baseline='mean squared prediction error across five independently fitted degree-preserving null graphs; not prediction averaging'))
     met=pd.read_parquet(out/'ALL_TARGET_METRICS.parquet');met=met[met.success&met.display_layer.isin(LAYERS)&met.variant.isin(METHODS)&met.arm.isin(ARMS)]
     rows=[];aggregate={};n_cancer={}
     for ci,c in enumerate(['BRCA','LUAD','COAD']):

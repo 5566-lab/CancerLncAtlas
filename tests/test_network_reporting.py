@@ -8,6 +8,7 @@ from cc_hhgt.network_ridge import MODES,ARMS
 from scripts.summarize_network_validation import summarize
 from scripts.bootstrap_network_validation import bootstrap
 from scripts.plot_network_validation import plot
+from scripts.report_network_omics_increment import report as report_increment, paired_increment
 
 def seal(folder):
     (folder/'COMPLETE.json').write_text(json.dumps(dict(files={p.name:sha(p) for p in folder.iterdir() if p.is_file() and p.name!='COMPLETE.json'})))
@@ -36,6 +37,16 @@ def test_reporting_statistics_and_figures(tmp_path):
             pd.DataFrame(audit).to_parquet(d/'AUDIT.parquet');pd.DataFrame(pred).to_parquet(d/'PREDICTIONS.parquet');meta.to_csv(d/'TARGETS.tsv',sep='\t',index=False);(d/'LAUNCH_PREFLIGHT.json').write_text(json.dumps({'target_host':'149','code':{'explicitly_synthetic_fixture':'true'}}))
             if final:joblib.dump(prep,d/'PREPROCESS_purity1.joblib')
             seal(d)
-    summarize(source,inputs,net,out);bootstrap(source,inputs,out,replicates=50);plot(out,source)
-    metrics=pd.read_parquet(out/'ALL_TARGET_METRICS.parquet');row=metrics[(metrics.cancer_id=='BRCA')&(metrics.repeat==0)&(metrics.target_id==tids[0])&(metrics.variant=='rna_only')&(metrics.arm=='lncrna')].iloc[0];expected=1-np.sum((.25*np.cos(np.arange(n)))**2)/np.sum((y[:,0]-y[:,0].mean())**2);np.testing.assert_allclose(row.r2,expected,atol=1e-12);assert row.n==30;assert metrics.success.all();assert len(list(out.glob('*.png')))==10;assert len(list(out.glob('*.pdf')))==10
+    summarize(source,inputs,net,out);report_increment(out,source);bootstrap(source,inputs,out,replicates=50);plot(out,source)
+    metrics=pd.read_parquet(out/'ALL_TARGET_METRICS.parquet');row=metrics[(metrics.cancer_id=='BRCA')&(metrics.repeat==0)&(metrics.target_id==tids[0])&(metrics.variant=='rna_only')&(metrics.arm=='lncrna')].iloc[0];expected=1-np.sum((.25*np.cos(np.arange(n)))**2)/np.sum((y[:,0]-y[:,0].mean())**2);np.testing.assert_allclose(row.r2,expected,atol=1e-12);assert row.n==30;assert metrics.success.all();assert len(list(out.glob('*.png')))==11;assert len(list(out.glob('*.pdf')))==11
     assert (out/'OPEN_REPORT.html').exists();b=pd.read_csv(out/'PATIENT_BOOTSTRAP.tsv',sep='\t');assert np.isfinite(b[['family_balanced_mean_delta_r2','ci_low','ci_high']]).all().all();assert (b.ci_low<=b.ci_high).all()
+
+    inc=pd.read_parquet(out/'RNA_INCREMENT_OVER_OMICS.parquet');r=inc[(inc.cancer_id=='BRCA')&(inc.repeat==0)&(inc.target_id==tids[0])&(inc.arm=='lncrna')].iloc[0]
+    expected_increment=(((.26*np.cos(np.arange(n)))**2).sum()-((.27*np.cos(np.arange(n)))**2).sum())/np.sum((y[:,0]-y[:,0].mean())**2)
+    np.testing.assert_allclose(r.delta_r2,expected_increment,atol=1e-12);assert r.n==r.baseline_n==30;assert len(pd.read_csv(out/'RNA_INCREMENT_PATIENT_PAIRING.tsv',sep='\t'))==30
+
+def test_increment_refuses_unequal_patient_support():
+    import pytest
+    base=dict(cancer_id='TEST',repeat=0,target_id='x',display_layer='PROTEIN_PATHWAY',family='f',success=True,r2=.1)
+    frame=pd.DataFrame([dict(base,variant='omics_only',arm='shared',n=20),dict(base,variant='ridge_equal',arm='lncrna',n=19)])
+    with pytest.raises(ValueError,match='DIFFERENT_PATIENT_SUPPORT'):paired_increment(frame)

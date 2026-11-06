@@ -223,3 +223,21 @@ These simulated results demonstrate sensitivity under the stated data
 construction. They do not establish that physical PPI/RPI improves the actual
 patient outcomes. That conclusion still requires all prespecified patient
 phases, failure/coverage audits, paired comparisons and uncertainty intervals.
+
+
+Matched RNA increment and interval interpretation
+-------------------------------------------------
+
+The prespecified RNA-increment comparison uses equal-modality ridge with each
+RNA arm versus the shared omics-only ridge, retaining clinical covariates and
+target-specific assay exclusions. Comparing module ridge with plain omics-only
+ridge would also change regularization, so that difference is not attributed
+solely to RNA. The supplemental reporter verifies every prediction phase for
+exact patient and observed-target pairing, then exports per-target and
+per-cancer results plus figure 11. All three RNA arms are retained.
+
+The patient bootstrap holds each target's original common-support variance
+fixed and resamples paired prediction losses. Its intervals are expressed in
+Delta R2 units. It neither refits CV models nor recomputes target variance for
+each bootstrap replicate. This restriction accompanies the existing statement
+that the intervals are conditional on the fitted models.

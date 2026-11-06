@@ -1,0 +1,23 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "tests": 2,
+  "fixture": "Three cancers, two outer repeats, five folds plus final; synthetic data only",
+  "verified": [
+    "metrics against independent numerical expectations",
+    "exact prediction patient/target pairing across thirty phases",
+    "reject unequal evaluated patient counts",
+    "eleven PNG and eleven PDF exports",
+    "bootstrap output finite with ordered intervals"
+  ],
+  "patient_training_code_changed": false,
+  "files": {
+    "RNA_INCREMENT_TEST_RESULTS.txt": "d9f0fe4079e448c8700574f6a2303893c298fecfb63b6331c2bf65e8ac3fdca8"
+  },
+  "code": {
+    "scripts/report_network_omics_increment.py": "640638ee5797cc6cbf8b35cbcfe3c4c7185f9b92051e54f8e68b2e38244cda8e",
+    "scripts/plot_network_validation.py": "fc6c8116831558e1abf6559715946e7297d177660c4d65b1a5570c577e0aa5b5",
+    "scripts/bootstrap_network_validation.py": "2cd3d65623ed72ef9869d254d9e53afd43ce451852eb1a9a5d24d72e12048592",
+    "tests/test_network_reporting.py": "15fe0f22a22e601e8ff5f1301c3dc9567166cb0073c727963783ccfa977d68d2"
+  }
+}
