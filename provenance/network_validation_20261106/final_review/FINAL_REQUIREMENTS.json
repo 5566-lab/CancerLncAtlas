@@ -1,0 +1,449 @@
+{
+  "target_host": "149",
+  "goal": "Finish checking and improving network modeling and provide an evidence-based conclusion",
+  "status": "COMPLETE_REQUIREMENT_BY_REQUIREMENT_REVIEW",
+  "source_plan_sha256": "45d5e6af1829969da114805d4925fd4f7030c9b68691a93423579a751e6a2376",
+  "source_amendment_sha256": "6d9b6a5a0c2974d5dd2bc025a4052e4e8f196895426149831f3f8c7477ed5479",
+  "training_snapshot": {
+    "original": {
+      "status": "COMPLETE",
+      "completed": 33,
+      "running": 0,
+      "failed": 0,
+      "pending": 0
+    },
+    "fine": {
+      "status": "COMPLETE",
+      "completed": 33,
+      "running": 0,
+      "failed": 0,
+      "pending": 0
+    }
+  },
+  "scope_notes": [
+    "Resolution-four follow-up is exploratory, and supplements the full original experiment.",
+    "All CPU work and plots on host149; no paid compute.",
+    "Latest user steering explicitly requires TCPA-CPTAC calibration progress. A separate branch of work has now implemented specimen concordance, five-fold shared-protein and reviewed phosphosite residual diagnostics (commit24486f3). This does not alter the frozen native-CPTAC network experiment or establish production unified Y.",
+    "Latest calibration steering progressed to both OV centers: 10 actual frozen folds, independent raw-input reconstruction, center-overlap audit, private delivery and GitHub781afe2. COAD input scale/zero contract is unresolved and explicitly rejected; no production unified Y or modification of network-native targets."
+  ],
+  "requirements": [
+    {
+      "id": "R01",
+      "requirement": "Verified PPI/RPI evidence and typed biological anchors",
+      "proof": [
+        {
+          "name": "network_source",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/network_source_review_r1/COMPLETE.json",
+          "sha256": "d742b83738fb55f5b51f1dfba417070f55cadbdd4168eccc0a6cf387d23f77b2"
+        }
+      ],
+      "source": "Original network-improvement contract and physical-evidence amendment",
+      "completion": "VERIFIED",
+      "notes": "Verified all three typed graphs and 395642 mapped-feature rows against authority; degree/weight multisets checked. Explicit physical-assay RPI gate fixed. STRING PPI remains association evidence."
+    },
+    {
+      "id": "R02",
+      "requirement": "Train lncRNA, mRNA and combined arms with CNV, mutation, protein and phospho inputs",
+      "proof": [
+        {
+          "name": "phase_eligibility",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/phase_eligibility_review_r1/ALL_COMPLETE.json",
+          "sha256": "76f18d8a0d14eae65cbe8a7ee321e86e6697aaaa94e39da77a7aa622d4589a85"
+        },
+        {
+          "name": "fine_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_scientific_review_r1/COMPLETE.json",
+          "sha256": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7"
+        }
+      ],
+      "source": "User requested three-arm multiomics comparison",
+      "completion": "VERIFIED",
+      "notes": "All original/fine phase axes checked; lncRNA, mRNA and combined arms keep eligible CNV/mutation/protein/phospho predictors. 66 eligibility receipts and actual three-arm output tables reviewed."
+    },
+    {
+      "id": "R03",
+      "requirement": "Exclude target assay from inputs; retain lncRNA for RNA targets with reconstruction caveats",
+      "proof": [
+        {
+          "name": "phase_eligibility",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/phase_eligibility_review_r1/ALL_COMPLETE.json",
+          "sha256": "76f18d8a0d14eae65cbe8a7ee321e86e6697aaaa94e39da77a7aa622d4589a85"
+        },
+        {
+          "name": "conclusions",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_delivery_r1/FINAL_CONCLUSIONS_ZH.txt",
+          "sha256": "76fd2dce15c225e2eb350aab4d4ba42ed2e4a07a35c8a45d61c80695189d24c4"
+        }
+      ],
+      "source": "User target-layer exclusion and RNA clarification",
+      "completion": "VERIFIED",
+      "notes": "All 66 phase source-policy annotations reconstructed; target assay excluded. RNA-derived endpoints retain authorized lncRNA and mRNA reconstruction caveat. Separate protein-adjusted calibration labels not injected."
+    },
+    {
+      "id": "R04",
+      "requirement": "Clinical and permitted purity variables enter unpenalized; target-self covariates excluded",
+      "proof": [
+        {
+          "name": "phase_eligibility",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/phase_eligibility_review_r1/ALL_COMPLETE.json",
+          "sha256": "76f18d8a0d14eae65cbe8a7ee321e86e6697aaaa94e39da77a7aa622d4589a85"
+        },
+        {
+          "name": "final_models",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/FINE_COMPILED_MODEL_AUDIT_REVIEW.json",
+          "sha256": "f4e870c70296e50ce78ceae28fab6c79ab8c7db8a49bfdd06d8cd54cd3a68a87"
+        }
+      ],
+      "source": "User unpenalized covariate decision",
+      "completion": "VERIFIED",
+      "notes": "Clinical support and exclusions reconstructed for every phase. Clinical/purity terms unpenalized in frozen equation, with bounded independent final-model checks; target-self nuisance exclusion retained."
+    },
+    {
+      "id": "R05",
+      "requirement": "No correlation/FDR admission; all quality-eligible RNA and all candidate targets retained",
+      "proof": [
+        {
+          "name": "phase_eligibility",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/phase_eligibility_review_r1/ALL_COMPLETE.json",
+          "sha256": "76f18d8a0d14eae65cbe8a7ee321e86e6697aaaa94e39da77a7aa622d4589a85"
+        },
+        {
+          "name": "fine_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_scientific_review_r1/COMPLETE.json",
+          "sha256": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7"
+        }
+      ],
+      "source": "Latest user removal of hard admission and full pathway/state scope",
+      "completion": "VERIFIED",
+      "notes": "No correlation/FDR admission in frozen preparation/runner; each cancer retains 8750 candidate outcomes. Constant/missing/insufficient cases explicitly failed; finite negative scores retained."
+    },
+    {
+      "id": "R06",
+      "requirement": "Full two-by-five outer and two-by-three inner validation plus final fit in three cancers",
+      "proof": [
+        {
+          "name": "phase_identity",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_report_inspection_r1/FINAL_PHASE_AND_IDENTITY_BINDINGS.json",
+          "sha256": "09a71075ab91c4086f7ad8477a01ff8a5f08de570f405a9d0781741d3451ff5c"
+        },
+        {
+          "name": "phase_eligibility",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/phase_eligibility_review_r1/ALL_COMPLETE.json",
+          "sha256": "76f18d8a0d14eae65cbe8a7ee321e86e6697aaaa94e39da77a7aa622d4589a85"
+        }
+      ],
+      "source": "Original plan and resolution-four amendment",
+      "completion": "VERIFIED",
+      "notes": "Exactly BRCA/LUAD/COAD, 2x5 outer phases plus final per cancer, 33/33 each; nested 2x3 tuning minimum counts independently checked."
+    },
+    {
+      "id": "R07",
+      "requirement": "Exact heldout patient and observed-label identity for all outer predictions",
+      "proof": [
+        {
+          "name": "phase_identity",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_report_inspection_r1/FINAL_PHASE_AND_IDENTITY_BINDINGS.json",
+          "sha256": "09a71075ab91c4086f7ad8477a01ff8a5f08de570f405a9d0781741d3451ff5c"
+        },
+        {
+          "name": "fine_heldout",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/resolution4_heldout_integrity_r1/ALL_COMPLETE.json",
+          "sha256": "3f91d6b36dd555c6a45939d70818779ad1f6f8683a0f69b587ab7d0307c725bd"
+        },
+        {
+          "name": "original_heldout",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/heldout_integrity_r1/ALL_COMPLETE.json",
+          "sha256": "6db5e3ac9d9c1b719b9541a472a227d0a42acbafe02caa0fb86422b838023045"
+        }
+      ],
+      "source": "Patient-matched comparisons invariant",
+      "completion": "VERIFIED",
+      "notes": "All 30 outer phase receipts for each experiment checked against source observed labels and heldout patients; fine full-record coverage 49789494 predictions. Receipt and split bindings rechecked."
+    },
+    {
+      "id": "R08",
+      "requirement": "Compare coarse, fine, adaptive-omics, equal-ridge, Laplacian, PPI/RPI and null priors",
+      "proof": [
+        {
+          "name": "phase_parity",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/ALL_PHASE_INPUT_PARITY_REVIEW.json",
+          "sha256": "7eac703c57257885ec96eef0813dff685291856667a8b8185854cf03e8031eaa"
+        },
+        {
+          "name": "fine_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_scientific_review_r1/COMPLETE.json",
+          "sha256": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7"
+        },
+        {
+          "name": "original_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_VALIDATION_REPORT_demo_20261106_r2/reviewed_evidence_original/NUMERICAL_REVIEW.json",
+          "sha256": "af16e79b40dff59a8e6da23cfb1a33c4cd2907e27226a48388976aec7a712b8c"
+        }
+      ],
+      "source": "Original primary/secondary contrasts plus structural amendment",
+      "completion": "VERIFIED",
+      "notes": "Completed original PPI/RPI/union/Laplacian/baseline comparisons and six fine variants; all 33 phase pairs retain identical input/split bindings. Full paired differences and mean five-null errors independently checked."
+    },
+    {
+      "id": "R09",
+      "requirement": "Separate RNA incremental information from changes to regularization",
+      "proof": [
+        {
+          "name": "strict_rna_increment",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/strict_rna_increment_review_r1/COMPLETE.json",
+          "sha256": "6c964bd0ab2a024088bf3a7e2ec2abf1af03c5c3a9fbd200dedc47357eae2c4a"
+        }
+      ],
+      "source": "Original secondary RNA-increment contrast",
+      "completion": "VERIFIED",
+      "notes": "Same-estimator RNA-plus-omics versus omics-only contrast independently checked in original experiment: 82713 paired records, 41310 complete-repeat pairs. Fine-versus-coarse effect is not attributed solely to RNA."
+    },
+    {
+      "id": "R10",
+      "requirement": "Report per-target, family, cancer and repeat metrics, failures and patient coverage",
+      "proof": [
+        {
+          "name": "fine_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_scientific_review_r1/COMPLETE.json",
+          "sha256": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7"
+        },
+        {
+          "name": "original_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_VALIDATION_REPORT_demo_20261106_r2/reviewed_evidence_original/NUMERICAL_REVIEW.json",
+          "sha256": "af16e79b40dff59a8e6da23cfb1a33c4cd2907e27226a48388976aec7a712b8c"
+        }
+      ],
+      "source": "Original deliverables and user failure rule",
+      "completion": "VERIFIED",
+      "notes": "Complete target/repeat/status/coverage tables reviewed, including 945000 fine candidate statuses and 448722 failed states, plus original statuses. 90427 finite negative fine metric rows retained."
+    },
+    {
+      "id": "R11",
+      "requirement": "Quantify paired uncertainty and repeat consistency without overclaiming random-network significance",
+      "proof": [
+        {
+          "name": "fine_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_scientific_review_r1/COMPLETE.json",
+          "sha256": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7"
+        },
+        {
+          "name": "conclusions",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_delivery_r1/FINAL_CONCLUSIONS_ZH.txt",
+          "sha256": "76fd2dce15c225e2eb350aab4d4ba42ed2e4a07a35c8a45d61c80695189d24c4"
+        }
+      ],
+      "source": "Original uncertainty specification",
+      "completion": "VERIFIED",
+      "notes": "All 136 fine primary points independently reproduced; 2000 conditional paired patient bootstrap replicates and CI ordering checked. Repeat table confirms fine/coarse positive and fine/adaptive negative primary means in both repeats. No independent rerun of all intervals or five-null permutation p-value claim."
+    },
+    {
+      "id": "R12",
+      "requirement": "Verify saved final models against frozen preprocessing and an independent equation solve",
+      "proof": [
+        {
+          "name": "final_models",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/FINE_COMPILED_MODEL_AUDIT_REVIEW.json",
+          "sha256": "f4e870c70296e50ce78ceae28fab6c79ab8c7db8a49bfdd06d8cd54cd3a68a87"
+        }
+      ],
+      "source": "Final-artifact verification gate",
+      "completion": "VERIFIED",
+      "notes": "Declared bounded independent equation/compile checks passed: 352 original and 288 fine models, 16 cancer-target selections per experiment; not an all-model audit."
+    },
+    {
+      "id": "R13",
+      "requirement": "Disclose structural follow-up and native-target limitations",
+      "proof": [
+        {
+          "name": "conclusions",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_delivery_r1/FINAL_CONCLUSIONS_ZH.txt",
+          "sha256": "76fd2dce15c225e2eb350aab4d4ba42ed2e4a07a35c8a45d61c80695189d24c4"
+        }
+      ],
+      "source": "Original invariants, amendment and current-score audit",
+      "completion": "VERIFIED",
+      "notes": "Final Chinese/public text explicitly states topology-driven exploratory resolution choice, native relative retrospective labels, unadjusted phospho, pending COAD calibration source contract, and dense Ridge versus selected Lasso distinction."
+    },
+    {
+      "id": "R14",
+      "requirement": "Deliver three separate RNA-arm figures, comparison figures and complete original/fine reports",
+      "proof": [
+        {
+          "name": "fine_visual",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_report_inspection_r1/VISUAL_REVIEW.json",
+          "sha256": "00c18178b16f2ca1fee14bed2f8e6d014a1be65c0dd5749d248ac54df51a0af4"
+        },
+        {
+          "name": "original_visual",
+          "path": "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_VALIDATION_REPORT_demo_20261106_r2/reviewed_evidence_original/VISUAL_VISUAL_REVIEW.json",
+          "sha256": "990bf6ce138bc446f2be3b0626fc1bf74ad8575f7d0bf43c0d039e63650d0859"
+        },
+        {
+          "name": "canonical_candidate",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/CANONICAL_PLOT_VERIFIED_CANDIDATE.json",
+          "sha256": "a22bd304fe3449c2fb1c51b2d4f291575f6a79a3db39153acc26e078c24e1d91"
+        }
+      ],
+      "source": "User figures request and implemented report contracts",
+      "completion": "VERIFIED",
+      "notes": "All 11 original and six fine PNG/PDF pairs visually inspected. Three standalone RNA-arm figures plus comparisons delivered. Default figure05/07 complete-repeat fix matches tested candidate sources."
+    },
+    {
+      "id": "R15",
+      "requirement": "Return verified results to the requested Windows picture directory",
+      "proof": [
+        {
+          "name": "windows_delivery",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/FINAL_WINDOWS_DELIVERY.json",
+          "sha256": "936b6f6f61df98319492598f0bb7b21ec0812f7a4984e6fdfcd8cd4599e43c9d"
+        }
+      ],
+      "source": "User output location",
+      "completion": "VERIFIED",
+      "notes": "293 new delivery files individually SHA256-verified under requested Windows pictures directory; original detailed index preserved; final entry has checked relative links and resolution4 child."
+    },
+    {
+      "id": "R16",
+      "requirement": "Publish reproducible code and actual aggregate conclusions to GitHub main",
+      "proof": [
+        {
+          "name": "publication",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/FINAL_PUBLICATION_VERIFIED.json",
+          "sha256": "fcd6a5575bada4fa1173f7710d5e1585a016f1215949dcd5215d8fd423c8e999"
+        }
+      ],
+      "source": "User GitHub request and original deliverables",
+      "completion": "VERIFIED",
+      "notes": "Actual aggregate conclusions, six figure pairs, corrected canonical plotting, review source and receipts published; local clean, GitHub main and working branch equal results commit. No patient-level assays/predictions published."
+    },
+    {
+      "id": "R17",
+      "requirement": "Give the final evidence-based conclusion on network and lncRNA incremental value",
+      "proof": [
+        {
+          "name": "conclusions",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_delivery_r1/FINAL_CONCLUSIONS_ZH.txt",
+          "sha256": "76fd2dce15c225e2eb350aab4d4ba42ed2e4a07a35c8a45d61c80695189d24c4"
+        },
+        {
+          "name": "fine_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_scientific_review_r1/COMPLETE.json",
+          "sha256": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7"
+        }
+      ],
+      "source": "Persistent goal: finish checking/improving network modeling and give a real conclusion",
+      "completion": "VERIFIED",
+      "notes": "Final conclusion reflects small fine-over-coarse gain, persistent deficit versus adaptive-omics, heterogeneous lncRNA increment, target coverage and conditional uncertainty. Distinguishes fixed bugs, representation limitations and unproven biological causes."
+    },
+    {
+      "id": "R18",
+      "requirement": "Complete requirement-by-requirement audit before claiming goal completion",
+      "proof": [
+        {
+          "name": "network_source",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/network_source_review_r1/COMPLETE.json",
+          "sha256": "d742b83738fb55f5b51f1dfba417070f55cadbdd4168eccc0a6cf387d23f77b2"
+        },
+        {
+          "name": "phase_eligibility",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/phase_eligibility_review_r1/ALL_COMPLETE.json",
+          "sha256": "76f18d8a0d14eae65cbe8a7ee321e86e6697aaaa94e39da77a7aa622d4589a85"
+        },
+        {
+          "name": "phase_identity",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_report_inspection_r1/FINAL_PHASE_AND_IDENTITY_BINDINGS.json",
+          "sha256": "09a71075ab91c4086f7ad8477a01ff8a5f08de570f405a9d0781741d3451ff5c"
+        },
+        {
+          "name": "fine_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/fine_scientific_review_r1/COMPLETE.json",
+          "sha256": "8b2a60366eb290d080d1d243a7971775d5337e0cf5e2240bfb6465cc3da119a7"
+        },
+        {
+          "name": "original_numerical",
+          "path": "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_VALIDATION_REPORT_demo_20261106_r2/reviewed_evidence_original/NUMERICAL_REVIEW.json",
+          "sha256": "af16e79b40dff59a8e6da23cfb1a33c4cd2907e27226a48388976aec7a712b8c"
+        },
+        {
+          "name": "strict_rna_increment",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/strict_rna_increment_review_r1/COMPLETE.json",
+          "sha256": "6c964bd0ab2a024088bf3a7e2ec2abf1af03c5c3a9fbd200dedc47357eae2c4a"
+        },
+        {
+          "name": "final_models",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/FINE_COMPILED_MODEL_AUDIT_REVIEW.json",
+          "sha256": "f4e870c70296e50ce78ceae28fab6c79ab8c7db8a49bfdd06d8cd54cd3a68a87"
+        },
+        {
+          "name": "fine_visual",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_report_inspection_r1/VISUAL_REVIEW.json",
+          "sha256": "00c18178b16f2ca1fee14bed2f8e6d014a1be65c0dd5749d248ac54df51a0af4"
+        },
+        {
+          "name": "original_visual",
+          "path": "/dell_2/DSC/CancerLncAtlas/results/model/NETWORK_VALIDATION_REPORT_demo_20261106_r2/reviewed_evidence_original/VISUAL_VISUAL_REVIEW.json",
+          "sha256": "990bf6ce138bc446f2be3b0626fc1bf74ad8575f7d0bf43c0d039e63650d0859"
+        },
+        {
+          "name": "windows_delivery",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/FINAL_WINDOWS_DELIVERY.json",
+          "sha256": "936b6f6f61df98319492598f0bb7b21ec0812f7a4984e6fdfcd8cd4599e43c9d"
+        },
+        {
+          "name": "publication",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/FINAL_PUBLICATION_VERIFIED.json",
+          "sha256": "fcd6a5575bada4fa1173f7710d5e1585a016f1215949dcd5215d8fd423c8e999"
+        },
+        {
+          "name": "conclusions",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/final_delivery_r1/FINAL_CONCLUSIONS_ZH.txt",
+          "sha256": "76fd2dce15c225e2eb350aab4d4ba42ed2e4a07a35c8a45d61c80695189d24c4"
+        },
+        {
+          "name": "canonical_candidate",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/CANONICAL_PLOT_VERIFIED_CANDIDATE.json",
+          "sha256": "a22bd304fe3449c2fb1c51b2d4f291575f6a79a3db39153acc26e078c24e1d91"
+        },
+        {
+          "name": "phase_parity",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/ALL_PHASE_INPUT_PARITY_REVIEW.json",
+          "sha256": "7eac703c57257885ec96eef0813dff685291856667a8b8185854cf03e8031eaa"
+        },
+        {
+          "name": "fine_heldout",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/resolution4_heldout_integrity_r1/ALL_COMPLETE.json",
+          "sha256": "3f91d6b36dd555c6a45939d70818779ad1f6f8683a0f69b587ab7d0307c725bd"
+        },
+        {
+          "name": "original_heldout",
+          "path": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/heldout_integrity_r1/ALL_COMPLETE.json",
+          "sha256": "6db5e3ac9d9c1b719b9541a472a227d0a42acbafe02caa0fb86422b838023045"
+        }
+      ],
+      "source": "Persistent goal completion audit",
+      "completion": "VERIFIED",
+      "notes": "Every requirement reviewed at its declared scope with evidence bindings; all 18 satisfied for this network-demo goal. Broader cross-platform calibrated Y and external validation explicitly remain outside this completed modeling comparison."
+    }
+  ],
+  "time": 1793947588.426343,
+  "artifact_audit_implementation_amendment": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/ARTIFACT_AUDIT_IMPLEMENTATION_AMENDMENT.json",
+  "phase_eligibility_review": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/PHASE_ELIGIBILITY_ORIGINAL_COMPLETE_REVIEW.json",
+  "reviewed_original_delivery": "/dell_2/DSC/CancerLncAtlas/runtime/network_validation_20261106_r1/ORIGINAL_WINDOWS_DELIVERY.json",
+  "last_review_epoch": 1793980290.4981225,
+  "calibration_progress": {
+    "code_commit": "781afe2329ace7063ea6929cdcaa88cd60a8e6cf",
+    "report": "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/delivery_ov_cv_r3/REPORT_ZH.txt",
+    "publication_receipt": "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/OV_CV_PUBLICATION_DELIVERY_RECEIPT.json",
+    "brca_previous_report": "/dell_2/DSC/CancerLncAtlas/runtime/tcpa_cptac_calibration_20261106_r1/delivery_specimen_cv_r2/REPORT_ZH.txt",
+    "unified_production_Y": false,
+    "network_inputs_changed": false,
+    "coad_source_status": "UNRESOLVED_INPUT_CONTRACT_CALIBRATION_WITHHELD"
+  },
+  "results_commit": "3e0ce4824529d5ce2f46f30e335f15a2d65dd152",
+  "scope_limitations": [
+    "CPTAC native retrospective labels, not universal calibrated TCGA/CPTAC Y",
+    "COAD cross-platform source contract unresolved",
+    "No prospective external validation or causal activation claim",
+    "Final-model independent solve covers bounded target selection"
+  ]
+}

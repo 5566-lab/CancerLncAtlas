@@ -1,0 +1,12 @@
+{
+  "status": "PASS_PUBLISHED_AND_VERIFIED",
+  "commit": "3e0ce4824529d5ce2f46f30e335f15a2d65dd152",
+  "remote_heads": [
+    "3e0ce4824529d5ce2f46f30e335f15a2d65dd152\trefs/heads/code-completion-20261015",
+    "3e0ce4824529d5ce2f46f30e335f15a2d65dd152\trefs/heads/main"
+  ],
+  "local_worktree_clean": true,
+  "canonical_plot_fix_included": true,
+  "patient_level_data_published": false,
+  "verified_utc": "2026-11-06T15:49:24.1438415Z"
+}

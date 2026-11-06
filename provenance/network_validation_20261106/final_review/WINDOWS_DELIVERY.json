@@ -1,0 +1,12 @@
+{
+  "status": "PASS_SHA256_VERIFIED_WINDOWS_DELIVERY",
+  "target_host": "149",
+  "destination": "D:\\public8\\DSC\\CancerLncAtlas\\results\\model\\图片\\NETWORK_VALIDATION_demo_20261106_r2",
+  "files_verified": 293,
+  "archive_sha256": "339c1940c2cabacfe4b678830fe6f16dc8345f0850d38661e10786850dbf4d50",
+  "manifest_sha256": "c6bab3ceb1979649e64cdc7e15d0fceb0aef31e0d1d55f12eeb9fe503d89a434",
+  "original_index_preserved": true,
+  "original_index_sha256": "66a952254b7b27612b1b157fc3ef5120e053f2b745b66b6428d48030e86b5cb5",
+  "final_report": "D:\\public8\\DSC\\CancerLncAtlas\\results\\model\\图片\\NETWORK_VALIDATION_demo_20261106_r2\\FINAL_REPORT.html",
+  "verified_utc": "2026-11-06T15:48:43.0439528Z"
+}
