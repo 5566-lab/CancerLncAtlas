@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "status": "PASS_MODIFIED_FIGURES_VISUAL_REVIEW",
+  "scope": "Figures05and07 actual PNG and rendered PDF page1; other8figures generated but not newly visually reviewed in this patch",
+  "files": {
+    "05_network_ablation.png": "ec5cffeb2988fbd895ee1c10bc5653af70be6d72c4dcef0c8072144370afafca",
+    "05_network_ablation.pdf": "af9a2620556bfd1df96327772a898ed301935aa3b4e24c256cfa7ce135397833",
+    "07_model_performance_table.png": "613dfb317ecda0b81db7e6605e21ccbaf0e4abefa383e11fc98001e1d2664ea0",
+    "07_model_performance_table.pdf": "da6a705f08677628eaf0c52da3a3a4e68780eb9e67388e61df6dc5a297869e60"
+  },
+  "pdf_previews": {
+    "07_model_performance_table_pdf.png": "71d8faf26e4d77827a3fa3c8b1aaa14dcc5f6a0a9bea26d63a3e80dc2f0113f0",
+    "05_network_ablation_pdf.png": "9f5cb7609ad3b045a3e0037871d03c1ae9fd44f382c6b806cc49949001aef6c5"
+  },
+  "findings": [
+    "Titles/cancer-arm labels readable and no clipping observed",
+    "Both-repeat caption displayed in both formats",
+    "Negative differences and negative R2 retained",
+    "PNG and PDF values/layout agree"
+  ],
+  "time": 1793972940.939544
+}

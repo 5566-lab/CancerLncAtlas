@@ -14,7 +14,7 @@ from matplotlib import font_manager
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from cla_engine.common import sha
-from scripts.plot_network_validation import save,ARMS,LABELS,COLORS,SHORT
+from scripts.plot_network_validation import save,ARMS,LABELS,COLORS,SHORT,both_repeat_means
 LAYERS=("PROTEIN_PATHWAY","PHOSPHO_PTMSEA")
 METHODS=("rna_only","omics_only","ridge_equal","ridge_adaptive_omics",
  "rna_laplacian_ppi","rna_laplacian_rpi","rna_laplacian_union",
@@ -22,17 +22,6 @@ METHODS=("rna_only","omics_only","ridge_equal","ridge_adaptive_omics",
 NETWORKS=("module_ridge_ppi","module_ridge_rpi","module_ridge_union")
 def dump(path,value):
     path.write_text(json.dumps(value,indent=2)+"\n")
-def both_repeat_means(frame,keys,value):
-    """Each returned row has exactly one finite observation in repeats0and1."""
-    if frame.duplicated(keys+["repeat"]).any():
-        raise ValueError("DUPLICATE_REPEAT")
-    if not set(frame["repeat"]).issubset({0,1}):
-        raise ValueError("UNEXPECTED_REPEAT")
-    if not np.isfinite(frame[value].to_numpy(float)).all():
-        raise ValueError("NONFINITE_PLOT_VALUE")
-    counts=frame.groupby(keys,dropna=False,observed=True)["repeat"].transform("nunique")
-    kept=frame.loc[counts.eq(2)]
-    return kept.groupby(keys,dropna=False,observed=True)[value].mean().reset_index()
 def render(summary,output):
     if socket.gethostname()!="149":
         raise RuntimeError("HOST_149_REQUIRED")

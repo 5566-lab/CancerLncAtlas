@@ -25,6 +25,17 @@ def points(ax,frame,value,color,layers=LAYERS):
         if len(vals):ax.scatter(i+rng.uniform(-.15,.15,len(vals)),vals,s=6,alpha=.18,color=color,rasterized=True);ax.plot([i-.25,i+.25],[np.median(vals)]*2,color='black',lw=2)
     ax.set_xticks(range(len(layers)),[SHORT[x] for x in layers],rotation=45,ha='right');ax.axhline(0,color='#777777',lw=.8,ls='--');ax.set_yscale('symlog',linthresh=.05);ax.spines[['top','right']].set_visible(False)
 
+def both_repeat_means(frame,keys,value):
+    """Each returned row has exactly one finite observation in repeats0and1."""
+    if frame.duplicated(keys+["repeat"]).any():
+        raise ValueError("DUPLICATE_REPEAT")
+    if not set(frame["repeat"]).issubset({0,1}):
+        raise ValueError("UNEXPECTED_REPEAT")
+    if not np.isfinite(frame[value].to_numpy(float)).all():
+        raise ValueError("NONFINITE_PLOT_VALUE")
+    counts=frame.groupby(keys,dropna=False,observed=True)["repeat"].transform("nunique")
+    kept=frame.loc[counts.eq(2)]
+    return kept.groupby(keys,dropna=False,observed=True)[value].mean().reset_index()
 def plot(summary,training):
     assert socket.gethostname()=='149';out=Path(summary);training=Path(training)
     if not (out/'BOOTSTRAP_COMPLETE.json').exists():raise ValueError('BOOTSTRAP_NOT_COMPLETE')
@@ -42,7 +53,7 @@ def plot(summary,training):
     fig,axs=plt.subplots(1,3,figsize=(16,5.5),sharey=True)
     for ax,c in zip(axs,CANCERS):points(ax,three[three.cancer_id.eq(c)],'combined_minus_mrna',COLORS['combined']);ax.set_title(c)
     axs[0].set_ylabel('Paired Delta R2: combined minus mRNA');fig.suptitle('Increment from adding lncRNA to the mRNA arm');save(fig,out,'04_combined_vs_mrna')
-    paired=pd.read_parquet(out/'PAIRED_MODEL_DELTAS.parquet');paired=paired.groupby(['cancer_id','target_id','arm','display_layer','method','baseline']).delta_r2.mean().reset_index()
+    paired=pd.read_parquet(out/'PAIRED_MODEL_DELTAS.parquet');paired=both_repeat_means(paired,['cancer_id','target_id','arm','display_layer','method','baseline'],'delta_r2')
     fig,axs=plt.subplots(2,3,figsize=(15,9),sharey='row');rng=np.random.default_rng(42)
     for row,layer in enumerate(['PROTEIN_PATHWAY','PHOSPHO_PTMSEA']):
         for ax,arm in zip(axs[row],ARMS):
@@ -51,7 +62,7 @@ def plot(summary,training):
                 if len(vals):ax.plot([x-.25,x+.25],[np.median(vals)]*2,color='black',lw=2)
             ax.set_xticks(range(3),['PPI','RPI','PPI + RPI']);ax.axhline(0,color='gray',ls='--');ax.set_yscale('symlog',linthresh=.02);ax.set_title(SHORT[layer]+' | '+LABELS[arm])
         axs[row,0].set_ylabel('Delta R2 versus adaptive omics ridge')
-    fig.suptitle('Does biological network membership add prediction?');save(fig,out,'05_network_ablation')
+    fig.suptitle('Does biological network membership add prediction?\nEach target completed both outer-CV repeats; paired Delta R2 averaged across repeats',fontsize=13);save(fig,out,'05_network_ablation')
     boot=pd.read_csv(out/'PATIENT_BOOTSTRAP.tsv',sep='\t');pooled=boot[boot.cancer_id.eq('EQUAL_CANCER_MEAN')];baselines=['ridge_equal','ridge_adaptive_omics','rna_laplacian_union','mean_five_null_models'];bnames=['Equal omics ridge','Adaptive omics ridge','RNA Laplacian','Five random networks']
     fig,axs=plt.subplots(2,3,figsize=(16,8),sharex=False)
     for row,layer in enumerate(['PROTEIN_PATHWAY','PHOSPHO_PTMSEA']):
@@ -61,18 +72,19 @@ def plot(summary,training):
                 if len(f):v=f.iloc[0];ax.plot([v.ci_low,v.ci_high],[j,j],color=COLORS[arm],lw=2);ax.scatter(v.family_balanced_mean_delta_r2,j,color=COLORS[arm],s=35)
             ax.axvline(0,color='gray',ls='--');ax.set_yticks(range(4),bnames);ax.invert_yaxis();ax.set_title(SHORT[layer]+' | '+LABELS[arm]);ax.set_xlabel('Mean paired Delta R2 (95% patient bootstrap)')
     fig.suptitle('Network module ridge versus four controls\nEqual cancer and score-family weighting; uncertainty conditional on fitted CV models',fontsize=13);save(fig,out,'06_primary_patient_bootstrap')
+    model_means=both_repeat_means(good,['cancer_id','target_id','variant','arm','display_layer'],'r2')
     real=['rna_only','omics_only','ridge_equal','ridge_adaptive_omics','rna_laplacian_ppi','rna_laplacian_rpi','rna_laplacian_union','module_ridge_ppi','module_ridge_rpi','module_ridge_union']
     fig,axs=plt.subplots(1,2,figsize=(13,8),sharey=True)
     for ax,layer in zip(axs,['PROTEIN_PATHWAY','PHOSPHO_PTMSEA']):
         cells=np.full((len(real),3),np.nan)
         for j,method in enumerate(real):
             for k,arm in enumerate(ARMS):
-                f=good[good.variant.eq(method)&good.display_layer.eq(layer)&good.arm.eq('shared' if method=='omics_only' else arm)];cells[j,k]=f.groupby(['cancer_id','target_id']).r2.mean().median()
+                f=model_means[model_means.variant.eq(method)&model_means.display_layer.eq(layer)&model_means.arm.eq('shared' if method=='omics_only' else arm)];cells[j,k]=f.r2.median()
         im=ax.imshow(cells,aspect='auto',cmap='RdBu',vmin=-.2,vmax=.5)
         for j in range(len(real)):
             for k in range(3):ax.text(k,j,f'{cells[j,k]:.3f}',ha='center',va='center',fontsize=10)
         ax.set_yticks(range(len(real)),[s.replace('_',' ') for s in real]);ax.set_xticks(range(3),[LABELS[a] for a in ARMS],rotation=25,ha='right');ax.set_title(SHORT[layer])
-    fig.suptitle('Median held-out R2 by model and RNA arm\nTwo-repeat mean for each target; full null-model tables accompany this figure');save(fig,out,'07_model_performance_table')
+    fig.suptitle('Median held-out R2 by model and RNA arm\nEach target completed both CV repeats; median of target-level two-repeat means',fontsize=13);save(fig,out,'07_model_performance_table')
     cover=pd.read_csv(out/'NETWORK_FEATURE_COVERAGE.tsv',sep='\t');fig,axs=plt.subplots(1,3,figsize=(16,5),sharey=True);labs=[('RNA','lncrna','lncRNA'),('RNA','mrna','mRNA'),('CNV','shared','CNV'),('MUTATION','shared','Mutation'),('PROTEIN','shared','Protein'),('PHOSPHO','shared','Phospho')]
     for ax,c in zip(axs,CANCERS):
         for j,mode in enumerate(['ppi','rpi','union']):
@@ -94,9 +106,10 @@ def plot(summary,training):
     h="<!doctype html><meta charset='utf-8'><title>Network validation</title><style>body{font:16px Arial;max-width:1250px;margin:32px auto;padding:20px;color:#213547}p{line-height:1.6}img{width:100%;border:1px solid #ddd}table{border-collapse:collapse;font-size:13px}td,th{padding:8px;border-bottom:1px solid #ddd}a{color:#176294}</style><h1>PPI/RPI network validation: three RNA arms</h1>"
     h+='<p>CPTAC BRCA (121 patients), LUAD (110), COAD (106). Two repetitions of five-fold outer CV; repeat 0 preserves the original splits. Every outer fit and final fit uses two repetitions of three-fold inner tuning. Targets and upstream native score definitions are unchanged. All clinical/purity coefficients remain unpenalized.</p>'
     h+='<p>Protein outcomes exclude all protein predictors; phospho outcomes exclude all phospho predictors. Genomic-derived outcomes keep their documented exclusions. RNA-derived outcomes retain lncRNA; mRNA-containing models can reconstruct the score definition. Cohort preprocessing of the original scores is retained: this is a retrospective benchmark, not independent external validation or proof of pathway activation.</p>'
-    h+='<p>Legacy model: a Laplacian smooths RNA coefficients only. Improved model: typed PPI/RPI partitions group measured RNA, CNV, mutation, protein and phosphosite features. Coefficients keep independent signs; group shrinkage weights are learned only within each training split. Zero adaptation recovers equal-modality ridge. Unmapped features remain in modality-specific background groups. Ridge coefficients are dense, not a selected gene set.</p>'
+    h+='<p>Legacy model: a Laplacian smooths RNA coefficients only. Module model: typed PPI/RPI partitions group measured RNA, CNV, mutation, protein and phosphosite features. Coefficients keep independent signs; group shrinkage weights are learned only within each training split. Zero adaptation recovers equal-modality ridge. Unmapped features remain in modality-specific background groups. Ridge coefficients are dense, not a selected gene set.</p>'
     h+='<p>Five null networks preserve unweighted node degrees and edge-weight distributions; weighted node strengths and community sizes are not fixed. Nulls are diagnostic controls, not a five-permutation significance test. Patient bootstrap intervals condition on the fitted CV models, pair both outer repeats, and average targets within families and cancers equally. Original common-support target variance is held fixed: the bootstrap reweights paired losses in Delta R2 units.</p>'
     h+='<p>The RNA-increment comparison uses equal ridge with versus without each RNA block, retaining the same eligible non-RNA assays and clinical covariates. Every held-out patient and observed target is checked for exact pairing. Module-vs-omics changes are not attributed solely to adding RNA.</p>'
+    h+='<p>Every point in the two-repeat performance and network-difference figures requires both repeats. A nonzero selected graph parameter alone does not establish effective graph influence: disconnected RNA features can have zero Laplacian rows even when numerical tuning selects a nonzero parameter.</p>'
     h+='<h2>Three-arm summary</h2>'+pd.read_csv(out/'THREE_ARM_SUMMARY.tsv',sep='\t').query("variant == 'module_ridge_union'").to_html(index=False,float_format=lambda v:f'{v:.4f}')
     h+='<h2>Primary network controls</h2>'+pooled[pooled.arm.isin(ARMS)].to_html(index=False,float_format=lambda v:f'{v:.5f}')
     h+='<h2>Download tables</h2><ul>'+''.join('<li><a href="'+n+'">'+n+'</a></li>' for n in tables)+'</ul>'

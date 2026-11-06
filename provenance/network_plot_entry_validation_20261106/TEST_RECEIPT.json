@@ -1,0 +1,25 @@
+{
+  "target_host": "149",
+  "status": "PASS_FINAL_RELEVANT_TESTS",
+  "distinct_tests": 4,
+  "tests": [
+    "test_complete_repeat_plot_exports_and_integrity",
+    "test_default_plot_entry_requires_both_repeats",
+    "test_reporting_statistics_and_figures",
+    "test_increment_refuses_unequal_patient_support"
+  ],
+  "first_run": {
+    "log_sha256": "5afc584e5e0b41fa23516797786764881bfab64462cd91978b65ff306b0bb7f2",
+    "result": "3passed;1fixture NameError after helper refactor"
+  },
+  "correction": "Use original hash-map keys after extracting shared fixture; production plot did not fail",
+  "rerun": {
+    "log_sha256": "1ed2874f13a70eb3ddcab4fe9502a9371827a20dacb44f72968311223e00a66e",
+    "result": "2repeat-coverage tests passed; other2 reporting tests passed in first run"
+  },
+  "code": {
+    "scripts/plot_network_validation.py": "0d8b2283d93c1af00161aec5d7bc38bb6ac7902d0aa07fdbdfafb38529168bb7",
+    "scripts/plot_network_validation_complete_repeats.py": "4b644f7d906be13e8268666b84ad9ff04022346374bce243c572128b88ec45b3",
+    "tests/test_network_plot_repeat_coverage.py": "06268d58ff82217ad0b18ea24f991c7cdee15f580698b30b85ea3f9fed4bb782"
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "target_host": "149",
+  "status": "PASS_NUMERICAL_CANONICAL_ENTRY_VISUAL_REVIEW_PENDING",
+  "figures": 10,
+  "fig05_independent_repeat_join_rows": 495720,
+  "fig07_independent_repeat_join_rows": 798660,
+  "checked_fig05_panels": 18,
+  "checked_fig07_cells": 60,
+  "checks": [
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "lncrna",
+      "method": "module_ridge_ppi",
+      "points": 4325,
+      "negative": 4035,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "lncrna",
+      "method": "module_ridge_rpi",
+      "points": 4325,
+      "negative": 3856,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "lncrna",
+      "method": "module_ridge_union",
+      "points": 4325,
+      "negative": 4056,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "mrna",
+      "method": "module_ridge_ppi",
+      "points": 4325,
+      "negative": 3903,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "mrna",
+      "method": "module_ridge_rpi",
+      "points": 4325,
+      "negative": 3915,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "mrna",
+      "method": "module_ridge_union",
+      "points": 4325,
+      "negative": 3977,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "combined",
+      "method": "module_ridge_ppi",
+      "points": 4325,
+      "negative": 3915,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "combined",
+      "method": "module_ridge_rpi",
+      "points": 4325,
+      "negative": 3321,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PROTEIN_PATHWAY",
+      "arm": "combined",
+      "method": "module_ridge_union",
+      "points": 4325,
+      "negative": 3972,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "lncrna",
+      "method": "module_ridge_ppi",
+      "points": 918,
+      "negative": 734,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "lncrna",
+      "method": "module_ridge_rpi",
+      "points": 918,
+      "negative": 588,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "lncrna",
+      "method": "module_ridge_union",
+      "points": 918,
+      "negative": 737,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "mrna",
+      "method": "module_ridge_ppi",
+      "points": 918,
+      "negative": 714,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "mrna",
+      "method": "module_ridge_rpi",
+      "points": 918,
+      "negative": 626,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "mrna",
+      "method": "module_ridge_union",
+      "points": 918,
+      "negative": 721,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "combined",
+      "method": "module_ridge_ppi",
+      "points": 918,
+      "negative": 721,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "combined",
+      "method": "module_ridge_rpi",
+      "points": 918,
+      "negative": 592,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "05_network_ablation",
+      "layer": "PHOSPHO_PTMSEA",
+      "arm": "combined",
+      "method": "module_ridge_union",
+      "points": 918,
+      "negative": 718,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "07_model_performance_table",
+      "layer": "PROTEIN_PATHWAY",
+      "cells": 30,
+      "max_difference": 0.0
+    },
+    {
+      "figure": "07_model_performance_table",
+      "layer": "PHOSPHO_PTMSEA",
+      "cells": 30,
+      "max_difference": 0.0
+    }
+  ],
+  "original_source_unchanged": true,
+  "frozen_live_reporting_code_unchanged": true,
+  "code": {
+    "scripts/plot_network_validation.py": "0d8b2283d93c1af00161aec5d7bc38bb6ac7902d0aa07fdbdfafb38529168bb7",
+    "scripts/plot_network_validation_complete_repeats.py": "4b644f7d906be13e8268666b84ad9ff04022346374bce243c572128b88ec45b3",
+    "tests/test_network_plot_repeat_coverage.py": "06268d58ff82217ad0b18ea24f991c7cdee15f580698b30b85ea3f9fed4bb782"
+  },
+  "files": {
+    "04_combined_vs_mrna.png": "1418df113b6c77a28e71e82c7814699942540e5b6b006875d746dcc8521f8a97",
+    "06_primary_patient_bootstrap.png": "2e495dd3767a352cac8c42a44b7effe3640ebd6d7ff857313fc0c20593c0df93",
+    "01_lncrna_performance.png": "1de60b4f99b16bfcdf3afe3487b9c1ce9c9833c62fe691cb56da511ee17562f6",
+    "04_combined_vs_mrna.pdf": "41282464449e5a1f5e2553870f3b69504a360c41dfa984321bdbd53f402e4eed",
+    "01_lncrna_performance.pdf": "4204ec595a9458d5bf1509ebca2bdb0f5945f516207e75838c151298abe7bb43",
+    "08_network_feature_coverage.png": "66b16cc8500c260d7fd0bc76782c5f0b9c2236bcbe4af5789dcd6dbd26f18156",
+    "09_zero_strength_selection.pdf": "ce1f4aac026e328698cb497b59722205a1226385d18d73a16fe8b6eec2542424",
+    "02_mrna_performance.pdf": "ee2fe44f1dd8e0202b571ac1f50ffd46e7f91e962cb1158fda84d295340e8846",
+    "05_network_ablation.pdf": "af9a2620556bfd1df96327772a898ed301935aa3b4e24c256cfa7ce135397833",
+    "03_combined_performance.png": "378a267e431c40c501d26fca9b1ff25be15b3053c35ea37d61b67466e498281b",
+    "OPEN_REPORT.html": "7619adbe61ef46cf63ceff231c99644034509193a8c6e5bcfd0dbe9a1a608c88",
+    "08_network_feature_coverage.pdf": "d0cd32d2220087e0bf6c6a9007b0d02bd71e04020bda36287e323494df38725c",
+    "07_model_performance_table.png": "613dfb317ecda0b81db7e6605e21ccbaf0e4abefa383e11fc98001e1d2664ea0",
+    "10_training_coverage.pdf": "149c848d26d6bf33766063c9441cf4c7ffe1c50c3aff9eda5035e17f6b3d1182",
+    "05_network_ablation.png": "ec5cffeb2988fbd895ee1c10bc5653af70be6d72c4dcef0c8072144370afafca",
+    "06_primary_patient_bootstrap.pdf": "77841fdad65a0b52a81640e3e06dcf4c2ac9009f165d90bb7cdd417c7a36f1a1",
+    "07_model_performance_table.pdf": "da6a705f08677628eaf0c52da3a3a4e68780eb9e67388e61df6dc5a297869e60",
+    "03_combined_performance.pdf": "3f08b7c41dc681cbe6c0a7504634d90829f393f318ec7fe307337090523d6a73",
+    "10_training_coverage.png": "d44f77e06eb724bf1dceb99421a93ce018fa05abcdeab92d4145cb74eedf47b8",
+    "02_mrna_performance.png": "b29e9f78a0af4764c98c8bc0ed575d63c09fc85186b9ae24b82846c69a50abb3",
+    "09_zero_strength_selection.png": "54b00fc1fec5c526e89f65063c5658d1343fef5fc308a1120e39f38b98ed6201"
+  },
+  "time": 1793972781.0214229
+}
