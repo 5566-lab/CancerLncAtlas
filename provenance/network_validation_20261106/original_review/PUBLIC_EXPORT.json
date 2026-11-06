@@ -1,0 +1,6 @@
+{
+  "scope": "Public TSV serialization only",
+  "source_sha256": "fe5547c8f6a543ae90a0c74e4ea9f9d2eee3fcacdee6c75967c34ab1186dddc9",
+  "public_sha256": "199d6b5ca12b05ff66aa051e4f81858ab8d44da7349e3c07541e9a6f7c67f1f7",
+  "missing_serialization": "Empty TSV cells represented by NA; all nonempty values and row/column axes unchanged; reviewed server and Windows report retain original TSV"
+}

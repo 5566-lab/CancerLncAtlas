@@ -1,0 +1,57 @@
+{
+  "target_host": "149",
+  "status": "PASS_VISUAL_REVIEW",
+  "scope": "All 11 actual original PNGs and all 11 PDF-rendered previews were opened and inspected; this is not the prior simulated review",
+  "source_files": {
+    "01_lncrna_performance.pdf": "b3fb82d5f9ab4a05fe2070a053567365888fbc33452c431d0e4909e6f667ead3",
+    "02_mrna_performance.pdf": "ac93e1242d57d94dce3eae787abed7aedc4e7c92f7e7b5b02cfe20b1cbf11e45",
+    "03_combined_performance.pdf": "f4ed6f83ee33393886570702dfc0bbaf906e48d9167ac26b2db7d3f713dc0bea",
+    "04_combined_vs_mrna.pdf": "62f8b65541b2f68fd92fcda8663b657c1be967851ae6e638eab577b743cd3393",
+    "05_network_ablation.pdf": "e859219846cd8ea85e4fea97603adc3efd1bfa26e3efcafbf09de3775ad0fc87",
+    "06_primary_patient_bootstrap.pdf": "fd0a8ac95fd58866859ff889de357b2824492549ff26699845e2ff71aba45d88",
+    "07_model_performance_table.pdf": "9ec879d5b5af0631a595f599ebbe8739d1ac693b8b5f4491bcd2af55d57a902b",
+    "08_network_feature_coverage.pdf": "06aa226225deb47397bda190ff09c41c94677eaf13c760ec4beef28884d84462",
+    "09_zero_strength_selection.pdf": "88a438890911acdb45cd45c1180e9c6b2453ae1792917145eac27bb07f0224b4",
+    "10_training_coverage.pdf": "70ed158bcd9eb2980b977cbcff27ff712189d0651141ce507bdcd90e3003647b",
+    "11_rna_increment_over_omics.pdf": "c34d0ed8c84873eef302f897eb4afe758ef69feea3dd40b9582b4783123119f3",
+    "01_lncrna_performance.png": "1de60b4f99b16bfcdf3afe3487b9c1ce9c9833c62fe691cb56da511ee17562f6",
+    "02_mrna_performance.png": "b29e9f78a0af4764c98c8bc0ed575d63c09fc85186b9ae24b82846c69a50abb3",
+    "03_combined_performance.png": "378a267e431c40c501d26fca9b1ff25be15b3053c35ea37d61b67466e498281b",
+    "04_combined_vs_mrna.png": "1418df113b6c77a28e71e82c7814699942540e5b6b006875d746dcc8521f8a97",
+    "05_network_ablation.png": "ec5cffeb2988fbd895ee1c10bc5653af70be6d72c4dcef0c8072144370afafca",
+    "06_primary_patient_bootstrap.png": "2e495dd3767a352cac8c42a44b7effe3640ebd6d7ff857313fc0c20593c0df93",
+    "07_model_performance_table.png": "613dfb317ecda0b81db7e6605e21ccbaf0e4abefa383e11fc98001e1d2664ea0",
+    "08_network_feature_coverage.png": "66b16cc8500c260d7fd0bc76782c5f0b9c2236bcbe4af5789dcd6dbd26f18156",
+    "09_zero_strength_selection.png": "54b00fc1fec5c526e89f65063c5658d1343fef5fc308a1120e39f38b98ed6201",
+    "10_training_coverage.png": "d44f77e06eb724bf1dceb99421a93ce018fa05abcdeab92d4145cb74eedf47b8",
+    "11_rna_increment_over_omics.png": "bb587ade92b4341c6a0622b5afa44bc5ed28e97fa4d1ef9c515750e070b210e2"
+  },
+  "pdf_previews": {
+    "pdf_previews/01_lncrna_performance.png": "20e2e7e7cef952df12b404fbbc7b5c8ac1720b75c53a95c2fec81f6d92ca4c74",
+    "pdf_previews/02_mrna_performance.png": "da197670151ae22e30e1e3d1f9fdab774d4cd406db6d1ba12ce9ce8a21fb4e92",
+    "pdf_previews/03_combined_performance.png": "84bb7eed6cf8221ad11ff4d2c9be1ac34e2be1f8c186c6b95343018eace81506",
+    "pdf_previews/04_combined_vs_mrna.png": "8c986f057b4289e03b9cf2a9eeab592934bf662c03af7dcce17f4c0810b2463a",
+    "pdf_previews/05_network_ablation.png": "f3a55b0fd53a6b46c8973f93dcddff7c01dd94f6dfc28b587b9533ec358be9a5",
+    "pdf_previews/06_primary_patient_bootstrap.png": "79cf72bcccfc8477497b7ffef77f467125335c15e829d6bdff17952dd4938464",
+    "pdf_previews/07_model_performance_table.png": "cfc465f6e96d164f41a6d1d1b0a27da38ab39b5e59f5a821c0b1b4823a36cf80",
+    "pdf_previews/08_network_feature_coverage.png": "c6c177b1f800d9600a5e985cc2be7a264d1454761ecd9cbb702046d513c141a7",
+    "pdf_previews/09_zero_strength_selection.png": "533abdfce01b6d4aec1dbaa2fcf480404ae0c76827b0225afb9c2e2d6f1a9e0c",
+    "pdf_previews/10_training_coverage.png": "7b8b70bce96031b497cb32b88822cfd4044dcc5caefbf50f5dcf4e41dd37eae5",
+    "pdf_previews/11_rna_increment_over_omics.png": "403b77d034dc26ff1382a34048a1966f13ea1fcfde0960af23c97e360e5038d9"
+  },
+  "checks": [
+    "All three RNA-arm figures are present with matched axes and shared-omics/clinical labels",
+    "Negative R2 and negative paired changes remain visible",
+    "Corrected figures05and07 explicitly require both repeats",
+    "Forest plots include negative adaptive-omics contrasts and conditional-bootstrap qualification",
+    "All cancer,layer,model and axis labels legible; no observed clipping or overlap",
+    "Coverage plot retains unavailable methylation and low other-State training coverage",
+    "PDFs visually agree with PNGs"
+  ],
+  "scientific_caveats": [
+    "Figure09 reports literal selected zero strength, not effective graph-use frequency; a separate actual-data review verifies the lncRNA PPI-only graph has zero edges and numerically unchanged predictions",
+    "Heatmap is descriptive median; primary inference uses paired family/cancer-balanced bootstrap",
+    "Fine-resolution experiment is pending; this review is original scope only"
+  ],
+  "time": 1793962971.1635673
+}

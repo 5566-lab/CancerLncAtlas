@@ -419,3 +419,60 @@ provenance/network_validation_20261106/repeat_plot_correction.
 This correction changes visual aggregation only. It neither refits models nor
 establishes predictive benefit; the fine-module comparison still requires its
 full experiment and review.
+
+
+Reviewed original experiment results
+------------------------------------
+
+The original 33-phase experiment is complete. This subsection reports its
+results only; the resolution-four follow-up remains pending, so the full
+network-improvement goal is not yet complete. Inputs and native outcomes are
+CPTAC BRCA, LUAD and COAD, not calibrated TCPA-CPTAC pooled labels.
+
+Primary comparisons use 4,325 protein and 918 phospho cancer-target selections
+complete in both outer repeats and all registered primary controls. With the
+combined RNA arm, coarse union-module ridge versus adaptive-omics ridge has
+family/cancer-balanced mean paired Delta R2 of -0.04825 for protein
+(95% patient-bootstrap interval -0.05188 to -0.04488) and -0.02064 for phospho
+(-0.02318 to -0.01815). It improves over equal-omics ridge by +0.04153 and
++0.01995, respectively. Thus beating the equal-weight baseline does not
+establish an advantage over the stronger non-network comparator.
+
+Relative to the mean squared error of five null-network models, its changes
+are +0.00503 for protein and +0.00065 for phospho. These diagnostic controls
+do not fix community sizes or weighted node strengths and are not a formal
+five-permutation significance test.
+
+Adding lncRNA to the mRNA arm of coarse union-module ridge gives protein
+Delta R2 +0.00048 (interval -0.00174 to +0.00280) and phospho +0.00330
+(+0.00182 to +0.00479). The corresponding adaptive-omics changes are
+-0.00794 and +0.00264. These results do not support a uniformly positive
+increment from lncRNA. Bootstrap intervals condition on fitted CV models
+and fixed common-support target variance; models are not refitted.
+
+A numerical review independently reconstructed all 1,599,118 successful finite
+metric rows from their sufficient statistics, retaining 312,578 negative R2
+rows. All 144 primary contrast points were reproduced with maximum absolute
+difference 1.46e-16. Candidate training status retains 3,045,000 records:
+3 cancers x 2 repeats x 8,750 targets x 58 model-arm attempts. These are
+model-target records, not independent patients. All eleven original PNGs and
+their eleven rendered PDF previews were visually inspected.
+
+Figure 09 is a literal zero-parameter-selection count. Its complement must
+not be interpreted as effective graph use. All lncRNA rows of the PPI-only
+RNA Laplacian are exactly zero in these prepared networks. Across 27,571
+successful cancer-target-repeat pairs, the lncRNA PPI-Laplacian arm and equal
+ridge differ in R2 by at most 1.57e-12. Nonzero parameter choices in this
+degenerate case do not imply predictive graph influence. PPI module ridge
+can still reweight shared non-RNA feature groups and is a different estimator.
+
+RNA-derived scores in mRNA-containing arms remain score reconstruction;
+upstream native cohort preprocessing is unchanged. Phospho scores have not
+been adjusted for total-protein abundance. Methylation outcomes in this
+demo are available only in LUAD and have negative median held-out R2.
+The small available non-RNA State subset does not establish performance for
+the full State catalog. These are internal retrospective comparisons,
+not external validation, absolute pathway activation or causal lncRNA effects.
+
+Aggregate original-scope review evidence is in
+provenance/network_validation_20261106/original_review.

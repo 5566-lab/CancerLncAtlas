@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "status": "PASS_ORIGINAL_NUMERICAL_REVIEW",
+  "metric_rows": 1608050,
+  "successful_finite_metric_rows": 1599118,
+  "status_rows": 3045000,
+  "candidate_targets_per_cancer": 8750,
+  "attempts_per_target": 58,
+  "repeats": 2,
+  "status_success_requires_five_outer_folds_and_final": true,
+  "max_r2_reconstruction_difference": 0.0,
+  "primary_complete_support_cancer_targets": 5243,
+  "independent_primary_contrast_points": 144,
+  "max_primary_point_difference": 1.457167719820518e-16,
+  "bootstrap_intervals": "Existing 2000 paired-patient resamples; producer and tested aggregation reviewed; intervals are not independently resampled here",
+  "negative_successful_metric_rows_retained": 312578,
+  "source_files": {
+    "ALL_TARGET_METRICS.parquet": "553f712dba137e1de07035a1183d97597355d8249e19347c98c99351bae32838",
+    "ALL_TRAINING_STATUS.parquet": "58edebb8ddd22f2b5a2dd25a9b5d99725b78b7132e775e9031584e18667441b4",
+    "THREE_ARM_COMPARISONS.parquet": "34772534538b3df9818af1dfde453a60866f68afc949177fb51f22c77004b6bf",
+    "RNA_INCREMENT_OVER_OMICS.parquet": "15ad755182dbafa17d5ed3a7883d94711fd724889703ead4b8397a90a0b76ac0",
+    "PATIENT_BOOTSTRAP.tsv": "a33268a10c50733593f6b96933b99589cddb0314a80f2296bc19f25bee69b144",
+    "COVERAGE_SUMMARY.tsv": "da8b577d3ef670a1d9adc1b72fc24db22eb952dd7b2107081e4df5feb28499e5"
+  },
+  "time": 1793963069.705037
+}
