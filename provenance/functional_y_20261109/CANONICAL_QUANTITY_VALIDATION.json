@@ -1,0 +1,21 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "only_changed_policies": [
+    "ABSOLUTE_purity",
+    "TumorPurity"
+  ],
+  "pathway_encoder_bitwise_equal": true,
+  "purity_readout_encoders_equal": true,
+  "purity_covariate_values_do_not_change_purity_design": true,
+  "base_module_sha256": {
+    "adjustment_policy.py": "d07acb3c623f97d2f317c244333260d89090f94c63749ba4dc9b09e5393ffe83",
+    "covariate_contract.py": "5885df1377c57e61923aa9f441a9235635a490af905fb665fba3bccee281c183"
+  },
+  "files": {
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "adjustment_policy.py": "b13b31843551559f550179e93a87554fa4323cca8280dbea4715d755c465f3ae",
+    "covariate_contract.py": "5885df1377c57e61923aa9f441a9235635a490af905fb665fba3bccee281c183",
+    "design.py": "2a146a6819c17ac6ff5b63107ea2b15c700712fbec0f7abf8ba6291b3e939b57"
+  }
+}

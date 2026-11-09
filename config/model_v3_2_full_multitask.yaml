@@ -65,11 +65,13 @@ modules:
     - signifinder::Tinflam_Ayers
     - signifinder::APM_Wang
     - signifinder::TLS_Cabrita
+    - TLS12_Chemokine_Published
     - signifinder::LRRC15CAF_Dominguez
     - signifinder::ECM_Chakravarthy_up
     - signifinder::ECM_Chakravarthy_down
     - SenMayo
     - OXPHOS
+    - DNARepair_Hallmark
     - IPS
     - TMB
     - HRD_total

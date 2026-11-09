@@ -1,0 +1,20 @@
+"""Measure membership and reaction overlap without treating similarity as identity."""
+from pathlib import Path
+import socket,json,hashlib
+import numpy as np,pandas as pd
+from scipy.sparse import csr_matrix
+assert socket.gethostname()=='149';R=Path(__file__).resolve().parent;C=R/'canonical_targets_r2';O=R/'semantic_relations_r1';O.mkdir(exist_ok=False)
+(C/'COMPLETE.json').stat();master=pd.read_csv(C/'TARGET_MASTER.tsv',sep='\t').fillna('');bindings=pd.read_csv(C/'SOURCE_ID_BINDINGS.tsv',sep='\t').fillna('');pc=master.loc[master.roles.str.contains('Pathway')].reset_index(drop=True);ids=pc.canonical_id.tolist();lookup={v:i for i,v in enumerate(ids)}
+def mat(df,key,member):
+ us=sorted(df[member].unique());cols={v:i for i,v in enumerate(us)};rows=df[key].map(lookup);good=rows.notna();return csr_matrix((np.ones(good.sum(),np.int32),(rows[good].to_numpy(int),df.loc[good,member].map(cols).to_numpy(int))),shape=(len(ids),len(us)))
+g=pd.read_csv(C/'PATHWAY_GENE_COMPOSITION.tsv.gz',sep='\t').drop_duplicates(['canonical_id','member_id']);G=mat(g,'canonical_id','member_id');gn=np.asarray(G.sum(1)).ravel();GI=(G@G.T).toarray()
+p=pd.read_csv(C/'PATHWAY_REACTION_COMPOSITION.tsv.gz',sep='\t').drop_duplicates(['canonical_id','reaction_stable_id']);P=mat(p,'canonical_id','reaction_stable_id');pn=np.asarray(P.sum(1)).ravel();PI=(P@P.T).toarray()
+left,right=np.where(np.triu(GI>=5,k=1));common=GI[left,right];j=common/(gn[left]+gn[right]-common);overlap=common/np.minimum(gn[left],gn[right]);rc=PI[left,right];defined=(pn[left]>0)&(pn[right]>0);rj=np.full(len(left),np.nan);ro=rj.copy();rj[defined]=rc[defined]/(pn[left[defined]]+pn[right[defined]]-rc[defined]);ro[defined]=rc[defined]/np.minimum(pn[left[defined]],pn[right[defined]])
+frame=pd.DataFrame({'left_id':np.asarray(ids)[left],'right_id':np.asarray(ids)[right],'left_name':pc.display_name.to_numpy()[left],'right_name':pc.display_name.to_numpy()[right],'left_database':pc.source_database.to_numpy()[left],'right_database':pc.source_database.to_numpy()[right],'left_gene_count':gn[left],'right_gene_count':gn[right],'shared_genes':common,'gene_jaccard':j,'gene_overlap':overlap,'left_reaction_count':pn[left],'right_reaction_count':pn[right],'shared_reactions':rc,'reaction_jaccard':rj,'reaction_overlap':ro,'same_gene_set':j==1,'same_reaction_set':defined&(rj==1)})
+frame.to_parquet(O/'PAIR_SIMILARITY.parquet',compression='zstd');candidates=frame.loc[(frame.gene_jaccard>=.5)|(frame.gene_overlap>=.8)|(frame.reaction_jaccard>=.5)].sort_values(['reaction_jaccard','gene_jaccard','shared_genes'],ascending=False);candidates.to_csv(O/'SIMILARITY_CANDIDATES.tsv.gz',sep='\t',index=False)
+# Reactome containment is explicitly annotated, independent of similarity thresholds.
+h=pd.read_csv(R/'catalog_inventory/REACTOME_PARENT_CHILD.tsv',sep='\t');h['parent_in_target_master']=h.parent_id.isin(ids);h['child_in_target_master']=h.child_id.isin(ids);h.to_csv(O/'PARENT_CHILD.tsv',sep='\t',index=False)
+# Equal expression memberships are counted as indistinguishable RNA readouts, while molecular-context identities remain distinct.
+equal=frame.loc[frame.same_gene_set].copy();equal['relation']='identical_RNA_membership';equal.to_csv(O/'IDENTICAL_RNA_MEMBERSHIPS.tsv',sep='\t',index=False)
+summary={'target_host':'149','pathways':len(ids),'pairs_sharing_at_least_5_genes':len(frame),'candidate_pairs':len(candidates),'cross_database_candidate_pairs':int(candidates.left_database.ne(candidates.right_database).sum()),'identical_gene_set_pairs':len(equal),'identical_gene_set_cross_database_pairs':int(equal.left_database.ne(equal.right_database).sum()),'same_reaction_set_pairs':int(frame.same_reaction_set.sum()),'annotated_parent_child_links':len(h),'parent_child_both_scored':int((h.parent_in_target_master&h.child_in_target_master).sum()),'source_hashes':{str(f):hashlib.sha256(f.read_bytes()).hexdigest() for f in [C/'TARGET_MASTER.tsv',C/'PATHWAY_GENE_COMPOSITION.tsv.gz',C/'PATHWAY_REACTION_COMPOSITION.tsv.gz']}}
+(O/'COMPLETE.json').write_text(json.dumps(summary,indent=2));print(json.dumps(summary),flush=True)

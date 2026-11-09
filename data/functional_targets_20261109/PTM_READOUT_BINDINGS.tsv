@@ -1,0 +1,625 @@
+source_readout_id	canonical_id	source_family	external_authority_ids	entity_type	evidence
+PATH-WP_Wnt_signaling	CLA-P-366F48557175A084	PATH-WP	WP428	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Translation_inhibitors_in_chronically_activated_PDGFRA_cells	CLA-P-84B828AA1E9E1CCF	PATH-WP	WP4566	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Ras_signaling	CLA-P-996F57CAA7F80B16	PATH-WP	WP4223	pathway	Exact WikiPathways authority in source definition
+PATH-WP_PI3K-Akt_signaling_pathway	CLA-P-F90D2D45B29169FE	PATH-WP	WP4172	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Pancreatic_adenocarcinoma_pathway	CLA-P-90C1977C068C0AA8	PATH-WP	WP4263	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Non-small_cell_lung_cancer	CLA-P-82623C1F73A52DEF	PATH-WP	WP4255	pathway	Exact WikiPathways authority in source definition
+PATH-WP_ncRNAs_involved_in_Wnt_signaling_in_hepatocellular_carcinoma	CLA-P-7D948079ADB37D0D	PATH-WP	WP4336	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Malignant_pleural_mesothelioma	CLA-P-22E09DEBEDD5A4EA	PATH-WP	WP5087	pathway	Exact WikiPathways authority in source definition
+PATH-WP_lncRNA_in_canonical_Wnt_signaling_and_colorectal_cancer	CLA-P-7E5B0FFB019BBD66	PATH-WP	WP4258	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Hepatitis_B_infection	CLA-P-2C83C959EC330D22	PATH-WP	WP4666	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Epithelial_to_mesenchymal_transition_in_colorectal_cancer	CLA-P-8940FABFD34C6E28	PATH-WP	WP4239	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Endometrial_cancer	CLA-P-29ACC7B23E92D7F8	PATH-WP	WP4155	pathway	Exact WikiPathways authority in source definition
+PATH-WP_Breast_cancer_pathway	CLA-P-9ED68E9DAD15BF8E	PATH-WP	WP4262	pathway	Exact WikiPathways authority in source definition
+PATH-NP_WNT_PATHWAY	CLA-P-96CC6E4E79B32DCC	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_TWEAK_PATHWAY	CLA-P-00D707B17A160947	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_TSLP_PATHWAY	CLA-P-8DAF52BDFFFE3332	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_TSH_PATHWAY	CLA-P-618A01ABDAC4A1E8	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_TNF_ALPHA_PATHWAY	CLA-P-998CD92109373FC6	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_TIE2_PATHWAY	CLA-P-68690736BAD794D4	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_TGF_BETA_PATHWAY	CLA-P-816903524D1FA87B	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_T_CELL_RECEPTOR_PATHWAY	CLA-P-50DFE2ECE113CE00	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_PROLACTIN_PATHWAY	CLA-P-78141AC1549806CD	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_OXYTOCIN_PATHWAY	CLA-P-BFAA3F57F7D3AE71	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_OSM_PATHWAY	CLA-P-343ACFB20D0E8059	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_NOTCH_PATHWAY	CLA-P-B35AB5D0708B3B21	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_LEPTIN_PATHWAY	CLA-P-37EF4877E7C280EF	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_KIT_RECEPTOR_PATHWAY	CLA-P-F7C4ED4AE6675167	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL7_PATHWAY	CLA-P-9D5D869925C19D6A	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL6_PATHWAY	CLA-P-1AE4404C190ACCCF	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL4_PATHWAY	CLA-P-E53684FCD5E3A5E0	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL33_PATHWAY	CLA-P-8C15CDB48E164B72	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL3_PATHWAY	CLA-P-E73C99DD4C94BF1B	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL2_PATHWAY	CLA-P-89867FD301BC31B3	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL11_PATHWAY	CLA-P-698F13C89CCA78E4	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL10_PATHWAY	CLA-P-FCA6B867F98E50FC	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_IL1_PATHWAY	CLA-P-75FF4E5471FF8966	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_GLP1_PATHWAY	CLA-P-8AAFAC03237777B0	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_GASTRIN_PATHWAY	CLA-P-78E10095608BB33F	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_FSH_PATHWAY	CLA-P-4FA144F57B7B802A	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_FGF1_PATHWAY	CLA-P-EF5A94458850C2D0	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_EGFR1_PATHWAY	CLA-P-451B030F199970E3	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_CRH_PATHWAY	CLA-P-76B18BA17449C0B8	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_CCR7_PATHWAY	CLA-P-CB9C6836E96831A9	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_B_CELL_RECEPTOR_PATHWAY	CLA-P-82EC109F95156A87	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_ANDROGEN_RECEPTOR_PATHWAY	CLA-P-61AB76B054ECD3E9	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_ALPHA_6_BETA_4_PATHWAY	CLA-P-FB9C4CD970184CB4	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_AHR_PATHWAY	CLA-P-93A33875481560F5	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-NP_AGE_RAGE_PATHWAY	CLA-P-C54B6EF5AC742840	PATH-NP		phospho_response_program	Source-specific directional phosphorylation response definition
+PATH-BI_ISCHEMIA	CLA-P-8FE53A7A76AB6D7B	PATH-BI		phospho_response_program	Source-specific directional phosphorylation response definition
+KINASE-PSP_ZAP70	CLA-S-2A61451D494452A9	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ZAK/MAP3K20	CLA-S-5AB110EA0F941C89	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Yes/YES1	CLA-S-D1A36EFF84AE20E6	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_WNK4	CLA-S-909BF7088AB39490	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_WNK1	CLA-S-F9638528F2A4E8C3	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_VRK2	CLA-S-8B9749DB3AB820DD	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_VRK1	CLA-S-FE97FF7BBECE0DFD	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_VEGFR2/KDR	CLA-S-4ACF9E2FE02CD8B1	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_VEGFR1/FLT1	CLA-S-E5AFBB10E647F327	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ULK3	CLA-S-BEE60040A0FB2401	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ULK2	CLA-S-BC535F11535EF5D7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ULK1	CLA-S-288EE15ADEAE584C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Tyk2/TYK2	CLA-S-F0D6902AFD8A2B94	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TTK	CLA-S-15480F04EA46F748	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TTBK2	CLA-S-D177CF6E94476371	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TTBK1	CLA-S-90F815CFD7868A96	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TrkB/NTRK2	CLA-S-CA945E81C3096980	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TrkA/NTRK1	CLA-S-3B5B70592942C0B5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TLK1	CLA-S-7C381BBDFE3F9229	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TGFBR2	CLA-S-E7F9EBF5150B56BA	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TGFBR1	CLA-S-6DC53B30CF2924DF	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TEC	CLA-S-6FA9A454770D931D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TBK1	CLA-S-5E07D13BF6049906	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_TAK1/MAP3K7	CLA-S-2B9A1A4C315BFFB9	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Syk/SYK	CLA-S-1F54371312329BEC	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_STLK3/STK39	CLA-S-4F60F8D2D8BB94F1	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_SRPK1	CLA-S-B849F8210BEE8EE7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Src/SRC	CLA-S-B43B1DD7E3C6B33B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_smMLCK/MYLK	CLA-S-D4B2EAFCE6E23577	KINASE-PSP		isoform_kinase_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_SMG1	CLA-S-0D69750C34ACCC63	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_SLK	CLA-S-997FDB451469FFB2	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_SGK3	CLA-S-19DA719E9F689FEE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_SGK1	CLA-S-7A8DFC378943EB1B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_RSK2/RPS6KA3	CLA-S-486CD4FD7CFA44A1	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Ron/MST1R	CLA-S-AB003B3F127F1F44	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ROCK2	CLA-S-3CB97B1A258F3826	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ROCK1	CLA-S-7B6DB9787BCD8BB0	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_RIPK3	CLA-S-973FA77E2C86A56A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_RIPK2	CLA-S-9495CE0E0E56856A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_RIPK1	CLA-S-C0D07FA66C753DF3	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Ret/RET	CLA-S-0498F0F27B92F23F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_RAF1	CLA-S-C00E3DE21B681CF8	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_QIK/SIK2	CLA-S-BFBECAAFBD35BE61	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Pyk2/PTK2B	CLA-S-F48A3CC4193C473B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PRKD3	CLA-S-BBE913BA1937BBB5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PRKD2	CLA-S-8C7CEAF66B2E9600	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PRKD1	CLA-S-B42A8F3712EE688D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PLK4	CLA-S-10872F53BBFBE5F4	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PLK3	CLA-S-32AFB51638A24EF0	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PLK2	CLA-S-E33018FC15E5FFA7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PLK1	CLA-S-7771F0A9A631625C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKR/EIF2AK2	CLA-S-ECAE6225A7AAF1F5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKN1	CLA-S-18E8D11B8AB1CD0A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKM	CLA-S-0E4F3CD130E7E0E5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKG2/PRKG2	CLA-S-FB4C5D069E7CC091	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKG1/PRKG1	CLA-S-DD973765DAAAF506	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKG1_iso2/PRKG1	CLA-S-DD973765DAAAF506	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCZ/PRKCZ	CLA-S-FC48AF01D93FC864	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCT/PRKCQ	CLA-S-78F2B64FA02D2F91	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCI/PRKCI	CLA-S-3D9EC2F58BB70948	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCH/PRKCH	CLA-S-59372E9F0EAA156A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCG/PRKCG	CLA-S-AAA9D16ABE11648F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCE/PRKCE	CLA-S-ADEC6F714998B642	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCD/PRKCD	CLA-S-E2C61B0FC6594004	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCB/PRKCB	CLA-S-AE9B800821E8F2AE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCB_iso2/PRKCB	CLA-S-AE9B800821E8F2AE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKCA/PRKCA	CLA-S-D2182F2EEE0764CE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKACB/PRKACB	CLA-S-0B93F6E8774D4396	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PKACA/PRKACA	CLA-S-95C6C840E34BFEEB	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PINK1	CLA-S-D7F8B4698C65BF5B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Pim3/PIM3	CLA-S-B8C02A144C4A66F4	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Pim2/PIM2	CLA-S-04AD7E126AD106BC	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Pim1/PIM1	CLA-S-80D69CF07D854249	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PIK3CG	CLA-S-25345DFD14D1F0C5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PIK3CA	CLA-S-62CE6F239C636505	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PDK1/PDPK1	CLA-S-F8BB9881BB8E1A3D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PDHK4/PDK4	CLA-S-E80C2FBE7BEDFF54	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PDHK2/PDK2	CLA-S-F25CAC164A6B6CEF	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PDHK1/PDK1	CLA-S-2098A4ECAE938D58	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PDGFRB	CLA-S-B2F888623B365EB5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PDGFRA	CLA-S-54E11EDDD9B74407	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PBK	CLA-S-81D0C9BD13168113	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PASK	CLA-S-49C4BD625DC558C7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PAK6	CLA-S-FBF734811B40D58D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PAK5	CLA-S-B2092287F0D2E47E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PAK4	CLA-S-FFF334433FB096DA	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PAK2	CLA-S-B042A1003D0CDC24	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_PAK1	CLA-S-57A2CD88008ECC9E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_p90RSK/RPS6KA1	CLA-S-F9A6004799719AC6	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_P70S6KB/RPS6KB2	CLA-S-8C66184371310A93	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_p70S6K/RPS6KB1	CLA-S-A5D02A2F1B98D1A7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_P38G/MAPK12	CLA-S-6E2D3B334884399A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_P38D/MAPK13	CLA-S-47AA9E204B676B65	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_P38B/MAPK11	CLA-S-603DC3C0BE4E1FF3	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_P38A/MAPK14	CLA-S-0342E8CA85E06419	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_OSR1/OXSR1	CLA-S-5BF2F1BAA56AA372	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NuaK1/NUAK1	CLA-S-102A3DEE7F1D8A14	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NPM-ALK/NPM/ALK	CLA-S-B8D5E4714C1EAF03	KINASE-PSP		fusion_kinase_program	Source explicitly names the same ordered gene fusion; genes resolved through HGNC
+KINASE-PSP_NLK	CLA-S-833DAD67285608FC	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Nik/MAP3K14	CLA-S-8FB75894B012A7E2	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NEK9	CLA-S-C1E541556EA5FE92	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NEK7	CLA-S-C4217834E8D1ADD5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NEK6	CLA-S-795CE896C0061399	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NEK2	CLA-S-6865F1A77215FA1D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NEK1	CLA-S-A948027C81B5D70D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_NDR1/STK38	CLA-S-710560E473C37461	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MYO3A	CLA-S-7B6EC36E94047DE9	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_mTOR/MTOR	CLA-S-2AF1F597015A7C54	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MST4/STK26	CLA-S-85AC98B9EEB69880	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MST3/STK24	CLA-S-96DE7EAFFED82F26	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MST2/STK3	CLA-S-603E1CEF8F7EE20C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MST1/STK4	CLA-S-12C1B37B08667A42	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MSK2/RPS6KA4	CLA-S-80788B427EE9A4FF	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MSK1/RPS6KA5	CLA-S-475C2F28DB948D86	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MRCKA/CDC42BPA	CLA-S-1BCECF9F3B77EA21	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Mnk2/MKNK2	CLA-S-EE102C9EEDEA91EE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Mnk1/MKNK1	CLA-S-E21A7A38B0A3B84D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MLK3/MAP3K11	CLA-S-73407E0B51E8969A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MLK2/MAP3K10	CLA-S-CB23F5CE9B0440D7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MKK7/MAP2K7	CLA-S-7AE4E32E08153641	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MKK6/MAP2K6	CLA-S-16FE93E2F8591052	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MKK4/MAP2K4	CLA-S-60526210229B39D7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MKK3/MAP2K3	CLA-S-4C541CE1F400075F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MINK/MINK1	CLA-S-1C4C5BE9F9DF8C4B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Met/MET	CLA-S-8D2881F575485E09	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Mer/MERTK	CLA-S-1C11C87DAA2B7CDC	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MELK	CLA-S-C87F0D58316AB7C4	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MEKK6/MAP3K6	CLA-S-EC2A36D885A363C5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MEKK3/MAP3K3	CLA-S-1266DED21DAE430A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MEKK1/MAP3K1	CLA-S-AEC0D9FDB44FB4AE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MEK1/MAP2K1	CLA-S-EF387630A1551455	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MARK3	CLA-S-484E65CA7EBD076A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MARK2	CLA-S-2701F94A2953D6BE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MARK1	CLA-S-02F50232D31EC3BA	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MAPKAPK5	CLA-S-7C634669B1395426	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_MAPKAPK2	CLA-S-0FF767E1FA1A2935	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_LYN	CLA-S-9868901CD172F5F6	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_LRRK2	CLA-S-9BF36A421485A259	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_LRRK1	CLA-S-3DE4C02387ABF045	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_LKB1/STK11	CLA-S-E9EB48F6B5EE101E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Lck/LCK	CLA-S-805FF190D57DBF15	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_LATS2	CLA-S-3911466C70E9BB4F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_LATS1	CLA-S-783E8CE540DE262D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Kit/KIT	CLA-S-28880E63C62406EB	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_KIS/UHMK1	CLA-S-0F0DA2CD4D98DE42	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_JNK3/MAPK10	CLA-S-377370834146CC21	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_JNK2/MAPK9	CLA-S-894652C062012EBF	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_JNK1/MAPK8	CLA-S-4E524CB52FC02865	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_JAK3	CLA-S-C2805279E7478D43	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_JAK2	CLA-S-A25D498AECB1401D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_JAK1	CLA-S-96CEE11E8F0174A1	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ITK	CLA-S-1FE959B77F78429E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_IRAK4	CLA-S-189277F9E9D83D62	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_IRAK1	CLA-S-491B74502AEF0266	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_INSR	CLA-S-CC607215B13497A3	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ILK	CLA-S-9236C6AE1C9FFB5C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_IKKE/IKBKE	CLA-S-0A6164A85A82222A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_IKKB/IKBKB	CLA-S-2BFC5208645FB6C7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_IKKA/CHUK	CLA-S-C297E1901006EB68	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_IGF1R	CLA-S-62AD09A121E7B944	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_HPK1/MAP4K1	CLA-S-1ED13ABBF91349AB	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_HIPK2	CLA-S-9C07588A765D64A2	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_HGK/MAP4K4	CLA-S-B35228D46180832F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_HER2/ERBB2	CLA-S-18BC9F2264A3C630	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Hck/HCK	CLA-S-201409EFFF51938C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_GSK3B	CLA-S-451737DA75227B0E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_GSK3A	CLA-S-7CA6D34D573E7FCC	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_GRK6	CLA-S-6E8A1D487D47D0B0	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_GRK5	CLA-S-973A8D254F15318E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_GRK4	CLA-S-C618C7DCD1E08F6C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_GRK3	CLA-S-D61192C5102DA4C9	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_GRK2	CLA-S-5D92D0B0F58F1BD0	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Fyn/FYN	CLA-S-6DEEB560D85E235B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_FLT3	CLA-S-584D5729FAA56B54	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_FGR	CLA-S-4B800AC466B002A2	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_FGFR3	CLA-S-C56B026B0D96341E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_FGFR2	CLA-S-E29F31F1DCD9BF32	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_FGFR1	CLA-S-EFCAC75FF3729CBC	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Fer/FER	CLA-S-957012B938049E45	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_FAM20C	CLA-S-66BE77910BB374E3	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_FAK/PTK2	CLA-S-9D3DCDE2C828C7C9	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Etk/BMX	CLA-S-86526DD75C3F3FBD	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ERK7/MAPK15	CLA-S-219A37E581252AA6	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ERK5/MAPK7	CLA-S-8E55D333B956672F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ERK2/MAPK1	CLA-S-BF76D5889C6C1B87	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ERK1/MAPK3	CLA-S-1161FF618BC927BF	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_EphA2/EPHA2	CLA-S-FA234224E2B70960	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_EGFR	CLA-S-E0508DC326157167	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_EEF2K	CLA-S-4F5AF55DF27BFDA4	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_DYRK2	CLA-S-963D0C01B40856AB	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_DYRK1B	CLA-S-0C33DBB751B6920C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_DYRK1A	CLA-S-A3B3452F86711E48	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_DNAPK/PRKDC	CLA-S-D21C5B00C7FE4091	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_DAPK3	CLA-S-93530681A82DF9BF	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_DAPK1	CLA-S-0098DCBF1EAEA381	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CSK	CLA-S-A4E23BE3FD239A8A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Cot/MAP3K8	CLA-S-507B340B93BE8D58	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CLK2	CLA-S-BD70F89330C586C6	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CLK1	CLA-S-0121904F074FD271	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK2B/CSNK2B	CLA-S-332D610F5AF02257	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK2A2/CSNK2A2	CLA-S-6ECDC3CF8B416414	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK2A1/CSNK2A1	CLA-S-C4F136E0D4A9F97F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK1G2/CSNK1G2	CLA-S-1B9DF62B96D24752	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK1G1/CSNK1G1	CLA-S-D675490C1E664ECE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK1E/CSNK1E	CLA-S-A5BA1123FDA3DD9F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK1D/CSNK1D	CLA-S-7F764CEC153524AD	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CK1A/CSNK1A1	CLA-S-018F87DAE5A974C4	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Chk2/CHEK2	CLA-S-28BA6D64DCA6013F	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Chk1/CHEK1	CLA-S-05F4FF27B4A72586	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ChaK2/TRPM6	CLA-S-F59C8CADE3EFCE47	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ChaK1/TRPM7	CLA-S-D52D84AA77D9D319	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDKL5	CLA-S-C39401F06B3EFA00	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK9	CLA-S-9DB4B49B5A67E98E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK8	CLA-S-FAA496904B4F1B91	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK7	CLA-S-A5A7AB1B4317C507	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK6	CLA-S-2CA97A651E97A6EB	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK5	CLA-S-BDBD6B315111ED80	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK4	CLA-S-2083733D88ADEAD4	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK3	CLA-S-AAA693EED9385593	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK2	CLA-S-874ACD64D422DF96	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK19	CLA-S-58F089B86067AB3E	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK14	CLA-S-F9B5BE7AC128316B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK12	CLA-S-5CE1644939215E70	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDK1	CLA-S-0651F0EAA879F300	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CDC7	CLA-S-0FF567D238ACD792	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CASK	CLA-S-E5A8D482D60C9C64	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMKK2	CLA-S-C243579584147F69	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMKK1	CLA-S-2462615A852A3805	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMK4	CLA-S-C5BD6692F327BC57	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMK2G	CLA-S-6D6DED4310720E79	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMK2D	CLA-S-C40ADEB4F32C4902	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMK2B	CLA-S-64A81699287363F5	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMK2A	CLA-S-5D5DC4DF13F14EB2	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_CAMK1A/CAMK1	CLA-S-A8286E69EDDBF58B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_BUB1	CLA-S-010ED7E3B62F76F0	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Btk/BTK	CLA-S-FFC3E0F93ED6B9A6	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_BRSK2	CLA-S-048475613F224EFB	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_BRSK1_iso2/BRSK1	CLA-S-DEBB8A1AB33B0E19	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Brk/PTK6	CLA-S-1AACB2CF84B3D67C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_BRAF	CLA-S-E9D44FD10DB5D1F4	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_BMPR1B	CLA-S-E3BC4C65425705E3	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_BLK	CLA-S-E447E5CD487DEC3C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_BCR-ABL1/BCR/ABL	CLA-S-147D550AB3A9EED7	KINASE-PSP		fusion_kinase_program	Source explicitly names the same ordered gene fusion; genes resolved through HGNC
+KINASE-PSP_AXL	CLA-S-56844D598D42D7EC	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_AurC/AURKC	CLA-S-10E5C0B33C18912C	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_AurB/AURKB	CLA-S-C1B3C06ECD95D17B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_AurA/AURKA	CLA-S-2CDD823A4A9A197D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ATR	CLA-S-7A6D2C8A57AC857A	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ATM	CLA-S-0404A55AC5453F2B	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ASK1/MAP3K5	CLA-S-C5D58E9A7D3B921D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Arg/ABL2	CLA-S-B1736B1AB324B9E1	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ARAF	CLA-S-74E1893E776252DE	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_AMPKG2/PRKAG2	CLA-S-D4B41B011733B0D3	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_AMPKB1/PRKAB1	CLA-S-DBAD6F08A17E118D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_AMPKA2/PRKAA2	CLA-S-76DE2D47176C5EE7	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_AMPKA1/PRKAA1	CLA-S-A523D494C870E7FB	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_ALK	CLA-S-10C84D8487DD6422	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Akt3/AKT3	CLA-S-0BD24821CE1AD814	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Akt2/AKT2	CLA-S-E66BB18D6E5A68E1	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Akt1/AKT1	CLA-S-FB5F5C0FCA574962	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Ack/TNK2	CLA-S-0511CC7F522158A2	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-PSP_Abl/ABL1	CLA-S-4A1C82ECD9349B4D	KINASE-PSP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ZAP70	CLA-S-2A61451D494452A9	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ZAK	CLA-S-5AB110EA0F941C89	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_YES1	CLA-S-D1A36EFF84AE20E6	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_WNK3	CLA-S-95CF941689325C26	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_WNK2	CLA-S-E1828D826DB9B35C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_WNK1	CLA-S-F9638528F2A4E8C3	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_WEE1	CLA-S-7F602678BD402230	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_VRK2	CLA-S-8B9749DB3AB820DD	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_VRK1	CLA-S-FE97FF7BBECE0DFD	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ULK3	CLA-S-BEE60040A0FB2401	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TYRO3	CLA-S-70B3166DE6EBE90D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TYK2	CLA-S-F0D6902AFD8A2B94	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TXK	CLA-S-DD0629CF84801345	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TTBK1	CLA-S-90F815CFD7868A96	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TSSK2	CLA-S-8762629A7CBED948	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TSSK1	CLA-S-6AC366FE40AD41B4	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TNK1	CLA-S-3E389999C714DB84	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TNIK	CLA-S-E713B499A3CB533E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TLK2	CLA-S-6004C10718F8E485	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TLK1	CLA-S-7C381BBDFE3F9229	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TGFBR1	CLA-S-6DC53B30CF2924DF	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TESK1	CLA-S-12720D7751EF6224	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TEK	CLA-S-C8801F63AC795042	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TEC	CLA-S-6FA9A454770D931D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TBK1	CLA-S-5E07D13BF6049906	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TAOK3	CLA-S-6AA447822E6F8E76	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TAOK2	CLA-S-1F6A326E29AD585C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_TAOK1	CLA-S-1D0F3B0712083021	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SYK	CLA-S-1F54371312329BEC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK4	CLA-S-12C1B37B08667A42	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK39	CLA-S-4F60F8D2D8BB94F1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK38L	CLA-S-E05E4E826E121ABB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK38	CLA-S-710560E473C37461	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK33	CLA-S-C8D1598B9C35B8C5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK3	CLA-S-603E1CEF8F7EE20C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK26	CLA-S-85AC98B9EEB69880	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK25	CLA-S-112F1F9564DE39F9	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK24	CLA-S-96DE7EAFFED82F26	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK16	CLA-S-6035F3F21D9FEF99	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK11	CLA-S-E9EB48F6B5EE101E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_STK10	CLA-S-F615DACA6871D47A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SRPK3	CLA-S-311D4DA5AA657D40	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SRPK2	CLA-S-0D8F77F741E14074	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SRMS	CLA-S-C00AABA63C7F69B9	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SPHK2	CLA-S-4B5E5A52CEF176FC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SIK2	CLA-S-BFBECAAFBD35BE61	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SIK1	CLA-S-75D6E04185F7686A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SGK3	CLA-S-19DA719E9F689FEE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SGK2	CLA-S-0EFC6433EAD69AF7	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_SGK1	CLA-S-7A8DFC378943EB1B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KB2	CLA-S-8C66184371310A93	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KB1	CLA-S-A5D02A2F1B98D1A7	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KA6	CLA-S-B2A00FBFC70CF874	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KA5.MSK1	CLA-S-475C2F28DB948D86	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KA4.MSK2	CLA-S-80788B427EE9A4FF	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KA3	CLA-S-486CD4FD7CFA44A1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KA2	CLA-S-A1A5FD1BC644851E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RPS6KA1	CLA-S-F9A6004799719AC6	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ROS1	CLA-S-D0872831305FACD1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ROCK2	CLA-S-3CB97B1A258F3826	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ROCK1	CLA-S-7B6DB9787BCD8BB0	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RIPK5	CLA-S-EB73F20673103736	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_RET	CLA-S-0498F0F27B92F23F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PTK6	CLA-S-1AACB2CF84B3D67C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PTK2B	CLA-S-F48A3CC4193C473B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PTK2.FAK	CLA-S-9D3DCDE2C828C7C9	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKX	CLA-S-F9D2A84F9432C3F4	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKG1	CLA-S-DD973765DAAAF506	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKD3	CLA-S-BBE913BA1937BBB5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKD2	CLA-S-8C7CEAF66B2E9600	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKD1	CLA-S-B42A8F3712EE688D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCZ	CLA-S-FC48AF01D93FC864	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCQ	CLA-S-78F2B64FA02D2F91	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCI	CLA-S-3D9EC2F58BB70948	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCH	CLA-S-59372E9F0EAA156A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCG.PKCG	CLA-S-AAA9D16ABE11648F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCE.PKCE	CLA-S-ADEC6F714998B642	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCD.PKCD	CLA-S-E2C61B0FC6594004	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCB2.PRKCB	CLA-S-A716F1B8E81EAED5	KINASE-iKiP		isoform_kinase_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCB1.PRKCB	CLA-S-41035699EC29B5F2	KINASE-iKiP		isoform_kinase_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCB	CLA-S-AE9B800821E8F2AE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKCA	CLA-S-D2182F2EEE0764CE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKACG	CLA-S-B235008FE4D39E4B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PRKACA	CLA-S-95C6C840E34BFEEB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PLK4	CLA-S-10872F53BBFBE5F4	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PLK3	CLA-S-32AFB51638A24EF0	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PLK2	CLA-S-E33018FC15E5FFA7	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PLK1	CLA-S-7771F0A9A631625C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PKN2	CLA-S-1BD0E8B7F698A42C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PKN1	CLA-S-18E8D11B8AB1CD0A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PIM3	CLA-S-B8C02A144C4A66F4	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PIM2	CLA-S-04AD7E126AD106BC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PIM1	CLA-S-80D69CF07D854249	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PIK3R5	CLA-S-9BDA8FB5830D8E6A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PIK3CG	CLA-S-25345DFD14D1F0C5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PIK3C3	CLA-S-2D6B9E595B09F084	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PHKG2	CLA-S-0C07AB606F3B894A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PHKG1	CLA-S-A5C70A23B45CE6A5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PDGFRB	CLA-S-B2F888623B365EB5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PDGFRA	CLA-S-54E11EDDD9B74407	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PBK	CLA-S-81D0C9BD13168113	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PASK	CLA-S-49C4BD625DC558C7	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PAK6	CLA-S-FBF734811B40D58D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PAK5	CLA-S-B2092287F0D2E47E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PAK4	CLA-S-FFF334433FB096DA	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PAK3	CLA-S-DECE0F07FDF38A90	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PAK2	CLA-S-B042A1003D0CDC24	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_PAK1	CLA-S-57A2CD88008ECC9E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_OXSR1	CLA-S-5BF2F1BAA56AA372	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NUAK2	CLA-S-23DBB9CF48F8FE66	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NUAK1	CLA-S-102A3DEE7F1D8A14	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NTRK3	CLA-S-696BB10B3C4CB82C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NTRK2	CLA-S-CA945E81C3096980	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NTRK1	CLA-S-3B5B70592942C0B5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NPM1:ALK	CLA-S-B8D5E4714C1EAF03	KINASE-iKiP		fusion_kinase_program	Source explicitly names the same ordered gene fusion; genes resolved through HGNC
+KINASE-iKiP_NLK	CLA-S-833DAD67285608FC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NIM1K	CLA-S-D74FF138B66923BC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NEK9	CLA-S-C1E541556EA5FE92	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NEK7	CLA-S-C4217834E8D1ADD5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NEK6	CLA-S-795CE896C0061399	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NEK4	CLA-S-24CE158E5995ECED	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NEK2	CLA-S-6865F1A77215FA1D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NEK11	CLA-S-F1B76672779B5AC2	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_NEK1	CLA-S-A948027C81B5D70D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MYLK2	CLA-S-8A49025BA55AE65D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MUSK	CLA-S-1FEFBF0BB5AD1F42	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MTOR	CLA-S-2AF1F597015A7C54	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MST1R	CLA-S-AB003B3F127F1F44	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MOS	CLA-S-E160C85D7FA60B37	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MOK	CLA-S-59515DDD170DFF29	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MLCK	CLA-S-154343B62DA6C7D5	KINASE-iKiP		source_kinase_program	Named source enzyme program
+KINASE-iKiP_MKNK2	CLA-S-EE102C9EEDEA91EE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MINK1	CLA-S-1C4C5BE9F9DF8C4B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MET	CLA-S-8D2881F575485E09	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MERTK.MER	CLA-S-1C11C87DAA2B7CDC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MELK	CLA-S-C87F0D58316AB7C4	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MATK.CTK	CLA-S-723F30DCD40B3E97	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAST2	CLA-S-7DFA9A293E49244B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MARK4	CLA-S-8BF3AB33643C5433	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MARK3	CLA-S-484E65CA7EBD076A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MARK2	CLA-S-2701F94A2953D6BE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MARK1	CLA-S-02F50232D31EC3BA	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPKAPK5	CLA-S-7C634669B1395426	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPKAPK3	CLA-S-AA5893F187BCF46C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPKAPK2	CLA-S-0FF767E1FA1A2935	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK9.JNK2	CLA-S-894652C062012EBF	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK8.JNK1	CLA-S-4E524CB52FC02865	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK7.ERK5	CLA-S-8E55D333B956672F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK3.ERK1	CLA-S-1161FF618BC927BF	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK15.ERK7	CLA-S-219A37E581252AA6	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK14	CLA-S-0342E8CA85E06419	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK13	CLA-S-47AA9E204B676B65	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK12	CLA-S-6E2D3B334884399A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK11	CLA-S-603DC3C0BE4E1FF3	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK10.JNK3	CLA-S-377370834146CC21	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAPK1.ERK2	CLA-S-BF76D5889C6C1B87	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP4K5.KHS1	CLA-S-ED1C5B9C68F201F1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP4K4.HGK	CLA-S-B35228D46180832F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP4K2	CLA-S-379EA0E44C7DDB98	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K9.MLK1	CLA-S-80F94280AA27338D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K8.COT	CLA-S-507B340B93BE8D58	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K7	CLA-S-2B9A1A4C315BFFB9	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K5	CLA-S-C5D58E9A7D3B921D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K3	CLA-S-1266DED21DAE430A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K2	CLA-S-7FE956B11411D01D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K11.MLK3	CLA-S-73407E0B51E8969A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K10.MLK2	CLA-S-CB23F5CE9B0440D7	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP3K1	CLA-S-AEC0D9FDB44FB4AE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP2K7	CLA-S-7AE4E32E08153641	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP2K6	CLA-S-16FE93E2F8591052	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP2K5	CLA-S-2294AE86269FDE36	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP2K4	CLA-S-60526210229B39D7	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP2K3	CLA-S-4C541CE1F400075F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP2K2	CLA-S-69DD9C3740569ECE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_MAP2K1	CLA-S-EF387630A1551455	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LYNB.LYN	CLA-S-BF080A8EAF6F58BE	KINASE-iKiP		isoform_kinase_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LYNA.LYN	CLA-S-4277EA5B13EEF590	KINASE-iKiP		isoform_kinase_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LTK	CLA-S-D1456EAD845CBFAF	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LRRK2	CLA-S-9BF36A421485A259	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LIMK1	CLA-S-DB45FA8199DA925B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LCK	CLA-S-805FF190D57DBF15	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LATS2	CLA-S-3911466C70E9BB4F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_LATS1	CLA-S-783E8CE540DE262D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_KIT	CLA-S-28880E63C62406EB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_KDR	CLA-S-4ACF9E2FE02CD8B1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_JAK3	CLA-S-C2805279E7478D43	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_JAK2	CLA-S-A25D498AECB1401D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_JAK1	CLA-S-96CEE11E8F0174A1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ITK	CLA-S-1FE959B77F78429E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_IRAK4	CLA-S-189277F9E9D83D62	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_IRAK1	CLA-S-491B74502AEF0266	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_INSRR	CLA-S-21445CA8216E0A76	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_INSR	CLA-S-CC607215B13497A3	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_IKBKE.IKKE	CLA-S-0A6164A85A82222A	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_IGF1R	CLA-S-62AD09A121E7B944	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ICK	CLA-S-37856F1C100A03DA	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_HIPK4	CLA-S-26B2A227ED74C44E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_HIPK3	CLA-S-59CB4B102730F52E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_HIPK2	CLA-S-9C07588A765D64A2	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_HIPK1	CLA-S-8B748980D3BC0421	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_HCK	CLA-S-201409EFFF51938C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_HASPIN	CLA-S-CC6B6416D29C09D1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_GSK3B	CLA-S-451737DA75227B0E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_GSK3A	CLA-S-7CA6D34D573E7FCC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_GRK7	CLA-S-B41D026D3D5037B0	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_GRK5	CLA-S-973A8D254F15318E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_GRK2	CLA-S-5D92D0B0F58F1BD0	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_GRK1	CLA-S-CB48FFF76A64D65D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FRK	CLA-S-E284D7329B140CE0	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FLT4	CLA-S-834B7664A68CCCA2	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FLT3	CLA-S-584D5729FAA56B54	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FLT1	CLA-S-E5AFBB10E647F327	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FGR	CLA-S-4B800AC466B002A2	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FGFR4	CLA-S-CBFEB91EE616B614	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FGFR3	CLA-S-C56B026B0D96341E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FGFR2	CLA-S-E29F31F1DCD9BF32	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FGFR1	CLA-S-EFCAC75FF3729CBC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FES	CLA-S-EF8B81471239DE21	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_FER	CLA-S-957012B938049E45	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ERBB4	CLA-S-5F4AC109F775DC1F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ERBB2	CLA-S-18BC9F2264A3C630	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHB4	CLA-S-6826C6E83E6CBBAE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHB3	CLA-S-E7A4C4E740F10ACC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHB2	CLA-S-DE2CFD2FAE07F8C8	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHB1	CLA-S-327FDA317306B4AF	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA8	CLA-S-FCD9EAD72B861246	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA7	CLA-S-01AC9AA2C6539E7C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA6	CLA-S-390B37E6F3A039FB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA5	CLA-S-D40D4044CA93EE6D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA4	CLA-S-ABC926F952B1CBD3	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA3	CLA-S-89568CDA891114CF	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA2	CLA-S-FA234224E2B70960	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EPHA1	CLA-S-A2F8B78AF4F6D867	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EIF2AK4	CLA-S-7D86D7088B45DC0B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EIF2AK3	CLA-S-44D34ADBA2377C2E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EIF2AK1	CLA-S-686B8FFDA998E30B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EGFR	CLA-S-E0508DC326157167	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_EEF2K	CLA-S-4F5AF55DF27BFDA4	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DYRK4	CLA-S-B9000C5BD9725AD8	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DYRK3	CLA-S-BA75A5012944454D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DYRK2	CLA-S-963D0C01B40856AB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DYRK1B	CLA-S-0C33DBB751B6920C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DYRK1A	CLA-S-A3B3452F86711E48	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DDR2	CLA-S-6D418695765FA2C0	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DCLK2	CLA-S-15294418675E25BB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DCLK1	CLA-S-3EBF31DE38B920E8	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_DAPK1	CLA-S-0098DCBF1EAEA381	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK2A2.CK2A2	CLA-S-6ECDC3CF8B416414	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK2A1.CK2A1	CLA-S-C4F136E0D4A9F97F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK1G3	CLA-S-862521172F5EFE1D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK1G2	CLA-S-1B9DF62B96D24752	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK1G1	CLA-S-D675490C1E664ECE	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK1E.CK1E	CLA-S-A5BA1123FDA3DD9F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK1D.CK1D	CLA-S-7F764CEC153524AD	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSNK1A1.CK1A	CLA-S-018F87DAE5A974C4	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CSF1R.FMS	CLA-S-F82EA5EBAC621074	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CLK4	CLA-S-512E6EF534BD5E9B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CLK3	CLA-S-3836067C2F0CF18F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CLK2	CLA-S-BD70F89330C586C6	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CLK1	CLA-S-0121904F074FD271	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CHUK.IKKA	CLA-S-C297E1901006EB68	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CHEK2	CLA-S-28BA6D64DCA6013F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CHEK1	CLA-S-05F4FF27B4A72586	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CGK2	CLA-S-5BAACE5D712E08E2	KINASE-iKiP		source_kinase_program	Named source enzyme program
+KINASE-iKiP_CDK9-CCNT1	CLA-S-AD1D225FD694FC15	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK9-CCNK	CLA-S-5725742ECA1B1E76	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK8-CCNC	CLA-S-1202FF7FE58E8C7B	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK7-CCNH-MNAT1	CLA-S-E975CDDB19F676D1	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK6-CCND3	CLA-S-CABB864BE31598B7	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK6-CCND1	CLA-S-1160B4BDE5D8E8A0	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK5-CDK5R1p35	CLA-S-BF6F29CC716BDA10	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK5-CDK5R1p25	CLA-S-935E0F41CC6E86E3	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK4-CCND3	CLA-S-6A03055BF510C50E	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK4-CCND1	CLA-S-3E644E779857B880	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK3-CCNE1	CLA-S-1A18A315EF1CBE61	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK2-CCNE1	CLA-S-5B9C4BC7A57918F2	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK2-CCNA2	CLA-S-0C109BAFB7424E7F	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK14-CCND3	CLA-S-45B2960171DD7827	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDK1-CCNB1	CLA-S-7198DF63F9337462	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDC7-DBF4	CLA-S-429865AD8BDF2BAB	KINASE-iKiP		kinase_complex_program	Explicit source complex; HGNC-resolved subunits; processed subunit retained
+KINASE-iKiP_CDC42BPB.MRCKB	CLA-S-66ACB241D191F922	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CDC2-CCNB1	CLA-S-2DC03D052C8A748E	KINASE-iKiP		source_kinase_program	Named source enzyme program
+KINASE-iKiP_CAMKK2	CLA-S-C243579584147F69	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMKK1	CLA-S-2462615A852A3805	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMK4	CLA-S-C5BD6692F327BC57	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMK2G	CLA-S-6D6DED4310720E79	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMK2D	CLA-S-C40ADEB4F32C4902	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMK2B	CLA-S-64A81699287363F5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMK2A	CLA-S-5D5DC4DF13F14EB2	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMK1D	CLA-S-1EE4A4A8586E085E	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_CAMK1A	CLA-S-9D02793FD47D30E0	KINASE-iKiP		source_kinase_program	Named source enzyme program
+KINASE-iKiP_BUB1B	CLA-S-A1F40149E32BFE83	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_BUB1	CLA-S-010ED7E3B62F76F0	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_BRSK2	CLA-S-048475613F224EFB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_BRSK1	CLA-S-DEBB8A1AB33B0E19	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_BMX	CLA-S-86526DD75C3F3FBD	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_BMPR2	CLA-S-66ECE45238EB7B8F	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_BMPR1B	CLA-S-E3BC4C65425705E3	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_BMPR1A	CLA-S-78C77400BEA22CC5	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AXL	CLA-S-56844D598D42D7EC	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AURKC	CLA-S-10E5C0B33C18912C	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AURKB	CLA-S-C1B3C06ECD95D17B	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AURKA	CLA-S-2CDD823A4A9A197D	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AMPKA2	CLA-S-76DE2D47176C5EE7	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AMPKA1	CLA-S-A523D494C870E7FB	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ALK	CLA-S-10C84D8487DD6422	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AKT3	CLA-S-0BD24821CE1AD814	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AKT2	CLA-S-E66BB18D6E5A68E1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_AKT1	CLA-S-FB5F5C0FCA574962	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ACVR2A	CLA-S-D0CFA9C4066FC2F1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ACVR1.ALK2	CLA-S-1E5A0EB7B9243BFA	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ACK	CLA-S-0511CC7F522158A2	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained
+KINASE-iKiP_ABL2	CLA-S-B1736B1AB324B9E1	KINASE-iKiP		kinase_substrate_program	HGNC approved, previous and alias symbols; explicit isoform qualifier retained

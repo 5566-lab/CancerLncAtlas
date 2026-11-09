@@ -6,6 +6,7 @@ from scipy.stats import rankdata
 from .common import fail
 from .tables import require
 from .statistics import basis
+from .residual_variation import rank_residual_estimable
 from .identity import frame_ids, coverage
 from .graph_contracts import validate_membership, normalize_binding, normalize_ppi, confidence_frame, source_summary
 
@@ -118,18 +119,20 @@ def coexpression(X,G,C,call,Z,cohort,topk=8,min_n=12,cnv_transform='raw_signed',
             Q,q=basis(z[common])
             for start in range(0,len(lcols),lnc_batch):
                 li=lcols[start:start+lnc_batch]
-                xx=rankdata(x[common][:,li],axis=0)
+                raw_x=rankdata(x[common][:,li],axis=0);xx=raw_x.copy()
                 original_cn=c[common][:,li]
                 cc=rankdata(original_cn,axis=0) if cnv_transform=='rank' else original_cn.copy()
                 xx-=Q@(Q.T@xx);cc-=Q@(Q.T@cc)
                 den=np.sum(cc*cc,axis=0);tol=1e-18*np.maximum(1,np.sum(original_cn*original_cn,axis=0))
                 active=den>tol;beta=np.divide(np.sum(xx*cc,axis=0),den,out=np.zeros(len(li)),where=active)
                 xr=xx-cc*beta;xn=np.sqrt(np.sum(xr*xr,axis=0));ranks=q+active.astype(np.int16)
+                xok=rank_residual_estimable(raw_x,xr,z.shape[1])
                 for gstart in range(0,len(gcols),gene_batch):
                     gj=gcols[gstart:gstart+gene_batch]
-                    yy=rankdata(g[common][:,gj],axis=0);yy-=Q@(Q.T@yy)
+                    raw_y=rankdata(g[common][:,gj],axis=0);yy=raw_y-Q@(Q.T@raw_y)
                     yn=np.sqrt(np.sum(yy*yy,axis=0));norm=xn[:,None]*yn[None,:]
-                    good=(norm>1e-10)&((n-ranks-1)>0)[:,None]
+                    good=((norm>1e-10)&((n-ranks-1)>0)[:,None]
+                          &xok[:,None]&rank_residual_estimable(raw_y,yy,z.shape[1])[None,:])
                     corr=np.divide(xr.T@yy,norm,out=np.full(norm.shape,np.nan),where=good)
                     corr=np.clip(corr,-1,1);estimable+=int(np.isfinite(corr).sum());degenerate+=int((~np.isfinite(corr)).sum())
                     candidates=np.concatenate([best[li],corr],axis=1)

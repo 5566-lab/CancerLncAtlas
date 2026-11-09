@@ -1,0 +1,24 @@
+source_id	target_id	relation	evidence
+CLA-S-D4B2EAFCE6E23577	CLA-S-E0B23C75557ADA37	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-B8D5E4714C1EAF03	CLA-S-10C84D8487DD6422	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-147D550AB3A9EED7	CLA-S-4A1C82ECD9349B4D	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-A716F1B8E81EAED5	CLA-S-AE9B800821E8F2AE	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-41035699EC29B5F2	CLA-S-AE9B800821E8F2AE	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-BF080A8EAF6F58BE	CLA-S-9868901CD172F5F6	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-4277EA5B13EEF590	CLA-S-9868901CD172F5F6	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-AD1D225FD694FC15	CLA-S-9DB4B49B5A67E98E	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-5725742ECA1B1E76	CLA-S-9DB4B49B5A67E98E	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-1202FF7FE58E8C7B	CLA-S-FAA496904B4F1B91	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-E975CDDB19F676D1	CLA-S-A5A7AB1B4317C507	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-CABB864BE31598B7	CLA-S-2CA97A651E97A6EB	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-1160B4BDE5D8E8A0	CLA-S-2CA97A651E97A6EB	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-BF6F29CC716BDA10	CLA-S-BDBD6B315111ED80	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-935E0F41CC6E86E3	CLA-S-BDBD6B315111ED80	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-6A03055BF510C50E	CLA-S-2083733D88ADEAD4	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-3E644E779857B880	CLA-S-2083733D88ADEAD4	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-1A18A315EF1CBE61	CLA-S-AAA693EED9385593	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-5B9C4BC7A57918F2	CLA-S-874ACD64D422DF96	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-0C109BAFB7424E7F	CLA-S-874ACD64D422DF96	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-45B2960171DD7827	CLA-S-F9B5BE7AC128316B	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-7198DF63F9337462	CLA-S-0651F0EAA879F300	has_molecular_component	Explicit source enzyme construct or isoform
+CLA-S-429865AD8BDF2BAB	CLA-S-0FF567D238ACD792	has_molecular_component	Explicit source enzyme construct or isoform

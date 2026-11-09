@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import rankdata, t as student_t
 from .common import fail
+from .residual_variation import rank_residual_estimable
 
 # Shared implementation; retained module callers resolve the very same policy.
 import sys
@@ -71,6 +72,7 @@ def pairs(X,Y,C,call,Z,li,ti,cohort,min_n=12,local_mode='lncrna_only',cnv_transf
     Historical A1 local-CNV action is on lncRNA residual, not both sides. This is an
     adjusted rank association, not an intervention or an identified causal effect.
     """
+    call=np.asarray(call,bool)
     cohort=np.asarray(cohort,int);li=np.asarray(li,int);ti=np.asarray(ti,int)
     nrow=len(li);r=np.full(nrow,np.nan);pv=r.copy();nn=np.zeros(nrow,np.int32);rank=np.zeros(nrow,np.int16)
     # The nuisance design basis depends only on the cohort and the finite /
@@ -92,7 +94,8 @@ def pairs(X,Y,C,call,Z,li,ti,cohort,min_n=12,local_mode='lncrna_only',cnv_transf
             if cached is None:
                 z=Z[cohort][valid];cached=basis(z);basis_cache[mask_key]=cached
             Q,q=cached
-            xx=rankdata(x[valid][:,ix],axis=0);yy=rankdata(y[valid]);cc=cn[valid][:,ix].copy()
+            raw_x=rankdata(x[valid][:,ix],axis=0);raw_y=rankdata(y[valid])
+            xx=raw_x.copy();yy=raw_y.copy();cc=cn[valid][:,ix].copy()
             if cnv_transform=='rank':cc=rankdata(cc,axis=0)
             elif cnv_transform!='raw_signed':fail('CNV_TRANSFORM_INVALID',cnv_transform)
             xx-=Q@(Q.T@xx);yy-=Q@(Q.T@yy);cc-=Q@(Q.T@cc)
@@ -104,7 +107,9 @@ def pairs(X,Y,C,call,Z,li,ti,cohort,min_n=12,local_mode='lncrna_only',cnv_transf
             else:yr=np.broadcast_to(yy[:,None],xr.shape)
             rr=q+active.astype(int);df=n-rr-1;rank[pos]=rr
             norm=np.sqrt(np.sum(xr*xr,axis=0)*np.sum(yr*yr,axis=0))
-            good=(norm>1e-10)&(df>0)
+            good=((norm>1e-10)&(df>0)
+                  &rank_residual_estimable(raw_x,xr,Z.shape[1])
+                  &rank_residual_estimable(raw_y,yr,Z.shape[1]))
             corr=np.divide(np.sum(xr*yr,axis=0),norm,out=np.full(len(ix),np.nan),where=good)
             corr=np.clip(corr,-1,1);r[pos]=corr
             stat=np.abs(corr)*np.sqrt(np.maximum(df,0)/np.maximum(1-corr*corr,1e-15));pv[pos]=np.where(good,2*student_t.sf(stat,np.maximum(df,1)),np.nan)

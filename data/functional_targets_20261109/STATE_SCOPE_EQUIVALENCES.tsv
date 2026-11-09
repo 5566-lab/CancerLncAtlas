@@ -1,0 +1,9 @@
+source_target_id	reference_target_id	previous_canonical_id	canonical_id	relation	scope	source_url
+TumorPurity	ABSOLUTE_purity	CLA-S-991FB8F57522259F	CLA-S-B41F272AF0E675FE	same_biological_quantity	Fraction of malignant cells in the bulk tumor sample	https://www.nature.com/articles/ncomms3612
+MCPcounter::CD8 T cells	xCell::CD8+ T-cells	CLA-S-FA9D8E41FFFAB272	CLA-S-B26C5A6651963371	same_biological_quantity	Bulk-tissue abundance of the CD8 T-cell population	https://pmc.ncbi.nlm.nih.gov/articles/PMC5073889/
+MCPcounter::Endothelial cells	xCell::Endothelial cells	CLA-S-F7B3F9D86ADB126D	CLA-S-87C363C2BE2A2B26	same_biological_quantity	Bulk-tissue abundance of endothelial cells	https://pmc.ncbi.nlm.nih.gov/articles/PMC5073889/
+MCPcounter::Fibroblasts	xCell::Fibroblasts	CLA-S-DE3F214632C00675	CLA-S-AF63BEC972921F8F	same_biological_quantity	Bulk-tissue abundance of fibroblasts	https://pmc.ncbi.nlm.nih.gov/articles/PMC5073889/
+MCPcounter::NK cells	xCell::NK cells	CLA-S-6B02B6F3675DDFB1	CLA-S-90A7D2A1E48D813B	same_biological_quantity	Bulk-tissue abundance of natural killer cells	https://pmc.ncbi.nlm.nih.gov/articles/PMC5073889/
+MCPcounter::Neutrophils	xCell::Neutrophils	CLA-S-F83FA017E2BC2C67	CLA-S-9E33356912E305B5	same_biological_quantity	Bulk-tissue abundance of neutrophils	https://pmc.ncbi.nlm.nih.gov/articles/PMC5073889/
+signifinder::Hypoxia_Buffa	HALLMARK_HYPOXIA	CLA-S-1507990502128BA6	CLA-P-3423B99760CD551B	same_response_program	Transcriptional response to low oxygen; each signature remains a distinct readout	https://www.gsea-msigdb.org/gsea/msigdb/cards/HALLMARK_HYPOXIA
+PROGENY:Hypoxia	HALLMARK_HYPOXIA	CLA-S-9D870CBA827DA72B	CLA-P-3423B99760CD551B	same_response_program	Transcriptional response to low oxygen; each signature remains a distinct readout	https://www.gsea-msigdb.org/gsea/msigdb/cards/HALLMARK_HYPOXIA

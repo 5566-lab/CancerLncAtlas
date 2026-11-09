@@ -18,3 +18,5 @@ LICENSE text eol=lf
 NOTICE text eol=lf
 provenance/code_completion_20261015/ssgsea_original_sources/*.R.txt -text
 provenance/code_completion_20261015/causal_* text eol=lf
+# Empty trailing TSV fields preserve the tabular schema.
+data/functional_targets_20261109/*.tsv whitespace=-blank-at-eol

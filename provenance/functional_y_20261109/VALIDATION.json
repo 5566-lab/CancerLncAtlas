@@ -1,0 +1,45 @@
+{
+  "target_host": "149",
+  "updated_utc": "2026-11-09T13:51:45.536596+00:00",
+  "status": "PASS_AFTER_TARGETED_RECHECK",
+  "tests": {
+    "rank_residual_tests.xml": {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "functional_y_tests.xml": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "related_runtime_tests.xml": {
+      "tests": 210,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    },
+    "related_runtime_recheck.xml": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "distinct_test_cases": 226,
+  "initial_failures": {
+    "test_expired_supervisor_lease_stops": "Source files changed after shared fixture prepared; repeated on stable code and passed",
+    "test_declared_roles_in_yaml_match_active_config": "Existing YAML omitted DNARepair_Hallmark and TLS12_Chemokine_Published; synchronized to existing JSON target list",
+    "test_code_capsule_digest_matches_controller": "Source package manifest refreshed to current tree",
+    "test_hmac_not_shipped_with_code_capsule": "Same source manifest refresh"
+  },
+  "fixed_identity_catalog": {
+    "total_rows": 3460,
+    "score_identities": 3456,
+    "source_bindings": 3656,
+    "joins_unique": true
+  },
+  "actual_context_read": "LUAD sealed_test; 16889 lncRNAs x 3456 targets; file hashes, axes, patient split and evidence bits verified"
+}

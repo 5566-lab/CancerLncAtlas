@@ -1,0 +1,37 @@
+parent_id	child_id	source_child_score	relation	composition_formula	component_weight	source_url
+CLA-S-14051A100BC25952	CLA-S-0325F6897D249AB1	RNAss	has_molecular_facet			https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-14051A100BC25952	CLA-S-03AC1276C2A66C9C	EREG.EXPss	has_molecular_facet			https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-14051A100BC25952	CLA-S-7CD100A8AC7290D2	DNAss	has_molecular_facet			https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-14051A100BC25952	CLA-S-F018803344BC76D1	DMPss	has_molecular_facet			https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-14051A100BC25952	CLA-S-4AB092361BFA7116	ENHss	has_molecular_facet			https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-14051A100BC25952	CLA-S-27CDDD5CE3626C88	EREG-METHss	has_molecular_facet			https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-7CD100A8AC7290D2	CLA-S-F018803344BC76D1	DMPss	signature_component	OCLR fitted to the combined 219-CpG signature		https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-7CD100A8AC7290D2	CLA-S-4AB092361BFA7116	ENHss	signature_component	OCLR fitted to the combined 219-CpG signature		https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-7CD100A8AC7290D2	CLA-S-27CDDD5CE3626C88	EREG-METHss	signature_component	OCLR fitted to the combined 219-CpG signature		https://pmc.ncbi.nlm.nih.gov/articles/PMC5902191/
+CLA-S-4FFF17C502FFF4E4	CLA-S-499564646AE5B459	signifinder::EMT_Miow_Epithelial	has_program_branch			
+CLA-S-4FFF17C502FFF4E4	CLA-S-82F0E9E67E5E55A1	signifinder::EMT_Miow_Mesenchymal	has_program_branch			
+CLA-S-FE94F304645BF500	CLA-S-B3125665C25CEF9C	signifinder::ECM_Chakravarthy_up	has_directional_signature			
+CLA-S-FE94F304645BF500	CLA-S-766C4FD7D8B747D6	signifinder::ECM_Chakravarthy_down	has_directional_signature			
+CLA-S-46263ADB8FE4F583	CLA-S-CB07417BE045670C	HRD_LOH	score_sum_component	HRD_total = HRD_LOH + HRD_TAI + HRD_LST	1	
+CLA-S-46263ADB8FE4F583	CLA-S-0ED4B61AD9A6D070	HRD_TAI	score_sum_component	HRD_total = HRD_LOH + HRD_TAI + HRD_LST	1	
+CLA-S-46263ADB8FE4F583	CLA-S-9F861BD5C9CA80F5	HRD_LST	score_sum_component	HRD_total = HRD_LOH + HRD_TAI + HRD_LST	1	
+CLA-S-FD8BC60F06652616	CLA-S-620CD7E28DD22966	ImmuneScore	score_sum_component	ESTIMATEScore = ImmuneScore + StromalScore	1	https://www.nature.com/articles/ncomms3612
+CLA-S-FD8BC60F06652616	CLA-S-A9E6BFC1F960747F	StromalScore	score_sum_component	ESTIMATEScore = ImmuneScore + StromalScore	1	https://www.nature.com/articles/ncomms3612
+CLA-S-B28F2AB3071096AB	CLA-S-F30A6BB7CD34EE00	xCell::CD4+ Tcm	has_cell_subpopulation			
+CLA-S-B28F2AB3071096AB	CLA-S-B07548756A94E033	xCell::CD4+ Tem	has_cell_subpopulation			
+CLA-S-B28F2AB3071096AB	CLA-S-BBB58AF98E51D22A	xCell::CD4+ memory T-cells	has_cell_subpopulation			
+CLA-S-B28F2AB3071096AB	CLA-S-8D34014D20A20D99	xCell::CD4+ naive T-cells	has_cell_subpopulation			
+CLA-S-B26C5A6651963371	CLA-S-50CFDC874A7085C2	xCell::CD8+ Tcm	has_cell_subpopulation			
+CLA-S-B26C5A6651963371	CLA-S-B072119F48FB5B11	xCell::CD8+ Tem	has_cell_subpopulation			
+CLA-S-B26C5A6651963371	CLA-S-1DAB791F3F4A355D	xCell::CD8+ naive T-cells	has_cell_subpopulation			
+CLA-S-A886C7A971E97813	CLA-S-3AF9034099AE29F2	xCell::naive B-cells	has_cell_subpopulation			
+CLA-S-A886C7A971E97813	CLA-S-1720F3B2CD638F22	xCell::Memory B-cells	has_cell_subpopulation			
+CLA-S-1720F3B2CD638F22	CLA-S-583217E9F988D90D	xCell::Class-switched memory B-cells	has_cell_subpopulation			
+CLA-S-1985257C162D1D5E	CLA-S-3505B13CA83F0726	xCell::Macrophages M1	has_cell_subpopulation			
+CLA-S-1985257C162D1D5E	CLA-S-6A4BD31C5E6904B3	xCell::Macrophages M2	has_cell_subpopulation			
+CLA-S-87C363C2BE2A2B26	CLA-S-3DBE09F3556C4216	xCell::ly Endothelial cells	has_cell_subpopulation			
+CLA-S-87C363C2BE2A2B26	CLA-S-4EE7976A11EDA970	xCell::mv Endothelial cells	has_cell_subpopulation			
+CLA-S-2080F31EBE83B481	CLA-S-BACFA85D1EBC144E	xCell::aDC	has_cell_subpopulation			
+CLA-S-2080F31EBE83B481	CLA-S-4E5F9DAB75A6CD06	xCell::cDC	has_cell_subpopulation			
+CLA-S-2080F31EBE83B481	CLA-S-DD6FF810EDEFBF92	xCell::iDC	has_cell_subpopulation			
+CLA-S-2080F31EBE83B481	CLA-S-8AC92936F5DB5AD7	xCell::pDC	has_cell_subpopulation			

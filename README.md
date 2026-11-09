@@ -243,3 +243,5 @@ distributed here. Use permitted sources and record their checksums. See
 ### Three-arm comparison for non-RNA assay targets
 
 The BRCA/LUAD/COAD demo compares lncRNA, mRNA and their union on identical held-out CPTAC protein/phosphosite endpoints (measured methylation as a secondary layer), with unpenalized clinical and fixed DNA purity covariates. See [the comparison contract](docs/M0_THREE_ARM_DEMO.rst) for scope, outputs and native-label normalization limits. The current default removes correlation/FDR admission and marks zero-RNA fits as training failures. All five folds and the final fit must select RNA for a complete success; failure rates accompany performance on common successful targets. Code readiness and result completion are recorded separately in the provenance receipt.
+
+Functional Pathway/State identities, measurement definitions and relationship Y are described in [the construction guide](docs/FUNCTIONAL_PATHWAY_STATE_Y.rst). The fixed ID catalog is in `data/functional_targets_20261109`.
