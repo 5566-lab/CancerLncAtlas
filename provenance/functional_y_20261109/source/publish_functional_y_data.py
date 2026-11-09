@@ -3,14 +3,14 @@ from pathlib import Path
 import json,socket,time,hashlib,shutil,subprocess,datetime
 import pandas as pd
 assert socket.gethostname()=='149'
-R=Path(__file__).resolve().parent;ROOT=Path('/dell_2/DSC/CancerLncAtlas');DEST=ROOT/'processed/functional_y_20261109_r1';STAGE=DEST.with_name(DEST.name+'.staging');Y=R/'functional_relation_y_catalog_r6';N=R/'numerical_relation_evidence_r1';C=R/'canonical_targets_r6';Q=R/'supervision_summary_r2';D=R/'reader_dictionary_r4';deadline=time.monotonic()+8*3600
+R=Path(__file__).resolve().parent;ROOT=Path('/dell_2/DSC/CancerLncAtlas');PUBLIC=ROOT/'processed/functional_y_20261109_r1';DEST=Path('/dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261109_r1');STAGE=DEST.with_name(DEST.name+'.staging');Y=R/'functional_relation_y_catalog_r6';N=R/'numerical_relation_evidence_r1';C=R/'canonical_targets_r6';Q=R/'supervision_summary_r2';D=R/'reader_dictionary_r4';deadline=time.monotonic()+8*3600
 required=[Y/'COMPLETE.json',Q/'COMPLETE.json',R/'functional_y_validation_r2/COMPLETE.json',R/'project_log/DELIVERY_CONTENT_AUDIT.json']
 while not all(p.exists() for p in required):
  if time.monotonic()>deadline:raise TimeoutError('Final data release input deadline')
  time.sleep(10)
 for p in required:assert json.loads(p.read_text())['status'] in ['COMPLETE','PASS'],str(p)
-assert not DEST.exists() and not STAGE.exists();assert shutil.disk_usage(ROOT).free>15*2**30
-STAGE.mkdir();(STAGE/'LAUNCH_PREFLIGHT.json').write_text(json.dumps({'target_host':'149','operation':'PUBLISH_VALIDATED_FUNCTIONAL_Y_DATA','destination':str(DEST),'source_workdir':str(R)},indent=2))
+assert not PUBLIC.exists() and not PUBLIC.is_symlink();assert not DEST.exists() and not STAGE.exists();assert shutil.disk_usage(R).free>15*2**30
+STAGE.mkdir(parents=True);(STAGE/'LAUNCH_PREFLIGHT.json').write_text(json.dumps({'target_host':'149','operation':'PUBLISH_VALIDATED_FUNCTIONAL_Y_DATA','destination':str(DEST),'source_workdir':str(R)},indent=2))
 def sha(p):
  h=hashlib.sha256()
  with Path(p).open('rb') as f:
@@ -125,5 +125,5 @@ summary/: measured score coverage and cancer-specific supervision counts.
 validation/: independent relationship and table validation records.
 """
 (STAGE/'README.txt').write_text(readme)
-manifest={p.relative_to(STAGE).as_posix():{'sha256':sha(p),'bytes':p.stat().st_size} for p in STAGE.rglob('*') if p.is_file()};record={'target_host':'149','status':'COMPLETE','format':'CLA_FUNCTIONAL_Y_RELEASE_V1','created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'canonical_targets':3456,'lncrnas':16889,'tcga_cancers':33,'relation_contexts':165,'score_index_entries':len(score_rows),'cptac_cohorts':10,'files':manifest,'source_canonical_sha256':sha(C/'COMPLETE.json'),'source_y_complete_sha256':sha(Y/'COMPLETE.json')};(STAGE/'COMPLETE.json').write_text(json.dumps(record,indent=2));STAGE.rename(DEST)
-summary={'target_host':'149','status':'COMPLETE','directory':str(DEST),'files':len(manifest),'bytes':sum(v['bytes'] for v in manifest.values()),'release_receipt_sha256':sha(DEST/'COMPLETE.json'),'canonical_targets':3456,'relation_contexts':165,'score_index_entries':710,'created_utc':record['created_utc']};(R/'project_log/PROJECT_DATA_RELEASE.json').write_text(json.dumps(summary,indent=2));(ROOT/'logs/functional_y_20261109_r1.json').write_text(json.dumps(summary,indent=2));print('PROJECT_DATA_RELEASE_COMPLETE',json.dumps(summary))
+manifest={p.relative_to(STAGE).as_posix():{'sha256':sha(p),'bytes':p.stat().st_size} for p in STAGE.rglob('*') if p.is_file()};record={'target_host':'149','status':'COMPLETE','format':'CLA_FUNCTIONAL_Y_RELEASE_V1','created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'canonical_targets':3456,'lncrnas':16889,'tcga_cancers':33,'relation_contexts':165,'score_index_entries':len(score_rows),'cptac_cohorts':10,'files':manifest,'source_canonical_sha256':sha(C/'COMPLETE.json'),'source_y_complete_sha256':sha(Y/'COMPLETE.json')};(STAGE/'COMPLETE.json').write_text(json.dumps(record,indent=2));STAGE.rename(DEST);PUBLIC.symlink_to(DEST,target_is_directory=True)
+summary={'target_host':'149','status':'COMPLETE','directory':str(PUBLIC),'physical_directory':str(DEST),'files':len(manifest),'bytes':sum(v['bytes'] for v in manifest.values()),'release_receipt_sha256':sha(DEST/'COMPLETE.json'),'canonical_targets':3456,'relation_contexts':165,'score_index_entries':710,'created_utc':record['created_utc']};(R/'project_log/PROJECT_DATA_RELEASE.json').write_text(json.dumps(summary,indent=2));(ROOT/'logs/functional_y_20261109_r1.json').write_text(json.dumps(summary,indent=2));print('PROJECT_DATA_RELEASE_COMPLETE',json.dumps(summary))

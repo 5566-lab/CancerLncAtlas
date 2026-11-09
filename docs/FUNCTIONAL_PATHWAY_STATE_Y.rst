@@ -133,3 +133,12 @@ The saved numerical correction leaves retained correlations, raw p-values,
 patient counts and design ranks unchanged and recomputes BH q-values over the
 estimable pairs. The runtime pair and graph routines apply the same rank-residual
 variation criterion when calculating new results.
+
+The project release entry is
+``/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1``.
+On server 149 this directory resolves to the immutable dataset under
+``/dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261109_r1``.
+``PATIENT_SCORE_INDEX.tsv`` lists 710 cohort, context and measurement-layer
+entries with relative matrix and readout-axis paths. ``COMPLETE.json`` records
+the release file hashes. The public reader was checked against the published
+BRCA independent-label context.

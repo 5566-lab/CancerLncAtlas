@@ -1,0 +1,29 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "release_directory": "/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1",
+  "physical_directory": "/dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261109_r1",
+  "release_receipt_sha256": "1e03defb1340f107b939393d87395f0f2d1d7e641169190abd49056f41e5cb39",
+  "files_checked": 2417,
+  "score_index_entries": 710,
+  "cohorts": 43,
+  "distinct_score_matrices": 464,
+  "distinct_readout_axes": 8,
+  "actual_release_context": {
+    "cancer_id": "BRCA",
+    "context": "sealed_test",
+    "lncrnas": 16889,
+    "canonical_targets": 3456,
+    "observable_relations": 39172855,
+    "strong_positive": 433,
+    "weak_positive": 5272573,
+    "unlabeled_observed": 33899849,
+    "direction_discordant": 540
+  },
+  "checks": [
+    "All manifest files exist with recorded size within release directory",
+    "All score-index SHA256 references bind to release manifest",
+    "All readout identities resolve and patient matrices contain the declared axes",
+    "Public reader loads BRCA sealed_test from the published Y directory"
+  ]
+}

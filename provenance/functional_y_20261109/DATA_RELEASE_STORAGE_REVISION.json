@@ -1,0 +1,11 @@
+{
+  "target_host": "149",
+  "reason": "Observed FUSE mount transfer around2MB/s and repeated per-file latency; publish immutable release on149 local data storage and expose canonical project path through a directory symlink",
+  "physical_destination": "/dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261109_r1",
+  "canonical_path": "/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1",
+  "archived_partial": "/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1.staging_slow_mount",
+  "previous_pid": 3001717,
+  "previous_io": "rchar: 2125443795\nwchar: 1116287333\nsyscr: 6595\nsyscw: 2323\nread_bytes: 861048832\nwrite_bytes: 0\ncancelled_write_bytes: 0\n",
+  "previous_script_sha256": "ddd32b465ee7cbf23d400f9a43a26cab6b2a148a823ba485a6d33d922379e113",
+  "created_utc": "2026-11-09T15:33:12.175028+00:00"
+}

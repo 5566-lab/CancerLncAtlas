@@ -1,0 +1,13 @@
+{
+  "target_host": "149",
+  "status": "COMPLETE",
+  "directory": "/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1",
+  "physical_directory": "/dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261109_r1",
+  "files": 2417,
+  "bytes": 2914810818,
+  "release_receipt_sha256": "1e03defb1340f107b939393d87395f0f2d1d7e641169190abd49056f41e5cb39",
+  "canonical_targets": 3456,
+  "relation_contexts": 165,
+  "score_index_entries": 710,
+  "created_utc": "2026-11-09T15:35:28.919001+00:00"
+}

@@ -7,7 +7,7 @@ R=Path(__file__).resolve().parent;receipt=R/'project_log/PROJECT_DATA_RELEASE.js
 while not receipt.exists():
  if time.monotonic()>deadline:raise TimeoutError('Project release receipt')
  time.sleep(10)
-release=json.loads(receipt.read_text());D=Path(release['directory']);rec=json.loads((D/'COMPLETE.json').read_text());assert rec['status']=='COMPLETE' and rec['target_host']=='149'
+release=json.loads(receipt.read_text());D=Path(release['directory']).resolve();rec=json.loads((D/'COMPLETE.json').read_text());assert rec['status']=='COMPLETE' and rec['target_host']=='149'
 assert hashlib.sha256((D/'COMPLETE.json').read_bytes()).hexdigest()==release['release_receipt_sha256']
 for rel,record in rec['files'].items():
  p=D/rel;assert p.is_file() and p.resolve().is_relative_to(D) and p.stat().st_size==record['bytes'],rel
@@ -26,5 +26,5 @@ for row in index.itertuples():
  if row.patient_filter:assert row.patient_filter.startswith('source_cohort=') and 'source_cohort' in cols
 sys.path.insert(0,str(R/'source_integration/repo'));from cla_engine.functional_y import load_functional_context
 loaded=load_functional_context(D/'Y','BRCA','sealed_test');counts=loaded.counts();assert counts['canonical_targets']==3456 and counts['lncrnas']==16889
-proof={'target_host':'149','status':'PASS','release_directory':str(D),'release_receipt_sha256':release['release_receipt_sha256'],'files_checked':len(rec['files']),'score_index_entries':len(index),'cohorts':43,'distinct_score_matrices':len(matrices),'distinct_readout_axes':len(axes),'actual_release_context':counts,'checks':['All manifest files exist with recorded size within release directory','All score-index SHA256 references bind to release manifest','All readout identities resolve and patient matrices contain the declared axes','Public reader loads BRCA sealed_test from the published Y directory']}
+proof={'target_host':'149','status':'PASS','release_directory':release['directory'],'physical_directory':str(D),'release_receipt_sha256':release['release_receipt_sha256'],'files_checked':len(rec['files']),'score_index_entries':len(index),'cohorts':43,'distinct_score_matrices':len(matrices),'distinct_readout_axes':len(axes),'actual_release_context':counts,'checks':['All manifest files exist with recorded size within release directory','All score-index SHA256 references bind to release manifest','All readout identities resolve and patient matrices contain the declared axes','Public reader loads BRCA sealed_test from the published Y directory']}
 (R/'project_log/PROJECT_DATA_RELEASE_VALIDATION.json').write_text(json.dumps(proof,indent=2));print(json.dumps(proof))
