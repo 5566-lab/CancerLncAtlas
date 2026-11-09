@@ -23,6 +23,12 @@ complex, catalyst and regulator relationships preserve the annotated mechanism.
 Source protein-list overlap is recorded separately from functional equivalence.
 ``ID_REDIRECTS.tsv`` resolves prior identities to surviving IDs.
 
+``TARGET_COMPOSITION_COUNTS.tsv`` summarizes each target's gene, probe,
+phosphosite, reaction and child-program composition. ``PATHWAY_REACTION_BRANCHES.tsv.gz``
+links 21,358 annotated branch occurrences to 1,111 scored identities by explicit
+pathway-order membership, including descendants. These are source reaction-order
+relations; canonical target IDs remain unchanged.
+
 Patient scores
 --------------
 

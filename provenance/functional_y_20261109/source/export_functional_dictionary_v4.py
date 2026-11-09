@@ -64,6 +64,8 @@ notes=pd.DataFrame([
 sheet('Read_me',notes);sheet('Target_master',M);sheet('Structural_contexts',CONTEXT);sheet('Source_IDs',B.drop(columns=['identity_evidence']));sheet('State_scores',sd);sheet('Score_definitions',scoredefs);sheet('Score_coverage',coverage)
 adjust=pd.read_csv(R/'adjustment_coverage_r1/ADJUSTMENT_SUPPORT_BY_CANCER.tsv',sep='\t').drop(columns=['covariate_design_admitted']);sheet('Covariate_support',adjust);sheet('Covariate_coverage',pd.read_csv(R/'adjustment_coverage_r1/SOURCE_COVARIATE_COVERAGE.tsv',sep='\t'))
 sheet('Y_by_cancer',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER.tsv',sep='\t'));sheet('Y_by_context',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER_CONTEXT.tsv',sep='\t'));sheet('Y_target_counts',yt);sheet('S_by_layer',pd.read_csv(Q/'SCORE_LAYER_SUMMARY.tsv',sep='\t'))
+CI=R/'target_composition_index_r1';assert json.loads((CI/'VALIDATION.json').read_text())['status']=='PASS'
+sheet('Composition_counts',pd.read_csv(CI/'TARGET_COMPOSITION_COUNTS.tsv',sep='\t'));sheet('Pathway_branches',pd.read_csv(CI/'PATHWAY_REACTION_BRANCHES.tsv.gz',sep='\t'))
 sheet('Structure_nodes',pd.read_csv(T/'STRUCTURE_NODES.tsv',sep='\t'));sheet('Reaction_scope',pd.read_csv(T/'REACTION_SCOPE_RELATIONS.tsv.gz',sep='\t'));sheet('Reaction_core_members',pd.read_csv(T/'REACTION_CORE_MEMBERS.tsv.gz',sep='\t'))
 ext=pd.read_csv(T/'REACTION_EXTENSION_MEMBERS.tsv.gz',sep='\t');chunks=[]
 for eid,frame in ext.groupby('extension_id',sort=True):

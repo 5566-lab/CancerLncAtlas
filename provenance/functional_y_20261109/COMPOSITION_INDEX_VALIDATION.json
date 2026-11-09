@@ -1,0 +1,12 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "checks": [
+    "Independent reverse-ancestor traversal reconstructs all branch links",
+    "All 3456 target IDs have one composition summary",
+    "Branch link counts match the summary",
+    "No inferred equivalence or new score identities introduced"
+  ],
+  "branch_links": 21358,
+  "target_identities_with_branches": 1111
+}
