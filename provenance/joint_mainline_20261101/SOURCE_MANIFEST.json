@@ -2042,8 +2042,8 @@
       "sha256": "61491640cf90666b94086a0e918fe5fba057cdcbf1ce9e173120fb159e1965e8"
     },
     "docs/FUNCTIONAL_PATHWAY_STATE_Y.rst": {
-      "bytes": 6741,
-      "sha256": "fc968203df16c74c92e9a5ab6d9c08d5b0fff818a25dc5de3342438899a3546d"
+      "bytes": 7287,
+      "sha256": "ec6274d582936c6b40d8dbd0b917b44e844b3b3c31e43b8daf5adefff24ae770"
     },
     "docs/GENCODE_NATIVE_ANNOTATION_20261027.rst": {
       "bytes": 5812,
@@ -7375,7 +7375,14 @@
       "executed Y preparation code and method guide",
       "YAML State IDs synchronized with existing 149 JSON configuration"
     ],
-    "date": "2026-11-09"
+    "date": "2026-11-09",
+    "reader_delivery": {
+      "date": "2026-11-09",
+      "dictionary_sheets": 46,
+      "figure_pairs": 14,
+      "presentation_slides": 22,
+      "validated_contexts": 165
+    }
   },
   "last_change_base_commit": "a9082362308bb547df2fd9943ac2a5e86f784d34",
   "target_host": "149"

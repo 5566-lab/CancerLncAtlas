@@ -67,22 +67,24 @@ for label in order:
  for g in groups:heatrows.append({'cohort_cancer':label,'score_group':g,'canonical_targets':int(num.loc[label,g]),'patients_with_score':int(people.loc[label,g]),'patients_in_scope':int(den[label]),'coverage_percent':float(pct.loc[label,g])})
 pd.DataFrame(heatrows).to_csv(Q/'FIGURE_SCORE_COVERAGE.tsv',sep='\t',index=False)
 def coverage_plot(rows,filename,title):
- fig,ax=plt.subplots(figsize=(11,max(4,len(rows)*.43+1.7)));v=num.loc[rows].to_numpy();ax.imshow(np.log10(v+1),cmap='YlGnBu',aspect='auto',vmin=0,vmax=np.log10(max(coverage.canonical_id.nunique(),1)+1));ax.set_xticks(range(6),labels,fontsize=11);ax.xaxis.tick_top();ax.set_yticks(range(len(rows)),[r.replace('  TCGA/TCPA','').replace('CPTAC:','') for r in rows],fontsize=10)
+ compact=len(rows)<=17
+ fig,ax=plt.subplots(figsize=(12,5.4) if compact else (11,max(4,len(rows)*.43+1.7)));v=num.loc[rows].to_numpy();ax.imshow(np.log10(v+1),cmap='YlGnBu',aspect='auto',vmin=0,vmax=np.log10(max(coverage.canonical_id.nunique(),1)+1));ax.set_xticks(range(6),labels,fontsize=11);ax.xaxis.tick_top();ax.set_yticks(range(len(rows)),[r.replace('  TCGA/TCPA','').replace('CPTAC:','') for r in rows],fontsize=10)
  for i,r in enumerate(rows):
   for j,g in enumerate(groups):
-   n=int(num.loc[r,g]);t=f'{n:,}\n{pct.loc[r,g]:.1f}%' if n else '0';ax.text(j,i,t,ha='center',va='center',fontsize=9,color='white' if n>500 else navy)
+   n=int(num.loc[r,g]);t=(f'{n:,} / {pct.loc[r,g]:.1f}%' if compact else f'{n:,}\n{pct.loc[r,g]:.1f}%') if n else '0';ax.text(j,i,t,ha='center',va='center',fontsize=11 if compact else 9,color='white' if n>500 else navy)
  ax.set_title(title+'\n单元格：可评分身份数／至少一项评分的患者覆盖率',loc='left',fontsize=14,fontweight='bold',pad=47,color=navy);ax.set_xticks(np.arange(-.5,6,1),minor=True);ax.set_yticks(np.arange(-.5,len(rows),1),minor=True);ax.grid(which='minor',color='white',linewidth=1);ax.tick_params(which='minor',bottom=False,left=False);fig.tight_layout();save(fig,filename)
 coverage_plot(order,'07_Score_coverage_all_cohorts','TCGA/TCPA 与 CPTAC：通路及 State 评分覆盖')
 coverage_plot(order[:17],'07a_TCGA_score_coverage','TCGA/TCPA 评分覆盖（1/2）');coverage_plot(order[17:33],'07b_TCGA_score_coverage','TCGA/TCPA 评分覆盖（2/2）');coverage_plot(order[33:],'07c_CPTAC_score_coverage','CPTAC 评分覆盖')
 yall=pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER.tsv',sep='\t').sort_values('cancer_id').set_index('cancer_id');yall['supported_relations']=yall.weak_positive+yall.strong_positive
 metrics_y=['observable_relations','supported_relations','strong_positive'];ylabels=['可估计关联','至少一层支持','至少两层严格支持']
 def yplot(rows,name,title):
- fig,ax=plt.subplots(figsize=(11,max(4,len(rows)*.35+1.7)));v=yall.loc[rows,metrics_y].to_numpy();ax.imshow(np.log10(v+1),cmap='PuBuGn',aspect='auto',vmin=0,vmax=np.log10(max(yall.observable_relations.max(),1)+1));ax.set_xticks(range(3),ylabels,fontsize=12);ax.xaxis.tick_top();ax.set_yticks(range(len(rows)),[f'{r} (n={int(yall.loc[r,"label_patients"])})' for r in rows],fontsize=10)
+ compact=len(rows)<=17
+ fig,ax=plt.subplots(figsize=(12,5.4) if compact else (11,max(4,len(rows)*.35+1.7)));v=yall.loc[rows,metrics_y].to_numpy();ax.imshow(np.log10(v+1),cmap='PuBuGn',aspect='auto',vmin=0,vmax=np.log10(max(yall.observable_relations.max(),1)+1));ax.set_xticks(range(3),ylabels,fontsize=12);ax.xaxis.tick_top();ax.set_yticks(range(len(rows)),[f'{r} (n={int(yall.loc[r,"label_patients"])})' for r in rows],fontsize=10)
  for i,r in enumerate(rows):
   for j,k in enumerate(metrics_y):
-   n=int(yall.loc[r,k]);ax.text(j,i,f'{n:,}',ha='center',va='center',fontsize=10,color='white' if n>200000 else navy)
+   n=int(yall.loc[r,k]);ax.text(j,i,f'{n:,}',ha='center',va='center',fontsize=12 if compact else 10,color='white' if n>200000 else navy)
  ax.set_title(title+'\n同一独立标签分折；单位：lncRNA × canonical target',loc='left',fontweight='bold',fontsize=14,pad=35,color=navy);ax.set_xticks(np.arange(-.5,3,1),minor=True);ax.set_yticks(np.arange(-.5,len(rows),1),minor=True);ax.grid(which='minor',color='white',linewidth=.8);ax.tick_params(which='minor',bottom=False,left=False);fig.tight_layout();save(fig,name)
-yplot(yall.index.tolist(),'08_Y_supervision_all_cancers','33 癌种的关系监督证据');yplot(yall.index[:17].tolist(),'08a_Y_supervision','关系监督证据（1/2）');yplot(yall.index[17:].tolist(),'08b_Y_supervision','关系监督证据（2/2）')
+yplot(yall.index.tolist(),'08_Y_supervision_all_cancers','TCGA/TCPA：33 癌种的关系监督证据');yplot(yall.index[:17].tolist(),'08a_Y_supervision','关系监督证据（1/2）');yplot(yall.index[17:].tolist(),'08b_Y_supervision','关系监督证据（2/2）')
 rr=json.loads((T/'COMPLETE.json').read_text());rt=rr['relation_types'];rv=[rt.get('shared_reaction_core',0),rt.get('left_is_annotated_ancestor',0)+rt.get('right_is_annotated_ancestor',0),rt.get('left_contains_right_reaction_scope',0)+rt.get('right_contains_left_reaction_scope',0)];fig,ax=plt.subplots(figsize=(10.5,4.5));ax.barh(['共同反应核心','已注释祖先／后代','反应范围包含'],rv,color=[teal,navy,gold]);ax.invert_yaxis();ax.set_xlim(0,max(rv)*1.2);ax.set_xlabel('通路对');ax.set_title(f"{rr['scored_pathways_with_reactions']:,} 条通路的 {rr['pairs']:,} 对反应范围关系",loc='left',fontweight='bold',fontsize=16,color=navy)
 for i,v in enumerate(rv):ax.text(v+45,i,f'{v:,}',va='center',fontsize=13)
 fig.tight_layout();save(fig,'09_Reaction_scope_relations')

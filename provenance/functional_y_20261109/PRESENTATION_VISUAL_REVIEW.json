@@ -1,0 +1,14 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "source_pptx_sha256": "1109f9b12cc96f5080310ea34f33d3f39f8a4b5902ba3664bdba2d28df279970",
+  "pdf_sha256": "0a3073a22eb95557db6ed3270e9571e92763cac61df66580204261f49bea31c0",
+  "reviewed_utc": "2026-11-09T15:12:37.495398+00:00",
+  "review": "Visual inspection of all 22 slides in the rendered contact sheet, plus full-size slides 6, 9, 10, 11, 14, 17, 20 and 21",
+  "checks": [
+    "No visible clipping or overlapping slide content",
+    "Compact coverage and supervision tables remain readable at full slide size",
+    "Measured score coverage and relation evidence counts have distinct labels",
+    "Reader slides describe actual definitions, methods, scope and results"
+  ]
+}

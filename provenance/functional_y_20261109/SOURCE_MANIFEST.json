@@ -38,8 +38,8 @@
     "validate_functional_y_numerical.py": "54f24380775bf46c8fd771cd55c6e325946bdf34bd22627741950cb14cc2ecfb",
     "summarize_functional_supervision.py": "5e9279b459ebfb9e61ab454c7fa771fb8b2a16f6d9660efdbbd98d891b2e1da4",
     "update_numerical_supervision_summary.py": "546f240d6f9a640add0a92d05dbb04729aab4e66bab7d1087764a1e6ba6be8fa",
-    "export_functional_dictionary_v4.py": "a60fdb72e542cacbfbd3e1a87a46467bb6839c1fb2b9c52925f241d38a2b50f7",
-    "build_functional_y_final_presentation.py": "7cb80a6914698c77d7dd009ba431b8e15298b45d33555ce3105edf2d11be6b18",
+    "export_functional_dictionary_v4.py": "21a9f3f1cc0ab53152514cbdd9bb72c1de62714bb88928b181971f7a2dee53d8",
+    "build_functional_y_final_presentation.py": "e9d25506efccb1c2b94d3276a4e2d5630d80ad8dde5eca6d6b03239dbef6ee63",
     "validate_rppa_functional_scoring.py": "996b4d5db17e6aad6047a795389c411e261fa689e538edfb554868360d21802d",
     "verify_block_associations.py": "f0f2f356dbbfff03ec8353078fb99621ec8a0326843247344e0ca327690c5f2d",
     "verify_residual_estimability.py": "6f8a21e8dab8ee88903631d7cb7ecc6c8761cfd43580321e0d74315b53a8fb0b",
@@ -51,7 +51,10 @@
     "canonical_quantity_adjustment/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "canonical_quantity_adjustment/adjustment_policy.py": "b13b31843551559f550179e93a87554fa4323cca8280dbea4715d755c465f3ae",
     "canonical_quantity_adjustment/covariate_contract.py": "5885df1377c57e61923aa9f441a9235635a490af905fb665fba3bccee281c183",
-    "canonical_quantity_adjustment/design.py": "2a146a6819c17ac6ff5b63107ea2b15c700712fbec0f7abf8ba6291b3e939b57"
+    "canonical_quantity_adjustment/design.py": "2a146a6819c17ac6ff5b63107ea2b15c700712fbec0f7abf8ba6291b3e939b57",
+    "publish_functional_y_data.py": "ddd32b465ee7cbf23d400f9a43a26cab6b2a148a823ba485a6d33d922379e113",
+    "validate_final_dictionary_methods.py": "2aa07477678dafb753eae9bb5a7e8af2c1b5940598054791b616f537acfc6ab9",
+    "validate_published_functional_y.py": "e1d604de0a81614eb648e3c0292eacaf8477ab8edcd72b6f1e07059bbbec1784"
   },
   "external_dependencies": [
     "Existing source data and generated stage outputs at paths embedded in the snapshot",

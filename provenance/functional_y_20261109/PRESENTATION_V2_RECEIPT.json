@@ -1,0 +1,31 @@
+{
+  "target_host": "149",
+  "file": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reports/Functional_Y_construction_report_v2.pptx",
+  "sha256": "1109f9b12cc96f5080310ea34f33d3f39f8a4b5902ba3664bdba2d28df279970",
+  "slides": 22,
+  "canonical_registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r6",
+  "canonical_receipt_sha256": "481ce202cc7f0e38e80b71fa8817d22494a1eba6db550b9cf1196432c30ec00b",
+  "demo_contexts": [
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/functional_relation_y_catalog_r6/BRCA/sealed_test/COMPLETE.json",
+      "sha256": "5060c8d38a10258dab01ac6c0f480bf48ea11f2c14d0d249fb2bd88c92b9b059"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/functional_relation_y_catalog_r6/LUAD/sealed_test/COMPLETE.json",
+      "sha256": "f2f208c47f32aeaa064d5f3bd7a6ef7624268dc5ebb161339a472cada71728c1"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/functional_relation_y_catalog_r6/COAD/sealed_test/COMPLETE.json",
+      "sha256": "f6b65510b778c3edc8b1f1ee83ab4a4ab8e309cc241e224c224dbb6b9077247f"
+    }
+  ],
+  "figures": [
+    "04_Functional_identity_consolidation",
+    "05_Functional_Y_construction",
+    "06_Three_cancer_relation_Y",
+    "07_Score_coverage_all_cohorts",
+    "08_Y_supervision_all_cancers",
+    "09_Reaction_scope_relations"
+  ],
+  "all_cancer_summary_sha256": "deeed79af7a844bcfb09b9905d30d5657f24f23296fad5739eeaea247c4a1aa7"
+}

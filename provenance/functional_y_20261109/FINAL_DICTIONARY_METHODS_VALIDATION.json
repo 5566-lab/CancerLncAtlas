@@ -1,0 +1,42 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "dictionary_sha256": "7824314e92efd971546e98116ade6fd1e18c1ec53d6e1a9ccd9935a70c5dc992",
+  "workbook_csv_consistency": [
+    {
+      "sheet": "Target_master",
+      "rows": 3456,
+      "matches_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reader_dictionary_r4/TARGET_MASTER.tsv"
+    },
+    {
+      "sheet": "Structural_contexts",
+      "rows": 4,
+      "matches_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reader_dictionary_r4/STRUCTURAL_CONTEXTS.tsv"
+    },
+    {
+      "sheet": "State_scores",
+      "rows": 485,
+      "matches_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reader_dictionary_r4/STATE_SCORE_DEFINITIONS.tsv"
+    },
+    {
+      "sheet": "Score_definitions",
+      "rows": 12326,
+      "matches_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reader_dictionary_r4/OBSERVED_SCORE_DEFINITIONS.tsv"
+    },
+    {
+      "sheet": "CPTAC_state_methods",
+      "rows": 4130,
+      "matches_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/cptac_method_index_r1/CPTAC_STATE_METHODS.tsv"
+    },
+    {
+      "sheet": "CPTAC_covariates",
+      "rows": 10,
+      "matches_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/cptac_method_index_r1/CPTAC_COVARIATE_COVERAGE.tsv"
+    }
+  ],
+  "cptac_readout_methods_matched": 4130,
+  "checks": [
+    "CPTAC score definitions, references and units match each cohort method record",
+    "Reader CSV tables match corresponding workbook sheets"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "figure_pairs": [
+    {
+      "png": "01_AKT_structure_counts.png",
+      "png_sha256": "79b76100a40d2aab4c334dc5913051e83d52ff6d56cc2f5495f44725349c79e6",
+      "pdf": "01_AKT_structure_counts.pdf",
+      "pdf_sha256": "9f7ccb5369108bb57aeb46fa8ea446795b165aeb4b7db9d5a4c64ed59abd2293"
+    },
+    {
+      "png": "02_AKT_reaction_roles.png",
+      "png_sha256": "e554dc5e27f8ccedde77143bdc73ab03f1fc4ad2023f73e5c17e4f57ab49c8c6",
+      "pdf": "02_AKT_reaction_roles.pdf",
+      "pdf_sha256": "3a565ec64a17cb1bc7cfd429c8e6dd5b93278bf18e57c0543cc40896b59cf770"
+    },
+    {
+      "png": "03_Tyrosine_shared_core.png",
+      "png_sha256": "05d7c02fb53206d5fa3279a9f5e8093c6ab9e619461d4b6a7de2a388a7679411",
+      "pdf": "03_Tyrosine_shared_core.pdf",
+      "pdf_sha256": "55cd1715ba4412c4518bc5b55a051022534448da8de8875acfcf5637f1b2f5bd"
+    },
+    {
+      "png": "04_Functional_identity_consolidation.png",
+      "png_sha256": "f91819713642d74acb8d2d344ca649e3bb973b8e3d6cd82670df26670d366315",
+      "pdf": "04_Functional_identity_consolidation.pdf",
+      "pdf_sha256": "76d79fd20baf1e1ba9d18bbfea02883d0c3c0be834830363954f75daa18e242d"
+    },
+    {
+      "png": "05_Functional_Y_construction.png",
+      "png_sha256": "7973c419199a3c31fb3fb67803f96def88bc65476d1f1b72a0b0ab8ce821b4e6",
+      "pdf": "05_Functional_Y_construction.pdf",
+      "pdf_sha256": "1a6e261cb3248c2b2b3df6b165887e62d80e64a27f59ae80bb3690574c93f0e7"
+    },
+    {
+      "png": "06_Three_cancer_relation_Y.png",
+      "png_sha256": "9d5505a0d6633ae63acad9bb69b79c9bed1218101d7880cd3c13e0219f0be901",
+      "pdf": "06_Three_cancer_relation_Y.pdf",
+      "pdf_sha256": "df5b00025623ae17391347ded5a72dc101f6a2aa441e5c35bd39b919d3439e33"
+    },
+    {
+      "png": "07_Score_coverage_all_cohorts.png",
+      "png_sha256": "5670f09aa8f388a3a2d7c4ebd6594af9f556060106d12f7171720a8dcdda4327",
+      "pdf": "07_Score_coverage_all_cohorts.pdf",
+      "pdf_sha256": "6fa598015b00c19d5968635358a1c46c22af6557a2201dd111ece1c7c03e13d4"
+    },
+    {
+      "png": "07a_TCGA_score_coverage.png",
+      "png_sha256": "753c095db6fe492a4bae61789da68471739e4bf701c14f6fdb00f89a14892531",
+      "pdf": "07a_TCGA_score_coverage.pdf",
+      "pdf_sha256": "dd5656d51dc39db96a532d8cbc10f473ddd7bdaae441b5e249df810b39c0df89"
+    },
+    {
+      "png": "07b_TCGA_score_coverage.png",
+      "png_sha256": "7211a7b78637bccf35d0279de9d1d04161b20841d8da57fd027669b96d853761",
+      "pdf": "07b_TCGA_score_coverage.pdf",
+      "pdf_sha256": "faa71f3834f3d4a377d2fd935ff0474041a02ba5353942b01708e57032a4a518"
+    },
+    {
+      "png": "07c_CPTAC_score_coverage.png",
+      "png_sha256": "98f2048678de2706c39606d193334bd828cdbba0e97b51376408a2dc8d089028",
+      "pdf": "07c_CPTAC_score_coverage.pdf",
+      "pdf_sha256": "7c903b3a353ef9bb5865b89b143a060b3cdf7400df1a3468d0750ddfede52874"
+    },
+    {
+      "png": "08_Y_supervision_all_cancers.png",
+      "png_sha256": "f51a1429f5cc442c6d304faabf1b22ab9414b32f1767ea2dd7809c771e8319b0",
+      "pdf": "08_Y_supervision_all_cancers.pdf",
+      "pdf_sha256": "7370b77f25f8a1397752d41889f357d1830537eb2c9a9a987b62187a4d80af02"
+    },
+    {
+      "png": "08a_Y_supervision.png",
+      "png_sha256": "ae4e1b8431d08d86ae97d8da728352ff33eb3122cf9f90e873d4fa2a911bce44",
+      "pdf": "08a_Y_supervision.pdf",
+      "pdf_sha256": "03bd9c15dc7eb8ae8edac1cd55644e2cf1078686e0a66a5acb7a206547ce7f6e"
+    },
+    {
+      "png": "08b_Y_supervision.png",
+      "png_sha256": "feaa380e525026203783d7f0492c06383bfcb16c323ddd9b57bb2b8cbfe94351",
+      "pdf": "08b_Y_supervision.pdf",
+      "pdf_sha256": "a2aa466b792d638853b46f71489a57ae7cf9af9941a46d3b042c1016d4094aab"
+    },
+    {
+      "png": "09_Reaction_scope_relations.png",
+      "png_sha256": "e12b1cfc6c392c830e4a1000970549c4d983dfac971fb26c708aaf6e7b051a74",
+      "pdf": "09_Reaction_scope_relations.pdf",
+      "pdf_sha256": "52a9b6370887edd6633346d07821267a7e0818da032fe7d36eb7b138b98f29a5"
+    }
+  ]
+}

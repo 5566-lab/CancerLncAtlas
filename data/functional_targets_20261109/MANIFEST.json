@@ -16,7 +16,9 @@
     "TARGET_COMPOSITION_COUNTS.tsv": "b2bef7134821757ecf8ee3811313f21885519003fe7b4602532a2dd8eaee5b01",
     "PATHWAY_REACTION_BRANCHES.tsv.gz": "3217488c2f35eea7dc0061807bd88759789203337a988ea953a1cd5ec649b568",
     "CPTAC_STATE_METHODS.tsv": "a074069757138f4a43fc67c5e80058b4b6cb20a7bc6cc944536eebc2364b74e3",
-    "CPTAC_COVARIATE_COVERAGE.tsv": "42713f6e91d6491e2ea5c46a153d0a53ef9accaef7248fd2515266497c607135"
+    "CPTAC_COVARIATE_COVERAGE.tsv": "42713f6e91d6491e2ea5c46a153d0a53ef9accaef7248fd2515266497c607135",
+    "Y_SUPERVISION_BY_CANCER.tsv": "3176474c684b9bb21afdbd7c3edf9e68ba1e4effdf94e807a05df6211eea547e",
+    "Y_SUPERVISION_BY_CANCER_CONTEXT.tsv": "677ec8736aa073bd0532a112826045db4eff38c76b4639dec8a17af5ebddd589"
   },
   "composition_index": {
     "branch_links": 21358,
@@ -27,5 +29,14 @@
     "distinct_readouts": 413,
     "cohorts": 10,
     "cohort_readout_rows": 4130
+  },
+  "supervision": {
+    "scope": "TCGA/TCPA",
+    "contexts": 165,
+    "cancers": 33,
+    "cancers_with_estimable_relations_in_sealed_fold": 22,
+    "cancers_with_supported_relations_in_sealed_fold": 20,
+    "strong_relations_in_sealed_fold": 495,
+    "other_supported_relations_in_sealed_fold": 13302851
   }
 }

@@ -42,6 +42,8 @@ cov['score_unit']=[unit(r) for r in cov.itertuples()]
 sc=['canonical_id','source_readout_id','platform','measurement_layer','method','reference','score_unit','data_form']
 cov['readout_id']=['CLA-R-'+hashlib.sha256(json.dumps(list(row),ensure_ascii=False).encode()).hexdigest()[:16].upper() for row in cov[sc].fillna('').itertuples(index=False,name=None)]
 scoredefs=cov[['readout_id']+sc].drop_duplicates();coverage=cov[['readout_id','canonical_id','source_readout_id','cohort','cancer_id','measurement_layer','patients_in_scope','patients_with_score','coverage_fraction','variable']].drop_duplicates()
+display_methods={**method_names,'OBSERVED_PROMOTER_RELATED_GENE_MEAN_BETA_NOT_ACTIVITY':'Mean promoter-associated gene methylation beta'}
+scoredefs.method=scoredefs.method.replace(display_methods)
 scoredefs.to_csv(D/'OBSERVED_SCORE_DEFINITIONS.tsv',sep='\t',index=False);coverage.to_csv(D/'SCORE_COVERAGE.tsv.gz',sep='\t',index=False)
 yt=pd.concat([pd.read_csv(R/'functional_relation_y_catalog_r6'/c/'sealed_test/TARGET_COUNTS.tsv',sep='\t').assign(cancer_id=c) for c in pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER.tsv',sep='\t').cancer_id],ignore_index=True)
 assert len(yt)==33*len(M)
@@ -49,6 +51,7 @@ for name,frame in [('tcga_cancers_with_scores',cov.loc[cov.platform.isin(['TCGA'
  count=frame.groupby('canonical_id').cancer_id.nunique();M[name]=M.canonical_id.map(count).fillna(0).astype(int)
 sd['definition_source']='TCGA source State catalog'
 sd.score_method=sd.score_method.replace({'LEGACY_WEIGHTED_ZSCORE_UNCHANGED':'Weighted gene-expression z score'});sd.score_unit=sd.score_unit.replace({'SOURCE_DEFINED_NO_RESCALE':'Published score units'})
+M.to_csv(D/'TARGET_MASTER.tsv',sep='\t',index=False);CONTEXT.to_csv(D/'STRUCTURAL_CONTEXTS.tsv',sep='\t',index=False);sd.to_csv(D/'STATE_SCORE_DEFINITIONS.tsv',sep='\t',index=False)
 book=Workbook(write_only=True);counts={}
 def sheet(title,frame):
  ws=book.create_sheet(title);ws.freeze_panes='B2';cols=list(frame.columns)
@@ -70,7 +73,7 @@ notes=pd.DataFrame([
 sheet('Read_me',notes);sheet('Target_master',M);sheet('Structural_contexts',CONTEXT);sheet('Source_IDs',B.drop(columns=['identity_evidence']));sheet('State_scores',sd);sheet('Score_definitions',scoredefs);sheet('Score_coverage',coverage)
 adjust=pd.read_csv(R/'adjustment_coverage_r1/ADJUSTMENT_SUPPORT_BY_CANCER.tsv',sep='\t').drop(columns=['covariate_design_admitted']);sheet('Covariate_support',adjust);sheet('Covariate_coverage',pd.read_csv(R/'adjustment_coverage_r1/SOURCE_COVARIATE_COVERAGE.tsv',sep='\t'))
 sheet('CPTAC_state_methods',cptac_methods);sheet('CPTAC_covariates',pd.read_csv(CM/'CPTAC_COVARIATE_COVERAGE.tsv',sep='\t'))
-sheet('Y_by_cancer',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER.tsv',sep='\t'));sheet('Y_by_context',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER_CONTEXT.tsv',sep='\t'));sheet('Y_target_counts',yt);sheet('S_by_layer',pd.read_csv(Q/'SCORE_LAYER_SUMMARY.tsv',sep='\t'))
+sheet('Y_by_cancer',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER.tsv',sep='\t'));sheet('Y_by_context',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER_CONTEXT.tsv',sep='\t'));sheet('Y_target_counts',yt);sheet('S_by_layer',pd.read_csv(Q/'SCORE_LAYER_SUMMARY.tsv',sep='\t').replace({'readout_group':display_methods}))
 CI=R/'target_composition_index_r1';assert json.loads((CI/'VALIDATION.json').read_text())['status']=='PASS'
 sheet('Composition_counts',pd.read_csv(CI/'TARGET_COMPOSITION_COUNTS.tsv',sep='\t'));sheet('Pathway_branches',pd.read_csv(CI/'PATHWAY_REACTION_BRANCHES.tsv.gz',sep='\t'))
 sheet('Structure_nodes',pd.read_csv(T/'STRUCTURE_NODES.tsv',sep='\t'));sheet('Reaction_scope',pd.read_csv(T/'REACTION_SCOPE_RELATIONS.tsv.gz',sep='\t'));sheet('Reaction_core_members',pd.read_csv(T/'REACTION_CORE_MEMBERS.tsv.gz',sep='\t'))
@@ -106,7 +109,7 @@ protocols=pd.DataFrame([
 sheet('Y_fields',pd.DataFrame([['membership','0 / 1 / 2','Unlabeled / one-layer or additional support / at least two strict assay families'],['direction','0 / 1 / 2 / 3','Unknown / positive / negative / discordant measured-score association'],['observed_assay_bits','Bit mask','Assay families with estimable lncRNA-target relations'],['strict_assay_bits','Bit mask','Assay families meeting absolute rho >= 0.20 and BH q <= 0.05'],['supported_assay_bits','Bit mask','Strict or additional evidence: absolute rho >= 0.15 and BH q <= 0.10'],['patient_split','Source and label patient IDs','Disjoint patient roles for graph inputs and relationship labels']],columns=['field','values','definition']))
 
 path=O/'Functional_pathway_State_dictionary_v4.xlsx';book.save(path)
-forbidden=[b'MOGSA',b'PathFA',b'NOT_FINAL',b'NOT complete',b'integration_status',b'score_merge_authorized',b'not adopted',b'remains retired',b'independent_flux_claimed',b'independent_functional_branch_claimed',b'identity_merge']
+forbidden=[b'NOT_ACTIVITY',b'MOGSA',b'PathFA',b'NOT_FINAL',b'NOT complete',b'integration_status',b'score_merge_authorized',b'not adopted',b'remains retired',b'independent_flux_claimed',b'independent_functional_branch_claimed',b'identity_merge']
 with zipfile.ZipFile(path) as z:
  assert z.testzip() is None
  for name in z.namelist():

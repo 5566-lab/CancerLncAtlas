@@ -56,6 +56,10 @@ their own biological quantity. Other target adjustment roles are preserved.
 Relationship Y
 --------------
 
+The released relationship catalog covers TCGA/TCPA in 33 cancers and five
+patient contexts per cancer. CPTAC contributes patient scores, molecular
+composition, method references and coverage from ten separately indexed cohorts.
+
 Associations use only the label patients for the selected context. The covariate
 encoder and applicable score references are fitted on disjoint source patients.
 Direct RNA score members are excluded from evidence for their own RNA-derived
@@ -91,6 +95,7 @@ separation before returning arrays::
 
     from cla_engine.functional_y import load_functional_context
 
+    catalog = "/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1/Y"
     target = load_functional_context(catalog, "BRCA", "sealed_test")
     print(target.counts())
     membership = target.arrays["membership"]
@@ -103,7 +108,10 @@ The equivalent command is::
 ``Y_by_cancer`` in the dictionary reports the independent label fold once for
 each cancer. ``Y_by_context`` describes the separate training, validation and
 sealed-test contexts. Counts across these contexts are not pooled as unique
-relationships.
+relationships. The independent label fold contains estimable associations in
+22 cancers and supported relationships in 20 cancers.
+``Y_SUPERVISION_BY_CANCER.tsv`` and ``Y_SUPERVISION_BY_CANCER_CONTEXT.tsv``
+provide the counts and patient denominators.
 
 Reproducing the materialization
 ------------------------------

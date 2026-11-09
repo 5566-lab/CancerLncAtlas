@@ -1,0 +1,17 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "source_snapshot_files": 51,
+  "package_verification": {
+    "state": "PACKAGE_HASH_CHECK_PASS_NOT_TRAINED",
+    "files": 1841,
+    "task_weights": {
+      "pathway": 1.0,
+      "state": 0.5
+    },
+    "production_release": false
+  },
+  "scientific_validation": "All 165 Y contexts independently verified; final dictionary methods and reader content verified",
+  "runtime_test_basis": "226 distinct runtime tests from prior integration; final changes add reporting, release and validation artifacts",
+  "checked_utc": "2026-11-09T15:26:47.756616+00:00"
+}

@@ -1,0 +1,159 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "native_assay_matrices": 30,
+  "native_state_readouts": 485,
+  "all_native_axes_resolve_to_surviving_canonical_ids": true,
+  "matrices": [
+    {
+      "cohort": "BRCA",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "CCRCC",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "COAD",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "GBM",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "HNSCC",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "LSCC",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "LUAD",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "OV",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "PDAC",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "UCEC",
+      "layer": "PROTEIN_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "BRCA",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "CCRCC",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "COAD",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "GBM",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "HNSCC",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "LSCC",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "LUAD",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "OV",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "PDAC",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "UCEC",
+      "layer": "METHYLATION_PATHWAY",
+      "readouts": 2547
+    },
+    {
+      "cohort": "BRCA",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "CCRCC",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "COAD",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "GBM",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "HNSCC",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "LSCC",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "LUAD",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "OV",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "PDAC",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    },
+    {
+      "cohort": "UCEC",
+      "layer": "PHOSPHO_PTMSEA",
+      "readouts": 624
+    }
+  ]
+}

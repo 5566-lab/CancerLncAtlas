@@ -1,0 +1,14 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "common_rna_cases": 43,
+  "common_rna_readout_columns": 2547,
+  "cptac_state_axis": 485,
+  "cptac_state_metadata_columns": [
+    "cancer_id",
+    "cohort_id",
+    "native_case_id",
+    "patient_id",
+    "source_cohort"
+  ]
+}
