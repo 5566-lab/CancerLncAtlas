@@ -14,11 +14,18 @@
     "KINASE_CONSTRUCT_RELATIONS.tsv": "64bea963116c14f7f3d698b1a1763de19f55757ad3d7e62a7d94dde42b291502",
     "SOURCE_KINASE_PROGRAMS.tsv": "0cd36fbdf1fe3567be12fae4ce8ad705164cf5ad131f483c59a2e4e62113fa44",
     "TARGET_COMPOSITION_COUNTS.tsv": "b2bef7134821757ecf8ee3811313f21885519003fe7b4602532a2dd8eaee5b01",
-    "PATHWAY_REACTION_BRANCHES.tsv.gz": "3217488c2f35eea7dc0061807bd88759789203337a988ea953a1cd5ec649b568"
+    "PATHWAY_REACTION_BRANCHES.tsv.gz": "3217488c2f35eea7dc0061807bd88759789203337a988ea953a1cd5ec649b568",
+    "CPTAC_STATE_METHODS.tsv": "a074069757138f4a43fc67c5e80058b4b6cb20a7bc6cc944536eebc2364b74e3",
+    "CPTAC_COVARIATE_COVERAGE.tsv": "42713f6e91d6491e2ea5c46a153d0a53ef9accaef7248fd2515266497c607135"
   },
   "composition_index": {
     "branch_links": 21358,
     "targets_with_branches": 1111,
     "source_version": "Reactome98"
+  },
+  "cptac_state_definitions": {
+    "distinct_readouts": 413,
+    "cohorts": 10,
+    "cohort_readout_rows": 4130
   }
 }

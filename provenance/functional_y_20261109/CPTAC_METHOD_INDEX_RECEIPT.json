@@ -1,0 +1,28 @@
+{
+  "target_host": "149",
+  "status": "COMPLETE",
+  "state_readout_cohort_definitions": 4130,
+  "distinct_state_readouts": 413,
+  "cohorts": 10,
+  "clinical_patients": 1043,
+  "source_method_receipts": {
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/BRCA.json": "53eea454d86d744baeffea33a50d45fe4e78c9e8e8177fd65e95160348bd326e",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/CCRCC.json": "440c9cd5e6c8cc17cc120c988d246bccbfe5d6fcf72516368c61be760009d8ae",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/COAD.json": "1fc26e4354ea493cc1f6914cb7c7c49dea8fa9c8f7764bff6309e2f402bfe69b",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/GBM.json": "eb1409971adf858a555ccb69b687e478cb4e8406745471f9223ba55a066b4b25",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/HNSCC.json": "f6e64f2221ef8115901dd5e99f1ea9f562b174dd7db0768857483d5024882401",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/LSCC.json": "87a94e28e383ae10b4ef09eb231ffd5037a93213be4ca028cfc87d35385c4c58",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/LUAD.json": "97df5797f3d9c92f33156e9fc1d91e8766dafc88e3d433daf78186beb3c221c8",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/OV.json": "5b1047e953d9bae677f663ea72cd2a314dc7b15aad5b3a0671f335c04ebe251b",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/PDAC.json": "afd8060879505b8c03965c398f0cb7327e99b4a5bfc97d5349e3aedb0db7f0a6",
+    "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/scores_r1/rna_scores/UCEC.json": "b55443fb24d47d89b8c37bc3362fb08a8922971306027e1d705c6c6261aea420"
+  },
+  "source_policy_sha256": "5a146420fac5ba57a429f828db45151656b31919ca6f73026621c0eba5ce1c4b",
+  "native_source_sha256": "e864c2eba9fa0c4b1f769de1daead940899d16003233f8ce2f01b081ba36b934",
+  "extra_source_sha256": "66f59a43f5961c55ae3394e1ac24999d00cda15628f2bf09d71e080114f9c86e",
+  "files": {
+    "LAUNCH_PREFLIGHT.json": "e6c70b68b126d3f0ecbd7c8e954de313f709d57fa864c92f8e2a3bdb7f81b715",
+    "CPTAC_STATE_METHODS.tsv": "a074069757138f4a43fc67c5e80058b4b6cb20a7bc6cc944536eebc2364b74e3",
+    "CPTAC_COVARIATE_COVERAGE.tsv": "42713f6e91d6491e2ea5c46a153d0a53ef9accaef7248fd2515266497c607135"
+  }
+}

@@ -26,8 +26,13 @@ for ready in [Q/'COMPLETE.json',T/'COMPLETE.json',R/'functional_y_validation_r2/
 cov=pd.read_csv(Q/'CURRENT_SCORE_COVERAGE.tsv.gz',sep='\t');cov=cov.loc[cov.patients_with_score.gt(0)].copy()
 method_names={'GSVA_ssGSEA_alpha0.25_raw_ES_NA_aware':'ssGSEA raw enrichment score, alpha 0.25','BROAD_PTM_SEA_DIRECTIONAL_ES_SITE_COHORT_CENTERED':'Directional PTM-SEA enrichment, cohort-centered site reference'}
 cov.method=cov.method.replace(method_names);cov['platform']=cov.cohort.str.split(':').str[0];cov['data_form']='Patient by measurement readout'
+CM=R/'cptac_method_index_r1';assert json.loads((CM/'COMPLETE.json').read_text())['status']=='COMPLETE'
+cptac_methods=pd.read_csv(CM/'CPTAC_STATE_METHODS.tsv',sep='\t');specific=cptac_methods[['cohort','source_readout_id','method','reference','score_unit']].rename(columns={'method':'actual_method','reference':'actual_reference','score_unit':'native_score_unit'})
+cov=cov.merge(specific,on=['cohort','source_readout_id'],how='left',validate='many_to_one');has_native=cov.actual_method.notna();assert int(has_native.sum())==len(cptac_methods)
+cov.loc[has_native,'method']=cov.loc[has_native,'actual_method'];cov.loc[has_native,'reference']=cov.loc[has_native,'actual_reference']
 # Biological units follow the actual measurement and scoring definition.
 def unit(row):
+ if pd.notna(row.native_score_unit):return row.native_score_unit
  if row.method=='Common-background ssGSEA raw ES':return 'Raw enrichment score'
  if row.platform=='TCPA_RPPA500':return 'Standardized abundance or phosphosite residual'
  if 'METHYLATION' in row.measurement_layer and row.method not in ['Signature-specific State score','Source-specific State score']:return 'Mean promoter methylation beta value'
@@ -42,6 +47,7 @@ yt=pd.concat([pd.read_csv(R/'functional_relation_y_catalog_r6'/c/'sealed_test/TA
 assert len(yt)==33*len(M)
 for name,frame in [('tcga_cancers_with_scores',cov.loc[cov.platform.isin(['TCGA','TCPA_RPPA500'])]),('cptac_cancers_with_scores',cov.loc[cov.platform.eq('CPTAC')]),('tcga_cancers_with_estimable_relations',yt.loc[yt.observable_relations.gt(0)]),('tcga_cancers_with_supported_relations',yt.loc[(yt.strong_positive+yt.weak_positive).gt(0)])]:
  count=frame.groupby('canonical_id').cancer_id.nunique();M[name]=M.canonical_id.map(count).fillna(0).astype(int)
+sd['definition_source']='TCGA source State catalog'
 sd.score_method=sd.score_method.replace({'LEGACY_WEIGHTED_ZSCORE_UNCHANGED':'Weighted gene-expression z score'});sd.score_unit=sd.score_unit.replace({'SOURCE_DEFINED_NO_RESCALE':'Published score units'})
 book=Workbook(write_only=True);counts={}
 def sheet(title,frame):
@@ -63,6 +69,7 @@ notes=pd.DataFrame([
  ('Title','Pathway and State identities, score definitions and molecular composition'),('Version','2026-11-09'),('Biological unit','Cancer, lncRNA and canonical pathway or State'),('Patient score S','Patient-level measurement for a specified pathway or State'),('Relationship Y','Cancer-specific lncRNA association with a canonical pathway or State'),('Canonical ID','CLA-P / CLA-S with a stable authority-derived suffix'),('Roles','A biological identity may be used as both a Pathway and a State'),('Source binding','Maps source identifiers to the corresponding canonical identity'),('Components','Molecular members, signature weights, reactions and annotated subpathways'),('Phospho readout','A directional phosphosite signature linked to its source resource'),('Parent-child relation','Annotated inclusion of a subpathway within a parent pathway'),('Shared-parent relation','Two definitions have an annotated common parent'),('Reaction branch','An annotated reaction-order fork'),('Score coverage','Observed source-readout coverage by cohort, cancer and measurement layer'),('Current scoring','Functional Y scoring uses the protocols listed in Current_scoring; source readouts retain their published definitions'),('State scope','Population denominator and molecular phenotype are part of the State definition'),('Y counts','Y_by_cancer uses the independent label-patient fold; Y_by_context lists each of the five separate contexts'),('Score coverage denominator','All eligible TCGA RNA patients or all patients in the corresponding CPTAC clinical cohort'),('Reaction extensions','Combine reaction_ids chunks by extension_id; Reaction_catalog provides reaction names')],columns=['Field','Description'])
 sheet('Read_me',notes);sheet('Target_master',M);sheet('Structural_contexts',CONTEXT);sheet('Source_IDs',B.drop(columns=['identity_evidence']));sheet('State_scores',sd);sheet('Score_definitions',scoredefs);sheet('Score_coverage',coverage)
 adjust=pd.read_csv(R/'adjustment_coverage_r1/ADJUSTMENT_SUPPORT_BY_CANCER.tsv',sep='\t').drop(columns=['covariate_design_admitted']);sheet('Covariate_support',adjust);sheet('Covariate_coverage',pd.read_csv(R/'adjustment_coverage_r1/SOURCE_COVARIATE_COVERAGE.tsv',sep='\t'))
+sheet('CPTAC_state_methods',cptac_methods);sheet('CPTAC_covariates',pd.read_csv(CM/'CPTAC_COVARIATE_COVERAGE.tsv',sep='\t'))
 sheet('Y_by_cancer',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER.tsv',sep='\t'));sheet('Y_by_context',pd.read_csv(Q/'Y_SUPERVISION_BY_CANCER_CONTEXT.tsv',sep='\t'));sheet('Y_target_counts',yt);sheet('S_by_layer',pd.read_csv(Q/'SCORE_LAYER_SUMMARY.tsv',sep='\t'))
 CI=R/'target_composition_index_r1';assert json.loads((CI/'VALIDATION.json').read_text())['status']=='PASS'
 sheet('Composition_counts',pd.read_csv(CI/'TARGET_COMPOSITION_COUNTS.tsv',sep='\t'));sheet('Pathway_branches',pd.read_csv(CI/'PATHWAY_REACTION_BRANCHES.tsv.gz',sep='\t'))

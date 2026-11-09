@@ -40,6 +40,13 @@ a source-fitted reference and the signature direction. CPTAC native measurements
 retain their source definitions. The dictionary provides the assay, algorithm,
 reference, unit, molecular composition and observed patient coverage per readout.
 
+``CPTAC_STATE_METHODS.tsv`` lists the actual method, software, input scale and
+reference for 413 State readouts across ten cohorts. For example, RNA stemness
+uses frozen Malta OCLR weights with a pooled CPTAC min-max reference, xCell uses
+a pooled CPTAC reference, and relative CIBERSORT composition is derived from
+22 published absolute components. ``CPTAC_COVARIATE_COVERAGE.tsv`` reports
+observed clinical and composition covariates for each cohort.
+
 Each cancer is handled separately. All 16,889 TCGA lncRNA features remain on the
 feature axis. Clinical and composition covariates follow the explicit adjustment
 contract, with raw signed local CNV acting on the lncRNA residual. Both tumor-cell
