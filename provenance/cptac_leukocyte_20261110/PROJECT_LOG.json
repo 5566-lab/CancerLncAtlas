@@ -1,0 +1,21 @@
+{
+  "target_host": "149",
+  "user_request": "Verify whether methylation leukocyte_fraction is absent or not downloaded; revise the design if not available",
+  "correction": "The old missing-endpoint claim was only an unbound-column observation",
+  "downloaded_and_matched": {
+    "EDec_immune_fraction": 100,
+    "cohort": "CCRCC",
+    "denominator": 103
+  },
+  "GDC_primary_tumor_beta_patient_links": 720,
+  "design": "Shared main covariate comparison on both platforms plus method-specific measured-subset methylation sensitivity",
+  "execution": "Source repair, data sidecar, code reason fix, design/config and presentation; no new Y or model training",
+  "tests": {
+    "target_host": "149",
+    "command": "python -m pytest tests/test_cptac.py -q",
+    "exit_code": 0,
+    "stdout": ".......................                                                  [100%]\n23 passed in 8.05s\n",
+    "stderr": ""
+  },
+  "audit_root": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/cptac_leukocyte_audit_20261110_r1"
+}

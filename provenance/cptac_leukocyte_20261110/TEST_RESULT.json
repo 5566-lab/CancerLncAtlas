@@ -1,0 +1,7 @@
+{
+  "target_host": "149",
+  "command": "python -m pytest tests/test_cptac.py -q",
+  "exit_code": 0,
+  "stdout": ".......................                                                  [100%]\n23 passed in 8.05s\n",
+  "stderr": ""
+}

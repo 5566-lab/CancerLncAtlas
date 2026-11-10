@@ -1,0 +1,68 @@
+{
+  "target_host": "149",
+  "timestamp_utc": "2026-11-10T04:37:17.797254+00:00",
+  "patients": 1043,
+  "EDec_matched_patients": 100,
+  "EDec_cohort_patients": 103,
+  "EDec_fraction_row_sum_max_abs_error": 1.1102230246251565e-15,
+  "raw_minimum_fraction": -2.12878159824128e-18,
+  "source_URL": "https://github.com/HuangLabAtUAB/ProTransDeconv/blob/main/example/data/Cell_Type_Proportion.txt",
+  "paper_URL": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12772123/",
+  "GDC_beta_current_patient_links": 724,
+  "GDC_primary_tumor_only_patient_links": 720,
+  "scope_note": "GDC links establish data availability, not same-aliquot matching or recomputed leukocyte fraction",
+  "files": {
+    "LAUNCH_PREFLIGHT.json": {
+      "bytes": 135,
+      "sha256": "1e5ce8daa0738a5a44cb957cc1b73c28ef21fce83b4b506204879d2707caea52"
+    },
+    "PRIMARY_SOURCE_FETCH.json": {
+      "bytes": 13297,
+      "sha256": "030784e3cfd1efe20a8d61223bef0f419bb9b23c81e8934fad913b92ae001f3d"
+    },
+    "PDC_ARCHIVE_INSPECTION.json": {
+      "bytes": 1199,
+      "sha256": "ed6360d98e9980d507d3e5cdce3dc2a6fc2c665aad54cb248e29bd15e949d109"
+    },
+    "PDC_ARCHIVE_INSPECTION_FRESH.json": {
+      "bytes": 770,
+      "sha256": "de2b5b462d04e606fd9895d6c3edccc75b84c940911975ef7e42220a467aaa3e"
+    },
+    "EDEC_SOURCE_DOWNLOAD.json": {
+      "bytes": 980,
+      "sha256": "413e93c2550d085b4e2c6a1143a06f502edaccdeb06eefc5424e9bc7288cc3c9"
+    },
+    "ADDITIONAL_SOURCE_QUERY.json": {
+      "bytes": 9159,
+      "sha256": "ac6bcbdcfcf15723d22206098fe44e96ba1f7e495afe3e7e7ccef7837ad393ef"
+    },
+    "EDEC_CURRENT_PATIENT_MATCH.tsv": {
+      "bytes": 14734,
+      "sha256": "087bb7988b6fb29b9c25f2d92622a9eaaeb1d993c69bcff3e59acc2125b603bb"
+    },
+    "GDC_CURRENT_PATIENT_BETA_FILES.tsv": {
+      "bytes": 294260,
+      "sha256": "04325d860bcd5197defe59b73fe6ff0a3e53514b341e3e9ce9774c0995e8a532"
+    },
+    "CPTAC_METHYLATION_COMPOSITION_EDec.parquet": {
+      "bytes": 17158,
+      "sha256": "b6e4ca61e6558c7955271a8c018139957fd73022e8efaa78f0a52e973c9b7a56"
+    },
+    "CPTAC_METHYLATION_COMPOSITION_EDec.tsv": {
+      "bytes": 28413,
+      "sha256": "ef70cc0486ae4a73aeee11e64bc325702d1c19a3211ecefe69d392c0e01b8b89"
+    },
+    "GDC_FILE_AVAILABILITY_BY_PATIENT.tsv": {
+      "bytes": 198878,
+      "sha256": "f4e325e267e8d0bc9e8bb739e5b2b714baff6706159daf888ac6bf2b60b5a78d"
+    },
+    "COHORT_COVERAGE.tsv": {
+      "bytes": 545,
+      "sha256": "e6cd0a75132c8a97cb82c5e1ccf661dfd59955b034dbc0e9c0a0319c2ef3bb05"
+    },
+    "COVARIATE_PLAN.json": {
+      "bytes": 2351,
+      "sha256": "386a091fa2a42285afac9c04d0881acf3c72b15ea5c3ba2eea3e22296a90532c"
+    }
+  }
+}

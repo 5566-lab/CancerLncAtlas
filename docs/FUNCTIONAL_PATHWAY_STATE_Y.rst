@@ -125,8 +125,12 @@ The integration combines canonical identity and assay-specific association
 evidence. It does not average TCPA and CPTAC patient scores onto a validated
 common activity scale. The current formal relationship Y uses TCGA and matched
 TCPA; CPTAC scores retain their aligned identities and measurement definitions.
-CPTAC formal relationship estimation still needs a covariate design compatible
-with its missing methylation-derived leukocyte fraction.
+The current CPTAC bundle does not bind the original TCGA-definition leukocyte
+fraction. The 2026-11-10 source audit found methylation-derived EDec proportions
+for 100 matched CCRCC patients and primary-tumor beta-file links for 720 patients
+across seven cohorts. See CPTAC_LEUKOCYTE_SOURCE_AUDIT_20261110.rst for the
+shared-adjustment main comparison and measured-subset sensitivity design.
+The existing r6 relationship Y has not been recomputed under that revision.
 
 Reproducing the materialization
 ------------------------------

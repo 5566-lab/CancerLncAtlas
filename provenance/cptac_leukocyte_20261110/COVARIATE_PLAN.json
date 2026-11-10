@@ -1,0 +1,59 @@
+{
+  "plan_id": "CPTAC_COVARIATE_SOURCE_REPAIR_20261110",
+  "target_host": "149",
+  "scope": "DESIGN_AND_SOURCE_REPAIR; existing Functional Y r6 is not recomputed by this plan",
+  "main_comparison": {
+    "platforms": [
+      "TCGA_TCPA",
+      "CPTAC"
+    ],
+    "same_covariate_definition_required": true,
+    "required_covariates": [
+      "age_years",
+      "sex",
+      "stage",
+      "absolute_purity_ploidy::purity",
+      "cibersort_relative::Macrophages.M0",
+      "cibersort_relative::Macrophages.M1",
+      "cibersort_relative::Macrophages.M2"
+    ],
+    "leukocyte_fraction": "excluded from the matched main comparison in BOTH platforms; measured-method-specific sensitivity only",
+    "clinical_stage": "use cancer-appropriate stage; GBM requires a separately declared policy, never zero-impute",
+    "purity": "prefer measured genomic/pathology source; retain provenance and target-self exclusion",
+    "other_target_self_exclusions": "retain canonical quantity exclusions and recorded same-source dependencies",
+    "missing": "complete case for required terms; no zero-filling",
+    "must_rebuild_both_platforms_before_evidence_fusion": true
+  },
+  "methylation_sensitivity": {
+    "source_file": "CPTAC_METHYLATION_COMPOSITION_EDec.parquet",
+    "current_patient_coverage": 100,
+    "cohort": "CCRCC",
+    "source_algorithm": "EDec stage 1",
+    "not_automatic_alias_of": "TCGA leukocyte_fraction",
+    "comparison": "fit with and without this covariate on the SAME measured patients; no missing-data imputation",
+    "probe_data": "GDC downloadable beta files recorded for seven cohorts; re-estimation is not yet completed"
+  },
+  "three_cancer_demo": {
+    "cancers": [
+      "BRCA",
+      "LUAD",
+      "COAD"
+    ],
+    "LF_source_status": {
+      "BRCA": "no matching GDC beta file or validated LF located in this audit",
+      "LUAD": "109 patient links to beta files; LF not computed",
+      "COAD": "no matching GDC beta file or validated LF located in this audit"
+    }
+  },
+  "implemented_this_change": [
+    "verified source download",
+    "100 patient-matched EDec fraction sidecar",
+    "GDC file manifest",
+    "correct unsupported input reason and reports"
+  ],
+  "not_executed_this_change": [
+    "whole-cohort methylation deconvolution",
+    "TCGA/CPTAC common-adjustment Y recomputation",
+    "model retraining"
+  ]
+}

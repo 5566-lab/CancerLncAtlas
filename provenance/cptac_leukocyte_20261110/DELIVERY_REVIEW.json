@@ -1,0 +1,9 @@
+{
+  "target_host": "149",
+  "slides": 23,
+  "PDF_pages": 23,
+  "slide_17_visual_review": "PASS readable full slide; no clipping",
+  "existing_Y_recomputed": false,
+  "test_result": "23 passed",
+  "data_directory": "/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/methylation_composition_20261110_r1"
+}

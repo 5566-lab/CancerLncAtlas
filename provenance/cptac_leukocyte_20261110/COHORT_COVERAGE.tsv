@@ -1,0 +1,11 @@
+cohort	patients	current_bound_TCGA_definition_LF	published_EDec_patient_matches	GDC_beta_patient_links	GDC_primary_tumor_only_links	common_adjustment_complete_cases	common_adjustment_complete_percent	clinical_stage_observed
+BRCA	122	0	0	0	0	100	81.97	109
+CCRCC	103	0	100	103	103	103	100.0	103
+COAD	110	0	0	0	0	102	92.73	108
+GBM	99	0	0	97	97	0	0.0	0
+HNSCC	108	0	0	108	108	107	99.07	108
+LSCC	108	0	0	108	107	104	96.3	105
+LUAD	110	0	0	110	109	108	98.18	110
+OV	83	0	0	0	0	72	86.75	77
+PDAC	105	0	0	103	101	101	96.19	101
+UCEC	95	0	0	95	95	86	90.53	95

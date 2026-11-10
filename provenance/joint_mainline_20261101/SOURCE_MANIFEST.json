@@ -1622,8 +1622,8 @@
       "sha256": "52c2eeab5c5d5433b924b04adb4e1f62844f63a4a4cb8476b537e4bf022a4365"
     },
     "cla_engine/cptac_bundle.py": {
-      "bytes": 22330,
-      "sha256": "7028af78928aee05ab65c2bfd601831e3f40671e123f956b0f63d8291b67c105"
+      "bytes": 22232,
+      "sha256": "edf89c50bd26f07754ff77e7e8f5149c3cc27c66338cf80608f1ac1f86ae8785"
     },
     "cla_engine/cptac_download.py": {
       "bytes": 4968,
@@ -1837,6 +1837,10 @@
       "bytes": 4775,
       "sha256": "d3bb00510cbf63013ed106805bdbf9c6f1ca4f143ac4d314ae8f7bff43bf9a59"
     },
+    "config/cptac_covariate_plan_20261110.json": {
+      "bytes": 2351,
+      "sha256": "386a091fa2a42285afac9c04d0881acf3c72b15ea5c3ba2eea3e22296a90532c"
+    },
     "config/cptac_download_manifest_20261104.json": {
       "bytes": 44316,
       "sha256": "abe1c2a12edf0b3cc406a8ef521e238aef7ebb9add145f5f4e8d5ac5d4fa6ae4"
@@ -2041,9 +2045,13 @@
       "bytes": 11356,
       "sha256": "61491640cf90666b94086a0e918fe5fba057cdcbf1ce9e173120fb159e1965e8"
     },
+    "docs/CPTAC_LEUKOCYTE_SOURCE_AUDIT_20261110.rst": {
+      "bytes": 3443,
+      "sha256": "3495344c7f9861025d114d35184e87f4e3ddc5bfda17a119d6bed51a3d31821e"
+    },
     "docs/FUNCTIONAL_PATHWAY_STATE_Y.rst": {
-      "bytes": 8649,
-      "sha256": "6b17e932ecb82c34345bc15915171e144a2bdaf9d257637eb2a41095b568f577"
+      "bytes": 8980,
+      "sha256": "0741e63eba5b65d5f3408d110f37d26432f1d0bbe8c5e9961066d4898c8d907d"
     },
     "docs/GENCODE_NATIVE_ANNOTATION_20261027.rst": {
       "bytes": 5812,

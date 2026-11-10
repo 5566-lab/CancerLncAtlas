@@ -83,13 +83,12 @@ def clinical_table(raw):
 
 def unsupported_reason(target):
     sid=target['id']
-    if sid=='Leukocyte_fraction':return 'ORIGINAL_METHYLATION_DECONVOLUTION_ENDPOINT_NOT_AVAILABLE'
+    if sid=='Leukocyte_fraction':return 'TCGA_DEFINITION_LEUKOCYTE_FRACTION_NOT_BOUND_TO_THIS_BUNDLE'
     if target['measurement']=='DNA_METHYLATION':return 'REQUIRES_ORIGINAL_CPG_PROBES_NOT_GENE_PROMOTER_AGGREGATES'
     if target['family'] in ['mutational_signature'] or sid.startswith('SBS'):return 'PUBLISHED_SBS_NOT_EQUIVALENT_TO_CURRENT_60_SIGNATURE_QC_AND_FITTING'
     if sid.startswith('HRD') or sid=='Aneuploidy':return 'REQUIRES_APPROPRIATE_ALLELE_SPECIFIC_CNV_OR_ORIGINAL_PRECOMPUTED_ENDPOINT'
     if sid=='MSI':return 'PUBLISHED_MSI_H_BINARY_IS_NOT_CURRENT_CONTINUOUS_MSISENSOR2'
     if sid=='TLS12_Chemokine_Published':return 'FROZEN_ORIGINAL_PCA_PROJECTION_NOT_AVAILABLE'
-    if sid=='Leukocyte_fraction':return 'ORIGINAL_METHYLATION_DECONVOLUTION_ENDPOINT_NOT_AVAILABLE'
     return 'NO_VALIDATED_EQUIVALENT_INPUT_OR_METHOD'
 
 def assemble(cfg,output):
