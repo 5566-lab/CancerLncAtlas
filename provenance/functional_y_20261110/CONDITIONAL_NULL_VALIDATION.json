@@ -1,0 +1,5577 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "heldout_test_used": false,
+  "records": [
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+        "STATE|signifinder::Hypoxia_Buffa",
+        "STATE|native_program::PROGENY:Hypoxia",
+        "CLA-P-3423B99760CD551B"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        203,
+        203,
+        203,
+        161
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.09640890940588391,
+          0.4984632480628961,
+          0.2627961804989877
+        ],
+        [
+          0.09640890940588391,
+          1.0,
+          0.5556816729226582,
+          0.04635429236237781
+        ],
+        [
+          0.4984632480628961,
+          0.5556816729226582,
+          1.0,
+          0.29640414026511486
+        ],
+        [
+          0.2627961804989877,
+          0.04635429236237781,
+          0.29640414026511486,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0494,
+      "reject01": 0.0094,
+      "reject001": 0.0011,
+      "raw_reject05": [
+        0.052,
+        0.0471,
+        0.0496,
+        0.0463
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000286248",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285974",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247774",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000228105",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226829",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000288074",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000227252",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000259111",
+          "readout_n": [
+            202,
+            202,
+            202,
+            160
+          ],
+          "readout_df": [
+            190,
+            190,
+            190,
+            148
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000253607",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000287930",
+          "readout_n": [
+            203,
+            203,
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            191,
+            191,
+            149
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "a9bc84a61a545980d253d3b5c51d85f8f91f9f4291704bfddd1acf84a7cbd5c8",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 8.81239525796218e-16
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "canonical_id": "CLA-P-366F48557175A084",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT",
+        "CLA-P-366F48557175A084"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        203,
+        161
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.2614180256182666
+        ],
+        [
+          0.2614180256182666,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0492,
+      "reject01": 0.008,
+      "reject001": 0.001,
+      "raw_reject05": [
+        0.0487,
+        0.049
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000286248",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285974",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247774",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000228105",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226829",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000288074",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000227252",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000259111",
+          "readout_n": [
+            202,
+            160
+          ],
+          "readout_df": [
+            190,
+            148
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000253607",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000287930",
+          "readout_n": [
+            203,
+            161
+          ],
+          "readout_df": [
+            191,
+            149
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "711dc954e20e5ee81fb05a51afc5dd35cd5082776766834497986f13cf80f321",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 5.551115123125783e-17
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "canonical_id": "CLA-P-97C440D7FBA8755B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "STATE|HALLMARK::HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "CLA-P-97C440D7FBA8755B"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        203,
+        203,
+        155
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          1.0000000000000002,
+          0.2396368162689729
+        ],
+        [
+          1.0000000000000002,
+          1.0,
+          0.2396368162689729
+        ],
+        [
+          0.2396368162689729,
+          0.2396368162689729,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0502,
+      "reject01": 0.0106,
+      "reject001": 0.0012,
+      "raw_reject05": [
+        0.0512,
+        0.0512,
+        0.0476
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000286248",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285974",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247774",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000228105",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226829",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000288074",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000227252",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000259111",
+          "readout_n": [
+            202,
+            202,
+            154
+          ],
+          "readout_df": [
+            190,
+            190,
+            142
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000253607",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000287930",
+          "readout_n": [
+            203,
+            203,
+            155
+          ],
+          "readout_df": [
+            191,
+            191,
+            143
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "5ed1b6f77409c11a6525d7033b33d1378ee7307f0db98e1e5767b922ac61a600",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 2.220446049250313e-16
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+        "STATE|signifinder::Hypoxia_Buffa",
+        "STATE|native_program::PROGENY:Hypoxia",
+        "CLA-P-3423B99760CD551B"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        93,
+        93,
+        93,
+        70
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.5096806182578617,
+          0.5577935132925343,
+          0.004213932197069132
+        ],
+        [
+          0.5096806182578617,
+          1.0,
+          0.7453778540256192,
+          0.00971946454676096
+        ],
+        [
+          0.5577935132925343,
+          0.7453778540256192,
+          1.0,
+          0.020516845007965454
+        ],
+        [
+          0.004213932197069132,
+          0.00971946454676096,
+          0.020516845007965454,
+          1.0
+        ]
+      ],
+      "null_trials": 9000,
+      "reject05": 0.04922222222222222,
+      "reject01": 0.01011111111111111,
+      "reject001": 0.0006666666666666666,
+      "raw_reject05": [
+        0.05177777777777778,
+        0.05177777777777778,
+        0.04933333333333333,
+        0.042
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000258616",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000249348",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000235403",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260253",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285755",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285804",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260148",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229021",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000257550",
+          "readout_n": [
+            93,
+            93,
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            81,
+            81,
+            58
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 9000,
+          "null_cache_key": "21db1e0bd691714402e8b5e814f7455c8c8599be64adce8bdf58fd3d112c5397",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 2.220446049250313e-16
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "canonical_id": "CLA-P-366F48557175A084",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT",
+        "CLA-P-366F48557175A084"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        93,
+        70
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.06025350391592442
+        ],
+        [
+          0.06025350391592442,
+          1.0
+        ]
+      ],
+      "null_trials": 9000,
+      "reject05": 0.043666666666666666,
+      "reject01": 0.007666666666666666,
+      "reject001": 0.0005555555555555556,
+      "raw_reject05": [
+        0.04733333333333333,
+        0.04533333333333334
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000258616",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000249348",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000235403",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260253",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285755",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285804",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260148",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229021",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000257550",
+          "readout_n": [
+            93,
+            70
+          ],
+          "readout_df": [
+            81,
+            58
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 9000,
+          "null_cache_key": "7a308d4843f4e113dfabfc5fef6323be423fdc538581682975c7f1ea234b8909",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 6.938893903907228e-17
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "canonical_id": "CLA-P-97C440D7FBA8755B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "STATE|HALLMARK::HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "CLA-P-97C440D7FBA8755B"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        93,
+        93,
+        65
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.9999999999999999,
+          0.22753097006728998
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.22753097006728998
+        ],
+        [
+          0.22753097006728998,
+          0.22753097006728998,
+          1.0
+        ]
+      ],
+      "null_trials": 9000,
+      "reject05": 0.04633333333333333,
+      "reject01": 0.008777777777777778,
+      "reject001": 0.0006666666666666666,
+      "raw_reject05": [
+        0.04822222222222222,
+        0.04822222222222222,
+        0.04511111111111111
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000258616",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000249348",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000235403",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260253",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285755",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285804",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260148",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229021",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000257550",
+          "readout_n": [
+            93,
+            93,
+            65
+          ],
+          "readout_df": [
+            81,
+            81,
+            53
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 9000,
+          "null_cache_key": "baf7e7994eb138b2d79c8fc7ba6880f046dbd485fdaaec9ee761057838af4ee8",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 5.551115123125783e-16
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+        "STATE|signifinder::Hypoxia_Buffa",
+        "STATE|native_program::PROGENY:Hypoxia",
+        "CLA-P-3423B99760CD551B"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        88,
+        88,
+        88,
+        68
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.1507245918589227,
+          0.39650122743528815,
+          0.30963803629237113
+        ],
+        [
+          0.1507245918589227,
+          1.0,
+          0.6927934269876881,
+          0.1393463323434066
+        ],
+        [
+          0.39650122743528815,
+          0.6927934269876881,
+          1.0,
+          0.21070225550816643
+        ],
+        [
+          0.30963803629237113,
+          0.1393463323434066,
+          0.21070225550816643,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0452,
+      "reject01": 0.008,
+      "reject001": 0.0007,
+      "raw_reject05": [
+        0.0448,
+        0.0476,
+        0.0464,
+        0.0502
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000277450",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000253505",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000228139",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000288109",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261161",
+          "readout_n": [
+            87,
+            87,
+            87,
+            68
+          ],
+          "readout_df": [
+            75,
+            75,
+            75,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223883",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261204",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000273212",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000278698",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270894",
+          "readout_n": [
+            88,
+            88,
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            76,
+            76,
+            56
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "58f6353982b85db43e88f0b4be0406cd379c2ddd78ac1268ada034e11de3aec0",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 3.885780586188048e-16
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "WNT",
+      "canonical_id": "CLA-P-366F48557175A084",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT",
+        "CLA-P-366F48557175A084"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        88,
+        68
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.2601881258890755
+        ],
+        [
+          0.2601881258890755,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0436,
+      "reject01": 0.0088,
+      "reject001": 0.0004,
+      "raw_reject05": [
+        0.0455,
+        0.0475
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000277450",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000253505",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000228139",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000288109",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261161",
+          "readout_n": [
+            87,
+            68
+          ],
+          "readout_df": [
+            75,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223883",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261204",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000273212",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000278698",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270894",
+          "readout_n": [
+            88,
+            68
+          ],
+          "readout_df": [
+            76,
+            56
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "cc09496dce177d81fa9e2882478a8d52ee1575be38943c771b150fb050b1c501",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 0.0
+        }
+      ]
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "canonical_id": "CLA-P-97C440D7FBA8755B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "STATE|HALLMARK::HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "CLA-P-97C440D7FBA8755B"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN_ABUNDANCE"
+      ],
+      "label_reference_n": [
+        88,
+        88,
+        67
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          1.0000000000000002,
+          0.13744595218290065
+        ],
+        [
+          1.0000000000000002,
+          1.0,
+          0.13744595218290065
+        ],
+        [
+          0.13744595218290065,
+          0.13744595218290065,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0451,
+      "reject01": 0.0072,
+      "reject001": 0.0012,
+      "raw_reject05": [
+        0.0466,
+        0.0466,
+        0.0457
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000277450",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000253505",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000228139",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000288109",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261161",
+          "readout_n": [
+            87,
+            87,
+            67
+          ],
+          "readout_df": [
+            75,
+            75,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223883",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261204",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000273212",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000278698",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270894",
+          "readout_n": [
+            88,
+            88,
+            67
+          ],
+          "readout_df": [
+            76,
+            76,
+            55
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "0ca077a3a68b9f21bd1b42621ff801d2d5179132b68a45f05a6d053c36037e3a",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 1.942890293094024e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+        "STATE|signifinder::Hypoxia_Buffa",
+        "STATE|native_program::PROGENY:Hypoxia",
+        "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN"
+      ],
+      "label_reference_n": [
+        19,
+        19,
+        19,
+        19
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.32051326692623516,
+          0.8051002155081116,
+          0.7079859926047459
+        ],
+        [
+          0.32051326692623516,
+          1.0,
+          0.7046624739940535,
+          0.33968794877139713
+        ],
+        [
+          0.8051002155081116,
+          0.7046624739940535,
+          1.0,
+          0.7750202719947332
+        ],
+        [
+          0.7079859926047459,
+          0.33968794877139713,
+          0.7750202719947332,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0416,
+      "reject01": 0.0058,
+      "reject001": 0.0002,
+      "raw_reject05": [
+        0.0436,
+        0.0361,
+        0.0463,
+        0.039
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000269220",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000177335",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229928",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272274",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000232685",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213057",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000162888",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000182586",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000203645",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226935",
+          "readout_n": [
+            19,
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "bc129da97d9bf7ebbbdee7411fe9ca613da169abcf893e45f0427d0955f6c1b4",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 5.551115123125783e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "canonical_id": "CLA-P-366F48557175A084",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT",
+        "PROTEIN_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "PROTEIN"
+      ],
+      "label_reference_n": [
+        19,
+        19
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          -0.35900455482431154
+        ],
+        [
+          -0.35900455482431154,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0364,
+      "reject01": 0.0051,
+      "reject001": 0.0003,
+      "raw_reject05": [
+        0.0385,
+        0.0438
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000269220",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000177335",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229928",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272274",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000232685",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213057",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000162888",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000182586",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000203645",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226935",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "20656b6d0776134f1049ef7023b29532dd760dabde22563d2e1df13c8506435e",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 5.551115123125783e-17
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "canonical_id": "CLA-P-97C440D7FBA8755B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "STATE|HALLMARK::HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN"
+      ],
+      "label_reference_n": [
+        19,
+        19,
+        19
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.9999999999999999,
+          0.643227001750176
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.643227001750176
+        ],
+        [
+          0.643227001750176,
+          0.643227001750176,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0452,
+      "reject01": 0.0062,
+      "reject001": 0.0001,
+      "raw_reject05": [
+        0.0501,
+        0.0501,
+        0.0372
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000269220",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000177335",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229928",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272274",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000232685",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213057",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000162888",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000182586",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000203645",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226935",
+          "readout_n": [
+            19,
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "0f8c21dd34586b51b47b5ef96b3de83252d88dcbc27edf31ed786b798e58b666",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 2.220446049250313e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_1",
+      "canonical_id": "CLA-S-018F87DAE5A974C4",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_CK1A/CSNK1A1",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_CSNK1A1.CK1A"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        19,
+        19
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          -0.10189507613132827
+        ],
+        [
+          -0.10189507613132827,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0264,
+      "reject01": 0.002,
+      "reject001": 0.0,
+      "raw_reject05": [
+        0.0353,
+        0.0381
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000269220",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000177335",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229928",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272274",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000232685",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213057",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000162888",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000182586",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000203645",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226935",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "706846b2d05d6e2d3fccbd94e2499d88684a9dc152ca4e98018ee532739f0e62",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 1.3877787807814457e-17
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_2",
+      "canonical_id": "CLA-S-0342E8CA85E06419",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_P38A/MAPK14",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_MAPK14"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        19,
+        19
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.6828456316025144
+        ],
+        [
+          0.6828456316025144,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0344,
+      "reject01": 0.0046,
+      "reject001": 0.0003,
+      "raw_reject05": [
+        0.0357,
+        0.0335
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000269220",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000177335",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229928",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272274",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000232685",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213057",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000162888",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000182586",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000203645",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226935",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "cb78a5f18b234e96340cd41d002c524e3745da1e6ee4b3231e8739464f622bfb",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 1.1102230246251565e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_3",
+      "canonical_id": "CLA-S-05F4FF27B4A72586",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_Chk1/CHEK1",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_CHEK1"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        19,
+        19
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.3491855897924171
+        ],
+        [
+          0.3491855897924171,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0298,
+      "reject01": 0.0032,
+      "reject001": 0.0001,
+      "raw_reject05": [
+        0.0343,
+        0.0403
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000269220",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000177335",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229928",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272274",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000232685",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213057",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000162888",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000182586",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000203645",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000226935",
+          "readout_n": [
+            19,
+            19
+          ],
+          "readout_df": [
+            10,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "a5556285d5a58388112bd549b2016aa01b797e9d589c04b0ce35c3fa8a78e2fa",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 0.0
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+        "STATE|signifinder::Hypoxia_Buffa",
+        "STATE|native_program::PROGENY:Hypoxia",
+        "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+        "METHYLATION_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN",
+        "DNA_METHYLATION"
+      ],
+      "label_reference_n": [
+        22,
+        22,
+        22,
+        22,
+        21
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.02468743006733194,
+          0.33749662680783005,
+          0.49650177599606155,
+          -0.02465622940317281
+        ],
+        [
+          0.02468743006733194,
+          1.0,
+          0.8011946333219628,
+          0.26949283132533736,
+          -0.3154228558647806
+        ],
+        [
+          0.33749662680783005,
+          0.8011946333219628,
+          1.0,
+          0.53024699277891,
+          -0.00677162569834402
+        ],
+        [
+          0.49650177599606155,
+          0.26949283132533736,
+          0.53024699277891,
+          1.0,
+          -0.041118707743766254
+        ],
+        [
+          -0.02465622940317281,
+          -0.3154228558647806,
+          -0.00677162569834402,
+          -0.041118707743766254,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.022,
+      "reject01": 0.0025,
+      "reject001": 0.0001,
+      "raw_reject05": [
+        0.0428,
+        0.0372,
+        0.0343,
+        0.0365,
+        0.0418
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000250284",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270084",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000178248",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000286815",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285314",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247516",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000269792",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260958",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261008",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223392",
+          "readout_n": [
+            22,
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            11,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "c312cf25b1a0dc90f8ff9be9c3861b2b62eeb3765c3c89af3360106fc9cb5c50",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 3.191891195797325e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "canonical_id": "CLA-P-366F48557175A084",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT",
+        "PROTEIN_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT",
+        "METHYLATION_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "PROTEIN",
+        "DNA_METHYLATION"
+      ],
+      "label_reference_n": [
+        22,
+        22,
+        21
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.16734896832210638,
+          0.07705623828848385
+        ],
+        [
+          0.16734896832210638,
+          1.0,
+          -0.43682255232041867
+        ],
+        [
+          0.07705623828848385,
+          -0.43682255232041867,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0308,
+      "reject01": 0.0031,
+      "reject001": 0.0,
+      "raw_reject05": [
+        0.0412,
+        0.0429,
+        0.04
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000250284",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270084",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000178248",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000286815",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285314",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247516",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000269792",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260958",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261008",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223392",
+          "readout_n": [
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "d4582cc3d80f909c4da1ff645c726f195050f5e0759932d758b05f1b29c8e134",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 1.1102230246251565e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "canonical_id": "CLA-P-97C440D7FBA8755B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "STATE|HALLMARK::HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "METHYLATION_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN",
+        "DNA_METHYLATION"
+      ],
+      "label_reference_n": [
+        22,
+        22,
+        22,
+        21
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.9999999999999999,
+          0.17691110769914214,
+          -0.05619812240373641
+        ],
+        [
+          0.9999999999999999,
+          1.0,
+          0.17691110769914214,
+          -0.05619812240373641
+        ],
+        [
+          0.17691110769914214,
+          0.17691110769914214,
+          1.0,
+          0.10184625513316303
+        ],
+        [
+          -0.05619812240373641,
+          -0.05619812240373641,
+          0.10184625513316303,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0285,
+      "reject01": 0.0039,
+      "reject001": 0.0,
+      "raw_reject05": [
+        0.0455,
+        0.0455,
+        0.0434,
+        0.0357
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000250284",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270084",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000178248",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000286815",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285314",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247516",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000269792",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260958",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261008",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223392",
+          "readout_n": [
+            22,
+            22,
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            11,
+            11,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "6a7da62e922d7145ce93ae9798815281845292681d7a8dd6188539abce0f162e",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 4.440892098500626e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_1",
+      "canonical_id": "CLA-S-018F87DAE5A974C4",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_CK1A/CSNK1A1",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_CSNK1A1.CK1A"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        22,
+        21
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          -0.23969573690056434
+        ],
+        [
+          -0.23969573690056434,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.034,
+      "reject01": 0.0046,
+      "reject001": 0.0002,
+      "raw_reject05": [
+        0.039,
+        0.0426
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000250284",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270084",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000178248",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000286815",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285314",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247516",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000269792",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260958",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261008",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223392",
+          "readout_n": [
+            22,
+            21
+          ],
+          "readout_df": [
+            11,
+            10
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "938dad4bfbdab7049ebdbafbc850c1051953db8667b173b21e484ee55af2b2f6",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 8.326672684688674e-17
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_2",
+      "canonical_id": "CLA-S-0342E8CA85E06419",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_P38A/MAPK14",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_MAPK14"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        22,
+        22
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.7883959398714265
+        ],
+        [
+          0.7883959398714265,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0428,
+      "reject01": 0.0074,
+      "reject001": 0.0003,
+      "raw_reject05": [
+        0.0452,
+        0.0431
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000250284",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000270084",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000178248",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000286815",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000285314",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000247516",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000269792",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000260958",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000261008",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000223392",
+          "readout_n": [
+            22,
+            22
+          ],
+          "readout_df": [
+            11,
+            11
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "6b5f720533ffc25e0cbbeb84c65828efa6ab6c3f4980cf7de7dd2ff0de4abcc6",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 0.0
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+        "STATE|signifinder::Hypoxia_Buffa",
+        "STATE|native_program::PROGENY:Hypoxia",
+        "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_HYPOXIA"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN"
+      ],
+      "label_reference_n": [
+        20,
+        20,
+        20,
+        18
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.13416218957319287,
+          0.7999266543672946,
+          0.41034705383371567
+        ],
+        [
+          0.13416218957319287,
+          1.0,
+          0.48576033334248053,
+          0.061172089709107126
+        ],
+        [
+          0.7999266543672946,
+          0.48576033334248053,
+          1.0,
+          0.3685869369067088
+        ],
+        [
+          0.41034705383371567,
+          0.061172089709107126,
+          0.3685869369067088,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0209,
+      "reject01": 0.0022,
+      "reject001": 0.0,
+      "raw_reject05": [
+        0.0387,
+        0.042,
+        0.037,
+        0.0246
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000251230",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246774",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000275638",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229672",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000258813",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000274996",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272856",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246465",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000256442",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213600",
+          "readout_n": [
+            19,
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            7,
+            5
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "25321b9ffb491432609936610307f36eca29a4c70cbe2e8a6d976098b2266c77",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 3.3306690738754696e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "WNT",
+      "canonical_id": "CLA-P-366F48557175A084",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT",
+        "PROTEIN_PATHWAY|MSIGDB:REACTOME:REACTOME_SIGNALING_BY_WNT"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "PROTEIN"
+      ],
+      "label_reference_n": [
+        20,
+        18
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          -0.20505226043861213
+        ],
+        [
+          -0.20505226043861213,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0225,
+      "reject01": 0.0017,
+      "reject001": 0.0,
+      "raw_reject05": [
+        0.0374,
+        0.0248
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000251230",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246774",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000275638",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229672",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000258813",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000274996",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272856",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246465",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000256442",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213600",
+          "readout_n": [
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            5
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "b87d297ab78005ee4cef6fe4686b0519f8959bcbc90c9522069770839f6166c2",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 1.6653345369377348e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "canonical_id": "CLA-P-97C440D7FBA8755B",
+      "readout_ids": [
+        "RNA_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "STATE|HALLMARK::HALLMARK_OXIDATIVE_PHOSPHORYLATION",
+        "PROTEIN_PATHWAY|MSIGDB:HALLMARK:HALLMARK_OXIDATIVE_PHOSPHORYLATION"
+      ],
+      "measurement_layers": [
+        "RNA_EXPRESSION",
+        "RNA_EXPRESSION",
+        "PROTEIN"
+      ],
+      "label_reference_n": [
+        20,
+        20,
+        18
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          1.0000000000000002,
+          0.2603214063590909
+        ],
+        [
+          1.0000000000000002,
+          1.0,
+          0.2603214063590909
+        ],
+        [
+          0.2603214063590909,
+          0.2603214063590909,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0264,
+      "reject01": 0.0026,
+      "reject001": 0.0002,
+      "raw_reject05": [
+        0.0354,
+        0.0354,
+        0.0311
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000251230",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246774",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000275638",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229672",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000258813",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000274996",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272856",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246465",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000256442",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213600",
+          "readout_n": [
+            19,
+            19,
+            17
+          ],
+          "readout_df": [
+            7,
+            7,
+            5
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1,
+            2
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "5c7e7e20517f9215a26e88a0692cbdfb20cef07fdb661db7b870443d647cdd40",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 7.632783294297951e-16,
+          "projection_max_change": 3.885780586188048e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_1",
+      "canonical_id": "CLA-S-018F87DAE5A974C4",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_CK1A/CSNK1A1",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_CSNK1A1.CK1A"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        18,
+        18
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          -0.03903493542554538
+        ],
+        [
+          -0.03903493542554538,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0367,
+      "reject01": 0.0043,
+      "reject001": 0.0001,
+      "raw_reject05": [
+        0.0404,
+        0.0283
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000251230",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246774",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000275638",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229672",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000258813",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000274996",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272856",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246465",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000256442",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213600",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "9ccb721caf069b9a745452a54be155b134f3652360e97074952d839ceca5bdec",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 1.3183898417423734e-16
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_2",
+      "canonical_id": "CLA-S-0342E8CA85E06419",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_P38A/MAPK14",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_MAPK14"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        18,
+        18
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          0.27633466697812176
+        ],
+        [
+          0.27633466697812176,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0134,
+      "reject01": 0.0004,
+      "reject001": 0.0,
+      "raw_reject05": [
+        0.023,
+        0.0245
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000251230",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246774",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000275638",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229672",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000258813",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000274996",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272856",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246465",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000256442",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213600",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "b51d2070515c9f117dac974f33a32fca6b8155713f8c7e50fb5b077e7083a72d",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 0.0
+        }
+      ]
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_3",
+      "canonical_id": "CLA-S-05F4FF27B4A72586",
+      "readout_ids": [
+        "PHOSPHO_PTMSEA|KINASE-PSP_Chk1/CHEK1",
+        "PHOSPHO_PTMSEA|KINASE-iKiP_CHEK1"
+      ],
+      "measurement_layers": [
+        "PHOSPHO",
+        "PHOSPHO"
+      ],
+      "label_reference_n": [
+        18,
+        18
+      ],
+      "label_residual_gram": [
+        [
+          1.0,
+          -0.4844075467104728
+        ],
+        [
+          -0.4844075467104728,
+          1.0
+        ]
+      ],
+      "null_trials": 10000,
+      "reject05": 0.0418,
+      "reject01": 0.0048,
+      "reject001": 0.0001,
+      "raw_reject05": [
+        0.0379,
+        0.0335
+      ],
+      "pairs": [
+        {
+          "lncrna_id": "LNC:ENSG00000251230",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246774",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000275638",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000229672",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000258813",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000274996",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000272856",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000246465",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000256442",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        },
+        {
+          "lncrna_id": "LNC:ENSG00000213600",
+          "readout_n": [
+            17,
+            17
+          ],
+          "readout_df": [
+            5,
+            5
+          ]
+        }
+      ],
+      "calibration_references": [
+        {
+          "indices": [
+            0,
+            1
+          ],
+          "method": "TWO_SIDED_EMPIRICAL_FISHER_GAUSSIAN_COPULA_V1",
+          "rows": 10000,
+          "null_cache_key": "0b0d28408be06ed6684b60aad581cf2b65e67c6f4bb2cdcb9e227e1cec2f7c42",
+          "minimum_p": 9.99990000099999e-06,
+          "source_negative_eigenvalue": 0.0,
+          "projection_max_change": 1.6653345369377348e-16
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "alpha": 0.05,
+      "count": 494,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "alpha": 0.01,
+      "count": 94,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "alpha": 0.001,
+      "count": 11,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "alpha": 0.05,
+      "count": 492,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "alpha": 0.01,
+      "count": 80,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "alpha": 0.001,
+      "count": 10,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "alpha": 0.05,
+      "count": 502,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "alpha": 0.01,
+      "count": 106,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "alpha": 0.001,
+      "count": 12,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "alpha": 0.05,
+      "count": 443,
+      "upper_null_limit_99pct_familywise": 527,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "alpha": 0.01,
+      "count": 91,
+      "upper_null_limit_99pct_familywise": 126,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "alpha": 0.001,
+      "count": 6,
+      "upper_null_limit_99pct_familywise": 22,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "alpha": 0.05,
+      "count": 393,
+      "upper_null_limit_99pct_familywise": 527,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "alpha": 0.01,
+      "count": 69,
+      "upper_null_limit_99pct_familywise": 126,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "alpha": 0.001,
+      "count": 5,
+      "upper_null_limit_99pct_familywise": 22,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "alpha": 0.05,
+      "count": 417,
+      "upper_null_limit_99pct_familywise": 527,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "alpha": 0.01,
+      "count": 79,
+      "upper_null_limit_99pct_familywise": 126,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "alpha": 0.001,
+      "count": 6,
+      "upper_null_limit_99pct_familywise": 22,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "alpha": 0.05,
+      "count": 452,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "alpha": 0.01,
+      "count": 80,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "alpha": 0.001,
+      "count": 7,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "WNT",
+      "alpha": 0.05,
+      "count": 436,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "WNT",
+      "alpha": 0.01,
+      "count": 88,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "WNT",
+      "alpha": 0.001,
+      "count": 4,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "alpha": 0.05,
+      "count": 451,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "alpha": 0.01,
+      "count": 72,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "TCGA",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "alpha": 0.001,
+      "count": 12,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "alpha": 0.05,
+      "count": 416,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "alpha": 0.01,
+      "count": 58,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Hypoxia",
+      "alpha": 0.001,
+      "count": 2,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "alpha": 0.05,
+      "count": 364,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "alpha": 0.01,
+      "count": 51,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "WNT",
+      "alpha": 0.001,
+      "count": 3,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "alpha": 0.05,
+      "count": 452,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "alpha": 0.01,
+      "count": 62,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "OXPHOS",
+      "alpha": 0.001,
+      "count": 1,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_1",
+      "alpha": 0.05,
+      "count": 264,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_1",
+      "alpha": 0.01,
+      "count": 20,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_1",
+      "alpha": 0.001,
+      "count": 0,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_2",
+      "alpha": 0.05,
+      "count": 344,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_2",
+      "alpha": 0.01,
+      "count": 46,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_2",
+      "alpha": 0.001,
+      "count": 3,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_3",
+      "alpha": 0.05,
+      "count": 298,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_3",
+      "alpha": 0.01,
+      "count": 32,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "BRCA",
+      "target": "Phosphosite_3",
+      "alpha": 0.001,
+      "count": 1,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "alpha": 0.05,
+      "count": 220,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "alpha": 0.01,
+      "count": 25,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Hypoxia",
+      "alpha": 0.001,
+      "count": 1,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "alpha": 0.05,
+      "count": 308,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "alpha": 0.01,
+      "count": 31,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "WNT",
+      "alpha": 0.001,
+      "count": 0,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "alpha": 0.05,
+      "count": 285,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "alpha": 0.01,
+      "count": 39,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "OXPHOS",
+      "alpha": 0.001,
+      "count": 0,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_1",
+      "alpha": 0.05,
+      "count": 340,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_1",
+      "alpha": 0.01,
+      "count": 46,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_1",
+      "alpha": 0.001,
+      "count": 2,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_2",
+      "alpha": 0.05,
+      "count": 428,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_2",
+      "alpha": 0.01,
+      "count": 74,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "LUAD",
+      "target": "Phosphosite_2",
+      "alpha": 0.001,
+      "count": 3,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "alpha": 0.05,
+      "count": 209,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "alpha": 0.01,
+      "count": 22,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Hypoxia",
+      "alpha": 0.001,
+      "count": 0,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "WNT",
+      "alpha": 0.05,
+      "count": 225,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "WNT",
+      "alpha": 0.01,
+      "count": 17,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "WNT",
+      "alpha": 0.001,
+      "count": 0,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "alpha": 0.05,
+      "count": 264,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "alpha": 0.01,
+      "count": 26,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "OXPHOS",
+      "alpha": 0.001,
+      "count": 2,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_1",
+      "alpha": 0.05,
+      "count": 367,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_1",
+      "alpha": 0.01,
+      "count": 43,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_1",
+      "alpha": 0.001,
+      "count": 1,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_2",
+      "alpha": 0.05,
+      "count": 134,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_2",
+      "alpha": 0.01,
+      "count": 4,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_2",
+      "alpha": 0.001,
+      "count": 0,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_3",
+      "alpha": 0.05,
+      "count": 418,
+      "upper_null_limit_99pct_familywise": 581,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_3",
+      "alpha": 0.01,
+      "count": 48,
+      "upper_null_limit_99pct_familywise": 138,
+      "pass": true
+    },
+    {
+      "dataset": "CPTAC",
+      "cancer": "COAD",
+      "target": "Phosphosite_3",
+      "alpha": 0.001,
+      "count": 1,
+      "upper_null_limit_99pct_familywise": 23,
+      "pass": true
+    }
+  ],
+  "total_null_trials": 257000,
+  "source_algorithm_sha256": "fc9cef1c0b494bec4d384b0532fcb876948418ec2650c3df6d1ace72cc6114ae",
+  "scope": "Conditional label-outcome missingness reference; examples across three cancers and two cohorts. Statistical formula assumes valid marginal association p-values and calibrated conditional dependence."
+}

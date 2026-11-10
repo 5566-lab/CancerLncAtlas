@@ -1,0 +1,25 @@
+{
+  "target_host": "149",
+  "status": "ADOPT_EMPIRICALLY_CALIBRATED_FISHER",
+  "created_utc": "2026-11-10T11:21:57.686767+00:00",
+  "algorithm_sha256": "fc9cef1c0b494bec4d384b0532fcb876948418ec2650c3df6d1ace72cc6114ae",
+  "assembler_sha256": "260dd39d195207c45945b0657be0048e5258f0a028accef02ceb4bc37da04966",
+  "score_parameters": "Frozen on source patients per context",
+  "null_reference": "Label-outcome residual Gram including measurement masks; only used to compute the label test, never as model input or to select models",
+  "method": "Two-sided Fisher statistic calibrated using 100000 correlated-normal conditional-null draws; exact single-readout/perfect-dependence cases; Bonferroni only for unknown dependence",
+  "real_null_cases": 26,
+  "real_null_trials": 257000,
+  "real_null_validation_sha256": "850abb679ff5ddc3ddc0f43528881dca96dc58857fcef858d94dd4624371285c",
+  "heldout_test_used_for_method_selection": false,
+  "boundary_checks": {
+    "perfect_duplicate_p": 0.010000000000000004,
+    "single_observed_p": 0.02,
+    "all_missing_is_nan": true,
+    "three_independent_p05_combined_p": 0.006599934000659994
+  },
+  "references": [
+    "https://search.r-project.org/CRAN/refmans/poolr/html/fisher.html",
+    "https://www.jstatsoft.org/article/view/v101i01"
+  ],
+  "interpretation": "Association evidence for a canonical biological target, not a patient activity scale or causal probability"
+}

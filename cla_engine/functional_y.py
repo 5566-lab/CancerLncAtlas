@@ -69,6 +69,10 @@ def load_functional_context(catalog, cancer_id, context):
     provide its readouts. Patient scores remain in their source-specific units.
     """
     catalog = Path(catalog).resolve()
+    definition_path = catalog / 'Y_DEFINITION.json'
+    if definition_path.exists() and json.loads(definition_path.read_text()).get('format') == 'CLA_FUNCTIONAL_RELATION_FUSED_V1':
+        from .functional_fusion import load_fused_functional_context
+        return load_fused_functional_context(catalog, cancer_id, context)
     base = (catalog / cancer_id / context).resolve()
     if not base.is_relative_to(catalog) or base == catalog:
         raise ValueError('Context must be inside the specified catalog')

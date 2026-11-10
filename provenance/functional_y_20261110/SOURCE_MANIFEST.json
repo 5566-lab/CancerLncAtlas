@@ -1,0 +1,41 @@
+{
+  "target_host": "149",
+  "source_workdir": "/dsk2/user/dengsc/cla_functional_y_20261109_r1",
+  "python_packages": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "scipy": "1.17.1"
+  },
+  "files": {
+    "SCORING_ADJUSTMENT_CONFIG.json": "6901bc3b0348a2dcb67e078c60f4b8805678f98a4fecbb7d8810c8dc891a6d08",
+    "Y_DEFINITION.json": "9ef585146104fef0acae30db027c8b267c683cd4da6a1496d6965c40db50e12a",
+    "VALIDATION_COMPLETE.json": "9e14d7e3e640855340999417698fad5464ed60f8a88b594d22f9e611cab26665",
+    "METHOD_ADOPTION.json": "bb54811b931135d2aba3699d81f5c49819f47a16a26740750159853ba179e219",
+    "CONDITIONAL_NULL_VALIDATION.json": "850abb679ff5ddc3ddc0f43528881dca96dc58857fcef858d94dd4624371285c",
+    "source/relationship_fusion.py": "fc9cef1c0b494bec4d384b0532fcb876948418ec2650c3df6d1ace72cc6114ae",
+    "source/materialize_fused_relation_y.py": "260dd39d195207c45945b0657be0048e5258f0a028accef02ceb4bc37da04966",
+    "source/materialize_shared_tcga_relations.py": "5ee5789fd529dc74a8c6825be0689e9654cf1ee37063fc7aae561fcc5f8954df",
+    "source/materialize_shared_cptac_relations.py": "82936b8cb25d5cb7c1366f98d13011b42a3fc448e61bfab8d804188935c30bef",
+    "source/block_associations.py": "9d31662043464c7addec1297d78c38fdb60b69977e12844d71c992ada4f8832f",
+    "source/validate_fused_y_context.py": "b24670f69b3fc4331d3b7077ba1036e12ec6a656a9290e8aa8de13b0b28d4a72",
+    "source/export_fused_y_dictionary.py": "92a5ec84fa435d27d33415e7217cb38ec5d246450ca322c6acb828441ec5690c",
+    "source/plot_fused_y_results.py": "8940197af2f04a54f0ac9c92f88493afb4a0830781ef129df3d96604c7635071",
+    "source/plot_fused_y_method_figures.py": "c3d0f97dcc1c58634e3bf2a36de23ee96b15403e1249bde17c8e79c4cee77267",
+    "source/build_fused_y_presentation.py": "1243f8afc2ee9ee54660ebcb8db60065d63286a1376f2845f4c16e3ad7e4bb10",
+    "source/fused_presentation_spec.json": "7a9a55ed0802c95b3571db4e09485a12a5ae187fb2c47eb3e89ab1b5839fb386",
+    "source/publish_fused_y_data.py": "024cc7bef626a29ce2849205f982060b780086f04389e04d28576d3de8567ddd",
+    "source/run_fused_relation_remaining.py": "26e543673160fc76493e8921b993693b924bbdcff9a6acefa2f55e695be45319",
+    "source/run_fused_y_validation.py": "76601a20b3b5216d5de473774b7763a90ae4442e7e8d778d045e4145b21e5697",
+    "source/residual_estimability.py": "e90ece9c9dc8c1aa7683ef3c50701e8cdc1dba0ba62fb022254110eb35c6a2f7",
+    "source/validate_conditional_missingness_fusion.py": "ff28138b89482cc5b0b7e4dc50de9304a5cd8ec41f94770aa2dc415365866f26",
+    "source/materialize_cptac_reference_scores.py": "0bbfecc4d3c690360a8a0ed66bc40350618b9b48a4e0f1faf77803ea8173e459",
+    "source/materialize_cptac_phospho_reference.py": "5c371c43b300b23c91efc16d2c1493fb02589dd7511601ed48a463097673b17d",
+    "source/validate_fused_y_dictionary.py": "16ce6c3c66f21a78538944d232c84d4cef6c7ae94e114ae8a67536338bfe86a2",
+    "source/standard_progeny.py": "9bce16eb8a61e0e04f1a1f5968cf66a7812ceef1db982488a15b9c6c2e194a17",
+    "source/materialize_standard_progeny.py": "41028d76fba6672961f7388d595ce1adf748ad5fb66c83c62516771f83e4e47a",
+    "source/shared_core_adjustment/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source/shared_core_adjustment/design.py": "2a146a6819c17ac6ff5b63107ea2b15c700712fbec0f7abf8ba6291b3e939b57",
+    "source/shared_core_adjustment/covariate_contract.py": "97c63672ac2125765f4c5cc5445764ebbd9a0a29c0e3d8b4ceb060f3e8c23f9d",
+    "source/shared_core_adjustment/adjustment_policy.py": "f6c06eac1e6cdd1986e36c1558c1aa550a2f996ea27d549a78759e7bc81681d5"
+  }
+}

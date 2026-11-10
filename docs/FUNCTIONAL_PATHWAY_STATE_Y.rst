@@ -1,163 +1,126 @@
 Functional Pathway and State relationships
 =========================================
 
-The target is a cancer-specific relationship between an lncRNA and a canonical
-Pathway or State. Patient measurements are denoted by S; relationship evidence
-is denoted by Y. Protein abundance, phosphosite signatures, RNA enrichment and
-other State measurements retain their own readout definitions and units.
+The research unit is cancer x lncRNA x canonical Pathway or State. Patient
+measurements are denoted by S; relationship evidence is denoted by Y. The
+current release covers BRCA, LUAD and COAD, combining TCGA with matched TCPA
+RPPA500 and CPTAC at the association-evidence level.
 
-Identity and composition
-------------------------
+Biological identity and composition
+-----------------------------------
 
-``data/functional_targets_20261109`` contains the stable biological identities,
-source bindings, aliases and redirects. It has 3,456 identities with defined
-readouts and four structural context nodes. Pathway and State roles overlap for
-three identities: 2,595 identities have a Pathway role and 864 have a State role.
-The current patient-score inventory contains finite measurements for 2,840 of
-these identities; the inventory and the dictionary report coverage separately.
+There are 3,456 scored biological identities: 2,595 have a Pathway role and
+864 have a State role, with three identities shared between these roles.
+Four additional structural context nodes describe composition and hierarchy.
+Stable CLA-P / CLA-S IDs, source identifiers and aliases preserve the naming.
+Equivalent biological scopes share an identity. Parent-child relations,
+branches, shared reaction cores and extensions retain their distinct scopes.
+Protein lists, phosphosites, genes, probes, reaction participants, catalysts,
+regulators and complexes remain traceable in the companion dictionary.
 
-An equivalence mapping shares one canonical identity. Parent-child, branch,
-shared-reaction-core and molecular-facet relations preserve distinct identities.
-The Reactome reaction mappings describe reaction-set intersections and extensions;
-complex, catalyst and regulator relationships preserve the annotated mechanism.
-Source protein-list overlap is recorded separately from functional equivalence.
-``ID_REDIRECTS.tsv`` resolves prior identities to surviving IDs.
+Examples include equivalent WNT scopes from Reactome and WikiPathways,
+Hallmark/Buffa/PROGENY readouts of the hypoxia transcriptional response,
+the shared tyrosine catabolic core with Reactome extensions, and the explicit
+HRD = LOH + TAI + LST composition. A measurement readout binding is distinct
+from equivalence between whole pathway definitions.
 
-``TARGET_COMPOSITION_COUNTS.tsv`` summarizes each target's gene, probe,
-phosphosite, reaction and child-program composition. ``PATHWAY_REACTION_BRANCHES.tsv.gz``
-links 21,358 annotated branch occurrences to 1,111 scored identities by explicit
-pathway-order membership, including descendants. These are source reaction-order
-relations; canonical target IDs remain unchanged.
-
-Patient scores
---------------
-
-RNA pathway scores use a common gene background and ssGSEA definition across
-TCGA and CPTAC. State definitions retain their signature composition and units.
-RPPA total-protein scores summarize measured pathway members using the source
-patient reference. RPPA phosphosite readouts use matched total-protein adjustment,
-a source-fitted reference and the signature direction. CPTAC native measurements
-retain their source definitions. The dictionary provides the assay, algorithm,
-reference, unit, molecular composition and observed patient coverage per readout.
-
-``CPTAC_STATE_METHODS.tsv`` lists the actual method, software, input scale and
-reference for 413 State readouts across ten cohorts. For example, RNA stemness
-uses frozen Malta OCLR weights with a pooled CPTAC min-max reference, xCell uses
-a pooled CPTAC reference, and relative CIBERSORT composition is derived from
-22 published absolute components. ``CPTAC_COVARIATE_COVERAGE.tsv`` reports
-observed clinical and composition covariates for each cohort.
-
-Each cancer is handled separately. All 16,889 TCGA lncRNA features remain on the
-feature axis. Clinical and composition covariates follow the explicit adjustment
-contract, with raw signed local CNV acting on the lncRNA residual. Both tumor-cell
-fraction readouts exclude purity from their covariates because purity represents
-their own biological quantity. Other target adjustment roles are preserved.
-
-Relationship Y
---------------
-
-The released relationship catalog covers TCGA/TCPA in 33 cancers and five
-patient contexts per cancer. CPTAC contributes patient scores, molecular
-composition, method references and coverage from ten separately indexed cohorts.
-
-Associations use only the label patients for the selected context. The covariate
-encoder and applicable score references are fitted on disjoint source patients.
-Direct RNA score members are excluded from evidence for their own RNA-derived
-readouts. Correlation is defined only for nonconstant rank vectors with variation
-remaining after adjustment. The numerical tolerance scales with machine precision
-and rank-vector norm, so expression units do not determine feature eligibility.
-
-The per-assay association criteria are:
-
-* Strict support: absolute adjusted Spearman rho >= 0.20 and BH q <= 0.05.
-* Additional support: absolute rho >= 0.15 and BH q <= 0.10, excluding strict pairs.
-
-Multiple algorithms on one assay contribute one assay-family bit. Each context
-stores these uint8 matrices on the same lncRNA by canonical-identity axes:
-
-* ``membership``: 0 unlabelled; 1 supported by at least one assay family;
-  2 strict support from at least two distinct assay families.
-* ``direction``: 0 unknown; 1 positive; 2 negative; 3 conflicting supported signs.
-* ``observed_assay_bits``: assays in which the association is estimable.
-* ``strict_assay_bits`` and ``supported_assay_bits``: assay-specific evidence.
-
-Bit values are RNA=1, protein=2, phospho=4, methylation=8, copy number=16,
-DNA variant=32 and other=64. Membership zero is an unlabelled relationship;
-these outputs do not define a supervised negative class. Conflicting directions
-remain explicit. The Pathway task weight is 1.0 and the State task weight is 0.5.
-A shared identity is counted once with the Pathway-primary weight.
-
-Reading a context
------------------
-
-The public reader checks file hashes, identity axes, evidence codes and patient
-separation before returning arrays::
-
-    from cla_engine.functional_y import load_functional_context
-
-    catalog = "/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1/Y"
-    target = load_functional_context(catalog, "BRCA", "sealed_test")
-    print(target.counts())
-    membership = target.arrays["membership"]
-
-The equivalent command is::
-
-    python scripts/inspect_functional_y.py --catalog /path/to/catalog \
-        --cancer BRCA --context sealed_test
-
-``Y_by_cancer`` in the dictionary reports the independent label fold once for
-each cancer. ``Y_by_context`` describes the separate training, validation and
-sealed-test contexts. Counts across these contexts are not pooled as unique
-relationships. The independent label fold contains estimable associations in
-22 cancers and supported relationships in 20 cancers.
-``Y_SUPERVISION_BY_CANCER.tsv`` and ``Y_SUPERVISION_BY_CANCER_CONTEXT.tsv``
-provide the counts and patient denominators.
-
-
-In that independent label fold, 495 relationships meet strict criteria in at
-least two assay families. Of these, 476 concern tumor-cell fraction with RNA and
-copy-number-derived evidence. The other 19 concern 17 Pathway identities with
-RNA and total-protein evidence. No phospho family appears in this strict
-multi-family subset. These counts describe relationship evidence, not predictive
-model performance.
-
-The integration combines canonical identity and assay-specific association
-evidence. It does not average TCPA and CPTAC patient scores onto a validated
-common activity scale. The current formal relationship Y uses TCGA and matched
-TCPA; CPTAC scores retain their aligned identities and measurement definitions.
-The current CPTAC bundle does not bind the original TCGA-definition leukocyte
-fraction. The 2026-11-10 source audit found methylation-derived EDec proportions
-for 100 matched CCRCC patients and primary-tumor beta-file links for 720 patients
-across seven cohorts. See CPTAC_LEUKOCYTE_SOURCE_AUDIT_20261110.rst for the
-shared-adjustment main comparison and measured-subset sensitivity design.
-The existing r6 relationship Y has not been recomputed under that revision.
-
-Reproducing the materialization
+Patient scores and adjustment
 ------------------------------
 
-``provenance/functional_y_20261109/source`` preserves the executed preparation,
-curation, scoring, numerical correction, aggregation, validation and reporting
-code. ``SOURCE_MANIFEST.json`` records file hashes, the source code baseline and
-the filesystem inputs. All scientific preparation runs execute on host 149.
-Patient matrices remain in the project data store; the repository includes
-biological definitions and code.
+RNA pathways use common-background ssGSEA. RNA State definitions use their
+specified signatures and source-fitted transformations; PROGENY uses the
+official top100 model. RPPA total-protein scores summarize source-standardized
+antibody gene groups. RPPA phosphosite scores use exact site mapping and
+matched total-protein adjustment. CPTAC protein scores use ssGSEA; directional
+PTM-SEA uses source-patient site medians. Promoter methylation scores summarize
+measured promoter-associated gene beta values. Native phenotypes retain their
+source units. Score_definitions and Score_coverage identify the actual method,
+platform, reference, data form and observed coverage of every readout.
 
-The stage order is source inventory and annotation, identity/structure curation,
-patient score preparation, fold-specific adjusted associations, direct-member
-exclusion, canonical-quantity adjustment, numerical estimability correction,
-assay-family aggregation, and independent artifact validation. The final
-coverage tables feed the reader dictionary and presentation.
+Each context has disjoint source and label patients. Source patients fit
+applicable score references and covariate encoding. Associations are estimated
+in label patients. The shared covariate design includes age, sex, stage,
+DNA-derived purity and macrophage fractions, with target-specific adjustment
+policies. Purity targets exclude their own purity covariate. Signed local CNV
+adjusts the lncRNA residual. Direct RNA score members are excluded from their
+own readout's relationship labels. All 16,889 lncRNA identities are retained;
+missing expression or CNV remains missing. CPTAC-BRCA has measured local CNV
+for 588 lncRNAs, which limits its estimable relations.
 
-The saved numerical correction leaves retained correlations, raw p-values,
-patient counts and design ranks unchanged and recomputes BH q-values over the
-estimable pairs. The runtime pair and graph routines apply the same rank-residual
-variation criterion when calculating new results.
+Fusion into Y
+-------------
 
-The project release entry is
-``/dell_2/DSC/CancerLncAtlas/processed/functional_y_20261109_r1``.
-On server 149 this directory resolves to the immutable dataset under
-``/dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261109_r1``.
-``PATIENT_SCORE_INDEX.tsv`` lists 710 cohort, context and measurement-layer
-entries with relative matrix and readout-axis paths. ``COMPLETE.json`` records
-the release file hashes. The public reader was checked against the published
-BRCA independent-label context.
+Each retained readout supplies an adjusted correlation and a two-sided p-value.
+The combination statistic is T = -2 sum_j w_j log(p_j). Exact duplicate rank
+readouts with the same patients and adjustment policy share total weight one.
+The null distribution is simulated with 100,000 correlated-normal draws using
+the label-readout residual Gram matrix and observed measurement masks.
+Single-readout and perfectly dependent cases are retained exactly; unknown
+dependence uses a Bonferroni bound. Cohort blocks are independent after the
+ambiguous retrospective BRCA case is excluded from the joint sealed-label
+analysis. No common absolute TCPA/CPTAC activity scale is assumed.
+
+BH correction covers all estimable lncRNA x identity pairs within each cancer,
+context and primary task. Strong support requires combined q <= 0.05 and at
+least one observed absolute adjusted rho >= 0.20. Weak support requires
+q <= 0.10 and absolute rho >= 0.15, excluding strong support. Opposing readout
+directions remain explicit. Fusion significance and individually supported
+assay or cohort flags are separate fields. Pathway weight is 1.0 and State
+weight is 0.5; shared identities are counted once with Pathway-primary weight.
+
+The method was checked with 257,000 permutations across 26 estimable real-data
+cases, retaining measurement missingness and covariate adjustment. All 15
+materialized contexts pass array, checksum, patient-separation, support-rule
+and count checks. Independent reconstruction of four representative targets
+in each of the three training-label pilots reproduces the saved combined p.
+These checks establish the stated label computation, not predictive or causal
+performance.
+
+Counts from the independent label fold
+--------------------------------------
+
+* BRCA: 2,721 estimable targets; 2,720 targets with supported relations; 4,448,465 strong and 1,696,866 weak relations.
+* LUAD: 2,753 estimable targets; 2,112 targets with supported relations; 84,695 strong and 53,530 weak relations.
+* COAD: 2,703 estimable targets; 2,674 targets with supported relations; 160,277 strong and 120,807 weak relations.
+
+These counts use sealed_test once per cancer. They are not sums over the
+training, validation and test contexts. Most supported relations still have
+only RNA readouts individually reaching the support threshold; the dictionary
+reports non-RNA and joint-only support separately.
+
+Reading the data
+----------------
+
+The versioned data root on server 149 is::
+
+    /dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261110_r2
+
+Use its Y subdirectory::
+
+    from cla_engine.functional_y import load_functional_context
+    target = load_functional_context("/path/to/release/Y", "BRCA", "sealed_test")
+    print(target.counts())
+    masks = target.supervision_masks()
+
+The command-line inspector uses the same reader::
+
+    python scripts/inspect_functional_y.py --catalog /path/to/release/Y \
+        --cancer BRCA --context sealed_test
+
+The format is CLA_FUNCTIONAL_RELATION_FUSED_V1. Membership codes are
+0 unlabelled, 1 weak support and 2 strong support. Unmeasured associations
+have observed=0 and NaN p/q. The reader exposes positive and unlabelled masks;
+it does not create a confirmed negative class. The existing binary training
+preparation requires an explicit objective adaptation before consuming this
+format. The current release supplies relationship labels, patient scores,
+composition, mappings, coverage, a dictionary and a presentation.
+
+Reproduction
+------------
+
+provenance/functional_y_20261110/source preserves the executed fusion,
+materialization, validation and reporting scripts. Configuration and source
+hashes are recorded with the release. The scientific work directory supplies
+the referenced patient matrices and source annotations. All scientific
+computation and rendering run on server 149. Source scores and associated
+reference records are indexed by PATIENT_SCORE_INDEX.tsv.

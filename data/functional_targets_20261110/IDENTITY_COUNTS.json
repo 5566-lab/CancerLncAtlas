@@ -1,0 +1,14 @@
+{
+  "canonical_identities": 3456,
+  "source_binding_rows": 3656,
+  "distinct_source_identifiers": 3656,
+  "Pathway_roles": 2595,
+  "State_roles": 864,
+  "shared_roles": 3,
+  "structural_contexts": 4,
+  "demo_cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ]
+}

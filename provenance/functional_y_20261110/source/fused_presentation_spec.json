@@ -1,0 +1,240 @@
+[
+  {
+    "title": "Functional Y：统一身份，融合关系证据",
+    "subtitle": "主任务：癌种 × lncRNA × 精确通路 / State",
+    "cards": [
+      [
+        "3 个癌种",
+        "BRCA\nLUAD\nCOAD"
+      ],
+      [
+        "3,456 个身份",
+        "2,595 个 Pathway 角色\n864 个 State 角色\n其中 3 个身份共享"
+      ],
+      [
+        "2 类队列",
+        "TCGA / TCPA\nCPTAC\n在关系证据层整合"
+      ]
+    ],
+    "sources": [
+      "functional_relation_y_fused_r1/Y_DEFINITION.json"
+    ]
+  },
+  {
+    "title": "遇到的问题：定义、测量与统计证据不同",
+    "subtitle": "分别解决生物学身份、测量含义与多来源证据整合",
+    "cards": [
+      [
+        "同名，范围不同",
+        "总通路、子通路和分支混杂\n\n按反应范围、官方层级与来源定义整理"
+      ],
+      [
+        "同通路，测量不同",
+        "抗体、质谱、位点与 RNA 读数不同\n\n各平台内估计关系，再整合证据"
+      ],
+      [
+        "多评分，证据相关",
+        "相同 RNA 的多个评分不能视为独立证据\n\n保留各读数并校正依赖"
+      ]
+    ],
+    "sources": []
+  },
+  {
+    "title": "最终采用的整合方式",
+    "subtitle": "S 是患者读数；Y 是癌种内的 lncRNA–生物学目标关系",
+    "figure": "01_从患者读数到关系Y",
+    "sources": [
+      "functional_relation_y_fused_r1/Y_DEFINITION.json"
+    ]
+  },
+  {
+    "title": "归并示例 1：WNT 来源身份与子通路",
+    "subtitle": "等价定义共用身份；位点签名作为读数；子通路保留独立身份",
+    "figure": "02_WNT来源归并与分支",
+    "sources": [
+      "canonical_targets_r6/FUNCTIONAL_SCOPE_RELATIONS.tsv",
+      "catalog_inventory/REACTOME_PARENT_CHILD.tsv"
+    ]
+  },
+  {
+    "title": "归并示例 2：缺氧的三个 RNA 读数",
+    "subtitle": "三个评分都参与关系估计；利用相关结构控制重复证据",
+    "figure": "03_缺氧多方法读数合并",
+    "sources": [
+      "functional_relation_y_fused_r1/BRCA/train_label_fold2/DEPENDENCE_REFERENCES.json"
+    ]
+  },
+  {
+    "title": "归并示例 3：共同核心与范围扩展",
+    "subtitle": "酪氨酸代谢的 5 步共同核心与 2 项 Reactome 扩展分别保存",
+    "figure": "04_酪氨酸共同核心与扩展",
+    "sources": [
+      "semantic_relations_r1/CURATED_TYROSINE_CORE_REACTIONS.tsv",
+      "https://www.kegg.jp/entry/N00708",
+      "https://reactome.org/content/detail/R-HSA-8963684"
+    ]
+  },
+  {
+    "title": "State 示例：明确的组成公式与分项身份",
+    "subtitle": "HRD 总分与 LOH、TAI、LST 的组成关系写入字典",
+    "figure": "05_State评分组成_HRD",
+    "sources": [
+      "canonical_targets_r6/STATE_COMPONENT_RELATIONS.tsv"
+    ]
+  },
+  {
+    "title": "患者评分如何计算",
+    "subtitle": "同一生物学身份下，各组学保持自己的测量含义",
+    "cards": [
+      [
+        "RNA / RNA 来源 State",
+        "共同背景 ssGSEA；PROGENY 官方 top100\n其余 State 按各自签名与参考规则计算"
+      ],
+      [
+        "蛋白丰度",
+        "TCPA：标准化抗体基因组均值\nCPTAC：质谱蛋白 ssGSEA"
+      ],
+      [
+        "磷酸化",
+        "TCPA：匹配总蛋白校正后的位点读数\nCPTAC：方向性 PTM-SEA"
+      ],
+      [
+        "甲基化与其他 State",
+        "实测启动子关联基因 beta 值\n原生表型保留来源定义与单位"
+      ]
+    ],
+    "sources": [
+      "dictionary_data/SCORE_DEFINITIONS.tsv"
+    ]
+  },
+  {
+    "title": "解决结果：各组学覆盖了哪些患者",
+    "subtitle": "分母为各自队列患者；至少有一项有限评分即计入",
+    "figure": "09_各层患者评分覆盖",
+    "sources": [
+      "dictionary_data/LAYER_COVERAGE.tsv"
+    ]
+  },
+  {
+    "title": "共同协变量与患者覆盖",
+    "subtitle": "年龄、性别、分期、DNA 来源纯度、巨噬细胞比例；目标特异性调整",
+    "figure": "07_共同协变量患者覆盖",
+    "sources": [
+      "shared_relation_demo_r1/COVARIATE_COVERAGE.tsv",
+      "shared_relation_demo_r1/SCORING_ADJUSTMENT_CONFIG.json"
+    ]
+  },
+  {
+    "title": "多个读数如何成为一个关系 Y",
+    "subtitle": "参考患者与标签患者分离；合并关联证据，保留各读数方向",
+    "figure": "06_关系Y融合公式",
+    "sources": [
+      "functional_relation_y_fused_r1/Y_DEFINITION.json",
+      "relationship_fusion.py"
+    ]
+  },
+  {
+    "title": "方法验证：实测缺失模式下的假阳性率",
+    "subtitle": "26 个可检验组合、257,000 次置换；方法选择只使用训练标签分折",
+    "figure": "融合检验_真实数据置换验证",
+    "sources": [
+      "shared_relation_demo_r1/fusion_method_r1/conditional_missingness_validation/VALIDATION.json"
+    ]
+  },
+  {
+    "title": "最终保留多少目标？多少实际有关系证据？",
+    "subtitle": "身份目录、可估计目标与有支持关系的目标分别统计",
+    "figure": "10_身份数量与实际监督范围",
+    "sources": [
+      "dictionary_data/IDENTITY_COUNTS.json",
+      "dictionary_data/Y_BY_CANCER.tsv"
+    ]
+  },
+  {
+    "title": "三癌种 Y：强支持与弱支持关系数",
+    "subtitle": "只统计一个独立标签分折，没有累加训练、验证和测试上下文",
+    "figure": "11_三癌种关系Y结果",
+    "sources": [
+      "dictionary_data/Y_BY_CANCER.tsv"
+    ]
+  },
+  {
+    "title": "这些关系主要由什么证据支持？",
+    "subtitle": "非 RNA 读数单独支持与融合显著性分别记录",
+    "figure": "12_支持关系的证据来源",
+    "sources": [
+      "dictionary_data/Y_BY_CANCER.tsv"
+    ]
+  },
+  {
+    "title": "两队列整合的实际覆盖范围",
+    "subtitle": "两队列均可估计，表示都有实测关联；不等于均达到显著性",
+    "figure": "13_两队列关系覆盖",
+    "sources": [
+      "dictionary_data/Y_BY_CANCER.tsv"
+    ]
+  },
+  {
+    "title": "关键限制：CPTAC-BRCA 局部 CNV 覆盖",
+    "subtitle": "保持全部 lncRNA 身份轴；满足实测调整条件的关系进入主统计",
+    "figure": "08_CPTAC局部CNV覆盖",
+    "sources": [
+      "shared_relation_demo_r1/cptac_local_cnv/INDEPENDENT_VALIDATION.json"
+    ]
+  },
+  {
+    "title": "最后的 Y 构建完成了什么？",
+    "subtitle": "三癌种 × 五个数据上下文：统一身份、关系证据及来源",
+    "cards": [
+      [
+        "已形成的研究产物",
+        "每个癌种 × lncRNA × 统一目标：\n融合 p / q 与强弱支持\n关联方向与冲突\n实测组学、队列与缺失标记\n参考及标签患者记录"
+      ],
+      [
+        "结果能够支持的结论",
+        "多来源证据已整合为关系 Y\n\n多数关系仍主要由 RNA 支持\n\nlncRNA 独立于 mRNA 的增量价值，需要固定 Y 的模型比较"
+      ]
+    ],
+    "sources": [
+      "functional_relation_y_fused_r1/VALIDATION_COMPLETE.json"
+    ]
+  },
+  {
+    "title": "下一步模型比较：固定 Y，再比较输入与结构",
+    "subtitle": "所有模型使用相同癌种、标签定义、患者划分和协变量",
+    "cards": [
+      [
+        "线性基线",
+        "lncRNA\nmRNA\nlncRNA + mRNA"
+      ],
+      [
+        "输入信息增量",
+        "加入 CNV / mutation\n加入可用蛋白与磷酸化\n目标证据层重用单列评估"
+      ],
+      [
+        "网络与模型增量",
+        "PPI / RPI 图约束\nCCHHGT\n比较同一目标上的增量表现"
+      ]
+    ],
+    "sources": []
+  },
+  {
+    "title": "交付字典：从目标身份追溯到分子组成",
+    "subtitle": "固定 ID；科学读数、关系结果和完整映射在同一工作簿中",
+    "cards": [
+      [
+        "身份与关系",
+        "Target_master\nSource_IDs / aliases\nParent_child / branches\nShared_core / extensions"
+      ],
+      [
+        "组成与评分",
+        "Gene / State components\nPhospho sites\nReaction / Complex roles\nScore definitions / coverage"
+      ],
+      [
+        "Y 与结果",
+        "Y_by_cancer\nY_by_context\nY_target_counts\nY_fields"
+      ]
+    ],
+    "sources": []
+  }
+]

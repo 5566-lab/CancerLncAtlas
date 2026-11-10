@@ -1,0 +1,4 @@
+cancer_id	context	canonical_targets	observed_targets	supported_targets	observed_relations	strong_relations	weak_relations	joint_cohort_relations	mixed_direction_supported_relations	supported_relations	supported_with_RNA_only_individual_support	supported_with_nonRNA_individual_support	supported_without_individual_readout_support	TCGA_label_patients	CPTAC_label_patients	TCGA_source_patients	CPTAC_source_patients
+BRCA	sealed_test	3456	2721	2720	39326764	4448465	1696866	1093289	95600	6145331	5638783	173223	333325	218	24	654	72
+LUAD	sealed_test	3456	2753	2112	44778820	84695	53530	33198786	3467	138225	111083	4851	22291	102	22	305	66
+COAD	sealed_test	3456	2703	2674	41746202	160277	120807	26440074	14362	281084	223723	3433	53928	91	22	272	63

@@ -1,0 +1,38 @@
+{
+  "format": "CLA_FUNCTIONAL_RELATION_FUSED_V1",
+  "unit": "cancer x lncRNA x canonical pathway/State",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "datasets": [
+    "TCGA with matched TCPA RPPA500",
+    "CPTAC"
+  ],
+  "patient_scores": "Retained in source-specific definitions and units; not numerically averaged across platforms",
+  "primary_target": "Relationship membership plus continuous combined p/q and readout effect metadata",
+  "membership_codes": {
+    "0": "unlabelled; never a confirmed negative",
+    "1": "weak statistical support",
+    "2": "strong statistical support"
+  },
+  "strong": "Combined BH q <= 0.05 and at least one observed absolute adjusted rho >= 0.20",
+  "weak": "Combined BH q <= 0.10 and at least one observed absolute adjusted rho >= 0.15, excluding strong",
+  "missing": "observed=0 and combined_p/combined_q=NaN",
+  "multiplicity": "BH across all estimable lncRNA x canonical-target pairs in each cancer x context x primary task; shared Pathway/State identity counted once as Pathway",
+  "fusion_method": "Two-sided Fisher statistic calibrated using 100000 correlated-normal conditional-null draws; exact single-readout/perfect-dependence cases; Bonferroni only for unknown dependence",
+  "null_reference": "Label-outcome residual Gram including measurement masks; only used to compute the label test, never as model input or to select models",
+  "cohort_integration": "Independent cohort blocks after ambiguous retrospective case handling; no absolute TCPA/CPTAC calibration",
+  "duplicate_readouts": "Identical raw score ranks, same label patients and covariate policy share total weight one; all source names retained",
+  "direction": "Individual measured-readout association signs retained; mixed signs do not cancel the omnibus association test",
+  "task_weights": {
+    "Pathway": 1.0,
+    "State": 0.5
+  },
+  "individual_modality_support": "Individually strict/supporting assay flags retain source-readout BH criteria and are separate from fused significance",
+  "cnv_adjustment": "Actual signed local CNV for each lncRNA; unmeasured values are missing, never zero-filled",
+  "minimum_empirical_p": 9.99990000099999e-06,
+  "model_training_contract": "Positive-unlabelled membership; legacy binary zero-label training is not compatible",
+  "method_adoption_sha256": "bb54811b931135d2aba3699d81f5c49819f47a16a26740750159853ba179e219"
+}
