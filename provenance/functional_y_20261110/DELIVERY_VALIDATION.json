@@ -1,0 +1,91 @@
+{
+  "target_host": "149",
+  "dictionary": {
+    "target_host": "149",
+    "status": "PASS",
+    "dictionary_sha256": "062b3d22ea29a94b8b1c05ff4fee3c9416913aeb600bf32cc9d1e3ea9b2bb419",
+    "sheets": 44,
+    "scored_identities": 3456,
+    "source_bindings": 3656,
+    "three_cancer_contexts": 15,
+    "source_readout_rows": 44859,
+    "checks": [
+      "Workbook zip integrity",
+      "Required identity/composition/mapping sheets",
+      "Exact Y table equality with frozen results",
+      "Three-cancer scope",
+      "CPTAC WES purity source and units",
+      "No internal execution or unused-method flags"
+    ]
+  },
+  "source_fields": {
+    "target_host": "149",
+    "status": "PASS",
+    "checks": {
+      "unique_canonical_ids": true,
+      "same_retained_ids_as_catalog": true,
+      "all_score_identities_registered": true,
+      "all_coverage_identities_registered": true,
+      "composition_count_row_per_identity": true,
+      "source_readout_keys_unique": true,
+      "score_matrix_paths_resolve": true,
+      "display_names_match_canonical_catalog": true,
+      "all_readout_provenance_fields_complete": true
+    },
+    "target_count": 3456,
+    "source_bindings": 3656,
+    "score_definition_rows": 44859,
+    "missing_metadata": {
+      "applied_method": 0,
+      "definition_database": 0,
+      "source_resource": 0,
+      "score_matrix": 0,
+      "score_unit": 0,
+      "data_form": 0,
+      "measurement_layer": 0
+    },
+    "checked_utc": "2026-11-10T12:42:54.133281+00:00",
+    "score_definitions_sha256": "d97c42f08c7dd4acbe3497b1896ea79619e5fa2c5d35b2e81299b3b7db79b091"
+  },
+  "presentation": {
+    "target_host": "149",
+    "status": "PASS",
+    "slides_reviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "pptx_sha256": "ec524a880393073a033a9a360d4eeb64258d4b76673737ca17c76f086b96ad2b",
+    "pdf_sha256": "9799851f5f9ab6d1b62b77ce3593dcb290b4c715fd85cd60aa9fbf85588c9f9e",
+    "method": "All 21 rendered slides visually inspected in three contact sheets; checked text, charts, legends, examples and scope",
+    "checks": [
+      "Background, problem, solution and results included",
+      "Three-cancer scope and exact canonical examples",
+      "Readable charts rather than dense tables",
+      "Final Y contents and RNA evidence limits explained",
+      "Target-layer exclusion retained in future comparison plan"
+    ]
+  },
+  "figures": {
+    "pairs": 14,
+    "all_file_hashes_verified": true
+  }
+}

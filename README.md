@@ -15,7 +15,26 @@ All preparation, audits and training execute on host **149**. No command in this
 integration starts paid compute. The reviewed code and tests are not a newly
 trained model or a production release.
 
-## Pathway target status (2026-11-04)
+## Functional relationship Y (2026-11-10)
+
+The three-cancer relationship-label release combines TCGA/TCPA and CPTAC for
+**BRCA, LUAD and COAD**. It retains 3,456 canonical Pathway/State identities and
+16,889 lncRNAs. The 15 materialized contexts retain combined association p/q,
+strong/weak support, measurement coverage and conflicting directions. Multiple
+readouts of the same target contribute with dependence correction; patient
+scores remain in their source-specific units.
+
+The companion delivery contains a 44-sheet dictionary, 14 PNG/PDF figure pairs
+and a 21-slide presentation. Definitions, components, source databases, score
+methods, synonyms, parent-child relations, branches and extensions are traceable
+from fixed target IDs. See [the construction and reading guide](docs/FUNCTIONAL_PATHWAY_STATE_Y.rst)
+and `data/functional_targets_20261110`.
+
+This is the relationship-label release. The current binary training preparation
+still needs adaptation to its positive/unlabelled semantics before model fitting.
+The historical model comparisons below use their stated earlier labels.
+
+## Earlier target transition (2026-11-04)
 
 MOGSA and its derived parent targets are retired. The public configuration
 requires a replacement target design before preparation or training; it does
@@ -244,4 +263,4 @@ distributed here. Use permitted sources and record their checksums. See
 
 The BRCA/LUAD/COAD demo compares lncRNA, mRNA and their union on identical held-out CPTAC protein/phosphosite endpoints (measured methylation as a secondary layer), with unpenalized clinical and fixed DNA purity covariates. See [the comparison contract](docs/M0_THREE_ARM_DEMO.rst) for scope, outputs and native-label normalization limits. The current default removes correlation/FDR admission and marks zero-RNA fits as training failures. All five folds and the final fit must select RNA for a complete success; failure rates accompany performance on common successful targets. Code readiness and result completion are recorded separately in the provenance receipt.
 
-Functional Pathway/State identities, measurement definitions and relationship Y are described in [the construction guide](docs/FUNCTIONAL_PATHWAY_STATE_Y.rst). The fixed ID catalog is in `data/functional_targets_20261109`.
+Functional Pathway/State identities, measurement definitions and relationship Y are described in [the construction guide](docs/FUNCTIONAL_PATHWAY_STATE_Y.rst). The current fixed ID catalog is in `data/functional_targets_20261110`.

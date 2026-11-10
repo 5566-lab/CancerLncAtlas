@@ -15,6 +15,7 @@ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def read(p):return pd.read_csv(p,sep='\t').fillna('')
 def out(name,df):df.to_csv(D/(name+'.tsv.gz' if len(df)>100000 else name+'.tsv'),sep='\t',index=False)
 def metadata():
+ identity=read(C/'TARGET_MASTER.tsv').set_index('canonical_id').to_dict('index');bindings=read(C/'SOURCE_ID_BINDINGS.tsv').set_index('source_target_id').to_dict('index')
  old=read(R/'reader_dictionary_r4/STATE_SCORE_DEFINITIONS.tsv')
  old.score_method=old.score_method.replace({'legacy_R07_weighted_gene_zscores_then_program_zscore':'Weighted gene-expression z score with program standardization'})
  units={'LEGACY_WEIGHTED_ZSCORE_UNCHANGED':'Standardized weighted expression score','EXISTING_GSVA_SSGSEA_NO_RESCALE':'ssGSEA enrichment score','PUBLISHED_PANIMMUNE_SCORE_NO_RESCALE':'Published immune phenotype score','ALTERED_CHROMOSOME_ARMS':'Altered chromosome-arm count','CELL_ABUNDANCE_SCORE':'Cell abundance score','CELL_ENRICHMENT_SCORE':'Cell enrichment score','NATIVE_SCAR_COUNT':'Genomic scar count','NON_SILENT_MUTATIONS_PER_MB':'Non-silent mutations per Mb','RELATIVE_CELL_FRACTION':'Relative cell fraction','RELATIVE_MUTATION_CONTRIBUTION':'Relative mutation contribution'}
@@ -44,8 +45,16 @@ def metadata():
       if sid=='ABSOLUTE_purity':method='Published WES-derived tumor purity from CPTAC phenotype';unit='Tumor cell fraction';reference='Published source-cohort WES_purity value'
       definition=dict(definition);definition['score_method']=method
 
+     identity_info=identity[cid];binding_info=bindings.get(sid,{})
+     definition_database=binding_info.get('source_database') or identity_info['source_database']
+     if layer=='STATE' and ds=='CPTAC' and row.get('native_reference') in [True,'True','true']:definition_database='CPTAC published phenotype'
+     if not resource:
+      if definition_database=='PTMsigDB':resource='/dsk2/user/dengsc/cla_cptac_integration_20261104_r1/sources/PTMSIGDB_PATH_KINASE_V2.gmt'
+      else:resource=identity_info.get('source_url') or definition_database
+     score_matrix=str(Path('S')/ds/c/'sealed_test'/layer/'PATIENT_S.parquet')
+     assert resource and definition_database and (Path('/dsk2/user/dengsc/CancerLncAtlas/processed/functional_y_20261110_r2')/score_matrix).exists()
      platform='TCPA RPPA500' if ds=='TCGA' and layer in ['PROTEIN','PHOSPHO'] else ds
-     x={'canonical_id':cid,'dataset':ds,'platform':platform,'cancer_id':c,'source_readout_id':sid,'source_column':target,'measurement_layer':row['measurement_layer'],'assay_group':layer,'applied_method':method,'source_definition_method':definition.get('score_method',''),'source_resource':resource,'score_unit':unit,'reference':reference,'data_form':'Patient by readout matrix'}
+     x={'canonical_id':cid,'dataset':ds,'platform':platform,'cancer_id':c,'source_readout_id':sid,'source_column':target,'measurement_layer':row['measurement_layer'],'assay_group':layer,'applied_method':method,'source_definition_method':definition.get('score_method',''),'definition_database':definition_database,'source_resource':resource,'score_matrix':score_matrix,'score_unit':unit,'reference':reference,'data_form':'Patient by readout matrix'}
      rec.append(x);v=s[target];finite=np.isfinite(v);cov.append({k:x[k] for k in ['canonical_id','dataset','platform','cancer_id','source_readout_id','measurement_layer','assay_group']}|{'context':'sealed_test','patients_in_cohort':len(patients),'patients_with_score':int(finite.sum()),'patient_coverage_fraction':float(finite.mean()),'source_patients':len(source),'source_patients_with_score':int(np.isfinite(v.reindex(source)).sum()),'label_patients':len(label),'label_patients_with_score':int(np.isfinite(v.reindex(label)).sum())})
     vv=np.isfinite(s.to_numpy(float));layers.append({'dataset':ds,'platform':platform,'cancer_id':c,'assay_group':layer,'patients_in_cohort':len(s),'patients_with_any_score':int(vv.any(1).sum()),'score_coverage_fraction':float(vv.any(1).mean()),'registered_readouts':len(md),'readouts_with_score':int(vv.any(0).sum()),'canonical_targets_with_score':len(set(md.loc[vv.any(0),'canonical_id'].map(canon))),'eligible_readout_relations':receipt['eligible_relations']})
  frame=pd.DataFrame(rec);out('SCORE_DEFINITIONS',frame);out('SCORE_COVERAGE',pd.DataFrame(cov));out('LAYER_COVERAGE',pd.DataFrame(layers));out('STATE_SCORE_DEFINITIONS',old);(D/'SCORE_INPUT_REFERENCES.json').write_text(json.dumps(inputs,indent=2));(D/'METADATA_COMPLETE.json').write_text(json.dumps({'target_host':'149','readouts':len(rec),'datasets':CANCERS,'source_receipts':len(inputs)},indent=2));return frame,pd.DataFrame(cov),pd.DataFrame(layers)

@@ -36,6 +36,9 @@ PTM-SEA uses source-patient site medians. Promoter methylation scores summarize
 measured promoter-associated gene beta values. Native phenotypes retain their
 source units. Score_definitions and Score_coverage identify the actual method,
 platform, reference, data form and observed coverage of every readout.
+Each Score_definitions row also supplies its definition_database, source_resource
+and a score_matrix path relative to the versioned data root. These separate the
+biological definition source from the platform that measured the patient.
 
 Each context has disjoint source and label patients. Source patients fit
 applicable score references and covariate encoding. Associations are estimated

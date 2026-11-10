@@ -1,0 +1,175 @@
+{
+  "release": "functional_y_20261110_r2",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "canonical_identities": 3456,
+  "pathway_roles": 2595,
+  "state_roles": 864,
+  "shared_roles": 3,
+  "lncrna_axis": 16889,
+  "contexts": 15,
+  "patient_score_entries": 135,
+  "dictionary_sheets": 44,
+  "presentation_slides": 21,
+  "figure_pairs": 14,
+  "reader_artifacts": [
+    {
+      "filename": "融合检验_真实数据置换验证.png",
+      "bytes": 341326,
+      "sha256": "1d0c863b5828a2f7df72e22ea052412cc963715722884a3e3707e0437d8be3ee"
+    },
+    {
+      "filename": "融合检验_真实数据置换验证.pdf",
+      "bytes": 46475,
+      "sha256": "c7f9faba8b49809ae2eb759954495882c8137b1981f48ccdaed586f7c93f7906"
+    },
+    {
+      "filename": "01_从患者读数到关系Y.png",
+      "bytes": 268366,
+      "sha256": "fd4e818fed30160f628d95e72fd5930ccb7fa94f405896f8c7c2a14d62b02840"
+    },
+    {
+      "filename": "01_从患者读数到关系Y.pdf",
+      "bytes": 55378,
+      "sha256": "6a5d516ca5b17323e6c74ca9a484c07bb0cf380e6724e5fa195e73842493b8e6"
+    },
+    {
+      "filename": "02_WNT来源归并与分支.png",
+      "bytes": 267855,
+      "sha256": "a8cb5dfc75e3b94f3e02931e03ff10067b84950d9656c9478f5de0e533ad7c7b"
+    },
+    {
+      "filename": "02_WNT来源归并与分支.pdf",
+      "bytes": 38645,
+      "sha256": "ee953d727e6d1f9c08850d0f26cfc6a6a1b50b679fc0a8a13a43c6c1c2e42f25"
+    },
+    {
+      "filename": "03_缺氧多方法读数合并.png",
+      "bytes": 187759,
+      "sha256": "9c137e31ef9ca7239039ef2dd33eb6a5f7eb700dad38ee66c1659ebd919542f1"
+    },
+    {
+      "filename": "03_缺氧多方法读数合并.pdf",
+      "bytes": 29334,
+      "sha256": "7a53519239851b1e3c398c02624b366b2ffbd546cb1d6aa4dfd2021b94ba3ce5"
+    },
+    {
+      "filename": "04_酪氨酸共同核心与扩展.png",
+      "bytes": 248344,
+      "sha256": "3701c55d5e133c6c1f4cdc16fe5474da324d6c8ef8910262d7fde47d2adfa278"
+    },
+    {
+      "filename": "04_酪氨酸共同核心与扩展.pdf",
+      "bytes": 43969,
+      "sha256": "8fd7443ebd078c03dcb6d292cdabd19f2a71653b0215c91dd63a9adcaa546765"
+    },
+    {
+      "filename": "05_State评分组成_HRD.png",
+      "bytes": 161502,
+      "sha256": "44703def877391cb5d2abef9a508d3065f23ecd24f4d8d37a9e234f18f38dbc4"
+    },
+    {
+      "filename": "05_State评分组成_HRD.pdf",
+      "bytes": 32272,
+      "sha256": "51b07380022e84b60e9c7a6dfc5e8f8d385b833f3823ba79953a8faac60b14a3"
+    },
+    {
+      "filename": "06_关系Y融合公式.png",
+      "bytes": 270044,
+      "sha256": "ce60b3e20b64689dedfcce698259cd728320b17b1f367a46927efc5ca4367884"
+    },
+    {
+      "filename": "06_关系Y融合公式.pdf",
+      "bytes": 59280,
+      "sha256": "071411402eee50250d570e04ff64b2ed3e2f176a8926bf1f732da95372f2e959"
+    },
+    {
+      "filename": "07_共同协变量患者覆盖.png",
+      "bytes": 155950,
+      "sha256": "78bd1ee834a0531df4e110dfdc64f70812c69f66e27742e3b1bb29bd4ac3ed9e"
+    },
+    {
+      "filename": "07_共同协变量患者覆盖.pdf",
+      "bytes": 15561,
+      "sha256": "4294224ec966cd5af907b3efdd196a590965a01b3f665307be96d6280f7c3908"
+    },
+    {
+      "filename": "08_CPTAC局部CNV覆盖.png",
+      "bytes": 117105,
+      "sha256": "13f2be9c24f49cf1cae63958e6b89290efc7bb4a9a3290f6988a276a17ef456e"
+    },
+    {
+      "filename": "08_CPTAC局部CNV覆盖.pdf",
+      "bytes": 14340,
+      "sha256": "28e4d9544964614333cb438b8c4f0f00bea835d5b80508650fa5e15c77dc3fac"
+    },
+    {
+      "filename": "09_各层患者评分覆盖.png",
+      "bytes": 230736,
+      "sha256": "b2faafdba7e1fe2f8c93e3932d63bac1e47736387c517d16538202b1a43b26cd"
+    },
+    {
+      "filename": "09_各层患者评分覆盖.pdf",
+      "bytes": 22242,
+      "sha256": "e8cafa32416be48f8af95256bcdb8e1f0ea03b20abf25da4de6ea0ed3691bd73"
+    },
+    {
+      "filename": "Functional_pathway_State_dictionary_v5.xlsx",
+      "bytes": 67066893,
+      "sha256": "062b3d22ea29a94b8b1c05ff4fee3c9416913aeb600bf32cc9d1e3ea9b2bb419"
+    },
+    {
+      "filename": "10_身份数量与实际监督范围.png",
+      "bytes": 208002,
+      "sha256": "0e2be725a33640203173982aa2e464fd41d79f833984a834baf9e9b566966a6f"
+    },
+    {
+      "filename": "10_身份数量与实际监督范围.pdf",
+      "bytes": 23340,
+      "sha256": "abf44c248a1f574619c030716f82e1b2b5aecc81f59e0785c5fa006c0567519e"
+    },
+    {
+      "filename": "11_三癌种关系Y结果.png",
+      "bytes": 223811,
+      "sha256": "e9402c5a965f7187963b8bd0d39cfa7d7d5095e3ef2071a101f82dde7c5e16ae"
+    },
+    {
+      "filename": "11_三癌种关系Y结果.pdf",
+      "bytes": 17880,
+      "sha256": "65e1d4c3863e2354dbc84143689caf797e362a184167c78f6fb685674d694a2f"
+    },
+    {
+      "filename": "12_支持关系的证据来源.png",
+      "bytes": 193613,
+      "sha256": "946ec95b7ea4b93dcf2984b4d733e194d41325df916a6800533f9f20929a3bba"
+    },
+    {
+      "filename": "12_支持关系的证据来源.pdf",
+      "bytes": 21459,
+      "sha256": "c1f4dbb047d713c64d9409cfdcf9de5491afbd4fa686df6b5fd101b27cc1fac6"
+    },
+    {
+      "filename": "13_两队列关系覆盖.png",
+      "bytes": 121367,
+      "sha256": "18765ec0f0b88819d761c9c0bd061d7d0d39da40a35bc006601dc5d2b07ec585"
+    },
+    {
+      "filename": "13_两队列关系覆盖.pdf",
+      "bytes": 15739,
+      "sha256": "c66efca4be2bb40dcc9414ea13b8e07cc68ef366c548035033df2e32a490af27"
+    },
+    {
+      "filename": "Functional_Y_joint_report_v6.pptx",
+      "bytes": 2611992,
+      "sha256": "ec524a880393073a033a9a360d4eeb64258d4b76673737ca17c76f086b96ad2b"
+    },
+    {
+      "filename": "Functional_Y_joint_report_v6.pdf",
+      "bytes": 3009508,
+      "sha256": "9799851f5f9ab6d1b62b77ce3593dcb290b4c715fd85cd60aa9fbf85588c9f9e"
+    }
+  ]
+}

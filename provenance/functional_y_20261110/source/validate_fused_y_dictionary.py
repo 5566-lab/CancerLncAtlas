@@ -28,6 +28,8 @@ assert len(frame('Y_by_context'))==15
 from cla_engine.functional_fusion import ARRAY_NAMES
 assert set(frame('Y_fields').field)==set(ARRAY_NAMES)
 sd=frame('Score_definitions');cv=frame('Score_coverage');assert len(sd)==len(cv)==44859
+expected_sd=pd.read_csv(D/'SCORE_DEFINITIONS.tsv',sep='\t').fillna('');pd.testing.assert_frame_equal(sd.fillna('').reset_index(drop=True),expected_sd.reset_index(drop=True),check_dtype=False)
+for col in ['applied_method','definition_database','source_resource','score_matrix','score_unit','data_form','measurement_layer']:assert sd[col].fillna('').astype(str).str.len().gt(0).all(),col
 p=sd.loc[sd.dataset.eq('CPTAC')&sd.source_readout_id.eq('ABSOLUTE_purity')];assert len(p)==3 and p.applied_method.str.contains('WES-derived').all() and ~p.source_resource.str.contains('api.gdc.cancer.gov').any()
 assert set(sd.cancer_id)=={'BRCA','LUAD','COAD'}
 for name in ['Parent_child','Pathway_branches','Reaction_extensions','Reaction_roles','Complex_components','State_components','Phospho_sites']:
