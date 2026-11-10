@@ -2,6 +2,7 @@ from pathlib import Path
 import sys,socket,json,zipfile,hashlib
 import pandas as pd
 R=Path(__file__).resolve().parent;F=R/'functional_relation_y_fused_r1';D=F/'dictionary_data';O=F/'reports';assert socket.gethostname()=='149';sys.path[:0]=[str(R/'python_deps'),'/dsk2/user/dengsc/cla_m0_joint_20261105_r1/python_deps']
+sys.path.insert(0,str(R/'source_integration/repo'))
 from openpyxl import load_workbook
 rec=json.loads((O/'DICTIONARY_V5_RECEIPT.json').read_text());path=Path(rec['file']);assert hashlib.sha256(path.read_bytes()).hexdigest()==rec['sha256']
 forbidden=[b'MOGSA',b'PathFA',b'identity_merge',b'independent_flux_claimed',b'independent_functional_branch_claimed',b'legacy_compatibility',b'LEGACY_WEIGHTED_ZSCORE_UNCHANGED',b'legacy_R07']
@@ -24,6 +25,8 @@ assert master.roles.str.contains('Pathway').sum()==2595 and master.roles.str.con
 for sheet,fn in [('Y_by_cancer','Y_BY_CANCER.tsv'),('Y_by_context','Y_BY_CONTEXT.tsv'),('Y_target_counts','Y_TARGET_COUNTS.tsv')]:
  a=frame(sheet);b=pd.read_csv(D/fn,sep='\t').fillna('');pd.testing.assert_frame_equal(a.fillna('').reset_index(drop=True),b.reset_index(drop=True),check_dtype=False);assert set(a.cancer_id)=={'BRCA','LUAD','COAD'}
 assert len(frame('Y_by_context'))==15
+from cla_engine.functional_fusion import ARRAY_NAMES
+assert set(frame('Y_fields').field)==set(ARRAY_NAMES)
 sd=frame('Score_definitions');cv=frame('Score_coverage');assert len(sd)==len(cv)==44859
 p=sd.loc[sd.dataset.eq('CPTAC')&sd.source_readout_id.eq('ABSOLUTE_purity')];assert len(p)==3 and p.applied_method.str.contains('WES-derived').all() and ~p.source_resource.str.contains('api.gdc.cancer.gov').any()
 assert set(sd.cancer_id)=={'BRCA','LUAD','COAD'}
