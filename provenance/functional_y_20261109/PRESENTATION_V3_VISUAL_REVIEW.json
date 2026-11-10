@@ -1,0 +1,40 @@
+{
+  "target_host": "149",
+  "status": "PASS",
+  "pages": 22,
+  "rendered_pages_reviewed": "all 22 via contact sheets; full-size results pages 8,9,12,15,17",
+  "fixes": [
+    "moved legends away from plotted values",
+    "shortened line breaks in integration flow",
+    "specified all five Y fields",
+    "matched covariate encoding versus within-label residual association wording to executable code"
+  ],
+  "key_evidence": {
+    "identities": 3456,
+    "identities_with_scores": 2840,
+    "estimable_cancers": 22,
+    "supported_cancers": 20,
+    "multilayer_strict_relations": 495,
+    "purity_state_strict_relations": 476,
+    "pathway_strict_relations": 19,
+    "pathway_identities_strict": 17
+  },
+  "unchanged": [
+    "patient scores",
+    "labels",
+    "folds",
+    "statistical cutoffs",
+    "training code"
+  ],
+  "pptx_sha256": "ea193dc4e05a66d4cd0f234bffa3e09254a21c4bae745607b1bb3f86ba672a03",
+  "pdf_sha256": "59a160ee8b03ca62ac64f56931b4d99e6d5326ae9560eaab31b02711074555f0",
+  "automated_checks": [
+    "22 rendered pages",
+    "ZIP integrity",
+    "slide shape bounds",
+    "key conclusion text in rendered PDF",
+    "source hashes match",
+    "real mTORC1 example checked against both assay evidence records"
+  ],
+  "timestamp_utc": "2026-11-10T04:19:48.561637+00:00"
+}

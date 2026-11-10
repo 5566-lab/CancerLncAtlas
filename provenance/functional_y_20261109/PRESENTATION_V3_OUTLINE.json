@@ -1,0 +1,134 @@
+[
+  {
+    "slide": 1,
+    "section": "研究进展汇报",
+    "title": "从多来源通路评分，到 lncRNA–功能关系 Y",
+    "sources": ""
+  },
+  {
+    "slide": 2,
+    "section": "背景",
+    "title": "真正的问题：某癌种中，一条 lncRNA 与什么功能有关？",
+    "sources": ""
+  },
+  {
+    "slide": 3,
+    "section": "问题 → 解决办法 → 结果",
+    "title": "三个问题，分别在三个层次处理",
+    "sources": ""
+  },
+  {
+    "slide": 4,
+    "section": "整合方法总览",
+    "title": "实际采用：身份归并 + 分层读数 + 关联证据汇总",
+    "sources": "assemble_functional_relation_y_numerical.py; canonical_targets_r6/ID_REDIRECTS.tsv"
+  },
+  {
+    "slide": 5,
+    "section": "问题 1｜通路名字、组成与层级不同",
+    "title": "如何解决：相同范围归一，相似范围保留关系",
+    "sources": ""
+  },
+  {
+    "slide": 6,
+    "section": "问题 1｜解决结果",
+    "title": "身份已经统一，实测评分覆盖其中 82.2%",
+    "sources": "canonical_targets_r6/COMPLETE.json; supervision_summary_r2/CURRENT_SCORE_COVERAGE.tsv.gz"
+  },
+  {
+    "slide": 7,
+    "section": "问题 2｜TCPA 抗体与 CPTAC 质谱测量不同",
+    "title": "如何解决：先统一“测什么”，各平台分别保留 S",
+    "sources": ""
+  },
+  {
+    "slide": 8,
+    "section": "问题 2｜解决结果：患者覆盖",
+    "title": "三癌种均已有蛋白 / 磷酸化评分，可用于后续证据检验",
+    "sources": "supervision_summary_r2/FIGURE_SCORE_COVERAGE.tsv; these rows have identical protein/phospho patient coverage"
+  },
+  {
+    "slide": 9,
+    "section": "问题 2｜解决结果：检测范围",
+    "title": "CPTAC 覆盖更广，TCPA 的磷酸化通路范围仍很有限",
+    "sources": ""
+  },
+  {
+    "slide": 10,
+    "section": "问题 3｜评分不一、证据可能相反",
+    "title": "如何解决：逐层估计关联，再汇总支持等级",
+    "sources": "functional_relation_y_catalog_r6/Y_DEFINITION.json; assemble_functional_relation_y_numerical.py"
+  },
+  {
+    "slide": 11,
+    "section": "问题 3｜一条真实结果，展示整合过程",
+    "title": "BRCA：同一条 lncRNA 的 mTORC1 关联得到 RNA 与蛋白支持",
+    "sources": "numerical_relation_evidence_r1/BRCA/sealed_test/{RNA,PROTEIN}/SUPPORTED_RELATIONS.parquet; REAL_EXAMPLE.json"
+  },
+  {
+    "slide": 12,
+    "section": "问题 3｜控制关联估计中的重复与混杂",
+    "title": "评分参考患者与关系标签患者分开",
+    "sources": "functional_relation_y_catalog_r6/BRCA/sealed_test/SPLIT.json; numerical_relation_evidence_r1; source and label disjoint verified"
+  },
+  {
+    "slide": 13,
+    "section": "问题 3｜解决结果：可用范围",
+    "title": "33 个癌种中，22 个可估计，20 个形成支持关系",
+    "sources": "supervision_summary_r2/Y_SUPERVISION_BY_CANCER.tsv"
+  },
+  {
+    "slide": 14,
+    "section": "问题 3｜解决结果：三癌种 demo",
+    "title": "三个癌种都形成了 Y，支持强度差别很大",
+    "sources": ""
+  },
+  {
+    "slide": 15,
+    "section": "关键结果｜必须拆开看 Y 的证据来源",
+    "title": "495 条多层严格支持，96.2% 对应肿瘤纯度 State",
+    "sources": "story_revision_20261110_r1/STRICT_MULTILAYER_EXAMPLES.tsv; derived from six cancers with membership==strong_positive"
+  },
+  {
+    "slide": 16,
+    "section": "覆盖缺口｜为什么有些癌种还没有可用 Y？",
+    "title": "限制来自协变量完整性与标签分折的有效样本量",
+    "sources": "adjustment_coverage_r1/ADJUSTMENT_SUPPORT_BY_CANCER.tsv; Y_SUPERVISION_BY_CANCER.tsv"
+  },
+  {
+    "slide": 17,
+    "section": "最终判断",
+    "title": "最后的 Y 是否成功？关系标签已完成，科学目标只完成一部分",
+    "sources": ""
+  },
+  {
+    "slide": 18,
+    "section": "下一步｜按当前证据推进",
+    "title": "先验证关系 Y 的价值，再扩展跨平台监督",
+    "sources": ""
+  },
+  {
+    "slide": 19,
+    "section": "附录｜各癌种关系数量",
+    "title": "33 癌种完整结果（1/3）",
+    "sources": "supervision_summary_r2/Y_SUPERVISION_BY_CANCER.tsv"
+  },
+  {
+    "slide": 20,
+    "section": "附录｜各癌种关系数量",
+    "title": "33 癌种完整结果（2/3）",
+    "sources": "supervision_summary_r2/Y_SUPERVISION_BY_CANCER.tsv"
+  },
+  {
+    "slide": 21,
+    "section": "附录｜各癌种关系数量",
+    "title": "33 癌种完整结果（3/3）",
+    "sources": "supervision_summary_r2/Y_SUPERVISION_BY_CANCER.tsv"
+  },
+  {
+    "slide": 22,
+    "section": "附录｜如何复核与读取",
+    "title": "数据字典、患者评分和关系标签各回答一个问题",
+    "sources": ""
+  }
+]

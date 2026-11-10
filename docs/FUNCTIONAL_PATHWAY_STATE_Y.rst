@@ -113,6 +113,21 @@ relationships. The independent label fold contains estimable associations in
 ``Y_SUPERVISION_BY_CANCER.tsv`` and ``Y_SUPERVISION_BY_CANCER_CONTEXT.tsv``
 provide the counts and patient denominators.
 
+
+In that independent label fold, 495 relationships meet strict criteria in at
+least two assay families. Of these, 476 concern tumor-cell fraction with RNA and
+copy-number-derived evidence. The other 19 concern 17 Pathway identities with
+RNA and total-protein evidence. No phospho family appears in this strict
+multi-family subset. These counts describe relationship evidence, not predictive
+model performance.
+
+The integration combines canonical identity and assay-specific association
+evidence. It does not average TCPA and CPTAC patient scores onto a validated
+common activity scale. The current formal relationship Y uses TCGA and matched
+TCPA; CPTAC scores retain their aligned identities and measurement definitions.
+CPTAC formal relationship estimation still needs a covariate design compatible
+with its missing methylation-derived leukocyte fraction.
+
 Reproducing the materialization
 ------------------------------
 

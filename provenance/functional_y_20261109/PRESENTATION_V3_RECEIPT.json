@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "slides": 22,
+  "pptx": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reports/story_revision_20261110_r1/Functional_Y_construction_report_story_v3.pptx",
+  "sha256": "ea193dc4e05a66d4cd0f234bffa3e09254a21c4bae745607b1bb3f86ba672a03",
+  "source_files": {
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/supervision_summary_r2/Y_SUPERVISION_BY_CANCER.tsv": "3176474c684b9bb21afdbd7c3edf9e68ba1e4effdf94e807a05df6211eea547e",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/supervision_summary_r2/FIGURE_SCORE_COVERAGE.tsv": "2f95220999f24b4c43158abb1935fc97d0e196e2b291c362c3171b0a52157c7e",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r6/COMPLETE.json": "481ce202cc7f0e38e80b71fa8817d22494a1eba6db550b9cf1196432c30ec00b",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reports/story_revision_20261110_r1/STRICT_MULTILAYER_EXAMPLES.tsv": "165dfbcc141bf03e72e98a3f20d8ab38ad251c474ffe9a24fff1a04ee11a5108",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/assemble_functional_relation_y_numerical.py": "650e9fc6034af811126aa2f2ccae2c0d356ce8df636c183f59c91ae336288b3d"
+  },
+  "key_findings": {
+    "identities": 3456,
+    "identities_with_scores": 2840,
+    "estimable_cancers": 22,
+    "supported_cancers": 20,
+    "multilayer_strict_relations": 495,
+    "purity_state_strict_relations": 476,
+    "pathway_strict_relations": 19,
+    "pathway_identities_strict": 17
+  },
+  "model_or_label_changed": false,
+  "pdf": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/reports/story_revision_20261110_r1/render/Functional_Y_construction_report_story_v3.pdf",
+  "pdf_sha256": "59a160ee8b03ca62ac64f56931b4d99e6d5326ae9560eaab31b02711074555f0",
+  "preview_count": 22
+}

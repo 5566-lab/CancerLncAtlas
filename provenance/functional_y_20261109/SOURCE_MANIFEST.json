@@ -54,7 +54,9 @@
     "canonical_quantity_adjustment/design.py": "2a146a6819c17ac6ff5b63107ea2b15c700712fbec0f7abf8ba6291b3e939b57",
     "publish_functional_y_data.py": "3a07150322b46a6b5568ffe54e9ff96ec7a36f0741451b9c54ff414554c36e26",
     "validate_final_dictionary_methods.py": "2aa07477678dafb753eae9bb5a7e8af2c1b5940598054791b616f537acfc6ab9",
-    "validate_published_functional_y.py": "a1d241abcc4b2d6dba081078f0a38e2b78000e7fcc247f52bc19c4aba4375b4b"
+    "validate_published_functional_y.py": "a1d241abcc4b2d6dba081078f0a38e2b78000e7fcc247f52bc19c4aba4375b4b",
+    "collect_functional_y_presentation_evidence.py": "4119655b1693907dc156b79cf3cd8178dbb160f9d586633be67796f1e6f71db7",
+    "build_functional_y_story_presentation.py": "cd40b005df706db9da2007f20177c183e17b5bd4a1fd571c44f40b59a186697d"
   },
   "external_dependencies": [
     "Existing source data and generated stage outputs at paths embedded in the snapshot",
@@ -65,5 +67,15 @@
     "tcga_lncrnas": 16889,
     "canonical_score_identities": 3456
   },
-  "source_snapshot_role": "Executed materialization code and numerical correction; native filesystem paths retain exact source provenance"
+  "source_snapshot_role": "Executed materialization code and numerical correction; native filesystem paths retain exact source provenance",
+  "presentation_revision": {
+    "date": "2026-11-10",
+    "version": "story_v3",
+    "execution_order": [
+      "collect_functional_y_presentation_evidence.py",
+      "build_functional_y_story_presentation.py"
+    ],
+    "report": "provenance/functional_y_20261109/PRESENTATION_V3_RECEIPT.json",
+    "data_changed": false
+  }
 }

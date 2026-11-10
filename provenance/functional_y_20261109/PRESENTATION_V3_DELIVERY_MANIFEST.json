@@ -1,0 +1,27 @@
+{
+  "target_host": "149",
+  "directory": "/dell_2/DSC/CancerLncAtlas/results/model/图片/Functional_Y_20261109_r1",
+  "files": {
+    "Functional_Y_construction_report.pptx": "ea193dc4e05a66d4cd0f234bffa3e09254a21c4bae745607b1bb3f86ba672a03",
+    "Functional_Y_construction_report.pdf": "59a160ee8b03ca62ac64f56931b4d99e6d5326ae9560eaab31b02711074555f0",
+    "Functional_Y_construction_report_v3.pptx": "ea193dc4e05a66d4cd0f234bffa3e09254a21c4bae745607b1bb3f86ba672a03",
+    "Functional_Y_construction_report_v3.pdf": "59a160ee8b03ca62ac64f56931b4d99e6d5326ae9560eaab31b02711074555f0",
+    "10_Patient_coverage_demo.pdf": "36d713dd6925ce0af9539fdb6d6caed7523b4d5219be6b39c20ed749cdd7dcea",
+    "10_Patient_coverage_demo.png": "4dc9de88813d5ec2135a946e6bbd308852bbff968e09347bef16d696617c2c9d",
+    "11_Target_breadth_demo.pdf": "815cde9e76a376c0948985dd4f1b9ab574c0f2b7f8d95bcc255dfb31229aeaf3",
+    "11_Target_breadth_demo.png": "62ef1f904af0316482bbc551279ca1cdfd34351b313063f02c729ce7a91716af",
+    "12_Demo_Y_results.pdf": "2ed08b4f2cec20261db3e0f9ec6c30d66a6aa4f04dcec2d8b418f4696ff26de6",
+    "12_Demo_Y_results.png": "6c85b8862eaf2fe36dd31b95a6d9b9806e0bb1628b9e76907500babdbdc34bd0",
+    "13_Strict_evidence_composition.pdf": "9acb974cd6a5f819c95ff3900756d29f27b437ec97d7599f1ff5a6c1c05e6174",
+    "13_Strict_evidence_composition.png": "0e7dcea6a88fc821666a43a5f3ec26fbcb97e5b7528dd1a2985fefa14adb908c",
+    "14_All_cancer_support_1.pdf": "092f380350dd4e387cc7c5c1c2ede2dcc32a40679992bf58ddb278209fddff9f",
+    "14_All_cancer_support_1.png": "4ecdbaaa4006c8887e8d4c726a148b20af2d728f21f738da71664469a247ae7f",
+    "14_All_cancer_support_2.pdf": "7132a14c0897b59dec363ec6bcb5f97f4332cec5192232374a99528b83093893",
+    "14_All_cancer_support_2.png": "c82833d190c6f19ac6d3b40bfee76b015fd3d526a38bd1e38811416f8d7c7759",
+    "14_All_cancer_support_3.pdf": "4192ed242a0a5be226a1f490507e5d9a901e7dea1fc1cdcc04d0ce4fb8db232f",
+    "14_All_cancer_support_3.png": "a0137831fb893c946fa37713d7712a4b1198cff8f0d5e28aef749f68f3d86f2b"
+  },
+  "revision": "story_v3_20261110",
+  "slides": 22,
+  "scientific_data_changed": false
+}

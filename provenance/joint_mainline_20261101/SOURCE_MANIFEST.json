@@ -2042,8 +2042,8 @@
       "sha256": "61491640cf90666b94086a0e918fe5fba057cdcbf1ce9e173120fb159e1965e8"
     },
     "docs/FUNCTIONAL_PATHWAY_STATE_Y.rst": {
-      "bytes": 7790,
-      "sha256": "50d76b75d3c3344bcc965709b542d26129693cd1d1ac108906012a19dfee791d"
+      "bytes": 8649,
+      "sha256": "6b17e932ecb82c34345bc15915171e144a2bdaf9d257637eb2a41095b568f577"
     },
     "docs/GENCODE_NATIVE_ANNOTATION_20261027.rst": {
       "bytes": 5812,
@@ -7381,9 +7381,10 @@
       "dictionary_sheets": 46,
       "figure_pairs": 14,
       "presentation_slides": 22,
+      "story_revision": "2026-11-10 v3",
       "validated_contexts": 165
     }
   },
-  "last_change_base_commit": "a9082362308bb547df2fd9943ac2a5e86f784d34",
+  "last_change_base_commit": "78803c01dd7e7accef8df93498ceb040df98747c",
   "target_host": "149"
 }
