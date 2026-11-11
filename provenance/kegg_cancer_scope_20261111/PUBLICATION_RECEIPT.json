@@ -1,0 +1,13 @@
+{
+  "target_host": "149",
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r9_cancer_evidence_20261111_r5",
+  "functional_y": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/functional_relation_y_cancer_evidence_20261111_r4",
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v6.xlsx",
+  "dictionary_sha256": "9eff0170b2b1fc776bcf9c0fba0873751b6ea2552a6846eb9ce88e360ae685c6",
+  "pointer_sha256": {
+    "CANONICAL_TARGETS_CURRENT.json": "ef1c2562edc2c1064b006ed2e91603054de2447970be0e2fcd7ae6176834f2fd",
+    "CURRENT_CANONICAL_REFERENCE.json": "3e5d07ec170ca6750edc2bf9a9da392ecd678b0619848fae6395e1abb73172df"
+  },
+  "previous_active_backup": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/previous_active",
+  "training_started": false
+}

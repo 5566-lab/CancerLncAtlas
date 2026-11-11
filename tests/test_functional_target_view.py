@@ -102,3 +102,26 @@ def test_old_view_without_source_label_mapping_is_not_silently_loaded(tmp_path):
     (tmp_path / "COMPLETE.json").write_text(json.dumps({"files": {}}))
     with pytest.raises(ValueError, match="EXPLICIT_LABEL_MAPPING_REQUIRED"):
         load_target_view(tmp_path, "BRCA", "train")
+
+
+def test_unqualified_conditional_readout_is_missing_not_negative_and_source_is_immutable():
+    source=context()
+    result=project_context(source,policies(),('p','s'),unavailable_target_ids=['p'])
+    assert result.arrays['observed'].tolist()==[[0,0]]
+    assert result.arrays['membership'].tolist()==[[0,0]]
+    assert np.isnan(result.arrays['combined_q'][0,0])
+    assert source.arrays['observed'][0,2]==1
+    assert source.arrays['combined_q'][0,2]==.7
+
+def test_unknown_conditional_target_is_rejected():
+    with pytest.raises(ValueError,match='APPLICABILITY_AXIS_MISMATCH'):
+        project_context(context(),policies(),('p',),unavailable_target_ids=['unknown'])
+
+def test_original_msigdb_definition_is_valid_fallback_without_current_network_authority():
+    from cla_engine.functional_target_view import compile_label_identity_map
+    sid='MSIGDB:KEGG_MEDICUS:exact_variant'
+    result=compile_label_identity_map(
+        [{'source_target_id':sid,'canonical_id':'new','network_id':'N1'}],{},
+        [{'authority_id':sid,'node_id':'old','integrated_canonical_id':'new'}])
+    assert result[0]['source_label_canonical_id']=='old'
+    assert result[0]['mapping_basis']=='original_exact_source_node_from_definition_to_identity'

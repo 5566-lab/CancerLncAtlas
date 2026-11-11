@@ -15,31 +15,26 @@ All preparation, audits and training execute on host **149**. No command in this
 integration starts paid compute. The reviewed code and tests are not a newly
 trained model or a production release.
 
-## Functional relationship Y (2026-11-10)
+## Cancer mechanism backbone and relation targets (2026-11-11)
 
-The three-cancer relationship-label release combines TCGA/TCPA and CPTAC for
-**BRCA, LUAD and COAD**. It retains 3,456 canonical Pathway/State identities and
-16,889 lncRNAs. The 15 materialized contexts retain combined association p/q,
-strong/weak support, measurement coverage and conflicting directions. Multiple
-readouts of the same target contribute with dependence correction; patient
-scores remain in their source-specific units.
+The main task is **cancer ? lncRNA ? exact pathway**, with separate BRCA,
+LUAD and COAD models. The evidence-defined KEGG backbone retains **475**
+NETWORK mechanisms from 658 original definitions: 199 with official cancer
+classification, 23 with additional malignant-disease annotations and 253
+supported by reviewed mechanism literature. Original NETWORK identifiers,
+mechanisms and gene memberships are retained.
 
-The companion delivery contains a 44-sheet dictionary, 14 PNG/PDF figure pairs
-and a 21-slide presentation. Definitions, components, source databases, score
-methods, synonyms, parent-child relations, branches and extensions are traceable
-from fixed target IDs. See [the construction and reading guide](docs/FUNCTIONAL_PATHWAY_STATE_Y.rst)
-and `data/functional_targets_20261110`.
+Cross-database equivalence, hierarchy and protein-component similarity are
+recorded separately. Protein composition links 1,648 context identities to the
+backbone; 197 State identities remain auxiliary. TF, kinase and PROGENy
+readouts display as Pathway without automatically receiving independent
+losses. The joint task weights remain Pathway=1.0 and State=0.5.
 
-This is the relationship-label release. The current binary training preparation
-still needs adaptation to its positive/unlabelled semantics before model fitting.
-The historical model comparisons below use their stated earlier labels.
-
-## Earlier target transition (2026-11-04)
-
-MOGSA and its derived parent targets are retired. The public configuration
-requires a replacement target design before preparation or training; it does
-not silently fall back to RNA scores. Separate per-assay heads are not yet
-implemented. See [the retirement and target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst).
+The current label view uses exact original source columns and masks conditional
+mutation/pathogen/exposure mechanisms when only generic host readouts exist.
+The M0 comparator is a per-cancer linear relation model using source-patient
+numeric features and the same target policy and folds as CCHHGT. See the
+[mechanism integration and M0 specification](docs/CANCER_RELATION_TASK.rst).
 
 ## Reviewed three-cancer network comparison (2026-11-06)
 

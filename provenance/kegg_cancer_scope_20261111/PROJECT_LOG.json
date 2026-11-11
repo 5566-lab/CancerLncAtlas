@@ -1,0 +1,23 @@
+{
+  "target_host": "149",
+  "task": "Evidence-defined KEGG cancer backbone and cross-database relation scope",
+  "source_count": 658,
+  "primary_count": 475,
+  "context_count": 1648,
+  "state_count": 197,
+  "selection": "199 official cancer class + 23 explicit malignant disease + 253 curated mechanism literature",
+  "original_anchor_membership": "Exact original KEGG source proteins; no cross-database union expansion",
+  "context_graph": "Protein/gene composition plus typed mechanism context; exact TF/kinase molecular identity separately supported",
+  "readout_labels": "Original frozen relation evidence; no new cross-platform patient activity calibration",
+  "conditional_labels": "143 non-Reference mechanisms masked until condition-qualified evidence exists",
+  "m0": "Per-cancer numeric-only linear relation comparator; same policy/folds/masks; existing binary endpoint uses L1 logistic",
+  "remaining_training_contract": "Active fused Y is positive/unlabelled. Existing binary runner rejects it. A shared PU or continuous-evidence training adapter is still required before a real matched M0/HHGT fit.",
+  "no_new_patient_training": true,
+  "paid_compute_started": false,
+  "unrelated_worktree_files_preserved": [
+    "cla_engine/readout_consensus.py",
+    "cla_engine/standard_progeny.py",
+    "docs/PROTEIN_PATHWAY_INTEGRATION_20261111.rst",
+    "provenance/pathway_protein_clustering_20261111/"
+  ]
+}

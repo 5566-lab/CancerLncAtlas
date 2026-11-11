@@ -55,12 +55,12 @@ def fixture_binding(root,cfg=None):
         "source_identity_map":str(root/"SOURCE_IDENTITY_MAP.tsv"),"source_identity_map_sha256":sha(root/"SOURCE_IDENTITY_MAP.tsv")}
     return cfg,excluded
 
-def test_binding_requires_all_hashes_and_fixed_real_count(tmp_path):
+def test_binding_requires_all_hashes_and_verified_dynamic_count(tmp_path):
     cfg,_=fixture_binding(tmp_path)
     bad=copy.deepcopy(cfg);bad["relation_target_policy"].pop("sha256")
     with pytest.raises(Stop,match="All policy"):load_bound_policy(bad)
     cfg["synthetic_fixture"]=False
-    with pytest.raises(Stop,match="fixed 381"):load_bound_policy(cfg)
+    assert load_bound_policy(cfg)["backbone"]["rows"]
 
 def test_admission_preserves_source_ids_and_excludes_regulators(tmp_path):
     cfg,excluded=fixture_binding(tmp_path)
@@ -162,3 +162,13 @@ def test_baseline_identity_mode_is_explicit_and_legacy_contract_unchanged():
     assert contract["identity_fit_scope"]=="NONE_NUMERIC_ONLY"
     cfg["baseline"]["identity_mode"]="unknown"
     with pytest.raises(Stop,match="exact or numeric_only"):baseline_contract(cfg)
+
+
+def test_host_component_readouts_cannot_supervise_conditional_mechanisms():
+    from cla_engine.prepared_target_policy import host_readout_qualified_axis
+    b={'backbone':{'manifest':{'format':'CLA_KEGG_CANCER_BACKBONE_V2'},'rows':[
+        {'source_target_id':'r','network_type':'Reference'},
+        {'source_target_id':'v','network_type':'Variant'},
+        {'source_target_id':'p','network_type':'Pathogen'},
+        {'source_target_id':'e','network_type':'Env factor'}]}}
+    assert host_readout_qualified_axis(b,['r','v','p','e'])==[True,False,False,False]

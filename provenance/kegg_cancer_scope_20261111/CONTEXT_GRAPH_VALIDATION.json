@@ -1,0 +1,22 @@
+{
+  "mechanism_nodes": 1648,
+  "mapped_mechanism_nodes": 1648,
+  "unmapped_component_records": 0,
+  "edge_counts": {
+    "protein|mechanism_component|mechanism": 105590,
+    "mechanism|mechanism_context|pathway": 26828,
+    "mechanism|mechanism_regulator_context|pathway": 1794
+  },
+  "independent_loss": false,
+  "label_values_read": false,
+  "relation_semantics": "molecular composition and shared components; no activity or causality direction",
+  "target_host": "149",
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r9_cancer_evidence_20261111_r5",
+  "context_categories": {
+    "other_pathway": 1342,
+    "TF": 118,
+    "PROGENy": 8,
+    "kinase": 180
+  },
+  "real_inputs": "Frozen catalog composition and HGNC/UniProt reference roster; no patient training run"
+}

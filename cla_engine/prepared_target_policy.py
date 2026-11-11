@@ -60,13 +60,24 @@ def load_bound_policy(cfg, prepared_root=None):
     _verified(identity_path,config["source_identity_map_sha256"],"source_identity_map")
     _verified(backbone_path/"MANIFEST.json",config["backbone_manifest_sha256"],"backbone_manifest")
     backbone = load_backbone(backbone_path,verify=True)
-    if not cfg.get("synthetic_fixture") and len(backbone["rows"]) != 381:
-        fail("RELATION_POLICY_BACKBONE_COUNT","Real preparation requires the fixed 381 source definitions")
+    if not backbone["rows"]:
+        fail("RELATION_POLICY_BACKBONE_COUNT","The verified biological backbone must not be empty")
     policies = load_target_policy(policy_path)
     aliases = _map_rows(identity_path)
     binding = {"config":dict(config),"policies":policies,"aliases":aliases,
                "backbone":backbone,"policy_path":policy_path,
                "identity_path":identity_path,"backbone_path":backbone_path}
+    if backbone["manifest"].get("format")=="CLA_KEGG_CANCER_BACKBONE_V2":
+        files=config.get("context_graph",{})
+        required={"MECHANISM_CONTEXT_LINKS.tsv","MECHANISM_CONTEXT_COMPONENTS.tsv"}
+        if set(files)!=required:
+            fail("RELATION_POLICY_CONTEXT_GRAPH_BINDING","Evidence-defined scope requires sealed mechanism context")
+        binding["context_graph"]={}
+        for name,item in files.items():
+            path=(Path(prepared_root)/FOLDER/name) if prepared_root is not None else Path(item["path"])
+            _verified(path,item["sha256"],name)
+            with path.open(encoding="utf-8-sig",newline="") as h:
+                binding["context_graph"][name]=list(csv.DictReader(h,delimiter="\t"))
     for row in backbone["rows"]:
         cid = resolve_identity(binding,row["source_target_id"])
         if cid != row["canonical_id"]:
@@ -115,6 +126,14 @@ def select_pathways(binding, membership_ids):
     return sorted(expected)
 
 
+def host_readout_qualified_axis(binding,pathways):
+    """Generic host readouts qualify Reference mechanisms, not named perturbants."""
+    if binding is None or binding['backbone']['manifest'].get('format') != 'CLA_KEGG_CANCER_BACKBONE_V2':
+        return [True] * len(pathways)
+    rows={r['source_target_id']:r for r in binding['backbone']['rows']}
+    return [rows[sid]['network_type']=='Reference' for sid in pathways]
+
+
 def select_state_targets(cfg,binding):
     primary = [row for row in cfg["targets"] if row["role"]=="primary"]
     if binding is None:
@@ -144,6 +163,10 @@ def seal_prepared_policy(root,cfg,binding,pathways,state_targets,profile):
     destination.mkdir(parents=True,exist_ok=True)
     shutil.copyfile(binding["policy_path"],destination/"TARGET_POLICY.tsv")
     shutil.copyfile(binding["identity_path"],destination/"SOURCE_IDENTITY_MAP.tsv")
+    for name,item in binding["config"].get("context_graph",{}).items():
+        source=_verified(item["path"],item["sha256"],name)
+        shutil.copyfile(source,destination/name)
+
     target_backbone = destination/"backbone"
     target_backbone.mkdir(exist_ok=True)
     for name in ["MANIFEST.json",*binding["backbone"]["manifest"]["files"]]:
@@ -211,5 +234,11 @@ def validate_prepared_policy(root,cfg,spec,profile=None):
     for key,value in [("pathway_canonical_ids",pathway_canonical),("state_canonical_ids",state_canonical)]:
         if spec.get(key)!=value:
             fail("RELATION_POLICY_SPEC_AXIS_DRIFT",key)
+    import numpy as np
+    qualified=np.asarray(host_readout_qualified_axis(binding,pathways),bool)
+    if not qualified.all():
+        for archive in (root/'views').glob('*/pathway.npz'):
+            with np.load(archive,allow_pickle=False) as data:
+                if np.any(data['available'] & ~qualified[data['target']]):
+                    fail("RELATION_POLICY_UNQUALIFIED_PERTURBANT_LABEL",str(archive))
     return {"binding":binding,"receipt":receipt,"state_targets":states}
-

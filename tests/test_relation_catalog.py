@@ -62,3 +62,11 @@ def test_demo_separates_cancers_without_replacing_y_contract(tmp_path):
         assert config['profiles']['diagnostic']['max_pathways'] is None
         assert config['pathway_target_policy']==base['pathway_target_policy']
     assert base['baseline']=={}
+
+def test_explicit_regulator_identity_context_does_not_require_target_gene_overlap():
+    m,s,a,p=fixture();p['tf']={'outside'}
+    _,rows=compile_policy(m,s,a,p,aligned_contexts={'tf'})
+    pol={r['canonical_id']:r for r in rows}
+    assert pol['tf']['analysis_role']=='context_only'
+    assert pol['tf']['loss_weight']==0
+    assert pol['other']['analysis_role']=='excluded'

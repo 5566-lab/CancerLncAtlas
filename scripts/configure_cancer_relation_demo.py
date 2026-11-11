@@ -11,6 +11,7 @@ if __name__=='__main__':
     out=Path(a.out)
     if out.exists(): raise ValueError('Use a new configuration directory')
     out.mkdir(parents=True)
+    (out/'LAUNCH_PREFLIGHT.json').write_text(json.dumps({'target_host':'149','operation':'three_cancer_demo_configuration'})+'\n')
     configs=demo_configurations(json.loads(Path(a.base_config).read_text()),a.catalog)
     for cancer,config in configs.items():
         (out/(cancer+'.json')).write_text(json.dumps(config,indent=2)+'\n')

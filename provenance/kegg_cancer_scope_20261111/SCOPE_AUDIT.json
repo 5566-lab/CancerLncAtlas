@@ -1,0 +1,15 @@
+{
+  "target_host": "149",
+  "all_source_definitions": 658,
+  "accepted": 475,
+  "excluded": 183,
+  "prior_sample_nine_positives_retained": true,
+  "als_specific_sod1_variant_excluded": true,
+  "backbone_original_members_verified": true,
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "training_started": false
+}

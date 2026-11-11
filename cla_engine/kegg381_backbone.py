@@ -164,6 +164,9 @@ def materialize_backbone(output, rows, gene_sets, manifest):
 def load_backbone(path, verify=True):
     path = Path(path)
     manifest = json.loads((path / "MANIFEST.json").read_text(encoding="utf-8"))
+    if manifest.get("format") == "CLA_KEGG_CANCER_BACKBONE_V2":
+        from .kegg_cancer_scope import load_cancer_backbone
+        return load_cancer_backbone(path, verify=verify)
     if manifest.get("format") != FORMAT:
         raise ValueError("unsupported_backbone_format")
     if verify:

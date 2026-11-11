@@ -24,7 +24,7 @@ def write_tsv(path, rows, fields=None):
         writer=csv.DictWriter(handle,fieldnames=fields,delimiter='\t',extrasaction='ignore')
         writer.writeheader();writer.writerows(rows)
 
-def compile_policy(master, state_definitions, backbone, protein_sets):
+def compile_policy(master, state_definitions, backbone, protein_sets, *, excluded_kegg=(), aligned_contexts=None):
     """Scope is defined without patient expression or lncRNA association labels."""
     identities={r['canonical_id']:r for r in master}
     if len(identities)!=len(master):
@@ -58,20 +58,25 @@ def compile_policy(master, state_definitions, backbone, protein_sets):
         anchor=anchors.get(cid)
         if anchor:
             role,group,weight,active='primary_pathway','pathway',1.0,True
-            scope='user_fixed_historical_381'
+            scope=anchor.get('backbone_inclusion_reason','user_fixed_historical_381')
+            row['display_name']=anchor.get('network_name') or row['display_name']
             row['roles']='Pathway|State' if genuine_state else 'Pathway'
             anchor_ids=anchor['backbone_id']
         elif genuine_state:
             role,group,weight,active='state_auxiliary','state',.5,True
             scope='retained_state_task'
             anchor_ids=''
-        elif shared:
+        elif cid in set(excluded_kegg):
+            role,group,weight,active='excluded','none',0.,False
+            scope='outside_evidence_defined_cancer_scope'
+            anchor_ids=''
+        elif (bool(shared) if aligned_contexts is None else cid in aligned_contexts):
             role,group,weight,active='context_only','none',0.,True
-            scope='backbone_component_context'
+            scope='backbone_component_context' if aligned_contexts is None else 'supported_backbone_component_context'
             anchor_ids=''
         else:
             role,group,weight,active='excluded','none',0.,False
-            scope='excluded_zero_overlap'
+            scope='excluded_zero_overlap' if not shared else 'excluded_insufficient_backbone_evidence'
             anchor_ids=''
         policy.append(dict(canonical_id=cid,roles=row['roles'],biological_type=kind,
             analysis_role=role,loss_group=group,loss_weight=weight,active_in_analysis=active,
@@ -98,7 +103,7 @@ def source_display_category(source, state_definitions, policy):
         return policy['roles']
     raise ValueError('RELATION_CATALOG_SOURCE_ROLE_AMBIGUOUS: '+source['source_target_id'])
 
-def materialize_catalog(source_catalog, backbone_path, output):
+def materialize_catalog(source_catalog, backbone_path, output, protein_annotation=None):
     if socket.gethostname()!='149':
         raise RuntimeError('CancerLncAtlas preparation must run on 149')
     src,out=Path(source_catalog).resolve(),Path(output).resolve()
@@ -107,24 +112,63 @@ def materialize_catalog(source_catalog, backbone_path, output):
     backbone=load_backbone(backbone_path,verify=True)
     master=read_tsv(src/'TARGET_MASTER.tsv')
     states=read_tsv(src/'STATE_SCORE_DEFINITIONS.tsv')
-    proteins=defaultdict(set)
+    proteins=defaultdict(set);protein_genes=defaultdict(set);source_proteins=defaultdict(set)
     with gzip.open(src/'INTEGRATED_PROTEIN_COMPOSITION.tsv.gz','rt') as handle:
         for row in csv.DictReader(handle,delimiter='\t'):
             if row['uniprot_id']:
                 proteins[row['integrated_canonical_id']].add(row['uniprot_id'])
-    updated,policy=compile_policy(master,states,backbone['rows'],proteins)
+                source_proteins[row['source_definition']].add(row['uniprot_id'])
+                if row.get('source_namespace')=='Ensembl_gene' and row.get('source_member','').startswith('ENSG'):
+                    protein_genes[row['uniprot_id']].add(row['source_member'].split('.')[0])
+
+    regulator_proteins=defaultdict(set)
+    for row in read_tsv(src/'KINASE_MOLECULAR_COMPONENTS.tsv'):
+        regulator_proteins[row['canonical_id']].update(x for x in row['uniprot_accessions'].split('|') if x)
+    annotation_path=Path(protein_annotation) if protein_annotation else src/'PROTEIN_ANNOTATION.tsv'
+    if backbone.get('decisions') and not annotation_path.is_file():
+        raise ValueError('RELATION_CATALOG_REGULATOR_ANNOTATION_REQUIRED')
+    if annotation_path.is_file():
+        by_symbol=defaultdict(set)
+        for row in read_tsv(annotation_path):
+            by_symbol[row['symbol']].add(row['uniprot_id'])
+            if row['ensembl_gene_id']:protein_genes[row['uniprot_id']].add(row['ensembl_gene_id'])
+        for row in read_tsv(src/'SOURCE_ID_BINDINGS.tsv'):
+            if row['source_target_id'].startswith('DOROTHEA:'):
+                regulator_proteins[row['canonical_id']].update(by_symbol.get(row['source_target_id'].split(':',1)[1],set()))
+    decisions=backbone.get('decisions',[])
+    excluded_kegg={x['canonical_id'] for x in decisions if x['cancer_relevant']!='True'}
+    alignment=top_alignment=alignment_summary=None; aligned_contexts=None
+    if decisions:
+        from .backbone_alignment import build_alignment,pin_anchor_components
+        proteins=pin_anchor_components(proteins,backbone['rows'],source_proteins)
+        alignment,top_alignment,aligned_contexts,alignment_summary=build_alignment(master,backbone['rows'],proteins,excluded_kegg,regulator_proteins)
+    updated,policy=compile_policy(master,states,backbone['rows'],proteins,excluded_kegg=excluded_kegg,aligned_contexts=aligned_contexts)
     shutil.copytree(src,out)
-    (out/'LAUNCH_PREFLIGHT.json').write_text(json.dumps({'target_host':'149','operation':'fixed381_relation_catalog'},indent=2))
+    if annotation_path.is_file():shutil.copy2(annotation_path,out/'PROTEIN_ANNOTATION.tsv')
+    (out/'LAUNCH_PREFLIGHT.json').write_text(json.dumps({'target_host':'149','operation':'evidence_defined_relation_catalog'},indent=2))
     write_tsv(out/'TARGET_MASTER.tsv',updated)
     if (out/'IDENTITY_MASTER.tsv').exists():
         old=read_tsv(out/'IDENTITY_MASTER.tsv')
         lookup={r['canonical_id']:r for r in updated}
         for row in old:
             if row['canonical_id'] in lookup:
-                for key in ('roles','entity_type'):
+                for key in ('roles','entity_type','display_name'):
                     row[key]=lookup[row['canonical_id']][key]
         write_tsv(out/'IDENTITY_MASTER.tsv',old)
     write_tsv(out/'TARGET_POLICY.tsv',policy)
+    if alignment is not None:
+        write_tsv(out/'BACKBONE_ALIGNMENT.tsv',alignment)
+        write_tsv(out/'BACKBONE_ALIGNMENT_TOP3.tsv',top_alignment)
+        (out/'ALIGNMENT_SUMMARY.json').write_text(json.dumps(alignment_summary,indent=2)+'\n')
+        write_tsv(out/'KEGG_SOURCE_SCOPE_DECISIONS.tsv',decisions)
+        from .mechanism_context import catalog_context
+        context_links,context_components=catalog_context(policy,alignment,proteins,protein_genes,
+            {r['canonical_id']:r for r in backbone['rows']},regulator_proteins)
+        write_tsv(out/'MECHANISM_CONTEXT_LINKS.tsv',context_links,
+            ['mechanism_id','pathway_source_id','network_id','weight','relation'])
+        write_tsv(out/'MECHANISM_CONTEXT_COMPONENTS.tsv',context_components,
+            ['mechanism_id','uniprot_id','gene_id'])
+
     write_tsv(out/'PRIMARY_PATHWAY_TARGETS.tsv',[r for r in updated if r['canonical_id'] in {x['canonical_id'] for x in backbone['rows']}])
     write_tsv(out/'MECHANISM_TARGETS.tsv',[r for r in policy if r['mechanism_kind']])
     bindings=read_tsv(src/'SOURCE_ID_BINDINGS.tsv')
@@ -139,8 +183,8 @@ def materialize_catalog(source_catalog, backbone_path, output):
         category=source_display_category(row,state_by_id,pol)
         source_roles.append({**row,'display_category':category,'analysis_role':pol['analysis_role'],'loss_group':pol['loss_group']})
     write_tsv(out/'SOURCE_TASK_ROLES.tsv',source_roles)
-    definition={'format':'CLA_FIXED381_RELATION_CATALOG_V1','unit':'cancer x lncRNA x exact pathway',
-      'primary_pathway_count':381,'target_policy_schema':POLICY_SCHEMA,
+    definition={'format':('CLA_CANCER_RELATION_CATALOG_V2' if decisions else 'CLA_FIXED381_RELATION_CATALOG_V1'),'unit':'cancer x lncRNA x exact pathway',
+      'primary_pathway_count':len(backbone['rows']),'target_policy_schema':POLICY_SCHEMA,
       'target_policy_file':'TARGET_POLICY.tsv','target_policy_sha256':sha(out/'TARGET_POLICY.tsv'),
       'target_policy_required':True,'backbone_path':str(Path(backbone_path).resolve()),
       'backbone_manifest_sha256':sha(Path(backbone_path)/'MANIFEST.json'),
@@ -153,8 +197,11 @@ def materialize_catalog(source_catalog, backbone_path, output):
       'backbone_manifest_sha256':sha(Path(backbone_path)/'MANIFEST.json'),
       'source_identity_map':str(out/'SOURCE_IDENTITY_MAP.tsv'),
       'source_identity_map_sha256':sha(out/'SOURCE_IDENTITY_MAP.tsv')}
+    if decisions:
+        binding['context_graph']={name:{'path':str(out/name),'sha256':sha(out/name)}
+            for name in ['MECHANISM_CONTEXT_LINKS.tsv','MECHANISM_CONTEXT_COMPONENTS.tsv']}
     (out/'PREPARE_POLICY_BINDING.json').write_text(json.dumps({'relation_target_policy':binding},indent=2)+'\n')
-    summary={'target_host':'149','format':definition['format'],'primary_pathways':381,
+    summary={'target_host':'149','format':definition['format'],'primary_pathways':len(backbone['rows']),
       'analysis_roles':dict(Counter(r['analysis_role'] for r in policy)),
       'display_roles':dict(Counter(r['roles'] for r in policy)),
       'mechanism_kinds':dict(Counter(r['mechanism_kind'] for r in policy if r['mechanism_kind'])),

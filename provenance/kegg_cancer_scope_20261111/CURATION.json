@@ -1,0 +1,1256 @@
+{
+  "version": "cancer_mechanisms_20261111_v2",
+  "unit": "cancer x lncRNA x exact pathway mechanism",
+  "selection_uses_expression_or_lncrna_association": false,
+  "malignant_disease_ids": [
+    "H00001",
+    "H00002",
+    "H00003",
+    "H00004",
+    "H00007",
+    "H00008",
+    "H00009",
+    "H00010",
+    "H00013",
+    "H00014",
+    "H00018",
+    "H00019",
+    "H00020",
+    "H00021",
+    "H00022",
+    "H00024",
+    "H00026",
+    "H00030",
+    "H00031",
+    "H00032",
+    "H00038",
+    "H00039",
+    "H00041",
+    "H00042",
+    "H00043",
+    "H00048",
+    "H00049",
+    "H00054",
+    "H01557",
+    "H01985"
+  ],
+  "families": [
+    {
+      "id": "dna_repair",
+      "name": "Dna Repair",
+      "network_ids": [
+        "N01425",
+        "N01431",
+        "N01430",
+        "N01434",
+        "N01433",
+        "N01435",
+        "N01436",
+        "N01450",
+        "N01446",
+        "N01448",
+        "N01439",
+        "N01636",
+        "N01452",
+        "N01445",
+        "N01451",
+        "N01464",
+        "N01466",
+        "N01465",
+        "N01539",
+        "N01432",
+        "N01467"
+      ],
+      "pmids": [
+        "35318271"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Dna Repair contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "dna_replication",
+      "name": "Dna Replication",
+      "network_ids": [
+        "N01468",
+        "N01470",
+        "N01471",
+        "N01472",
+        "N01473",
+        "N01474"
+      ],
+      "pmids": [
+        "30502375"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Dna Replication contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "telomere",
+      "name": "Telomere",
+      "network_ids": [
+        "N01476",
+        "N01475",
+        "N01477"
+      ],
+      "pmids": [
+        "32242127"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Telomere contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "mitosis",
+      "name": "Mitosis",
+      "network_ids": [
+        "N01549",
+        "N01531",
+        "N01536",
+        "N01533",
+        "N01534",
+        "N01547",
+        "N01535",
+        "N01561",
+        "N01562",
+        "N01544",
+        "N01525",
+        "N01526",
+        "N01553",
+        "N01529"
+      ],
+      "pmids": [
+        "17628120"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Mitosis contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "cohesin",
+      "name": "Cohesin",
+      "network_ids": [
+        "N01483",
+        "N01486",
+        "N01485",
+        "N01482"
+      ],
+      "pmids": [
+        "27742736"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Cohesin contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "cell_cycle",
+      "name": "Cell Cycle",
+      "network_ids": [
+        "N00455",
+        "N00459"
+      ],
+      "pmids": [
+        "32518522"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Cell Cycle contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "mapk",
+      "name": "Mapk",
+      "network_ids": [
+        "N01592",
+        "N01601",
+        "N01594",
+        "N01598",
+        "N01595",
+        "N01593",
+        "N01600",
+        "N01596",
+        "N01597",
+        "N01599",
+        "N01119"
+      ],
+      "pmids": [
+        "31652660"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Mapk contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "pi3k",
+      "name": "Pi3K",
+      "network_ids": [
+        "N01656",
+        "N01658",
+        "N01657",
+        "N00582",
+        "N00355",
+        "N00342",
+        "N01163"
+      ],
+      "pmids": [
+        "37596643"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Pi3K contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "mtor",
+      "name": "Mtor",
+      "network_ids": [
+        "N01584",
+        "N01578",
+        "N01576",
+        "N01575"
+      ],
+      "pmids": [
+        "37596643"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Mtor contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "wnt",
+      "name": "Wnt",
+      "network_ids": [
+        "N01427",
+        "N01440",
+        "N01443",
+        "N01442"
+      ],
+      "pmids": [
+        "27617575"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Wnt contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "notch",
+      "name": "Notch",
+      "network_ids": [
+        "N01479",
+        "N01478"
+      ],
+      "pmids": [
+        "33003595"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Notch contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "hedgehog",
+      "name": "Hedgehog",
+      "network_ids": [
+        "N01537",
+        "N01538"
+      ],
+      "pmids": [
+        "33836254"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Hedgehog contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "tgfb",
+      "name": "Tgfb",
+      "network_ids": [
+        "N01456",
+        "N01426",
+        "N01453",
+        "N01428",
+        "N01459",
+        "N01460"
+      ],
+      "pmids": [
+        "23612460"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Tgfb contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "autophagy",
+      "name": "Autophagy",
+      "network_ids": [
+        "N01721",
+        "N01722",
+        "N01720",
+        "N00156",
+        "N00155",
+        "N01718",
+        "N01715",
+        "N01716",
+        "N01137",
+        "N01140"
+      ],
+      "pmids": [
+        "31836831"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Autophagy contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "polycomb",
+      "name": "Polycomb",
+      "network_ids": [
+        "N01586",
+        "N01585",
+        "N01577",
+        "N01701"
+      ],
+      "pmids": [
+        "41443386"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Polycomb contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "antigen",
+      "name": "Antigen",
+      "network_ids": [
+        "N00590"
+      ],
+      "pmids": [
+        "30463850"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Antigen contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "checkpoints",
+      "name": "Checkpoints",
+      "network_ids": [
+        "N00683",
+        "N01579",
+        "N01165",
+        "N01696",
+        "N01106"
+      ],
+      "pmids": [
+        "22437870"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Checkpoints contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "bcr",
+      "name": "Bcr",
+      "network_ids": [
+        "N01695"
+      ],
+      "pmids": [
+        "34320160"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Bcr contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "chemokines",
+      "name": "Chemokines",
+      "network_ids": [
+        "N00399",
+        "N00428",
+        "N00403",
+        "N00405",
+        "N00430",
+        "N00401",
+        "N00413",
+        "N00433"
+      ],
+      "pmids": [
+        "36173487"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Chemokines contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "jak_stat",
+      "name": "Jak Stat",
+      "network_ids": [
+        "N01555",
+        "N00415",
+        "N01557",
+        "N01554",
+        "N01556",
+        "N01559",
+        "N01558"
+      ],
+      "pmids": [
+        "36240739"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Jak Stat contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "cgas",
+      "name": "Cgas",
+      "network_ids": [
+        "N00395",
+        "N01571"
+      ],
+      "pmids": [
+        "36510011"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Cgas contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "tlr",
+      "name": "Tlr",
+      "network_ids": [
+        "N00148",
+        "N00563",
+        "N01566",
+        "N01543",
+        "N00690"
+      ],
+      "pmids": [
+        "25093807"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Tlr contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "rlr",
+      "name": "Rlr",
+      "network_ids": [
+        "N01308",
+        "N00688"
+      ],
+      "pmids": [
+        "36755342"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Rlr contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "inflammasome",
+      "name": "Inflammasome",
+      "network_ids": [
+        "N01569",
+        "N00867",
+        "N01567",
+        "N00742",
+        "N00940",
+        "N00934",
+        "N01568",
+        "N00868"
+      ],
+      "pmids": [
+        "36150688"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Inflammasome contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "complement",
+      "name": "Complement",
+      "network_ids": [
+        "N01496",
+        "N01487",
+        "N01490",
+        "N01491",
+        "N01504",
+        "N01505"
+      ],
+      "pmids": [
+        "33167384"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Complement contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "coagulation",
+      "name": "Coagulation",
+      "network_ids": [
+        "N01502",
+        "N01315",
+        "N01520",
+        "N01524"
+      ],
+      "pmids": [
+        "22389165"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Coagulation contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "tnf_death",
+      "name": "Tnf Death",
+      "network_ids": [
+        "N01632",
+        "N01662",
+        "N01631",
+        "N01621"
+      ],
+      "pmids": [
+        "31122251"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Tnf Death contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "integrins",
+      "name": "Integrins",
+      "network_ids": [
+        "N01070",
+        "N01068",
+        "N00393",
+        "N01072",
+        "N00951",
+        "N01080",
+        "N01078",
+        "N01285",
+        "N01287"
+      ],
+      "pmids": [
+        "30889378"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Integrins contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "lpa",
+      "name": "Lpa",
+      "network_ids": [
+        "N00408",
+        "N01097",
+        "N01104"
+      ],
+      "pmids": [
+        "38886303"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Lpa contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "proteasome",
+      "name": "Proteasome",
+      "network_ids": [
+        "N01029"
+      ],
+      "pmids": [
+        "15958804"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Proteasome contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "translation",
+      "name": "Translation",
+      "network_ids": [
+        "N01317"
+      ],
+      "pmids": [
+        "33441326"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Translation contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "calcium",
+      "name": "Calcium",
+      "network_ids": [
+        "N01648",
+        "N01647",
+        "N01649",
+        "N01642",
+        "N01643",
+        "N01637",
+        "N01655",
+        "N01640",
+        "N01644",
+        "N01641",
+        "N00967"
+      ],
+      "pmids": [
+        "28119804"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Calcium contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "glycolysis",
+      "name": "Glycolysis",
+      "network_ids": [
+        "N00731"
+      ],
+      "pmids": [
+        "39284669"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Glycolysis contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "fatty_acids",
+      "name": "Fatty Acids",
+      "network_ids": [
+        "N00804",
+        "N00765"
+      ],
+      "pmids": [
+        "40290117"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Fatty Acids contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "tca",
+      "name": "Tca",
+      "network_ids": [
+        "N01604",
+        "N01617"
+      ],
+      "pmids": [
+        "26771115"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Tca contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "cholesterol",
+      "name": "Cholesterol",
+      "network_ids": [
+        "N01624",
+        "N01635"
+      ],
+      "pmids": [
+        "31813823"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Cholesterol contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "amino_acids",
+      "name": "Amino Acids",
+      "network_ids": [
+        "N00856",
+        "N00851",
+        "N00852"
+      ],
+      "pmids": [
+        "32049045"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Amino Acids contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "methionine",
+      "name": "Methionine",
+      "network_ids": [
+        "N01607"
+      ],
+      "pmids": [
+        "31515518"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Methionine contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "redox",
+      "name": "Redox",
+      "network_ids": [
+        "N01588",
+        "N01587",
+        "N01458",
+        "N01461"
+      ],
+      "pmids": [
+        "26890363"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Redox contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "nad",
+      "name": "Nad",
+      "network_ids": [
+        "N01723"
+      ],
+      "pmids": [
+        "33384409"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Nad contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "glycosylation",
+      "name": "Glycosylation",
+      "network_ids": [
+        "N01580",
+        "N01574",
+        "N01582",
+        "N00615",
+        "N00820",
+        "N00681",
+        "N00653",
+        "N00667",
+        "N01674",
+        "N01672"
+      ],
+      "pmids": [
+        "26289314"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Glycosylation contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "mitochondria",
+      "name": "Mitochondria",
+      "network_ids": [
+        "N00995"
+      ],
+      "pmids": [
+        "37642864"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Mitochondria contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "lysosome",
+      "name": "Lysosome",
+      "network_ids": [
+        "N01297",
+        "N01295",
+        "N01300",
+        "N01302"
+      ],
+      "pmids": [
+        "31768005"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Lysosome contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "vesicles",
+      "name": "Vesicles",
+      "network_ids": [
+        "N01289",
+        "N01293",
+        "N01291"
+      ],
+      "pmids": [
+        "27716280"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Vesicles contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "arno",
+      "name": "Arno",
+      "network_ids": [
+        "N01066"
+      ],
+      "pmids": [
+        "28625359"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Arno contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "annexin",
+      "name": "Annexin",
+      "network_ids": [
+        "N01304"
+      ],
+      "pmids": [
+        "29115416"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Annexin contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "heme",
+      "name": "Heme",
+      "network_ids": [
+        "N00601"
+      ],
+      "pmids": [
+        "41265435"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Heme contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "urea",
+      "name": "Urea",
+      "network_ids": [
+        "N00593"
+      ],
+      "pmids": [
+        "30194362"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Urea contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "creatine",
+      "name": "Creatine",
+      "network_ids": [
+        "N01612"
+      ],
+      "pmids": [
+        "32493980"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Creatine contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "bile_acid",
+      "name": "Bile acid metabolism",
+      "network_ids": [
+        "N00805"
+      ],
+      "pmids": [
+        "29018272"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Bile acid metabolism has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "sphingolipid",
+      "name": "Sphingolipid metabolism",
+      "network_ids": [
+        "N00649"
+      ],
+      "pmids": [
+        "29147025"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Sphingolipid metabolism has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "gluconeogenesis",
+      "name": "Gluconeogenesis",
+      "network_ids": [
+        "N01605"
+      ],
+      "pmids": [
+        "39479019"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Gluconeogenesis has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "prolactin",
+      "name": "Prolactin signaling",
+      "network_ids": [
+        "N00920"
+      ],
+      "pmids": [
+        "31395607"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Prolactin signaling has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "androgens",
+      "name": "Androgen biosynthesis",
+      "network_ids": [
+        "N01541"
+      ],
+      "pmids": [
+        "21712345"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Androgen biosynthesis has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "kiss1",
+      "name": "KISS1 receptor signaling",
+      "network_ids": [
+        "N00869"
+      ],
+      "pmids": [
+        "31972865"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "KISS1 receptor signaling has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "prokineticin",
+      "name": "Prokineticin signaling",
+      "network_ids": [
+        "N00879"
+      ],
+      "pmids": [
+        "28386275"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Prokineticin signaling has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "rage",
+      "name": "AGE-RAGE signaling",
+      "network_ids": [
+        "N00994"
+      ],
+      "pmids": [
+        "34194625"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "AGE-RAGE signaling has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "gpi",
+      "name": "GPI-anchor biosynthesis",
+      "network_ids": [
+        "N00748"
+      ],
+      "pmids": [
+        "23978072"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "GPI-anchor biosynthesis has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "serotonin",
+      "name": "Serotonin metabolism",
+      "network_ids": [
+        "N01551"
+      ],
+      "pmids": [
+        "33525332"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Serotonin metabolism has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "amh",
+      "name": "AMH signaling",
+      "network_ids": [
+        "N01454"
+      ],
+      "pmids": [
+        "33500516"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "AMH signaling has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "cohesion",
+      "name": "Sister chromatid cohesion",
+      "network_ids": [
+        "N01484"
+      ],
+      "pmids": [
+        "27742736"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Sister chromatid cohesion has cancer-related experimental or review evidence; the NETWORK reaction and its molecular components define the retained mechanism."
+    },
+    {
+      "id": "hcmv_us28",
+      "name": "HCMV US28-Rho signaling",
+      "network_ids": [
+        "N00406"
+      ],
+      "pmids": [
+        "23145028"
+      ],
+      "allowed_type": "Pathogen",
+      "evidence_level": "experimental_cancer_model",
+      "rationale": "Exact pathogen effector mechanism has experimental tumor-related evidence. Matching pathogen/effector evidence is required for a patient-specific claim; human etiologic causality is not established by this experiment."
+    },
+    {
+      "id": "salmonella_avra",
+      "name": "Salmonella AvrA-beta-catenin signaling",
+      "network_ids": [
+        "N01124"
+      ],
+      "pmids": [
+        "24911876"
+      ],
+      "allowed_type": "Pathogen",
+      "evidence_level": "experimental_cancer_model",
+      "rationale": "Exact pathogen effector mechanism has experimental tumor-related evidence. Matching pathogen/effector evidence is required for a patient-specific claim; human etiologic causality is not established by this experiment."
+    },
+    {
+      "id": "glycogen",
+      "name": "Glycogen synthesis and mobilization",
+      "network_ids": [
+        "N00713",
+        "N00718"
+      ],
+      "pmids": [
+        "34678143"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The cited cancer study/review supports this defined host process. Member reactions are preserved and do not imply equal activity or effect in every cancer."
+    },
+    {
+      "id": "purine_salvage",
+      "name": "Purine salvage",
+      "network_ids": [
+        "N01418",
+        "N01421"
+      ],
+      "pmids": [
+        "37255402"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The cited cancer study/review supports this defined host process. Member reactions are preserved and do not imply equal activity or effect in every cancer."
+    },
+    {
+      "id": "mrna_export",
+      "name": "mRNA export",
+      "network_ids": [
+        "N01152"
+      ],
+      "pmids": [
+        "21796793"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The cited cancer study/review supports this defined host process. Member reactions are preserved and do not imply equal activity or effect in every cancer."
+    },
+    {
+      "id": "pkr",
+      "name": "PKR-eIF2alpha stress response",
+      "network_ids": [
+        "N00571"
+      ],
+      "pmids": [
+        "24522206"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The cited cancer study/review supports this defined host process. Member reactions are preserved and do not imply equal activity or effect in every cancer."
+    },
+    {
+      "id": "xiap",
+      "name": "XIAP regulation of apoptosis",
+      "network_ids": [
+        "N01583"
+      ],
+      "pmids": [
+        "33138314"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "lubac",
+      "name": "LUBAC-dependent inflammatory signaling",
+      "network_ids": [
+        "N01545"
+      ],
+      "pmids": [
+        "35266190"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "gh_stat",
+      "name": "GH-JAK2-STAT5 signaling",
+      "network_ids": [
+        "N00907"
+      ],
+      "pmids": [
+        "30389231"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "ire1_jnk",
+      "name": "IRE1-JNK stress response",
+      "network_ids": [
+        "N01013"
+      ],
+      "pmids": [
+        "30158521"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "pka_holoenzyme",
+      "name": "Protein kinase A signaling machinery",
+      "network_ids": [
+        "N01542"
+      ],
+      "pmids": [
+        "39540434"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "light_hvem",
+      "name": "LIGHT-HVEM immune regulation",
+      "network_ids": [
+        "N00559"
+      ],
+      "pmids": [
+        "37649037"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "fas_jnk",
+      "name": "FAS-JNK apoptotic signaling",
+      "network_ids": [
+        "N01056"
+      ],
+      "pmids": [
+        "31680958"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "sost_lrp4",
+      "name": "Sclerostin-mediated Wnt inhibition",
+      "network_ids": [
+        "N01441"
+      ],
+      "pmids": [
+        "28900298"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The exact reference module is a component of the cited cancer-related mechanism. Evidence for the module does not establish a universal direction or every molecular interaction independently in each cancer."
+    },
+    {
+      "id": "tnf_p38",
+      "name": "TNF-p38 signaling",
+      "network_ids": [
+        "N00444"
+      ],
+      "pmids": [
+        "31652660"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "p38 is a defined MAPK branch with context-dependent cancer roles; this NETWORK specifies its TNF receptor input."
+    },
+    {
+      "id": "condensin",
+      "name": "Condensin chromosome organization",
+      "network_ids": [
+        "N01497",
+        "N01501",
+        "N01499",
+        "N01500"
+      ],
+      "pmids": [
+        "33078399",
+        "31784646"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Condensin-dependent chromosome condensation and segregation maintain genome stability; cancer-associated condensin defects and condensin I dependence have experimental support."
+    },
+    {
+      "id": "uchl1",
+      "name": "UCHL1-dependent deubiquitination",
+      "network_ids": [
+        "N01027"
+      ],
+      "pmids": [
+        "34497382"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "UCHL1 deubiquitinase activity regulates protein substrates and growth-related processes in breast cancer."
+    },
+    {
+      "id": "p21",
+      "name": "p21 cell-cycle control",
+      "network_ids": [
+        "N00347"
+      ],
+      "pmids": [
+        "19440234"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "The p300-p21 module regulates cell-cycle arrest; p21 has context-dependent tumor-suppressive and tumor-promoting functions."
+    },
+    {
+      "id": "glutathione",
+      "name": "Glutathione biosynthesis",
+      "network_ids": [
+        "N01589"
+      ],
+      "pmids": [
+        "29915025"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Glutathione synthesis supports cellular redox control and contributes to cancer progression and treatment resistance."
+    }
+  ],
+  "limits": "Review evidence supports a cancer process and its annotated components, not every subreaction as an independently validated cancer driver. Perturbant context and direction remain explicit.",
+  "scope_boundary": "Tumor-cell and tumor-microenvironment mechanisms; systemic cancer complications alone do not establish an intratumoral mechanism. Exact disease-specific mutation/exposure mechanisms require their own support.",
+  "evidence_registry": "EVIDENCE_REFERENCES.json"
+}

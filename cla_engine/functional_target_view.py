@@ -50,9 +50,12 @@ def compile_label_identity_map(backbone_rows, context_readouts, definition_rows)
                 by_source[sid].add(cid)
                 source_contexts[sid].add(context)
     definition_nodes = defaultdict(set)
+    source_definition_nodes = defaultdict(set)
     for row in definition_rows:
         authority = row.get('authority_id', '')
         node = row.get('node_id') or row.get('canonical_id')
+        if authority.startswith('MSIGDB:KEGG_MEDICUS:') and node:
+            source_definition_nodes[authority].add(node)
         if authority.startswith('KEGG.NETWORK:') and node:
             definition_nodes[authority].add(node)
     result = []
@@ -64,6 +67,10 @@ def compile_label_identity_map(backbone_rows, context_readouts, definition_rows)
         if candidates:
             basis = 'exact_backbone_source_target_id_in_readout_index'
             contexts = '|'.join(sorted(source_contexts[sid]))
+        elif source_definition_nodes.get(sid):
+            candidates = source_definition_nodes[sid]
+            basis = 'original_exact_source_node_from_definition_to_identity'
+            contexts = ''
         else:
             candidates = definition_nodes.get('KEGG.NETWORK:' + row['network_id'], set())
             basis = 'original_network_node_from_definition_to_identity'
@@ -84,7 +91,7 @@ def compile_label_identity_map(backbone_rows, context_readouts, definition_rows)
     return result
 
 
-def project_context(context, policies, target_ids, source_label_ids=None):
+def project_context(context, policies, target_ids, source_label_ids=None, *, unavailable_target_ids=()):
     """Project exact frozen columns and optionally rename their output identity."""
     target_ids = tuple(target_ids)
     source_ids = tuple(target_ids if source_label_ids is None else source_label_ids)
@@ -99,6 +106,13 @@ def project_context(context, policies, target_ids, source_label_ids=None):
         raise ValueError('TARGET_VIEW_MISSING_LABEL_AXIS: ' + ','.join(sorted(missing)))
     take = np.asarray([index[cid] for cid in source_ids], dtype=np.int64)
     arrays = {key: value[:, take].copy() for key, value in context.arrays.items()}
+    unavailable = set(unavailable_target_ids)
+    if unavailable - set(target_ids):
+        raise ValueError('TARGET_VIEW_APPLICABILITY_AXIS_MISMATCH')
+    mask = np.asarray([cid in unavailable for cid in target_ids], bool)
+    for values in arrays.values():
+        values[:, mask] = np.nan if np.issubdtype(values.dtype, np.floating) else 0
+
     if not isinstance(context, FusedFunctionalContext):
         return replace(context, canonical_ids=target_ids, arrays=arrays, target_policies=selected)
     return replace(context, canonical_ids=target_ids, arrays=arrays, target_policies=selected,
@@ -119,8 +133,8 @@ def build_target_view(source, catalog, output, cancers=('BRCA', 'LUAD', 'COAD'))
     policies = resolve_target_policy(catalog, catdef)
     wanted = active_target_ids(policies)
     primary = set(active_target_ids(policies, analysis_role='primary_pathway'))
-    if len(primary) != 381:
-        raise ValueError('TARGET_VIEW_FIXED381_PRIMARY_REQUIRED')
+    if len(primary) != catdef['primary_pathway_count'] or not primary:
+        raise ValueError('TARGET_VIEW_DECLARED_PRIMARY_COUNT_MISMATCH')
     backbone_path = Path(catdef['backbone_path']).resolve()
     if sha(backbone_path / 'MANIFEST.json') != catdef['backbone_manifest_sha256']:
         raise ValueError('TARGET_VIEW_BACKBONE_MANIFEST_MISMATCH')
@@ -154,6 +168,10 @@ def build_target_view(source, catalog, output, cancers=('BRCA', 'LUAD', 'COAD'))
     definitions_path = catalog / 'DEFINITION_TO_IDENTITY.tsv'
     mapping = compile_label_identity_map(backbone['rows'], readouts, _read_tsv(definitions_path))
     primary_map = {row['output_canonical_id']: row for row in mapping}
+    conditional = {row['canonical_id'] for row in backbone['rows']
+                   if backbone['manifest'].get('format') == 'CLA_KEGG_CANCER_BACKBONE_V2'
+                   and row['network_type'] != 'Reference'}
+
     missing_aux = set()
     for key, binding in contexts.items():
         missing_primary = {cid for cid in primary
@@ -172,6 +190,7 @@ def build_target_view(source, catalog, output, cancers=('BRCA', 'LUAD', 'COAD'))
             raise ValueError('TARGET_VIEW_LABEL_MAPPING_NOT_ONE_TO_ONE: ' + key)
         binding['selected_canonical_ids'] = selected
         binding['source_label_canonical_ids'] = selected_sources
+        binding['unavailable_conditional_target_ids'] = sorted(conditional & set(selected))
     selected_aux = set().union(*(set(b['selected_canonical_ids']) for b in contexts.values())) - primary
     for cid in sorted(selected_aux):
         mapping.append({
@@ -184,6 +203,13 @@ def build_target_view(source, catalog, output, cancers=('BRCA', 'LUAD', 'COAD'))
     out.mkdir(parents=True)
     shutil.copy2(catalog / 'TARGET_POLICY.tsv', out / 'TARGET_POLICY.tsv')
     _write_tsv(out / 'LABEL_IDENTITY_MAP.tsv', mapping)
+    applicability = {'format': 'CLA_LABEL_APPLICABILITY_V1',
+        'conditional_target_ids': sorted(conditional),
+        'rule': 'Generic host-component readouts do not identify the named alteration, pathogen or exposure.',
+        'conditional_label_qualification': 'No context-qualified label receipt in the frozen source.',
+        'missing_representation': 'NaN continuous values; zero observation and evidence codes; never a negative.'}
+    (out / 'LABEL_APPLICABILITY.json').write_text(json.dumps(applicability, indent=2) + '\n')
+
     (out / 'SOURCE_CONTEXTS.json').write_text(json.dumps(contexts, indent=2) + '\n')
     validation = {
         'target_host': '149', 'label_mapping_schema': MAPPING_SCHEMA,
@@ -192,7 +218,9 @@ def build_target_view(source, catalog, output, cancers=('BRCA', 'LUAD', 'COAD'))
         'renamed_primary_labels': renamed,
         'source_label_identity_is_one_to_one': True,
         'original_label_columns_retained': True,
-        'label_values_changed': False,
+        'label_values_changed': bool(conditional),
+        'conditional_targets_masked': len(conditional),
+        'unconditional_label_values_changed': False,
         'additional_source_evidence_fused': False,
         'scope_note': 'Original KEGG label columns are retained. Output identity redirects do not fuse additional Reactome evidence.',
         'mapping_input_sha256': {
@@ -211,16 +239,19 @@ def build_target_view(source, catalog, output, cancers=('BRCA', 'LUAD', 'COAD'))
         'label_mapping_schema': MAPPING_SCHEMA, 'label_identity_map_file': 'LABEL_IDENTITY_MAP.tsv',
         'label_identity_map_sha256': sha(out / 'LABEL_IDENTITY_MAP.tsv'),
         'scope_validation_sha256': sha(out / 'SCOPE_VALIDATION.json'),
-        'primary_pathway_count': 381, 'missing_auxiliary_definition_ids': sorted(missing_aux),
+        'label_applicability_sha256': sha(out / 'LABEL_APPLICABILITY.json'),
+        'primary_pathway_count': len(primary), 'missing_auxiliary_definition_ids': sorted(missing_aux),
         'multiplicity': original['multiplicity'],
         'multiplicity_reference': 'Original frozen full target family; column selection and output renaming do not recalculate p/q.',
-        'label_values_changed': False, 'display_category_determines_loss': False,
+        'label_values_changed': bool(conditional),
+        'conditional_targets_masked': len(conditional),
+        'unconditional_label_values_changed': False, 'display_category_determines_loss': False,
         'additional_source_evidence_fused': False,
     }
     (out / 'Y_DEFINITION.json').write_text(json.dumps(definition, indent=2) + '\n')
     receipt = {
         'target_host': '149', 'format': FORMAT, 'source_y': str(source),
-        'primary_pathways': 381, 'contexts': len(contexts),
+        'primary_pathways': len(primary), 'contexts': len(contexts),
         'supervised_axis_sizes': sorted(set(len(x['selected_canonical_ids']) for x in contexts.values())),
         'unobserved_auxiliary_definition_count': len(missing_aux),
         'renamed_primary_label_count': len(renamed),
@@ -246,6 +277,11 @@ def load_target_view(root, cancer, context, *, target_policy=None):
         raise ValueError('TARGET_VIEW_LABEL_MAPPING_SCHEMA_MISMATCH')
     if sha(root / 'LABEL_IDENTITY_MAP.tsv') != definition['label_identity_map_sha256']:
         raise ValueError('TARGET_VIEW_LABEL_MAPPING_CHECKSUM')
+    applicability = None
+    if definition.get('label_applicability_sha256'):
+        if sha(root / 'LABEL_APPLICABILITY.json') != definition['label_applicability_sha256']:
+            raise ValueError('TARGET_VIEW_APPLICABILITY_CHECKSUM')
+        applicability = json.loads((root / 'LABEL_APPLICABILITY.json').read_text())
     policies = resolve_target_policy(root, definition, target_policy)
     source = Path(definition['source_y']).resolve()
     if source == root or sha(source / 'Y_DEFINITION.json') != definition['source_y_definition_sha256']:
@@ -270,4 +306,12 @@ def load_target_view(root, cancer, context, *, target_policy=None):
         raise ValueError('TARGET_VIEW_CONTEXT_LABEL_MAPPING_MISMATCH')
     from .functional_y import load_functional_context
     original = load_functional_context(source, cancer, context)
-    return project_context(original, policies, binding['selected_canonical_ids'], source_ids)
+    conditional = binding.get('unavailable_conditional_target_ids', [])
+    if applicability is not None:
+        expected = set(applicability['conditional_target_ids']) & set(binding['selected_canonical_ids'])
+        if set(conditional) != expected:
+            raise ValueError('TARGET_VIEW_APPLICABILITY_BINDING')
+    elif conditional:
+        raise ValueError('TARGET_VIEW_APPLICABILITY_REQUIRED')
+    return project_context(original, policies, binding['selected_canonical_ids'], source_ids,
+                           unavailable_target_ids=conditional)

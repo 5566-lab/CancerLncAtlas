@@ -193,7 +193,7 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     atomic_json(out/'DETECTION_AUDIT.json',detection_report)
     # This fixed expression-only universe is explicitly transductive, not strict LOCO.
     per_lnc={c:sorted(set(rates.loc[rates.cancer_id.eq(c)&rates.eligible,'lncrna_id'].astype(str))&eligible) for c in cancers}
-    from .prepared_target_policy import load_bound_policy,select_pathways,select_state_targets,seal_prepared_policy
+    from .prepared_target_policy import load_bound_policy,select_pathways,select_state_targets,seal_prepared_policy,host_readout_qualified_axis
     bound_policy=load_bound_policy(cfg)
     if bound_policy is not None:
         for role,path in [('target_policy',bound_policy['policy_path']),('source_identity_map',bound_policy['identity_path']),
@@ -224,6 +224,16 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     primary=select_state_targets(cfg,bound_policy);stateids=[x['id'] for x in primary];family={x['id']:x['family'] for x in primary}
     if bound_policy is not None and not stateids:fail('RELATION_POLICY_NO_STATE_SUPERVISION','Existing joint binary preparation requires an explicitly admitted State axis')
     ids,maps,rels,static,graph_audit=nodes_and_static(membership,hier,binding,pg,ppi,lncs,pathways)
+    if bound_policy is not None and bound_policy.get('context_graph'):
+        from .mechanism_context import add_context_graph
+        cg=bound_policy['context_graph']
+        context_audit=add_context_graph(ids,maps,rels,static,
+            cg['MECHANISM_CONTEXT_LINKS.tsv'],cg['MECHANISM_CONTEXT_COMPONENTS.tsv'])
+        graph_audit.append(context_audit)
+        atomic_json(out/'MECHANISM_CONTEXT.json',context_audit)
+        for name,item in bound_policy['config']['context_graph'].items():
+            input_hashes['relation_context::'+name]={'path':item['path'],'sha256':item['sha256']}
+
     ids['cancer']=list(cancers);maps['cancer']={c:i for i,c in enumerate(cancers)}
     for nt in ('lncRNA','gene'):
         rels.extend([(nt,'measured_in','cancer'),('cancer','rev_measured_in',nt)])
@@ -412,7 +422,9 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
                 # Recompute BH over the complete tested family, not one computational chunk.
                 from .statistics import bh
                 dstat['q']=bh(dstat['p']);lstat['q']=bh(lstat['p']);label,weak=labels(lstat,task)
-                ok=dstat['available']&lstat['available']
+                label_context_ok = (np.asarray(host_readout_qualified_axis(bound_policy,pathways),bool)[ti]
+                                    if task=='pathway' else np.ones(len(ti),bool))
+                ok=dstat['available']&lstat['available']&label_context_ok
                 association_context=sc_association if task=='pathway' else state_sc_association
                 pieces=[raw_features(dstat),association_context,features['lncRNA'][li],sc[li],scok[li,None],mut[li],mutok[li,None]]
                 if genetic_enabled:
@@ -439,7 +451,7 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
                         st=pairs(X,Y,C,call,z,li[take],ti[take],np.flatnonzero(pf==fold),cfg['minimum_pairs'],cnv_transform=cfg.get('statistics',{}).get('cnv_transform','raw_signed'))
                         for k in st:teststat[k][take]=st[k]
                     teststat['q']=bh(teststat['p']);yl,_=labels(teststat,task)
-                    sealed.append((vid,task,{'lnc':li.copy(),'target':ti.copy(),'outer_patient_hash':np.asarray(cohort_catalog[cancer]['folds'][str(fold)]),'label':yl,'available':dstat['available']&teststat['available'],'effect':teststat['r'],'p':teststat['p'],'q':teststat['q'],'n':teststat['n'],'rank':teststat['rank']}))
+                    sealed.append((vid,task,{'lnc':li.copy(),'target':ti.copy(),'outer_patient_hash':np.asarray(cohort_catalog[cancer]['folds'][str(fold)]),'label':yl,'available':dstat['available']&teststat['available']&label_context_ok,'effect':teststat['r'],'p':teststat['p'],'q':teststat['q'],'n':teststat['n'],'rank':teststat['rank']}))
             views.append({'id':vid,'cancer_index':ci,'split':'validation' if view=='validation' else 'train'})
             status(out,'CPU_PREPARING',completed_view=vid,fold=fold,profile=profile)
     # Matched LASSO: no class-balanced validation and no training-loss fallback.

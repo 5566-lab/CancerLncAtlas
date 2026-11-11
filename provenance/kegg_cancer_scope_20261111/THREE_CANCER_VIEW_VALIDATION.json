@@ -1,0 +1,82 @@
+{
+  "target_host": "149",
+  "view": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/functional_relation_y_cancer_evidence_20261111_r1",
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "context": "train_label_fold2",
+  "sealed_test_opened": false,
+  "results": [
+    {
+      "cancer_id": "BRCA",
+      "context": "train_label_fold2",
+      "canonical_targets": 669,
+      "observed_relations": 6776321,
+      "observed_targets": 436,
+      "strong_relations": 476356,
+      "weak_relations": 238869,
+      "supported_targets": 436,
+      "unlabelled_observed": 6061096,
+      "joint_cohort_relations": 160707,
+      "mixed_direction_supported_relations": 8421,
+      "primary_definitions": 475,
+      "unconditional_primary_definitions": 332,
+      "conditional_definitions": 143,
+      "primary_observed_targets": 243,
+      "state_observed_targets": 193,
+      "conditional_observed_relations": 0,
+      "seconds": 160.36690759658813
+    },
+    {
+      "cancer_id": "LUAD",
+      "context": "train_label_fold2",
+      "canonical_targets": 669,
+      "observed_relations": 6951464,
+      "observed_targets": 431,
+      "strong_relations": 20488,
+      "weak_relations": 23167,
+      "supported_targets": 419,
+      "unlabelled_observed": 6907809,
+      "joint_cohort_relations": 4890757,
+      "mixed_direction_supported_relations": 1809,
+      "primary_definitions": 475,
+      "unconditional_primary_definitions": 332,
+      "conditional_definitions": 143,
+      "primary_observed_targets": 242,
+      "state_observed_targets": 189,
+      "conditional_observed_relations": 0,
+      "seconds": 152.20220923423767
+    },
+    {
+      "cancer_id": "COAD",
+      "context": "train_label_fold2",
+      "canonical_targets": 669,
+      "observed_relations": 6750334,
+      "observed_targets": 431,
+      "strong_relations": 28488,
+      "weak_relations": 20463,
+      "supported_targets": 430,
+      "unlabelled_observed": 6701383,
+      "joint_cohort_relations": 3868670,
+      "mixed_direction_supported_relations": 1921,
+      "primary_definitions": 475,
+      "unconditional_primary_definitions": 332,
+      "conditional_definitions": 143,
+      "primary_observed_targets": 242,
+      "state_observed_targets": 189,
+      "conditional_observed_relations": 0,
+      "seconds": 61.81139636039734
+    }
+  ],
+  "equivalent_current_view": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/functional_relation_y_cancer_evidence_20261111_r4",
+  "all_sealed_view_files_identical": false,
+  "projection_inputs_identical": [
+    "LABEL_IDENTITY_MAP.tsv",
+    "LABEL_APPLICABILITY.json",
+    "SOURCE_CONTEXTS.json"
+  ],
+  "supervised_target_policies_equal": true,
+  "comparison_context_count": 15
+}

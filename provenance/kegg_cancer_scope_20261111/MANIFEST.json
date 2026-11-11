@@ -1,0 +1,84 @@
+{
+  "backbone_count": 475,
+  "official_cancer_supported_count": 199,
+  "cancer_scope_status_counts": {
+    "direct_cancer_network": 199,
+    "outside_selected_network_categories": 276
+  },
+  "network_type_counts": {
+    "Env factor": 18,
+    "Pathogen": 47,
+    "Reference": 332,
+    "Variant": 78
+  },
+  "original_member_rows": 6789,
+  "unique_original_genes": 2501,
+  "selection_rule": "official cancer class OR exact malignant disease annotation OR reviewed mechanism evidence",
+  "official_cancer_annotation_is_filter": false,
+  "reference_variant_identity_preserved": true,
+  "original_members_preserved": true,
+  "format": "CLA_KEGG_CANCER_BACKBONE_V2",
+  "target_host": "149",
+  "scope_definition_version": "cancer_mechanisms_20261111_v2",
+  "source_universe_count": 658,
+  "not_admitted_count": 183,
+  "patient_coverage_used_for_selection": false,
+  "lncrna_association_used_for_selection": false,
+  "fixed_target_count_required": false,
+  "evidence_basis_counts": {
+    "official_cancer_class": 199,
+    "official_malignant_disease": 23,
+    "curated_mechanism_evidence": 253
+  },
+  "all_decision_counts": {
+    "official_cancer_class": 199,
+    "specific_context_not_supported_for_cancer": 129,
+    "official_malignant_disease": 23,
+    "curated_mechanism_evidence": 253,
+    "reference_process_not_in_supported_scope": 49,
+    "archival_definition_without_current_record": 5
+  },
+  "inputs": {
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/network_cancer_scope_20261111_r1/scope_r1/SOURCE_SCOPE_DECISIONS.tsv": "cf3fac1e2915b2d670e61bae2dc5a8fb7fbf42fb3a3d9c3240c05d09d866dd99",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/RAW_RECORDS.json": "d972917f3e0d93c6c93c6480814742a9dd2bf14bda2c46ace683a3805e04826b",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/CURATION.json": "3e0caa3ead7bb5389b2daaf184cb9fad5b096c3464278a8ddb1442c8ba5f8c71",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/EVIDENCE_REFERENCES.json": "bc31f03da77f8b84b1b17f566997f303bb6c0c92b1771c63b76c14bcf7656d56",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/network_cancer_scope_20261111_r1/archival_identity_r2/MSIGDB_NETWORK_MAPPING.tsv": "a70017a591b3e16fd7dcdb97e8289071b173497836eb8af40f271ce06e70a69f",
+    "/dsk2/user/dengsc/cla_pathway_fusion_20261101_r1/raw_inputs/CATALOG.json": "8c3c56b216a128b936249d8cb3f73f4e0c20a865ab8c462a966aae449aa73708"
+  },
+  "files": {
+    "LAUNCH_PREFLIGHT.json": {
+      "sha256": "95e8fe295eeb9342fad180daa9d46665bfc0b0bd8b9eb78c76ef042f8fb1df79",
+      "bytes": 75
+    },
+    "KEGG_CANCER_BACKBONE.tsv": {
+      "sha256": "38507f744f541ff8c722fc39a9a00473fd69494309a958909f791ea6c1cb8bdf",
+      "bytes": 329952
+    },
+    "SOURCE_SCOPE_DECISIONS.tsv": {
+      "sha256": "4375ce780aaf545a7df09231a3c126e312ba50a6968b194e4212487bfe1e0d55",
+      "bytes": 932359
+    },
+    "GENE_SETS.json": {
+      "sha256": "72ffede7c795cea4fceb30176c93da127b720952614fadfa6154f1f1fa6d4c91",
+      "bytes": 199557
+    },
+    "MEMBERS.tsv": {
+      "sha256": "199d72cf2eeefae2d367bb9d2892b84adddf68e5150e4987b7dff2262cc698fe",
+      "bytes": 994369
+    },
+    "SOURCE_IDS.txt": {
+      "sha256": "53f80968d7120629eef29105b414adb662bfe9b47d34fe2d64fb6fecfaba5e32",
+      "bytes": 38182
+    },
+    "CURATION.json": {
+      "sha256": "3e0caa3ead7bb5389b2daaf184cb9fad5b096c3464278a8ddb1442c8ba5f8c71",
+      "bytes": 39950
+    },
+    "EVIDENCE_REFERENCES.json": {
+      "sha256": "bc31f03da77f8b84b1b17f566997f303bb6c0c92b1771c63b76c14bcf7656d56",
+      "bytes": 131580
+    }
+  },
+  "ordered_source_network_canonical_sha256": "368a2c42c3b12e947a7913cdad34bd995adca765189cd5fd6bbcd1ebc765793c"
+}
