@@ -135,6 +135,10 @@ def macro_ap(y,score,cancer,available,groups=None,target_ids=None):
     return float(np.mean(values))
 
 def prepare(cfg,out,fold=0,profile='diagnostic'):
+    if cfg.get('relation_objective')=='observed_fused_rms_effect':
+        fail('RELATION_STRENGTH_PREPARATION_NOT_BOUND',
+             'The RNA-score binary preparation cannot create observed fused relation labels; '
+             'use the dual-cohort relation preparation contract')
     from .execution_contract import validate_config_contract,baseline_contract,ENGINE_ID
     from .controller import assert_controller
     from .inputs import verify_import_authority
