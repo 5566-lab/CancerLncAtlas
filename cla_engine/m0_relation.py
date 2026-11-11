@@ -16,12 +16,12 @@ from pathlib import Path
 
 import numpy as np
 from sklearn.exceptions import ConvergenceWarning
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import Lasso, LogisticRegression
 from sklearn.metrics import average_precision_score, log_loss, roc_auc_score
 from sklearn.preprocessing import StandardScaler
 
 from .common import atomic_json, atomic_npz, digest, read_json, sha
-from .exact_baseline import (decision_batched, fit_vocabulary, resource_plan,
+from .exact_baseline import (decision_batched, design_block, fit_vocabulary, resource_plan,
                              training_design, unseen_audit)
 from .execution_contract import baseline_contract
 from .lineage import validate_prepared
@@ -133,6 +133,110 @@ def _classifier(C, penalty, cfg):
     else:
         args['penalty'] = penalty
     return LogisticRegression(**args)
+
+
+def _strength_metrics(y, prediction, available, identities, admitted):
+    mask = np.asarray(available, dtype=bool)
+    y = np.asarray(y, dtype=float)
+    prediction = np.asarray(prediction, dtype=float)
+    if not np.isfinite(prediction).all() or not np.isfinite(y[mask]).all():
+        raise ValueError('M0_STRENGTH_NONFINITE')
+    if np.any(y[mask] < 0) or np.any(y[mask] > 1 + 1e-6):
+        raise ValueError('M0_STRENGTH_LABEL_RANGE')
+    targets = np.asarray([row[2] for row in identities])
+    rows = []
+    for target in admitted:
+        take = mask & (targets == target)
+        n = int(take.sum())
+        row = {'canonical_id': target, 'head': 'strength', 'n': n, 'estimable': n >= 2}
+        if n >= 2:
+            row['mse'] = float(np.mean((y[take] - prediction[take]) ** 2))
+            row['mae'] = float(np.mean(np.abs(y[take] - prediction[take])))
+        rows.append(row)
+    good = [row for row in rows if row['estimable']]
+    return rows, float(np.mean([row['mse'] for row in good])) if good else None
+
+
+def fit_strength_cancer(train_blocks, validation_blocks, admitted, cfg, *, identity_mode='numeric_only'):
+    """Fit observed fused effects with an L1 linear head and exact-target selection."""
+    if identity_mode not in {'numeric_only', 'exact'}:
+        raise ValueError('M0_IDENTITY_MODE_INVALID')
+    train = _select_rows(train_blocks, admitted)
+    valid = _select_rows(validation_blocks, admitted)
+    cancers = {row[0] for row in train['identities'] + valid['identities']}
+    if len(cancers) != 1:
+        raise ValueError('M0_MUST_FIT_ONE_CANCER_AT_A_TIME')
+    if valid['numeric'].shape[1] != train['numeric'].shape[1]:
+        raise ValueError('M0_NUMERIC_FEATURE_WIDTH_MISMATCH')
+    train_ok = train['available'].astype(bool)
+    valid_ok = valid['available'].astype(bool)
+    if not train_ok.any() or not valid_ok.any():
+        raise ValueError('M0_NO_OBSERVED_STRENGTH_TRAIN_OR_VALIDATION')
+    for data, mask in ((train, train_ok), (valid, valid_ok)):
+        y = data['label'][mask]
+        if not np.isfinite(y).all() or np.any(y < 0) or np.any(y > 1 + 1e-6):
+            raise ValueError('M0_STRENGTH_LABEL_RANGE')
+    bc = {**baseline_contract(cfg), 'identity_mode': identity_mode}
+    resource_plan(int(train_ok.sum()), train['numeric'].shape[1], len(valid_ok), bc)
+    train_rows = [row for row, take in zip(train['identities'], train_ok) if take]
+    scaler = StandardScaler().fit(train['numeric'][train_ok])
+    vectorizer, vocabulary = fit_vocabulary(train_rows, bc)
+    design = training_design(train_rows, train['numeric'][train_ok], scaler,
+                             vectorizer, bc['batch_rows'])
+    weights = train['weight'][train_ok].astype(float)
+    if not np.isfinite(weights).all() or np.any(weights <= 0):
+        raise ValueError('M0_AVAILABLE_WEIGHTS_MUST_BE_POSITIVE_FINITE')
+    weights /= weights.mean()
+    y_train = train['label'][train_ok]
+    centered = y_train - np.average(y_train, weights=weights)
+    alpha_max = float(np.max(np.abs(design.T @ (weights * centered))) / weights.sum())
+    alpha_max = max(alpha_max, 1e-8)
+    best = None
+    trials = []
+    for C in cfg['baseline']['C']:
+        if not np.isfinite(C) or C <= 0:
+            raise ValueError('M0_STRENGTH_C_MUST_BE_POSITIVE')
+        alpha = alpha_max / float(C)
+        model = Lasso(alpha=alpha, max_iter=cfg['baseline']['max_iter'],
+                      random_state=cfg['seed'])
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter('error', ConvergenceWarning)
+                model.fit(design, y_train, sample_weight=weights)
+        except ConvergenceWarning:
+            trials.append({'C': float(C), 'alpha': alpha, 'status': 'NONCONVERGED_EXCLUDED'})
+            continue
+        prediction = np.empty(len(valid['identities']), dtype=float)
+        for start in range(0, len(prediction), bc['batch_rows']):
+            stop = min(start + bc['batch_rows'], len(prediction))
+            prediction[start:stop] = model.predict(design_block(
+                valid['identities'][start:stop], valid['numeric'][start:stop],
+                scaler, vectorizer))
+        rows, macro_mse = _strength_metrics(valid['label'], prediction, valid_ok,
+                                            valid['identities'], admitted)
+        trials.append({'C': float(C), 'alpha': alpha,
+                       'validation_exact_target_macro_mse': macro_mse})
+        if macro_mse is not None and (best is None or macro_mse < best[0]):
+            best = (macro_mse, float(C), alpha, model, prediction, rows)
+    if best is None:
+        raise ValueError('M0_NO_ESTIMABLE_CONVERGED_STRENGTH_MODEL')
+    macro_mse, C, alpha, model, prediction, rows = best
+    head = {'status': 'FITTED', 'selected_C': C, 'selected_alpha': alpha,
+            'selection': 'VALIDATION_EXACT_TARGET_MACRO_MSE',
+            'validation_macro_mse': macro_mse, 'trials': trials,
+            'coef': model.coef_[None, :], 'intercept': np.asarray([model.intercept_]),
+            'numeric_mean': scaler.mean_, 'numeric_scale': scaler.scale_,
+            'prediction': prediction, 'vocabulary': vectorizer.feature_names_,
+            'vocabulary_report': vocabulary,
+            'unseen_validation': unseen_audit(valid['identities'], vectorizer),
+            'train_rows': int(train_ok.sum())}
+    return {'cancer_id': next(iter(cancers)), 'heads': {'strength': head},
+            'exact_target_metrics': rows, 'validation': valid,
+            'admitted_targets': tuple(admitted),
+            'train_candidate_rows': len(train['identities']),
+            'identity_mode': identity_mode,
+            'fit_input_contract': 'PREPARED_NUMERIC_NO_GRAPH' if identity_mode == 'numeric_only'
+                                  else 'PREPARED_NUMERIC_PLUS_TRAIN_ONLY_EXACT_IDENTITIES_NO_GRAPH'}
 
 
 def fit_scoped_cancer(train_blocks, validation_blocks, admitted, cfg, *, penalty='l1', identity_mode='numeric_only'):
@@ -263,6 +367,11 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
         raise ValueError('M0_CANCER_SCOPE_INVALID')
     policies = load_target_policy(policy)
     manifest, spec, cfg, lineage = validate_prepared(prepared)
+    objective = spec.get('relation_objective', 'binary')
+    if objective not in {'binary', 'observed_fused_rms_effect'}:
+        raise ValueError('M0_RELATION_OBJECTIVE_UNKNOWN')
+    if objective == 'observed_fused_rms_effect' and penalty != 'l1':
+        raise ValueError('M0_STRENGTH_REQUIRES_L1')
     if set(cancers) - set(spec['cancers']):
         raise ValueError('M0_REQUESTED_CANCER_MISSING_FROM_PREPARED')
     bound_policy, identity_map = _prepared_scope_inputs(prepared, spec, policy, identity_map)
@@ -273,6 +382,7 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
     atomic_json(out / 'LAUNCH_PREFLIGHT.json', {'target_host': '149', 'actual_host': host,
                 'cancers': cancers, 'outer_fold': spec['fold'], 'paid_compute': False})
     receipt = {'format': FORMAT, 'target_host': host, 'cancers': cancers,
+               'relation_objective': objective,
                'penalty': penalty, 'identity_mode': identity_mode,
                'target_policy_bound_in_prepared': bound_policy is not None, 'patient_score_regression': False, 'outer_test_read': False,
                'prepared_manifest_sha256': sha(prepared / 'MANIFEST.json'),
@@ -295,7 +405,11 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
     rows = []
     for cancer in cancers:
         blocks, inputs = _load_blocks(prepared, spec, canonical, cancer)
-        fit = fit_scoped_cancer(blocks['train'], blocks['validation'], admitted, cfg, penalty=penalty, identity_mode=identity_mode)
+        fit = (fit_strength_cancer(blocks['train'], blocks['validation'], admitted, cfg,
+                                   identity_mode=identity_mode)
+               if objective == 'observed_fused_rms_effect' else
+               fit_scoped_cancer(blocks['train'], blocks['validation'], admitted, cfg,
+                                 penalty=penalty, identity_mode=identity_mode))
         receipt['inputs'].update(inputs)
         folder = out / cancer
         folder.mkdir()
@@ -308,23 +422,25 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
             atomic_npz(folder / (head + '_model.npz'), **arrays)
             atomic_json(folder / (head + '_vocabulary.json'), result['vocabulary'])
             valid = fit['validation']
+            prediction = {'score': result['prediction']} if head == 'strength' else {'logit': result['logits']}
             atomic_npz(folder / (head + '_validation_predictions.npz'),
                        canonical_id=np.asarray([r[2] for r in valid['identities']]),
                        lncrna_id=np.asarray([r[1] for r in valid['identities']]),
                        source_target_index=valid['target'], lnc_index=valid['lnc'],
-                       logit=result['logits'], label=valid['label' if head == 'membership' else 'direction_label'],
-                       available=valid['available'] if head == 'membership' else valid['available'] & valid['direction_available'])
+                       label=valid['label' if head in {'membership', 'strength'} else 'direction_label'],
+                       available=valid['available'] if head in {'membership', 'strength'} else valid['available'] & valid['direction_available'],
+                       **prediction)
             summaries[head] = {k: v for k, v in result.items() if k not in
-                               {'coef', 'intercept', 'numeric_mean', 'numeric_scale', 'logits', 'vocabulary'}}
+                               {'coef', 'intercept', 'numeric_mean', 'numeric_scale', 'logits', 'prediction', 'vocabulary'}}
         receipt['results'][cancer] = summaries
         rows.extend({'cancer_id': cancer, **row} for row in fit['exact_target_metrics'])
     keys = ('cancer_id', 'canonical_id', 'head', 'n', 'positive', 'estimable',
-            'average_precision', 'roc_auc', 'log_loss', 'reason')
+            'average_precision', 'roc_auc', 'log_loss', 'mse', 'mae', 'reason')
     with (out / 'EXACT_PATHWAY_METRICS.tsv').open('w', encoding='utf-8', newline='') as handle:
         writer = csv.DictWriter(handle, fieldnames=keys, delimiter='\t')
         writer.writeheader()
         writer.writerows(rows)
     receipt['fit_contract_sha256'] = digest({key: receipt[key] for key in
-                                           ('prepared_manifest_sha256', 'policy_sha256', 'identity_map_sha256', 'cancers', 'penalty', 'identity_mode')})
+                                           ('prepared_manifest_sha256', 'policy_sha256', 'identity_map_sha256', 'cancers', 'penalty', 'identity_mode', 'relation_objective')})
     atomic_json(out / 'M0_RELATION_RECEIPT.json', receipt)
     return receipt

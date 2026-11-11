@@ -178,6 +178,57 @@ def test_raw_fused_catalog_is_not_implicitly_binary(tmp_path, monkeypatch):
         m0.run_m0_relation(catalog,tmp_path/'unused_policy',tmp_path/'out')
 
 
+def test_observed_strength_ignores_unlabelled_rows_and_uses_exact_target_mse():
+    train, valid = block(1), block(2)
+    cfg = config()
+    cfg['baseline']['C'] = [1., 10., 100.]
+    for item in (train, valid):
+        item['label'] = np.clip(.4 + .15 * item['numeric'][:, 0], 0, 1)
+        item['available'][::7] = False
+    first = m0.fit_strength_cancer([train], [valid], ['P1', 'P2'], cfg)
+    for item in (train, valid):
+        item['label'][~item['available']] = 999
+        item['direction_label'][:] = 999
+    second = m0.fit_strength_cancer([train], [valid], ['P1', 'P2'], cfg)
+    a, b = first['heads']['strength'], second['heads']['strength']
+    assert a['selected_C'] == b['selected_C']
+    assert a['validation_macro_mse'] == b['validation_macro_mse']
+    np.testing.assert_array_equal(a['coef'], b['coef'])
+    assert a['selection'] == 'VALIDATION_EXACT_TARGET_MACRO_MSE'
+    assert a['vocabulary'] == []
+    assert {r['canonical_id'] for r in first['exact_target_metrics']} == {'P1', 'P2'}
+
+
+def test_observed_strength_rejects_invalid_observed_values():
+    train, valid = block(1), block(2)
+    train['label'][0] = -0.1
+    with pytest.raises(ValueError, match='M0_STRENGTH_LABEL_RANGE'):
+        m0.fit_strength_cancer([train], [valid], ['P1', 'P2'], config())
+
+
+def test_continuous_capsule_routes_to_strength_only(tmp_path, monkeypatch):
+    prepared, policy = fixture_capsule(tmp_path, monkeypatch)
+    spec_path = prepared/'SPEC.json'
+    spec = json.loads(spec_path.read_text())
+    spec['relation_objective'] = 'observed_fused_rms_effect'
+    spec_path.write_text(json.dumps(spec))
+    monkeypatch.setattr(m0, 'validate_prepared', lambda _: ({}, spec, config(), {}))
+    for view in ('BRCA__train2', 'BRCA__validation'):
+        path = prepared/'views'/view/'pathway.npz'
+        with np.load(path) as data:
+            arrays = {key: data[key] for key in data.files}
+        arrays['label'] = np.clip(.4 + .15 * arrays['numeric'][:, 0], 0, 1)
+        arrays['available'][::7] = False
+        arrays['label'][::7] = 999
+        np.savez(path, **arrays)
+    result = m0.run_m0_relation(prepared, policy, tmp_path/'strength', cancers=['BRCA'])
+    assert result['relation_objective'] == 'observed_fused_rms_effect'
+    assert set(result['results']['BRCA']) == {'strength'}
+    with np.load(tmp_path/'strength'/'BRCA'/'strength_validation_predictions.npz') as values:
+        assert 'score' in values.files and 'logit' not in values.files
+        assert values['available'].sum() < len(values['available'])
+
+
 def test_numeric_only_default_cannot_memorize_relation_identity():
     train, valid = block(1), block(2)
     first = m0.fit_scoped_cancer([train], [valid], ['P1','P2'], config())

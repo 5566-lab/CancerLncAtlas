@@ -100,7 +100,8 @@ def validate_prepared(root):
                 from .readiness import validate_task_arrays
                 # Preserve zero-usable views as an audited availability mask;
                 # aggregate task checks remain strict in prepare().
-                validate_task_arrays(data,view['id'],task,spec['numeric_features'],allow_empty=True)
+                validate_task_arrays(data,view['id'],task,spec['numeric_features'],allow_empty=True,
+                                     objective=spec.get('relation_objective','binary'))
     return m,spec,cfg,stored
 
 def verify_sealed(root,sealed):

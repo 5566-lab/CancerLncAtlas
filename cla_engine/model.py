@@ -129,13 +129,21 @@ class JointHGT(nn.Module):
         delta=out['graph_residual']*float(self.cfg.get('residual_bound',1.))
         return {'logit':batch['base']+float(alpha)*delta,'delta':delta,'direction':out['direction_logit']}
 
-def loss_one(out,batch,direction_weight=.25):
+def loss_one(out,batch,direction_weight=.25,objective='binary'):
     mask=batch['available'].bool()
     if not mask.any():return None
     weight=batch['weight'][mask];weight=weight/weight.sum().clamp_min(1e-12)
-    loss=(F.binary_cross_entropy_with_logits(out['logit'][mask],batch['label'][mask],reduction='none')*weight).sum()
-    dm=mask&batch['direction_available'].bool()
-    if dm.any():loss=loss+float(direction_weight)*F.binary_cross_entropy_with_logits(out['direction'][dm],batch['direction_label'][dm])
+    if objective=='binary':
+        loss=(F.binary_cross_entropy_with_logits(out['logit'][mask],batch['label'][mask],reduction='none')*weight).sum()
+        dm=mask&batch['direction_available'].bool()
+        if dm.any():loss=loss+float(direction_weight)*F.binary_cross_entropy_with_logits(out['direction'][dm],batch['direction_label'][dm])
+    elif objective=='observed_fused_rms_effect':
+        label=batch['label'][mask]
+        if not torch.isfinite(label).all() or (label<0).any() or (label>1+1e-6).any():
+            fail('RELATION_STRENGTH_LABEL_INVALID','Observed RMS effect must be finite and in [0,1]')
+        loss=(F.mse_loss(out['logit'][mask],label,reduction='none')*weight).sum()
+    else:
+        fail('RELATION_OBJECTIVE_UNKNOWN','Training objective must be explicit',objective=objective)
     return loss+1e-4*out['delta'][mask].square().mean()
 
 def to_graph(arrays,device):
