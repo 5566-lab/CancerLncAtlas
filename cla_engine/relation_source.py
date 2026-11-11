@@ -53,6 +53,29 @@ class SourceLocalCnv:
     source_sha256: str
 
 
+@dataclass(frozen=True)
+class SourceDesign:
+    cohort: str
+    patients: tuple[str, ...]
+    values: np.ndarray
+    target_id: str
+    report: dict
+
+
+@dataclass(frozen=True)
+class SourceAssociations:
+    cohort: str
+    layer: str
+    patients: tuple[str, ...]
+    lncrna_index: np.ndarray
+    readout_index: np.ndarray
+    rho: np.ndarray
+    p: np.ndarray
+    n: np.ndarray
+    rank: np.ndarray
+    available: np.ndarray
+
+
 def _tsv(path):
     with Path(path).open(encoding='utf-8-sig', newline='') as handle:
         return list(csv.DictReader(handle, delimiter='\t'))
@@ -146,8 +169,14 @@ def load_source_readouts(context, target_view_root, cohort, layer, output_target
     rows = [r for r in _tsv(base / 'READOUT_INDEX.tsv')
             if r['dataset'] == cohort and r['layer'] == layer
             and r['canonical_id'] in source_to_output]
-    if not rows or len({r['target_id'] for r in rows}) != len(rows):
+    if len({r['target_id'] for r in rows}) != len(rows):
         raise ValueError('RELATION_SOURCE_READOUT_AXIS_INVALID')
+    patients = _source_patients(context, cohort)
+    if not rows:
+        empty = np.empty((len(patients), 0), dtype=np.float32)
+        return SourceReadouts(cohort, layer, patients, (), (), empty,
+                              np.empty_like(empty, dtype=bool),
+                              fused_receipt['files']['READOUT_INDEX.tsv'])
     directories = {r['directory'] for r in rows}
     references = [r for r in json.loads((base / 'INPUT_REFERENCES.json').read_text())
                   if r['dataset'] == cohort and r['layer'] == layer]
@@ -171,10 +200,7 @@ def load_source_readouts(context, target_view_root, cohort, layer, output_target
             raise ValueError('RELATION_SOURCE_READOUT_COLUMN_MISMATCH')
     readout_ids = tuple(r['target_id'] for r in rows)
     frame = pd.read_parquet(source / 'PATIENT_S.parquet', columns=list(readout_ids))
-    patients = tuple(context.cohort_splits[cohort]['source_patients'])
-    labels = set(context.cohort_splits[cohort]['label_patients'])
-    if (not patients or len(patients) != len(set(patients)) or set(patients) & labels
-            or not frame.index.is_unique or set(patients) - set(frame.index.astype(str))):
+    if (not frame.index.is_unique or set(patients) - set(frame.index.astype(str))):
         raise ValueError('RELATION_SOURCE_READOUT_PATIENT_MISMATCH')
     values = frame.loc[list(patients), list(readout_ids)].to_numpy(dtype=np.float32)
     return SourceReadouts(cohort, layer, patients, readout_ids,
@@ -252,3 +278,55 @@ def load_source_local_cnv(context, cnv_root_by_cohort, cohort, lncrna_ids):
         raise ValueError('RELATION_SOURCE_CNV_CALLABILITY_MISMATCH')
     return SourceLocalCnv(cohort, patients, lncrna_ids, values, callable_mask,
                           sha(receipt_path))
+
+
+def fit_source_design(covariates, cfg, *, family, target_id):
+    """Fit the target-aware nuisance design on source patients only."""
+    from .fused_adjustment.design import design
+
+    patients = list(covariates.patients)
+    z, report = design(covariates.frame, patients, patients, family=family,
+                       target_id=target_id, cfg=cfg,
+                       admission_cohorts={'source': patients})
+    if z.shape[0] != len(patients):
+        raise ValueError('RELATION_SOURCE_DESIGN_PATIENT_AXIS_MISMATCH')
+    return SourceDesign(covariates.cohort, covariates.patients, z, target_id, report)
+
+
+def source_readout_associations(expression, readouts, local_cnv, source_design,
+                                lncrna_index, readout_index, *, minimum_pairs=12):
+    """Recompute fold-local rank associations; partial-pair FDR is not exposed."""
+    from .statistics import pairs
+
+    items = (expression, readouts, local_cnv, source_design)
+    if (len({item.cohort for item in items}) != 1
+            or len({item.patients for item in items}) != 1
+            or expression.entities != local_cnv.lncrna_ids):
+        raise ValueError('RELATION_SOURCE_ASSOCIATION_AXIS_MISMATCH')
+    if (not np.array_equal(expression.measured, np.isfinite(expression.values))
+            or not np.array_equal(readouts.measured, np.isfinite(readouts.values))
+            or not np.array_equal(local_cnv.callable, np.isfinite(local_cnv.values))):
+        raise ValueError('RELATION_SOURCE_ASSOCIATION_MEASUREMENT_MASK_MISMATCH')
+    li = np.asarray(lncrna_index)
+    ti = np.asarray(readout_index)
+    if (li.ndim != 1 or ti.ndim != 1 or li.shape != ti.shape
+            or not np.issubdtype(li.dtype, np.integer)
+            or not np.issubdtype(ti.dtype, np.integer)
+            or np.any(li < 0) or np.any(li >= len(expression.entities))
+            or np.any(ti < 0) or np.any(ti >= len(readouts.readout_ids))):
+        raise ValueError('RELATION_SOURCE_ASSOCIATION_PAIR_AXIS_INVALID')
+    if minimum_pairs < 3:
+        raise ValueError('RELATION_SOURCE_ASSOCIATION_MINIMUM_INVALID')
+    if not len(li):
+        empty = np.empty(0, dtype=np.float32)
+        return SourceAssociations(expression.cohort, readouts.layer, expression.patients,
+                                  li, ti, empty, empty.copy(), np.empty(0, np.int32),
+                                  np.empty(0, np.int16), np.empty(0, bool))
+    result = pairs(expression.values, readouts.values, local_cnv.values,
+                   local_cnv.callable, source_design.values, li, ti,
+                   np.arange(len(expression.patients)), minimum_pairs,
+                   cnv_transform='raw_signed')
+    return SourceAssociations(expression.cohort, readouts.layer, expression.patients,
+                              li, ti, result['r'].astype(np.float32),
+                              result['p'].astype(np.float32), result['n'],
+                              result['rank'], result['available'])

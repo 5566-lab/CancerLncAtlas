@@ -9,7 +9,8 @@ import pytest
 from cla_engine.common import sha
 from cla_engine.relation_source import (load_relation_lncrna_sources, load_source_matrix,
                                         load_source_readouts, load_source_covariates,
-                                        load_source_local_cnv)
+                                        load_source_local_cnv, source_readout_associations,
+                                        SourceMatrix, SourceReadouts, SourceLocalCnv, SourceDesign)
 
 
 def fixture(tmp_path):
@@ -111,6 +112,10 @@ def test_readout_mapping_uses_only_source_patients(tmp_path):
     assert block.patients == ('T1', 'T2')
     assert block.values[:, 0].tolist() == [1., 2.]
     assert block.measured.all()
+    absent = load_source_readouts(context, view, 'TCGA', 'PHOSPHO', ('P_NEW',))
+    assert absent.patients == ('T1', 'T2')
+    assert absent.values.shape == (2, 0)
+    assert absent.readout_ids == ()
     source.joinpath('TARGETS.tsv').write_text('target_id\nR2\n')
     with pytest.raises(ValueError, match='FILE_DRIFT'):
         load_source_readouts(context, view, 'TCGA', 'PROTEIN', ('P_NEW',))
@@ -158,3 +163,31 @@ def test_covariates_and_local_cnv_use_only_frozen_source_patients(tmp_path):
     (roots['TCGA'] / 'BRCA/lncrna_callable.npy').write_bytes(b'corrupt')
     with pytest.raises(ValueError, match='CNV_FILE_DRIFT'):
         load_source_local_cnv(context, roots, 'TCGA', context.lncrna_ids)
+
+
+def test_source_readout_association_keeps_missing_measurements_unavailable():
+    patients = tuple(f'T{i}' for i in range(20))
+    trend = np.arange(20, dtype=np.float32)
+    expression = SourceMatrix('TCGA', patients, ('L1', 'L2'),
+        np.column_stack([trend, np.full(20, np.nan, np.float32)]),
+        np.column_stack([np.ones(20, bool), np.zeros(20, bool)]), 'expression-sha')
+    readouts = SourceReadouts('TCGA', 'PROTEIN', patients, ('R1',), ('P1',),
+        trend[:, None], np.ones((20, 1), bool), 'readout-sha')
+    cnv = SourceLocalCnv('TCGA', patients, ('L1', 'L2'), np.zeros((20, 2)),
+                         np.ones((20, 2), bool), 'cnv-sha')
+    design = SourceDesign('TCGA', patients, np.ones((20, 1)), '__pathway__', {})
+    result = source_readout_associations(expression, readouts, cnv, design,
+                                         np.array([0, 1]), np.array([0, 0]))
+    assert result.available.tolist() == [True, False]
+    assert result.rho[0] > .99
+    assert result.n.tolist() == [20, 0]
+    with pytest.raises(ValueError, match='ASSOCIATION_AXIS_MISMATCH'):
+        source_readout_associations(expression, readouts,
+            SourceLocalCnv('TCGA', patients[::-1], cnv.lncrna_ids, cnv.values,
+                           cnv.callable, cnv.source_sha256), design,
+            np.array([0]), np.array([0]))
+    with pytest.raises(ValueError, match='MEASUREMENT_MASK_MISMATCH'):
+        source_readout_associations(expression,
+            SourceReadouts('TCGA', 'PROTEIN', patients, ('R1',), ('P1',),
+                           readouts.values, np.zeros((20, 1), bool), 'readout-sha'),
+            cnv, design, np.array([0]), np.array([0]))
