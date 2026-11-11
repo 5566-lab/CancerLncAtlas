@@ -330,3 +330,67 @@ def source_readout_associations(expression, readouts, local_cnv, source_design,
                               li, ti, result['r'].astype(np.float32),
                               result['p'].astype(np.float32), result['n'],
                               result['rank'], result['available'])
+
+
+SOURCE_NUMERIC_FIELDS = ('mean_rho', 'rms_rho', 'max_abs_rho',
+                         'mean_log1p_n', 'log1p_readout_count', 'available')
+
+
+def source_numeric_block(associations, readouts, candidate_lnc, candidate_target,
+                         target_axis):
+    """Summarize source readouts for M0; keep per-readout rows for HHGT edges."""
+    target_axis = tuple(target_axis)
+    li = np.asarray(candidate_lnc)
+    ti = np.asarray(candidate_target)
+    if (not target_axis or len(target_axis) != len(set(target_axis))
+            or li.ndim != 1 or ti.shape != li.shape
+            or not np.issubdtype(li.dtype, np.integer)
+            or not np.issubdtype(ti.dtype, np.integer)
+            or np.any(li < 0) or np.any(ti < 0) or np.any(ti >= len(target_axis))):
+        raise ValueError('RELATION_SOURCE_NUMERIC_CANDIDATE_AXIS_INVALID')
+    if (associations.cohort != readouts.cohort or associations.layer != readouts.layer
+            or associations.patients != readouts.patients):
+        raise ValueError('RELATION_SOURCE_NUMERIC_READOUT_AXIS_MISMATCH')
+    pair_key = li.astype(np.int64) * len(target_axis) + ti
+    if len(np.unique(pair_key)) != len(pair_key):
+        raise ValueError('RELATION_SOURCE_NUMERIC_DUPLICATE_CANDIDATE')
+    numeric = np.zeros((len(li), len(SOURCE_NUMERIC_FIELDS)), dtype=np.float32)
+    target_lookup = {target: index for index, target in enumerate(target_axis)}
+    if set(readouts.canonical_ids) - set(target_lookup):
+        raise ValueError('RELATION_SOURCE_NUMERIC_UNKNOWN_TARGET')
+    if not len(associations.lncrna_index):
+        return numeric
+    readout_target = np.asarray([target_lookup[target] for target in readouts.canonical_ids],
+                                dtype=np.int64)
+    if (np.any(associations.readout_index < 0)
+            or np.any(associations.readout_index >= len(readout_target))):
+        raise ValueError('RELATION_SOURCE_NUMERIC_READOUT_INDEX_INVALID')
+    source_key = (associations.lncrna_index.astype(np.int64) * len(target_axis)
+                  + readout_target[associations.readout_index])
+    order = np.argsort(pair_key)
+    position = np.searchsorted(pair_key[order], source_key)
+    in_range = position < len(pair_key)
+    present = in_range.copy()
+    present[in_range] = pair_key[order[position[in_range]]] == source_key[in_range]
+    use = present & associations.available
+    if not use.any():
+        return numeric
+    row = order[position[use]]
+    rho = associations.rho[use].astype(float)
+    n = associations.n[use].astype(float)
+    if not np.isfinite(rho).all() or np.any(n < 0):
+        raise ValueError('RELATION_SOURCE_NUMERIC_ASSOCIATION_INVALID')
+    count = np.bincount(row, minlength=len(li)).astype(float)
+    total_rho = np.bincount(row, weights=rho, minlength=len(li))
+    total_rho2 = np.bincount(row, weights=rho * rho, minlength=len(li))
+    total_log_n = np.bincount(row, weights=np.log1p(n), minlength=len(li))
+    max_abs = np.zeros(len(li), dtype=float)
+    np.maximum.at(max_abs, row, np.abs(rho))
+    valid = count > 0
+    numeric[valid, 0] = total_rho[valid] / count[valid]
+    numeric[valid, 1] = np.sqrt(total_rho2[valid] / count[valid])
+    numeric[valid, 2] = max_abs[valid]
+    numeric[valid, 3] = total_log_n[valid] / count[valid]
+    numeric[valid, 4] = np.log1p(count[valid])
+    numeric[valid, 5] = 1.
+    return numeric

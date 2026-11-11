@@ -10,7 +10,8 @@ from cla_engine.common import sha
 from cla_engine.relation_source import (load_relation_lncrna_sources, load_source_matrix,
                                         load_source_readouts, load_source_covariates,
                                         load_source_local_cnv, source_readout_associations,
-                                        SourceMatrix, SourceReadouts, SourceLocalCnv, SourceDesign)
+                                        source_numeric_block, SourceMatrix, SourceReadouts,
+                                        SourceLocalCnv, SourceDesign, SourceAssociations)
 
 
 def fixture(tmp_path):
@@ -191,3 +192,25 @@ def test_source_readout_association_keeps_missing_measurements_unavailable():
             SourceReadouts('TCGA', 'PROTEIN', patients, ('R1',), ('P1',),
                            readouts.values, np.zeros((20, 1), bool), 'readout-sha'),
             cnv, design, np.array([0]), np.array([0]))
+
+
+def test_numeric_block_keeps_readout_multiplicity_and_missing_targets_distinct():
+    patients = ('T1', 'T2')
+    readouts = SourceReadouts('TCGA', 'PROTEIN', patients, ('R1', 'R2'),
+                              ('P1', 'P1'), np.ones((2, 2)),
+                              np.ones((2, 2), bool), 'sha')
+    associations = SourceAssociations('TCGA', 'PROTEIN', patients,
+        np.array([0, 0, 1]), np.array([0, 1, 0]),
+        np.array([.4, -.2, np.nan]), np.array([.01, .02, np.nan]),
+        np.array([20, 18, 0]), np.array([3, 3, 0]),
+        np.array([True, True, False]))
+    block = source_numeric_block(associations, readouts,
+                                 np.array([0, 1, 0]), np.array([0, 0, 1]),
+                                 ('P1', 'P2'))
+    assert block.shape == (3, 6)
+    assert block[0, 0] == pytest.approx(.1)
+    assert block[0, 1] == pytest.approx(np.sqrt(.1))
+    assert block[0, 2] == pytest.approx(.4)
+    assert block[0, 4] == pytest.approx(np.log1p(2))
+    assert block[0, 5] == 1.
+    assert not block[1:].any()
