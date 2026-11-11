@@ -80,9 +80,14 @@ The linear relation comparator uses, for each cancer::
 
 Its numeric inputs come only from the source-patient partition. The label
 partition supplies Y. Default numeric_only excludes lncRNA/pathway identity
-terms. L1-penalized logistic regression is the comparator for explicitly
-binary prepared endpoints; L2 is a separate option. Hyperparameters are
-selected on validation patients. Label-side rho/p/q are never features.
+terms. For the selected continuous endpoint, Y is the observed fused
+``rms_effect`` for that exact cancer--lncRNA--pathway relation. Unobserved
+relations remain masked, including those with ``membership=0`` but no
+measured effect. M0 fits an L1-penalized linear regression on the observed
+training relations. Its penalty is selected by validation exact-target macro
+MSE, with the same relation masks and target weights as HHGT. L1-penalized
+logistic regression remains available only for explicitly binary prepared
+endpoints. Label-side rho/p/q are never features.
 
 Context identities enter the HHGT graph through fixed protein/gene composition
 and typed connections to the primary mechanism. No context target enters the
@@ -95,9 +100,11 @@ A no-message-passing model with the same node inputs isolates topology gain.
 TF/kinase auxiliary losses require an explicit experiment choice.
 
 Fused relationship evidence has positive and unlabelled states.
-membership=0 is not a confirmed negative. Its binary conversion is rejected;
-the existing binary comparator cannot silently consume that evidence release.
-This dictionary revision does not change that statistical endpoint.
+``membership=0`` is not a confirmed negative, so binary conversion is rejected.
+Continuous training uses observed effect sizes rather than treating absent
+evidence as a zero effect. The prepared capsule must bind the frozen fused
+view and its source/label patient roles before a matched training result can
+be reported; the older RNA-score preparation does not meet that contract.
 
 Reproduction
 ------------

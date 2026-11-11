@@ -9,6 +9,7 @@ from cc_hhgt.v32.adjustment_policy import validate_adjustment_contract, effectiv
 
 ENGINE_ID='CLA_FULL_PYG_R62_SINGLE_ENTRYPOINT_V1'
 METRIC_CONTRACT='CANCER_PATHWAY_AP_STATE_TARGET_THEN_FAMILY_AP_AND_PRECISION_V1'
+CONTINUOUS_METRIC_CONTRACT='CANCER_EXACT_PATHWAY_MSE_STATE_TARGET_THEN_FAMILY_MSE_V1'
 
 
 def baseline_contract(cfg):
@@ -46,8 +47,19 @@ def validate_config_contract(cfg):
     except ValueError as exc:fail('ADJUSTMENT_CONTRACT_INVALID',str(exc))
     if cfg.get('statistics',{}).get('cnv_transform')!='raw_signed':
         fail('PRIMARY_CNV_ESTIMAND_DRIFT','This patch keeps the existing raw-signed A1 primary; ranked A2 is a separate sensitivity')
-    if cfg.get('metrics_contract')!=METRIC_CONTRACT:
+    objective=cfg.get('relation_objective','binary')
+    if objective not in {'binary','observed_fused_rms_effect'}:
+        fail('RELATION_OBJECTIVE_UNKNOWN','Unknown relation objective',objective=objective)
+    expected_metrics=(CONTINUOUS_METRIC_CONTRACT if objective=='observed_fused_rms_effect'
+                      else METRIC_CONTRACT)
+    if cfg.get('metrics_contract')!=expected_metrics:
         fail('METRICS_CONTRACT_MISSING','Explicit selection/evaluation units required')
+    if objective=='observed_fused_rms_effect':
+        import math
+        for key in ('diagnostic_min_delta_mse','formal_min_delta_mse'):
+            value=cfg.get('gates',{}).get(key)
+            if not isinstance(value,(int,float)) or isinstance(value,bool) or not math.isfinite(value) or value<0:
+                fail('CONTINUOUS_GATE_THRESHOLD_MISSING','Declare a finite nonnegative MSE threshold',key=key)
     from .pathway_fusion import validate_fusion_config
     validate_fusion_config(cfg)
     baseline_contract(cfg)
@@ -57,6 +69,8 @@ def validate_config_contract(cfg):
 def verify_capsule_contract(root,cfg,spec):
     from .common import read_json
     root=Path(root);validate_config_contract(cfg)
+    if spec.get('relation_objective','binary')!=cfg.get('relation_objective','binary'):
+        fail('RELATION_OBJECTIVE_DRIFT','Prepared objective differs from config')
     if spec.get('state_catalog')!=cfg.get('state_catalog'):
         fail('STATE_CATALOG_GENERATION','Prepared State catalog generation differs')
     if cfg.get('relation_target_policy') is not None:

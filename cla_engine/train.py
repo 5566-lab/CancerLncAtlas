@@ -261,7 +261,8 @@ def train(prepared,out,*,device='cuda',deadline=None,resume=True,interrupt_after
         for task,items in pred.items():
             for cancer,arr,score,direction in items:
                 atomic_npz(out/'predictions'/f'{cancer}__{task}.npz',lnc=arr['lnc'],target=arr['target'],score=score,baseline=arr['base'],direction_logit=direction,discovery_available=arr['discovery_available'])
-        statuscode=completion_state(cfg,manifest['metadata']['profile'],best['alpha'],metrics)
+        statuscode=completion_state(cfg,manifest['metadata']['profile'],best['alpha'],metrics,
+                                    spec.get('relation_objective','binary'))
         result={'state':statuscode,'signature':signature,'config_sha256':digest(cfg),'source_profile':profile,'synthetic_fixture':bool(cfg.get('synthetic_fixture',False)),'best_step':best['step'],'alpha':best['alpha'],'validation':metrics,'gradient_proof':gradproof,'task_weights':cfg['model']['task_weights'],'training_progress':{'optimizer_steps_total':int(record['next_step']),'configured_total_steps':int(total),'steps_per_epoch':int(steps_epoch),'completed_epochs':float(record['next_step']/steps_epoch),'stop_reason':stop_reason,'diagnostic_full_epochs':diagnostic_full_epochs},'prediction_files':{rel:sha(out/rel) for rel in sorted(expected_predictions(spec))},'prepared_manifest_sha256':sha(prepared/'MANIFEST.json'),'lineage':lineage,'attempt_id':attempt_id,'formal_authorization':formal_authorization,'formal_test_evaluated':False,'not_deployed':True}
         # The completion payload is inside a SHA-committed full optimizer checkpoint.
         # A mutable receipt cannot switch alpha/status independently of this checkpoint.

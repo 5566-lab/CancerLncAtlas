@@ -124,9 +124,17 @@ def verify_sealed(root,sealed):
 def expected_predictions(spec):
     return {f'predictions/{c}__{t}.npz' for c in spec['cancers'] for t in ('pathway','state')}
 
-def completion_state(cfg,profile,alpha,metrics):
+def completion_state(cfg,profile,alpha,metrics,objective='binary'):
     if profile=='formal':return 'TRAINED_FORMAL_CANDIDATE'
-    return 'GO_TO_FORMAL_EVALUATION' if alpha>0 and min(metrics[t]['delta'] for t in ('pathway','state'))>=cfg['gates']['diagnostic_min_delta'] else 'NO_GO_WITHIN_DIAGNOSTIC_BUDGET'
+    if objective=='observed_fused_rms_effect':
+        threshold=cfg['gates'].get('diagnostic_min_delta_mse')
+        if threshold is None or not np.isfinite(threshold) or threshold<0:
+            fail('CONTINUOUS_DIAGNOSTIC_THRESHOLD_MISSING','Declare a nonnegative MSE improvement threshold before training')
+    elif objective=='binary':
+        threshold=cfg['gates']['diagnostic_min_delta']
+    else:
+        fail('RELATION_OBJECTIVE_UNKNOWN','Unknown completion objective',objective=objective)
+    return 'GO_TO_FORMAL_EVALUATION' if alpha>0 and min(metrics[t]['delta'] for t in ('pathway','state'))>=threshold else 'NO_GO_WITHIN_DIAGNOSTIC_BUDGET'
 
 def verify_completion(prepared,run):
     """Validate receipt against a SHA-checked project checkpoint's inner completion.
@@ -173,7 +181,7 @@ def verify_completion(prepared,run):
     metrics=aggregate_metrics(pred,spec)
     # Recompute admission from the saved validation predictions; receipt state is not an authority.
     if digest(metrics)!=digest(r['validation']):fail('VALIDATION_RECEIPT_MISMATCH','Saved validation metrics do not match predictions')
-    if r['state']!=completion_state(cfg,m['metadata']['profile'],r['alpha'],metrics):fail('ADMISSION_STATE_MISMATCH','State contradicts independently recomputed validation metrics')
+    if r['state']!=completion_state(cfg,m['metadata']['profile'],r['alpha'],metrics,spec.get('relation_objective','binary')):fail('ADMISSION_STATE_MISMATCH','State contradicts independently recomputed validation metrics')
     return r,lin
 
 def authority_key(cfg,create=False):
