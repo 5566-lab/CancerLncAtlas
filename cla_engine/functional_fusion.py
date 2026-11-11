@@ -5,6 +5,7 @@ from pathlib import Path
 import hashlib
 import json
 import numpy as np
+from .target_policy import resolve_target_policy, policy_for_supervised_axis
 
 FORMAT='CLA_FUNCTIONAL_RELATION_FUSED_V1'
 ARRAY_NAMES=('combined_p','combined_q','rms_effect','max_abs_effect','observed','membership',
@@ -22,6 +23,13 @@ class FusedFunctionalContext:
     primary_tasks: tuple[str,...]
     cohort_splits: dict
     arrays: dict[str,np.ndarray]
+    target_policies: tuple | None = None
+
+    @property
+    def loss_groups(self):
+        if self.target_policies is not None:
+            return tuple(p.loss_group for p in self.target_policies)
+        return tuple(task.lower() for task in self.primary_tasks)
 
     def counts(self):
         a=self.arrays;m=a['membership'];obs=a['observed'].astype(bool)
@@ -42,6 +50,10 @@ class FusedFunctionalContext:
         raise ValueError('UNLABELLED_IS_NOT_NEGATIVE: select an explicit positive-unlabelled or continuous-evidence objective')
 
     def task_weights(self):
+        if self.target_policies is not None:
+            return np.asarray([p.loss_weight for p in self.target_policies], np.float32)
+        if set(self.primary_tasks) - {'Pathway', 'State'}:
+            raise ValueError('FUSED_Y_TASK_GROUP_INVALID')
         return np.asarray([1.0 if task=='Pathway' else .5 for task in self.primary_tasks],np.float32)
 
 
@@ -68,7 +80,7 @@ def validate_fused_arrays(arrays,shape):
     if not np.array_equal(a['calibration_method']>0,observed) or np.any(a['calibration_method']>4):raise ValueError('FUSED_Y_CALIBRATION_INVALID')
 
 
-def load_fused_functional_context(catalog,cancer_id,context):
+def load_fused_functional_context(catalog,cancer_id,context,*,target_policy=None):
     root=Path(catalog).resolve();base=(root/cancer_id/context).resolve()
     if not base.is_relative_to(root) or base==root:raise ValueError('FUSED_Y_CONTEXT_OUTSIDE_CATALOG')
     receipt=json.loads((base/'COMPLETE.json').read_text());definition=json.loads((root/'Y_DEFINITION.json').read_text())
@@ -81,15 +93,27 @@ def load_fused_functional_context(catalog,cancer_id,context):
     for field in ['lncrna_ids','canonical_ids']:
         if len(set(ax[field]))!=len(ax[field]) or not all(isinstance(x,str) and x for x in ax[field]):raise ValueError('FUSED_Y_IDENTITIES_INVALID: '+field)
     if len(ax['target_roles'])!=len(ax['canonical_ids']) or len(ax['primary_tasks'])!=len(ax['canonical_ids']):raise ValueError('FUSED_Y_ROLE_AXIS_MISMATCH')
-    expected=['Pathway' if 'Pathway' in role.split('|') else 'State' for role in ax['target_roles']]
-    if expected!=ax['primary_tasks']:raise ValueError('FUSED_Y_SHARED_IDENTITY_DOUBLE_COUNTED')
+    policies = resolve_target_policy(root, definition, target_policy)
+    target_policies = None if policies is None else policy_for_supervised_axis(ax['canonical_ids'], policies)
+    if target_policies is None:
+        expected=['Pathway' if 'Pathway' in role.split('|') else 'State' for role in ax['target_roles']]
+        if expected!=ax['primary_tasks']:raise ValueError('FUSED_Y_SHARED_IDENTITY_DOUBLE_COUNTED')
+    else:
+        if [p.roles for p in target_policies] != ax['target_roles']:
+            raise ValueError('TARGET_POLICY_DISPLAY_ROLE_AXIS_MISMATCH')
+        if [p.primary_task for p in target_policies] != ax['primary_tasks']:
+            raise ValueError('TARGET_POLICY_LOSS_GROUP_AXIS_MISMATCH')
+        if 'loss_weights' in ax and [p.loss_weight for p in target_policies] != ax['loss_weights']:
+            raise ValueError('TARGET_POLICY_LOSS_WEIGHT_AXIS_MISMATCH')
+        if 'loss_groups' in ax and [p.loss_group for p in target_policies] != ax['loss_groups']:
+            raise ValueError('TARGET_POLICY_LOSS_GROUP_AXIS_MISMATCH')
     if set(splits)!={'TCGA','CPTAC'}:raise ValueError('FUSED_Y_COHORT_SPLITS_MISSING')
     for ds,split in splits.items():
         if set(split['source_patients'])&set(split['label_patients']):raise ValueError('FUSED_Y_PATIENT_ROLE_OVERLAP: '+ds)
         if ds=='CPTAC' and cancer_id=='BRCA' and 'CPTAC:BRCA:604' in split['source_patients']+split['label_patients']:raise ValueError('FUSED_Y_UNRESOLVED_RETROSPECTIVE_CASE')
     with np.load(base/'Y.npz',allow_pickle=False) as data:arrays={k:data[k] for k in data.files}
     validate_fused_arrays(arrays,(len(ax['lncrna_ids']),len(ax['canonical_ids'])))
-    result=FusedFunctionalContext(cancer_id,context,tuple(ax['lncrna_ids']),tuple(ax['canonical_ids']),tuple(ax['target_roles']),tuple(ax['primary_tasks']),splits,arrays)
+    result=FusedFunctionalContext(cancer_id,context,tuple(ax['lncrna_ids']),tuple(ax['canonical_ids']),tuple(ax['target_roles']),tuple(ax['primary_tasks']),splits,arrays,target_policies)
     for key,value in result.counts().items():
         if key in receipt and receipt[key]!=value:raise ValueError('FUSED_Y_COUNT_MISMATCH: '+key)
     return result

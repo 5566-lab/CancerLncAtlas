@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 import numpy as np
+from .target_policy import (explicit_task_weights, resolve_target_policy,
+                            policy_for_supervised_axis)
 
 ARRAY_NAMES = ('membership', 'direction', 'observed_assay_bits',
                'strict_assay_bits', 'supported_assay_bits')
@@ -21,6 +23,16 @@ class FunctionalRelationContext:
     source_patients: tuple[str, ...]
     label_patients: tuple[str, ...]
     arrays: dict[str, np.ndarray]
+    target_policies: tuple | None = None
+
+    def task_weights(self):
+        if self.target_policies is None:
+            raise ValueError("TARGET_POLICY_REQUIRED_FOR_UNTYPED_CONTEXT_WEIGHTS")
+        return np.asarray([p.loss_weight for p in self.target_policies], dtype=np.float32)
+
+    @property
+    def loss_groups(self):
+        return None if self.target_policies is None else tuple(p.loss_group for p in self.target_policies)
 
     def counts(self):
         membership = self.arrays['membership']
@@ -62,7 +74,7 @@ def _unique(values, name):
     return tuple(values)
 
 
-def load_functional_context(catalog, cancer_id, context):
+def load_functional_context(catalog, cancer_id, context, *, target_policy=None):
     """Load and verify one completed context; membership zero means unlabelled.
 
     Each assay-family bit is counted once, irrespective of how many algorithms
@@ -70,9 +82,10 @@ def load_functional_context(catalog, cancer_id, context):
     """
     catalog = Path(catalog).resolve()
     definition_path = catalog / 'Y_DEFINITION.json'
-    if definition_path.exists() and json.loads(definition_path.read_text()).get('format') == 'CLA_FUNCTIONAL_RELATION_FUSED_V1':
+    definition = json.loads(definition_path.read_text()) if definition_path.exists() else {}
+    if definition.get('format') == 'CLA_FUNCTIONAL_RELATION_FUSED_V1':
         from .functional_fusion import load_fused_functional_context
-        return load_fused_functional_context(catalog, cancer_id, context)
+        return load_fused_functional_context(catalog, cancer_id, context, target_policy=target_policy)
     base = (catalog / cancer_id / context).resolve()
     if not base.is_relative_to(catalog) or base == catalog:
         raise ValueError('Context must be inside the specified catalog')
@@ -87,6 +100,8 @@ def load_functional_context(catalog, cancer_id, context):
     split = json.loads((base / 'SPLIT.json').read_text())
     lncs = _unique(axes['lncrna_ids'], 'lncRNAs')
     targets = _unique(axes['canonical_ids'], 'canonical targets')
+    policies = resolve_target_policy(catalog, definition, target_policy)
+    target_policies = None if policies is None else policy_for_supervised_axis(targets, policies)
     source = _unique(split['source_patients'], 'source patients')
     label = _unique(split['label_patients'], 'label patients')
     if set(source) & set(label):
@@ -94,15 +109,30 @@ def load_functional_context(catalog, cancer_id, context):
     with np.load(base / 'Y.npz', allow_pickle=False) as archive:
         arrays = {name: archive[name] for name in archive.files}
     validate_relation_arrays(arrays, (len(lncs), len(targets)))
-    result = FunctionalRelationContext(cancer_id, context, lncs, targets, source, label, arrays)
+    result = FunctionalRelationContext(cancer_id, context, lncs, targets, source, label, arrays, target_policies)
     for key, value in result.counts().items():
         if key in receipt and receipt[key] != value:
             raise ValueError(f'Context count differs: {key}')
     return result
 
 
-def functional_task_weights(roles):
-    """Pathway=1.0, State=0.5; a shared identity has one Pathway-primary task."""
+def functional_task_weights(roles, *, loss_groups=None, loss_weights=None):
+    """Explicit policy controls weights; role inference is for frozen legacy callers.
+
+    Reclassifying a TF from State to Pathway must not change its auxiliary budget.
+    Pass both loss_groups and loss_weights for all policy-bearing catalogs.
+    """
+    roles = tuple(roles)
+    for role in roles:
+        if not isinstance(role, str) or set(role.split('|')) - {'Pathway', 'State'}:
+            raise ValueError(f'Unknown functional target role: {role}')
+    if loss_groups is not None or loss_weights is not None:
+        if loss_groups is None or loss_weights is None:
+            raise ValueError('TARGET_POLICY_GROUP_AND_WEIGHT_REQUIRED')
+        weights = explicit_task_weights(loss_groups, loss_weights)
+        if len(roles) != len(weights):
+            raise ValueError('TARGET_POLICY_WEIGHT_AXIS_MISMATCH')
+        return np.asarray(weights, dtype=np.float32)
     result = []
     for value in roles:
         parts = set(value.split('|'))
