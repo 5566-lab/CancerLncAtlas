@@ -2,7 +2,9 @@
 
 A row is cancer x lncRNA x exact pathway, not a patient's pathway score.
 Only the existing prepared numeric block is an input. Graph arrays, graph logits,
-and held-out correlation/p/q columns are never features. Fused-only catalogues
+and held-out correlation/p/q columns are never features. Numeric-only is the
+default; exact relation identity terms are an explicit additional ablation.
+The existing source-patient discovery statistics remain in numeric. Fused-only catalogues
 have no approved binary negatives and cannot be passed to this runner.
 """
 from __future__ import annotations
@@ -44,6 +46,33 @@ def _identity_map(path):
             raise ValueError('M0_IDENTITY_MAP_INVALID_OR_DUPLICATED')
         mapping[source] = target
     return mapping
+
+
+
+def _prepared_scope_inputs(prepared, spec, policy, identity_map):
+    """Use the policy and source-ID map sealed by the actual prepared pipeline."""
+    receipt_path = prepared / 'RELATION_TARGET_POLICY.json'
+    nested_policy = prepared / 'relation_target_policy' / 'TARGET_POLICY.tsv'
+    if receipt_path.exists() or nested_policy.exists():
+        if not receipt_path.is_file() or sha(receipt_path) != spec.get('relation_target_policy_sha256'):
+            raise ValueError('M0_PREPARED_POLICY_RECEIPT_MISMATCH')
+        receipt = read_json(receipt_path)
+        if receipt.get('format') != 'CLA_PREPARED_RELATION_TARGET_POLICY_V1':
+            raise ValueError('M0_PREPARED_POLICY_RECEIPT_FORMAT')
+        sealed_map = prepared / 'relation_target_policy' / 'SOURCE_IDENTITY_MAP.tsv'
+        for path in (nested_policy, sealed_map):
+            item = receipt.get('files', {}).get(str(path.relative_to(prepared)))
+            if not item or not path.is_file() or sha(path) != item.get('sha256'):
+                raise ValueError('M0_PREPARED_POLICY_FILE_MISMATCH: ' + str(path))
+        if sha(nested_policy) != sha(policy):
+            raise ValueError('M0_PREPARED_TARGET_POLICY_MISMATCH')
+        if identity_map is not None and sha(identity_map) != sha(sealed_map):
+            raise ValueError('M0_PREPARED_IDENTITY_MAP_MISMATCH')
+        return nested_policy, sealed_map
+    legacy = prepared / 'TARGET_POLICY.tsv'
+    if legacy.exists() and sha(legacy) != sha(policy):
+        raise ValueError('M0_PREPARED_TARGET_POLICY_MISMATCH')
+    return legacy if legacy.exists() else None, identity_map
 
 
 def _target_axis(source_targets, policies, identity_map):
@@ -106,13 +135,15 @@ def _classifier(C, penalty, cfg):
     return LogisticRegression(**args)
 
 
-def fit_scoped_cancer(train_blocks, validation_blocks, admitted, cfg, *, penalty='l1'):
+def fit_scoped_cancer(train_blocks, validation_blocks, admitted, cfg, *, penalty='l1', identity_mode='numeric_only'):
     """Fit two linear heads with the already-declared CCHHGT labels/masks.
 
     Membership selects C by validation AP, as in the original linear base.
     Direction selects C by validation BCE, matching the direction loss.
     No test-label argument exists. This function does not alter prepared data.
     """
+    if identity_mode not in {'numeric_only', 'exact'}:
+        raise ValueError('M0_IDENTITY_MODE_INVALID')
     if penalty not in {'l1', 'l2'}:
         raise ValueError('M0_PENALTY_MUST_BE_L1_OR_L2')
     train = _select_rows(train_blocks, admitted)
@@ -123,7 +154,7 @@ def fit_scoped_cancer(train_blocks, validation_blocks, admitted, cfg, *, penalty
     numeric_dim = train['numeric'].shape[1]
     if valid['numeric'].shape[1] != numeric_dim:
         raise ValueError('M0_NUMERIC_FEATURE_WIDTH_MISMATCH')
-    bc = baseline_contract(cfg)
+    bc = {**baseline_contract(cfg), 'identity_mode': identity_mode}
     heads = {}
     metrics = []
     for head in ('membership', 'direction'):
@@ -149,6 +180,8 @@ def fit_scoped_cancer(train_blocks, validation_blocks, admitted, cfg, *, penalty
         design = training_design(train_rows, train_numeric, scaler, vectorizer, bc['batch_rows'])
         # Availability and weights are exactly the prepared endpoint's arrays.
         weights = train['weight'][train_ok].astype(float)
+        if not np.isfinite(weights).all() or np.any(weights <= 0):
+            raise ValueError('M0_AVAILABLE_WEIGHTS_MUST_BE_POSITIVE_FINITE')
         weights /= weights.mean()
         best = None
         trials = []
@@ -175,7 +208,9 @@ def fit_scoped_cancer(train_blocks, validation_blocks, admitted, cfg, *, penalty
                       'selection': 'VALIDATION_POOLED_AP' if head == 'membership' else 'VALIDATION_NEGATIVE_BCE',
                       'pooled_validation': pooled, 'numeric_mean': scaler.mean_, 'numeric_scale': scaler.scale_,
                       'coef': model.coef_, 'intercept': model.intercept_, 'logits': logits,
-                      'vocabulary': vectorizer.feature_names_, 'vocabulary_report': vocabulary,
+                      'identity_mode': identity_mode,
+                      'vocabulary': vectorizer.feature_names_,
+                      'vocabulary_report': vocabulary,
                       'unseen_validation': unseen_audit(valid['identities'], vectorizer),
                       'resources': budget, 'train_rows': len(y)}
         target_names = np.asarray([row[2] for row in valid['identities']])
@@ -185,7 +220,8 @@ def fit_scoped_cancer(train_blocks, validation_blocks, admitted, cfg, *, penalty
     return {'cancer_id': next(iter(cancers)), 'heads': heads, 'exact_target_metrics': metrics,
             'validation': valid, 'admitted_targets': tuple(admitted),
             'train_candidate_rows': len(train['identities']),
-            'fit_input_contract': 'PREPARED_NUMERIC_PLUS_TRAIN_ONLY_EXACT_IDENTITIES_NO_GRAPH'}
+            'identity_mode': identity_mode,
+            'fit_input_contract': 'PREPARED_NUMERIC_NO_GRAPH' if identity_mode == 'numeric_only' else 'PREPARED_NUMERIC_PLUS_TRAIN_ONLY_EXACT_IDENTITIES_NO_GRAPH'}
 
 
 def _load_blocks(prepared, spec, canonical, cancer):
@@ -211,7 +247,7 @@ def _load_blocks(prepared, spec, canonical, cancer):
     return blocks, inputs
 
 
-def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_map=None, penalty='l1'):
+def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_map=None, penalty='l1', identity_mode='numeric_only'):
     """Validate authoritative preparation; fit only requested cancers on host 149."""
     host = require_host_149()
     prepared, out = Path(prepared).resolve(), Path(out).resolve()
@@ -229,30 +265,37 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
     manifest, spec, cfg, lineage = validate_prepared(prepared)
     if set(cancers) - set(spec['cancers']):
         raise ValueError('M0_REQUESTED_CANCER_MISSING_FROM_PREPARED')
+    bound_policy, identity_map = _prepared_scope_inputs(prepared, spec, policy, identity_map)
     canonical, admitted = _target_axis(spec['nodes']['pathway'], policies, _identity_map(identity_map))
+    if 'pathway_canonical_ids' in spec and tuple(spec['pathway_canonical_ids']) != canonical:
+        raise ValueError('M0_PREPARED_CANONICAL_AXIS_MISMATCH')
     out.mkdir(parents=True, exist_ok=True)
     atomic_json(out / 'LAUNCH_PREFLIGHT.json', {'target_host': '149', 'actual_host': host,
                 'cancers': cancers, 'outer_fold': spec['fold'], 'paid_compute': False})
     receipt = {'format': FORMAT, 'target_host': host, 'cancers': cancers,
-               'penalty': penalty, 'patient_score_regression': False, 'outer_test_read': False,
+               'penalty': penalty, 'identity_mode': identity_mode,
+               'target_policy_bound_in_prepared': bound_policy is not None, 'patient_score_regression': False, 'outer_test_read': False,
                'prepared_manifest_sha256': sha(prepared / 'MANIFEST.json'),
                'policy_sha256': sha(policy), 'identity_map_sha256': sha(identity_map) if identity_map else None,
                'outer_fold': spec['fold'], 'validation_fold': spec['validation_fold'],
                'train_folds': spec['train_folds'], 'admitted_targets': admitted,
                'excluded_prepared_targets': sorted(set(canonical) - set(admitted)),
                'primary_policy_targets_not_prepared': sorted(set(active_target_ids(policies, analysis_role='primary_pathway')) - set(canonical)),
-               'input_features': 'AUTHORITATIVE_PREPARED_NUMERIC_PLUS_EXACT_IDENTITIES',
+               'input_features': 'AUTHORITATIVE_PREPARED_NUMERIC' if identity_mode == 'numeric_only' else 'AUTHORITATIVE_PREPARED_NUMERIC_PLUS_EXACT_IDENTITIES',
+               'source_relation_statistics_in_numeric': True,
+               'source_relation_statistics': ['rho', 'abs_rho', 'neglog10_q', 'log1p_n', 'available'],
+               'label_patient_relation_statistics_as_features': False,
                'original_task_contract': read_json(prepared / 'TASK_CONTRACT.json'),
                'clinical_purity_adjustment': 'PRESERVED_IN_PREPARED_PATIENT_STAGE;NOT_FABRICATED_RELATION_COVARIATES',
                'graph_comparison_requires_same_scoped_candidates_features_labels_and_masks': True,
                'numeric_block_matched': True, 'graph_node_input_block_matched': False,
                'pure_graph_topology_ablation': False,
-               'comparison_interpretation': 'NUMERIC_IDENTITY_LINEAR_VS_GRAPH_MODEL_WITH_NODE_CONTEXT',
+               'comparison_interpretation': ('NUMERIC_LINEAR_VS_GRAPH_MODEL_WITH_NODE_CONTEXT' if identity_mode == 'numeric_only' else 'NUMERIC_IDENTITY_LINEAR_VS_GRAPH_MODEL_WITH_NODE_CONTEXT'),
                'fused_catalog_training_claimed': False, 'results': {}, 'inputs': {}}
     rows = []
     for cancer in cancers:
         blocks, inputs = _load_blocks(prepared, spec, canonical, cancer)
-        fit = fit_scoped_cancer(blocks['train'], blocks['validation'], admitted, cfg, penalty=penalty)
+        fit = fit_scoped_cancer(blocks['train'], blocks['validation'], admitted, cfg, penalty=penalty, identity_mode=identity_mode)
         receipt['inputs'].update(inputs)
         folder = out / cancer
         folder.mkdir()
@@ -282,6 +325,6 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
         writer.writeheader()
         writer.writerows(rows)
     receipt['fit_contract_sha256'] = digest({key: receipt[key] for key in
-                                           ('prepared_manifest_sha256', 'policy_sha256', 'identity_map_sha256', 'cancers', 'penalty')})
+                                           ('prepared_manifest_sha256', 'policy_sha256', 'identity_map_sha256', 'cancers', 'penalty', 'identity_mode')})
     atomic_json(out / 'M0_RELATION_RECEIPT.json', receipt)
     return receipt

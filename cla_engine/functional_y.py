@@ -83,6 +83,9 @@ def load_functional_context(catalog, cancer_id, context, *, target_policy=None):
     catalog = Path(catalog).resolve()
     definition_path = catalog / 'Y_DEFINITION.json'
     definition = json.loads(definition_path.read_text()) if definition_path.exists() else {}
+    if definition.get('format') == 'CLA_FUNCTIONAL_TARGET_VIEW_V1':
+        from .functional_target_view import load_target_view
+        return load_target_view(catalog, cancer_id, context, target_policy=target_policy)
     if definition.get('format') == 'CLA_FUNCTIONAL_RELATION_FUSED_V1':
         from .functional_fusion import load_fused_functional_context
         return load_fused_functional_context(catalog, cancer_id, context, target_policy=target_policy)

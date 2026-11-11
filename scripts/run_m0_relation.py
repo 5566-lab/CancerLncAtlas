@@ -17,9 +17,11 @@ def main():
     parser.add_argument('--cancers', nargs='+', default=['BRCA', 'LUAD', 'COAD'])
     parser.add_argument('--identity-map', help='Explicit one-to-one source_target_id,canonical_id TSV')
     parser.add_argument('--penalty', choices=['l1', 'l2'], default='l1')
+    parser.add_argument('--identity-mode', choices=['numeric_only', 'exact'], default='numeric_only',
+                        help='Default numeric_only; exact adds train-fitted relation identity terms as an ablation')
     args = parser.parse_args()
     receipt = run_m0_relation(args.prepared, args.policy, args.out,
-        cancers=args.cancers, identity_map=args.identity_map, penalty=args.penalty)
+        cancers=args.cancers, identity_map=args.identity_map, penalty=args.penalty, identity_mode=args.identity_mode)
     print(json.dumps({'format': receipt['format'], 'cancers': receipt['cancers'],
                       'targets': len(receipt['admitted_targets']), 'out': args.out,
                       'outer_test_read': receipt['outer_test_read']}, ensure_ascii=False))

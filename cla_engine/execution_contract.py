@@ -24,10 +24,17 @@ def baseline_contract(cfg):
             fail('BASELINE_RESOURCE_CONTRACT_MISSING',key)
     if not 0<float(b.get('max_available_memory_fraction',0))<=.9:
         fail('BASELINE_RESOURCE_CONTRACT_MISSING','max_available_memory_fraction must be in (0,.9]')
-    return {'contract_id':'CLA_R62_MATCHED_BASELINE_V1','identity_encoding':ENCODING,
+    result={'contract_id':'CLA_R62_MATCHED_BASELINE_V1','identity_encoding':ENCODING,
         'numeric_scaler_fit':'FEATURE_TRAIN_ONLY','identity_fit_scope':'AVAILABLE_TRAIN_ROWS_ONLY',
         'C':b.get('C'),'max_iter':b.get('max_iter'),'collision_free_claimed':True,
         'old_prepare_v32_formal_executable':False,**{k:b[k] for k in ('batch_rows','max_identity_features','max_working_gib','max_vocabulary_gib','max_available_memory_fraction')}}
+    if 'identity_mode' in b:
+        if b['identity_mode'] not in {'exact','numeric_only'}:
+            fail('BASELINE_IDENTITY_MODE_INVALID','Expected exact or numeric_only')
+        result['identity_mode']=b['identity_mode']
+        if b['identity_mode']=='numeric_only':
+            result['identity_fit_scope']='NONE_NUMERIC_ONLY'
+    return result
 
 
 def validate_config_contract(cfg):
@@ -52,7 +59,12 @@ def verify_capsule_contract(root,cfg,spec):
     root=Path(root);validate_config_contract(cfg)
     if spec.get('state_catalog')!=cfg.get('state_catalog'):
         fail('STATE_CATALOG_GENERATION','Prepared State catalog generation differs')
-    if spec.get('state_families')!={t['id']:t['family'] for t in cfg['targets'] if t['role']=='primary'}:
+    if cfg.get('relation_target_policy') is not None:
+        from .prepared_target_policy import validate_prepared_policy
+        state_targets=validate_prepared_policy(root,cfg,spec)['state_targets']
+    else:
+        state_targets=[t for t in cfg['targets'] if t['role']=='primary']
+    if spec.get('state_families')!={t['id']:t['family'] for t in state_targets}:
         fail('STATE_FAMILY_DRIFT','Prepared State families differ from target definitions')
     if cfg['sources']['state'].get('format')=='CLA_PATIENT_STATE_V1':
         from .common import sha

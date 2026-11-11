@@ -176,3 +176,87 @@ def test_raw_fused_catalog_is_not_implicitly_binary(tmp_path, monkeypatch):
     (catalog/'Y_DEFINITION.json').write_text('{"format":"CLA_FUNCTIONAL_RELATION_FUSED_V1"}')
     with pytest.raises(ValueError, match='UNLABELLED_IS_NOT_NEGATIVE'):
         m0.run_m0_relation(catalog,tmp_path/'unused_policy',tmp_path/'out')
+
+
+def test_numeric_only_default_cannot_memorize_relation_identity():
+    train, valid = block(1), block(2)
+    first = m0.fit_scoped_cancer([train], [valid], ['P1','P2'], config())
+    for item in (train, valid):
+        item['identities'] = [(c, 'renamed_' + l, t) for c,l,t in item['identities']]
+    second = m0.fit_scoped_cancer([train], [valid], ['P1','P2'], config())
+    assert_same_models(first, second)
+    assert first['identity_mode'] == 'numeric_only'
+    for head in first['heads'].values():
+        assert head['vocabulary'] == []
+        assert head['coef'].shape[1] == 5
+
+
+def test_exact_identity_is_an_explicit_separate_ablation():
+    fit = m0.fit_scoped_cancer([block(1)], [block(2)], ['P1','P2'], config(), identity_mode='exact')
+    assert fit['identity_mode'] == 'exact'
+    for head in fit['heads'].values():
+        assert head['vocabulary']
+        assert head['coef'].shape[1] == 5 + len(head['vocabulary'])
+
+
+def test_capsule_policy_cannot_be_replaced_by_external_scope(tmp_path, monkeypatch):
+    prepared, policy = fixture_capsule(tmp_path, monkeypatch)
+    (prepared/'TARGET_POLICY.tsv').write_bytes(policy.read_bytes())
+    policy.write_text(policy.read_text() + '\n')
+    with pytest.raises(ValueError, match='PREPARED_TARGET_POLICY_MISMATCH'):
+        m0.run_m0_relation(prepared, policy, tmp_path/'run', cancers=['BRCA'])
+
+
+def test_identity_mode_is_pinned_in_model_comparison_receipt(tmp_path, monkeypatch):
+    prepared, policy = fixture_capsule(tmp_path, monkeypatch)
+    (prepared/'TARGET_POLICY.tsv').write_bytes(policy.read_bytes())
+    numeric = m0.run_m0_relation(prepared, policy, tmp_path/'numeric', cancers=['BRCA'])
+    exact = m0.run_m0_relation(prepared, policy, tmp_path/'exact', cancers=['BRCA'], identity_mode='exact')
+    assert numeric['target_policy_bound_in_prepared']
+    assert numeric['fit_contract_sha256'] != exact['fit_contract_sha256']
+    assert numeric['source_relation_statistics_in_numeric']
+    assert not numeric['label_patient_relation_statistics_as_features']
+
+
+def seal_scope_fixture(prepared, policy):
+    spec = m0.validate_prepared(prepared)[1]
+    folder = prepared/'relation_target_policy'
+    folder.mkdir()
+    bound_policy = folder/'TARGET_POLICY.tsv'
+    bound_policy.write_bytes(policy.read_bytes())
+    identity_map = folder/'SOURCE_IDENTITY_MAP.tsv'
+    original = list(spec['nodes']['pathway'])
+    spec['nodes']['pathway'] = ['source_' + t for t in original]
+    spec['pathway_canonical_ids'] = original
+    identity_map.write_text('source_target_id\tcanonical_id\n' +
+        ''.join('source_' + t + '\t' + t + '\n' for t in original))
+    receipt = prepared/'RELATION_TARGET_POLICY.json'
+    receipt.write_text(json.dumps({'format':'CLA_PREPARED_RELATION_TARGET_POLICY_V1',
+        'files':{str(p.relative_to(prepared)):{'sha256':m0.sha(p),'bytes':p.stat().st_size}
+                 for p in [bound_policy,identity_map]}}))
+    spec['relation_target_policy_sha256'] = m0.sha(receipt)
+    return identity_map
+
+
+def test_actual_nested_policy_binding_supplies_source_identity_map(tmp_path, monkeypatch):
+    prepared, policy = fixture_capsule(tmp_path, monkeypatch)
+    sealed_map = seal_scope_fixture(prepared, policy)
+    result = m0.run_m0_relation(prepared, policy, tmp_path/'run', cancers=['BRCA'])
+    assert result['target_policy_bound_in_prepared']
+    assert result['identity_map_sha256'] == m0.sha(sealed_map)
+    assert result['admitted_targets'] == ('P1','P2')
+
+
+def test_actual_nested_policy_binding_rejects_tampered_map(tmp_path, monkeypatch):
+    prepared, policy = fixture_capsule(tmp_path, monkeypatch)
+    sealed_map = seal_scope_fixture(prepared, policy)
+    sealed_map.write_text(sealed_map.read_text().replace('P1', 'P2'))
+    with pytest.raises(ValueError, match='PREPARED_POLICY_FILE_MISMATCH'):
+        m0.run_m0_relation(prepared, policy, tmp_path/'run', cancers=['BRCA'])
+
+
+def test_exact_ablation_overrides_numeric_prepared_baseline_mode():
+    cfg = config()
+    cfg['baseline']['identity_mode'] = 'numeric_only'
+    fit = m0.fit_scoped_cancer([block(1)], [block(2)], ['P1','P2'], cfg, identity_mode='exact')
+    assert fit['heads']['membership']['vocabulary']

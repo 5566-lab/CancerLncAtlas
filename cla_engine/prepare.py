@@ -178,6 +178,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     fm=patient_map(sources['patient_map']['path'])
     cancer_scope=resolve_cancer_scope(cfg,fm.cancer_id.unique(),profile)
     cancers=cancer_scope['selected_cancers']
+    if cfg.get('relation_training_scope')=='within_cancer' and len(cancers)!=1:
+        fail('RELATION_TRAINING_SCOPE','The fixed-backbone comparison fits one cancer per capsule')
     atomic_json(out/'CANCER_SCOPE.json',cancer_scope)
     fm=fm.loc[fm.cancer_id.isin(cancers)].copy()
     valfold=(fold+1)%5;trainfolds=[x for x in range(5) if x not in [fold,valfold]]
@@ -191,6 +193,15 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     atomic_json(out/'DETECTION_AUDIT.json',detection_report)
     # This fixed expression-only universe is explicitly transductive, not strict LOCO.
     per_lnc={c:sorted(set(rates.loc[rates.cancer_id.eq(c)&rates.eligible,'lncrna_id'].astype(str))&eligible) for c in cancers}
+    from .prepared_target_policy import load_bound_policy,select_pathways,select_state_targets,seal_prepared_policy
+    bound_policy=load_bound_policy(cfg)
+    if bound_policy is not None:
+        for role,path in [('target_policy',bound_policy['policy_path']),('source_identity_map',bound_policy['identity_path']),
+                          ('backbone_manifest',bound_policy['backbone_path']/'MANIFEST.json')]:
+            input_hashes['relation_target_policy::'+role]={'path':str(path),'sha256':sha(path)}
+        for name in bound_policy['backbone']['manifest']['files']:
+            path=bound_policy['backbone_path']/name
+            input_hashes['relation_target_policy::backbone::'+name]={'path':str(path),'sha256':sha(path)}
     membership=table(sources['exact_membership']['path']);membership_report={'current_rows':len(membership)}
     if 'weighted_membership' in sources:
         weighted=table(sources['weighted_membership']['path'])
@@ -200,7 +211,7 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     from .state_catalog import ROUTED_CATALOG_ID,AUGMENTED_CATALOG_ID
     if cfg.get('state_catalog') in (ROUTED_CATALOG_ID,AUGMENTED_CATALOG_ID):
         membership=membership.loc[membership.pathway_id.str.startswith('MSIGDB:')].copy()
-    pathways=sorted(set(membership.pathway_id.astype(str)))
+    pathways=select_pathways(bound_policy,membership.pathway_id.astype(str))
     if scope.get('max_pathways'):pathways=sorted(pathways,key=lambda v:hashlib.sha256(v.encode()).hexdigest())[:scope['max_pathways']];pathways.sort()
     for c in cancers:
         if scope.get('max_lncrnas'):per_lnc[c]=sorted(per_lnc[c],key=lambda v:hashlib.sha256(v.encode()).hexdigest())[:scope['max_lncrnas']];per_lnc[c].sort()
@@ -210,7 +221,8 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     membership=membership.loc[membership.pathway_id.isin(pathways)].copy()
     hier=hier.loc[hier.pathway_id.isin(pathways)].copy()
     alignment=[];cohort_catalog={};candidate_catalog={};patient_assignments={}
-    primary=[x for x in targets if x['role']=='primary'];stateids=[x['id'] for x in primary];family={x['id']:x['family'] for x in primary}
+    primary=select_state_targets(cfg,bound_policy);stateids=[x['id'] for x in primary];family={x['id']:x['family'] for x in primary}
+    if bound_policy is not None and not stateids:fail('RELATION_POLICY_NO_STATE_SUPERVISION','Existing joint binary preparation requires an explicitly admitted State axis')
     ids,maps,rels,static,graph_audit=nodes_and_static(membership,hier,binding,pg,ppi,lncs,pathways)
     ids['cancer']=list(cancers);maps['cancer']={c:i for i,c in enumerate(cancers)}
     for nt in ('lncRNA','gene'):
@@ -263,6 +275,11 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
     spec['state_catalog']=cfg.get('state_catalog')
     spec['graph_variant']=variant;spec['backbone_source']='cc_hhgt/gnn.py::build_model(cc_hhgt)';spec['full_r1_checkpoint_compatible']=False
     spec['execution_contract']=ENGINE_ID;spec['precision_k']=cfg['gates']['precision_k'];spec['metrics_contract']=cfg['metrics_contract']
+    policy_receipt=seal_prepared_policy(out,cfg,bound_policy,pathways,primary,profile)
+    if policy_receipt is not None:
+        spec['relation_target_policy_sha256']=sha(out/'RELATION_TARGET_POLICY.json')
+        spec['pathway_canonical_ids']=policy_receipt['pathway_canonical_ids']
+        spec['state_canonical_ids']=policy_receipt['state_canonical_ids']
     atomic_json(out/'ADJUSTMENT_CONTRACT.json',cfg['adjustment_contract'])
     atomic_json(out/'BASELINE_CONTRACT.json',baseline_contract(cfg))
     atomic_json(out/'IMPORT_AUTHORITY_BINDING.json',imported)
@@ -466,7 +483,11 @@ def prepare(cfg,out,fold=0,profile='diagnostic'):
             if chosen is None or score>chosen[0]:chosen=(score,Cpen,clf)
         if chosen is None:fail('BASELINE_NONCONVERGENCE','No converged LASSO candidate',task=task)
         score,Cpen,clf=chosen;baseline_receipts[task]={'C':Cpen,'validation_macro_ap':score,'trials':trials,'fdr_feature_present':True,'scaler_fitted_on':'TRAIN_ONLY','input_semantics':'discovery statistics + exact cell-type lncRNA/pathway rho/FDR context when configured + bulk/local CNV + observed/callable coding-gene/partner/pathway summaries + sparse identities; node-level SC expression excluded in interpretation_only; graph topology exclusive to HGT','not_multimodal_linear_baseline':False,'same_numeric_multimodal_inputs_as_deep':True,'singlecell_association_role':sc_association_role,'singlecell_association_dim':sc_association_dim,'identity_encoding':baseline_contract(cfg)['identity_encoding'],'identity_feature_count':len(vectorizer.vocabulary_),'hash_collisions_possible':False,'vocabulary':vocabulary_report,'validation_identity_audit':validation_identity_audit,'resource_plan':budget}
-        atomic_json(out/'baseline'/f'{task}_identity_vocabulary.json',{'encoding':'DictVectorizer','dimensions':len(vectorizer.vocabulary_),'feature_names':vectorizer.feature_names_,'fit_scope':'AVAILABLE_TRAIN_ROWS_ONLY','feature_names_sha256':vocabulary_report['feature_names_sha256']})
+        identity_mode=baseline_contract(cfg).get('identity_mode','exact')
+        if identity_mode=='numeric_only':
+            baseline_receipts[task]['input_semantics']=baseline_receipts[task]['input_semantics'].replace(' + sparse identities','')
+            baseline_receipts[task]['identity_mode']='numeric_only'
+        atomic_json(out/'baseline'/f'{task}_identity_vocabulary.json',{'encoding':'NONE_NUMERIC_ONLY' if identity_mode=='numeric_only' else 'DictVectorizer','dimensions':len(vectorizer.vocabulary_),'feature_names':vectorizer.feature_names_,'fit_scope':'NONE_NUMERIC_ONLY' if identity_mode=='numeric_only' else 'AVAILABLE_TRAIN_ROWS_ONLY','feature_names_sha256':vocabulary_report['feature_names_sha256']})
         atomic_npz(out/'baseline'/f'{task}.npz',coef=clf.coef_,intercept=clf.intercept_,scale=scaler.scale_,mean=scaler.mean_)
         for split,items in splits.items():
             assembled_split=assembled[split];offset=0
