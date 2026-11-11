@@ -9,13 +9,13 @@ KEGG cancer mechanisms
 ----------------------
 
 The frozen MSigDB KEGG_MEDICUS 2025.1.Hs inventory contains 658 exact NETWORK
-definitions. The evidence-defined backbone retains 475: 199 assigned to KEGG
+definitions. The evidence-defined backbone retains 477: 199 assigned to KEGG
 Cancer / Cancer signaling, 23 additional mechanisms with explicit malignant
-DISEASE annotations, and 253 supported by reviewed cancer-mechanism literature.
-The remaining 183 stay in the source inventory with their exclusion basis.
+DISEASE annotations, and 255 supported by reviewed cancer-mechanism literature.
+The remaining 181 stay in the source inventory with their exclusion basis.
 These counts are results of this snapshot; code does not require a fixed count.
 
-The backbone includes 332 Reference mechanisms, 78 Variant mechanisms,
+The backbone includes 334 Reference mechanisms, 78 Variant mechanisms,
 47 Pathogen mechanisms and 18 environmental-factor mechanisms. A NETWORK
 mechanism is often a reaction module or signaling branch, rather than a broad
 KEGG pathway map. Its N identifier, official name, reaction, original source
@@ -39,7 +39,7 @@ original KEGG proteins; a single regulator is not tested as a multigene set. Sou
 Jaccard and p/q are exported. The overlap p/q are annotation-set enrichment
 statistics, not patient association statistics.
 
-The resulting catalog contains 475 primary mechanisms, 1,648 associated
+The resulting catalog contains 477 primary mechanisms, 1,652 associated
 context identities and 197 State identities. TF programs, kinase programs and
 PROGENy readouts display as Pathway. Their display category does not create
 an independent loss. Genuine State remains an explicit auxiliary task, with
@@ -59,11 +59,17 @@ backbone; their current generic-readout relation labels are masked as missing.
 This rule is shared by the fused-label view and binary preparation. Missing
 labels are not negative relations.
 
-The three-cancer view contains 475 primary and 194 State columns. Three other
+The three-cancer view contains 477 primary and 194 State columns. Three other
 State definitions have no separate source-label column. In train_label_fold2,
 observed primary/State targets are BRCA 243/193, LUAD 242/189 and COAD 242/189.
 These are counts of estimable relationships in that split, not a new
 biological selection rule.
+
+The two O-mannosylation modules N00627 (POMT to POMK) and N00699 (FKTN to
+LARGE) are included on focused cancer evidence for dystroglycan/matriglycan
+biology (PMID:36494657). Neither has an observed fused relation label in the
+current BRCA/LUAD/COAD train_label_fold2 views. Their definition does not
+create a training label; directions of individual biosynthesis steps may differ.
 
 M0 and CCHHGT comparison
 -----------------------

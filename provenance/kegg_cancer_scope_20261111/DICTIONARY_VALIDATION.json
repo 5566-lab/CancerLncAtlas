@@ -1,13 +1,15 @@
 {
   "target_host": "149",
-  "sha256": "9eff0170b2b1fc776bcf9c0fba0873751b6ea2552a6846eb9ce88e360ae685c6",
+  "sha256": "94b19680ea5cb0b65982ca7451b204b30aa58fd848e865f8b9c31e4b8eb84d72",
   "zip_crc_verified": true,
   "key_sheet_counts": {
     "阅读说明": 15,
     "KEGG癌症主干": 475,
     "Relation label coverage": 3,
     "Pathway与机制": 2123,
-    "State": 197
+    "State": 197,
+    "KEGG????": 477,
+    "Pathway???": 2129
   },
   "sheets": 25,
   "no_sealed_test_arrays_opened": true

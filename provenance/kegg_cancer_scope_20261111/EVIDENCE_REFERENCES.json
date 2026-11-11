@@ -622,5 +622,13 @@
     "cached_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/literature_completion/condensin_exact.xml",
     "source_url": "https://pubmed.ncbi.nlm.nih.gov/31784646/",
     "cached_source_sha256": "027c479d93794c2167e41d512a2cda7407e08aa7e51d7218909007a91b3f500d"
+  },
+  "36494657": {
+    "pmid": "36494657",
+    "title": "Involvement of abnormal dystroglycan expression and matriglycan levels in cancer pathogenesis.",
+    "abstract": "Dystroglycan (DG) is a glycoprotein composed of two subunits that remain non-covalently bound at the plasma membrane: \u03b1-DG, which is extracellular and heavily O-mannosyl glycosylated, and \u03b2-DG, an integral transmembrane polypeptide. \u03b1-DG is involved\u00a0in the maintenance of tissue integrity and function in the adult, providing an O-glycosylation-dependent link for cells to their extracellular matrix. \u03b2-DG in turn contacts the cytoskeleton via dystrophin and participates in a variety of pathways transmitting extracellular signals to the nucleus.\u00a0Increasing evidence exists of a pivotal role of DG in the modulation of normal cellular proliferation. In this context, deficiencies in DG glycosylation levels, in particular those affecting the so-called matriglycan structure, have been found in an ample variety of human tumors and cancer-derived cell lines. This occurs together with an underexpression of the DAG1 mRNA and/or its \u03b1-DG (core) polypeptide product or, more frequently, with a downregulation of \u03b2-DG protein levels. These changes are in general accompanied in tumor cells by a low expression of genes involved in the last steps of the \u03b1-DG O-mannosyl glycosylation pathway, namely POMT1/2, POMGNT2, CRPPA, B4GAT1 and LARGE1/2. On the other hand, a series of other genes acting earlier in this pathway are overexpressed in tumor cells, namely DOLK, DPM1/2/3, POMGNT1, B3GALNT2, POMK and FKTN, hence exerting instead a pro-oncogenic role. Finally, downregulation of \u03b2-DG, altered \u03b2-DG processing and/or impaired \u03b2-DG nuclear levels are increasingly found in human tumors and cell lines. It follows that DG itself, particular genes/proteins involved in its glycosylation and/or their interactors in the cell could be useful as biomarkers of certain types of human cancer, and/or as molecular targets of new therapies addressing these neoplasms.",
+    "cached_source": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/omannose_scope_revision_r3/PUBMED_36494657.xml",
+    "source_url": "https://pubmed.ncbi.nlm.nih.gov/36494657/",
+    "cached_source_sha256": "c8d820327efda7e42e4242d8a3375ba50fb4ae34eea263f00b973f6cde355dd4"
   }
 }

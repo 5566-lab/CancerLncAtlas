@@ -6,7 +6,7 @@ from pathlib import Path
 from .kegg381_backbone import build_backbone, members_sha256, _unique_index
 
 FORMAT='CLA_KEGG_CANCER_BACKBONE_V2'
-POLICY_VERSION='cancer_mechanisms_20261111_v2'
+POLICY_VERSION='cancer_mechanisms_20261111_v3'
 
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()

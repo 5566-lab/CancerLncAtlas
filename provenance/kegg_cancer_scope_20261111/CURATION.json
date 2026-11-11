@@ -1,5 +1,5 @@
 {
-  "version": "cancer_mechanisms_20261111_v2",
+  "version": "cancer_mechanisms_20261111_v3",
   "unit": "cancer x lncRNA x exact pathway mechanism",
   "selection_uses_expression_or_lncrna_association": false,
   "malignant_disease_ids": [
@@ -730,6 +730,20 @@
       "allowed_type": "Reference",
       "evidence_level": "reviewed_cancer_process_component",
       "rationale": "Glycosylation contributes to cancer biology through the reference mechanisms listed in this family; the cited literature supports the process and its molecular machinery."
+    },
+    {
+      "id": "dystroglycan_o_mannosylation",
+      "name": "Dystroglycan O-mannosylation and matriglycan",
+      "network_ids": [
+        "N00627",
+        "N00699"
+      ],
+      "pmids": [
+        "36494657"
+      ],
+      "allowed_type": "Reference",
+      "evidence_level": "reviewed_cancer_process_component",
+      "rationale": "Tumor studies and a focused review connect POMT/POMK, FKTN, B4GAT1 and LARGE-dependent alpha-dystroglycan glycosylation to cancer cell adhesion and progression; individual steps can change in opposite directions."
     },
     {
       "id": "mitochondria",

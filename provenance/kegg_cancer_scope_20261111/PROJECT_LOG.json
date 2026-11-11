@@ -2,10 +2,10 @@
   "target_host": "149",
   "task": "Evidence-defined KEGG cancer backbone and cross-database relation scope",
   "source_count": 658,
-  "primary_count": 475,
-  "context_count": 1648,
+  "primary_count": 477,
+  "context_count": 1652,
   "state_count": 197,
-  "selection": "199 official cancer class + 23 explicit malignant disease + 253 curated mechanism literature",
+  "selection": "199 official cancer class + 23 explicit malignant disease + 255 curated mechanism literature",
   "original_anchor_membership": "Exact original KEGG source proteins; no cross-database union expansion",
   "context_graph": "Protein/gene composition plus typed mechanism context; exact TF/kinase molecular identity separately supported",
   "readout_labels": "Original frozen relation evidence; no new cross-platform patient activity calibration",
@@ -19,5 +19,6 @@
     "cla_engine/standard_progeny.py",
     "docs/PROTEIN_PATHWAY_INTEGRATION_20261111.rst",
     "provenance/pathway_protein_clustering_20261111/"
-  ]
+  ],
+  "spotcheck_revision": "N00627 and N00699 added with PMID:36494657; no observed fused label in BRCA/LUAD/COAD fold2"
 }
