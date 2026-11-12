@@ -42,6 +42,10 @@ def prepare_lineage(root):
     return result
 
 def validate_prepared(root):
+    root=Path(root)
+    if (root/'SPEC.json').is_file() and read_json(root/'SPEC.json').get('prepared_format')=='CLA_CONTINUOUS_RELATION_PREPARED_V1':
+        from .relation_prepared import validate_relation_prepared
+        return validate_relation_prepared(root)
     from .pathway_fusion import reject_retired_prepared
     reject_retired_prepared(root)
     root=Path(root);m=verify_manifest(root);spec=read_json(root/'SPEC.json');cfg=read_json(root/'CONFIG.json')

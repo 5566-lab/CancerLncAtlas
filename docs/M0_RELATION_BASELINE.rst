@@ -1,114 +1,127 @@
-M0: within-cancer linear prediction of exact pathway relationships
-=================================================================
+M0: linear prediction of exact pathway relationships within each cancer
+=====================================================================
 
-Endpoint and inputs
--------------------
+Endpoint
+--------
 
-Each row is cancer x lncRNA x exact pathway. M0 consumes the same verified
-CCHHGT prepared ``label``, ``available``, ``direction_label``,
-``direction_available`` and weights. It does not recalculate thresholds.
-This relation endpoint differs from the historical patient-score regression.
+The analysis unit is cancer x lncRNA x exact pathway. BRCA, LUAD and COAD
+are fitted separately. The primary target axis is the evidence-defined KEGG
+backbone. Its original definitions and members determine pathway identity.
+TF, kinase and PROGENy programs are Pathway context; classification alone
+does not introduce supervised targets or additional losses.
 
-For each cancer the default model is
+The continuous endpoint is the observed fused ``rms_effect`` of the exact
+relationship, computed in the frozen label-patient partition. Missing
+relationships retain an unavailable mask. They are not assigned a negative
+label or a measured effect of zero. Named mutation, pathogen and exposure
+mechanisms require matching condition evidence for supervision.
 
-.. math::
+For each cancer, the linear comparator is::
 
-   \operatorname{logit}\widehat P(Y_{c,l,k}=1)
-       = b_c + \beta_c^\top u_{c,l,k}^{\mathrm{source}}.
+    predicted_relation_strength(c,l,k) = intercept(c) + beta(c)^T u_source(c,l,k)
 
-The numeric vector is the existing prepared source-patient block. Its first
-five columns are source rho, absolute rho, negative log10 source q, log(1+n),
-and source availability. Subsequent columns contain the declared expression,
-CNV, mutation and other context. Source patients and label patients are
-separate; label-patient rho, p and q are not predictors. This evaluates whether
-an association observed in discovery patients reproduces in independent
-patients. It is not an expression-only model without association information.
+The coefficients act on source-derived relationship descriptors. They are
+not coefficients for a patient-level lncRNA expression signature.
 
-Clinical information and purity retain the patient-stage adjustment recipe
-used to produce the prepared labels. They are not fabricated as relation-level
-covariates. Missing labels stay unavailable.
+Source features and adjustment
+------------------------------
 
-The default ``--identity-mode numeric_only`` does not add lncRNA/pathway IDs
-to the design matrix. ``--identity-mode exact`` is a separate ablation adding
-the existing sparse identity terms c, l, t, c_l, c_t and l_t. Its vocabulary
-is fitted only on available training rows. Both arms use a training-only
-numeric scaler. L1 logistic regression is the default; ``--penalty l2`` uses
-L2 logistic regression. Direction uses its own availability mask and head.
+The numeric feature block keeps TCGA and CPTAC separate. For each cohort and
+each of RNA, State readouts, protein, phospho and methylation, it records:
+mean signed rho, RMS rho, maximum absolute rho, mean log(1+n), log(1+readout
+count), and an availability flag. Each cohort also contributes the measured
+mean, standard deviation and measured fraction of lncRNA expression and
+local CNV. This gives 72 columns. An absent measurement block has zero values
+and a zero availability flag.
 
-Scope and validation
---------------------
+Source associations use only source patients, with the frozen
+``CLA_SHARED_CORE_DNA_PURITY_RELATION_DEMO_V1`` adjustment. Target-specific
+State policies and direct RNA membership exclusions are applied before
+aggregation. A partial candidate set does not define a new FDR family.
+Label-patient rho, p, q and effect values do not enter the input block.
 
-* Default cancers are BRCA, LUAD and COAD, fitted separately.
-* Only active ``analysis_role=primary_pathway`` targets enter the main task.
-  A TF or kinase displayed as Pathway does not automatically become a main
-  prediction target or receive its loss weight.
-* Filtering precedes scaling, vocabulary fitting, training and model selection.
-* The prepared ``RELATION_TARGET_POLICY.json`` pins the policy and source-ID
-  map under ``relation_target_policy/``. M0 verifies these checksums and uses
-  the sealed map automatically. A supplied alternative must match. Legacy
-  root-level ``TARGET_POLICY.tsv`` bindings are also checked.
-* Membership C is selected by validation AP; direction C by validation BCE.
-  Per-target metrics retain exact pathway IDs.
-* The runner never opens sealed test labels. Patient folds, source/label
-  disjointness, arrays and source lineage are verified by the existing
-  prepared validator.
-* One-to-one source-to-canonical ID renames require an explicit mapping table.
-  Many-to-one identity changes require rematerialized labels, not renaming.
+Clinical variables and purity enter this patient-stage adjustment. The
+resulting relationship model does not invent a patient clinical vector for
+an aggregated cancer--lncRNA--pathway row.
 
-The fused FunctionalRelationContext is a different label contract: unsupported
-relations are unlabelled and its continuous effects are metadata. That directory
-cannot be supplied to this binary runner by setting unlabelled rows to zero or
-substituting an effect column. M0 and CCHHGT comparisons use the same prepared
-endpoint; a future continuous objective must be adapted in both models.
-
-Comparison with CCHHGT
+Fitting and comparison
 ----------------------
 
-M0 matches the numeric block, candidates, labels, masks and patient splits.
-CCHHGT additionally uses graph-node inputs and context that are not fully
-flattened into this numeric block. A difference therefore measures the full
-model increment, not graph topology alone. Isolating topology requires an arm
-with identical node inputs and no message passing.
+``fit_strength_cancer`` fits an L1-penalized linear regression. Numeric
+standardization is fitted on available training relations. The default
+``numeric_only`` design excludes lncRNA and pathway identity terms. An
+explicit ``exact`` identity ablation learns its vocabulary from training
+rows only.
 
-Preparation keeps exact identity terms for old configurations without an
-``identity_mode`` field. New configurations may explicitly set
-``baseline.identity_mode=numeric_only``; the shared baseline design and batched
-prediction interfaces then omit every identity column. Preparation may pool
-cancers; this standalone M0 fits cancers separately. Its predictions must not
-be silently substituted for the prepared graph model's baseline logits. To
-compare residual models strictly, prepare and train both arms with the same
-baseline mode and cancer-sharing design, or use one cancer per capsule.
+The penalty grid uses ``alpha = alpha_max / C`` with ``alpha_max`` determined
+from the training design. Nonconverged fits are excluded. Validation selects
+the penalty by mean squared error averaged across exact pathways, so pathways
+with more available pairs do not dominate model selection. Saved outputs
+include coefficients, scaler parameters, validation predictions and metrics
+with exact pathway IDs.
 
-Running the demo
-----------------
+M0 and CCHHGT compare the same primary candidates, source numeric inputs,
+continuous labels, availability masks, patient partitions and evaluation
+units. CCHHGT additionally uses molecular-node information and typed graph
+connections. Its joint loss retains Pathway=1.0 and State=0.5. The standalone
+M0 relation runner evaluates the primary pathway task; joint State baseline
+predictions belong to the matched prepared training package.
 
-Use a CCHHGT capsule prepared with the fixed backbone and explicit target
-policy, on server 149. Each capsule contains one outer fold; do not concatenate
-training arrays from different outer folds.
+``materialize_relation_baseline`` produces both task baselines from the four
+frozen source components. Pathway fitting balances observed exact targets;
+State fitting additionally balances biological families. State validation
+averages targets within families, then families. A PROGENy readout supporting
+the Hypoxia State does not create a second ``pathway_footprint`` State family.
 
-.. code-block:: bash
+The graph view retains separate RPPA antibody-group and CPTAC protein/site
+nodes. A multi-gene antibody remains one measurement with component edges.
+Gene CNV and promoter methylation retain separate value and availability
+columns. Source means and coexpression edges use only the declared source
+patients. Exact KEGG membership is retained independently of context links.
 
-   /dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python scripts/run_m0_relation.py \
-     --prepared /path/to/verified_scoped_prepared \
-     --policy /path/to/TARGET_POLICY.tsv \
-     --out /path/to/new_m0_relation_directory \
-     --cancers BRCA LUAD COAD --penalty l1 --identity-mode numeric_only
+``cla.py prepare-relation --plan PLAN.json --output PREPARED`` assembles a
+diagnostic outer-fold-0 capsule from all four graph views and a verified
+baseline component. Its plan names ``baseline``, ``static``, ``graph_views``
+(train_label_fold2/3/4 and validation), ``model``, ``training`` and ``gates``.
+The original ``cla.py worker`` consumes this explicitly typed continuous
+capsule. The older binary preparation entry does not reinterpret these labels.
 
-For an explicit identity ablation, rerun into a new output directory using
-``--identity-mode exact``. Optional ``--identity-map`` TSV columns are
-``source_target_id`` and ``canonical_id``.
+Prepared verification checks graph/target identity, source-patient partitions,
+label masks and every baseline prediction against the same source components.
+The 72-column context reaches both joint heads. Modality column declarations
+cover both cohorts and gene-node assays; removing only graph inputs while
+retaining the baseline measures a graph-input ablation. A complete information
+ablation also requires refitting the baseline with that modality excluded.
 
-Outputs include coefficients, fitted scaler, vocabulary, validation predictions,
-exact-target metrics and ``M0_RELATION_RECEIPT.json``. The receipt records
-policy/prepared/input hashes, folds, label recipe, numeric source semantics
-and identity mode. It does not claim that graph node inputs were matched.
+Three comparisons have different meanings:
 
-Verification
-------------
+* Numeric Lasso versus the full CCHHGT measures the combined gain from
+  molecular-node information and graph modeling.
+* A model with identical node inputs and no message passing isolates the
+  contribution of message passing.
+* Removing PPI or RPI while holding all other inputs and candidates fixed
+  measures the contribution of those edge sources.
 
-``tests/test_m0_relation.py`` checks exclusion before fitting; display/analysis
-role separation; rejection of many-to-one label renaming; masked-label isolation;
-per-cancer fitting; sealed-test isolation; whitelisted feature loading; rejection
-of implicit fused-to-binary conversion; identity-invariant numeric-only fitting;
-explicit exact-identity features; bound-policy consistency; and mode-specific
-comparison receipts.
+Input contract
+--------------
+
+``run_m0_relation`` accepts a verified prepared capsule with an explicit
+``relation_objective=observed_fused_rms_effect``. It verifies the bound
+target policy, exact identity map and source/label split before fitting.
+The frozen outer test is excluded from fitting and validation selection.
+Feature components and a FunctionalRelationContext directory are inputs to
+preparation, not substitutes for a prepared capsule.
+
+The binary branch is used only for a capsule explicitly declaring binary
+labels. It cannot turn unobserved fused relationships into negatives.
+
+Run on server 149::
+
+    python scripts/run_m0_relation.py \
+      --prepared /path/to/verified_relation_prepared \
+      --policy /path/to/TARGET_POLICY.tsv \
+      --out /path/to/m0_relation_results \
+      --cancers BRCA --penalty l1 --identity-mode numeric_only
+
+Each cancer and each outer fold uses its own capsule. Training rows from
+different outer folds are not concatenated.

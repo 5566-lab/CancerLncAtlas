@@ -33,6 +33,7 @@ class SourceReadouts:
     values: np.ndarray
     measured: np.ndarray
     source_sha256: str
+    metadata: tuple[dict, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -193,7 +194,8 @@ def load_source_readouts(context, target_view_root, cohort, layer, output_target
     for name in ('PATIENT_S.parquet', 'TARGETS.tsv'):
         if sha(source / name) != receipt.get('files', {}).get(name):
             raise ValueError('RELATION_SOURCE_READOUT_FILE_DRIFT: ' + name)
-    target_axis = [r['target_id'] for r in _tsv(source / 'TARGETS.tsv')]
+    target_metadata = _tsv(source / 'TARGETS.tsv')
+    target_axis = [r['target_id'] for r in target_metadata]
     for row in rows:
         index = int(row['column_index'])
         if index < 0 or index >= len(target_axis) or target_axis[index] != row['target_id']:
@@ -205,7 +207,8 @@ def load_source_readouts(context, target_view_root, cohort, layer, output_target
     values = frame.loc[list(patients), list(readout_ids)].to_numpy(dtype=np.float32)
     return SourceReadouts(cohort, layer, patients, readout_ids,
                           tuple(source_to_output[r['canonical_id']] for r in rows),
-                          values, np.isfinite(values), receipt['files']['PATIENT_S.parquet'])
+                          values, np.isfinite(values), receipt['files']['PATIENT_S.parquet'],
+                          tuple(target_metadata[int(r['column_index'])] for r in rows))
 
 
 def _source_patients(context, cohort):
@@ -265,8 +268,10 @@ def load_source_local_cnv(context, cnv_root_by_cohort, cohort, lncrna_ids):
     if (len(patient_axis) != len(set(patient_axis)) or len(lnc_axis) != len(set(lnc_axis))
             or set(patients) - set(patient_axis) or set(lncrna_ids) - set(lnc_axis)):
         raise ValueError('RELATION_SOURCE_CNV_AXIS_MISMATCH')
-    row = [patient_axis.index(patient) for patient in patients]
-    col = [lnc_axis.index(lnc) for lnc in lncrna_ids]
+    patient_lookup = {patient: i for i, patient in enumerate(patient_axis)}
+    lnc_lookup = {lnc: i for i, lnc in enumerate(lnc_axis)}
+    row = [patient_lookup[patient] for patient in patients]
+    col = [lnc_lookup[lnc] for lnc in lncrna_ids]
     values_file = np.load(base / 'lncrna_signed_mean.npy', mmap_mode='r', allow_pickle=False)
     callable_file = np.load(base / 'lncrna_callable.npy', mmap_mode='r', allow_pickle=False)
     shape = (len(patient_axis), len(lnc_axis))

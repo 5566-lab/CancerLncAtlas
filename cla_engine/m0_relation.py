@@ -135,7 +135,7 @@ def _classifier(C, penalty, cfg):
     return LogisticRegression(**args)
 
 
-def _strength_metrics(y, prediction, available, identities, admitted):
+def _strength_metrics(y, prediction, available, identities, admitted, families=None):
     mask = np.asarray(available, dtype=bool)
     y = np.asarray(y, dtype=float)
     prediction = np.asarray(prediction, dtype=float)
@@ -154,10 +154,16 @@ def _strength_metrics(y, prediction, available, identities, admitted):
             row['mae'] = float(np.mean(np.abs(y[take] - prediction[take])))
         rows.append(row)
     good = [row for row in rows if row['estimable']]
+    if families is not None:
+        if set(admitted)-set(families):
+            raise ValueError('M0_STATE_FAMILY_MISSING')
+        means=[np.mean([row['mse'] for row in good if families[row['canonical_id']]==family])
+               for family in sorted({families[row['canonical_id']] for row in good})]
+        return rows, float(np.mean(means)) if means else None
     return rows, float(np.mean([row['mse'] for row in good])) if good else None
 
 
-def fit_strength_cancer(train_blocks, validation_blocks, admitted, cfg, *, identity_mode='numeric_only'):
+def fit_strength_cancer(train_blocks, validation_blocks, admitted, cfg, *, identity_mode='numeric_only', families=None):
     """Fit observed fused effects with an L1 linear head and exact-target selection."""
     if identity_mode not in {'numeric_only', 'exact'}:
         raise ValueError('M0_IDENTITY_MODE_INVALID')
@@ -213,7 +219,7 @@ def fit_strength_cancer(train_blocks, validation_blocks, admitted, cfg, *, ident
                 valid['identities'][start:stop], valid['numeric'][start:stop],
                 scaler, vectorizer))
         rows, macro_mse = _strength_metrics(valid['label'], prediction, valid_ok,
-                                            valid['identities'], admitted)
+                                            valid['identities'], admitted, families=families)
         trials.append({'C': float(C), 'alpha': alpha,
                        'validation_exact_target_macro_mse': macro_mse})
         if macro_mse is not None and (best is None or macro_mse < best[0]):
@@ -222,7 +228,8 @@ def fit_strength_cancer(train_blocks, validation_blocks, admitted, cfg, *, ident
         raise ValueError('M0_NO_ESTIMABLE_CONVERGED_STRENGTH_MODEL')
     macro_mse, C, alpha, model, prediction, rows = best
     head = {'status': 'FITTED', 'selected_C': C, 'selected_alpha': alpha,
-            'selection': 'VALIDATION_EXACT_TARGET_MACRO_MSE',
+            'selection': ('VALIDATION_EXACT_TARGET_THEN_FAMILY_MACRO_MSE' if families is not None
+                          else 'VALIDATION_EXACT_TARGET_MACRO_MSE'),
             'validation_macro_mse': macro_mse, 'trials': trials,
             'coef': model.coef_[None, :], 'intercept': np.asarray([model.intercept_]),
             'numeric_mean': scaler.mean_, 'numeric_scale': scaler.scale_,
@@ -393,7 +400,8 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
                'primary_policy_targets_not_prepared': sorted(set(active_target_ids(policies, analysis_role='primary_pathway')) - set(canonical)),
                'input_features': 'AUTHORITATIVE_PREPARED_NUMERIC' if identity_mode == 'numeric_only' else 'AUTHORITATIVE_PREPARED_NUMERIC_PLUS_EXACT_IDENTITIES',
                'source_relation_statistics_in_numeric': True,
-               'source_relation_statistics': ['rho', 'abs_rho', 'neglog10_q', 'log1p_n', 'available'],
+               'source_relation_statistics': (['mean_rho','rms_rho','max_abs_rho','mean_log1p_n','log1p_readout_count','available']
+                    if objective=='observed_fused_rms_effect' else ['rho','abs_rho','neglog10_q','log1p_n','available']),
                'label_patient_relation_statistics_as_features': False,
                'original_task_contract': read_json(prepared / 'TASK_CONTRACT.json'),
                'clinical_purity_adjustment': 'PRESERVED_IN_PREPARED_PATIENT_STAGE;NOT_FABRICATED_RELATION_COVARIATES',
@@ -401,7 +409,7 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
                'numeric_block_matched': True, 'graph_node_input_block_matched': False,
                'pure_graph_topology_ablation': False,
                'comparison_interpretation': ('NUMERIC_LINEAR_VS_GRAPH_MODEL_WITH_NODE_CONTEXT' if identity_mode == 'numeric_only' else 'NUMERIC_IDENTITY_LINEAR_VS_GRAPH_MODEL_WITH_NODE_CONTEXT'),
-               'fused_catalog_training_claimed': False, 'results': {}, 'inputs': {}}
+               'fused_catalog_training_claimed': objective=='observed_fused_rms_effect', 'results': {}, 'inputs': {}}
     rows = []
     for cancer in cancers:
         blocks, inputs = _load_blocks(prepared, spec, canonical, cancer)
