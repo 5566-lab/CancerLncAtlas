@@ -1,0 +1,7 @@
+{
+  "target_host": "149",
+  "measurement_producer_sha256": "a8b5fe85dbf6b1235f890adce9dac2be27b924374c18c44e30ca657aabc22bf2",
+  "current_module_sha256": "073a34ea7d7c3df1ec11a70ab6dfd69c2051b8340852e1ebcc7984a46ac3123e",
+  "only_postmaterialization_addition": "condition_qualified_mask",
+  "measurement_code_unchanged": true
+}

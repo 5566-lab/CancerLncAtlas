@@ -11,8 +11,10 @@ KEGG and cross-database integration
 The frozen MSigDB KEGG_MEDICUS 2025.1.Hs inventory contains 658 NETWORK
 definitions. The evidence-defined backbone retains 477: 199 in official
 cancer categories, 23 with additional malignant DISEASE annotations and
-255 supported by reviewed cancer-mechanism literature. These include
+255 supported by reviewed cancer-mechanism literature. The source classifications include
 334 Reference, 78 Variant, 47 Pathogen and 18 environmental mechanisms.
+N01392 describes arsenic exposure despite its cached Pathogen category;
+the effective condition requirements are 46 pathogen and 19 exposure mechanisms.
 Each retains its NETWORK N identifier, official name, condition and original
 members. NETWORK mechanisms are not equivalent in size to broad pathway maps.
 
@@ -54,8 +56,10 @@ TCGA RPPA protein readouts use source-reference standardized antibody
 gene-group means. CPTAC protein readouts use samplewise ssGSEA.
 Phospho readouts retain source-specific sites and scoring methods.
 Shared identity or a cohort covariate does not establish equal measurement
-units. The exporter preserves measured inputs to Y; it does not choose
-a scalar fusion method or calculate an lncRNA-by-pathway correlation matrix.
+units. The registry groups these readouts and original member measurements
+under exact pathway identities, with typed roles, platform-specific observation
+IDs and separate condition masks. No lncRNA-by-pathway correlation matrix
+is calculated. See MEASURED_Y_REPRESENTATION.rst.
 
 Reproduction
 ------------

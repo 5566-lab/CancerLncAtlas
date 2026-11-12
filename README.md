@@ -27,8 +27,11 @@ identities and 197 State identities.
 Use `scripts/export_measured_readouts.py` to export patient-by-readout values,
 observed masks, fixed identities and structural bindings for BRCA, LUAD or
 COAD. The exporter does not fit a model or combine lncRNA correlations into Y.
-The old association-RMS materialization entry is disabled. Measured source
-components are not a completed scalar-fusion model.
+The old association-RMS materialization entry is disabled. Y groups patient
+observations under an exact pathway identity, preserving assay and readout
+dimensions. The typed registry retains unique measurements and separate
+pathway membership; it does not calculate lncRNA associations. See
+[the Y representation](docs/MEASURED_Y_REPRESENTATION.rst).
 
 RNA scoring also requires a coding-gene dependency check: some original
 scores use an all-gene background, mixed gene symbols or noncoding signature

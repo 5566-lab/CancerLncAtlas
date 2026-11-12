@@ -34,6 +34,8 @@
 relation_evidence_bindings.compile_bindings 根据结构和来源定义建立绑定。
 measured_readouts.materialize_measured_readouts 输出患者读数、实测掩码及覆盖表。
 pathway_graph_sources.materialize_graph_sources 保存完整来源组成与绑定表。
+measured_members 保留抗体识别组、质谱位点与逐患者值；measured_y_registry
+把这些数值和来源读数登记到固定通路，分别返回测量掩码和条件适用性。
 
 TF／激酶／PROGENy 归入 Pathway。独立辅助损失需显式定义训练任务，
 不能由分类自动生成。Pathway=1.0，State=0.5。

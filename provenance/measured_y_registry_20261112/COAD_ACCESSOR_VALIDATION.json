@@ -1,0 +1,19 @@
+{
+  "target_host": "149",
+  "checks": [
+    {
+      "cohort": "TCGA",
+      "conditional_target": "CLA-P-B294FB874EED3015",
+      "dimensions": 67,
+      "measured_values": 19107,
+      "unknown_condition_does_not_change_values": true
+    },
+    {
+      "cohort": "CPTAC",
+      "conditional_target": "CLA-P-B294FB874EED3015",
+      "dimensions": 45,
+      "measured_values": 3173,
+      "unknown_condition_does_not_change_values": true
+    }
+  ]
+}
