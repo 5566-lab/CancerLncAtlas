@@ -125,5 +125,8 @@ for name in ('CANONICAL_TARGETS_CURRENT.json','CURRENT_Y_DELIVERY.json','CURRENT
     save(p,r)
 rp=ROOT/'CURRENT_READER_DELIVERY.json'
 if rp.exists():
-    r=json.loads(rp.read_text());r['dictionary_sha256']=receipt['sha256'];save(rp,r)
+    r=json.loads(rp.read_text());r['dictionary_sha256']=receipt['sha256']
+    r.setdefault('verified_files',{})[path.name]=receipt['sha256']
+    r['dictionary_update_receipt']=str(BASE/'CODING_DICTIONARY_UPDATE.json')
+    save(rp,r)
 print(json.dumps(receipt,ensure_ascii=False,indent=2),flush=True)
