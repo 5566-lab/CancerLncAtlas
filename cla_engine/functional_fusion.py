@@ -24,6 +24,7 @@ class FusedFunctionalContext:
     cohort_splits: dict
     arrays: dict[str,np.ndarray]
     target_policies: tuple | None = None
+    evidence_strata: dict[str,np.ndarray] | None = None
 
     @property
     def loss_groups(self):
@@ -80,6 +81,31 @@ def validate_fused_arrays(arrays,shape):
     if not np.array_equal(a['calibration_method']>0,observed) or np.any(a['calibration_method']>4):raise ValueError('FUSED_Y_CALIBRATION_INVALID')
 
 
+def validate_evidence_strata(strata, arrays):
+    """Keep member evidence distinguishable from whole-pathway observations."""
+    families=('equivalent','component','RNA','PROTEIN','PHOSPHO','METHYLATION','CNV','VARIANT','OTHER')
+    expected={'signed_effect'}|{x+suffix for x in families for suffix in ('_rms','_readouts')}
+    if set(strata)!=expected:raise ValueError('FUSED_Y_STRATA_SCHEMA')
+    observed=arrays['observed'].astype(bool);shape=observed.shape
+    if any(x.shape!=shape for x in strata.values()):raise ValueError('FUSED_Y_STRATA_AXIS')
+    signed=strata['signed_effect']
+    if not np.array_equal(np.isfinite(signed),observed) or np.any(abs(signed[observed])>1+1e-6):
+        raise ValueError('FUSED_Y_STRATA_SIGNED_EFFECT')
+    for family in families:
+        value,count=strata[family+'_rms'],strata[family+'_readouts']
+        active=count>0
+        if not np.issubdtype(count.dtype,np.integer) or np.any(count<0) or np.any(count>arrays['readout_count']):
+            raise ValueError('FUSED_Y_STRATA_COUNT')
+        if not np.array_equal(np.isfinite(value),active) or np.any(active&~observed) or np.any((value[active]<0)|(value[active]>1+1e-6)):
+            raise ValueError('FUSED_Y_STRATA_MISSINGNESS')
+    if not np.array_equal(strata['equivalent_readouts']+strata['component_readouts'],arrays['readout_count']):
+        raise ValueError('FUSED_Y_STRATA_ROLE_PARTITION')
+    total=sum(strata[x+'_readouts'].astype(np.int64) for x in families[2:])
+    if not np.array_equal(total,arrays['readout_count']):raise ValueError('FUSED_Y_STRATA_ASSAY_PARTITION')
+    bits=sum(((strata[x+'_readouts']>0).astype(np.uint8)<<i) for i,x in enumerate(families[2:]))
+    if not np.array_equal(bits,arrays['observed_assay_bits']):raise ValueError('FUSED_Y_STRATA_ASSAY_BITS')
+
+
 def load_fused_functional_context(catalog,cancer_id,context,*,target_policy=None):
     root=Path(catalog).resolve();base=(root/cancer_id/context).resolve()
     if not base.is_relative_to(root) or base==root:raise ValueError('FUSED_Y_CONTEXT_OUTSIDE_CATALOG')
@@ -113,7 +139,16 @@ def load_fused_functional_context(catalog,cancer_id,context,*,target_policy=None
         if ds=='CPTAC' and cancer_id=='BRCA' and 'CPTAC:BRCA:604' in split['source_patients']+split['label_patients']:raise ValueError('FUSED_Y_UNRESOLVED_RETROSPECTIVE_CASE')
     with np.load(base/'Y.npz',allow_pickle=False) as data:arrays={k:data[k] for k in data.files}
     validate_fused_arrays(arrays,(len(ax['lncrna_ids']),len(ax['canonical_ids'])))
-    result=FusedFunctionalContext(cancer_id,context,tuple(ax['lncrna_ids']),tuple(ax['canonical_ids']),tuple(ax['target_roles']),tuple(ax['primary_tasks']),splits,arrays,target_policies)
+    strata=None
+    if definition.get('evidence_strata_file') is not None:
+        if definition['evidence_strata_file']!='EVIDENCE_STRATA.npz':raise ValueError('FUSED_Y_STRATA_FILE')
+        name='EVIDENCE_STRATA.npz'
+        if hashlib.sha256((base/name).read_bytes()).hexdigest()!=receipt['files'].get(name):raise ValueError('FUSED_Y_STRATA_CHECKSUM')
+        if receipt.get('y_definition_sha256')!=hashlib.sha256((root/'Y_DEFINITION.json').read_bytes()).hexdigest():
+            raise ValueError('FUSED_Y_DEFINITION_CHECKSUM')
+        with np.load(base/name,allow_pickle=False) as data:strata={k:data[k] for k in data.files}
+        validate_evidence_strata(strata,arrays)
+    result=FusedFunctionalContext(cancer_id,context,tuple(ax['lncrna_ids']),tuple(ax['canonical_ids']),tuple(ax['target_roles']),tuple(ax['primary_tasks']),splits,arrays,target_policies,strata)
     for key,value in result.counts().items():
         if key in receipt and receipt[key]!=value:raise ValueError('FUSED_Y_COUNT_MISMATCH: '+key)
     return result

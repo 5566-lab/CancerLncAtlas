@@ -48,10 +48,14 @@ Pathway weight 1.0 and State weight 0.5.
 Labels and applicability
 ------------------------
 
-Exact source IDs select original KEGG label columns. An output identity
-redirect does not replace a KEGG label with an existing Reactome column.
-All original p/q correction families remain frozen. Different platforms
-retain their own patient readout units; the target is relation evidence.
+Exact identity bindings retain original KEGG and explicitly equivalent source
+readouts. Verified TF/kinase molecular identities additionally bind member-state
+readouts to the pathway. Overlap-only context links do not create supervision
+bindings. Whole-pathway and component evidence, and each measurement layer,
+retain separate output strata alongside the continuous RMS relation strength.
+BH correction is recomputed for the current explicit task after new evidence
+is bound. Different platforms retain their patient readout units. See
+``MEMBER_STATE_EVIDENCE.rst`` for the complete binding and composition rules.
 
 Generic host-component readouts cannot identify a named mutation, pathogen
 or exposure. The 143 conditional definitions remain in the biological
@@ -61,9 +65,13 @@ labels are not negative relations.
 
 The three-cancer view contains 477 primary and 194 State columns. Three other
 State definitions have no separate source-label column. In train_label_fold2,
-observed primary/State targets are BRCA 243/193, LUAD 242/189 and COAD 242/189.
-These are counts of estimable relationships in that split, not a new
-biological selection rule.
+observed primary/State targets are BRCA 270/193, LUAD 269/189 and COAD 269/189.
+Phospho evidence is estimable for151,155,150 primary identities, respectively.
+Each count requires at least one estimable lncRNA relationship; it does not
+assert complete measurement of the entire pathway. In BRCA,247 identities have
+same-pathway evidence and175 have member-state evidence, with152 shared:
+their union is270, including23 with member evidence only. These are observation
+counts in that split, not a biological selection rule or significance threshold.
 
 The two O-mannosylation modules N00627 (POMT to POMK) and N00699 (FKTN to
 LARGE) are included on focused cancer evidence for dystroglycan/matriglycan
@@ -73,6 +81,13 @@ create a training label; directions of individual biosynthesis steps may differ.
 
 M0 and CCHHGT comparison
 -----------------------
+
+The existing72-column source-association runner described below measures
+replication across patient partitions. It is not the requested molecular-input
+M0; using its API name does not establish a matched molecular baseline.
+The molecular baseline requires an explicit molecular feature representation
+with the same target readouts and labels as CCHHGT. No model fitting is part
+of this Y and source-composition delivery.
 
 The linear relation comparator uses, for each cancer::
 

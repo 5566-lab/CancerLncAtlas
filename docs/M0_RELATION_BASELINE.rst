@@ -1,5 +1,11 @@
-M0: linear prediction of exact pathway relationships within each cancer
-=====================================================================
+Source-association replication control
+=====================================
+
+This page describes the existing source-association-summary runner. It predicts
+relationship strength in a separate patient partition from source-patient
+relationship summaries. It is a replication control, not the requested
+molecular-input M0. References below to M0 name the runner's existing API;
+they do not establish a matched molecular baseline for CCHHGT.
 
 Endpoint
 --------
