@@ -1,133 +1,66 @@
-Source-association replication control
-=====================================
+M0：患者分子输入的线性对照设置
+================================
 
-This page describes the existing source-association-summary runner. It predicts
-relationship strength in a separate patient partition from source-patient
-relationship summaries. It is a replication control, not the requested
-molecular-input M0. References below to M0 name the runner's existing API;
-they do not establish a matched molecular baseline for CCHHGT.
+研究问题是“癌种 × lncRNA × 精确通路”。M0 拟合患者的分子测量目标，
+再从固定模型及留出患者评价中分析 lncRNA 的预测贡献。
+先固定 Y 的通路、成员、评分及缺失掩码；lncRNA 关联不参与 Y 构建。
 
-Endpoint
---------
-
-The analysis unit is cancer x lncRNA x exact pathway. BRCA, LUAD and COAD
-are fitted separately. The primary target axis is the evidence-defined KEGG
-backbone. Its original definitions and members determine pathway identity.
-TF, kinase and PROGENy programs are Pathway context; classification alone
-does not introduce supervised targets or additional losses.
-
-The continuous endpoint is the observed fused ``rms_effect`` of the exact
-relationship, computed in the frozen label-patient partition. Missing
-relationships retain an unavailable mask. They are not assigned a negative
-label or a measured effect of zero. Named mutation, pathogen and exposure
-mechanisms require matching condition evidence for supervision.
-
-For each cancer, the linear comparator is::
-
-    predicted_relation_strength(c,l,k) = intercept(c) + beta(c)^T u_source(c,l,k)
-
-The coefficients act on source-derived relationship descriptors. They are
-not coefficients for a patient-level lncRNA expression signature.
-
-Source features and adjustment
-------------------------------
-
-The numeric feature block keeps TCGA and CPTAC separate. For each cohort and
-each of RNA, State readouts, protein, phospho and methylation, it records:
-mean signed rho, RMS rho, maximum absolute rho, mean log(1+n), log(1+readout
-count), and an availability flag. Each cohort also contributes the measured
-mean, standard deviation and measured fraction of lncRNA expression and
-local CNV. This gives 72 columns. An absent measurement block has zero values
-and a zero availability flag.
-
-Source associations use only source patients, with the frozen
-``CLA_SHARED_CORE_DNA_PURITY_RELATION_DEMO_V1`` adjustment. Target-specific
-State policies and direct RNA membership exclusions are applied before
-aggregation. A partial candidate set does not define a new FDR family.
-Label-patient rho, p, q and effect values do not enter the input block.
-
-Clinical variables and purity enter this patient-stage adjustment. The
-resulting relationship model does not invent a patient clinical vector for
-an aggregated cancer--lncRNA--pathway row.
-
-Fitting and comparison
-----------------------
-
-``fit_strength_cancer`` fits an L1-penalized linear regression. Numeric
-standardization is fitted on available training relations. The default
-``numeric_only`` design excludes lncRNA and pathway identity terms. An
-explicit ``exact`` identity ablation learns its vocabulary from training
-rows only.
-
-The penalty grid uses ``alpha = alpha_max / C`` with ``alpha_max`` determined
-from the training design. Nonconverged fits are excluded. Validation selects
-the penalty by mean squared error averaged across exact pathways, so pathways
-with more available pairs do not dominate model selection. Saved outputs
-include coefficients, scaler parameters, validation predictions and metrics
-with exact pathway IDs.
-
-M0 and CCHHGT compare the same primary candidates, source numeric inputs,
-continuous labels, availability masks, patient partitions and evaluation
-units. CCHHGT additionally uses molecular-node information and typed graph
-connections. Its joint loss retains Pathway=1.0 and State=0.5. The standalone
-M0 relation runner evaluates the primary pathway task; joint State baseline
-predictions belong to the matched prepared training package.
-
-``materialize_relation_baseline`` produces both task baselines from the four
-frozen source components. Pathway fitting balances observed exact targets;
-State fitting additionally balances biological families. State validation
-averages targets within families, then families. A PROGENy readout supporting
-the Hypoxia State does not create a second ``pathway_footprint`` State family.
-
-The graph view retains separate RPPA antibody-group and CPTAC protein/site
-nodes. A multi-gene antibody remains one measurement with component edges.
-Gene CNV and promoter methylation retain separate value and availability
-columns. Source means and coexpression edges use only the declared source
-patients. Exact KEGG membership is retained independently of context links.
-
-``cla.py prepare-relation --plan PLAN.json --output PREPARED`` assembles a
-diagnostic outer-fold-0 capsule from all four graph views and a verified
-baseline component. Its plan names ``baseline``, ``static``, ``graph_views``
-(train_label_fold2/3/4 and validation), ``model``, ``training`` and ``gates``.
-The original ``cla.py worker`` consumes this explicitly typed continuous
-capsule. The older binary preparation entry does not reinterpret these labels.
-
-Prepared verification checks graph/target identity, source-patient partitions,
-label masks and every baseline prediction against the same source components.
-The 72-column context reaches both joint heads. Modality column declarations
-cover both cohorts and gene-node assays; removing only graph inputs while
-retaining the baseline measures a graph-input ablation. A complete information
-ablation also requires refitting the baseline with that modality excluded.
-
-Three comparisons have different meanings:
-
-* Numeric Lasso versus the full CCHHGT measures the combined gain from
-  molecular-node information and graph modeling.
-* A model with identical node inputs and no message passing isolates the
-  contribution of message passing.
-* Removing PPI or RPI while holding all other inputs and candidates fixed
-  measures the contribution of those edge sources.
-
-Input contract
+模型单位与公式
 --------------
 
-``run_m0_relation`` accepts a verified prepared capsule with an explicit
-``relation_objective=observed_fused_rms_effect``. It verifies the bound
-target policy, exact identity map and source/label split before fitting.
-The frozen outer test is excluded from fitting and validation selection.
-Feature components and a FunctionalRelationContext directory are inputs to
-preparation, not substitutes for a prepared capsule.
+每个癌种分别建模，以患者为行，固定通路／State 的测量读数为输出。
+通路 k 的读数 r 对应::
 
-The binary branch is used only for a capsule explicitly declaring binary
-labels. It cannot turn unobserved fused relationships into negatives.
+    predicted_Y[i,k,r] = intercept[k,r] + C[i] gamma[k,r]
+                        + X_lnc[i] beta_lnc[k,r]
+                        + X_mRNA[i] beta_mRNA[k,r]
 
-Run on server 149::
+C 为预先确定的年龄、性别、分期、独立纯度及适用的队列／平台项，
+其系数不受 Lasso 惩罚。纯度本身作为目标时，不再把同一纯度作协变量。
+RNA 推算纯度与 DNA／病理纯度分别标注。
 
-    python scripts/run_m0_relation.py \
-      --prepared /path/to/verified_relation_prepared \
-      --policy /path/to/TARGET_POLICY.tsv \
-      --out /path/to/m0_relation_results \
-      --cancers BRCA --penalty l1 --identity-mode numeric_only
+M0-L 只保留 lncRNA 项；M0-M 只保留 mRNA 项；M0-LM 保留二者。
+三组使用相同的 Y、患者分折、协变量、实测掩码及评价单位。
+全部合格 lncRNA 共同进入模型，不使用 rho/FDR 硬性准入。
+可测性、缺失处理、零方差和表达质控仅由训练患者确定。
 
-Each cancer and each outer fold uses its own capsule. Training rows from
-different outer folds are not concatenated.
+基础估计器采用 Lasso，在训练患者内选择惩罚系数。比较图正则化岭回归时，
+另设相同输入的普通 Ridge，使差别只在图正则项。
+M0-L 未选择任何 lncRNA 的目标报告为 lncRNA 预测失败；
+临床协变量的预测表现单独报告。
+
+平台与输出
+----------
+
+平台特异读数使用不同的 r，不因归入同一通路而视为数值相同。
+平台协变量不能替代 RPPA 与质谱的数值校准。每项读数仅由实测患者
+贡献损失；标准化和参考参数只在训练患者拟合，并冻结用于验证。
+
+若最终 Y 为多维测量，各读数使用自己的输出和掩码；若采用已确定的标量
+融合，则使用冻结规则产生的标量。两者均按同一通路身份组织结果，
+不能先计算 lncRNA 相关性再作为 Y。
+
+消融比较
+--------
+
+1. 临床／纯度对照 → M0-L、M0-M、M0-LM，评价 RNA 的增量信息。
+2. 相同 RNA 组增加 CNV、突变等已授权输入，保持 Y 和评价患者不变。
+3. 相同节点输入比较无消息传递模型与 CCHHGT，评价图传播贡献。
+4. 分别移除 PPI、RPI 或某组学，评价该信息的增量贡献。
+
+预测目标所在组学不作为该任务输入；目标直接组成值及其派生输入一并排除。
+RNA 评分可由 lncRNA 预测；mRNA 直接构成该评分时，对应 mRNA／联合组
+属于评分重建，不作为独立蛋白层预测证据。
+
+重复患者按身份整体分折；外层测试不参与筛选、标准化或模型选择。
+在相同实测患者上比较 R²、误差及相对临床对照的改善。
+结果保留到精确通路及来源层，不以 max|rho| 代替这些比较。
+
+最终关系证据
+------------
+
+lncRNA 系数、选择稳定性和留出患者预测增量是后续关系证据。
+它们是建模结果，不是定义 Y 的原料，也不自动证明因果调控。
+TF／激酶提供成员状态或机制信息；独立辅助损失需显式指定。
+Pathway 总权重 1.0，State 0.5。通路内读数权重在 Y 方案确定时冻结，
+不能由数据库条目数量隐式决定。

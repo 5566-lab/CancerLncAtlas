@@ -1,45 +1,46 @@
 # CancerLncAtlas CC-HHGT v3.2
 
-CancerLncAtlas learns cancer-specific lncRNA associations with exact pathways
-and tumor states using one trainable PyG CC-HHGT encoder. The canonical entry
-point is `cla.py`. Its objective is
-`Pathway loss + 0.5 * State loss + regularization`. Both tasks update the same
-encoder. State targets and scores remain separate from Pathway targets and scores.
+CancerLncAtlas studies **cancer × lncRNA × exact pathway**, with a
+KEGG cancer-mechanism backbone and separate Pathway and State tasks.
+Task weights are Pathway=1.0 and State=0.5. TF, kinase and PROGENy
+readouts belong to Pathway; classification does not create independent losses.
 
-The continuous relation workflow uses `cla.py prepare-relation --plan PLAN.json
---output PREPARED` to bind the KEGG target catalog, source-patient molecular
-graphs and matched linear Lasso baselines. `cla.py worker --prepared PREPARED
---output RUN --device cpu --deadline UNIX_TIME` runs the original joint model.
-Each plan specifies one cancer, four frozen patient contexts and both task heads.
+The current Y-definition work fixes biological identities, original source
+members and patient measurements before lncRNA relationship modeling.
+Measured values, missingness and readout methods are exported independently
+of lncRNA expression or association statistics. Model training is outside
+the current delivery.
 
-All preparation, audits and training execute on host **149**. Source patients
-provide model features; separate label patients provide the observed relationship
-effects. Outer-test patients remain reserved for the final evaluation.
+All preparation, audits and training execute on host **149**.
+The development export excludes the sealed outer-test patients.
 
-## Cancer mechanism backbone and relation targets (2026-11-11)
+## Cancer mechanism backbone and measured targets
 
-The main task is **cancer × lncRNA × exact pathway**, with separate BRCA,
-LUAD and COAD models. The evidence-defined KEGG backbone retains **477**
-NETWORK mechanisms from 658 original definitions: 199 with official cancer
-classification, 23 with additional malignant-disease annotations and 255
-supported by reviewed mechanism literature. Original NETWORK identifiers,
-mechanisms and gene memberships are retained.
+The evidence-defined backbone retains **477** NETWORK mechanisms from 658
+source definitions: 199 in official cancer categories, 23 with additional
+malignant-disease annotations and 255 supported by reviewed mechanism
+literature. Original NETWORK IDs, names, conditions and members are retained.
+Cross-database equivalence, hierarchy, protein similarity and regulator
+membership are separate relationships. The catalog includes 1,652 context
+identities and 197 State identities.
 
-Cross-database equivalence, hierarchy and protein-component similarity are
-recorded separately. Protein composition links 1,652 context identities to the
-backbone; 197 State identities remain auxiliary. TF, kinase and PROGENy
-readouts display as Pathway without automatically receiving independent
-losses. The joint task weights remain Pathway=1.0 and State=0.5.
+Use `scripts/export_measured_readouts.py` to export patient-by-readout values,
+observed masks, fixed identities and structural bindings for BRCA, LUAD or
+COAD. The exporter does not fit a model or combine lncRNA correlations into Y.
+The old association-RMS materialization entry is disabled. Measured source
+components are not a completed scalar-fusion model.
 
-The current label view uses exact original source columns and masks conditional
-mutation/pathogen/exposure mechanisms when only generic host readouts exist.
-The M0 comparator is a per-cancer linear relation model using source-patient
-numeric features and the same target policy and folds as CCHHGT. See the
-[mechanism integration](docs/CANCER_RELATION_TASK.rst) and
-[matched M0/HHGT input and fitting specification](docs/M0_RELATION_BASELINE.rst).
-The supervised axis contains 477 Pathway and 194 State identities, with explicit
-availability masks for unobserved relationships. TCGA and CPTAC contribute
-separate source-feature blocks, totaling 72 numeric columns.
+RNA scoring also requires a coding-gene dependency check: some original
+scores use an all-gene background, mixed gene symbols or noncoding signature
+members. `cla_engine.protein_coding_scoring` selects protein-coding gene IDs
+before symbol aggregation. Scores recomputed with that background must retain
+their method version rather than be described as unchanged published scores.
+
+See [biological integration and measurements](docs/CANCER_RELATION_TASK.rst),
+[member-state mappings](docs/MEMBER_STATE_EVIDENCE.rst) and
+[patient-input linear M0 specification](docs/M0_RELATION_BASELINE.rst).
+M0 uses patient molecular features and unpenalized clinical/purity covariates;
+source-association summaries are not the requested molecular baseline.
 
 ## Reviewed three-cancer network comparison (2026-11-06)
 
