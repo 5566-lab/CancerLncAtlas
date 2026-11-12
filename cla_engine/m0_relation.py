@@ -362,6 +362,12 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
     """Validate authoritative preparation; fit only requested cancers on host 149."""
     host = require_host_149()
     prepared, out = Path(prepared).resolve(), Path(out).resolve()
+    # This legacy relation wrapper cannot implement the measured-Y M0.
+    if (prepared / 'SPEC.json').exists():
+        declared = read_json(prepared / 'SPEC.json')
+        if declared.get('relation_objective') == 'observed_fused_rms_effect':
+            raise ValueError('ASSOCIATION_STATISTICS_ARE_NOT_MEASURED_Y; '
+                             'FIX_MEASURED_Y_BEFORE_M0')
     if (prepared / 'Y_DEFINITION.json').exists() and not (prepared / 'SPEC.json').exists():
         raise ValueError('M0_FUSED_Y_REQUIRES_APPROVED_OBJECTIVE_AND_PREPARED_ADAPTER; '
                          'UNLABELLED_IS_NOT_NEGATIVE')
@@ -375,10 +381,11 @@ def run_m0_relation(prepared, policy, out, *, cancers=DEFAULT_CANCERS, identity_
     policies = load_target_policy(policy)
     manifest, spec, cfg, lineage = validate_prepared(prepared)
     objective = spec.get('relation_objective', 'binary')
-    if objective not in {'binary', 'observed_fused_rms_effect'}:
+    if objective == 'observed_fused_rms_effect':
+        raise ValueError('ASSOCIATION_STATISTICS_ARE_NOT_MEASURED_Y; '
+                         'FIX_MEASURED_Y_BEFORE_M0')
+    if objective != 'binary':
         raise ValueError('M0_RELATION_OBJECTIVE_UNKNOWN')
-    if objective == 'observed_fused_rms_effect' and penalty != 'l1':
-        raise ValueError('M0_STRENGTH_REQUIRES_L1')
     if set(cancers) - set(spec['cancers']):
         raise ValueError('M0_REQUESTED_CANCER_MISSING_FROM_PREPARED')
     bound_policy, identity_map = _prepared_scope_inputs(prepared, spec, policy, identity_map)

@@ -206,27 +206,24 @@ def test_observed_strength_rejects_invalid_observed_values():
         m0.fit_strength_cancer([train], [valid], ['P1', 'P2'], config())
 
 
-def test_continuous_capsule_routes_to_strength_only(tmp_path, monkeypatch):
+def test_association_y_is_rejected_before_validation_fit_or_output(tmp_path, monkeypatch):
     prepared, policy = fixture_capsule(tmp_path, monkeypatch)
     spec_path = prepared/'SPEC.json'
     spec = json.loads(spec_path.read_text())
     spec['relation_objective'] = 'observed_fused_rms_effect'
     spec_path.write_text(json.dumps(spec))
-    monkeypatch.setattr(m0, 'validate_prepared', lambda _: ({}, spec, config(), {}))
-    for view in ('BRCA__train2', 'BRCA__validation'):
-        path = prepared/'views'/view/'pathway.npz'
-        with np.load(path) as data:
-            arrays = {key: data[key] for key in data.files}
-        arrays['label'] = np.clip(.4 + .15 * arrays['numeric'][:, 0], 0, 1)
-        arrays['available'][::7] = False
-        arrays['label'][::7] = 999
-        np.savez(path, **arrays)
-    result = m0.run_m0_relation(prepared, policy, tmp_path/'strength', cancers=['BRCA'])
-    assert result['relation_objective'] == 'observed_fused_rms_effect'
-    assert set(result['results']['BRCA']) == {'strength'}
-    with np.load(tmp_path/'strength'/'BRCA'/'strength_validation_predictions.npz') as values:
-        assert 'score' in values.files and 'logit' not in values.files
-        assert values['available'].sum() < len(values['available'])
+
+    def forbidden(*args, **kwargs):
+        pytest.fail('association Y must be rejected before validation or fitting')
+
+    monkeypatch.setattr(m0, 'validate_prepared', forbidden)
+    monkeypatch.setattr(m0, 'load_target_policy', forbidden)
+    monkeypatch.setattr(m0, 'fit_strength_cancer', forbidden)
+    monkeypatch.setattr(m0, 'fit_scoped_cancer', forbidden)
+    output = tmp_path/'strength'
+    with pytest.raises(ValueError, match='ASSOCIATION_STATISTICS_ARE_NOT_MEASURED_Y'):
+        m0.run_m0_relation(prepared, policy, output, cancers=['BRCA'])
+    assert not output.exists()
 
 
 def test_numeric_only_default_cannot_memorize_relation_identity():
