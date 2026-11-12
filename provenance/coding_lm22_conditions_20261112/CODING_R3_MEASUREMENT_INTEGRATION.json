@@ -1,0 +1,173 @@
+{
+  "target_host": "149",
+  "cases": [
+    {
+      "format": "CLA_PATIENT_MEASURED_READOUTS_CODING_V3",
+      "target_host": "149",
+      "cancer": "BRCA",
+      "context": "validation",
+      "biological_targets": 674,
+      "primary_pathways": 477,
+      "state_identities": 197,
+      "readout_columns": 10389,
+      "coding_readouts_replaced": 4168,
+      "preserved_external_RNA_readouts": 4,
+      "structural_bindings": 7887,
+      "patient_counts": {
+        "TCGA": 872,
+        "CPTAC": 96
+      },
+      "exact_non_RNA_preservation": [
+        {
+          "cohort": "TCGA",
+          "layer": "STATE",
+          "non_RNA_columns_equal": 74
+        },
+        {
+          "cohort": "TCGA",
+          "layer": "PROTEIN",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "TCGA",
+          "layer": "PHOSPHO",
+          "non_RNA_columns_equal": 285
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "STATE",
+          "non_RNA_columns_equal": 74
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "PROTEIN",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "METHYLATION",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "PHOSPHO",
+          "non_RNA_columns_equal": 285
+        }
+      ],
+      "scalar_fusion_performed": false,
+      "lncrna_association_computation": false
+    },
+    {
+      "format": "CLA_PATIENT_MEASURED_READOUTS_CODING_V3",
+      "target_host": "149",
+      "cancer": "LUAD",
+      "context": "validation",
+      "biological_targets": 674,
+      "primary_pathways": 477,
+      "state_identities": 197,
+      "readout_columns": 10389,
+      "coding_readouts_replaced": 4168,
+      "preserved_external_RNA_readouts": 4,
+      "structural_bindings": 7887,
+      "patient_counts": {
+        "TCGA": 407,
+        "CPTAC": 88
+      },
+      "exact_non_RNA_preservation": [
+        {
+          "cohort": "TCGA",
+          "layer": "STATE",
+          "non_RNA_columns_equal": 74
+        },
+        {
+          "cohort": "TCGA",
+          "layer": "PROTEIN",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "TCGA",
+          "layer": "PHOSPHO",
+          "non_RNA_columns_equal": 285
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "STATE",
+          "non_RNA_columns_equal": 74
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "PROTEIN",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "METHYLATION",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "PHOSPHO",
+          "non_RNA_columns_equal": 285
+        }
+      ],
+      "scalar_fusion_performed": false,
+      "lncrna_association_computation": false
+    },
+    {
+      "format": "CLA_PATIENT_MEASURED_READOUTS_CODING_V3",
+      "target_host": "149",
+      "cancer": "COAD",
+      "context": "validation",
+      "biological_targets": 674,
+      "primary_pathways": 477,
+      "state_identities": 197,
+      "readout_columns": 10389,
+      "coding_readouts_replaced": 4168,
+      "preserved_external_RNA_readouts": 4,
+      "structural_bindings": 7887,
+      "patient_counts": {
+        "TCGA": 363,
+        "CPTAC": 84
+      },
+      "exact_non_RNA_preservation": [
+        {
+          "cohort": "TCGA",
+          "layer": "STATE",
+          "non_RNA_columns_equal": 74
+        },
+        {
+          "cohort": "TCGA",
+          "layer": "PROTEIN",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "TCGA",
+          "layer": "PHOSPHO",
+          "non_RNA_columns_equal": 285
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "STATE",
+          "non_RNA_columns_equal": 74
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "PROTEIN",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "METHYLATION",
+          "non_RNA_columns_equal": 1833
+        },
+        {
+          "cohort": "CPTAC",
+          "layer": "PHOSPHO",
+          "non_RNA_columns_equal": 285
+        }
+      ],
+      "scalar_fusion_performed": false,
+      "lncrna_association_computation": false
+    }
+  ]
+}

@@ -117,8 +117,8 @@ Run `scripts/run_m0_linear.py` on host 149 and export figures with
 
 The CPTAC extension adds measured RNA, protein, site-level phosphorylation,
 promoter-related gene methylation and published clinical data for 1,043 tumor
-patients in ten harmonized cohorts. Per-assay Pathway scores and the current
-485-State axis retain missing masks and explicit native-scale metadata.
+patients in ten harmonized cohorts. The initial per-assay Pathway scores and
+485-State source axis retain missing masks and explicit native-scale metadata.
 The same gene/cancer/target identifiers do not establish equal calibration.
 The validated reader and preflight binding preserve the existing TCGA inputs;
 this extension does not train a new model or enable pooled targets.
@@ -144,6 +144,11 @@ python cla.py preflight --config LOCAL_CONFIG.json --output NEW_PREFLIGHT_DIRECT
 python cla.py prepare --config LOCAL_CONFIG.json --fold 0 --profile diagnostic --output NEW_PREPARED_DIRECTORY
 ```
 
+These model CLI commands retain the existing association-label workflow and
+are not an entry point for the current measured-Y definition. The measured
+export is `scripts/export_measured_readouts.py`; its output does not authorize
+a model run.
+
 `prepare` creates patient-disjoint input/label views and fits the matched
 baseline. The worker accepts only validated joint prepared data. Training is a
 separate, budget-bound command; do not rename prior prepared files or checkpoints
@@ -159,17 +164,17 @@ The top-level configuration parameter `cancer_type` accepts `all` or `list`.
 `all` uses every cancer in the frozen patient map (33 in the current cohort).
 `list` requires a nonempty `cancer_list`; an unknown cancer is an error.
 The public configuration defaults to `"cancer_type": "all", "cancer_list": []`.
-For a two-cancer demo, set these fields in your bound configuration:
+The requested demo uses BRCA, LUAD and COAD. For an existing model CLI configuration:
 
 ```json
 "cancer_type": "list",
-"cancer_list": ["BRCA", "LUAD"]
+"cancer_list": ["BRCA", "LUAD", "COAD"]
 ```
 
 Or override them on the command line on host 149:
 
 ```bash
-python cla.py prepare --config LOCAL_CONFIG.json --profile diagnostic --cancer_type list --cancer_list BRCA LUAD --output NEW_DEMO_PREPARED
+python cla.py prepare --config LOCAL_CONFIG.json --profile diagnostic --cancer_type list --cancer_list BRCA LUAD COAD --output NEW_DEMO_PREPARED
 python cla.py prepare --config LOCAL_CONFIG.json --profile diagnostic --cancer_type all --output NEW_ALL_CANCERS_PREPARED
 ```
 
@@ -183,7 +188,7 @@ Cancer scope and data-size profile are separate: `diagnostic` retains its
 lncRNA/pathway caps even with `all`. Only selected cancers contribute patient
 views, baselines, cancer nodes, node-omics aggregates and subsequent training.
 Global input checks and the fixed cross-cancer expression eligibility rule still
-use their original authority; they are not recalculated from two demo cancers.
+use their original authority; they are not recalculated from the selected demo cancers.
 `CANCER_SCOPE.json` records the selection in preflight and prepared outputs.
 The prepared validator binds this record to configuration and node identities.
 
@@ -197,22 +202,23 @@ a small demo does not establish a pan-cancer result.
 
 ## Inputs and targets
 
-The main labels are cancer × lncRNA × exact-pathway/State association labels,
-derived from patient measurements in disjoint folds. They are not patient-level
-continuous regression targets or causal intervention effects. State now has 484
-primary targets plus auxiliary ESTIMATEScore, covering intrinsic transcriptional
-states, immune function, cell composition and genomic measurements. Original
-score definitions and missing-value masks are retained. See
-[the State catalog and scoring workflow](docs/STATE_EXPANSION_20261101.rst) and
-[the new score additions and complete protein mapping](docs/STATE_SIGNATURES_20261104.rst) and
-[the unified training contract](docs/JOINT_MAINLINE_20261101.rst).
+The biological output axis contains 477 exact KEGG mechanisms and 197 State
+identities. Patient measurements are linked to this axis by verified pathway
+identity or explicit molecular membership. Source-specific readouts, protein
+members and modification sites retain their provenance and observed masks.
+lncRNA correlations, their significance and their RMS are not the Y values.
 
-The previous five-assay MOGSA/lavaan scoring design was retired on 2026-11-04.
-Its scores and prepared labels cannot be used for new training. Verified raw
-assays are retained for a future per-assay design. Existing PROGENY/DoRothEA
-resource scores remain in State using their legacy weighted implementation.
-See [the current target policy](docs/PATHWAY_TARGET_POLICY_20261104.rst) and
-[the historical scoring report](docs/PATHWAY_FUSION_20261101.rst).
+TF, kinase and PROGENy readouts belong to Pathway. They describe regulatory
+programs or member states; adding an independent supervised loss requires an
+explicit task definition. Display category and database record count do not
+set loss weights.
+
+Recomputed RNA readouts use protein-coding gene IDs before symbol aggregation.
+The fixed LM22 coding reference contains 517 genes and supplies 22 relative
+cell-composition readouts per patient, with its own method version. Published
+TLS12 and RNA-derived purity remain separately identified source readouts.
+See [measurement definitions](docs/MEASURED_READOUT_DEFINITIONS.rst) and
+[the patient-input M0 specification](docs/M0_RELATION_BASELINE.rst).
 
 The TCGA protein/phosphorylation input is the hash-pinned official TCPA
 RPPA500 download. Its 447 columns contain 433 markers with measurements; the

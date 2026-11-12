@@ -1,0 +1,60 @@
+{
+  "columns": [
+    "patient_id",
+    "network_id",
+    "status",
+    "evidence_type",
+    "source_id"
+  ],
+  "status_values": [
+    "present",
+    "absent"
+  ],
+  "missing": "no qualified observation; retained as unknown",
+  "conflicting_observations": "unknown; source records retained",
+  "accepted_evidence_types_by_condition": {
+    "none": [],
+    "copy_number_amplification": [
+      "validated_amplification_call"
+    ],
+    "activating_mutation": [
+      "curated_activating_variant"
+    ],
+    "inactivating_mutation": [
+      "curated_loss_of_function_variant"
+    ],
+    "fusion": [
+      "verified_fusion"
+    ],
+    "rearrangement": [
+      "verified_rearrangement"
+    ],
+    "increased_expression": [
+      "reference_qualified_expression_increase"
+    ],
+    "decreased_expression": [
+      "reference_qualified_expression_decrease"
+    ],
+    "protein_positive": [
+      "clinical_receptor_status",
+      "validated_protein_positive_assay"
+    ],
+    "functional_loss": [
+      "validated_functional_loss"
+    ],
+    "duplication_or_activating_mutation": [
+      "verified_internal_tandem_duplication",
+      "curated_activating_variant"
+    ],
+    "pathogen_or_effector": [
+      "matched_pathogen_assay",
+      "matched_effector_assay"
+    ],
+    "exposure": [
+      "documented_exposure",
+      "measured_exposure"
+    ]
+  },
+  "generic_gene_mutation_or_host_expression_is_not_condition_evidence": true,
+  "reference_context_does_not_assert_pathway_activation": true
+}
