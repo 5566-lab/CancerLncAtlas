@@ -1,0 +1,9 @@
+{
+  "target_host": "149",
+  "exit_code": 0,
+  "tests": [
+    "tests/test_coding_readout_reference.py",
+    "tests/test_protein_coding_scoring.py"
+  ],
+  "output": "....                                                                     [100%]\n4 passed in 0.97s\n"
+}

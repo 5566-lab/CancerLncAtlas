@@ -1,0 +1,17 @@
+{
+  "target_host": "149",
+  "completed_coding_cases": 6,
+  "primary_pathways": 477,
+  "coding_measurement_root": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/measurements_coding_r2",
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v6.xlsx",
+  "dictionary_sha256": "9ceba8c8087cb65af709ea1ff36dcf21d6b4a68f6ec371472e21d245d04efdb4",
+  "model_training": false,
+  "lncrna_association_computation": false,
+  "Y_complete": false,
+  "remaining": [
+    "external RNA definition lineage",
+    "final Y representation and fusion contract",
+    "member-level applicability",
+    "reader report alignment"
+  ]
+}
