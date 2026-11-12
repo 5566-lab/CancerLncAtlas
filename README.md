@@ -2,30 +2,31 @@
 
 CancerLncAtlas learns cancer-specific lncRNA associations with exact pathways
 and tumor states using one trainable PyG CC-HHGT encoder. The canonical entry
-point is `cla.py`, configured by `config/149.json`. Its objective is
+point is `cla.py`. Its objective is
 `Pathway loss + 0.5 * State loss + regularization`. Both tasks update the same
 encoder. State targets and scores remain separate from Pathway targets and scores.
 
-The unified executor includes the subsequent R6.2 preparation, exact sparse
-LASSO baseline, joint optimization, checkpoint, evaluation and core-export
-implementation. `config/model_v3_2_full_multitask.yaml` describes the same
-architecture. The frozen State training workflow has been removed.
+The continuous relation workflow uses `cla.py prepare-relation --plan PLAN.json
+--output PREPARED` to bind the KEGG target catalog, source-patient molecular
+graphs and matched linear Lasso baselines. `cla.py worker --prepared PREPARED
+--output RUN --device cpu --deadline UNIX_TIME` runs the original joint model.
+Each plan specifies one cancer, four frozen patient contexts and both task heads.
 
-All preparation, audits and training execute on host **149**. No command in this
-integration starts paid compute. The reviewed code and tests are not a newly
-trained model or a production release.
+All preparation, audits and training execute on host **149**. Source patients
+provide model features; separate label patients provide the observed relationship
+effects. Outer-test patients remain reserved for the final evaluation.
 
 ## Cancer mechanism backbone and relation targets (2026-11-11)
 
-The main task is **cancer ? lncRNA ? exact pathway**, with separate BRCA,
-LUAD and COAD models. The evidence-defined KEGG backbone retains **475**
+The main task is **cancer × lncRNA × exact pathway**, with separate BRCA,
+LUAD and COAD models. The evidence-defined KEGG backbone retains **477**
 NETWORK mechanisms from 658 original definitions: 199 with official cancer
-classification, 23 with additional malignant-disease annotations and 253
+classification, 23 with additional malignant-disease annotations and 255
 supported by reviewed mechanism literature. Original NETWORK identifiers,
 mechanisms and gene memberships are retained.
 
 Cross-database equivalence, hierarchy and protein-component similarity are
-recorded separately. Protein composition links 1,648 context identities to the
+recorded separately. Protein composition links 1,652 context identities to the
 backbone; 197 State identities remain auxiliary. TF, kinase and PROGENy
 readouts display as Pathway without automatically receiving independent
 losses. The joint task weights remain Pathway=1.0 and State=0.5.
@@ -34,7 +35,11 @@ The current label view uses exact original source columns and masks conditional
 mutation/pathogen/exposure mechanisms when only generic host readouts exist.
 The M0 comparator is a per-cancer linear relation model using source-patient
 numeric features and the same target policy and folds as CCHHGT. See the
-[mechanism integration and M0 specification](docs/CANCER_RELATION_TASK.rst).
+[mechanism integration](docs/CANCER_RELATION_TASK.rst) and
+[matched M0/HHGT input and fitting specification](docs/M0_RELATION_BASELINE.rst).
+The supervised axis contains 477 Pathway and 194 State identities, with explicit
+availability masks for unobserved relationships. TCGA and CPTAC contribute
+separate source-feature blocks, totaling 72 numeric columns.
 
 ## Reviewed three-cancer network comparison (2026-11-06)
 
@@ -92,7 +97,7 @@ See [methods, output contracts and scope](docs/M0_CORRELATION_LASSO_DEMO.rst).
 
 All six cohort/cancer demo runs are complete and audited, with 13 PNG and 13 PDF figures.
 See [completion receipts and case counts](provenance/joint_mainline_20261101/M0_LASSO_DEMO_20261105.json).
-These are separate M0 models for frozen native scores; the HHGT target design remains pending.
+These six models predict native patient scores within each cohort and cancer.
 
 ## M0 lncRNA-only linear prediction (2026-11-04)
 
@@ -101,8 +106,8 @@ in per-cancer Ridge regressions for existing native Pathway and State scores.
 TCGA and CPTAC remain separate cohorts. Five patient-disjoint outer folds,
 validation-only regularization selection, explicit missing labels and a
 training-mean comparator produce auditable out-of-fold predictions. This is a
-baseline for frozen cohort scores, not a replacement for the pending HHGT target
-design or a claim of fully inductive raw-data validation.
+baseline for frozen cohort scores; its input is an individual patient's
+lncRNA expression vector.
 
 Run `scripts/run_m0_linear.py` on host 149 and export figures with
 `scripts/plot_m0_linear.py`. See [M0 methods, outputs and limitations](docs/M0_LINEAR_BASELINE.md).

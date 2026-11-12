@@ -117,6 +117,22 @@ Run all preparation on host 149. The entry points are::
     scripts/configure_cancer_relation_demo.py
     scripts/export_cancer_dictionary.py
 
+The matched continuous relation workflow then uses::
+
+    scripts/prepare_relation_components.py
+    scripts/prepare_relation_baseline.py
+    scripts/prepare_relation_graph_view.py
+    cla.py prepare-relation --plan PLAN.json --output PREPARED
+    cla.py worker --prepared PREPARED --output RUN --device cpu --deadline UNIX_TIME
+
+Each prepared plan names the verified baseline, static graph and all four
+source graph views for one cancer, plus model, training and diagnostic metric
+settings. The prepared capsule aligns exact canonical target IDs across graph
+nodes, M0 predictions and observed continuous labels. The 72 numeric columns,
+cohort-specific assay nodes and missing-value masks are specified in
+``M0_RELATION_BASELINE.rst``. Final prediction files preserve the exact lncRNA
+and target axes and the corresponding M0 prediction for every candidate.
+
 The scope build verifies the retrieved literature registry and original
 membership digests. The catalog seals explicit target policies and crosswalks.
 The target view seals source-column mappings and label applicability.
