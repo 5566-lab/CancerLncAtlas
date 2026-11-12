@@ -1,0 +1,30 @@
+{
+  "target_host": "149",
+  "definition_version": "KEGG_CANCER_MEASURED_Y_20261112_R2",
+  "representation": "PATHWAY_GROUPED_PATIENT_OBSERVATIONS",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/observation_registry_r2",
+  "registry_receipt_sha256": "c5bd2593e4f4ec2a33854aeea6e8de5fb546b4f8018b95755adc1b9ec9f3e5c8",
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r9_cancer_evidence_20261111_r6",
+  "primary_pathways": 477,
+  "state_identities": 197,
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "definition_independent_of_lncRNA": true,
+  "training_authorized": false,
+  "lncrna_association_authorized": false,
+  "reference_folds": [
+    2,
+    3,
+    4
+  ],
+  "query_folds": [
+    1
+  ],
+  "sealed_outer_fold": 0,
+  "external_reference_policy": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/EXTERNAL_RNA_POLICY.json",
+  "condition_policy": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/CONDITION_EVIDENCE_REVIEW.json",
+  "validation": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/MEASURED_Y_VALIDATION.json"
+}

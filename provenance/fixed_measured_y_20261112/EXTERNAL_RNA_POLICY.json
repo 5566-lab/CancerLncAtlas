@@ -1,0 +1,7 @@
+{
+  "target_host": "149",
+  "TLS12_coding_definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/tls12_coding_r1/DEFINITION.json",
+  "published_TLS12": "Retained as source reference; coding-background score is a distinct numerical version.",
+  "ESTIMATE_TumorPurity": "Retained as external reference, excluded from default Y; exact original background not established. Recomputed ESTIMATE scores are not relabelled as calibrated purity fractions.",
+  "changes_to_biological_identities": false
+}

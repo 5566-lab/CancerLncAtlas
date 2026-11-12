@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 from cla_engine.measured_y_registry import (
-    observation_id, verify_matrix, source_categories, normalize_links,
+    observation_id, verify_matrix, source_categories, normalize_links, condition_for_target,
 )
 
 
@@ -41,3 +41,18 @@ def test_shared_measurement_has_one_identity_and_typed_membership():
     links.loc[0,'canonical_id']='wrong'
     with pytest.raises(ValueError, match='UNKNOWN_TARGET'):
         normalize_links(links,obs,targets)
+
+
+def test_missing_condition_axis_cannot_enable_a_primary_mechanism():
+    target = dict(canonical_id='variant', analysis_role='primary_pathway', condition_required=True)
+    frame = pd.DataFrame({'variant': [1., 0., np.nan]}, index=['p1','p2','p3'])
+    result = condition_for_target(frame,target,['p1','p2','p3'])
+    assert result.eq(1).tolist() == [True,False,False]
+    assert np.isnan(result.iloc[2])
+    with pytest.raises(ValueError, match='MISSING_PRIMARY_CONDITION_AXIS'):
+        condition_for_target(frame.drop(columns='variant'),target,list(frame.index))
+    bad = frame.copy(); bad.iloc[0,0] = 2.
+    with pytest.raises(ValueError, match='INVALID_CONDITION_VALUE'):
+        condition_for_target(bad,target,list(frame.index))
+    state = dict(canonical_id='state', analysis_role='state_auxiliary', condition_required=False)
+    assert condition_for_target(frame,state,list(frame.index)).eq(1).all()

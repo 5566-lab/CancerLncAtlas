@@ -59,6 +59,22 @@ def normalize_links(links, observations, targets):
     return out
 
 
+def condition_for_target(applicable, target, patients):
+    """Keep unknown conditions unknown; a missing primary condition axis is an error."""
+    canonical_id = target['canonical_id']
+    if set(applicable.index) != set(patients) or not applicable.index.is_unique:
+        raise ValueError('Y_CONDITION_PATIENT_ORDER')
+    applicable = applicable.reindex(patients)
+    if canonical_id in applicable:
+        result = applicable[canonical_id]
+        if not result.dropna().isin([0, 1]).all():
+            raise ValueError('Y_INVALID_CONDITION_VALUE')
+        return result
+    if target['analysis_role'] != 'state_auxiliary' or target['condition_required']:
+        raise ValueError('Y_MISSING_PRIMARY_CONDITION_AXIS')
+    return pd.Series(1.0, index=patients, name=canonical_id)
+
+
 def load_target(registry, canonical_id, cohort, *, qualified_only=False,
                 include_external_reference=False):
     """Return original observed dimensions, masks and separate applicability.
@@ -109,14 +125,9 @@ def load_target(registry, canonical_id, cohort, *, qualified_only=False,
     if file_sha(condition['path']) != condition['sha256']:
         raise ValueError('Y_CONDITION_DRIFT')
     applicable = pd.read_parquet(condition['path'])
-    if set(applicable.index) != set(patients) or not applicable.index.is_unique:
-        raise ValueError('Y_CONDITION_PATIENT_ORDER')
-    applicable = applicable.reindex(patients)
-    if canonical_id in applicable:
-        applicable = applicable[canonical_id]
-    else:
-        # State targets have no KEGG mutation/pathogen/exposure prerequisite.
-        applicable = pd.Series(1.0, index=patients, name=canonical_id)
+    target = targets.set_index('canonical_id').loc[canonical_id].to_dict()
+    target['canonical_id'] = canonical_id
+    applicable = condition_for_target(applicable, target, patients)
     if qualified_only:
         observed = observed.mul(applicable.eq(1), axis=0).astype(bool)
     return values, observed, applicable, selected

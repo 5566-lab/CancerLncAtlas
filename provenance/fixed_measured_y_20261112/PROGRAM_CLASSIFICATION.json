@@ -1,0 +1,9 @@
+{
+  "target_host": "149",
+  "source_rows": 860,
+  "TF": 271,
+  "kinase": 575,
+  "PROGENy": 14,
+  "all_category": "Pathway",
+  "independent_losses_enabled": false
+}
