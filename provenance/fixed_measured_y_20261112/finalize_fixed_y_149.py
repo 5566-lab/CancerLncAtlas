@@ -60,7 +60,7 @@ p=ROOT/'CURRENT_Y_DELIVERY.json';x=json.loads(p.read_text());x['open_items']=[];
 prov=REPO/'provenance/fixed_measured_y_20261112';prov.mkdir(exist_ok=True)
 for p in [REVIEW/'LAUNCH_PREFLIGHT.json',REVIEW/'CATALOG_REVIEW.json',REVIEW/'PROGRAM_CLASSIFICATION.json',REVIEW/'MEASURED_Y_VALIDATION.json',REVIEW/'CONDITION_EVIDENCE_REVIEW.json',REVIEW/'EXTERNAL_RNA_POLICY.json',REVIEW/'DICTIONARY_UPDATE.json',REVIEW/'FIXED_Y_DEFINITION.json',REVIEW/'FINAL_SCOPE_AUDIT.json',REVIEW/'TESTS.json',REVIEW/'OBSERVED_COVERAGE.tsv',REVIEW/'READER_OBSERVATION_SUMMARY.tsv',REPORT/'FIGURE_DATA.json',REPORT/'DELIVERY_MANIFEST.json',BASE/'tls12_coding_r1/DEFINITION.json']:
     shutil.copyfile(p,prov/p.name)
-for name in ['materialize_tls_registry_r2_149.py','review_fixed_y_149.py','publish_fixed_y_149.py','build_fixed_y_report_149.py','finalize_fixed_y_149.py']:shutil.copyfile(WORK/name,prov/name)
+for name in ['materialize_tls_registry_r2_149.py','review_fixed_y_149.py','publish_fixed_y_149.py','build_fixed_y_report_149.py','finalize_fixed_y_149.py','activate_fixed_y_delivery_149.py']:shutil.copyfile(WORK/name,prov/name)
 for key in ['coding_fixed_signature.py']:
     assert (REPO/'cla_engine'/key).is_file()
 log=REPO/'project_log';log.mkdir(exist_ok=True)
@@ -78,4 +78,5 @@ TLS12使用GDC的12基因定义重算编码背景版本；原公开值保留来�
 
 M0仅提供患者输入和唯一观测输出的Lasso设计、L/M/LM对照、无惩罚协变量及图模型消融对齐方法。训练入口不在本次交付范围。
 ''',encoding='utf-8')
+subprocess.run([sys.executable,str(WORK/'activate_fixed_y_delivery_149.py')],check=True)
 print('FINAL_DEFINITION_AUDIT_COMPLETE',flush=True)

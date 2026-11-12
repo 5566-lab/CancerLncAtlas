@@ -1,0 +1,46 @@
+{
+  "target_host": "149",
+  "definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/FIXED_Y_DEFINITION.json",
+  "definition_sha256": "1c0e1d1b9d0535d1e27e997aa8211e4a6bcce63e10cae23b960ec14f382bd29c",
+  "pointers": [
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CANONICAL_TARGETS_CURRENT.json",
+      "sha256": "43a60ed5e7c1934c1349495b1cc8a4e39b8118eb323b249bc06d906d0b02106c"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_CANONICAL_REFERENCE.json",
+      "sha256": "5e7cac04cad424e80558475cd4ced0749a76908546e32ce549b10e9be5f0b911"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_Y_DELIVERY.json",
+      "sha256": "1cecfabb0b80fd78e5089e40f6d79c97227f5fcb976838f529691daac9cd515f"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_READER_DELIVERY.json",
+      "sha256": "dc9cab42b6837fe1fd212f0fda35aaa2bdb2fa7aeeb54ec4f5618d34a29fc530"
+    }
+  ],
+  "reader_files": 26,
+  "retired_obsolete_files": [
+    "CancerLncAtlas_KEGG癌症主干与关系Y_v9.pptx",
+    "CancerLncAtlas_KEGG癌症主干与关系Y_v9.pdf",
+    "figures/01_癌症证据与主干范围.png",
+    "figures/01_癌症证据与主干范围.pdf",
+    "figures/02_机制类型与精确颗粒度.png",
+    "figures/02_机制类型与精确颗粒度.pdf",
+    "figures/03_跨库整合规则.png",
+    "figures/03_跨库整合规则.pdf",
+    "figures/04_错配修复实际跨库归并.png",
+    "figures/04_错配修复实际跨库归并.pdf",
+    "figures/05_相似组成与不同机制.png",
+    "figures/05_相似组成与不同机制.pdf",
+    "figures/06_分类与模型任务.png",
+    "figures/06_分类与模型任务.pdf",
+    "figures/07_关系Y与患者分离.png",
+    "figures/07_关系Y与患者分离.pdf",
+    "figures/08_监督覆盖与线性对照.png",
+    "figures/08_监督覆盖与线性对照.pdf"
+  ],
+  "training": false,
+  "lncrna_association": false
+}
