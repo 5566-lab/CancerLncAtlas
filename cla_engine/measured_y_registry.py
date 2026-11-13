@@ -48,7 +48,7 @@ def normalize_links(links, observations, targets):
         raise ValueError('Y_LINK_UNKNOWN_TARGET')
     if not set(links.observation_id) <= set(observations.observation_id):
         raise ValueError('Y_LINK_UNKNOWN_OBSERVATION')
-    roles = {'same_state_readout', 'equivalent_pathway_readout',
+    roles = {'same_state_readout', 'state_component_readout', 'equivalent_pathway_readout',
              'molecular_component_readout', 'member_measurement', 'ambiguous_group_context'}
     if not set(links.evidence_role) <= roles:
         raise ValueError('Y_UNKNOWN_EVIDENCE_ROLE')

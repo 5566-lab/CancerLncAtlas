@@ -1,0 +1,30 @@
+{
+  "target_host": "149",
+  "request": "Compress cellular composition and SBS State entries",
+  "state_before": 197,
+  "state_after": 48,
+  "cell_composition": {
+    "before": 91,
+    "after": 1,
+    "source_readout_definitions": 96
+  },
+  "sbs_spectrum": {
+    "before": 60,
+    "after": 1
+  },
+  "other_states": 46,
+  "primary_pathways": 476,
+  "total_top_level_targets": 524,
+  "detail_components_retained": 151,
+  "relation": "component_of",
+  "source_values_masks_partitions_unchanged": true,
+  "tests_passed": 20,
+  "cohort_group_checks": 12,
+  "dictionary": "Functional_pathway_State_dictionary_v8.xlsx",
+  "dictionary_sha256": "2bb0b53fa758168c77787ad518f11e6b399b62a1cbd4d67889d354b431e7481a",
+  "report_slides": 16,
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r11_state_groups_20261114_r1",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/state_groups_20261114_r1/observation_registry_r4",
+  "training": false,
+  "lncrna_association": false
+}
