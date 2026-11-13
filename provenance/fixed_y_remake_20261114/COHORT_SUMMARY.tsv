@@ -1,0 +1,7 @@
+case	cancer	cohort	patients	reference_patients	query_patients	top_level_targets	pathway_targets	state_targets	defined_dimensions	measured_dimensions	pathways_with_measurement	states_with_measurement	pathways_with_supervision	states_with_supervision
+TCGA_BRCA	BRCA	TCGA	872	654	218	524	476	48	9309	8391	476	45	335	45
+CPTAC_BRCA	BRCA	CPTAC	96	72	24	524	476	48	13751	12636	476	33	335	33
+TCGA_LUAD	LUAD	TCGA	407	305	102	524	476	48	9309	8396	476	45	335	45
+CPTAC_LUAD	LUAD	CPTAC	88	66	22	524	476	48	16989	16100	476	33	335	33
+TCGA_COAD	COAD	TCGA	363	272	91	524	476	48	9309	8388	476	45	335	45
+CPTAC_COAD	COAD	CPTAC	84	63	21	524	476	48	11225	10038	476	33	335	33

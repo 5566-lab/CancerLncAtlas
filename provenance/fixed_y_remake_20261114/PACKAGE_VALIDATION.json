@@ -1,0 +1,13 @@
+{
+  "target_host": "149",
+  "bundle": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/fixed_y_remake_20261114_r1/Y_bundle",
+  "bundle_receipt_sha256": "055d5334dde8582d0de1599707a83d8cae303be2ec3abb37fa1a4836c348b693",
+  "archive": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/fixed_y_remake_20261114_r1/deliverables/CancerLncAtlas_fixed_Y_476Pathway_48State_20261114.tar.gz",
+  "archive_sha256": "08558f291c312be1f631738ecb2861fc1fe7374ede101b9c74834c94c34cc75d",
+  "archive_bytes": 110094950,
+  "files_verified": 75,
+  "primary_pathways": 476,
+  "state_top_level_count": 48,
+  "total_targets": 524,
+  "patients": 1910
+}
