@@ -1,0 +1,10 @@
+{
+  "target_host": "149",
+  "primary_pathways": 476,
+  "official_source_definitions": 199,
+  "official_groups": 198,
+  "redirect": {
+    "CLA-P-549730F42F0B148D": "CLA-P-08A1A41F05A3E9ED"
+  },
+  "catalog_sha256": "1262f0a776b92f7f29407afc58d95610c8238cc61b3e29525d6d907aab343174"
+}

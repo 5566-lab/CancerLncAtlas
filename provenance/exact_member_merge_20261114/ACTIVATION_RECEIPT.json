@@ -1,0 +1,34 @@
+{
+  "target_host": "149",
+  "pointers": [
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CANONICAL_TARGETS_CURRENT.json",
+      "sha256": "5455db7b61ed202b49b906f8e0252f6b5b86da3abec9ddcc78f7b6a8d49139da"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_CANONICAL_REFERENCE.json",
+      "sha256": "d77482989374162d3a917c7be04d4ee63794eae0b8c8758476c6095180425718"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_Y_DELIVERY.json",
+      "sha256": "65c0c4f1680e721bf28f8a9eb6a908d7574e8ece426fa30207f4b0a44cf36ae2"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_READER_DELIVERY.json",
+      "sha256": "9f05d7cec0f7617a9e5509b0f3ff2e19fa86f7d10c407d926eeefe35e29e32a0"
+    }
+  ],
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v7.xlsx",
+  "dictionary_sha256": "e92c613ab28909eeb0a828d725165aa0fbeaad1b693c61f5352db236547055ad",
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r10_exact_members_20261114_r1",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/exact_member_merge_20261114_r1/observation_registry_r3",
+  "definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/exact_member_merge_20261114_r1/FIXED_Y_DEFINITION.json",
+  "primary_pathways": 476,
+  "state_identities": 197,
+  "total_targets": 673,
+  "tests": 16,
+  "source_matrices_unchanged": true,
+  "source_events_preserved": true,
+  "training": false,
+  "lncrna_association": false
+}
