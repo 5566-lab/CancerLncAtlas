@@ -1,0 +1,194 @@
+source_node_id	source_external_id	source_target_id	source_name	source_protein_count	shared_with_backbone_union	disposition	exact_target_id	context_target_count	all_linked_target_count	shared_member_count_in_admitted_routes
+REF:WikiPathways:WP100	WP100	WP100	Glutathione metabolism	19	13	composition_context_supported		4	4	12
+REF:WikiPathways:WP106	WP106	WP106	Alanine and aspartate metabolism	12	3	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP107	WP107	WP107	Translation factors	51	8	composition_context_supported		1	1	7
+REF:WikiPathways:WP111	WP111	WP111	Electron transport chain OXPHOS system in mitochondria	106	75	composition_context_supported		7	7	75
+REF:WikiPathways:WP117	WP117	WP117	GPCRs other	93	20	composition_context_supported		1	1	12
+REF:WikiPathways:WP127	WP127	WP127	IL5 signaling	37	34	composition_context_supported		85	85	30
+REF:WikiPathways:WP129	WP129	WP129	Matrix metalloproteinases	30	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP134	WP134	WP134	Pentose phosphate metabolism	7	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP1403	WP1403	WP1403	AMP activated protein kinase signaling	66	43	composition_context_supported		57	57	32
+REF:WikiPathways:WP1422	WP1422	WP1422	Sphingolipid pathway	30	5	composition_context_supported		1	1	3
+REF:WikiPathways:WP1423	WP1423	WP1423	Ganglio sphingolipid metabolism	13	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP1425	WP1425	WP1425	Bone morphogenic protein signaling and regulation	12	8	composition_context_supported		4	4	6
+REF:WikiPathways:WP143	WP143	WP143	Fatty acid beta oxidation	34	17	composition_context_supported		4	4	17
+REF:WikiPathways:WP1471	WP1471	WP1471	Target of rapamycin signaling	36	22	composition_context_supported		15	15	17
+REF:WikiPathways:WP1531	WP1531	WP1531	Vitamin D metabolism	10	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP1533	WP1533	WP1533	Vitamin B12 metabolism	53	22	composition_context_supported		7	7	8
+REF:WikiPathways:WP1541	WP1541	WP1541	Energy metabolism	47	20	composition_context_supported		6	6	8
+REF:WikiPathways:WP1601	WP1601	WP1601	Fluoropyrimidine activity	33	6	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP1602	WP1602	WP1602	Nicotine effect on dopaminergic neurons	21	10	composition_context_supported		2	2	6
+REF:WikiPathways:WP167	WP167	WP167	Eicosanoid synthesis	23	3	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP170	WP170	WP170	Nuclear receptors	38	10	composition_context_supported		2	2	7
+REF:WikiPathways:WP176	WP176	WP176	Folate metabolism	68	30	composition_context_supported		9	9	16
+REF:WikiPathways:WP1772	WP1772	WP1772	Apoptosis modulation and signaling	92	52	composition_context_supported		45	45	46
+REF:WikiPathways:WP179	WP179	WP179	Cell cycle	121	108	composition_context_supported		54	54	103
+REF:WikiPathways:WP183	WP183	WP183	Proteasome degradation	62	46	composition_context_supported		6	6	40
+REF:WikiPathways:WP185	WP185	WP185	Integrin mediated cell adhesion	100	61	composition_context_supported		114	114	57
+REF:WikiPathways:WP186	WP186	WP186	Homologous recombination	13	12	composition_context_supported		7	7	12
+REF:WikiPathways:WP1941	WP1941	WP1941	Peroxisomal beta oxidation of tetracosanoyl CoA	4	3	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP1946	WP1946	WP1946	Cori cycle	17	11	composition_context_supported		1	1	8
+REF:WikiPathways:WP195	WP195	WP195	IL1 signaling	54	42	composition_context_supported		82	82	38
+REF:WikiPathways:WP197	WP197	WP197	Cholesterol biosynthesis pathway	15	15	composition_context_supported		2	2	15
+REF:WikiPathways:WP1981	WP1981	WP1981	Thyroxine thyroid hormone production	26	12	composition_context_supported		49	49	9
+REF:WikiPathways:WP1982	WP1982	WP1982	Sterol regulatory element binding proteins SREBP signaling	69	34	composition_context_supported		23	23	25
+REF:WikiPathways:WP1995	WP1995	WP1995	Effects of nitric oxide	9	2	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP2011	WP2011	WP2011	SREBF and miR33 in cholesterol and lipid homeostasis	16	6	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP2034	WP2034	WP2034	Leptin signaling	71	55	composition_context_supported		106	106	46
+REF:WikiPathways:WP2037	WP2037	WP2037	Prolactin signaling	74	58	composition_context_supported		137	137	55
+REF:WikiPathways:WP205	WP205	WP205	IL7 signaling	20	20	composition_context_supported		63	63	17
+REF:WikiPathways:WP206	WP206	WP206	Fatty acid omega oxidation	15	3	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP2112	WP2112	WP2112	IL17 signaling	32	17	composition_context_supported		23	23	14
+REF:WikiPathways:WP2113	WP2113	WP2113	Type III interferon signaling	10	6	composition_context_supported		6	6	6
+REF:WikiPathways:WP22	WP22	WP22	IL9 signaling	17	17	composition_context_supported		60	60	16
+REF:WikiPathways:WP2267	WP2267	WP2267	Synaptic vesicle pathway	51	5	composition_context_supported		1	1	3
+REF:WikiPathways:WP23	WP23	WP23	B cell receptor signaling	92	62	composition_context_supported		95	95	57
+REF:WikiPathways:WP2328	WP2328	WP2328	Allograft rejection	89	70	composition_context_supported		21	21	51
+REF:WikiPathways:WP2332	WP2332	WP2332	IL11 signaling	44	34	composition_context_supported		86	86	27
+REF:WikiPathways:WP2333	WP2333	WP2333	Trans sulfuration pathway	10	4	composition_context_supported		1	1	3
+REF:WikiPathways:WP2338	WP2338	WP2338	miRNA biogenesis	6	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP2355	WP2355	WP2355	Corticotropin releasing hormone signaling	95	55	composition_context_supported		98	98	42
+REF:WikiPathways:WP2369	WP2369	WP2369	Histone modifications	44	9	composition_context_supported		3	3	7
+REF:WikiPathways:WP24	WP24	WP24	Peptide GPCRs	74	25	composition_context_supported		2	2	22
+REF:WikiPathways:WP2436	WP2436	WP2436	Dopamine metabolism	13	9	composition_context_supported		4	4	6
+REF:WikiPathways:WP244	WP244	WP244	Alpha 6 beta 4 signaling	33	20	composition_context_supported		65	65	20
+REF:WikiPathways:WP2456	WP2456	WP2456	HIF1A and PPARG in hypertrophic cardiomyopathy	9	5	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP247	WP247	WP247	Small ligand GPCRs	19	6	composition_context_supported		1	1	5
+REF:WikiPathways:WP2485	WP2485	WP2485	NAD biosynthesis II from tryptophan	8	8	composition_context_supported		1	1	8
+REF:WikiPathways:WP2491	WP2491	WP2491	Diclofenac metabolic pathway	5	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP2507	WP2507	WP2507	Nanomaterial induced apoptosis	20	13	composition_context_supported		7	7	13
+REF:WikiPathways:WP2513	WP2513	WP2513	Nanoparticle triggered regulated necrosis	12	11	composition_context_supported		7	7	8
+REF:WikiPathways:WP2525	WP2525	WP2525	Trans sulfuration one carbon metabolism and related pathways	67	19	composition_context_supported		2	2	19
+REF:WikiPathways:WP2526	WP2526	WP2526	PDGF pathway	40	37	composition_context_supported		90	90	32
+REF:WikiPathways:WP2533	WP2533	WP2533	Glycerophospholipid biosynthetic pathway	30	4	composition_context_supported		44	44	3
+REF:WikiPathways:WP254	WP254	WP254	Apoptosis	86	58	composition_context_supported		52	52	54
+REF:WikiPathways:WP2583	WP2583	WP2583	T cell receptor and co stimulatory signaling	28	19	composition_context_supported		9	9	12
+REF:WikiPathways:WP2586	WP2586	WP2586	Aryl hydrocarbon receptor response to main mediators PAH and TCDD	46	34	composition_context_supported		83	83	28
+REF:WikiPathways:WP2637	WP2637	WP2637	Interleukin 1 IL 1 structural pathway	49	39	composition_context_supported		79	79	37
+REF:WikiPathways:WP2646	WP2646	WP2646	Lidocaine metabolism	2	1	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP272	WP272	WP272	Blood clotting cascade	22	9	composition_context_supported		2	2	7
+REF:WikiPathways:WP28	WP28	WP28	Selenium metabolism and selenoproteins	47	13	composition_context_supported		1	1	5
+REF:WikiPathways:WP286	WP286	WP286	IL3 signaling	49	44	composition_context_supported		92	92	39
+REF:WikiPathways:WP2873	WP2873	WP2873	Aryl hydrocarbon receptor pathway	40	27	composition_context_supported		6	6	13
+REF:WikiPathways:WP2874	WP2874	WP2874	Liver X receptor pathway	10	3	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP2878	WP2878	WP2878	PPAR alpha pathway	25	14	composition_context_supported		5	5	9
+REF:WikiPathways:WP288	WP288	WP288	Nod like receptor NLR signaling	9	7	composition_context_supported		15	15	5
+REF:WikiPathways:WP2895	WP2895	WP2895	Differentiation of white and brown adipocyte	25	8	composition_context_supported		5	5	6
+REF:WikiPathways:WP299	WP299	WP299	Nuclear receptors in lipid metabolism and toxicity	33	7	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP304	WP304	WP304	Kit receptor signaling	53	41	composition_context_supported		79	79	38
+REF:WikiPathways:WP306	WP306	WP306	Focal adhesion	198	115	composition_context_supported		149	149	113
+REF:WikiPathways:WP314	WP314	WP314	Fas ligand pathway and stress induction of heat shock proteins	43	28	composition_context_supported		14	14	20
+REF:WikiPathways:WP325	WP325	WP325	Triacylglyceride synthesis	24	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP3300	WP3300	WP3300	Dual hijack model of Vif in HIV infection	8	5	composition_context_supported		3	3	4
+REF:WikiPathways:WP3303	WP3303	WP3303	RAC1 PAK1 p38 MMP2 pathway	68	54	composition_context_supported		114	114	51
+REF:WikiPathways:WP334	WP334	WP334	GPCRs class B secretin like	23	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP3529	WP3529	WP3529	Zinc homeostasis	36	2	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP357	WP357	WP357	Fatty acid biosynthesis	22	10	composition_context_supported		3	3	8
+REF:WikiPathways:WP3580	WP3580	WP3580	Methionine de novo and salvage pathway	22	4	composition_context_supported		1	1	4
+REF:WikiPathways:WP3585	WP3585	WP3585	Cytosine methylation	8	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP3599	WP3599	WP3599	Transcription factor regulation in adipogenesis	22	9	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP3627	WP3627	WP3627	Gut liver indole metabolism 	1	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP3633	WP3633	WP3633	Caffeine and theobromine metabolism	4	2	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP364	WP364	WP364	IL6 signaling	43	31	composition_context_supported		72	72	24
+REF:WikiPathways:WP3644	WP3644	WP3644	NAD metabolism	16	5	composition_context_supported		1	1	3
+REF:WikiPathways:WP3645	WP3645	WP3645	NAD biosynthetic pathways	22	7	composition_context_supported		1	1	5
+REF:WikiPathways:WP3656	WP3656	WP3656	Interleukin 1 induced activation of NF kB	10	6	composition_context_supported		4	4	4
+REF:WikiPathways:WP3664	WP3664	WP3664	Regulation of Wnt B catenin signaling by small molecule compounds	17	11	composition_context_supported		9	9	10
+REF:WikiPathways:WP3678	WP3678	WP3678	Amplification and expansion of oncogenic pathways as metastatic traits	17	12	composition_context_supported		8	8	5
+REF:WikiPathways:WP368	WP368	WP368	Mitochondrial long chain fatty acid beta oxidation	17	12	composition_context_supported		4	4	11
+REF:WikiPathways:WP382	WP382	WP382	MAPK signaling	247	178	composition_context_supported		157	157	168
+REF:WikiPathways:WP383	WP383	WP383	Striated muscle contraction pathway	38	2	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP384	WP384	WP384	Apoptosis modulation by HSP70	19	15	composition_context_supported		11	11	14
+REF:WikiPathways:WP3845	WP3845	WP3845	Canonical and non canonical Notch signaling	27	19	composition_context_supported		8	8	17
+REF:WikiPathways:WP3851	WP3851	WP3851	TLR4 signaling and tolerance	28	25	composition_context_supported		30	30	25
+REF:WikiPathways:WP3858	WP3858	WP3858	Toll like receptor signaling related to MyD88	31	29	composition_context_supported		27	27	28
+REF:WikiPathways:WP3859	WP3859	WP3859	TGF beta signaling in thyroid cells for epithelial mesenchymal transition	19	11	composition_context_supported		55	55	6
+REF:WikiPathways:WP3865	WP3865	WP3865	Novel intracellular components of RIG I like receptor pathway	60	45	composition_context_supported		46	46	41
+REF:WikiPathways:WP3872	WP3872	WP3872	Apoptosis regulation by parathyroid hormone related protein	24	13	composition_context_supported		55	55	10
+REF:WikiPathways:WP3874	WP3874	WP3874	Canonical and non canonical TGF B signaling	17	12	composition_context_supported		7	7	11
+REF:WikiPathways:WP3875	WP3875	WP3875	ATR signaling	11	10	composition_context_supported		8	8	10
+REF:WikiPathways:WP391	WP391	WP391	Mitochondrial gene expression	19	5	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP3925	WP3925	WP3925	Amino acid metabolism	91	34	composition_context_supported		8	8	27
+REF:WikiPathways:WP3929	WP3929	WP3929	Chemokine signaling	165	108	composition_context_supported		146	146	106
+REF:WikiPathways:WP3933	WP3933	WP3933	Kennedy pathway from sphingolipids	14	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP3934	WP3934	WP3934	Leptin and adiponectin	10	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP3935	WP3935	WP3935	Leptin insulin signaling overlap	17	9	composition_context_supported		3	3	8
+REF:WikiPathways:WP3937	WP3937	WP3937	Microglia pathogen phagocytosis pathway	40	26	composition_context_supported		55	55	22
+REF:WikiPathways:WP3941	WP3941	WP3941	Oxidative damage response	40	32	composition_context_supported		18	18	25
+REF:WikiPathways:WP3942	WP3942	WP3942	PPAR signaling	50	20	composition_context_supported		3	3	12
+REF:WikiPathways:WP3943	WP3943	WP3943	ROBO4 and VEGF signaling crosstalk	6	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP395	WP395	WP395	IL4 signaling	50	39	composition_context_supported		113	113	38
+REF:WikiPathways:WP3958	WP3958	WP3958	GPR40 role in insulin secretion	15	9	composition_context_supported		9	9	9
+REF:WikiPathways:WP3959	WP3959	WP3959	DNA IR double strand breaks and cellular response via ATM	56	43	composition_context_supported		21	21	34
+REF:WikiPathways:WP3965	WP3965	WP3965	Lipid metabolism pathway	29	14	composition_context_supported		55	55	10
+REF:WikiPathways:WP399	WP399	WP399	Wnt signaling and pluripotency	102	74	composition_context_supported		42	42	66
+REF:WikiPathways:WP400	WP400	WP400	p38 MAPK signaling	36	28	composition_context_supported		13	13	16
+REF:WikiPathways:WP4016	WP4016	WP4016	DNA IR damage and cellular response via ATR	83	62	composition_context_supported		24	24	58
+REF:WikiPathways:WP4022	WP4022	WP4022	Pyrimidine metabolism	84	27	composition_context_supported		8	8	25
+REF:WikiPathways:WP404	WP404	WP404	Nucleotide metabolism	19	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP408	WP408	WP408	Oxidative stress response	32	16	composition_context_supported		5	5	13
+REF:WikiPathways:WP411	WP411	WP411	mRNA processing	125	7	composition_context_supported		1	1	4
+REF:WikiPathways:WP4136	WP4136	WP4136	Fibrin complement receptor 3 signaling	44	35	composition_context_supported		27	27	27
+REF:WikiPathways:WP4142	WP4142	WP4142	Metabolism of sphingolipids in ER and Golgi apparatus	21	2	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP4146	WP4146	WP4146	Macrophage markers	9	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP4149	WP4149	WP4149	White fat cell differentiation	33	12	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP4153	WP4153	WP4153	Degradation pathway of sphingolipids including diseases	17	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP4155	WP4155	WP4155	Endometrial cancer	63	57	composition_context_supported		134	134	56
+REF:WikiPathways:WP4159	WP4159	WP4159	GABA receptor signaling	31	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP4172	WP4172	WP4172	PI3K Akt signaling	339	262	composition_context_supported		192	192	253
+REF:WikiPathways:WP4174	WP4174	WP4174	Metabolism of tetrahydrocannabinol THC 	2	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP4210	WP4210	WP4210	Tryptophan catabolism leading to NAD production	16	11	composition_context_supported		1	1	11
+REF:WikiPathways:WP4211	WP4211	WP4211	Transcriptional cascade regulating adipogenesis	14	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP422	WP422	WP422	MAPK cascade	33	26	composition_context_supported		70	70	26
+REF:WikiPathways:WP428	WP428	WP428	Wnt signaling	113	86	composition_context_supported		49	49	80
+REF:WikiPathways:WP4297	WP4297	WP4297	Thiamine metabolic pathways	9	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP43	WP43	WP43	Oxidation by cytochrome P450	61	12	composition_context_supported		1	1	5
+REF:WikiPathways:WP437	WP437	WP437	EGF EGFR signaling	159	81	composition_context_supported		110	110	68
+REF:WikiPathways:WP438	WP438	WP438	Non homologous end joining	10	10	exact_equivalent	CLA-P-7DA2CD44F7F80A6F	1	2	9
+REF:WikiPathways:WP45	WP45	WP45	G1 to S cell cycle control	65	59	composition_context_supported		51	51	58
+REF:WikiPathways:WP4506	WP4506	WP4506	Tyrosine metabolism and related disorders	5	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP4507	WP4507	WP4507	Molybdenum cofactor Moco biosynthesis	8	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP4524	WP4524	WP4524	Alternative pathway of fetal androgen synthesis	11	7	composition_context_supported		1	1	5
+REF:WikiPathways:WP453	WP453	WP453	Inflammatory response pathway	30	19	composition_context_supported		4	4	12
+REF:WikiPathways:WP4537	WP4537	WP4537	Hippo YAP signaling	22	2	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP455	WP455	WP455	GPCRs class A rhodopsin like	259	44	composition_context_supported		3	3	40
+REF:WikiPathways:WP465	WP465	WP465	Tryptophan metabolism	33	17	composition_context_supported		3	3	14
+REF:WikiPathways:WP466	WP466	WP466	DNA replication	42	41	composition_context_supported		15	15	39
+REF:WikiPathways:WP47	WP47	WP47	Hedgehog signaling	16	12	composition_context_supported		4	4	11
+REF:WikiPathways:WP474	WP474	WP474	Endochondral ossification	63	31	composition_context_supported		19	19	25
+REF:WikiPathways:WP49	WP49	WP49	IL2 signaling	37	32	composition_context_supported		78	78	29
+REF:WikiPathways:WP496	WP496	WP496	Steroid biosynthesis	10	7	composition_context_supported		1	1	5
+REF:WikiPathways:WP497	WP497	WP497	Urea cycle and metabolism of amino groups	21	10	composition_context_supported		2	2	10
+REF:WikiPathways:WP500	WP500	WP500	Glycogen synthesis and degradation	40	32	composition_context_supported		17	17	30
+REF:WikiPathways:WP501	WP501	WP501	GPCRs class C metabotropic glutamate pheromone	15	2	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP521	WP521	WP521	Amino acid conjugation of benzoic acid	4	0	zero_backbone_overlap		0	0	0
+REF:WikiPathways:WP530	WP530	WP530	Cytokines and inflammatory response	26	24	composition_context_supported		5	5	12
+REF:WikiPathways:WP531	WP531	WP531	DNA mismatch repair	23	23	exact_equivalent	CLA-P-922863C8FB5E9DF9	10	11	23
+REF:WikiPathways:WP534	WP534	WP534	Glycolysis and gluconeogenesis	45	28	composition_context_supported		2	2	25
+REF:WikiPathways:WP536	WP536	WP536	Calcium regulation in cardiac cells	155	85	composition_context_supported		42	42	80
+REF:WikiPathways:WP545	WP545	WP545	Complement activation	22	18	composition_context_supported		5	5	17
+REF:WikiPathways:WP550	WP550	WP550	Biogenic amine synthesis	15	3	composition_context_supported		1	1	3
+REF:WikiPathways:WP558	WP558	WP558	Complement and coagulation cascades	58	31	composition_context_supported		7	7	24
+REF:WikiPathways:WP560	WP560	WP560	TGF beta receptor signaling	54	35	composition_context_supported		32	32	27
+REF:WikiPathways:WP561	WP561	WP561	Heme biosynthesis	9	9	exact_equivalent	CLA-P-80EA547F03622583	0	1	9
+REF:WikiPathways:WP58	WP58	WP58	Monoamine GPCRs	33	11	composition_context_supported		1	1	10
+REF:WikiPathways:WP585	WP585	WP585	Interferon type I signaling	54	38	composition_context_supported		32	32	33
+REF:WikiPathways:WP61	WP61	WP61	Notch signaling	54	41	composition_context_supported		13	13	32
+REF:WikiPathways:WP619	WP619	WP619	Type II interferon signaling	37	18	composition_context_supported		6	6	11
+REF:WikiPathways:WP623	WP623	WP623	Oxidative phosphorylation	61	40	composition_context_supported		1	1	39
+REF:WikiPathways:WP661	WP661	WP661	Glucose homeostasis	1	1	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP673	WP673	WP673	ErbB signaling	89	79	composition_context_supported		149	149	77
+REF:WikiPathways:WP678	WP678	WP678	Arachidonate epoxygenase epoxide hydrolase	7	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP69	WP69	WP69	T cell receptor signaling	75	58	composition_context_supported		90	90	54
+REF:WikiPathways:WP690	WP690	WP690	Polyol pathway	4	1	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP698	WP698	WP698	Glucuronidation	16	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP699	WP699	WP699	Aflatoxin B1 metabolism	7	4	nonzero_overlap_below_threshold		0	0	0
+REF:WikiPathways:WP704	WP704	WP704	Methylation pathways	9	3	composition_context_supported		1	1	3
+REF:WikiPathways:WP707	WP707	WP707	DNA damage response	71	59	composition_context_supported		40	40	54
+REF:WikiPathways:WP710	WP710	WP710	DNA damage response only ATM dependent 	111	95	composition_context_supported		147	147	84
+REF:WikiPathways:WP716	WP716	WP716	Vitamin A and carotenoid metabolism	43	5	composition_context_supported		1	1	3
+REF:WikiPathways:WP727	WP727	WP727	Monoamine transport and regulation	32	11	composition_context_supported		1	1	3
+REF:WikiPathways:WP734	WP734	WP734	Serotonin receptor 4 6 7 and NR3C signaling	22	15	composition_context_supported		50	50	12
+REF:WikiPathways:WP75	WP75	WP75	Toll like receptor signaling	95	85	composition_context_supported		142	142	84
+REF:WikiPathways:WP78	WP78	WP78	TCA cycle aka Krebs or citric acid cycle 	18	15	composition_context_supported		3	3	15
+REF:WikiPathways:WP98	WP98	WP98	Prostaglandin synthesis and regulation	46	17	composition_context_supported		4	4	11
