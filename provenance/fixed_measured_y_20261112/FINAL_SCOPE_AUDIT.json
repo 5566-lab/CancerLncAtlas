@@ -1,0 +1,73 @@
+{
+  "target_host": "149",
+  "definition_version": "KEGG_CANCER_MEASURED_Y_20261112_R2",
+  "requirements": [
+    {
+      "requirement": "477 evidence-defined KEGG cancer identities",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r9_cancer_evidence_20261111_r6/KEGG_SOURCE_SCOPE_DECISIONS.tsv",
+      "sha256": "8de6c47d3474d0880d89c4eaf3383b0bf4428f6be776392d9f5ffef5d200100a",
+      "status": "verified"
+    },
+    {
+      "requirement": "Original source protein lists and typed cross-library mappings",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r9_cancer_evidence_20261111_r6/BACKBONE_ALIGNMENT.tsv",
+      "sha256": "e0a45277289822730060ee43fe477f8e7e7d6c89867b527b597845376a7facab",
+      "status": "verified"
+    },
+    {
+      "requirement": "Actual protein-list clustering and functional-scope integration examples",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/FIGURE_DATA.json",
+      "sha256": "93325f7c372afae92671949afeb9d86057f2068622647d8a8dc1b9833cf20f72",
+      "status": "verified"
+    },
+    {
+      "requirement": "TF/kinase/PROGENy Pathway category without automatic losses",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/PROGRAM_CLASSIFICATION.json",
+      "sha256": "c68707185180887cba6a6ecd5b6fb4407470c355d6c1b32dbe51e096fd8301db",
+      "status": "verified"
+    },
+    {
+      "requirement": "Measured Y independent of lncRNA; all 58 blocks and masks verified",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/MEASURED_Y_VALIDATION.json",
+      "sha256": "bfe824a488f3f5d06c804eb30ac391841d46286063fa4ebf184baedbb692c83b",
+      "status": "verified"
+    },
+    {
+      "requirement": "Unknown conditions distinct from negative; actual raw sources reviewed",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/CONDITION_EVIDENCE_REVIEW.json",
+      "sha256": "0e12a2d6be6cf2faeb56bef980c27f1903b6ae7285bf4eb623ee8d75c66c8a20",
+      "status": "verified"
+    },
+    {
+      "requirement": "M0 is patient-input specification with L/M/LM comparisons",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/docs/M0_RELATION_BASELINE.rst",
+      "sha256": "fdb1e28fb2dd3c606849085e8d796c9f2ba24d4dd6acabf5fb4329750c1cd0ee",
+      "status": "verified"
+    },
+    {
+      "requirement": "Reader dictionary overwritten with current Y and scoring definitions",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/DICTIONARY_UPDATE.json",
+      "sha256": "ef4c58d32ca7bf11851a6f91f1c64d916ccba335b90ad3418a0e93b432e0cb03",
+      "status": "verified"
+    },
+    {
+      "requirement": "Human-readable 10-slide problem/method/result report",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/CancerLncAtlas_KEGG癌症主干与多维Y_20261112.pptx",
+      "sha256": "8d9eee89e27c7a2957721928633f2d9d5f8e1ea9a370e6a48d3f15177de1620f",
+      "status": "verified"
+    },
+    {
+      "requirement": "Real fixed-Y export without fitting or lncRNA inputs",
+      "evidence": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/MMR_TCGA_BRCA_export/COMPLETE.json",
+      "sha256": "8d4fb096a996be1d694fcaf1344b48ad6c1312cf903974c068252958069884f4",
+      "status": "verified"
+    }
+  ],
+  "reader_visual_review": "10 PDF pages inspected via rendered contact sheet",
+  "training": false,
+  "lncrna_association": false,
+  "remaining_delivery_steps": [
+    "local copy hash verification",
+    "GitHub publication"
+  ]
+}

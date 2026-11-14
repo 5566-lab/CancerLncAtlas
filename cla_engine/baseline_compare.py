@@ -179,6 +179,8 @@ def compare(prepared,out,hash_dimensions=4096):
         fail('OUTPUT_EXISTS','Baseline comparison never overwrites an audit directory',path=str(out))
     out.mkdir(parents=True,exist_ok=True)
     manifest,spec,cfg,lineage=validate_prepared(prepared)
+    if cfg.get('baseline',{}).get('identity_mode','exact') != 'exact':
+        fail('IDENTITY_COMPARISON_REQUIRES_EXACT_BASELINE','The prepared baseline uses no identity terms; use the numeric-only M0 comparison')
     views=read_json(prepared/'VIEWS.json')
     baseline=read_json(prepared/'BASELINES.json')
     results={}

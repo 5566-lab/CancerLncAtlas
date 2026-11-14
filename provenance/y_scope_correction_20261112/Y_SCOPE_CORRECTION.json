@@ -1,0 +1,21 @@
+{
+  "target_host": "149",
+  "time_utc": "2026-11-12T09:19:06.490751+00:00",
+  "action": "disable_association_Y_entry_and_clear_stale_references",
+  "model_training": false,
+  "association_computation": false,
+  "modified_files": [
+    "cla_engine/m0_relation.py",
+    "tests/test_m0_relation.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_CANONICAL_REFERENCE.json"
+  ],
+  "removed_pointer_keys": [
+    "patient_score_summary",
+    "source_full_catalog_supervision_summary",
+    "supervised_axis_summary",
+    "supervision_validation",
+    "previous_y",
+    "revision_reason"
+  ],
+  "Y_complete": false
+}

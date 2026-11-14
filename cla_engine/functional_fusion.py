@@ -5,6 +5,7 @@ from pathlib import Path
 import hashlib
 import json
 import numpy as np
+from .target_policy import resolve_target_policy, policy_for_supervised_axis
 
 FORMAT='CLA_FUNCTIONAL_RELATION_FUSED_V1'
 ARRAY_NAMES=('combined_p','combined_q','rms_effect','max_abs_effect','observed','membership',
@@ -22,6 +23,14 @@ class FusedFunctionalContext:
     primary_tasks: tuple[str,...]
     cohort_splits: dict
     arrays: dict[str,np.ndarray]
+    target_policies: tuple | None = None
+    evidence_strata: dict[str,np.ndarray] | None = None
+
+    @property
+    def loss_groups(self):
+        if self.target_policies is not None:
+            return tuple(p.loss_group for p in self.target_policies)
+        return tuple(task.lower() for task in self.primary_tasks)
 
     def counts(self):
         a=self.arrays;m=a['membership'];obs=a['observed'].astype(bool)
@@ -42,6 +51,10 @@ class FusedFunctionalContext:
         raise ValueError('UNLABELLED_IS_NOT_NEGATIVE: select an explicit positive-unlabelled or continuous-evidence objective')
 
     def task_weights(self):
+        if self.target_policies is not None:
+            return np.asarray([p.loss_weight for p in self.target_policies], np.float32)
+        if set(self.primary_tasks) - {'Pathway', 'State'}:
+            raise ValueError('FUSED_Y_TASK_GROUP_INVALID')
         return np.asarray([1.0 if task=='Pathway' else .5 for task in self.primary_tasks],np.float32)
 
 
@@ -68,7 +81,32 @@ def validate_fused_arrays(arrays,shape):
     if not np.array_equal(a['calibration_method']>0,observed) or np.any(a['calibration_method']>4):raise ValueError('FUSED_Y_CALIBRATION_INVALID')
 
 
-def load_fused_functional_context(catalog,cancer_id,context):
+def validate_evidence_strata(strata, arrays):
+    """Keep member evidence distinguishable from whole-pathway observations."""
+    families=('equivalent','component','RNA','PROTEIN','PHOSPHO','METHYLATION','CNV','VARIANT','OTHER')
+    expected={'signed_effect'}|{x+suffix for x in families for suffix in ('_rms','_readouts')}
+    if set(strata)!=expected:raise ValueError('FUSED_Y_STRATA_SCHEMA')
+    observed=arrays['observed'].astype(bool);shape=observed.shape
+    if any(x.shape!=shape for x in strata.values()):raise ValueError('FUSED_Y_STRATA_AXIS')
+    signed=strata['signed_effect']
+    if not np.array_equal(np.isfinite(signed),observed) or np.any(abs(signed[observed])>1+1e-6):
+        raise ValueError('FUSED_Y_STRATA_SIGNED_EFFECT')
+    for family in families:
+        value,count=strata[family+'_rms'],strata[family+'_readouts']
+        active=count>0
+        if not np.issubdtype(count.dtype,np.integer) or np.any(count<0) or np.any(count>arrays['readout_count']):
+            raise ValueError('FUSED_Y_STRATA_COUNT')
+        if not np.array_equal(np.isfinite(value),active) or np.any(active&~observed) or np.any((value[active]<0)|(value[active]>1+1e-6)):
+            raise ValueError('FUSED_Y_STRATA_MISSINGNESS')
+    if not np.array_equal(strata['equivalent_readouts']+strata['component_readouts'],arrays['readout_count']):
+        raise ValueError('FUSED_Y_STRATA_ROLE_PARTITION')
+    total=sum(strata[x+'_readouts'].astype(np.int64) for x in families[2:])
+    if not np.array_equal(total,arrays['readout_count']):raise ValueError('FUSED_Y_STRATA_ASSAY_PARTITION')
+    bits=sum(((strata[x+'_readouts']>0).astype(np.uint8)<<i) for i,x in enumerate(families[2:]))
+    if not np.array_equal(bits,arrays['observed_assay_bits']):raise ValueError('FUSED_Y_STRATA_ASSAY_BITS')
+
+
+def load_fused_functional_context(catalog,cancer_id,context,*,target_policy=None):
     root=Path(catalog).resolve();base=(root/cancer_id/context).resolve()
     if not base.is_relative_to(root) or base==root:raise ValueError('FUSED_Y_CONTEXT_OUTSIDE_CATALOG')
     receipt=json.loads((base/'COMPLETE.json').read_text());definition=json.loads((root/'Y_DEFINITION.json').read_text())
@@ -81,15 +119,36 @@ def load_fused_functional_context(catalog,cancer_id,context):
     for field in ['lncrna_ids','canonical_ids']:
         if len(set(ax[field]))!=len(ax[field]) or not all(isinstance(x,str) and x for x in ax[field]):raise ValueError('FUSED_Y_IDENTITIES_INVALID: '+field)
     if len(ax['target_roles'])!=len(ax['canonical_ids']) or len(ax['primary_tasks'])!=len(ax['canonical_ids']):raise ValueError('FUSED_Y_ROLE_AXIS_MISMATCH')
-    expected=['Pathway' if 'Pathway' in role.split('|') else 'State' for role in ax['target_roles']]
-    if expected!=ax['primary_tasks']:raise ValueError('FUSED_Y_SHARED_IDENTITY_DOUBLE_COUNTED')
+    policies = resolve_target_policy(root, definition, target_policy)
+    target_policies = None if policies is None else policy_for_supervised_axis(ax['canonical_ids'], policies)
+    if target_policies is None:
+        expected=['Pathway' if 'Pathway' in role.split('|') else 'State' for role in ax['target_roles']]
+        if expected!=ax['primary_tasks']:raise ValueError('FUSED_Y_SHARED_IDENTITY_DOUBLE_COUNTED')
+    else:
+        if [p.roles for p in target_policies] != ax['target_roles']:
+            raise ValueError('TARGET_POLICY_DISPLAY_ROLE_AXIS_MISMATCH')
+        if [p.primary_task for p in target_policies] != ax['primary_tasks']:
+            raise ValueError('TARGET_POLICY_LOSS_GROUP_AXIS_MISMATCH')
+        if 'loss_weights' in ax and [p.loss_weight for p in target_policies] != ax['loss_weights']:
+            raise ValueError('TARGET_POLICY_LOSS_WEIGHT_AXIS_MISMATCH')
+        if 'loss_groups' in ax and [p.loss_group for p in target_policies] != ax['loss_groups']:
+            raise ValueError('TARGET_POLICY_LOSS_GROUP_AXIS_MISMATCH')
     if set(splits)!={'TCGA','CPTAC'}:raise ValueError('FUSED_Y_COHORT_SPLITS_MISSING')
     for ds,split in splits.items():
         if set(split['source_patients'])&set(split['label_patients']):raise ValueError('FUSED_Y_PATIENT_ROLE_OVERLAP: '+ds)
         if ds=='CPTAC' and cancer_id=='BRCA' and 'CPTAC:BRCA:604' in split['source_patients']+split['label_patients']:raise ValueError('FUSED_Y_UNRESOLVED_RETROSPECTIVE_CASE')
     with np.load(base/'Y.npz',allow_pickle=False) as data:arrays={k:data[k] for k in data.files}
     validate_fused_arrays(arrays,(len(ax['lncrna_ids']),len(ax['canonical_ids'])))
-    result=FusedFunctionalContext(cancer_id,context,tuple(ax['lncrna_ids']),tuple(ax['canonical_ids']),tuple(ax['target_roles']),tuple(ax['primary_tasks']),splits,arrays)
+    strata=None
+    if definition.get('evidence_strata_file') is not None:
+        if definition['evidence_strata_file']!='EVIDENCE_STRATA.npz':raise ValueError('FUSED_Y_STRATA_FILE')
+        name='EVIDENCE_STRATA.npz'
+        if hashlib.sha256((base/name).read_bytes()).hexdigest()!=receipt['files'].get(name):raise ValueError('FUSED_Y_STRATA_CHECKSUM')
+        if receipt.get('y_definition_sha256')!=hashlib.sha256((root/'Y_DEFINITION.json').read_bytes()).hexdigest():
+            raise ValueError('FUSED_Y_DEFINITION_CHECKSUM')
+        with np.load(base/name,allow_pickle=False) as data:strata={k:data[k] for k in data.files}
+        validate_evidence_strata(strata,arrays)
+    result=FusedFunctionalContext(cancer_id,context,tuple(ax['lncrna_ids']),tuple(ax['canonical_ids']),tuple(ax['target_roles']),tuple(ax['primary_tasks']),splits,arrays,target_policies,strata)
     for key,value in result.counts().items():
         if key in receipt and receipt[key]!=value:raise ValueError('FUSED_Y_COUNT_MISMATCH: '+key)
     return result

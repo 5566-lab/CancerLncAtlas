@@ -48,6 +48,24 @@ class JointHGT(nn.Module):
                 'methylation_promoter_beta_value','methylation_promoter_beta_available']:
             fail('NODE_INPUT_CONTRACT_INVALID','Six-column node feature order differs from the prepared contract')
         self.node_input_dim=node_input_dim
+        context_indices=spec.get('conservation_context_indices',list(range(4)))
+        if (not isinstance(context_indices,list) or not context_indices
+                or any(type(i) is not int or not 0<=i<int(spec['numeric_features']) for i in context_indices)
+                or len(context_indices)!=len(set(context_indices))):
+            fail('CONSERVATION_CONTEXT_DIM','Context indices must name unique prepared numeric columns')
+        self.context_indices=tuple(context_indices)
+        for name,widths in (('context_feature_groups',spec['feature_dims']),
+                            ('node_input_groups',{t:node_input_dim for t in spec['nodes']})):
+            for modality,groups in spec.get(name,{}).items():
+                for kind,columns in groups.items():
+                    if (kind not in widths or not isinstance(columns,list)
+                            or any(type(i) is not int or not 0<=i<widths[kind] for i in columns)
+                            or len(columns)!=len(set(columns))):
+                        fail('MODALITY_FEATURE_GROUP_INVALID',name,modality=modality,node_type=kind)
+        for modality,columns in spec.get('numeric_feature_groups',{}).items():
+            if (not isinstance(columns,list) or len(columns)!=len(set(columns))
+                    or any(type(i) is not int or not 0<=i<int(spec['numeric_features']) for i in columns)):
+                fail('MODALITY_FEATURE_GROUP_INVALID','numeric_feature_groups',modality=modality)
         data=HeteroData()
         for kind,ids in spec['nodes'].items():data[kind].x=torch.zeros((len(ids),node_input_dim))
         for relation in spec['relations']:
@@ -63,7 +81,7 @@ class JointHGT(nn.Module):
         # It remains in the model for provenance but is explicitly frozen.
         for parameter in encoder.decoder.parameters():parameter.requires_grad_(False)
         self.joint=JointPathwayStateModel(encoder,state_ids=tuple(spec['states']),hidden_channels=h,
-            context_features=4,dropout=float(model_config['dropout']))
+            context_features=len(self.context_indices),dropout=float(model_config['dropout']))
         self.context_projection=nn.ModuleDict({t:nn.Linear(int(spec['feature_dims'][t]),h,bias=False) for t in spec['nodes']})
         self.sc_projection=nn.Linear(int(spec['sc_dim']),h,bias=False)
         self.mutation_projection=nn.Linear(3,h,bias=False)
@@ -88,7 +106,12 @@ class JointHGT(nn.Module):
         gates=self.modal_gate[int(cancer)].clamp(0,1)*self.global_modal_gate.clamp(0,1)
         for t in data.node_types:
             value=graph['features'][t].clone()
-            if t=='lncRNA' and ('cnv' in disabled or 'lncrna_cnv' in disabled):
+            for modality in disabled:
+                columns=self.spec.get('context_feature_groups',{}).get(modality,{}).get(t,[])
+                if columns:value[:,columns]=0
+                columns=self.spec.get('node_input_groups',{}).get(modality,{}).get(t,[])
+                if columns:data[t].x[:,columns]=0
+            if 'context_feature_groups' not in self.spec and t=='lncRNA' and ('cnv' in disabled or 'lncrna_cnv' in disabled):
                 value[:,3:6]=0
             if self.spec.get('genomics_enabled'):
                 if t=='pathway' and ('cnv' in disabled or 'pathway_cnv' in disabled):
@@ -121,21 +144,34 @@ class JointHGT(nn.Module):
         cancer=torch.full_like(batch['lnc'],ci)
         candidate={'l':batch['lnc'],'c':cancer,('p' if task=='pathway' else 's'):batch['target']}
         # Original gate takes train-origin conservation context. No eval labels.
-        context=batch['numeric'][:,:4]
-        if context.shape[1]!=4:fail('CONSERVATION_CONTEXT_DIM','Primary context must retain the original four statistics')
+        numeric=batch['numeric'].clone()
+        if numeric.ndim!=2 or numeric.shape[1]!=int(self.spec['numeric_features']):
+            fail('CONSERVATION_CONTEXT_DIM','Numeric input width differs from prepared context')
+        for modality in disabled:
+            columns=self.spec.get('numeric_feature_groups',{}).get(modality,[])
+            if columns:numeric[:,columns]=0
+        context=numeric[:,self.context_indices]
         value={'candidate_batch':candidate,'base_logit':batch['base'],'conservation_context':context,
                'graph_available':torch.ones_like(batch['base'],dtype=torch.bool)}
         out=self.joint.forward_task(task,data,value,encoded=h)
         delta=out['graph_residual']*float(self.cfg.get('residual_bound',1.))
         return {'logit':batch['base']+float(alpha)*delta,'delta':delta,'direction':out['direction_logit']}
 
-def loss_one(out,batch,direction_weight=.25):
+def loss_one(out,batch,direction_weight=.25,objective='binary'):
     mask=batch['available'].bool()
     if not mask.any():return None
     weight=batch['weight'][mask];weight=weight/weight.sum().clamp_min(1e-12)
-    loss=(F.binary_cross_entropy_with_logits(out['logit'][mask],batch['label'][mask],reduction='none')*weight).sum()
-    dm=mask&batch['direction_available'].bool()
-    if dm.any():loss=loss+float(direction_weight)*F.binary_cross_entropy_with_logits(out['direction'][dm],batch['direction_label'][dm])
+    if objective=='binary':
+        loss=(F.binary_cross_entropy_with_logits(out['logit'][mask],batch['label'][mask],reduction='none')*weight).sum()
+        dm=mask&batch['direction_available'].bool()
+        if dm.any():loss=loss+float(direction_weight)*F.binary_cross_entropy_with_logits(out['direction'][dm],batch['direction_label'][dm])
+    elif objective=='observed_fused_rms_effect':
+        label=batch['label'][mask]
+        if not torch.isfinite(label).all() or (label<0).any() or (label>1+1e-6).any():
+            fail('RELATION_STRENGTH_LABEL_INVALID','Observed RMS effect must be finite and in [0,1]')
+        loss=(F.mse_loss(out['logit'][mask],label,reduction='none')*weight).sum()
+    else:
+        fail('RELATION_OBJECTIVE_UNKNOWN','Training objective must be explicit',objective=objective)
     return loss+1e-4*out['delta'][mask].square().mean()
 
 def to_graph(arrays,device):

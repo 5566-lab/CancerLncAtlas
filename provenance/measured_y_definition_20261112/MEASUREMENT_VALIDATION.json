@@ -1,0 +1,142 @@
+{
+  "target_host": "149",
+  "checks": [
+    {
+      "cancer": "BRCA",
+      "streams_compared_with_source": 9,
+      "receipt_sha256": "fe1316fa4cea3968ca4f914a0e1e71601c102ba9e2240181ef133d40ca167b52"
+    },
+    {
+      "cancer": "LUAD",
+      "streams_compared_with_source": 9,
+      "receipt_sha256": "057783f439cfefc889467576cbbd2e25a59acfe3020097913a9b9a1da8130ab1"
+    },
+    {
+      "cancer": "COAD",
+      "streams_compared_with_source": 9,
+      "receipt_sha256": "6136c0f3795c2e5c28644f522a2f06e314e4cb9279b2947838204409e42d158f"
+    }
+  ],
+  "coverage_summary": [
+    {
+      "cancer": "BRCA",
+      "cohort": "TCGA",
+      "target_type": "Pathway",
+      "patients_in_development_partition": 872,
+      "fixed_identities": 477,
+      "identities_with_identity_readout": 347,
+      "identities_with_member_readout": 246,
+      "identities_with_any_measurement": 395
+    },
+    {
+      "cancer": "BRCA",
+      "cohort": "TCGA",
+      "target_type": "State",
+      "patients_in_development_partition": 872,
+      "fixed_identities": 197,
+      "identities_with_identity_readout": 194,
+      "identities_with_member_readout": 0,
+      "identities_with_any_measurement": 194
+    },
+    {
+      "cancer": "BRCA",
+      "cohort": "CPTAC",
+      "target_type": "Pathway",
+      "patients_in_development_partition": 96,
+      "fixed_identities": 477,
+      "identities_with_identity_readout": 298,
+      "identities_with_member_readout": 308,
+      "identities_with_any_measurement": 400
+    },
+    {
+      "cancer": "BRCA",
+      "cohort": "CPTAC",
+      "target_type": "State",
+      "patients_in_development_partition": 96,
+      "fixed_identities": 197,
+      "identities_with_identity_readout": 122,
+      "identities_with_member_readout": 0,
+      "identities_with_any_measurement": 122
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "TCGA",
+      "target_type": "Pathway",
+      "patients_in_development_partition": 407,
+      "fixed_identities": 477,
+      "identities_with_identity_readout": 348,
+      "identities_with_member_readout": 246,
+      "identities_with_any_measurement": 394
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "TCGA",
+      "target_type": "State",
+      "patients_in_development_partition": 407,
+      "fixed_identities": 197,
+      "identities_with_identity_readout": 194,
+      "identities_with_member_readout": 0,
+      "identities_with_any_measurement": 194
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "CPTAC",
+      "target_type": "Pathway",
+      "patients_in_development_partition": 88,
+      "fixed_identities": 477,
+      "identities_with_identity_readout": 298,
+      "identities_with_member_readout": 306,
+      "identities_with_any_measurement": 400
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "CPTAC",
+      "target_type": "State",
+      "patients_in_development_partition": 88,
+      "fixed_identities": 197,
+      "identities_with_identity_readout": 122,
+      "identities_with_member_readout": 0,
+      "identities_with_any_measurement": 122
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "TCGA",
+      "target_type": "Pathway",
+      "patients_in_development_partition": 363,
+      "fixed_identities": 477,
+      "identities_with_identity_readout": 346,
+      "identities_with_member_readout": 246,
+      "identities_with_any_measurement": 394
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "TCGA",
+      "target_type": "State",
+      "patients_in_development_partition": 363,
+      "fixed_identities": 197,
+      "identities_with_identity_readout": 194,
+      "identities_with_member_readout": 0,
+      "identities_with_any_measurement": 194
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "CPTAC",
+      "target_type": "Pathway",
+      "patients_in_development_partition": 84,
+      "fixed_identities": 477,
+      "identities_with_identity_readout": 298,
+      "identities_with_member_readout": 306,
+      "identities_with_any_measurement": 400
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "CPTAC",
+      "target_type": "State",
+      "patients_in_development_partition": 84,
+      "fixed_identities": 197,
+      "identities_with_identity_readout": 122,
+      "identities_with_member_readout": 0,
+      "identities_with_any_measurement": 122
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "target_host": "149",
+  "slides": 28,
+  "pptx": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/ppt_y_clarification_20261114_r2/deliverables/CancerLncAtlas_Y来源层级与模型说明_20261114_r2.pptx",
+  "original_pptx": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/fixed_y_remake_20261114_r1/deliverables/CancerLncAtlas_Y重建与通路State整合_20261114.pptx",
+  "fixed_y_bundle": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/fixed_y_remake_20261114_r1/Y_bundle",
+  "training": false,
+  "lncrna_association": false
+}

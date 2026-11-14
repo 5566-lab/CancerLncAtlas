@@ -1,0 +1,212 @@
+{
+  "target_host": "149",
+  "primary_pathways": 476,
+  "state_top_level_count": 48,
+  "total_targets": 524,
+  "patients": 1910,
+  "cohort_checks": 6,
+  "example_accessor_checks": [
+    {
+      "case": "TCGA_BRCA",
+      "target": "MMR",
+      "dimensions": 89,
+      "measured_dimensions": 88,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_BRCA",
+      "target": "PI3K",
+      "dimensions": 47,
+      "measured_dimensions": 37,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_BRCA",
+      "target": "WNT",
+      "dimensions": 155,
+      "measured_dimensions": 151,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_BRCA",
+      "target": "Hedgehog",
+      "dimensions": 95,
+      "measured_dimensions": 95,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_BRCA",
+      "target": "cell_composition",
+      "dimensions": 96,
+      "measured_dimensions": 96,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_BRCA",
+      "target": "sbs_spectrum",
+      "dimensions": 60,
+      "measured_dimensions": 60,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "target": "MMR",
+      "dimensions": 166,
+      "measured_dimensions": 164,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "target": "PI3K",
+      "dimensions": 70,
+      "measured_dimensions": 65,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "target": "WNT",
+      "dimensions": 260,
+      "measured_dimensions": 259,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "target": "Hedgehog",
+      "dimensions": 83,
+      "measured_dimensions": 79,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "target": "cell_composition",
+      "dimensions": 96,
+      "measured_dimensions": 96,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "target": "sbs_spectrum",
+      "dimensions": 60,
+      "measured_dimensions": 0,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_LUAD",
+      "target": "MMR",
+      "dimensions": 89,
+      "measured_dimensions": 88,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_LUAD",
+      "target": "PI3K",
+      "dimensions": 47,
+      "measured_dimensions": 37,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_LUAD",
+      "target": "WNT",
+      "dimensions": 155,
+      "measured_dimensions": 151,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_LUAD",
+      "target": "Hedgehog",
+      "dimensions": 95,
+      "measured_dimensions": 95,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "target": "MMR",
+      "dimensions": 178,
+      "measured_dimensions": 178,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "target": "PI3K",
+      "dimensions": 94,
+      "measured_dimensions": 90,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "target": "WNT",
+      "dimensions": 303,
+      "measured_dimensions": 303,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "target": "Hedgehog",
+      "dimensions": 103,
+      "measured_dimensions": 103,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_COAD",
+      "target": "MMR",
+      "dimensions": 89,
+      "measured_dimensions": 88,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_COAD",
+      "target": "PI3K",
+      "dimensions": 47,
+      "measured_dimensions": 37,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_COAD",
+      "target": "WNT",
+      "dimensions": 155,
+      "measured_dimensions": 151,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "TCGA_COAD",
+      "target": "Hedgehog",
+      "dimensions": 95,
+      "measured_dimensions": 95,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_COAD",
+      "target": "MMR",
+      "dimensions": 118,
+      "measured_dimensions": 116,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_COAD",
+      "target": "PI3K",
+      "dimensions": 67,
+      "measured_dimensions": 62,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_COAD",
+      "target": "WNT",
+      "dimensions": 157,
+      "measured_dimensions": 156,
+      "accessor_matches_original": true
+    },
+    {
+      "case": "CPTAC_COAD",
+      "target": "Hedgehog",
+      "dimensions": 66,
+      "measured_dimensions": 62,
+      "accessor_matches_original": true
+    }
+  ],
+  "source_numeric_values_unchanged": true,
+  "missingness_preserved": true,
+  "patient_partitions_preserved": true,
+  "lncrna_input_used": false,
+  "training": false,
+  "tests_passed": 23
+}

@@ -1,0 +1,32 @@
+file	line	text
+cla_engine/evaluate.py	26	if objective not in {'binary','observed_fused_rms_effect'}:
+cla_engine/evaluate.py	36	if objective=='observed_fused_rms_effect':
+cla_engine/evaluate.py	71	if objective not in {'binary','observed_fused_rms_effect'} or {r.get('relation_objective','binary') for r in receipts}!={objective}:
+cla_engine/evaluate.py	93	if objective=='observed_fused_rms_effect':
+cla_engine/execution_contract.py	51	if objective not in {'binary','observed_fused_rms_effect'}:
+cla_engine/execution_contract.py	53	expected_metrics=(CONTINUOUS_METRIC_CONTRACT if objective=='observed_fused_rms_effect'
+cla_engine/execution_contract.py	57	if objective=='observed_fused_rms_effect':
+cla_engine/fixed_y_bundle.py	14	def load_fixed_target(root, case, canonical_id, *, for_supervision=False):
+cla_engine/lineage.py	133	if objective=='observed_fused_rms_effect':
+cla_engine/m0_relation.py	166	def fit_strength_cancer(train_blocks, validation_blocks, admitted, cfg, *, identity_mode='numeric_only', families=None):
+cla_engine/m0_relation.py	368	if declared.get('relation_objective') == 'observed_fused_rms_effect':
+cla_engine/m0_relation.py	369	raise ValueError('ASSOCIATION_STATISTICS_ARE_NOT_MEASURED_Y; '
+cla_engine/m0_relation.py	370	'FIX_MEASURED_Y_BEFORE_M0')
+cla_engine/m0_relation.py	384	if objective == 'observed_fused_rms_effect':
+cla_engine/m0_relation.py	385	raise ValueError('ASSOCIATION_STATISTICS_ARE_NOT_MEASURED_Y; '
+cla_engine/m0_relation.py	386	'FIX_MEASURED_Y_BEFORE_M0')
+cla_engine/m0_relation.py	411	if objective=='observed_fused_rms_effect' else ['rho','abs_rho','neglog10_q','log1p_n','available']),
+cla_engine/m0_relation.py	419	'fused_catalog_training_claimed': objective=='observed_fused_rms_effect', 'results': {}, 'inputs': {}}
+cla_engine/m0_relation.py	425	if objective == 'observed_fused_rms_effect' else
+cla_engine/model.py	142	def forward_task(self,task,encoded,batch,alpha=1.):
+cla_engine/model.py	168	elif objective=='observed_fused_rms_effect':
+cla_engine/multimodal_relation_y.py	60	raise RuntimeError('ASSOCIATION_STATISTICS_ARE_NOT_MEASURED_Y: use measured_readouts.materialize_measured_readouts; define Y before lncRNA modeling')
+cla_engine/prepare.py	138	if cfg.get('relation_objective')=='observed_fused_rms_effect':
+cla_engine/readiness.py	10	if objective not in {'binary', 'observed_fused_rms_effect'}:
+cla_engine/readiness.py	49	if objective == 'observed_fused_rms_effect' and dm.any():
+cla_engine/relation_baseline.py	62	def predict_numeric_head(head,numeric):
+cla_engine/relation_prepared.py	58	'baseline':baseline['preflight']['config']['baseline'],'relation_objective':'observed_fused_rms_effect',
+cla_engine/relation_prepared.py	82	'relation_objective':'observed_fused_rms_effect','metrics_contract':cfg['metrics_contract'],
+cla_engine/relation_prepared.py	123	or spec['relation_objective']!='observed_fused_rms_effect'
+cla_engine/relation_prepared.py	167	validate_task_arrays(arrays,v['id'],task,spec['numeric_features'],allow_empty=True,objective='observed_fused_rms_effect')
+cla_engine/train.py	74	if spec.get('relation_objective')=='observed_fused_rms_effect':

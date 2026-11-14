@@ -1,0 +1,7 @@
+layer	resource_type	resource_count	resources	input_definitions	note
+RNA pathway	pathway score definition libraries	3	KEGG MEDICUS; Reactome; MSigDB Hallmark	2547	WikiPathways 193 supplies composition only; not an independent scored source in current Y.
+protein pathway	pathway score definition libraries	3	KEGG MEDICUS; Reactome; MSigDB Hallmark	2547	2 measured platforms: TCPA RPPA500 and CPTAC mass spectrometry; platform scores stay separate.
+methylation pathway	pathway score definition libraries	3	KEGG MEDICUS; Reactome; MSigDB Hallmark	2547	CPTAC original source scores; no new independent methylation pathway database.
+phospho signatures	site signature database	1	PTMsigDB v2.0.0	624	5 subcollections; direction-specific site signatures. 276 bound kinase signatures in current Y.
+RNA regulators	regulator or perturbation signature resources	2	DoRothEA; PROGENy	285	271 TF + 14 pathways; 80 TF + 1 PROGENy bound in current Y.
+State all	algorithm/publication families	18	ABSOLUTE / PanCanAtlas; CIBERSORT / LM22; COSMIC SBS / MutationalPatterns; CYT / Rooney; ESTIMATE; EXTEND; HRD / PanCanAtlas; IPS / Immunophenogram; MCP-counter; MSIsensor2 / GDC; MSigDB Hallmark (State readout); Malta stemness / PanCanAtlas; Methylation leukocyte fraction / PanCanAtlas; Mutation burden / PanCanAtlas; Panimmune 160 signatures; SenMayo; signifinder; xCell	200	200 source readout definitions; current display has 48 top-level entries and 151 retained component identities. Source readouts and biological identities use different counting units. Families are not separate databases.

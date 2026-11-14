@@ -25,7 +25,7 @@ def prepare_lineage(root):
     root=Path(root);spec=read_json(root/'SPEC.json');cfg=read_json(root/'CONFIG.json')
     inputs=read_json(root/'INPUT_HASHES.json')
     candidates=read_json(root/'CANDIDATES.json')
-    return {'format':'CLA_R62_LINEAGE_V1','code_sha256':code_digest(),
+    result={'format':'CLA_R62_LINEAGE_V1','code_sha256':code_digest(),
             'source_lineage_sha256':digest(inputs),'task_contract_sha256':sha(root/'TASK_CONTRACT.json'),
             'target_catalog_sha256':sha(root/'STATE_TARGET_ROLES.json'),
             'model_contract_sha256':digest({'model':cfg['model'],'training':cfg['training'],'architecture':spec['architecture']}),
@@ -37,8 +37,15 @@ def prepare_lineage(root):
             'patient_authority_sha256':inputs['patient_map']['sha256'],
             'cancer_scope_sha256':sha(root/'CANCER_SCOPE.json'),
             'cohorts_sha256':sha(root/'COHORTS.json'),'patient_assignments_sha256':sha(root/'PATIENT_ASSIGNMENTS.json')}
+    if cfg.get('relation_target_policy') is not None:
+        result['relation_target_policy_sha256']=sha(root/'RELATION_TARGET_POLICY.json')
+    return result
 
 def validate_prepared(root):
+    root=Path(root)
+    if (root/'SPEC.json').is_file() and read_json(root/'SPEC.json').get('prepared_format')=='CLA_CONTINUOUS_RELATION_PREPARED_V1':
+        from .relation_prepared import validate_relation_prepared
+        return validate_relation_prepared(root)
     from .pathway_fusion import reject_retired_prepared
     reject_retired_prepared(root)
     root=Path(root);m=verify_manifest(root);spec=read_json(root/'SPEC.json');cfg=read_json(root/'CONFIG.json')
@@ -50,13 +57,17 @@ def validate_prepared(root):
     expected_scope=resolve_cancer_scope(cfg,cancer_scope['available_cancers'],m['metadata']['profile'])
     if cancer_scope!=expected_scope or spec['cancers']!=expected_scope['selected_cancers'] or spec['nodes']['cancer']!=spec['cancers']:
         fail('CANCER_SCOPE_MISMATCH','Prepared cancer scope, configuration and node catalog differ')
+    from .prepared_target_policy import validate_prepared_policy
+    policy_validation=validate_prepared_policy(root,cfg,spec,m['metadata']['profile'])
     from .execution_contract import verify_capsule_contract
     verify_capsule_contract(root,cfg,spec)
     if cfg['model']['task_weights']!={'pathway':1.,'state':.5}:fail('TASK_WEIGHT_DRIFT','Expected Pathway=1, State=.5')
     if read_json(root/'STATE_TARGET_ROLES.json')!=cfg['targets']:fail('TARGET_ROLE_DRIFT','Actual target catalog differs')
     ids=[t['id'] for t in cfg['targets']];cols=[t['column'] for t in cfg['targets']]
     if len(ids)!=len(set(ids)) or len(cols)!=len(set(cols)):fail('TARGET_ROLE_DRIFT','Repeated State ID/source column')
-    if spec['states']!=[t['id'] for t in cfg['targets'] if t['role']=='primary']:fail('TARGET_ROLE_DRIFT','Primary State universe differs')
+    expected_states=([t['id'] for t in policy_validation['state_targets']] if policy_validation is not None
+                     else [t['id'] for t in cfg['targets'] if t['role']=='primary'])
+    if spec['states']!=expected_states:fail('TARGET_ROLE_DRIFT','Primary State universe differs')
     assignments=read_json(root/'PATIENT_ASSIGNMENTS.json');cohorts=read_json(root/'COHORTS.json');catalog=read_json(root/'CANDIDATES.json')
     if set(assignments)!=set(spec['cancers']):fail('PATIENT_SCOPE_MISMATCH','Cancer catalog differs')
     if spec['validation_fold']!=(spec['fold']+1)%5 or set(spec['train_folds'])!=set(range(5))-{spec['fold'],spec['validation_fold']}:
@@ -93,7 +104,8 @@ def validate_prepared(root):
                 from .readiness import validate_task_arrays
                 # Preserve zero-usable views as an audited availability mask;
                 # aggregate task checks remain strict in prepare().
-                validate_task_arrays(data,view['id'],task,spec['numeric_features'],allow_empty=True)
+                validate_task_arrays(data,view['id'],task,spec['numeric_features'],allow_empty=True,
+                                     objective=spec.get('relation_objective','binary'))
     return m,spec,cfg,stored
 
 def verify_sealed(root,sealed):
@@ -116,9 +128,17 @@ def verify_sealed(root,sealed):
 def expected_predictions(spec):
     return {f'predictions/{c}__{t}.npz' for c in spec['cancers'] for t in ('pathway','state')}
 
-def completion_state(cfg,profile,alpha,metrics):
+def completion_state(cfg,profile,alpha,metrics,objective='binary'):
     if profile=='formal':return 'TRAINED_FORMAL_CANDIDATE'
-    return 'GO_TO_FORMAL_EVALUATION' if alpha>0 and min(metrics[t]['delta'] for t in ('pathway','state'))>=cfg['gates']['diagnostic_min_delta'] else 'NO_GO_WITHIN_DIAGNOSTIC_BUDGET'
+    if objective=='observed_fused_rms_effect':
+        threshold=cfg['gates'].get('diagnostic_min_delta_mse')
+        if threshold is None or not np.isfinite(threshold) or threshold<0:
+            fail('CONTINUOUS_DIAGNOSTIC_THRESHOLD_MISSING','Declare a nonnegative MSE improvement threshold before training')
+    elif objective=='binary':
+        threshold=cfg['gates']['diagnostic_min_delta']
+    else:
+        fail('RELATION_OBJECTIVE_UNKNOWN','Unknown completion objective',objective=objective)
+    return 'GO_TO_FORMAL_EVALUATION' if alpha>0 and min(metrics[t]['delta'] for t in ('pathway','state'))>=threshold else 'NO_GO_WITHIN_DIAGNOSTIC_BUDGET'
 
 def verify_completion(prepared,run):
     """Validate receipt against a SHA-checked project checkpoint's inner completion.
@@ -165,7 +185,7 @@ def verify_completion(prepared,run):
     metrics=aggregate_metrics(pred,spec)
     # Recompute admission from the saved validation predictions; receipt state is not an authority.
     if digest(metrics)!=digest(r['validation']):fail('VALIDATION_RECEIPT_MISMATCH','Saved validation metrics do not match predictions')
-    if r['state']!=completion_state(cfg,m['metadata']['profile'],r['alpha'],metrics):fail('ADMISSION_STATE_MISMATCH','State contradicts independently recomputed validation metrics')
+    if r['state']!=completion_state(cfg,m['metadata']['profile'],r['alpha'],metrics,spec.get('relation_objective','binary')):fail('ADMISSION_STATE_MISMATCH','State contradicts independently recomputed validation metrics')
     return r,lin
 
 def authority_key(cfg,create=False):

@@ -1,0 +1,5 @@
+resource	input_definitions	source_definitions_with_exact_primary_identity	distinct_primary_identities_from_exact_definitions	source_definitions_with_admitted_composition_link	primary_ids_reached_by_composition_link	raw_source_id_layer_pairs_in_bound_Y	TCGA_RNA_bound_definitions	TCGA_RNA_measured_in_any_demo	TCGA_PROTEIN_bound_definitions	TCGA_PROTEIN_measured_in_any_demo	TCGA_METHYLATION_bound_definitions	TCGA_METHYLATION_measured_in_any_demo	CPTAC_RNA_bound_definitions	CPTAC_RNA_measured_in_any_demo	CPTAC_PROTEIN_bound_definitions	CPTAC_PROTEIN_measured_in_any_demo	CPTAC_METHYLATION_bound_definitions	CPTAC_METHYLATION_measured_in_any_demo
+KEGG_MEDICUS	658	477	476	0	0	1908	477	294	477	194	0	0	477	294	477	223	477	219
+REACTOME	1839	9	9	1301	469	36	9	7	9	3	0	0	9	7	9	7	9	7
+WIKIPATHWAYS	193	3	3	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+HALLMARK	50	0	0	46	342	12	3	3	3	3	0	0	3	3	3	3	3	3

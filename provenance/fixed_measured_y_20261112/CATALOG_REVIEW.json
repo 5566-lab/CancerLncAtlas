@@ -1,0 +1,18 @@
+{
+  "inventory": 658,
+  "primary_pathways": 477,
+  "excluded": 181,
+  "evidence_basis": {
+    "curated_mechanism_evidence": 255,
+    "official_cancer_class": 199,
+    "official_malignant_disease": 23
+  },
+  "network_type": {
+    "Reference": 334,
+    "Variant": 78,
+    "Pathogen": 47,
+    "Env factor": 18
+  },
+  "program_source_rows_checked": 860,
+  "id_redirect_rows": 10
+}

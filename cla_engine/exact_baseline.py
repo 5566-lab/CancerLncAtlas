@@ -1,6 +1,7 @@
 """Collision-free sparse identity design for the matched L1 baseline.
 
-Six original identity terms are retained. A TRAIN-only vocabulary replaces the
+The legacy default retains six original identity terms. An explicit
+identity_mode=numeric_only omits all identity columns. A TRAIN-only vocabulary replaces the
 unsigned 4096-bin hash. Numeric columns are separately scaled; no dense identity
 matrix is constructed. Validation/prediction are transformed in bounded batches.
 Budget failures never silently reduce features or fall back to hashing.
@@ -15,6 +16,25 @@ from .common import fail,digest
 
 ENCODING='EXACT_CANCER_LNCRNA_TARGET_INTERACTIONS_PLUS_EXPLICIT_SCALED_NUMERIC'
 TERMS=('c','l','t','c_l','c_t','l_t')
+
+
+class NumericOnlyVocabulary:
+    """Zero-width identity adapter preserving the existing baseline call surface."""
+    identity_mode = 'numeric_only'
+
+    def __init__(self):
+        self.vocabulary_ = {}
+        self.feature_names_ = []
+
+    def transform(self, records):
+        fail('BASELINE_IDENTITY_DISABLED', 'numeric_only cannot supply an identity-feature ablation')
+
+
+def identity_mode(contract):
+    mode = contract.get('identity_mode', 'exact')
+    if mode not in {'exact', 'numeric_only'}:
+        fail('BASELINE_IDENTITY_MODE_INVALID', str(mode))
+    return mode
 
 
 def identity_records(rows):
@@ -44,10 +64,11 @@ def available_memory_bytes():
 def resource_plan(n_train,numeric_dim,n_valid,contract):
     # upper bound: six identities plus every numeric term nonzero; liblinear's
     # transpose/workspace and validation batches get explicit overhead allowance.
-    nnz=int(n_train)*(6+int(numeric_dim))
+    identity_terms=6 if identity_mode(contract)=='exact' else 0
+    nnz=int(n_train)*(identity_terms+int(numeric_dim))
     csr=12*nnz+8*(int(n_train)+1)
     batch=min(int(contract['batch_rows']),max(int(n_valid),1))
-    validation=12*batch*(6+int(numeric_dim))+8*(batch+1)
+    validation=12*batch*(identity_terms+int(numeric_dim))+8*(batch+1)
     estimate=5*csr+4*validation+int(n_train+int(n_valid))*int(numeric_dim)*16
     cap=int(float(contract['max_working_gib'])*(1024**3))
     free=available_memory_bytes()
@@ -60,6 +81,11 @@ def resource_plan(n_train,numeric_dim,n_valid,contract):
 
 
 def fit_vocabulary(rows,contract):
+    if identity_mode(contract)=='numeric_only':
+        v=NumericOnlyVocabulary()
+        return v,{'features':0,'estimated_vocabulary_bytes':0,
+                  'fit_scope':'NO_IDENTITY_FEATURES','identity_mode':'numeric_only',
+                  'feature_names_sha256':digest(v.feature_names_)}
     seen=set();name_bytes=0
     max_features=int(contract['max_identity_features']);max_bytes=int(float(contract['max_vocabulary_gib'])*(1024**3))
     def guarded():
@@ -82,6 +108,8 @@ def design_block(rows,numeric,scaler,vectorizer):
     numeric=np.asarray(numeric)
     if numeric.ndim!=2 or numeric.shape[0]!=len(rows) or not np.isfinite(numeric).all():
         fail('BASELINE_NUMERIC_INVALID','Finite row-aligned numeric features required')
+    if isinstance(vectorizer, NumericOnlyVocabulary):
+        return sparse.csr_matrix(scaler.transform(numeric),dtype=np.float64)
     identities=vectorizer.transform(identity_records(rows))
     return sparse.hstack([identities,sparse.csr_matrix(scaler.transform(numeric))],format='csr',dtype=np.float64)
 
@@ -89,7 +117,8 @@ def design_block(rows,numeric,scaler,vectorizer):
 def training_design(rows,numeric,scaler,vectorizer,batch_rows):
     n=len(rows);d=numeric.shape[1];width=len(vectorizer.vocabulary_)+d
     if width>=np.iinfo(np.int32).max:fail('BASELINE_FEATURE_SPACE_TOO_LARGE','No unsafe 32-bit CSR indices')
-    upper=n*(6+d);data=np.empty(upper,np.float64);indices=np.empty(upper,np.int32);indptr=np.zeros(n+1,np.int64);offset=0
+    identity_terms=0 if isinstance(vectorizer,NumericOnlyVocabulary) else 6
+    upper=n*(identity_terms+d);data=np.empty(upper,np.float64);indices=np.empty(upper,np.int32);indptr=np.zeros(n+1,np.int64);offset=0
     for start in range(0,n,batch_rows):
         end=min(n,start+batch_rows);b=design_block(rows[start:end],numeric[start:end],scaler,vectorizer)
         data[offset:offset+b.nnz]=b.data;indices[offset:offset+b.nnz]=b.indices
@@ -107,6 +136,9 @@ def decision_batched(clf,rows,numeric,scaler,vectorizer,batch_rows):
 
 
 def unseen_audit(rows,vectorizer):
+    if isinstance(vectorizer,NumericOnlyVocabulary):
+        return {'rows':len(rows),'unseen_terms_by_type':{},'identity_terms_used':False,
+                'policy':'NO_IDENTITY_FEATURES','validation_fitted_into_vocabulary':False}
     counts={t:0 for t in TERMS};total=0
     for record in identity_records(rows):
         total+=1

@@ -1,0 +1,100 @@
+{
+  "target_host": "149",
+  "primary_before": 477,
+  "primary_after": 476,
+  "state_identities": 197,
+  "total_targets": 673,
+  "merged_groups": 1,
+  "removed_active_identity": "CLA-P-549730F42F0B148D",
+  "representative_identity": "CLA-P-08A1A41F05A3E9ED",
+  "display_name": "Hedgehog signaling, shared SMO/PTCH1 downstream module",
+  "source_matrix_blocks_changed": false,
+  "source_event_conditions_changed": false,
+  "checks": [
+    {
+      "cancer": "BRCA",
+      "cohort": "TCGA",
+      "patients": 872,
+      "source_observation_counts": [
+        93,
+        93
+      ],
+      "merged_unique_observations": 95,
+      "shared_member_values_unchanged": true,
+      "source_event_conditions_unknown": true,
+      "merged_module_requires_specific_event": false,
+      "patient_partition_sha256": "bdac8d7141fa7692e9e8f91cc250437886c171d106661171566b1df5fa4188b3"
+    },
+    {
+      "cancer": "BRCA",
+      "cohort": "CPTAC",
+      "patients": 96,
+      "source_observation_counts": [
+        80,
+        80
+      ],
+      "merged_unique_observations": 83,
+      "shared_member_values_unchanged": true,
+      "source_event_conditions_unknown": true,
+      "merged_module_requires_specific_event": false,
+      "patient_partition_sha256": "bdac8d7141fa7692e9e8f91cc250437886c171d106661171566b1df5fa4188b3"
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "TCGA",
+      "patients": 407,
+      "source_observation_counts": [
+        93,
+        93
+      ],
+      "merged_unique_observations": 95,
+      "shared_member_values_unchanged": true,
+      "source_event_conditions_unknown": true,
+      "merged_module_requires_specific_event": false,
+      "patient_partition_sha256": "f72c6353647c8c464c3ef79c144657ee2aa8978ee185f3b843c8c077e6db1410"
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "CPTAC",
+      "patients": 88,
+      "source_observation_counts": [
+        100,
+        100
+      ],
+      "merged_unique_observations": 103,
+      "shared_member_values_unchanged": true,
+      "source_event_conditions_unknown": true,
+      "merged_module_requires_specific_event": false,
+      "patient_partition_sha256": "f72c6353647c8c464c3ef79c144657ee2aa8978ee185f3b843c8c077e6db1410"
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "TCGA",
+      "patients": 363,
+      "source_observation_counts": [
+        93,
+        93
+      ],
+      "merged_unique_observations": 95,
+      "shared_member_values_unchanged": true,
+      "source_event_conditions_unknown": true,
+      "merged_module_requires_specific_event": false,
+      "patient_partition_sha256": "bfb499bc0618f377e028869e290af6bd9d1612212cdd101bd6eb28a4748734b5"
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "CPTAC",
+      "patients": 84,
+      "source_observation_counts": [
+        63,
+        63
+      ],
+      "merged_unique_observations": 66,
+      "shared_member_values_unchanged": true,
+      "source_event_conditions_unknown": true,
+      "merged_module_requires_specific_event": false,
+      "patient_partition_sha256": "bfb499bc0618f377e028869e290af6bd9d1612212cdd101bd6eb28a4748734b5"
+    }
+  ],
+  "tests": "ea576e38c93b19571632fcf6c9aa5439b919697c9ec6d54c85c7b260647e8f94"
+}

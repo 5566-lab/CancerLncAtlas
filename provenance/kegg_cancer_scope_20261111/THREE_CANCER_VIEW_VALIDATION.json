@@ -1,0 +1,64 @@
+{
+  "target_host": "149",
+  "view": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/functional_relation_y_cancer_evidence_20261111_r5",
+  "sealed_test_opened": false,
+  "results": [
+    {
+      "cancer_id": "BRCA",
+      "context": "train_label_fold2",
+      "canonical_targets": 671,
+      "primary_definitions": 477,
+      "state_definitions": 194,
+      "observed_relations": 6776321,
+      "primary_observed_targets": 243,
+      "state_observed_targets": 193,
+      "strong_relations": 476356,
+      "weak_relations": 238869,
+      "new_omannose_observed": {
+        "N00627": 0,
+        "N00699": 0
+      },
+      "seconds": 27.2,
+      "unconditional_primary_definitions": 334,
+      "conditional_definitions": 143
+    },
+    {
+      "cancer_id": "LUAD",
+      "context": "train_label_fold2",
+      "canonical_targets": 671,
+      "primary_definitions": 477,
+      "state_definitions": 194,
+      "observed_relations": 6951464,
+      "primary_observed_targets": 242,
+      "state_observed_targets": 189,
+      "strong_relations": 20488,
+      "weak_relations": 23167,
+      "new_omannose_observed": {
+        "N00627": 0,
+        "N00699": 0
+      },
+      "seconds": 28.3,
+      "unconditional_primary_definitions": 334,
+      "conditional_definitions": 143
+    },
+    {
+      "cancer_id": "COAD",
+      "context": "train_label_fold2",
+      "canonical_targets": 671,
+      "primary_definitions": 477,
+      "state_definitions": 194,
+      "observed_relations": 6750334,
+      "primary_observed_targets": 242,
+      "state_observed_targets": 189,
+      "strong_relations": 28488,
+      "weak_relations": 20463,
+      "new_omannose_observed": {
+        "N00627": 0,
+        "N00699": 0
+      },
+      "seconds": 28.6,
+      "unconditional_primary_definitions": 334,
+      "conditional_definitions": 143
+    }
+  ]
+}

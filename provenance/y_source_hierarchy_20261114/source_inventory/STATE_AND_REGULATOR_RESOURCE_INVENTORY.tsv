@@ -1,0 +1,21 @@
+resource	input_readout_definitions	measurement_layers	bound_original_readout_definitions	TCGA_measured_in_any_demo	CPTAC_measured_in_any_demo	registry_source
+ABSOLUTE / PanCanAtlas	3	DNA_COPY_NUMBER	3	3	2	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+CIBERSORT / LM22	22	RNA_DECONVOLUTION	22	22	22	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+COSMIC SBS / MutationalPatterns	60	DNA_SNV	60	60	0	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+CYT / Rooney	1	RNA_EXPRESSION	1	1	1	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+DoRothEA	271	RNA_EXPRESSION	80	80	80	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+ESTIMATE	4	RNA_EXPRESSION	4	4	4	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+EXTEND	1	RNA_EXPRESSION	1	1	1	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+HRD / PanCanAtlas	4	DNA_ALLELE_SPECIFIC_COPY_NUMBER	4	4	0	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+IPS / Immunophenogram	1	RNA_EXPRESSION	1	1	1	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+MCP-counter	10	RNA_DECONVOLUTION	10	10	10	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+MSIsensor2 / GDC	1	DNA_SEQUENCING	1	1	0	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+MSigDB Hallmark (State readout)	2	RNA_EXPRESSION	2	2	2	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+Malta stemness / PanCanAtlas	6	DNA_METHYLATION;RNA_EXPRESSION	6	6	2	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+Methylation leukocyte fraction / PanCanAtlas	1	DNA_METHYLATION	1	1	0	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+Mutation burden / PanCanAtlas	1	DNA_SNV	1	1	1	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+PROGENy	14	RNA_EXPRESSION	1	1	1	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+Panimmune 160 signatures	1	RNA_EXPRESSION	1	1	1	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+SenMayo	1	RNA_EXPRESSION	1	1	1	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+signifinder	17	RNA_EXPRESSION	17	17	17	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv
+xCell	64	RNA_DECONVOLUTION	64	64	64	/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv

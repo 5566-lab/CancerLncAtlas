@@ -1,0 +1,15 @@
+{
+  "target_host": "149",
+  "method_variant": "PC_GENE_ID_BACKGROUND_R1",
+  "symbol_aggregation": "sum protein-coding gene TPM before log2(TPM+1)",
+  "rna_background": "coding-only measured gene IDs and their symbols",
+  "native_method_equivalence": false,
+  "retained_original_definitions": true,
+  "training": false,
+  "outer_test_excluded": true,
+  "code_sha256": {
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/scripts/cache_m0_joint_scores.py": "afb4ab578043af69f0b847410b29d684f3a6756443ab3e1cb891ac5e09d2ac8a",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/cc_hhgt/m0_joint_scores.py": "60b7fa4a430dffa630cd758b4728a2a6cd7c4e06d27f5a2db60d05d8fca437e6",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/cla_engine/protein_coding_scoring.py": "16f8ded7f72060324b13690bdc734586e4fb7c08212a987f20f916b1b693d6d3"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "target_host": "149",
+  "pointers": [
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CANONICAL_TARGETS_CURRENT.json",
+      "sha256": "dc06b37132366328bd9b1af47a4f8e14d4e09eaf535c95341a944e3461e0dad0"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_CANONICAL_REFERENCE.json",
+      "sha256": "a0df4a3542a2444a9a33a40ed0233c5dfa880821079bdc278db9c6bad1c3c416"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_Y_DELIVERY.json",
+      "sha256": "7bbab0b60f29020823500d417d3eb12a56a9a7569673f366329d0d9e4559dc8e"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_READER_DELIVERY.json",
+      "sha256": "b9698fdef6f4dc01059121a01aa7efb238acb9380af88395a302a8467cb6c356"
+    }
+  ],
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r11_state_groups_20261114_r1",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/state_groups_20261114_r1/observation_registry_r4",
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v8.xlsx",
+  "dictionary_sha256": "2bb0b53fa758168c77787ad518f11e6b399b62a1cbd4d67889d354b431e7481a",
+  "primary_pathways": 476,
+  "state_top_level_count": 48,
+  "state_detail_components": 151,
+  "total_targets": 524,
+  "source_values_masks_partitions_unchanged": true,
+  "tests_passed": 20,
+  "training": false,
+  "lncrna_association": false
+}

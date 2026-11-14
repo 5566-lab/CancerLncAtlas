@@ -1,0 +1,4 @@
+entity	type	usage	distinct_patient_cohort
+TCGA	patient cohort project	RNA, DNA methylation, copy number, DNA-derived State, clinical data; protein/phospho supplied by TCPA RPPA500	TCGA
+TCPA RPPA500	protein/phospho assay resource	RPPA antibody measurements of TCGA patients; not a third independent patient cohort	TCGA
+CPTAC	patient cohort project and proteogenomic assay resource	RNA, mass-spectrometry protein/phospho, available methylation and clinical/DNA summary data	CPTAC

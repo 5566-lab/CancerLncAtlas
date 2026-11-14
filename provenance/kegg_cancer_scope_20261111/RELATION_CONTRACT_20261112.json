@@ -1,0 +1,70 @@
+{
+  "admission_basis": {
+    "curated_mechanism_evidence": 255,
+    "official_cancer_class": 199,
+    "official_malignant_disease": 23
+  },
+  "backbone_alignment_rows": 93710,
+  "cancers": {
+    "BRCA": {
+      "all_four_component_axes_match": true,
+      "original_membership_edges": 6800,
+      "primary_pathways": 477,
+      "source_numeric_columns": 72,
+      "state_definitions_without_label_axis": [
+        "CLA-S-14051A100BC25952",
+        "CLA-S-4FFF17C502FFF4E4",
+        "CLA-S-FE94F304645BF500"
+      ],
+      "state_label_axis": 194
+    },
+    "COAD": {
+      "all_four_component_axes_match": true,
+      "original_membership_edges": 6800,
+      "primary_pathways": 477,
+      "source_numeric_columns": 72,
+      "state_definitions_without_label_axis": [
+        "CLA-S-14051A100BC25952",
+        "CLA-S-4FFF17C502FFF4E4",
+        "CLA-S-FE94F304645BF500"
+      ],
+      "state_label_axis": 194
+    },
+    "LUAD": {
+      "all_four_component_axes_match": true,
+      "original_membership_edges": 6800,
+      "primary_pathways": 477,
+      "source_numeric_columns": 72,
+      "state_definitions_without_label_axis": [
+        "CLA-S-14051A100BC25952",
+        "CLA-S-4FFF17C502FFF4E4",
+        "CLA-S-FE94F304645BF500"
+      ],
+      "state_label_axis": 194
+    }
+  },
+  "checked_at": 1794462000.685009,
+  "context_identities": 1652,
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v6.xlsx",
+  "dictionary_and_all_component_axes_match": true,
+  "dictionary_sha256": "94b19680ea5cb0b65982ca7451b204b30aa58fd848e865f8b9c31e4b8eb84d72",
+  "excluded": 181,
+  "inherited_state_identities_supported_by_other_state_definitions": [
+    "CLA-P-3423B99760CD551B"
+  ],
+  "inventory": 658,
+  "molecular_context_without_patient_readout": {
+    "CLA-S-E0B23C75557ADA37": "MYLK kinase program"
+  },
+  "new_regulator_losses": false,
+  "outer_test_opened": false,
+  "primary_pathways": 477,
+  "reader_guide_has_no_retired_method_status": true,
+  "special_mechanism_identity_counts": {
+    "PROGENy": 14,
+    "TF": 271,
+    "kinase": 387
+  },
+  "state_definitions": 197,
+  "target_host": "149"
+}
