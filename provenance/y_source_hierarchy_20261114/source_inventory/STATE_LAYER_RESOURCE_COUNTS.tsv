@@ -1,0 +1,8 @@
+layer	resource_families	original_readout_definitions	resource_names
+DNA_ALLELE_SPECIFIC_COPY_NUMBER	1	4	HRD / PanCanAtlas
+DNA_COPY_NUMBER	1	3	ABSOLUTE / PanCanAtlas
+DNA_METHYLATION	2	5	Malta stemness / PanCanAtlas; Methylation leukocyte fraction / PanCanAtlas
+DNA_SEQUENCING	1	1	MSIsensor2 / GDC
+DNA_SNV	2	61	COSMIC SBS / MutationalPatterns; Mutation burden / PanCanAtlas
+RNA_DECONVOLUTION	3	96	CIBERSORT / LM22; MCP-counter; xCell
+RNA_EXPRESSION	9	30	CYT / Rooney; ESTIMATE; EXTEND; IPS / Immunophenogram; MSigDB Hallmark (State readout); Malta stemness / PanCanAtlas; Panimmune 160 signatures; SenMayo; signifinder

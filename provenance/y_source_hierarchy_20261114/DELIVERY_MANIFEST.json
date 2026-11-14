@@ -1,0 +1,16 @@
+{
+  "target_host": "149",
+  "files": {
+    "CancerLncAtlas_Y来源层级与模型说明_20261114_r2.pptx": "383e7e9bf5b236a676d6d9789ac98bb17bde674c04f7608244470711de89cc78",
+    "本轮可监督主干335条.tsv": "5aeb1d6220b0ffacc1288cf2b9de860e21fa11f74aeb4ce57f469ff43f5d7034",
+    "数据库来源_WNT与141事件明细_20261114_r2.xlsx": "bdd6e0027c4c8f62096b83423d3ab0bacabfb833ceb26b16cc47c97cdaebb204",
+    "CancerLncAtlas_Y来源层级与模型说明_20261114_r2.pdf": "8c2254fe565e2cc3d479c0bb3b30e086046243cc2bb5711a043a80bde04b50d4"
+  },
+  "slides": 28,
+  "catalog_pathways": 476,
+  "state_entries": 48,
+  "supervised_pathway_candidates": 335,
+  "event_annotation_pathways": 141,
+  "fixed_y_values_unchanged": true,
+  "training": false
+}

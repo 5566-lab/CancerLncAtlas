@@ -1,0 +1,44 @@
+[
+  {
+    "case": "CPTAC_BRCA",
+    "patients": 96,
+    "condition_targets": 141,
+    "targets_any_known": 0,
+    "known_cells": 0
+  },
+  {
+    "case": "CPTAC_COAD",
+    "patients": 84,
+    "condition_targets": 141,
+    "targets_any_known": 0,
+    "known_cells": 0
+  },
+  {
+    "case": "CPTAC_LUAD",
+    "patients": 88,
+    "condition_targets": 141,
+    "targets_any_known": 0,
+    "known_cells": 0
+  },
+  {
+    "case": "TCGA_BRCA",
+    "patients": 872,
+    "condition_targets": 141,
+    "targets_any_known": 0,
+    "known_cells": 0
+  },
+  {
+    "case": "TCGA_COAD",
+    "patients": 363,
+    "condition_targets": 141,
+    "targets_any_known": 0,
+    "known_cells": 0
+  },
+  {
+    "case": "TCGA_LUAD",
+    "patients": 407,
+    "condition_targets": 141,
+    "targets_any_known": 0,
+    "known_cells": 0
+  }
+]
