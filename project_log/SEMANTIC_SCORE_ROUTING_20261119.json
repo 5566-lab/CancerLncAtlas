@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-19",
+  "target_host": "149",
+  "change": "semantic score routing and fixed-Y model adapters",
+  "main_pathways": 476,
+  "progeny_preserved": 14,
+  "progeny_with_reviewed_routes": 12,
+  "reviewed_progeny_edges": 158,
+  "main_pathways_with_progeny_context": 133,
+  "unrouted_progeny": [
+    "Androgen",
+    "VEGF"
+  ],
+  "cohorts": [
+    "TCGA_BRCA",
+    "TCGA_LUAD",
+    "TCGA_COAD",
+    "CPTAC_BRCA",
+    "CPTAC_LUAD",
+    "CPTAC_COAD"
+  ],
+  "tests_passed": 20,
+  "forward_checks": 6,
+  "original_hhgt_used": true,
+  "optimizer_steps": 0,
+  "source_y_and_event_conditions_unchanged": true,
+  "new_gene_sets": 0,
+  "scores_recomputed": 0,
+  "automatic_auxiliary_losses": 0,
+  "scope_edge_weight": "unit, not Jaccard",
+  "old_overlap_edges_excluded": [
+    "mechanism_context",
+    "rev_mechanism_context"
+  ],
+  "readout_target_count": "one per explicitly selected original score, not one per scope edge",
+  "score_as_input": "optional other-target context with layer and lineage exclusions",
+  "production_cli_training_changed": false,
+  "context_registration": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/SEMANTIC_SCORE_CONTEXT_CURRENT.json",
+  "data_root": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/semantic_score_context_20261119",
+  "code_sha256": {
+    "cla_engine/semantic_context.py": "501e99877c42d585d90d435ebe1728000151cb6fa719766b5d3bb34bd310ade7",
+    "cla_engine/semantic_catalog.py": "1987d2f84d0d582e625ac007b676ab4486c4037ae6b16a1a5bd093bbd854f786",
+    "cla_engine/measured_context_models.py": "a6dd4ba2edb391fa5f0ed7923f3bc1671ed79116e1c1a58eb61450a173bdd5b0",
+    "cla_engine/score_observation_head.py": "0a6405ab17e30d7e3ff9468b0e04d5c0869464d6bf3bf97dbc660a829919e623",
+    "cla_engine/fixed_y_bundle.py": "7995cc11d5d04d9624ce56875ca656fe497f546bd07a28f021c610c0f59b7f01",
+    "configs/progeny_semantic_rules.json": "830ab275ad2bb9c5cabed7dc904b6ace700045caf134f2a77ef476d4d77f72c0",
+    "tests/test_semantic_context.py": "106df7436150122229812abbd30f50a9189f572cc33d393641538a08f0a93570",
+    "docs/SEMANTIC_SCORE_ROUTING_20261119.rst": "db7522f884b683315b2e65ed22589c0de383ae46b1717dfebc677102389c7839"
+  }
+}

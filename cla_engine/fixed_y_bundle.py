@@ -28,3 +28,25 @@ def load_fixed_target(root, case, canonical_id, *, for_supervision=False):
     applicable=pd.read_parquet(folder/'TARGET_APPLICABILITY.parquet',columns=[canonical_id])[canonical_id]
     mask=supervision_mask(observed,metadata.set_index('observation_id').supervision_eligible,applicable) if for_supervision else observed
     return values,mask,applicable,metadata
+
+
+def load_target_with_context(root, context_root, case, canonical_id, observation_id, *, allowed_input_layers):
+    """Bind one original supervised observation to optional semantic INPUT context.
+
+    Target values, masks and applicability are returned unchanged. Callers must
+    explicitly declare available input layers; a pure lncRNA baseline passes [].
+    """
+    from .semantic_context import ContextTask, read_context_bundle
+    values, mask, applicable, metadata = load_fixed_target(root,case,canonical_id,for_supervision=True)
+    meta = metadata.set_index('observation_id')
+    if observation_id not in meta.index: raise ValueError('OBSERVATION_NOT_IN_TARGET')
+    row = meta.loc[observation_id]
+    layer = row['layer']
+    if layer not in {'RNA','PROTEIN','PHOSPHO','METHYLATION','CNV','MUTATION'}:
+        raise ValueError('UNRESOLVED_TARGET_DEPENDENCIES')
+    lineage = frozenset(str(row[k]) for k in ['definition_id','feature_id','source_target_id'] if row[k])
+    task = ContextTask(canonical_id,observation_id,frozenset({layer}),frozenset(allowed_input_layers),lineage)
+    context = read_context_bundle(context_root,case)
+    if not context['values'].index.equals(values.index): raise ValueError('CONTEXT_PATIENT_AXIS_MISMATCH')
+    return {'y':values[observation_id], 'mask':mask[observation_id], 'applicable':applicable,
+            'task':task, 'context':context, 'target_metadata':row.to_dict()}

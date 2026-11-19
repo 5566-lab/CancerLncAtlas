@@ -1,0 +1,22 @@
+{
+  "version": "20261119_v1",
+  "interpretation": "Reviewed broad perturbation context, never exact mechanism activity or event evidence",
+  "source_method": "Preserve existing FIXED_PROGENY_TOP100_WEIGHTS_CODING_MEMBERS_SOURCE_Z values",
+  "source_reference": "https://www.bioconductor.org/packages/release/bioc/vignettes/progeny/inst/doc/progeny.html",
+  "rules": [
+    {"score":"WNT", "parent_maps":["nt06215","nt06505"], "network_ids":[], "reason":"WNT network families, including downstream mechanisms; broad context does not establish the triggering event."},
+    {"score":"MAPK", "parent_maps":["nt06210"], "network_ids":[], "reason":"ERK branch of MAPK signaling; do not map by shared MAP kinases alone."},
+    {"score":"PI3K", "parent_maps":["nt06214"], "network_ids":[], "reason":"PI3K network family, including activating upstream and downstream mechanisms."},
+    {"score":"TGFb", "parent_maps":["nt06218"], "network_ids":["N00063","N01460","N00531","N00507"], "reason":"TGF-beta receptor/SMAD2/3 branch. Do not include BMP/activin branches merely because nt06507 contains them; TGFA-EGFR is not TGF-beta."},
+    {"score":"JAK-STAT", "parent_maps":["nt06219"], "network_ids":[], "reason":"JAK-STAT cancer network family."},
+    {"score":"Hypoxia", "parent_maps":["nt06225","nt06542"], "network_ids":[], "reason":"HIF-1 response context; does not establish VHL loss or oxygen measurement."},
+    {"score":"Estrogen", "parent_maps":[], "network_ids":["N00286","N00287","N01364","N01351","N01352","N01353"], "reason":"Reviewed ESR-mediated mechanisms. Nuclear receptor parent nt06227 also contains AR/PGR/AHR and is not an estrogen equivalence."},
+    {"score":"EGFR", "parent_maps":[], "network_ids":["N00367","N00284","N00279","N01078","N00390","N00033","N00147","N00026","N00023","N00001","N00542","N00030","N00103","N00096","N00021","N00094","N00282","N00277","N00231","N00227","N00229","N00035","N00027","N00042","N00281","N00276","N00095","N00034","N00036","N00024","N00014","N00319","N00232"], "reason":"Frozen reviewed mechanisms with EGFR as an upstream signaling receptor in the KEGG reaction chain; not all RTK/ERBB entries."},
+    {"score":"NFkB", "parent_maps":[], "network_ids":["N01411","N00265","N00400","N00441","N00442","N00436","N00560","N00173","N00171","N00174","N01112","N01118","N00151","N00435","N01566","N00390","N01410","N00504","N00505","N00506"], "reason":"Reviewed NF-kappaB signaling mechanisms; not the entire TNF family, which also contains JNK branches."},
+    {"score":"TNFa", "parent_maps":[], "network_ids":["N00145","N00446","N00151","N00444","N01621"], "reason":"TNF ligand initiating the receptor chain; downstream TNF transcript abundance alone does not establish this scope."},
+    {"score":"Trail", "parent_maps":[], "network_ids":["N00146","N01631"], "reason":"TRAIL/TNFSF10 receptor-mediated apoptosis or necroptosis; branch context only."},
+    {"score":"p53", "parent_maps":[], "network_ids":["N00223","N00263","N00497","N00499","N00066","N00536","N00347","N00068","N00115"], "reason":"TP53 directly regulating transcription/cell-cycle response; TP53BP1 is not TP53, and MYCN inducing TP53 is not the same scope."},
+    {"score":"Androgen", "parent_maps":[], "network_ids":[], "reason":"No reviewed androgen receptor mechanism among current admitted backbone definitions; retain the score without inventing a route."},
+    {"score":"VEGF", "parent_maps":[], "network_ids":[], "reason":"Current inspected entries contain VEGFA as a downstream HIF/JAK output, not a verified VEGF receptor signaling scope; retain without route."}
+  ]
+}
