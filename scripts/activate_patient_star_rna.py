@@ -239,17 +239,30 @@ def activate(raw, common, raw_live, common_live, record, native_plan):
             if digest(live) != new or digest(backup) != old:
                 raise ValueError(f'Post-install verification failed: {live}')
         from cla_engine.cptac_binding import validate_binding
+        for update in updates:
+            current = Path(update['active'])
+            if sha(current) != update['staged']['sha256'] or json.loads(current.read_text())['cptac_input'] != binding:
+                raise ValueError(f'Published configuration differs from staged binding: {current}')
         validate_binding(binding)
         atomic_json(record, dict(status='ACTIVE', workflow='STAR - Counts', gene_model='GENCODE v36',
                                  metric='tpm_unstranded', scope='patient RNA inputs and RNA-derived native and common scores',
                                  native_binding=binding, native_configuration=updates, legacy_entry=launcher,
                                  paths=[dict(path=str(live), sha256=new, previous=str(backup))
                                         for live, backup, new in installed]))
-    except BaseException:
+    except BaseException as failure:
+        errors = []
         for live, backup, new in reversed(installed):
-            restore(live, backup, new)
+            try:
+                restore(live, backup, new)
+            except Exception as error:
+                errors.append(f'{live}: {error}')
         for current, backup, old in reversed(configs):
-            replace_file(backup, current, old)
+            try:
+                replace_file(backup, current, old)
+            except Exception as error:
+                errors.append(f'{current}: {error}')
+        if errors:
+            raise RuntimeError('Incomplete rollback: ' + ', '.join(errors)) from failure
         raise
 
 
