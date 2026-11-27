@@ -29,7 +29,15 @@ def run(spec,output,cancer_type='all',cancer_list=None,workers=3):
         download(manifest,out/'raw',cancer_type,cancer_list,min(workers,4))
         dc=out/'raw/DOWNLOAD_COMPLETE.json'
     mc={**{k:sources[k] for k in ['gencode','hgnc','protein_gene','tcga_patient_map']},'download_complete':pin(dc)}
-    materialize(mc,out/'aligned',cancer_type,cancer_list)
+    if 'gdc_rna' in spec:
+        from tempfile import TemporaryDirectory
+        from .cptac_gdc_rna import materialize_gdc
+        gdc = spec['gdc_rna']
+        with TemporaryDirectory(dir=out, prefix='publication.') as baseline:
+            materialize(mc, baseline, cancer_type, cancer_list)
+            materialize_gdc(baseline, gdc['matches'], gdc['intake'], out/'aligned')
+    else:
+        materialize(mc, out/'aligned', cancer_type, cancer_list)
     ac=out/'aligned/COMPLETE.json';cohorts=read_json(ac)['cohorts']
     oc={'aligned_complete':pin(ac),'pathway_gmt':sources['pathway_gmt'],'methylation_definition':sources['methylation_definition']}
     prepare_omics(oc,out/'omics_inputs')
