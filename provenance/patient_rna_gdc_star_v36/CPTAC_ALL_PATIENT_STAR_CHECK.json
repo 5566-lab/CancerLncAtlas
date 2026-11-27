@@ -1,0 +1,190 @@
+{
+  "status": "PASS",
+  "gene_model": "GENCODE v36",
+  "workflow": "STAR - Counts",
+  "assay": "log2(1 + tpm_unstranded)",
+  "inputs_sha256": {
+    "matches": "f3e5494790be7f90e5f627ed1a9a5ae9a1b3ebd22154fe026506499ac52cb6c1",
+    "gdc_metadata": "242b28a59d41528ba02b647ac1fc8835ac42d765e2094f2e77166a8ccf80bec0",
+    "source": "60baa82207ddc9ceadd46e9dd5c0726ae373cfecd29802207640104454b87cb6",
+    "patient": "cb765f06e26e14eccce79d0f5714effe2177cf31cf7c54c5abb4e6748555f1ad"
+  },
+  "totals": {
+    "samples": 1365,
+    "source_values": 82800900,
+    "source_differences": 0,
+    "patients_with_tumor_rna": 1037,
+    "patient_lncrna_values": 17513893,
+    "patient_lncrna_differences": 0,
+    "unmeasured_patient_rows": 0,
+    "source_max_abs_diff": 0.0,
+    "patient_lncrna_max_abs_diff": 0.0
+  },
+  "cohorts": {
+    "BRCA": {
+      "tissues": {
+        "Tumor": 121
+      },
+      "samples": 121,
+      "source_genes": 60660,
+      "source_values": 7339860,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 121,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 2043569,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "CCRCC": {
+      "tissues": {
+        "Normal": 72,
+        "Tumor": 103
+      },
+      "samples": 175,
+      "source_genes": 60660,
+      "source_values": 10615500,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 103,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1739567,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "COAD": {
+      "tissues": {
+        "Tumor": 106
+      },
+      "samples": 106,
+      "source_genes": 60660,
+      "source_values": 6429960,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 106,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1790234,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "GBM": {
+      "tissues": {
+        "Tumor": 99
+      },
+      "samples": 99,
+      "source_genes": 60660,
+      "source_values": 6005340,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 99,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1672011,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "HNSCC": {
+      "tissues": {
+        "Tumor": 108,
+        "Normal": 46
+      },
+      "samples": 154,
+      "source_genes": 60660,
+      "source_values": 9341640,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 108,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1824012,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "LSCC": {
+      "tissues": {
+        "Normal": 94,
+        "Tumor": 108
+      },
+      "samples": 202,
+      "source_genes": 60660,
+      "source_values": 12253320,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 108,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1824012,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "LUAD": {
+      "tissues": {
+        "Tumor": 110,
+        "Normal": 101
+      },
+      "samples": 211,
+      "source_genes": 60660,
+      "source_values": 12799260,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 110,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1857790,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "OV": {
+      "tissues": {
+        "Tumor": 82
+      },
+      "samples": 82,
+      "source_genes": 60660,
+      "source_values": 4974120,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 82,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1384898,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "PDAC": {
+      "tissues": {
+        "Tumor": 105,
+        "Normal": 15
+      },
+      "samples": 120,
+      "source_genes": 60660,
+      "source_values": 7279200,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 105,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1773345,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    },
+    "UCEC": {
+      "tissues": {
+        "Tumor": 95
+      },
+      "samples": 95,
+      "source_genes": 60660,
+      "source_values": 5762700,
+      "source_differences": 0,
+      "source_max_abs_diff": 0.0,
+      "patients_with_tumor_rna": 95,
+      "unmeasured_patient_rows": 0,
+      "patient_lncrnas": 16889,
+      "patient_lncrna_values": 1604455,
+      "patient_lncrna_differences": 0,
+      "patient_lncrna_max_abs_diff": 0.0
+    }
+  }
+}
