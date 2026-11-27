@@ -6,6 +6,12 @@ The source covers 33 TCGA cancer types and 10 CPTAC cohorts. Each CPTAC RNA samp
 
 The full CPTAC assay retains the 60,660 genes from the GDC files, including distinct pseudoautosomal Y records. The patient lncRNA matrix uses the existing TCGA axis of 16,889 distinct lncRNAs. Common gene and symbol score inputs keep the prior 59,257-gene background. This allows a comparison across quantifications without simultaneously changing genes used to calculate a score. Member IDs and association estimates for a lncRNA gene set are downstream of these expression matrices.
 
+## Deployment on 149
+
+The original patient expression and score paths serve GDC STAR / GENCODE v36 quantifications. Of the 1,365 CPTAC expression samples, 1,037 are tumors and 328 are normal tissue. TCPA antibody profiles link to the TCGA patient RNA. The separate cell-line drug-response analysis has its own expression inputs. The release uses GDC's processed files and includes no FASTQ realignment.
+
+The complete TCGA and CPTAC comparisons found zero numerical differences against the corresponding GDC files. The active-release receipt includes the specimen counts for each CPTAC cohort, the three deployed manifest hashes and the four verified runtime entries. [TCGA value comparison](../provenance/patient_rna_gdc_star_v36/TCGA_ALL_PATIENT_STAR_CHECK.json) · [CPTAC value comparison](../provenance/patient_rna_gdc_star_v36/CPTAC_ALL_PATIENT_STAR_CHECK.json) · [Deployment receipt](../provenance/patient_rna_gdc_star_v36/DEPLOYMENT.json)
+
 ## Reproducing the input replacement
 
 The commands use an immutable copy of the previous CPTAC input (`$old_raw`), the previous common RNA input (`$old_common`), and a new release directory (`$release`). After activation, the previous paths are recorded in `RNA_QUANTIFICATION_CURRENT.json`. Use the archived directories for a byte-for-byte replay. Use the frozen GDC and PDC metadata to reproduce this release's specimen choices.
