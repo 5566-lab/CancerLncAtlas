@@ -6,7 +6,9 @@ import numpy as np
 from .common import fail
 
 
-def validate_task_arrays(data, view, task, numeric_features, allow_empty=False):
+def validate_task_arrays(data, view, task, numeric_features, allow_empty=False, objective='binary'):
+    if objective not in {'binary', 'observed_fused_rms_effect'}:
+        fail('RELATION_OBJECTIVE_UNKNOWN', view, objective=objective)
     required = {
         "lnc", "target", "numeric", "base", "label", "available", "weight",
         "direction_label", "direction_available",
@@ -37,19 +39,25 @@ def validate_task_arrays(data, view, task, numeric_features, allow_empty=False):
             fail("TASK_NONFINITE_FEATURE", view, task=task, field=key)
     y = np.asarray(data["label"])
     w = np.asarray(data["weight"])
-    if not np.isin(y[valid], [0, 1]).all() or not np.isfinite(w[valid]).all() or np.any(w[valid] <= 0):
+    label_ok = (np.isin(y[valid], [0, 1]).all() if objective == 'binary' else
+                np.isfinite(y[valid]).all() and np.all((y[valid] >= 0) & (y[valid] <= 1 + 1e-6)))
+    if not label_ok or not np.isfinite(w[valid]).all() or np.any(w[valid] <= 0):
         fail("TASK_LABEL_OR_WEIGHT_INVALID", view, task=task)
     dm = np.asarray(data["direction_available"])
     if not np.isin(dm, [0, 1]).all() or np.any(dm.astype(bool) & ~valid):
         fail("TASK_DIRECTION_MASK_INVALID", view, task=task)
-    if not np.isin(np.asarray(data["direction_label"])[dm.astype(bool)], [0, 1]).all():
+    if objective == 'observed_fused_rms_effect' and dm.any():
+        fail('RELATION_STRENGTH_DIRECTION_HEAD_NOT_DECLARED', view, task=task)
+    if objective == 'binary' and not np.isin(np.asarray(data["direction_label"])[dm.astype(bool)], [0, 1]).all():
         fail("TASK_DIRECTION_LABEL_INVALID", view, task=task)
     return {
         "view": view,
         "task": task,
         "rows": n,
         "usable": int(valid.sum()),
-        "positive": int(y[valid].sum()),
+        "positive": int(y[valid].sum()) if objective == 'binary' else None,
+        "label_min": float(np.min(y[valid])) if objective != 'binary' and valid.any() else None,
+        "label_max": float(np.max(y[valid])) if objective != 'binary' and valid.any() else None,
     }
 
 
@@ -74,6 +82,7 @@ def write_prepared_readiness(root, spec, views, baselines, coverage):
                     task,
                     spec["numeric_features"],
                     allow_empty=True,
+                    objective=spec.get('relation_objective', 'binary'),
                 )
             row["split"] = split_by_view[view["id"]]
             rows.append(row)
@@ -86,11 +95,12 @@ def write_prepared_readiness(root, spec, views, baselines, coverage):
         for split in ("train", "validation"):
             selected = [row for row in rows if row["task"] == task and row["split"] == split]
             usable = sum(row["usable"] for row in selected)
-            positive = sum(row["positive"] for row in selected)
-            if usable == 0 or positive == 0 or positive == usable:
+            objective = spec.get('relation_objective', 'binary')
+            positive = sum(row["positive"] for row in selected) if objective == 'binary' else None
+            if usable == 0 or (objective == 'binary' and (positive == 0 or positive == usable)):
                 fail(
                     "TASK_NOT_ESTIMABLE",
-                    "Pooled task split has no two-class estimable candidates",
+                    "Pooled task split lacks estimable candidates",
                     task=task,
                     split=split,
                     usable=usable,
@@ -108,7 +118,9 @@ def write_prepared_readiness(root, spec, views, baselines, coverage):
         "views": rows,
         "aggregate_trainability": aggregate,
         "typed_unavailable_empty_views": empty_views,
-        "empty_view_policy": "ALLOW_TYPED_UNAVAILABLE_SINGLE_VIEW_REQUIRE_POOLED_TWO_CLASS_BY_TASK_AND_SPLIT",
+        "empty_view_policy": ("ALLOW_TYPED_UNAVAILABLE_SINGLE_VIEW_REQUIRE_POOLED_TWO_CLASS_BY_TASK_AND_SPLIT"
+                              if spec.get('relation_objective', 'binary') == 'binary' else
+                              "ALLOW_TYPED_UNAVAILABLE_SINGLE_VIEW_REQUIRE_POOLED_OBSERVED_BY_TASK_AND_SPLIT"),
         "task_weights": {"pathway": 1.0, "state": 0.5},
         "baselines": baselines,
         "singlecell_role": spec.get("singlecell_role"),

@@ -1,0 +1,7 @@
+case	unique_observations	target_observation_links	shared_by_multiple_targets	max_target_multiplicity
+TCGA_BRCA	9309	26012	3450	53
+CPTAC_BRCA	13751	34514	4627	53
+TCGA_LUAD	9309	26012	3450	53
+CPTAC_LUAD	16989	46527	6089	53
+TCGA_COAD	9309	26012	3450	53
+CPTAC_COAD	11225	29554	3697	53

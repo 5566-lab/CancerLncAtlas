@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "command": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_mechanism_context.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_joint_node_omics.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_joint_node_omics_contract.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_kegg_cancer_scope.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_backbone_alignment.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_target_policy.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_kegg381_backbone.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_relation_catalog.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_prepared_target_policy.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_functional_target_view.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_m0_relation.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_functional_y.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_functional_fusion.py",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/source_integration/repo/tests/test_fold_policy.py"
+  ],
+  "returncode": 0,
+  "seconds": 27.513296127319336,
+  "result": "112 passed in 25.44s"
+}

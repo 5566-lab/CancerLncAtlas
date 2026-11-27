@@ -1,0 +1,26 @@
+{
+  "target_host": "149",
+  "pointers": [
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_READER_DELIVERY.json",
+      "sha256": "5fe69b9a62e42b718344d312b9eac54657557a711aa3ff5679fe8586e7301b0f"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_Y_DELIVERY.json",
+      "sha256": "2829cdd398cb79209b5240099e32e3f7d1f6b119e1098de8357c45e4e1b0c66c"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CANONICAL_TARGETS_CURRENT.json",
+      "sha256": "402314d37247b13c103b9c2eadc00d6a38cef57469cc1be992f01333d0e278f5"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_CANONICAL_REFERENCE.json",
+      "sha256": "5fb876fd218a3c5eb33de82c8be7a28410eab01d6103415bc115bf95c3344c63"
+    }
+  ],
+  "fixed_y_changed": false,
+  "reader_ppt_slides": 28,
+  "supervised_pathway_candidates": 335,
+  "event_annotation_pathways": 141,
+  "training": false
+}

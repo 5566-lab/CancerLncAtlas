@@ -1,0 +1,164 @@
+{
+  "target_host": "149",
+  "definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/FIXED_Y_DEFINITION.json",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/observation_registry_r2",
+  "dictionary_sha256": "78c90fe84a4b8789288a6c4ba02cdbaf7ac43b83ff922cd1bad7448d12176103",
+  "files": [
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/CancerLncAtlas_KEGG癌症主干与多维Y_20261112.pptx",
+      "name": "CancerLncAtlas_KEGG癌症主干与多维Y_20261112.pptx",
+      "sha256": "8d9eee89e27c7a2957721928633f2d9d5f8e1ea9a370e6a48d3f15177de1620f",
+      "bytes": 1523658
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/CancerLncAtlas_KEGG癌症主干与多维Y_20261112.pdf",
+      "name": "CancerLncAtlas_KEGG癌症主干与多维Y_20261112.pdf",
+      "sha256": "3c32c2e8ffacbeb7df62a53a18a7abff47df62bc218a1e137de5506d4eda004e",
+      "bytes": 1492953
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/Functional_pathway_State_dictionary_v6.xlsx",
+      "name": "Functional_pathway_State_dictionary_v6.xlsx",
+      "sha256": "78c90fe84a4b8789288a6c4ba02cdbaf7ac43b83ff922cd1bad7448d12176103",
+      "bytes": 30246743
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/M0线性对照设置.txt",
+      "name": "M0线性对照设置.txt",
+      "sha256": "fdb1e28fb2dd3c606849085e8d796c9f2ba24d4dd6acabf5fb4329750c1cd0ee",
+      "bytes": 3723
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/多组学Y定义与数据接口.txt",
+      "name": "多组学Y定义与数据接口.txt",
+      "sha256": "cc9e82f7e686ed5bf1730693d99c584e127114f49a7f78c9113d37bb0cc1397c",
+      "bytes": 5516
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/阅读顺序.txt",
+      "name": "阅读顺序.txt",
+      "sha256": "7a5588934a952ef17b962f3c0b2c7c8c44848fd1f54110e61342018c63c155e6",
+      "bytes": 433
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/01_problem_solution.png",
+      "name": "figures/01_problem_solution.png",
+      "sha256": "6171213e69404d2e140c1204e4016f21d6ab6d951830934e07e8db8379035b9d",
+      "bytes": 164072
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/02_scope.png",
+      "name": "figures/02_scope.png",
+      "sha256": "5bbc9ccfcc17a2e7945a31e34f00a2be1ae28919ea886823c159d4cdc0a1bac2",
+      "bytes": 95938
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/03_integration.png",
+      "name": "figures/03_integration.png",
+      "sha256": "9c923a0a334a0b2948f913f51fc35953ac9a72c8372f62aa8bb4f225885e536a",
+      "bytes": 209484
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/04_mmr_example.png",
+      "name": "figures/04_mmr_example.png",
+      "sha256": "446630207ab7f7e363030240208d9a1aef6cf090b455e6e2e8e95c0a1760b214",
+      "bytes": 258383
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/05_same_list_different_mechanism.png",
+      "name": "figures/05_same_list_different_mechanism.png",
+      "sha256": "01a584c9a55080e348eba60dd1798ca73733035f527f3fc67b9108a5d8452c8e",
+      "bytes": 141866
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/06_Y_structure.png",
+      "name": "figures/06_Y_structure.png",
+      "sha256": "70988136ff674af72330370405d4e93bf50a7f5df5df439ee41f95b7a96b815a",
+      "bytes": 168632
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/07_measured_coverage.png",
+      "name": "figures/07_measured_coverage.png",
+      "sha256": "d83a6ab21a2a5f1ff15f37a05b8f398da216823a3e3d6d935c133422128b6789",
+      "bytes": 127717
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/08_condition.png",
+      "name": "figures/08_condition.png",
+      "sha256": "f43fa005ba27dd6da07710bbd73046a6c76354101788be7f898081d5130a9cd8",
+      "bytes": 179342
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/09_m0.png",
+      "name": "figures/09_m0.png",
+      "sha256": "ed58d15e9c3e31966f38f304142472dbce684886c6a8a24d1ed0983f27374083",
+      "bytes": 152780
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/10_result.png",
+      "name": "figures/10_result.png",
+      "sha256": "56d011e83cfd8481d7e483dfe1f11e7bfc6f35593700251bd1c7211e1bf0fb16",
+      "bytes": 153544
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/01_problem_solution.pdf",
+      "name": "figures/01_problem_solution.pdf",
+      "sha256": "6cdd674ce993d42819a123101c0895fd55c4f01499d863ae79eab8bed4f0e30c",
+      "bytes": 34446
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/02_scope.pdf",
+      "name": "figures/02_scope.pdf",
+      "sha256": "47656136636019a98b0ca03fd322d92fc4cc6008a75757cf7c7caa734f5784ca",
+      "bytes": 21137
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/03_integration.pdf",
+      "name": "figures/03_integration.pdf",
+      "sha256": "42b95007e7f188cd9783ca3753df3088789683776cdf04eea8d4f14b2236ab90",
+      "bytes": 49384
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/04_mmr_example.pdf",
+      "name": "figures/04_mmr_example.pdf",
+      "sha256": "e553540d901ba93860817f9b6f707b37dd120a2a0948392e824c4efe7e5482df",
+      "bytes": 34454
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/05_same_list_different_mechanism.pdf",
+      "name": "figures/05_same_list_different_mechanism.pdf",
+      "sha256": "6ef75c7a40c466ecce03c7afc535bd587181c4f34919b000381a6278e4cc9a10",
+      "bytes": 29081
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/06_Y_structure.pdf",
+      "name": "figures/06_Y_structure.pdf",
+      "sha256": "d97ae7a60a1f95a7e9cc8b4587256b7429170fd7740e4fd9d86a464be5ad47e1",
+      "bytes": 36116
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/07_measured_coverage.pdf",
+      "name": "figures/07_measured_coverage.pdf",
+      "sha256": "28a9eb0b2434fa011f963edb5ab850071e469ff1efecc4c4692db5274a5db07e",
+      "bytes": 20277
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/08_condition.pdf",
+      "name": "figures/08_condition.pdf",
+      "sha256": "ae67cfe70cdaf0d20c1bcaae732661612d9f125b9008d3d45c2a5c57742edea6",
+      "bytes": 37923
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/09_m0.pdf",
+      "name": "figures/09_m0.pdf",
+      "sha256": "fcb79466023b03c5b2bef07536afe61f31e3817e3903943c1b16ace1c05c8088",
+      "bytes": 30798
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/reader_delivery_fixed_y_20261112/figures/10_result.pdf",
+      "name": "figures/10_result.pdf",
+      "sha256": "e1a497c4474752a416303fcb636a34a6ec3f4f3b42ece8be3ec66d2ca8664b63",
+      "bytes": 34709
+    }
+  ]
+}

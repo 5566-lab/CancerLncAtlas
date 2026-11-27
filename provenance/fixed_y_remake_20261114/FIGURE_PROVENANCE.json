@@ -1,0 +1,233 @@
+{
+  "MMR": {
+    "source_ids": [
+      "MSIGDB:KEGG_MEDICUS:KEGG_MEDICUS_REFERENCE_MISMATCH_REPAIR",
+      "WIKIPATHWAYS:WP531",
+      "MSIGDB:REACTOME:REACTOME_MISMATCH_REPAIR"
+    ],
+    "protein_counts": [
+      26,
+      23,
+      15
+    ],
+    "jaccard": [
+      [
+        1.0,
+        0.8846153846153846,
+        0.5769230769230769
+      ],
+      [
+        0.8846153846153846,
+        1.0,
+        0.5833333333333334
+      ],
+      [
+        0.5769230769230769,
+        0.5833333333333334,
+        1.0
+      ]
+    ],
+    "core": 14,
+    "union": 26,
+    "example_clustering": "average linkage of Jaccard distance for the three current MMR source definitions"
+  },
+  "member_patient_coverage": [
+    [
+      100.0,
+      78.89908256880734,
+      78.89908256880734,
+      99.88532110091744,
+      70.52752293577981
+    ],
+    [
+      100.0,
+      100.0,
+      100.0,
+      0.0,
+      0.0
+    ],
+    [
+      100.0,
+      66.83046683046683,
+      66.83046683046683,
+      99.5085995085995,
+      88.6977886977887
+    ],
+    [
+      100.0,
+      100.0,
+      100.0,
+      0.0,
+      96.5909090909091
+    ],
+    [
+      100.0,
+      76.85950413223141,
+      76.85950413223141,
+      97.7961432506887,
+      64.18732782369146
+    ],
+    [
+      100.0,
+      91.66666666666667,
+      91.66666666666667,
+      0.0,
+      0.0
+    ]
+  ],
+  "PI3K_selection": {
+    "TCGA_BRCA": [
+      {
+        "observation_id": "CLA-O-D78F799CF449DAC6FB56C3AE",
+        "feature_id": "RPPA500:AKT",
+        "label": "AKT",
+        "layer": "PROTEIN",
+        "patients_measured": 688
+      },
+      {
+        "observation_id": "CLA-O-18CCF24E27A48A7715DD01D3",
+        "feature_id": "RPPA500:EGFR",
+        "label": "EGFR",
+        "layer": "PROTEIN",
+        "patients_measured": 688
+      },
+      {
+        "observation_id": "CLA-O-E5972D62C5D2B670B9651BE8",
+        "feature_id": "RPPA500:PI3KP110ALPHA",
+        "label": "PI3KP110ALPHA",
+        "layer": "PROTEIN",
+        "patients_measured": 688
+      },
+      {
+        "observation_id": "CLA-O-DA6496B814C25EF486B381B4",
+        "feature_id": "RPPA500:AKT2",
+        "label": "AKT2",
+        "layer": "PROTEIN",
+        "patients_measured": 672
+      },
+      {
+        "observation_id": "CLA-O-0248DFAF9F2ADE82EF19565A",
+        "feature_id": "RPPA500:AKTPS473",
+        "label": "AKTPS473",
+        "layer": "PHOSPHO",
+        "patients_measured": 688
+      },
+      {
+        "observation_id": "CLA-O-C9B9E33F569D1FEFA78783BE",
+        "feature_id": "RPPA500:AKTPT308",
+        "label": "AKTPT308",
+        "layer": "PHOSPHO",
+        "patients_measured": 688
+      },
+      {
+        "observation_id": "CLA-O-16C5400942249E6E6AAE6C76",
+        "feature_id": "RPPA500:EGFRPY1068",
+        "label": "EGFRPY1068",
+        "layer": "PHOSPHO",
+        "patients_measured": 688
+      },
+      {
+        "observation_id": "CLA-O-39B5419976462DEC8C1A7599",
+        "feature_id": "RPPA500:AKT2PS474",
+        "label": "AKT2PS474",
+        "layer": "PHOSPHO",
+        "patients_measured": 672
+      }
+    ],
+    "CPTAC_BRCA": [
+      {
+        "observation_id": "CLA-O-1E9D4A9EEAD7B3402D44D063",
+        "feature_id": "ENSG00000142208",
+        "label": "AKT1",
+        "layer": "PROTEIN",
+        "patients_measured": 96
+      },
+      {
+        "observation_id": "CLA-O-20B9EC427F541C9ABDAFC037",
+        "feature_id": "ENSG00000105221",
+        "label": "AKT2",
+        "layer": "PROTEIN",
+        "patients_measured": 96
+      },
+      {
+        "observation_id": "CLA-O-CC7D2C8C3771077D15E2955E",
+        "feature_id": "ENSG00000117020",
+        "label": "AKT3",
+        "layer": "PROTEIN",
+        "patients_measured": 96
+      },
+      {
+        "observation_id": "CLA-O-BA5D6CC3B956A3ACF37F4991",
+        "feature_id": "ENSG00000002330",
+        "label": "BAD",
+        "layer": "PROTEIN",
+        "patients_measured": 96
+      },
+      {
+        "observation_id": "CLA-O-9C334CB733CE5388294A6500",
+        "feature_id": "ENSG00000142208.16|ENSP00000451828.1|S129|SGSPSDNSGAEEMEV|1",
+        "label": "AKT1 S129",
+        "layer": "PHOSPHO",
+        "patients_measured": 96
+      },
+      {
+        "observation_id": "CLA-O-81302404B4A8C949370AB317",
+        "feature_id": "ENSG00000002330.13|ENSP00000378040.3|S118|GRELRRMSDEFVDSF|1",
+        "label": "BAD S118",
+        "layer": "PHOSPHO",
+        "patients_measured": 96
+      },
+      {
+        "observation_id": "CLA-O-CD99F69F46FC44BECBA451CA",
+        "feature_id": "ENSG00000002330.13|ENSP00000378040.3|S99|PFRGRSRSAPPNLWA|1",
+        "label": "BAD S99",
+        "layer": "PHOSPHO",
+        "patients_measured": 96
+      },
+      {
+        "observation_id": "CLA-O-B983E3EE1C1A64A2DE5D860F",
+        "feature_id": "ENSG00000146648.18|ENSP00000275493.2|T693|RELVEPLTPSGEAPN|1",
+        "label": "EGFR T693",
+        "layer": "PHOSPHO",
+        "patients_measured": 80
+      }
+    ]
+  },
+  "cell_sources": [
+    {
+      "source": "cibersort_relative::T.cells.CD8",
+      "method": "LM22_PC_LINEAR_NUSVR_RELATIVE_V1",
+      "units": "source-specific score; method and reference retained",
+      "n": 872,
+      "observation_id": "CLA-O-198DF3939C2A2E8A811E338B"
+    },
+    {
+      "source": "xCell::CD8+ T-cells",
+      "method": "XCELL_NATIVE_SIGNATURES_PUBLISHED_SPILLOVER_FROZEN_TRAIN_MINIMA",
+      "units": "source-specific score; method and reference retained",
+      "n": 872,
+      "observation_id": "CLA-O-18B4C0A2EE9353F557F123D0"
+    },
+    {
+      "source": "MCPcounter::CD8 T cells",
+      "method": "EXACT_SIGNATURE_FORMULAS_COMMON_BACKGROUND_TRAIN_REFERENCE_WHERE_REQUIRED",
+      "units": "source-specific score; method and reference retained",
+      "n": 872,
+      "observation_id": "CLA-O-FD46D97D9586325EEBB79FC8"
+    }
+  ],
+  "SBS": {
+    "TCGA_BRCA_measured_patients": 319,
+    "TCGA_BRCA_total": 872,
+    "shown_signatures": [
+      "SBS1",
+      "SBS2",
+      "SBS3",
+      "SBS5",
+      "SBS13",
+      "SBS40"
+    ],
+    "shown_patients": 35,
+    "CPTAC_BRCA_measured_dimensions": 0
+  }
+}

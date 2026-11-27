@@ -1,0 +1,102 @@
+{
+  "status": "ACTIVE_VERIFIED",
+  "date": "2026-11-27",
+  "target": "149",
+  "workflow": "STAR - Counts",
+  "gene_model": "GENCODE v36",
+  "metric": "tpm_unstranded",
+  "public_tests": {
+    "tests": 54,
+    "skipped": 0,
+    "errors": 0,
+    "failures": 0
+  },
+  "common_cohorts": {
+    "CPTAC": 10,
+    "TCGA": 33
+  },
+  "common_patients": {
+    "CPTAC": 1037,
+    "TCGA": 10432
+  },
+  "common_lncRNAs": 16889,
+  "common_score_gene_background": 59257,
+  "cptac_native_genes": 60660,
+  "cptac_cohorts": {
+    "BRCA": {
+      "Tumor": 121,
+      "Normal": 0,
+      "patients_in_native_multimodal_catalog": 122,
+      "native_pathways_with_scores": 1901
+    },
+    "CCRCC": {
+      "Tumor": 103,
+      "Normal": 72,
+      "patients_in_native_multimodal_catalog": 103,
+      "native_pathways_with_scores": 1901
+    },
+    "COAD": {
+      "Tumor": 106,
+      "Normal": 0,
+      "patients_in_native_multimodal_catalog": 110,
+      "native_pathways_with_scores": 1901
+    },
+    "GBM": {
+      "Tumor": 99,
+      "Normal": 0,
+      "patients_in_native_multimodal_catalog": 99,
+      "native_pathways_with_scores": 1901
+    },
+    "HNSCC": {
+      "Tumor": 108,
+      "Normal": 46,
+      "patients_in_native_multimodal_catalog": 108,
+      "native_pathways_with_scores": 1901
+    },
+    "LSCC": {
+      "Tumor": 108,
+      "Normal": 94,
+      "patients_in_native_multimodal_catalog": 108,
+      "native_pathways_with_scores": 1901
+    },
+    "LUAD": {
+      "Tumor": 110,
+      "Normal": 101,
+      "patients_in_native_multimodal_catalog": 110,
+      "native_pathways_with_scores": 1901
+    },
+    "OV": {
+      "Tumor": 82,
+      "Normal": 0,
+      "patients_in_native_multimodal_catalog": 83,
+      "native_pathways_with_scores": 1901
+    },
+    "PDAC": {
+      "Tumor": 105,
+      "Normal": 15,
+      "patients_in_native_multimodal_catalog": 105,
+      "native_pathways_with_scores": 1901
+    },
+    "UCEC": {
+      "Tumor": 95,
+      "Normal": 0,
+      "patients_in_native_multimodal_catalog": 95,
+      "native_pathways_with_scores": 1901
+    }
+  },
+  "cptac_rna_specimens": 1365,
+  "gdc_files": 1365,
+  "cptac_exact_specimen_protein": 1263,
+  "cptac_exact_specimen_protein_and_phospho": 1219,
+  "runtime_entries": [
+    "CPTAC_CURRENT.json",
+    "CURRENT_149_CONFIG.json",
+    "RPPA_CURRENT.json",
+    "STATE_CURRENT.json"
+  ],
+  "release_manifests": {
+    "aligned_r4": "60baa82207ddc9ceadd46e9dd5c0726ae373cfecd29802207640104454b87cb6",
+    "bundle_r1": "567d4f9412d1c3899fd2796b853c44ec7e22590966bd6d1422c7616f02b6b9ed",
+    "common_rna_scores_r1": "cb765f06e26e14eccce79d0f5714effe2177cf31cf7c54c5abb4e6748555f1ad"
+  }
+}

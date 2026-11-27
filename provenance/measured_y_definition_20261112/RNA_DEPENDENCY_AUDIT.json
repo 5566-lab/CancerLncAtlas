@@ -1,0 +1,58 @@
+{
+  "target_host": "149",
+  "annotation_sha256": "547c825359c6cb816eed995dddd8139e4ee8177293d64218982344aa7c05c860",
+  "protein_coding_symbols": 19907,
+  "lncrna_symbols": 16861,
+  "mixed_pc_lnc_symbols": [
+    "ARMCX5-GPRASP2",
+    "CCDC39",
+    "ELFN2",
+    "RGS5",
+    "SFTA3",
+    "SLFN12L"
+  ],
+  "programs_with_lnc_members": 24,
+  "program_lnc_membership_rows": 15260,
+  "current_dorothea_programs_with_lnc_members": 10,
+  "current_dorothea_membership_rows": 17,
+  "current_official_progeny_nonzero_lnc_members": {
+    "EGFR": 1,
+    "Hypoxia": 1,
+    "JAK-STAT": 1,
+    "p53": 1,
+    "PI3K": 8,
+    "TGFb": 1,
+    "Trail": 12,
+    "VEGF": 6
+  },
+  "stemness": [
+    {
+      "readout": "RNAss",
+      "matched_genes": 12937,
+      "biotypes": {
+        "protein_coding": 12894,
+        "lncRNA": 28,
+        "transcribed_unprocessed_pseudogene": 9,
+        "transcribed_unitary_pseudogene": 4,
+        "unprocessed_pseudogene": 1,
+        "processed_pseudogene": 1
+      }
+    },
+    {
+      "readout": "EREG.EXPss",
+      "matched_genes": 103,
+      "biotypes": {
+        "protein_coding": 102,
+        "transcribed_unprocessed_pseudogene": 1
+      }
+    }
+  ],
+  "all_symbol_background_readout_families": [
+    "EMT_Miow",
+    "ECM_Chakravarthy",
+    "SenMayo",
+    "CIN_Carter_70",
+    "APM_Wang"
+  ],
+  "consequence": "Filtering only protein-coding symbols after all-biotype TPM summation does not remove lncRNA contributions from mixed symbols; recompute protein-coding gene-ID inputs before aggregation."
+}

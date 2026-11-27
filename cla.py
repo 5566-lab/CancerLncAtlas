@@ -21,6 +21,7 @@ def parser():
     p=argparse.ArgumentParser(description='CancerLncAtlas V3.2 executable CPU/GPU workflow')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('package-check')
+    a=sub.add_parser('prepare-relation');a.add_argument('--plan',required=True);a.add_argument('--output',required=True)
     a=sub.add_parser('export-local');a.add_argument('--output',default='local_export');a.add_argument('--root')
     a=sub.add_parser('import-local');a.add_argument('archive');a.add_argument('--config',default=str(ROOT/'config/149.json'))
     for command in ['preflight','prepare']:
@@ -86,6 +87,9 @@ def main():
         if args.command=='package-check':
             from cla_engine.package import verify
             verify(ROOT);return 0
+        if args.command=='prepare-relation':
+            from cla_engine.relation_prepared import prepare_relation_capsule
+            print(json.dumps(prepare_relation_capsule(read_json(args.plan),args.output),ensure_ascii=False));return 0
         if args.command=='export-local':
             from cla_engine.inputs import export_local
             print(export_local(args.output,args.root));return 0

@@ -1,0 +1,357 @@
+{
+  "target_host": "149",
+  "catalog": {
+    "inventory": 658,
+    "primary_pathways": 477,
+    "excluded": 181,
+    "evidence_basis": {
+      "curated_mechanism_evidence": 255,
+      "official_cancer_class": 199,
+      "official_malignant_disease": 23
+    },
+    "network_type": {
+      "Reference": 334,
+      "Variant": 78,
+      "Pathogen": 47,
+      "Env factor": 18
+    },
+    "program_source_rows_checked": 616,
+    "id_redirect_rows": 10
+  },
+  "MMR": {
+    "source_ids": [
+      "CLA-P-2F5E3CD19372C9E7",
+      "REF:WikiPathways:WP531",
+      "CLA-P-922863C8FB5E9DF9"
+    ],
+    "protein_counts": [
+      26,
+      23,
+      15
+    ],
+    "jaccard": [
+      [
+        1.0,
+        0.8846153846153846,
+        0.5769230769230769
+      ],
+      [
+        0.8846153846153846,
+        1.0,
+        0.5833333333333334
+      ],
+      [
+        0.5769230769230769,
+        0.5833333333333334,
+        1.0
+      ]
+    ],
+    "common_core": 14,
+    "union": 26
+  },
+  "member_coverage": [
+    {
+      "case": "TCGA_BRCA",
+      "cohort": "TCGA",
+      "layer": "RNA",
+      "patients": "872",
+      "features": "2505",
+      "observed_features": "2505",
+      "observed_cells": "2184360",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2(TPM+1), protein-coding gene IDs"
+    },
+    {
+      "case": "TCGA_BRCA",
+      "cohort": "TCGA",
+      "layer": "PROTEIN",
+      "patients": "872",
+      "features": "205",
+      "observed_features": "186",
+      "observed_cells": "126143",
+      "pathways_with_member_measurement": "336",
+      "pathways_with_ambiguous_group_measurement": "16",
+      "units": "published TCPA RPPA500 Level 4 antibody signal"
+    },
+    {
+      "case": "TCGA_BRCA",
+      "cohort": "TCGA",
+      "layer": "PHOSPHO",
+      "patients": "872",
+      "features": "62",
+      "observed_features": "58",
+      "observed_cells": "39568",
+      "pathways_with_member_measurement": "230",
+      "pathways_with_ambiguous_group_measurement": "42",
+      "units": "published TCPA RPPA500 Level 4 antibody signal"
+    },
+    {
+      "case": "TCGA_BRCA",
+      "cohort": "TCGA",
+      "layer": "CNV",
+      "patients": "872",
+      "features": "2503",
+      "observed_features": "2439",
+      "observed_cells": "2120118",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2_copy_ratio"
+    },
+    {
+      "case": "TCGA_BRCA",
+      "cohort": "TCGA",
+      "layer": "METHYLATION",
+      "patients": "872",
+      "features": "2503",
+      "observed_features": "2414",
+      "observed_cells": "1481693",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "beta"
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "cohort": "CPTAC",
+      "layer": "RNA",
+      "patients": "96",
+      "features": "2505",
+      "observed_features": "2505",
+      "observed_cells": "240480",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2(TPM+1), protein-coding gene IDs"
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "cohort": "CPTAC",
+      "layer": "PROTEIN",
+      "patients": "96",
+      "features": "1906",
+      "observed_features": "1906",
+      "observed_cells": "159523",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "published CPTAC native scale; exact source feature retained"
+    },
+    {
+      "case": "CPTAC_BRCA",
+      "cohort": "CPTAC",
+      "layer": "PHOSPHO",
+      "patients": "96",
+      "features": "7315",
+      "observed_features": "7315",
+      "observed_cells": "245817",
+      "pathways_with_member_measurement": "468",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "published CPTAC native scale; exact source feature retained"
+    },
+    {
+      "case": "TCGA_LUAD",
+      "cohort": "TCGA",
+      "layer": "RNA",
+      "patients": "407",
+      "features": "2505",
+      "observed_features": "2505",
+      "observed_cells": "1019535",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2(TPM+1), protein-coding gene IDs"
+    },
+    {
+      "case": "TCGA_LUAD",
+      "cohort": "TCGA",
+      "layer": "PROTEIN",
+      "patients": "407",
+      "features": "205",
+      "observed_features": "189",
+      "observed_cells": "50074",
+      "pathways_with_member_measurement": "335",
+      "pathways_with_ambiguous_group_measurement": "16",
+      "units": "published TCPA RPPA500 Level 4 antibody signal"
+    },
+    {
+      "case": "TCGA_LUAD",
+      "cohort": "TCGA",
+      "layer": "PHOSPHO",
+      "patients": "407",
+      "features": "62",
+      "observed_features": "59",
+      "observed_cells": "15783",
+      "pathways_with_member_measurement": "230",
+      "pathways_with_ambiguous_group_measurement": "42",
+      "units": "published TCPA RPPA500 Level 4 antibody signal"
+    },
+    {
+      "case": "TCGA_LUAD",
+      "cohort": "TCGA",
+      "layer": "CNV",
+      "patients": "407",
+      "features": "2503",
+      "observed_features": "2439",
+      "observed_cells": "986278",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2_copy_ratio"
+    },
+    {
+      "case": "TCGA_LUAD",
+      "cohort": "TCGA",
+      "layer": "METHYLATION",
+      "patients": "407",
+      "features": "2503",
+      "observed_features": "2414",
+      "observed_cells": "870345",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "beta"
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "cohort": "CPTAC",
+      "layer": "RNA",
+      "patients": "88",
+      "features": "2505",
+      "observed_features": "2505",
+      "observed_cells": "220440",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2(TPM+1), protein-coding gene IDs"
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "cohort": "CPTAC",
+      "layer": "PROTEIN",
+      "patients": "88",
+      "features": "1943",
+      "observed_features": "1943",
+      "observed_cells": "149954",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "published CPTAC native scale; exact source feature retained"
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "cohort": "CPTAC",
+      "layer": "PHOSPHO",
+      "patients": "88",
+      "features": "8617",
+      "observed_features": "8617",
+      "observed_cells": "275126",
+      "pathways_with_member_measurement": "470",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "published CPTAC native scale; exact source feature retained"
+    },
+    {
+      "case": "CPTAC_LUAD",
+      "cohort": "CPTAC",
+      "layer": "METHYLATION",
+      "patients": "88",
+      "features": "1899",
+      "observed_features": "1876",
+      "observed_cells": "152203",
+      "pathways_with_member_measurement": "476",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "published CPTAC native scale; exact source feature retained"
+    },
+    {
+      "case": "TCGA_COAD",
+      "cohort": "TCGA",
+      "layer": "RNA",
+      "patients": "363",
+      "features": "2505",
+      "observed_features": "2505",
+      "observed_cells": "909315",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2(TPM+1), protein-coding gene IDs"
+    },
+    {
+      "case": "TCGA_COAD",
+      "cohort": "TCGA",
+      "layer": "PROTEIN",
+      "patients": "363",
+      "features": "205",
+      "observed_features": "184",
+      "observed_cells": "50651",
+      "pathways_with_member_measurement": "334",
+      "pathways_with_ambiguous_group_measurement": "16",
+      "units": "published TCPA RPPA500 Level 4 antibody signal"
+    },
+    {
+      "case": "TCGA_COAD",
+      "cohort": "TCGA",
+      "layer": "PHOSPHO",
+      "patients": "363",
+      "features": "62",
+      "observed_features": "58",
+      "observed_cells": "16035",
+      "pathways_with_member_measurement": "230",
+      "pathways_with_ambiguous_group_measurement": "42",
+      "units": "published TCPA RPPA500 Level 4 antibody signal"
+    },
+    {
+      "case": "TCGA_COAD",
+      "cohort": "TCGA",
+      "layer": "CNV",
+      "patients": "363",
+      "features": "2503",
+      "observed_features": "2439",
+      "observed_cells": "865252",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2_copy_ratio"
+    },
+    {
+      "case": "TCGA_COAD",
+      "cohort": "TCGA",
+      "layer": "METHYLATION",
+      "patients": "363",
+      "features": "2503",
+      "observed_features": "2414",
+      "observed_cells": "561705",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "beta"
+    },
+    {
+      "case": "CPTAC_COAD",
+      "cohort": "CPTAC",
+      "layer": "RNA",
+      "patients": "84",
+      "features": "2505",
+      "observed_features": "2505",
+      "observed_cells": "210420",
+      "pathways_with_member_measurement": "477",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "log2(TPM+1), protein-coding gene IDs"
+    },
+    {
+      "case": "CPTAC_COAD",
+      "cohort": "CPTAC",
+      "layer": "PROTEIN",
+      "patients": "84",
+      "features": "1566",
+      "observed_features": "1566",
+      "observed_cells": "97619",
+      "pathways_with_member_measurement": "475",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "published CPTAC native scale; exact source feature retained"
+    },
+    {
+      "case": "CPTAC_COAD",
+      "cohort": "CPTAC",
+      "layer": "PHOSPHO",
+      "patients": "84",
+      "features": "5129",
+      "observed_features": "5129",
+      "observed_cells": "146300",
+      "pathways_with_member_measurement": "462",
+      "pathways_with_ambiguous_group_measurement": "0",
+      "units": "published CPTAC native scale; exact source feature retained"
+    }
+  ],
+  "program_source_rows": 860,
+  "representation": "PATHWAY_GROUPED_PATIENT_OBSERVATIONS",
+  "lncrna_associations_used": false
+}

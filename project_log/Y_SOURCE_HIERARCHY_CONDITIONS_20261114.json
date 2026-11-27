@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "request": "Supplement database counts, exact WNT hierarchy, matched M0/HHGT design and audit 141 event mechanisms",
+  "reader_delivery": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/ppt_y_clarification_20261114_r2/DELIVERY_MANIFEST.json",
+  "slides": 28,
+  "shared_composition_resources": 4,
+  "composition_definitions": 2740,
+  "rna_scoring_source_families": 14,
+  "rna_definitions": 411,
+  "ptmsigdb_definitions": 624,
+  "event_condition_root_cause": "Original materializer passed an empty patient-event table; all-cancer absence was not established",
+  "supervised_pathway_candidates": 335,
+  "event_annotation_pathways": 141,
+  "no_permanent_dictionary_deletion": true,
+  "fixed_y_values_and_masks_unchanged": true,
+  "WNT_primary_members": 46,
+  "WNT_context_does_not_expand_primary_Y": true,
+  "M0_new_Y_fit_adapter_implemented": false,
+  "HHGT_patient_observation_decoder_implemented": false,
+  "training": false,
+  "lncrna_association": false
+}

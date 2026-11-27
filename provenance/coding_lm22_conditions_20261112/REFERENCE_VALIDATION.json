@@ -1,0 +1,23 @@
+{
+  "target_host": "149",
+  "signature_members": 547,
+  "retained_reference_genes": 517,
+  "cells": 22,
+  "member_decisions": {
+    "DIRECT_CODING_SYMBOL": 498,
+    "DIRECT_NONCODING_SYMBOL": 24,
+    "HGNC_TO_CODING_GENE_ID": 19,
+    "NO_CODING_GENE_ID_MATCH": 6
+  },
+  "reference_sha256": "2ca7bbec2349f0420292cb781cdbe2ab67a77e42c2216b4e0b368e9bf4948484",
+  "reference_inputs": {
+    "/dsk2/user/dengsc/cla_state_signature_update_20261104_r1/sources/LM22_OFFICIAL_MATRIX.tsv": "2e625d2911a1336517dc0e02205a4e8ee8794af31cf1a7a5c597f84fdc185a33",
+    "/dsk2/user/dengsc/cla_state_signature_update_20261104_r1/sources/hgnc_complete_set.txt": "d93ce6b22d01dc1e1ded28857246951d605ead47ed17ef973ad1142b1d13bed0",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/common_rna_scores_r1/COMMON_GENE_ANNOTATION.tsv": "547c825359c6cb816eed995dddd8139e4ee8177293d64218982344aa7c05c860"
+  },
+  "R_vs_python_max_absolute_error": 6.661338147750939e-16,
+  "e1071_version": "1.7.17",
+  "method_source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4739640/",
+  "biological_accuracy_validation": false,
+  "published_CIBERSORT_numerical_equivalence": false
+}

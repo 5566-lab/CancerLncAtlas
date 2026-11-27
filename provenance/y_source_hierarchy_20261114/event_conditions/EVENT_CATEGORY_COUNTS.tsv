@@ -1,0 +1,9 @@
+event_family_zh	pathway_count	event_examples
+激活/失活变异或FLT3重复	20	Mutation-activated RET; Mutation-activated PI3K; Mutation-activated KIT; Mutation-activated MET
+拷贝数扩增	17	Amplified MYCN; Amplified FGFR; Amplified CCND1; Amplified CDK4
+功能丧失	4	Loss of NKX3-1; Loss of CDKN1B; Loss of RASSF1; Loss of VHL
+配体或化学暴露	19	Nicotine; Metals; DCE; NNK/NNN
+融合或重排	19	IGH-MMSET fusion; BCR-ABL fusion kinase; TEL-AML1 fusion; AML1-ETO fusion
+病原体或其效应蛋白	46	HTLV-1 p12; EBV LMP1; KSHV MIR1/2; EBV EBNA3C
+表达升高或降低	15	HRAS-overexpression; EGF-overexpression; IGF2-overexpression; MET-overexpression
+临床受体阳性	1	ESR1-positive

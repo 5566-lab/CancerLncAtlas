@@ -1,0 +1,30 @@
+{
+  "target_host": "149",
+  "inputs": {
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r11_state_groups_20261114_r1/DEFINITION_TO_IDENTITY.tsv": "a95cf9148ed2d17cca0480e2130e7a1fba09a529f4d241d40ead748703c749be",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r11_state_groups_20261114_r1/PRIMARY_PATHWAY_TARGETS.tsv": "7de464ea2e03f30901129f33eb3d748a48d55b1d9fb5427b993d20e8b490b26c",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r11_state_groups_20261114_r1/BACKBONE_ALIGNMENT.tsv": "651d6c0e7180af3d4454be4fd489d627695cabe58f93cab3069fbf9e9dc91a5a",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r11_state_groups_20261114_r1/PHOSPHO_READOUT_DEFINITIONS.tsv": "08a1c4f38bb252ce5853d7565037839657219290646ee0d223caf895c883bd7a",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/PATHWAY_SOURCE_ID_REGISTRY_DRAFT.tsv": "0d9c61997a78aa5cbf6e0c5ce257f90c0f6e193158538f6f90a9d1d1fa12324f",
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/catalog_inventory/STATE_SOURCE_ID_REGISTRY_DRAFT.tsv": "29b58ebb46f22f3e3b73747199a825d6b6ec4af133b0fabe8390d1a8f5dc7552"
+  },
+  "outputs": {
+    "LAUNCH_PREFLIGHT.json": "beb2f280b00019e8fd1b808aab4c6a01e14357d876990c213b0e4e614a897d57",
+    "Y_SOURCE_DIMENSIONS_BY_COHORT.tsv": "4cb782dc3cc310c8805aa8a731649c4b22c4a105655c9643f54e9813c3e7d9e3",
+    "COMPOSITION_RESOURCE_INVENTORY.tsv": "56e8092c47f6256776114ff1941d84a128a613a66e46fd5c812222004808d2c8",
+    "STATE_AND_REGULATOR_RESOURCE_INVENTORY.tsv": "9cbc09c8d4e07401c681ce59fb966b780756ed7eb19d630335a8413e0b0db2e3",
+    "STATE_RESOURCE_DEFINITIONS.tsv": "82151679b77311704452826dbf3f5081dbcfcf6523c12ae0f99cf9d73a322ad0",
+    "PTMSIGDB_INVENTORY.tsv": "82c7fd8f3cce1a2550478eac0d8f21ebe0c8f2fee1a0cb6b9ae522947bc6e365",
+    "BOUND_SCORE_METHODS.tsv": "415b3cb705ae93dd4272ee5ea132b163d4be4b83804b26af401bc12560d865fe",
+    "SOURCE_Y_ROUTING.tsv": "03787f5acc90137079a05c8be72cc3aca6c32ee758e0f4bc26136f0873a1abea",
+    "UNRESOLVED_SOURCE_CLASSIFICATION.tsv": "d5e8f127a69bc5897adbca918ea3cd5e7e5d78e769dcdcdc4155ac72bea0a3d1",
+    "SUMMARY.json": "9cdca0829e6e5ff400191d76fd83d64e31c9fd5566008d95f9947a9b9d8e0c63",
+    "STATE_LAYER_RESOURCE_COUNTS.tsv": "2d1faa76123e77501353175e348b29a81cfc6159770d77138ca29d46201adb49",
+    "LAYER_RESOURCE_OVERVIEW.tsv": "732768ef9ed2dbb8052a9143a036db92684aed5db26bf3acf35942b5d4a07c20",
+    "audit_source_inventory_149.py": "e1ade98e460071a674f03c1c0fd204dee63c2f5a5420767ca9608ef2984487d3",
+    "ASSAY_RESOURCE_COUNTS.tsv": "682e90e81fcd1a60bfd46820de445213b81755ee6ca4ea2047274af9e55bfeb7",
+    "PATIENT_PLATFORM_RESOURCES.tsv": "6bdeb164d9c46910d7d3145891303c4747f1eb0ad001210973266400c23c0cf7",
+    "ORIGINAL_ASSAY_SCORE_METHODS.tsv": "318196027e092d8a354b1bdc96a6afba60ab53ce0ea078da9c511e4555402646"
+  },
+  "scope": "No patient matrices accessed; observation metadata only; no label recomputation or training."
+}

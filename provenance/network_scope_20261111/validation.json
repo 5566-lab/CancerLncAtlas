@@ -1,0 +1,64 @@
+{
+  "target_host": "149",
+  "timestamp_utc": "2026-11-11T04:14:54.552761+00:00",
+  "tests": {
+    "passed": 60,
+    "command": "python -m pytest -q tests/test_network_scope.py tests/test_msigdb_network.py tests/test_kegg_network_snapshot.py tests/test_target_policy.py"
+  },
+  "scope_summary": {
+    "format": "CLA_KEGG_NETWORK_SCOPE_V1",
+    "target_host": "149",
+    "source_definitions": 658,
+    "mapping_candidate_rows": 658,
+    "scope_status_counts": {
+      "direct_cancer_network": 199,
+      "outside_selected_network_categories": 452,
+      "unresolved_network_record": 5,
+      "unresolved_network_classification": 2
+    },
+    "admitted_source_definitions": 199,
+    "admitted_unique_networks": 199,
+    "admitted_existing_canonical_ids": 199,
+    "cross_database_alignment_counts": {
+      "protein_similarity_candidate": 2951,
+      "shared_parent_pathway_candidate": 376
+    },
+    "new_identity_merges": 0,
+    "labels_recomputed": false,
+    "formal_catalog_pointer_changed": false,
+    "scope_basis": "official Cancer/Cancer signaling map membership plus exact N identity",
+    "cancer_categories": [
+      "Cancer",
+      "Cancer signaling"
+    ],
+    "inputs": {
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/network_cancer_scope_20261111_r1/archival_identity_r2/MSIGDB_NETWORK_MAPPING.tsv": "a70017a591b3e16fd7dcdb97e8289071b173497836eb8af40f271ce06e70a69f",
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/network_cancer_scope_20261111_r1/network_snapshot/NETWORK_RECORDS.tsv": "0c143ba92db1d656b0fa341417e5056c38cb1eb311106f26df8c1066b19d8bae",
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/network_cancer_scope_20261111_r1/network_snapshot/NETWORK_MAP_MEMBERSHIP.tsv": "22b5f55b4fc625ecf674e1bf257ffdc37bfc07eb5244ecaec602b4ff3bbbb757",
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r7/DEFINITION_TO_IDENTITY.tsv": "d10a5c9c6c4a6a675d77d57f73ae7bc5f0ade46b30ab547d2edf8534dacb4c7a",
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r7/FUNCTIONAL_SCOPE_DECISIONS.tsv": "29a3fdc6ec63ec39ce720fceb0d3ae47a2c5fc307c67dec4a883fa900cbdc620",
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r7/CURATED_EXTERNAL_RELATIONS.tsv": "f09b2dcbfbbdae67e6f9333942a362c6b979631f551532a9d6747241aebe976f",
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/network_cancer_scope_20261111_r1/network_snapshot/NETWORK_UNRESOLVED.tsv": "7ce5f955b78224f9120a4a4243635e41a90a2b72342f77a95330faed1c93e78a",
+      "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/PAIR_SIMILARITY.parquet": "edb2674871db7952366b9efc8e47a67a3bbf9c6491b3b96dee405bab080c98b6"
+    },
+    "snapshot_manifest_sha256": "8fe20aa5a334e89b956f844913c0076e7cd5017faf9b571dc0ca587a69f4c1d5",
+    "outputs": {
+      "SOURCE_SCOPE_DECISIONS.tsv": "cf3fac1e2915b2d670e61bae2dc5a8fb7fbf42fb3a3d9c3240c05d09d866dd99",
+      "ADMITTED_SOURCE_DEFINITIONS.tsv": "6e70c50d1bd2f920a5e7d57398543615192d34e6d14a1fbecda8736cd13281c2",
+      "CROSS_DATABASE_ALIGNMENT.tsv": "05af2a793a260270c477e3f37f69b9c8fff307f440a116f08002db5b7ebfe4f2"
+    }
+  },
+  "code_sha256": {
+    "cla_engine/msigdb_network.py": "1d3d4110c65d631d2c8752cb9af0c5e98ebdf671dfba16e647909616a7ba088c",
+    "cla_engine/network_scope.py": "6aa46d853ba30e5d4551741fae649c0bdc2c61ea1f811bc5dc8511a0a44d8ac3",
+    "scripts/build_msigdb_network_mapping.py": "0baf67a3b4f71a3b16b2c450abc26f0ee5a19bb5a30c2263c4eb6ccdfe1bfde2",
+    "scripts/build_network_cancer_scope.py": "1a9f8e1e40e7079dca834d4f33a251f2f2cf5f887ea2826835ca19d6648c95ef",
+    "scripts/fetch_kegg_network_scope.py": "976b5082bed20459ecafd627eddfd2fe2e186e91815233259e987e3653e16c64",
+    "tests/test_msigdb_network.py": "da68c1ca2acb0ba64b39bfa878978ccd707d0659d7d377c4fc8c18decc4b9c49",
+    "tests/test_network_scope.py": "fb91957c721d073cb6b0f1431bd062b20109f1bc85d7f7f2362a1f4d9fdf8f36",
+    "tests/test_kegg_network_snapshot.py": "f9f535d59a1db5d547ab0fb4c9c3c1faa3edaf49e96a257ead466d4f1426c35c",
+    "docs/MSIGDB_NETWORK_CANCER_SCOPE.rst": "8dcaabce1c9dc86628f56bc8f5716ff06f991557892e557dfe0436461deb574f"
+  },
+  "official_msigdb_archive_version": "2025.1.Hs",
+  "original_scoring_members_preserved": true
+}

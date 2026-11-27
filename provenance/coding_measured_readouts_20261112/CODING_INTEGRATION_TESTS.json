@@ -1,0 +1,15 @@
+{
+  "target_host": "149",
+  "time_utc": "2026-11-12T09:39:51.867390+00:00",
+  "operation": "replace_RNA_measurement_versions_keep_biological_axis",
+  "model_training": false,
+  "lncrna_association_computation": false,
+  "script_sha256": "42f905f0855d90f1117453df4b7fdb3fea2233ad7db394ffdfa0d9db86a678a6",
+  "tests": [
+    "tests/test_coding_readout_replacement.py",
+    "tests/test_coding_readout_reference.py",
+    "tests/test_measured_readouts.py"
+  ],
+  "exit_code": 0,
+  "output": ".........                                                                [100%]\n9 passed in 5.65s\n"
+}

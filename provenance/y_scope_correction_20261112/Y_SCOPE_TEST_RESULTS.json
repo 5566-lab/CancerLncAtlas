@@ -1,0 +1,17 @@
+{
+  "target_host": "149",
+  "time_utc": "2026-11-12T09:19:51.152811+00:00",
+  "action": "test_association_Y_rejection_and_measurement_integrity",
+  "model_training": false,
+  "association_computation": false,
+  "args": [
+    "/dsk2/user/dengsc/miniconda3/envs/cc_hhgt/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_m0_relation.py::test_association_y_is_rejected_before_validation_fit_or_output",
+    "tests/test_measured_readouts.py"
+  ],
+  "exit_code": 0,
+  "output": "......                                                                   [100%]\n6 passed in 10.73s\n"
+}

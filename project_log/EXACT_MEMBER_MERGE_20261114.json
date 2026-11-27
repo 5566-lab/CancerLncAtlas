@@ -1,0 +1,29 @@
+{
+  "target_host": "149",
+  "request": "Merge primary pathway entries with identical nonempty protein member sets (J=1).",
+  "primary_before": 477,
+  "primary_after": 476,
+  "state_identities": 197,
+  "total_targets": 673,
+  "merged_groups": 1,
+  "retained_id": "CLA-P-08A1A41F05A3E9ED",
+  "redirected_id": "CLA-P-549730F42F0B148D",
+  "display_name": "Hedgehog signaling, shared SMO/PTCH1 downstream module",
+  "original_networks": [
+    "N00017",
+    "N00010"
+  ],
+  "identical_proteins": 29,
+  "original_source_mechanisms_preserved": true,
+  "original_values_masks_partitions_unchanged": true,
+  "tests_passed": 16,
+  "cohort_checks": 6,
+  "dictionary": "Functional_pathway_State_dictionary_v7.xlsx",
+  "dictionary_sha256": "e92c613ab28909eeb0a828d725165aa0fbeaad1b693c61f5352db236547055ad",
+  "report_slides": 15,
+  "active_catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r10_exact_members_20261114_r1",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/exact_member_merge_20261114_r1/observation_registry_r3",
+  "definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/exact_member_merge_20261114_r1/FIXED_Y_DEFINITION.json",
+  "training": false,
+  "lncrna_association": false
+}

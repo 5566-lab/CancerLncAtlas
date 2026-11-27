@@ -1,0 +1,151 @@
+{
+  "target_host": "149",
+  "primary_pathways": 476,
+  "state_before": 197,
+  "state_after": 48,
+  "top_level_targets": 524,
+  "component_counts": {
+    "cell_composition": 91,
+    "sbs_spectrum": 60
+  },
+  "retained_other_states": 46,
+  "checks": [
+    {
+      "cancer": "BRCA",
+      "cohort": "TCGA",
+      "parent_id": "CLA-S-8D68A5C0FD095421",
+      "family": "cell_composition",
+      "components": 91,
+      "observations": 96,
+      "patients": 872,
+      "patients_with_measurement": 872,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "BRCA",
+      "cohort": "TCGA",
+      "parent_id": "CLA-S-8C88AE5BA5B068E4",
+      "family": "sbs_spectrum",
+      "components": 60,
+      "observations": 60,
+      "patients": 872,
+      "patients_with_measurement": 319,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "BRCA",
+      "cohort": "CPTAC",
+      "parent_id": "CLA-S-8D68A5C0FD095421",
+      "family": "cell_composition",
+      "components": 91,
+      "observations": 96,
+      "patients": 96,
+      "patients_with_measurement": 96,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "BRCA",
+      "cohort": "CPTAC",
+      "parent_id": "CLA-S-8C88AE5BA5B068E4",
+      "family": "sbs_spectrum",
+      "components": 60,
+      "observations": 60,
+      "patients": 96,
+      "patients_with_measurement": 0,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "TCGA",
+      "parent_id": "CLA-S-8D68A5C0FD095421",
+      "family": "cell_composition",
+      "components": 91,
+      "observations": 96,
+      "patients": 407,
+      "patients_with_measurement": 407,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "TCGA",
+      "parent_id": "CLA-S-8C88AE5BA5B068E4",
+      "family": "sbs_spectrum",
+      "components": 60,
+      "observations": 60,
+      "patients": 407,
+      "patients_with_measurement": 359,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "CPTAC",
+      "parent_id": "CLA-S-8D68A5C0FD095421",
+      "family": "cell_composition",
+      "components": 91,
+      "observations": 96,
+      "patients": 88,
+      "patients_with_measurement": 88,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "LUAD",
+      "cohort": "CPTAC",
+      "parent_id": "CLA-S-8C88AE5BA5B068E4",
+      "family": "sbs_spectrum",
+      "components": 60,
+      "observations": 60,
+      "patients": 88,
+      "patients_with_measurement": 0,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "TCGA",
+      "parent_id": "CLA-S-8D68A5C0FD095421",
+      "family": "cell_composition",
+      "components": 91,
+      "observations": 96,
+      "patients": 363,
+      "patients_with_measurement": 363,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "TCGA",
+      "parent_id": "CLA-S-8C88AE5BA5B068E4",
+      "family": "sbs_spectrum",
+      "components": 60,
+      "observations": 60,
+      "patients": 363,
+      "patients_with_measurement": 228,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "CPTAC",
+      "parent_id": "CLA-S-8D68A5C0FD095421",
+      "family": "cell_composition",
+      "components": 91,
+      "observations": 96,
+      "patients": 84,
+      "patients_with_measurement": 84,
+      "values_and_masks_unchanged": true
+    },
+    {
+      "cancer": "COAD",
+      "cohort": "CPTAC",
+      "parent_id": "CLA-S-8C88AE5BA5B068E4",
+      "family": "sbs_spectrum",
+      "components": 60,
+      "observations": 60,
+      "patients": 84,
+      "patients_with_measurement": 0,
+      "values_and_masks_unchanged": true
+    }
+  ],
+  "source_numeric_blocks_changed": false,
+  "source_patient_partitions_changed": false,
+  "automatic_independent_losses": false,
+  "training": false,
+  "lncrna_association": false
+}

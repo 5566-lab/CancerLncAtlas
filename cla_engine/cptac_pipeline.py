@@ -2,18 +2,32 @@
 from __future__ import annotations
 import argparse,concurrent.futures,os,socket,subprocess,sys
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from .common import read_json,atomic_json,sha,fail
 from .cptac_scope import select_cohorts
 from .cptac_download import run as download
 from .cptac_materialize import materialize
+from .cptac_gdc_rna import materialize_gdc
 from .cptac_omics_prepare import run as prepare_omics
 from .cptac_native_states import run as native_states
 from .cptac_bundle import assemble
 from .state_protein_map import pinned
 
+def rna_source(spec):
+    if 'gdc_rna' not in spec:
+        default = Path(__file__).resolve().parents[1] / 'config/cptac_149_sources_20261104.json'
+        spec = read_json(default)
+    gdc = spec.get('gdc_rna')
+    if not isinstance(gdc, dict) or not all(gdc.get(k) for k in ('intake', 'matches')):
+        fail('CPTAC_RNA_SOURCE', 'The GDC STAR input cache and sample match table must be specified')
+    if not (Path(gdc['intake'])/'gdc_files.json').is_file() or not Path(gdc['matches']).is_file():
+        fail('CPTAC_RNA_SOURCE', 'GDC STAR metadata or sample match table is unavailable', **gdc)
+    return gdc
+
 def run(spec,output,cancer_type='all',cancer_list=None,workers=3):
     if socket.gethostname().split('.')[0]!='149':fail('CPTAC_EXECUTION_HOST','All CPTAC stages must execute on 149')
     if not 1<=workers<=10:fail('CPTAC_WORKERS','Use 1-10 CPU jobs')
+    gdc = rna_source(spec)
     out=Path(output).resolve()
     if out.exists() and any(out.iterdir()):fail('CPTAC_OUTPUT_EXISTS','Use a new versioned output directory')
     out.mkdir(parents=True,exist_ok=True);logs=out/'logs';logs.mkdir()
@@ -29,7 +43,9 @@ def run(spec,output,cancer_type='all',cancer_list=None,workers=3):
         download(manifest,out/'raw',cancer_type,cancer_list,min(workers,4))
         dc=out/'raw/DOWNLOAD_COMPLETE.json'
     mc={**{k:sources[k] for k in ['gencode','hgnc','protein_gene','tcga_patient_map']},'download_complete':pin(dc)}
-    materialize(mc,out/'aligned',cancer_type,cancer_list)
+    with TemporaryDirectory(dir=out, prefix='publication.') as baseline:
+        materialize(mc, baseline, cancer_type, cancer_list)
+        materialize_gdc(baseline, gdc['matches'], gdc['intake'], out/'aligned')
     ac=out/'aligned/COMPLETE.json';cohorts=read_json(ac)['cohorts']
     oc={'aligned_complete':pin(ac),'pathway_gmt':sources['pathway_gmt'],'methylation_definition':sources['methylation_definition']}
     prepare_omics(oc,out/'omics_inputs')

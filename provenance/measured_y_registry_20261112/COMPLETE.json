@@ -1,0 +1,108 @@
+{
+  "target_host": "149",
+  "format": "CLA_PATHWAY_PATIENT_OBSERVATION_COLLECTION_V1",
+  "cases": [
+    {
+      "target_host": "149",
+      "format": "CLA_PATHWAY_PATIENT_OBSERVATION_REGISTRY_V1",
+      "cancer": "BRCA",
+      "primary_pathways": 477,
+      "state_identities": 197,
+      "targets": 674,
+      "observations": 29893,
+      "target_bindings": 60753,
+      "matrix_blocks": 17,
+      "external_RNA_reference_observations": 4,
+      "patients": {
+        "TCGA": 872,
+        "CPTAC": 96
+      },
+      "model_training": false,
+      "lncrna_association": false,
+      "automatic_independent_losses": false,
+      "representation": "PATHWAY_GROUPED_PATIENT_OBSERVATIONS",
+      "files": {
+        "TARGETS.tsv": "a1aa8c7640c5d26ef7d7dd76fae74ba1284076cd8f7866383a3965434a6fc15d",
+        "OBSERVATIONS.tsv.gz": "7431cc659dccc471a725d55930ae3efaab8def6621a1a1cd20de0f9f34b67f89",
+        "PATHWAY_OBSERVATIONS.tsv.gz": "c8a1a0bd1832e04296ace4aeb54f3820e081c2a7ef3422a1661baf3526e9ed8c",
+        "SOURCE_READOUT_METHODS.tsv.gz": "88c778041f8c6de8bb7b605d11dda25f8e86214a220a27cb10cd6173978c0a8b",
+        "MATRICES.json": "8643311911713698d4b4773fb3cb393d1f229172c8bf4152bfc7c5afff3569bb",
+        "PATIENT_PARTITIONS.json": "bdac8d7141fa7692e9e8f91cc250437886c171d106661171566b1df5fa4188b3",
+        "INPUT_REFERENCES.json": "decc107591d43c8dfbbd90c38a82d08fc18e87ccd54d335679ed8ebbef2c4d5a",
+        "COVERAGE.tsv": "ea970d4ad09f67aa4ffb304c876957e4c47191fbb9735895eb64ddd43aa65ccd"
+      }
+    },
+    {
+      "target_host": "149",
+      "format": "CLA_PATHWAY_PATIENT_OBSERVATION_REGISTRY_V1",
+      "cancer": "LUAD",
+      "primary_pathways": 477,
+      "state_identities": 197,
+      "targets": 674,
+      "observations": 33131,
+      "target_bindings": 72786,
+      "matrix_blocks": 18,
+      "external_RNA_reference_observations": 4,
+      "patients": {
+        "TCGA": 407,
+        "CPTAC": 88
+      },
+      "model_training": false,
+      "lncrna_association": false,
+      "automatic_independent_losses": false,
+      "representation": "PATHWAY_GROUPED_PATIENT_OBSERVATIONS",
+      "files": {
+        "TARGETS.tsv": "a1aa8c7640c5d26ef7d7dd76fae74ba1284076cd8f7866383a3965434a6fc15d",
+        "OBSERVATIONS.tsv.gz": "b68192f906c7dcbaa337f611185f26f856367898a709b343838f06757c55ddd3",
+        "PATHWAY_OBSERVATIONS.tsv.gz": "9e17720e140469c511ecc3a1f885282ea0eeb831fcfde6bc01ada972174dd90d",
+        "SOURCE_READOUT_METHODS.tsv.gz": "eddd3045c7f2cb2d8d0064f2977384f51c0822ff3385a855bb3fdebccbf29779",
+        "MATRICES.json": "9ec56bcecb4dffece159f8310a6172e44e46530f8b977e8d93a9dc9ab70e5b9d",
+        "PATIENT_PARTITIONS.json": "f72c6353647c8c464c3ef79c144657ee2aa8978ee185f3b843c8c077e6db1410",
+        "INPUT_REFERENCES.json": "f1d5e5e9d2abc8a16ebe9fc429e9b16b40938b4e51c2129e9bb623ced97bbc08",
+        "COVERAGE.tsv": "585c64ac2f464dc2ecb8718d2f409213e8ede54b097182d10e37259aa4470268"
+      }
+    },
+    {
+      "target_host": "149",
+      "format": "CLA_PATHWAY_PATIENT_OBSERVATION_REGISTRY_V1",
+      "cancer": "COAD",
+      "primary_pathways": 477,
+      "state_identities": 197,
+      "targets": 674,
+      "observations": 27367,
+      "target_bindings": 55776,
+      "matrix_blocks": 17,
+      "external_RNA_reference_observations": 4,
+      "patients": {
+        "TCGA": 363,
+        "CPTAC": 84
+      },
+      "model_training": false,
+      "lncrna_association": false,
+      "automatic_independent_losses": false,
+      "representation": "PATHWAY_GROUPED_PATIENT_OBSERVATIONS",
+      "files": {
+        "TARGETS.tsv": "a1aa8c7640c5d26ef7d7dd76fae74ba1284076cd8f7866383a3965434a6fc15d",
+        "OBSERVATIONS.tsv.gz": "8655b5442a6f49b54dc415b45f079bbe580ee335534aa860a0034f4045a82419",
+        "PATHWAY_OBSERVATIONS.tsv.gz": "b27efa04c734f7562a1fed0e7f468df021615e9c2b51f73a5150c2122a79c802",
+        "SOURCE_READOUT_METHODS.tsv.gz": "f43fb36eb6ee765685f1f8059a98130136780711fc0cf73738ec071acff37a66",
+        "MATRICES.json": "7b180bb17bd7af89740fb78528af8b26f569dad3c6c64c805c3b39c82e529b20",
+        "PATIENT_PARTITIONS.json": "bfb499bc0618f377e028869e290af6bd9d1612212cdd101bd6eb28a4748734b5",
+        "INPUT_REFERENCES.json": "03ba07dae3f950c47ebd9eecf9ab707d436fe7d6f3adb3e81c2cfe2f4f3267c8",
+        "COVERAGE.tsv": "debbcc745e370208c84a9231cee5e7f8f83699b8284a4e46bdc5d4638f6dc36b"
+      }
+    }
+  ],
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r9_cancer_evidence_20261111_r6",
+  "no_lncRNA_expression_or_association": true,
+  "training": false,
+  "unresolved_external_RNA_lineage": [
+    "ESTIMATE::TumorPurity",
+    "panimmune_160_signatures::Wolf::Chemokine12_score"
+  ],
+  "receipt_hashes": {
+    "BRCA": "a51c1dda1feb742231b3511c86623da4f852d0eb8e460d61d64bbeb4ff8bfbb6",
+    "LUAD": "84c6ba6be4228afadd1ebc267b1adbe221e42f59bb3ce2db699bde371e6f73a9",
+    "COAD": "4f7a630be71495ff913c3c321541ee71eb8ed89e00596a6a5de6cdefec3903a3"
+  }
+}

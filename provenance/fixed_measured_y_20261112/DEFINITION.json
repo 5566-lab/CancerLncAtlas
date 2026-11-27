@@ -1,0 +1,24 @@
+{
+  "biological_definition": "TLS-associated 12-chemokine transcriptional signature",
+  "source_definition": "PanImmune / Wolf / Chemokine12_score",
+  "source_url": "https://api.gdc.cancer.gov/data/9b174979-fe97-48bc-9e97-9384b0519f03",
+  "source_file_sha256": "8467634278ca461ec7d0512f9935c0b17faad844e3543bba70ebc9cc704dda1e",
+  "members": [
+    "CCL2",
+    "CCL3",
+    "CCL4",
+    "CCL5",
+    "CCL8",
+    "CCL18",
+    "CCL19",
+    "CCL21",
+    "CXCL9",
+    "CXCL10",
+    "CXCL11",
+    "CXCL13"
+  ],
+  "method": "ssGSEA alpha=0.25, fixed coding gene background, unnormalized enrichment",
+  "expression_units": "log2(TPM+1)",
+  "patient_cohort_reference_fitted": false,
+  "numerical_equivalence_to_published_PanImmune_scores": false
+}

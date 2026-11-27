@@ -1,0 +1,13 @@
+{
+  "target_host": "149",
+  "previous_goal_turn": "progress: inspected actual job state and retracted association-based Y coverage",
+  "current_goal_turn": "progress: complete typed observation registry for three cancers, overwrite dictionary, document unique-output M0",
+  "model_training": false,
+  "lncrna_association": false,
+  "goal_complete": false,
+  "remaining": [
+    "external RNA lineage",
+    "condition evidence review",
+    "reader report and completion audit"
+  ]
+}

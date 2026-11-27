@@ -1,0 +1,170 @@
+{
+  "status": "PASS",
+  "cohorts": {
+    "CHOL": {
+      "expected": 35,
+      "passed": 35,
+      "genes": 60616
+    },
+    "ACC": {
+      "expected": 79,
+      "passed": 79,
+      "genes": 60616
+    },
+    "DLBC": {
+      "expected": 48,
+      "passed": 48,
+      "genes": 60616
+    },
+    "ESCA": {
+      "expected": 184,
+      "passed": 184,
+      "genes": 60616
+    },
+    "CESC": {
+      "expected": 304,
+      "passed": 304,
+      "genes": 60616
+    },
+    "GBM": {
+      "expected": 252,
+      "passed": 252,
+      "genes": 60616
+    },
+    "KICH": {
+      "expected": 66,
+      "passed": 66,
+      "genes": 60616
+    },
+    "BLCA": {
+      "expected": 404,
+      "passed": 404,
+      "genes": 60616
+    },
+    "COAD": {
+      "expected": 454,
+      "passed": 454,
+      "genes": 60616
+    },
+    "LAML": {
+      "expected": 151,
+      "passed": 151,
+      "genes": 60616
+    },
+    "KIRP": {
+      "expected": 290,
+      "passed": 290,
+      "genes": 60616
+    },
+    "HNSC": {
+      "expected": 520,
+      "passed": 520,
+      "genes": 60616
+    },
+    "KIRC": {
+      "expected": 531,
+      "passed": 531,
+      "genes": 60616
+    },
+    "LIHC": {
+      "expected": 371,
+      "passed": 371,
+      "genes": 60616
+    },
+    "LGG": {
+      "expected": 516,
+      "passed": 516,
+      "genes": 60616
+    },
+    "MESO": {
+      "expected": 87,
+      "passed": 87,
+      "genes": 60616
+    },
+    "BRCA": {
+      "expected": 1090,
+      "passed": 1090,
+      "genes": 60616
+    },
+    "PAAD": {
+      "expected": 178,
+      "passed": 178,
+      "genes": 60616
+    },
+    "PCPG": {
+      "expected": 179,
+      "passed": 179,
+      "genes": 60616
+    },
+    "LUAD": {
+      "expected": 509,
+      "passed": 509,
+      "genes": 60616
+    },
+    "LUSC": {
+      "expected": 499,
+      "passed": 499,
+      "genes": 60616
+    },
+    "READ": {
+      "expected": 166,
+      "passed": 166,
+      "genes": 60616
+    },
+    "OV": {
+      "expected": 427,
+      "passed": 427,
+      "genes": 60616
+    },
+    "SARC": {
+      "expected": 259,
+      "passed": 259,
+      "genes": 60616
+    },
+    "TGCT": {
+      "expected": 150,
+      "passed": 150,
+      "genes": 60616
+    },
+    "THYM": {
+      "expected": 120,
+      "passed": 120,
+      "genes": 60616
+    },
+    "PRAD": {
+      "expected": 496,
+      "passed": 496,
+      "genes": 60616
+    },
+    "UCS": {
+      "expected": 57,
+      "passed": 57,
+      "genes": 60616
+    },
+    "SKCM": {
+      "expected": 469,
+      "passed": 469,
+      "genes": 60616
+    },
+    "UVM": {
+      "expected": 80,
+      "passed": 80,
+      "genes": 60616
+    },
+    "STAD": {
+      "expected": 412,
+      "passed": 412,
+      "genes": 60616
+    },
+    "THCA": {
+      "expected": 505,
+      "passed": 505,
+      "genes": 60616
+    },
+    "UCEC": {
+      "expected": 544,
+      "passed": 544,
+      "genes": 60616
+    }
+  }
+}

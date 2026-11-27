@@ -1,0 +1,18 @@
+{
+  "target_host": "149",
+  "files": {
+    "CancerLncAtlas_Y重建与通路State整合_20261114.pptx": "87c6d35128471e925b3303de30066ca5729aabf3799135594ca30b1ace2bdbcc",
+    "Y定义与使用说明.txt": "2be383c7d6794dda40b55d88eb4a1053b9b7abd8b254b5bd8277e4beb98a0d95",
+    "Y定义与实测覆盖_20261114.xlsx": "2ba469749342ab444e0aa9f90c0f1159012d910455594af32102b05b97219fe5",
+    "CancerLncAtlas_fixed_Y_476Pathway_48State_20261114.tar.gz": "08558f291c312be1f631738ecb2861fc1fe7374ede101b9c74834c94c34cc75d",
+    "CancerLncAtlas_Y重建与通路State整合_20261114.pdf": "bee9ae688af0c19ea5e1a7d4a08adcb96d36e6963e012e4fc4eccb2fcfe4c89b"
+  },
+  "primary_pathways": 476,
+  "state_top_level_count": 48,
+  "total_targets": 524,
+  "patients": 1910,
+  "slides": 17,
+  "y_archive_sha256": "08558f291c312be1f631738ecb2861fc1fe7374ede101b9c74834c94c34cc75d",
+  "coverage_workbook": "Y定义与实测覆盖_20261114.xlsx",
+  "dictionary_sha256": "2bb0b53fa758168c77787ad518f11e6b399b62a1cbd4d67889d354b431e7481a"
+}

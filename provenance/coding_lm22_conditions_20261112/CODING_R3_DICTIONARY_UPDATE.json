@@ -1,0 +1,28 @@
+{
+  "target_host": "149",
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v6.xlsx",
+  "sha256": "ffbef0b1507fe41ee5af0e4e2c69586d87b168c1c57d417a60895fa901072ffd",
+  "previous_sha256": "9ceba8c8087cb65af709ea1ff36dcf21d6b4a68f6ec371472e21d245d04efdb4",
+  "sheet_rows": {
+    "KEGG癌症主干": 478,
+    "State": 198,
+    "来源蛋白组成": 157039,
+    "成员状态证据": 5041,
+    "患者实测覆盖": 4045,
+    "RNA读数方法": 2107,
+    "LM22编码参考": 518,
+    "LM22成员映射": 548,
+    "通路适用条件": 478
+  },
+  "preserved_member_sheet_hashes": {
+    "来源蛋白组成": "70c495e2c8a0e2ea3df7c7b8d7119151b4c176bf76dcd812dc76ca15658de319",
+    "成员状态证据": "f04832811fbb5a9294670b394c943198117b26fd5d968e18fcb9ba734abfb9de",
+    "激酶分子组成": "f859d663648fd6b22205251076f05783098e21878440be37ba2338276ab46aa6"
+  },
+  "measurement_root": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/measurements_coding_r3",
+  "lm22_readout_components": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/lm22_coding_r1",
+  "condition_definitions": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/condition_definitions_r1",
+  "Y_complete": false,
+  "model_training": false,
+  "lncrna_association_computation": false
+}

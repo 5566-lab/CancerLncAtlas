@@ -1,0 +1,11 @@
+{
+  "target_host": "149",
+  "bundle_files_verified": 75,
+  "original_bundle_receipt_sha256": "055d5334dde8582d0de1599707a83d8cae303be2ec3abb37fa1a4836c348b693",
+  "supervised_pathways": 335,
+  "event_annotation_pathways": 141,
+  "cohorts_verified": 6,
+  "no_patient_values_or_masks_changed": true,
+  "workbook_sheets": 14,
+  "workbook": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/ppt_y_clarification_20261114_r2/deliverables/数据库来源_WNT与141事件明细_20261114_r2.xlsx"
+}

@@ -1,0 +1,476 @@
+{
+  "target_host": "149",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/observation_registry_r2",
+  "registry_sha256": "c5bd2593e4f4ec2a33854aeea6e8de5fb546b4f8018b95755adc1b9ec9f3e5c8",
+  "catalog": {
+    "inventory": 658,
+    "primary_pathways": 477,
+    "excluded": 181,
+    "evidence_basis": {
+      "curated_mechanism_evidence": 255,
+      "official_cancer_class": 199,
+      "official_malignant_disease": 23
+    },
+    "network_type": {
+      "Reference": 334,
+      "Variant": 78,
+      "Pathogen": 47,
+      "Env factor": 18
+    },
+    "program_source_rows_checked": 616,
+    "id_redirect_rows": 10
+  },
+  "cases": [
+    {
+      "cancer": "BRCA",
+      "observations": 29895,
+      "bindings": 60755,
+      "blocks": [
+        {
+          "matrix_id": "TCGA::readout::RNA",
+          "patients": 872,
+          "features": 1833,
+          "finite_values": 1300152
+        },
+        {
+          "matrix_id": "TCGA::readout::STATE",
+          "patients": 872,
+          "features": 327,
+          "finite_values": 250607
+        },
+        {
+          "matrix_id": "TCGA::readout::PROTEIN",
+          "patients": 872,
+          "features": 1833,
+          "finite_values": 610089
+        },
+        {
+          "matrix_id": "TCGA::readout::PHOSPHO",
+          "patients": 872,
+          "features": 285,
+          "finite_values": 7472
+        },
+        {
+          "matrix_id": "CPTAC::readout::RNA",
+          "patients": 96,
+          "features": 1833,
+          "finite_values": 143136
+        },
+        {
+          "matrix_id": "CPTAC::readout::STATE",
+          "patients": 96,
+          "features": 327,
+          "finite_values": 24410
+        },
+        {
+          "matrix_id": "CPTAC::readout::PROTEIN",
+          "patients": 96,
+          "features": 1833,
+          "finite_values": 118629
+        },
+        {
+          "matrix_id": "CPTAC::readout::METHYLATION",
+          "patients": 96,
+          "features": 1833,
+          "finite_values": 0
+        },
+        {
+          "matrix_id": "CPTAC::readout::PHOSPHO",
+          "patients": 96,
+          "features": 285,
+          "finite_values": 13836
+        },
+        {
+          "matrix_id": "TCGA::member::RNA",
+          "patients": 872,
+          "features": 2505,
+          "finite_values": 2184360
+        },
+        {
+          "matrix_id": "TCGA::member::PROTEIN",
+          "patients": 872,
+          "features": 205,
+          "finite_values": 126143
+        },
+        {
+          "matrix_id": "TCGA::member::PHOSPHO",
+          "patients": 872,
+          "features": 62,
+          "finite_values": 39568
+        },
+        {
+          "matrix_id": "TCGA::member::CNV",
+          "patients": 872,
+          "features": 2503,
+          "finite_values": 2120118
+        },
+        {
+          "matrix_id": "TCGA::member::METHYLATION",
+          "patients": 872,
+          "features": 2503,
+          "finite_values": 1481693
+        },
+        {
+          "matrix_id": "CPTAC::member::RNA",
+          "patients": 96,
+          "features": 2505,
+          "finite_values": 240480
+        },
+        {
+          "matrix_id": "CPTAC::member::PROTEIN",
+          "patients": 96,
+          "features": 1906,
+          "finite_values": 159523
+        },
+        {
+          "matrix_id": "CPTAC::member::PHOSPHO",
+          "patients": 96,
+          "features": 7315,
+          "finite_values": 245817
+        },
+        {
+          "matrix_id": "TCGA::TLS12::STATE",
+          "patients": 872,
+          "features": 1,
+          "finite_values": 872
+        },
+        {
+          "matrix_id": "CPTAC::TLS12::STATE",
+          "patients": 96,
+          "features": 1,
+          "finite_values": 96
+        }
+      ],
+      "patients": {
+        "TCGA": 872,
+        "CPTAC": 96
+      },
+      "external_references": [
+        {
+          "cohort": "TCGA",
+          "source_target_id": "TumorPurity",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "TCGA",
+          "source_target_id": "TLS12_Chemokine_Published",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "CPTAC",
+          "source_target_id": "TumorPurity",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "CPTAC",
+          "source_target_id": "TLS12_Chemokine_Published",
+          "eligibility_basis": "external RNA background lineage not verified"
+        }
+      ]
+    },
+    {
+      "cancer": "LUAD",
+      "observations": 33133,
+      "bindings": 72788,
+      "blocks": [
+        {
+          "matrix_id": "TCGA::readout::RNA",
+          "patients": 407,
+          "features": 1833,
+          "finite_values": 606837
+        },
+        {
+          "matrix_id": "TCGA::readout::STATE",
+          "patients": 407,
+          "features": 327,
+          "finite_values": 129877
+        },
+        {
+          "matrix_id": "TCGA::readout::PROTEIN",
+          "patients": 407,
+          "features": 1833,
+          "finite_values": 240727
+        },
+        {
+          "matrix_id": "TCGA::readout::PHOSPHO",
+          "patients": 407,
+          "features": 285,
+          "finite_values": 2944
+        },
+        {
+          "matrix_id": "CPTAC::readout::RNA",
+          "patients": 88,
+          "features": 1833,
+          "finite_values": 129717
+        },
+        {
+          "matrix_id": "CPTAC::readout::STATE",
+          "patients": 88,
+          "features": 327,
+          "finite_values": 22369
+        },
+        {
+          "matrix_id": "CPTAC::readout::PROTEIN",
+          "patients": 88,
+          "features": 1833,
+          "finite_values": 109034
+        },
+        {
+          "matrix_id": "CPTAC::readout::METHYLATION",
+          "patients": 88,
+          "features": 1833,
+          "finite_values": 108981
+        },
+        {
+          "matrix_id": "CPTAC::readout::PHOSPHO",
+          "patients": 88,
+          "features": 285,
+          "finite_values": 14048
+        },
+        {
+          "matrix_id": "TCGA::member::RNA",
+          "patients": 407,
+          "features": 2505,
+          "finite_values": 1019535
+        },
+        {
+          "matrix_id": "TCGA::member::PROTEIN",
+          "patients": 407,
+          "features": 205,
+          "finite_values": 50074
+        },
+        {
+          "matrix_id": "TCGA::member::PHOSPHO",
+          "patients": 407,
+          "features": 62,
+          "finite_values": 15783
+        },
+        {
+          "matrix_id": "TCGA::member::CNV",
+          "patients": 407,
+          "features": 2503,
+          "finite_values": 986278
+        },
+        {
+          "matrix_id": "TCGA::member::METHYLATION",
+          "patients": 407,
+          "features": 2503,
+          "finite_values": 870345
+        },
+        {
+          "matrix_id": "CPTAC::member::RNA",
+          "patients": 88,
+          "features": 2505,
+          "finite_values": 220440
+        },
+        {
+          "matrix_id": "CPTAC::member::PROTEIN",
+          "patients": 88,
+          "features": 1943,
+          "finite_values": 149954
+        },
+        {
+          "matrix_id": "CPTAC::member::PHOSPHO",
+          "patients": 88,
+          "features": 8617,
+          "finite_values": 275126
+        },
+        {
+          "matrix_id": "CPTAC::member::METHYLATION",
+          "patients": 88,
+          "features": 1899,
+          "finite_values": 152203
+        },
+        {
+          "matrix_id": "TCGA::TLS12::STATE",
+          "patients": 407,
+          "features": 1,
+          "finite_values": 407
+        },
+        {
+          "matrix_id": "CPTAC::TLS12::STATE",
+          "patients": 88,
+          "features": 1,
+          "finite_values": 87
+        }
+      ],
+      "patients": {
+        "TCGA": 407,
+        "CPTAC": 88
+      },
+      "external_references": [
+        {
+          "cohort": "TCGA",
+          "source_target_id": "TumorPurity",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "TCGA",
+          "source_target_id": "TLS12_Chemokine_Published",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "CPTAC",
+          "source_target_id": "TumorPurity",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "CPTAC",
+          "source_target_id": "TLS12_Chemokine_Published",
+          "eligibility_basis": "external RNA background lineage not verified"
+        }
+      ]
+    },
+    {
+      "cancer": "COAD",
+      "observations": 27369,
+      "bindings": 55778,
+      "blocks": [
+        {
+          "matrix_id": "TCGA::readout::RNA",
+          "patients": 363,
+          "features": 1833,
+          "finite_values": 541233
+        },
+        {
+          "matrix_id": "TCGA::readout::STATE",
+          "patients": 363,
+          "features": 327,
+          "finite_values": 109657
+        },
+        {
+          "matrix_id": "TCGA::readout::PROTEIN",
+          "patients": 363,
+          "features": 1833,
+          "finite_values": 247178
+        },
+        {
+          "matrix_id": "TCGA::readout::PHOSPHO",
+          "patients": 363,
+          "features": 285,
+          "finite_values": 3027
+        },
+        {
+          "matrix_id": "CPTAC::readout::RNA",
+          "patients": 84,
+          "features": 1833,
+          "finite_values": 125244
+        },
+        {
+          "matrix_id": "CPTAC::readout::STATE",
+          "patients": 84,
+          "features": 327,
+          "finite_values": 21375
+        },
+        {
+          "matrix_id": "CPTAC::readout::PROTEIN",
+          "patients": 84,
+          "features": 1833,
+          "finite_values": 82807
+        },
+        {
+          "matrix_id": "CPTAC::readout::METHYLATION",
+          "patients": 84,
+          "features": 1833,
+          "finite_values": 0
+        },
+        {
+          "matrix_id": "CPTAC::readout::PHOSPHO",
+          "patients": 84,
+          "features": 285,
+          "finite_values": 10465
+        },
+        {
+          "matrix_id": "TCGA::member::RNA",
+          "patients": 363,
+          "features": 2505,
+          "finite_values": 909315
+        },
+        {
+          "matrix_id": "TCGA::member::PROTEIN",
+          "patients": 363,
+          "features": 205,
+          "finite_values": 50651
+        },
+        {
+          "matrix_id": "TCGA::member::PHOSPHO",
+          "patients": 363,
+          "features": 62,
+          "finite_values": 16035
+        },
+        {
+          "matrix_id": "TCGA::member::CNV",
+          "patients": 363,
+          "features": 2503,
+          "finite_values": 865252
+        },
+        {
+          "matrix_id": "TCGA::member::METHYLATION",
+          "patients": 363,
+          "features": 2503,
+          "finite_values": 561705
+        },
+        {
+          "matrix_id": "CPTAC::member::RNA",
+          "patients": 84,
+          "features": 2505,
+          "finite_values": 210420
+        },
+        {
+          "matrix_id": "CPTAC::member::PROTEIN",
+          "patients": 84,
+          "features": 1566,
+          "finite_values": 97619
+        },
+        {
+          "matrix_id": "CPTAC::member::PHOSPHO",
+          "patients": 84,
+          "features": 5129,
+          "finite_values": 146300
+        },
+        {
+          "matrix_id": "TCGA::TLS12::STATE",
+          "patients": 363,
+          "features": 1,
+          "finite_values": 363
+        },
+        {
+          "matrix_id": "CPTAC::TLS12::STATE",
+          "patients": 84,
+          "features": 1,
+          "finite_values": 84
+        }
+      ],
+      "patients": {
+        "TCGA": 363,
+        "CPTAC": 84
+      },
+      "external_references": [
+        {
+          "cohort": "TCGA",
+          "source_target_id": "TumorPurity",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "TCGA",
+          "source_target_id": "TLS12_Chemokine_Published",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "CPTAC",
+          "source_target_id": "TumorPurity",
+          "eligibility_basis": "external RNA background lineage not verified"
+        },
+        {
+          "cohort": "CPTAC",
+          "source_target_id": "TLS12_Chemokine_Published",
+          "eligibility_basis": "external RNA background lineage not verified"
+        }
+      ]
+    }
+  ],
+  "all_numeric_blocks_verified": true,
+  "model_training": false,
+  "lncrna_association": false,
+  "outer_test_opened": false
+}

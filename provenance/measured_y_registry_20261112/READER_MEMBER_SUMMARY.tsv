@@ -1,0 +1,26 @@
+case	cohort	layer	patients	features	observed_features	observed_cells	pathways_with_member_measurement	pathways_with_ambiguous_group_measurement	units
+TCGA_BRCA	TCGA	RNA	872	2505	2505	2184360	477	0	log2(TPM+1), protein-coding gene IDs
+TCGA_BRCA	TCGA	PROTEIN	872	205	186	126143	336	16	published TCPA RPPA500 Level 4 antibody signal
+TCGA_BRCA	TCGA	PHOSPHO	872	62	58	39568	230	42	published TCPA RPPA500 Level 4 antibody signal
+TCGA_BRCA	TCGA	CNV	872	2503	2439	2120118	477	0	log2_copy_ratio
+TCGA_BRCA	TCGA	METHYLATION	872	2503	2414	1481693	477	0	beta
+CPTAC_BRCA	CPTAC	RNA	96	2505	2505	240480	477	0	log2(TPM+1), protein-coding gene IDs
+CPTAC_BRCA	CPTAC	PROTEIN	96	1906	1906	159523	477	0	published CPTAC native scale; exact source feature retained
+CPTAC_BRCA	CPTAC	PHOSPHO	96	7315	7315	245817	468	0	published CPTAC native scale; exact source feature retained
+TCGA_LUAD	TCGA	RNA	407	2505	2505	1019535	477	0	log2(TPM+1), protein-coding gene IDs
+TCGA_LUAD	TCGA	PROTEIN	407	205	189	50074	335	16	published TCPA RPPA500 Level 4 antibody signal
+TCGA_LUAD	TCGA	PHOSPHO	407	62	59	15783	230	42	published TCPA RPPA500 Level 4 antibody signal
+TCGA_LUAD	TCGA	CNV	407	2503	2439	986278	477	0	log2_copy_ratio
+TCGA_LUAD	TCGA	METHYLATION	407	2503	2414	870345	477	0	beta
+CPTAC_LUAD	CPTAC	RNA	88	2505	2505	220440	477	0	log2(TPM+1), protein-coding gene IDs
+CPTAC_LUAD	CPTAC	PROTEIN	88	1943	1943	149954	477	0	published CPTAC native scale; exact source feature retained
+CPTAC_LUAD	CPTAC	PHOSPHO	88	8617	8617	275126	470	0	published CPTAC native scale; exact source feature retained
+CPTAC_LUAD	CPTAC	METHYLATION	88	1899	1876	152203	476	0	published CPTAC native scale; exact source feature retained
+TCGA_COAD	TCGA	RNA	363	2505	2505	909315	477	0	log2(TPM+1), protein-coding gene IDs
+TCGA_COAD	TCGA	PROTEIN	363	205	184	50651	334	16	published TCPA RPPA500 Level 4 antibody signal
+TCGA_COAD	TCGA	PHOSPHO	363	62	58	16035	230	42	published TCPA RPPA500 Level 4 antibody signal
+TCGA_COAD	TCGA	CNV	363	2503	2439	865252	477	0	log2_copy_ratio
+TCGA_COAD	TCGA	METHYLATION	363	2503	2414	561705	477	0	beta
+CPTAC_COAD	CPTAC	RNA	84	2505	2505	210420	477	0	log2(TPM+1), protein-coding gene IDs
+CPTAC_COAD	CPTAC	PROTEIN	84	1566	1566	97619	475	0	published CPTAC native scale; exact source feature retained
+CPTAC_COAD	CPTAC	PHOSPHO	84	5129	5129	146300	462	0	published CPTAC native scale; exact source feature retained

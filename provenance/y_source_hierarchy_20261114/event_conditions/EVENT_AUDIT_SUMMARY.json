@@ -1,0 +1,77 @@
+{
+  "target_host": "149",
+  "conditional_targets": 141,
+  "category_counts": [
+    {
+      "event_family_zh": "激活/失活变异或FLT3重复",
+      "pathway_count": 20,
+      "event_examples": "Mutation-activated RET; Mutation-activated PI3K; Mutation-activated KIT; Mutation-activated MET"
+    },
+    {
+      "event_family_zh": "拷贝数扩增",
+      "pathway_count": 17,
+      "event_examples": "Amplified MYCN; Amplified FGFR; Amplified CCND1; Amplified CDK4"
+    },
+    {
+      "event_family_zh": "功能丧失",
+      "pathway_count": 4,
+      "event_examples": "Loss of NKX3-1; Loss of CDKN1B; Loss of RASSF1; Loss of VHL"
+    },
+    {
+      "event_family_zh": "配体或化学暴露",
+      "pathway_count": 19,
+      "event_examples": "Nicotine; Metals; DCE; NNK/NNN"
+    },
+    {
+      "event_family_zh": "融合或重排",
+      "pathway_count": 19,
+      "event_examples": "IGH-MMSET fusion; BCR-ABL fusion kinase; TEL-AML1 fusion; AML1-ETO fusion"
+    },
+    {
+      "event_family_zh": "病原体或其效应蛋白",
+      "pathway_count": 46,
+      "event_examples": "HTLV-1 p12; EBV LMP1; KSHV MIR1/2; EBV EBNA3C"
+    },
+    {
+      "event_family_zh": "表达升高或降低",
+      "pathway_count": 15,
+      "event_examples": "HRAS-overexpression; EGF-overexpression; IGF2-overexpression; MET-overexpression"
+    },
+    {
+      "event_family_zh": "临床受体阳性",
+      "pathway_count": 1,
+      "event_examples": "ESR1-positive"
+    }
+  ],
+  "existing_continuous_inputs_need_rule": 32,
+  "variant_function_detail_required": 20,
+  "functional_loss_required": 4,
+  "fusion_or_rearrangement_required": 19,
+  "clinical_receptor_status_required": 1,
+  "pathogen_or_chemical_evidence_missing_current": 65,
+  "all_cancer_absence_established": false,
+  "permanent_dictionary_deletion_justified": false,
+  "recommended_current_supervision_pathways": 335,
+  "root_cause": {
+    "script": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/materialize_measured_members_149.py",
+    "line": 179,
+    "call": "applicability_matrix(conditions, patients, pd.DataFrame())",
+    "loaded_qualified_event_records": 0
+  },
+  "notes": [
+    "141是已保留主干中需要额外患者事件条件的条目数，不是141种突变。",
+    "直接原因：materialize_measured_members_149.py:179 将空DataFrame传入 applicability_matrix；CONDITION_SOURCE.json记录qualified_patient_observations_loaded=0。",
+    "六个demo队列的141列当前所有患者均为NA；这是事件表没有接入，并非逐癌核实事件不存在。",
+    "有连续数据基础待判定的32条=17扩增+15表达变化；尚不能称条件已算出。",
+    "20条激活/失活/FLT3事件需要变异级功能注释；4条功能丧失需要机制判定；19条融合/重排需要事件表；1条ER阳性需要临床状态。",
+    "65条病原/配体化学事件当前没有匹配检测，不参与独立事件监督。不能把吸烟史等同NNK/NNN暴露或把宿主表达等同病毒效应物。",
+    "全癌无条件不可下结论：既有官方PDC清单包含十癌变异、融合、CNV和临床资源；本轮仅做目录与定义审计，没有打开其他癌种患者数据或sealed outer test。",
+    "当前可监督范围可采用335个无事件条件主干；141个原始机制定义降为注释。真正删除主干身份，需要确认其在计划癌种均不可观测，不能根据空事件输入自动删除。"
+  ],
+  "public_resource_inventory": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/ppt_y_clarification_20261114_r2/event_conditions/PDC_EVENT_RESOURCE_METADATA.json",
+  "source_genomic_validation": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/ppt_y_clarification_20261114_r2/event_conditions/CPTAC_VERIFIED_GENOMIC_SOURCES.json",
+  "current_mask_validation": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/ppt_y_clarification_20261114_r2/event_conditions/CURRENT_APPLICABILITY_CHECK.json",
+  "training": false,
+  "lncrna_association": false,
+  "catalog_mutated": false
+}

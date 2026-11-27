@@ -1,0 +1,6 @@
+source_family	input_signatures	bound_signatures	TCGA_measured_in_any_demo	CPTAC_measured_in_any_demo
+KINASE-PSP	262	137	10	76
+KINASE-iKiP	313	139	0	120
+PATH-BI	1	0	0	0
+PATH-NP	35	0	0	0
+PATH-WP	13	0	0	0

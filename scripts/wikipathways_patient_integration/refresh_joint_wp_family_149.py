@@ -1,0 +1,14 @@
+﻿import socket,json,sys,hashlib
+from pathlib import Path
+import pandas as pd,numpy as np
+R=Path('/dsk2/user/dengsc/cla_functional_y_20261109_r1');W=R/'kegg_cancer_redefinition_20261111_r1';N=R/'canonical_targets_r11_state_groups_20261114_r1';REPO=R/'source_integration/repo';O=W/'wiki_patient_integration_20261114_r1/source_audit';assert socket.gethostname()=='149'
+sys.path.insert(0,str(REPO));from cla_engine.wikipathways_alignment import merge_alignment_families
+old=pd.read_csv(N/'BACKBONE_ALIGNMENT.tsv',sep='\t',keep_default_na=False);new=pd.read_csv(O/'WP_NONZERO_ALIGNMENT_CANDIDATES.tsv.gz',sep='\t',keep_default_na=False);prev=json.loads((N/'ALIGNMENT_SUMMARY.json').read_text());wp_summary=json.loads((O/'SUMMARY.json').read_text());merged,changes,summary=merge_alignment_families(old.to_dict('records'),prev,new.to_dict('records'),wp_summary['new_tested_pairs']);d=pd.DataFrame(merged).reindex(columns=old.columns);d.to_csv(O/'BACKBONE_ALIGNMENT_WITH_WP.tsv',sep='\t',index=False)
+cols=['source_canonical_id','target_canonical_id','source_database','shared_proteins','overlap_q_previous','overlap_q_joint','previous_admitted','joint_admitted','change'];pd.DataFrame(changes,columns=cols).to_csv(O/'PREVIOUS_ALIGNMENT_DECISION_CHANGES.tsv',sep='\t',index=False)
+assert np.allclose(d.iloc[len(old):].overlap_q.to_numpy(dtype=float),new.overlap_q.to_numpy(dtype=float),rtol=1e-10,atol=1e-15)
+admit=lambda f:f[f.admitted_context_link.astype(str).str.lower()=='true']
+a=admit(d);counts=a.groupby('source_database').agg(source_definitions=('source_canonical_id','nunique'),primary_targets=('target_canonical_id','nunique'),context_links=('source_canonical_id','size')).reset_index();counts.to_csv(O/'CONTEXT_RESOURCE_COUNTS_JOINT_BH.tsv',sep='\t',index=False)
+oldupdated=d.iloc[:len(old)];summary['old_nonzero_rows']=len(old);summary['old_implicit_zero_overlap_rows']=int(prev['tested_pairs'])-len(old);summary['new_nonzero_rows']=len(new);summary['joint_nonzero_rows']=len(d);summary['unchanged_protein_universe']=prev['protein_universe_size'];summary['old_q_changed_rows']=int(np.sum(~np.isclose(old.overlap_q.to_numpy(float),oldupdated.overlap_q.to_numpy(float),rtol=1e-10,atol=1e-15)));summary['identity_and_original_kegg_members_changed']=False
+(O/'JOINT_BH_SUMMARY.json').write_text(json.dumps(summary,indent=2));wp_summary['joint_previous_comparisons_refreshed']=True;wp_summary['joint_bh_summary']='JOINT_BH_SUMMARY.json';(O/'SUMMARY.json').write_text(json.dumps(wp_summary,ensure_ascii=False,indent=2))
+(O/'refresh_joint_wp_family_149.py').write_bytes(Path(__file__).read_bytes())
+print(json.dumps(summary,indent=2));print(counts[counts.source_database.isin(['REACTOME','HALLMARK','WIKIPATHWAYS'])].to_string(index=False));print('CHANGES',pd.DataFrame(changes).head(15).to_json(orient='records'))

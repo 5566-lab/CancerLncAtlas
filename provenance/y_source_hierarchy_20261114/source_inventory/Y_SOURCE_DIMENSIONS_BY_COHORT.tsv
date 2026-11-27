@@ -1,0 +1,197 @@
+case	kind	layer	resource	defined_dimensions	measured_dimensions	supervision_eligible_dimensions	eligible_measured_dimensions
+CPTAC_BRCA	member_measurement	PHOSPHO	CPTAC molecular data	7315	7315	7315	7315
+CPTAC_BRCA	member_measurement	PROTEIN	CPTAC molecular data	1906	1906	1906	1906
+CPTAC_BRCA	member_measurement	RNA	CPTAC molecular data	2505	2505	2505	2505
+CPTAC_BRCA	source_readout	METHYLATION	HALLMARK	3	0	3	0
+CPTAC_BRCA	source_readout	METHYLATION	KEGG_MEDICUS	477	0	477	0
+CPTAC_BRCA	source_readout	METHYLATION	REACTOME	9	0	9	0
+CPTAC_BRCA	source_readout	PHOSPHO	PTMsigDB	276	176	276	176
+CPTAC_BRCA	source_readout	PROTEIN	HALLMARK	3	3	3	3
+CPTAC_BRCA	source_readout	PROTEIN	KEGG_MEDICUS	477	211	477	211
+CPTAC_BRCA	source_readout	PROTEIN	REACTOME	9	6	9	6
+CPTAC_BRCA	source_readout	RNA	HALLMARK	3	3	3	3
+CPTAC_BRCA	source_readout	RNA	KEGG_MEDICUS	477	294	477	294
+CPTAC_BRCA	source_readout	RNA	REACTOME	9	7	9	7
+CPTAC_BRCA	source_readout	STATE	ABSOLUTE / PanCanAtlas	3	2	3	2
+CPTAC_BRCA	source_readout	STATE	CIBERSORT / LM22	22	22	22	22
+CPTAC_BRCA	source_readout	STATE	COSMIC SBS / MutationalPatterns	60	0	60	0
+CPTAC_BRCA	source_readout	STATE	CYT / Rooney	1	1	1	1
+CPTAC_BRCA	source_readout	STATE	DoRothEA	80	80	80	80
+CPTAC_BRCA	source_readout	STATE	ESTIMATE	4	4	3	3
+CPTAC_BRCA	source_readout	STATE	EXTEND	1	1	1	1
+CPTAC_BRCA	source_readout	STATE	HRD / PanCanAtlas	4	0	4	0
+CPTAC_BRCA	source_readout	STATE	IPS / Immunophenogram	1	1	1	1
+CPTAC_BRCA	source_readout	STATE	MCP-counter	10	10	10	10
+CPTAC_BRCA	source_readout	STATE	MSIsensor2 / GDC	1	0	1	0
+CPTAC_BRCA	source_readout	STATE	MSigDB Hallmark (State readout)	2	2	2	2
+CPTAC_BRCA	source_readout	STATE	Malta stemness / PanCanAtlas	6	2	6	2
+CPTAC_BRCA	source_readout	STATE	Methylation leukocyte fraction / PanCanAtlas	1	0	1	0
+CPTAC_BRCA	source_readout	STATE	Mutation burden / PanCanAtlas	1	1	1	1
+CPTAC_BRCA	source_readout	STATE	PROGENy	1	1	1	1
+CPTAC_BRCA	source_readout	STATE	Panimmune 160 signatures	2	1	1	1
+CPTAC_BRCA	source_readout	STATE	SenMayo	1	1	1	1
+CPTAC_BRCA	source_readout	STATE	signifinder	17	17	17	17
+CPTAC_BRCA	source_readout	STATE	xCell	64	64	64	64
+CPTAC_COAD	member_measurement	PHOSPHO	CPTAC molecular data	5129	5129	5129	5129
+CPTAC_COAD	member_measurement	PROTEIN	CPTAC molecular data	1566	1566	1566	1566
+CPTAC_COAD	member_measurement	RNA	CPTAC molecular data	2505	2505	2505	2505
+CPTAC_COAD	source_readout	METHYLATION	HALLMARK	3	0	3	0
+CPTAC_COAD	source_readout	METHYLATION	KEGG_MEDICUS	477	0	477	0
+CPTAC_COAD	source_readout	METHYLATION	REACTOME	9	0	9	0
+CPTAC_COAD	source_readout	PHOSPHO	PTMsigDB	276	155	276	155
+CPTAC_COAD	source_readout	PROTEIN	HALLMARK	3	3	3	3
+CPTAC_COAD	source_readout	PROTEIN	KEGG_MEDICUS	477	162	477	162
+CPTAC_COAD	source_readout	PROTEIN	REACTOME	9	4	9	4
+CPTAC_COAD	source_readout	RNA	HALLMARK	3	3	3	3
+CPTAC_COAD	source_readout	RNA	KEGG_MEDICUS	477	294	477	294
+CPTAC_COAD	source_readout	RNA	REACTOME	9	7	9	7
+CPTAC_COAD	source_readout	STATE	ABSOLUTE / PanCanAtlas	3	2	3	2
+CPTAC_COAD	source_readout	STATE	CIBERSORT / LM22	22	22	22	22
+CPTAC_COAD	source_readout	STATE	COSMIC SBS / MutationalPatterns	60	0	60	0
+CPTAC_COAD	source_readout	STATE	CYT / Rooney	1	1	1	1
+CPTAC_COAD	source_readout	STATE	DoRothEA	80	80	80	80
+CPTAC_COAD	source_readout	STATE	ESTIMATE	4	4	3	3
+CPTAC_COAD	source_readout	STATE	EXTEND	1	1	1	1
+CPTAC_COAD	source_readout	STATE	HRD / PanCanAtlas	4	0	4	0
+CPTAC_COAD	source_readout	STATE	IPS / Immunophenogram	1	1	1	1
+CPTAC_COAD	source_readout	STATE	MCP-counter	10	10	10	10
+CPTAC_COAD	source_readout	STATE	MSIsensor2 / GDC	1	0	1	0
+CPTAC_COAD	source_readout	STATE	MSigDB Hallmark (State readout)	2	2	2	2
+CPTAC_COAD	source_readout	STATE	Malta stemness / PanCanAtlas	6	2	6	2
+CPTAC_COAD	source_readout	STATE	Methylation leukocyte fraction / PanCanAtlas	1	0	1	0
+CPTAC_COAD	source_readout	STATE	Mutation burden / PanCanAtlas	1	1	1	1
+CPTAC_COAD	source_readout	STATE	PROGENy	1	1	1	1
+CPTAC_COAD	source_readout	STATE	Panimmune 160 signatures	2	1	1	1
+CPTAC_COAD	source_readout	STATE	SenMayo	1	1	1	1
+CPTAC_COAD	source_readout	STATE	signifinder	17	17	17	17
+CPTAC_COAD	source_readout	STATE	xCell	64	64	64	64
+CPTAC_LUAD	member_measurement	METHYLATION	CPTAC molecular data	1899	1876	1899	1876
+CPTAC_LUAD	member_measurement	PHOSPHO	CPTAC molecular data	8617	8617	8617	8617
+CPTAC_LUAD	member_measurement	PROTEIN	CPTAC molecular data	1943	1943	1943	1943
+CPTAC_LUAD	member_measurement	RNA	CPTAC molecular data	2505	2505	2505	2505
+CPTAC_LUAD	source_readout	METHYLATION	HALLMARK	3	3	3	3
+CPTAC_LUAD	source_readout	METHYLATION	KEGG_MEDICUS	477	219	477	219
+CPTAC_LUAD	source_readout	METHYLATION	REACTOME	9	7	9	7
+CPTAC_LUAD	source_readout	PHOSPHO	PTMsigDB	276	191	276	191
+CPTAC_LUAD	source_readout	PROTEIN	HALLMARK	3	3	3	3
+CPTAC_LUAD	source_readout	PROTEIN	KEGG_MEDICUS	477	215	477	215
+CPTAC_LUAD	source_readout	PROTEIN	REACTOME	9	7	9	7
+CPTAC_LUAD	source_readout	RNA	HALLMARK	3	3	3	3
+CPTAC_LUAD	source_readout	RNA	KEGG_MEDICUS	477	294	477	294
+CPTAC_LUAD	source_readout	RNA	REACTOME	9	7	9	7
+CPTAC_LUAD	source_readout	STATE	ABSOLUTE / PanCanAtlas	3	2	3	2
+CPTAC_LUAD	source_readout	STATE	CIBERSORT / LM22	22	22	22	22
+CPTAC_LUAD	source_readout	STATE	COSMIC SBS / MutationalPatterns	60	0	60	0
+CPTAC_LUAD	source_readout	STATE	CYT / Rooney	1	1	1	1
+CPTAC_LUAD	source_readout	STATE	DoRothEA	80	80	80	80
+CPTAC_LUAD	source_readout	STATE	ESTIMATE	4	4	3	3
+CPTAC_LUAD	source_readout	STATE	EXTEND	1	1	1	1
+CPTAC_LUAD	source_readout	STATE	HRD / PanCanAtlas	4	0	4	0
+CPTAC_LUAD	source_readout	STATE	IPS / Immunophenogram	1	1	1	1
+CPTAC_LUAD	source_readout	STATE	MCP-counter	10	10	10	10
+CPTAC_LUAD	source_readout	STATE	MSIsensor2 / GDC	1	0	1	0
+CPTAC_LUAD	source_readout	STATE	MSigDB Hallmark (State readout)	2	2	2	2
+CPTAC_LUAD	source_readout	STATE	Malta stemness / PanCanAtlas	6	2	6	2
+CPTAC_LUAD	source_readout	STATE	Methylation leukocyte fraction / PanCanAtlas	1	0	1	0
+CPTAC_LUAD	source_readout	STATE	Mutation burden / PanCanAtlas	1	1	1	1
+CPTAC_LUAD	source_readout	STATE	PROGENy	1	1	1	1
+CPTAC_LUAD	source_readout	STATE	Panimmune 160 signatures	2	1	1	1
+CPTAC_LUAD	source_readout	STATE	SenMayo	1	1	1	1
+CPTAC_LUAD	source_readout	STATE	signifinder	17	17	17	17
+CPTAC_LUAD	source_readout	STATE	xCell	64	64	64	64
+TCGA_BRCA	member_measurement	CNV	TCGA molecular data	2503	2439	2503	2439
+TCGA_BRCA	member_measurement	METHYLATION	TCGA molecular data	2503	2414	2503	2414
+TCGA_BRCA	member_measurement	PHOSPHO	TCGA / TCPA RPPA500	58	54	58	54
+TCGA_BRCA	member_measurement	PROTEIN	TCGA / TCPA RPPA500	204	185	204	185
+TCGA_BRCA	member_measurement	RNA	TCGA molecular data	2505	2505	2505	2505
+TCGA_BRCA	source_readout	PHOSPHO	PTMsigDB	276	10	276	10
+TCGA_BRCA	source_readout	PROTEIN	HALLMARK	3	3	3	3
+TCGA_BRCA	source_readout	PROTEIN	KEGG_MEDICUS	477	192	477	192
+TCGA_BRCA	source_readout	PROTEIN	REACTOME	9	3	9	3
+TCGA_BRCA	source_readout	RNA	HALLMARK	3	3	3	3
+TCGA_BRCA	source_readout	RNA	KEGG_MEDICUS	477	294	477	294
+TCGA_BRCA	source_readout	RNA	REACTOME	9	7	9	7
+TCGA_BRCA	source_readout	STATE	ABSOLUTE / PanCanAtlas	3	3	3	3
+TCGA_BRCA	source_readout	STATE	CIBERSORT / LM22	22	22	22	22
+TCGA_BRCA	source_readout	STATE	COSMIC SBS / MutationalPatterns	60	60	60	60
+TCGA_BRCA	source_readout	STATE	CYT / Rooney	1	1	1	1
+TCGA_BRCA	source_readout	STATE	DoRothEA	80	80	80	80
+TCGA_BRCA	source_readout	STATE	ESTIMATE	4	4	3	3
+TCGA_BRCA	source_readout	STATE	EXTEND	1	1	1	1
+TCGA_BRCA	source_readout	STATE	HRD / PanCanAtlas	4	4	4	4
+TCGA_BRCA	source_readout	STATE	IPS / Immunophenogram	1	1	1	1
+TCGA_BRCA	source_readout	STATE	MCP-counter	10	10	10	10
+TCGA_BRCA	source_readout	STATE	MSIsensor2 / GDC	1	1	1	1
+TCGA_BRCA	source_readout	STATE	MSigDB Hallmark (State readout)	2	2	2	2
+TCGA_BRCA	source_readout	STATE	Malta stemness / PanCanAtlas	6	6	6	6
+TCGA_BRCA	source_readout	STATE	Methylation leukocyte fraction / PanCanAtlas	1	1	1	1
+TCGA_BRCA	source_readout	STATE	Mutation burden / PanCanAtlas	1	1	1	1
+TCGA_BRCA	source_readout	STATE	PROGENy	1	1	1	1
+TCGA_BRCA	source_readout	STATE	Panimmune 160 signatures	2	2	1	1
+TCGA_BRCA	source_readout	STATE	SenMayo	1	1	1	1
+TCGA_BRCA	source_readout	STATE	signifinder	17	17	17	17
+TCGA_BRCA	source_readout	STATE	xCell	64	64	64	64
+TCGA_COAD	member_measurement	CNV	TCGA molecular data	2503	2439	2503	2439
+TCGA_COAD	member_measurement	METHYLATION	TCGA molecular data	2503	2414	2503	2414
+TCGA_COAD	member_measurement	PHOSPHO	TCGA / TCPA RPPA500	58	54	58	54
+TCGA_COAD	member_measurement	PROTEIN	TCGA / TCPA RPPA500	204	183	204	183
+TCGA_COAD	member_measurement	RNA	TCGA molecular data	2505	2505	2505	2505
+TCGA_COAD	source_readout	PHOSPHO	PTMsigDB	276	10	276	10
+TCGA_COAD	source_readout	PROTEIN	HALLMARK	3	3	3	3
+TCGA_COAD	source_readout	PROTEIN	KEGG_MEDICUS	477	191	477	191
+TCGA_COAD	source_readout	PROTEIN	REACTOME	9	3	9	3
+TCGA_COAD	source_readout	RNA	HALLMARK	3	3	3	3
+TCGA_COAD	source_readout	RNA	KEGG_MEDICUS	477	294	477	294
+TCGA_COAD	source_readout	RNA	REACTOME	9	7	9	7
+TCGA_COAD	source_readout	STATE	ABSOLUTE / PanCanAtlas	3	3	3	3
+TCGA_COAD	source_readout	STATE	CIBERSORT / LM22	22	22	22	22
+TCGA_COAD	source_readout	STATE	COSMIC SBS / MutationalPatterns	60	60	60	60
+TCGA_COAD	source_readout	STATE	CYT / Rooney	1	1	1	1
+TCGA_COAD	source_readout	STATE	DoRothEA	80	80	80	80
+TCGA_COAD	source_readout	STATE	ESTIMATE	4	4	3	3
+TCGA_COAD	source_readout	STATE	EXTEND	1	1	1	1
+TCGA_COAD	source_readout	STATE	HRD / PanCanAtlas	4	4	4	4
+TCGA_COAD	source_readout	STATE	IPS / Immunophenogram	1	1	1	1
+TCGA_COAD	source_readout	STATE	MCP-counter	10	10	10	10
+TCGA_COAD	source_readout	STATE	MSIsensor2 / GDC	1	1	1	1
+TCGA_COAD	source_readout	STATE	MSigDB Hallmark (State readout)	2	2	2	2
+TCGA_COAD	source_readout	STATE	Malta stemness / PanCanAtlas	6	6	6	6
+TCGA_COAD	source_readout	STATE	Methylation leukocyte fraction / PanCanAtlas	1	1	1	1
+TCGA_COAD	source_readout	STATE	Mutation burden / PanCanAtlas	1	1	1	1
+TCGA_COAD	source_readout	STATE	PROGENy	1	1	1	1
+TCGA_COAD	source_readout	STATE	Panimmune 160 signatures	2	2	1	1
+TCGA_COAD	source_readout	STATE	SenMayo	1	1	1	1
+TCGA_COAD	source_readout	STATE	signifinder	17	17	17	17
+TCGA_COAD	source_readout	STATE	xCell	64	64	64	64
+TCGA_LUAD	member_measurement	CNV	TCGA molecular data	2503	2439	2503	2439
+TCGA_LUAD	member_measurement	METHYLATION	TCGA molecular data	2503	2414	2503	2414
+TCGA_LUAD	member_measurement	PHOSPHO	TCGA / TCPA RPPA500	58	55	58	55
+TCGA_LUAD	member_measurement	PROTEIN	TCGA / TCPA RPPA500	204	188	204	188
+TCGA_LUAD	member_measurement	RNA	TCGA molecular data	2505	2505	2505	2505
+TCGA_LUAD	source_readout	PHOSPHO	PTMsigDB	276	10	276	10
+TCGA_LUAD	source_readout	PROTEIN	HALLMARK	3	3	3	3
+TCGA_LUAD	source_readout	PROTEIN	KEGG_MEDICUS	477	193	477	193
+TCGA_LUAD	source_readout	PROTEIN	REACTOME	9	3	9	3
+TCGA_LUAD	source_readout	RNA	HALLMARK	3	3	3	3
+TCGA_LUAD	source_readout	RNA	KEGG_MEDICUS	477	294	477	294
+TCGA_LUAD	source_readout	RNA	REACTOME	9	7	9	7
+TCGA_LUAD	source_readout	STATE	ABSOLUTE / PanCanAtlas	3	3	3	3
+TCGA_LUAD	source_readout	STATE	CIBERSORT / LM22	22	22	22	22
+TCGA_LUAD	source_readout	STATE	COSMIC SBS / MutationalPatterns	60	60	60	60
+TCGA_LUAD	source_readout	STATE	CYT / Rooney	1	1	1	1
+TCGA_LUAD	source_readout	STATE	DoRothEA	80	80	80	80
+TCGA_LUAD	source_readout	STATE	ESTIMATE	4	4	3	3
+TCGA_LUAD	source_readout	STATE	EXTEND	1	1	1	1
+TCGA_LUAD	source_readout	STATE	HRD / PanCanAtlas	4	4	4	4
+TCGA_LUAD	source_readout	STATE	IPS / Immunophenogram	1	1	1	1
+TCGA_LUAD	source_readout	STATE	MCP-counter	10	10	10	10
+TCGA_LUAD	source_readout	STATE	MSIsensor2 / GDC	1	1	1	1
+TCGA_LUAD	source_readout	STATE	MSigDB Hallmark (State readout)	2	2	2	2
+TCGA_LUAD	source_readout	STATE	Malta stemness / PanCanAtlas	6	6	6	6
+TCGA_LUAD	source_readout	STATE	Methylation leukocyte fraction / PanCanAtlas	1	1	1	1
+TCGA_LUAD	source_readout	STATE	Mutation burden / PanCanAtlas	1	1	1	1
+TCGA_LUAD	source_readout	STATE	PROGENy	1	1	1	1
+TCGA_LUAD	source_readout	STATE	Panimmune 160 signatures	2	2	1	1
+TCGA_LUAD	source_readout	STATE	SenMayo	1	1	1	1
+TCGA_LUAD	source_readout	STATE	signifinder	17	17	17	17
+TCGA_LUAD	source_readout	STATE	xCell	64	64	64	64

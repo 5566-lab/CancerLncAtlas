@@ -1,0 +1,11 @@
+{
+  "target_host": "149",
+  "command": "python -m pytest -q tests/test_wiki_patient_y.py tests/test_fixed_y_bundle.py tests/test_wikipathways_alignment.py tests/test_wikipathways_observations.py",
+  "result": "19 passed in 1.25s",
+  "recorded_from": "terminal verified exit code 0",
+  "verified_manifest_entries": {
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/Y_bundle": 205,
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r12_wikipathways_patients_20261114_r1": 60,
+    "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/patient_sources": 110
+  }
+}

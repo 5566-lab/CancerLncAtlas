@@ -1,0 +1,18 @@
+{
+  "previous_tested_pairs": 1331784,
+  "new_tested_pairs": 91868,
+  "joint_tested_pairs": 1423652,
+  "previous_context_links": 29094,
+  "previous_links_retained": 29094,
+  "previous_links_added": 94,
+  "previous_links_withdrawn": 0,
+  "previous_context_links_after_joint_bh": 29188,
+  "new_context_links_after_joint_bh": 4821,
+  "old_nonzero_rows": 93710,
+  "old_implicit_zero_overlap_rows": 1238074,
+  "new_nonzero_rows": 10412,
+  "joint_nonzero_rows": 104122,
+  "unchanged_protein_universe": 16797,
+  "old_q_changed_rows": 63542,
+  "identity_and_original_kegg_members_changed": false
+}

@@ -1,0 +1,18 @@
+{
+  "target_host": "149",
+  "files": {
+    "CancerLncAtlas_通路与State分组_20261114.pptx": "ec29ae72e18921d9b0be8d47e57f2910337c755560faf2c89d3b895914e71d44",
+    "CancerLncAtlas_通路与State分组_20261114.pdf": "df69b8f1dcb02b227fdaecf7eb1dfbf74fee5f7a04ef23bf3846989b8db5b251",
+    "Functional_pathway_State_dictionary_v8.xlsx": "2bb0b53fa758168c77787ad518f11e6b399b62a1cbd4d67889d354b431e7481a",
+    "当前48个State条目.tsv": "af68da5b34420942ba581275cf8ff470bce33d2541fd3ff9fd1445ee14364f2c",
+    "State分组与151个子项.tsv": "440f28e9a300c4311104b8a1a3b0ec9514854a89f7b95b61edd375b151b9ee99",
+    "State压缩汇总.tsv": "9e23b3fdf9e649827b33a02a7cab6b3db7b0ca8652d24325f06e03af274ddec8",
+    "State目录.json": "f99b79dacfa43979ee4f31ecf838d30dd0e5bcbefe2bf7c352df413a88235119"
+  },
+  "dictionary_sha256": "2bb0b53fa758168c77787ad518f11e6b399b62a1cbd4d67889d354b431e7481a",
+  "primary_pathways": 476,
+  "state_top_level_count": 48,
+  "state_source_identity_count": 197,
+  "state_detail_components": 151,
+  "total_targets": 524
+}

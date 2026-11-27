@@ -1,0 +1,240 @@
+case	resource	layer	evidence_role	scope_relation	target_observation_links	source_dimensions	targets
+CPTAC_BRCA	ABSOLUTE / PanCanAtlas	STATE	same_state_readout	same_identity	3	3	3
+CPTAC_BRCA	CIBERSORT / LM22	STATE	state_component_readout	state_component_of	22	22	1
+CPTAC_BRCA	COSMIC SBS / MutationalPatterns	STATE	state_component_readout	state_component_of	60	60	1
+CPTAC_BRCA	CPTAC molecular data	PHOSPHO	member_measurement	exact_member_observation_group	36	36	1
+CPTAC_BRCA	CPTAC molecular data	PHOSPHO	member_measurement	original_KEGG_member	18318	7315	466
+CPTAC_BRCA	CPTAC molecular data	PROTEIN	member_measurement	exact_member_observation_group	11	11	1
+CPTAC_BRCA	CPTAC molecular data	PROTEIN	member_measurement	original_KEGG_member	5202	1906	475
+CPTAC_BRCA	CPTAC molecular data	RNA	member_measurement	exact_member_observation_group	29	29	1
+CPTAC_BRCA	CPTAC molecular data	RNA	member_measurement	original_KEGG_member	6730	2505	475
+CPTAC_BRCA	CYT / Rooney	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	DoRothEA	STATE	molecular_component_readout	exact_member_observation_group	1	1	1
+CPTAC_BRCA	DoRothEA	STATE	molecular_component_readout	regulator_component_in_mechanism	376	80	150
+CPTAC_BRCA	ESTIMATE	STATE	same_state_readout	same_identity	4	4	4
+CPTAC_BRCA	EXTEND	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	HALLMARK	METHYLATION	same_state_readout	same_identity	3	3	3
+CPTAC_BRCA	HALLMARK	PROTEIN	same_state_readout	same_identity	3	3	3
+CPTAC_BRCA	HALLMARK	RNA	same_state_readout	same_identity	3	3	3
+CPTAC_BRCA	HRD / PanCanAtlas	STATE	same_state_readout	same_identity	4	4	4
+CPTAC_BRCA	IPS / Immunophenogram	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	KEGG_MEDICUS	METHYLATION	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_BRCA	KEGG_MEDICUS	METHYLATION	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_BRCA	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_BRCA	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_BRCA	KEGG_MEDICUS	RNA	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_BRCA	KEGG_MEDICUS	RNA	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_BRCA	MCP-counter	STATE	state_component_readout	state_component_of	10	10	1
+CPTAC_BRCA	MSIsensor2 / GDC	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	MSigDB Hallmark (State readout)	STATE	same_state_readout	same_identity	2	2	2
+CPTAC_BRCA	Malta stemness / PanCanAtlas	STATE	same_state_readout	same_identity	6	6	6
+CPTAC_BRCA	Methylation leukocyte fraction / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	Mutation burden / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	PROGENy	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	PTMsigDB	PHOSPHO	molecular_component_readout	regulator_component_in_mechanism	2142	276	278
+CPTAC_BRCA	Panimmune 160 signatures	STATE	same_state_readout	same_identity	2	2	1
+CPTAC_BRCA	REACTOME	METHYLATION	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_BRCA	REACTOME	PROTEIN	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_BRCA	REACTOME	RNA	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_BRCA	SenMayo	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_BRCA	signifinder	STATE	same_state_readout	same_identity	17	17	17
+CPTAC_BRCA	xCell	STATE	state_component_readout	state_component_of	64	64	1
+CPTAC_COAD	ABSOLUTE / PanCanAtlas	STATE	same_state_readout	same_identity	3	3	3
+CPTAC_COAD	CIBERSORT / LM22	STATE	state_component_readout	state_component_of	22	22	1
+CPTAC_COAD	COSMIC SBS / MutationalPatterns	STATE	state_component_readout	state_component_of	60	60	1
+CPTAC_COAD	CPTAC molecular data	PHOSPHO	member_measurement	exact_member_observation_group	23	23	1
+CPTAC_COAD	CPTAC molecular data	PHOSPHO	member_measurement	original_KEGG_member	14200	5129	460
+CPTAC_COAD	CPTAC molecular data	PROTEIN	member_measurement	exact_member_observation_group	7	7	1
+CPTAC_COAD	CPTAC molecular data	PROTEIN	member_measurement	original_KEGG_member	4377	1566	473
+CPTAC_COAD	CPTAC molecular data	RNA	member_measurement	exact_member_observation_group	29	29	1
+CPTAC_COAD	CPTAC molecular data	RNA	member_measurement	original_KEGG_member	6730	2505	475
+CPTAC_COAD	CYT / Rooney	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	DoRothEA	STATE	molecular_component_readout	exact_member_observation_group	1	1	1
+CPTAC_COAD	DoRothEA	STATE	molecular_component_readout	regulator_component_in_mechanism	376	80	150
+CPTAC_COAD	ESTIMATE	STATE	same_state_readout	same_identity	4	4	4
+CPTAC_COAD	EXTEND	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	HALLMARK	METHYLATION	same_state_readout	same_identity	3	3	3
+CPTAC_COAD	HALLMARK	PROTEIN	same_state_readout	same_identity	3	3	3
+CPTAC_COAD	HALLMARK	RNA	same_state_readout	same_identity	3	3	3
+CPTAC_COAD	HRD / PanCanAtlas	STATE	same_state_readout	same_identity	4	4	4
+CPTAC_COAD	IPS / Immunophenogram	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	KEGG_MEDICUS	METHYLATION	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_COAD	KEGG_MEDICUS	METHYLATION	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_COAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_COAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_COAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_COAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_COAD	MCP-counter	STATE	state_component_readout	state_component_of	10	10	1
+CPTAC_COAD	MSIsensor2 / GDC	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	MSigDB Hallmark (State readout)	STATE	same_state_readout	same_identity	2	2	2
+CPTAC_COAD	Malta stemness / PanCanAtlas	STATE	same_state_readout	same_identity	6	6	6
+CPTAC_COAD	Methylation leukocyte fraction / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	Mutation burden / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	PROGENy	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	PTMsigDB	PHOSPHO	molecular_component_readout	regulator_component_in_mechanism	2142	276	278
+CPTAC_COAD	Panimmune 160 signatures	STATE	same_state_readout	same_identity	2	2	1
+CPTAC_COAD	REACTOME	METHYLATION	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_COAD	REACTOME	PROTEIN	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_COAD	REACTOME	RNA	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_COAD	SenMayo	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_COAD	signifinder	STATE	same_state_readout	same_identity	17	17	17
+CPTAC_COAD	xCell	STATE	state_component_readout	state_component_of	64	64	1
+CPTAC_LUAD	ABSOLUTE / PanCanAtlas	STATE	same_state_readout	same_identity	3	3	3
+CPTAC_LUAD	CIBERSORT / LM22	STATE	state_component_readout	state_component_of	22	22	1
+CPTAC_LUAD	COSMIC SBS / MutationalPatterns	STATE	state_component_readout	state_component_of	60	60	1
+CPTAC_LUAD	CPTAC molecular data	METHYLATION	member_measurement	exact_member_observation_group	21	21	1
+CPTAC_LUAD	CPTAC molecular data	METHYLATION	member_measurement	original_KEGG_member	5214	1899	474
+CPTAC_LUAD	CPTAC molecular data	PHOSPHO	member_measurement	exact_member_observation_group	32	32	1
+CPTAC_LUAD	CPTAC molecular data	PHOSPHO	member_measurement	original_KEGG_member	25046	8617	468
+CPTAC_LUAD	CPTAC molecular data	PROTEIN	member_measurement	exact_member_observation_group	14	14	1
+CPTAC_LUAD	CPTAC molecular data	PROTEIN	member_measurement	original_KEGG_member	5253	1943	475
+CPTAC_LUAD	CPTAC molecular data	RNA	member_measurement	exact_member_observation_group	29	29	1
+CPTAC_LUAD	CPTAC molecular data	RNA	member_measurement	original_KEGG_member	6730	2505	475
+CPTAC_LUAD	CYT / Rooney	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	DoRothEA	STATE	molecular_component_readout	exact_member_observation_group	1	1	1
+CPTAC_LUAD	DoRothEA	STATE	molecular_component_readout	regulator_component_in_mechanism	376	80	150
+CPTAC_LUAD	ESTIMATE	STATE	same_state_readout	same_identity	4	4	4
+CPTAC_LUAD	EXTEND	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	HALLMARK	METHYLATION	same_state_readout	same_identity	3	3	3
+CPTAC_LUAD	HALLMARK	PROTEIN	same_state_readout	same_identity	3	3	3
+CPTAC_LUAD	HALLMARK	RNA	same_state_readout	same_identity	3	3	3
+CPTAC_LUAD	HRD / PanCanAtlas	STATE	same_state_readout	same_identity	4	4	4
+CPTAC_LUAD	IPS / Immunophenogram	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	KEGG_MEDICUS	METHYLATION	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_LUAD	KEGG_MEDICUS	METHYLATION	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_LUAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_LUAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_LUAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+CPTAC_LUAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	same_identity	475	475	475
+CPTAC_LUAD	MCP-counter	STATE	state_component_readout	state_component_of	10	10	1
+CPTAC_LUAD	MSIsensor2 / GDC	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	MSigDB Hallmark (State readout)	STATE	same_state_readout	same_identity	2	2	2
+CPTAC_LUAD	Malta stemness / PanCanAtlas	STATE	same_state_readout	same_identity	6	6	6
+CPTAC_LUAD	Methylation leukocyte fraction / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	Mutation burden / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	PROGENy	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	PTMsigDB	PHOSPHO	molecular_component_readout	regulator_component_in_mechanism	2142	276	278
+CPTAC_LUAD	Panimmune 160 signatures	STATE	same_state_readout	same_identity	2	2	1
+CPTAC_LUAD	REACTOME	METHYLATION	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_LUAD	REACTOME	PROTEIN	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_LUAD	REACTOME	RNA	equivalent_pathway_readout	same_identity	9	9	9
+CPTAC_LUAD	SenMayo	STATE	same_state_readout	same_identity	1	1	1
+CPTAC_LUAD	signifinder	STATE	same_state_readout	same_identity	17	17	17
+CPTAC_LUAD	xCell	STATE	state_component_readout	state_component_of	64	64	1
+TCGA_BRCA	ABSOLUTE / PanCanAtlas	STATE	same_state_readout	same_identity	3	3	3
+TCGA_BRCA	CIBERSORT / LM22	STATE	state_component_readout	state_component_of	22	22	1
+TCGA_BRCA	COSMIC SBS / MutationalPatterns	STATE	state_component_readout	state_component_of	60	60	1
+TCGA_BRCA	CYT / Rooney	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	DoRothEA	STATE	molecular_component_readout	exact_member_observation_group	1	1	1
+TCGA_BRCA	DoRothEA	STATE	molecular_component_readout	regulator_component_in_mechanism	376	80	150
+TCGA_BRCA	ESTIMATE	STATE	same_state_readout	same_identity	4	4	4
+TCGA_BRCA	EXTEND	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	HALLMARK	PROTEIN	same_state_readout	same_identity	3	3	3
+TCGA_BRCA	HALLMARK	RNA	same_state_readout	same_identity	3	3	3
+TCGA_BRCA	HRD / PanCanAtlas	STATE	same_state_readout	same_identity	4	4	4
+TCGA_BRCA	IPS / Immunophenogram	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+TCGA_BRCA	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	same_identity	475	475	475
+TCGA_BRCA	KEGG_MEDICUS	RNA	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+TCGA_BRCA	KEGG_MEDICUS	RNA	equivalent_pathway_readout	same_identity	475	475	475
+TCGA_BRCA	MCP-counter	STATE	state_component_readout	state_component_of	10	10	1
+TCGA_BRCA	MSIsensor2 / GDC	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	MSigDB Hallmark (State readout)	STATE	same_state_readout	same_identity	2	2	2
+TCGA_BRCA	Malta stemness / PanCanAtlas	STATE	same_state_readout	same_identity	6	6	6
+TCGA_BRCA	Methylation leukocyte fraction / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	Mutation burden / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	PROGENy	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	PTMsigDB	PHOSPHO	molecular_component_readout	regulator_component_in_mechanism	2142	276	278
+TCGA_BRCA	Panimmune 160 signatures	STATE	same_state_readout	same_identity	2	2	1
+TCGA_BRCA	REACTOME	PROTEIN	equivalent_pathway_readout	same_identity	9	9	9
+TCGA_BRCA	REACTOME	RNA	equivalent_pathway_readout	same_identity	9	9	9
+TCGA_BRCA	SenMayo	STATE	same_state_readout	same_identity	1	1	1
+TCGA_BRCA	TCGA / TCPA RPPA500	PHOSPHO	member_measurement	original_KEGG_member	678	58	232
+TCGA_BRCA	TCGA / TCPA RPPA500	PROTEIN	member_measurement	exact_member_observation_group	3	3	1
+TCGA_BRCA	TCGA / TCPA RPPA500	PROTEIN	member_measurement	original_KEGG_member	1361	204	338
+TCGA_BRCA	TCGA molecular data	CNV	member_measurement	exact_member_observation_group	29	29	1
+TCGA_BRCA	TCGA molecular data	CNV	member_measurement	original_KEGG_member	6727	2503	475
+TCGA_BRCA	TCGA molecular data	METHYLATION	member_measurement	exact_member_observation_group	29	29	1
+TCGA_BRCA	TCGA molecular data	METHYLATION	member_measurement	original_KEGG_member	6727	2503	475
+TCGA_BRCA	TCGA molecular data	RNA	member_measurement	exact_member_observation_group	29	29	1
+TCGA_BRCA	TCGA molecular data	RNA	member_measurement	original_KEGG_member	6730	2505	475
+TCGA_BRCA	signifinder	STATE	same_state_readout	same_identity	17	17	17
+TCGA_BRCA	xCell	STATE	state_component_readout	state_component_of	64	64	1
+TCGA_COAD	ABSOLUTE / PanCanAtlas	STATE	same_state_readout	same_identity	3	3	3
+TCGA_COAD	CIBERSORT / LM22	STATE	state_component_readout	state_component_of	22	22	1
+TCGA_COAD	COSMIC SBS / MutationalPatterns	STATE	state_component_readout	state_component_of	60	60	1
+TCGA_COAD	CYT / Rooney	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	DoRothEA	STATE	molecular_component_readout	exact_member_observation_group	1	1	1
+TCGA_COAD	DoRothEA	STATE	molecular_component_readout	regulator_component_in_mechanism	376	80	150
+TCGA_COAD	ESTIMATE	STATE	same_state_readout	same_identity	4	4	4
+TCGA_COAD	EXTEND	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	HALLMARK	PROTEIN	same_state_readout	same_identity	3	3	3
+TCGA_COAD	HALLMARK	RNA	same_state_readout	same_identity	3	3	3
+TCGA_COAD	HRD / PanCanAtlas	STATE	same_state_readout	same_identity	4	4	4
+TCGA_COAD	IPS / Immunophenogram	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+TCGA_COAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	same_identity	475	475	475
+TCGA_COAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+TCGA_COAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	same_identity	475	475	475
+TCGA_COAD	MCP-counter	STATE	state_component_readout	state_component_of	10	10	1
+TCGA_COAD	MSIsensor2 / GDC	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	MSigDB Hallmark (State readout)	STATE	same_state_readout	same_identity	2	2	2
+TCGA_COAD	Malta stemness / PanCanAtlas	STATE	same_state_readout	same_identity	6	6	6
+TCGA_COAD	Methylation leukocyte fraction / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	Mutation burden / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	PROGENy	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	PTMsigDB	PHOSPHO	molecular_component_readout	regulator_component_in_mechanism	2142	276	278
+TCGA_COAD	Panimmune 160 signatures	STATE	same_state_readout	same_identity	2	2	1
+TCGA_COAD	REACTOME	PROTEIN	equivalent_pathway_readout	same_identity	9	9	9
+TCGA_COAD	REACTOME	RNA	equivalent_pathway_readout	same_identity	9	9	9
+TCGA_COAD	SenMayo	STATE	same_state_readout	same_identity	1	1	1
+TCGA_COAD	TCGA / TCPA RPPA500	PHOSPHO	member_measurement	original_KEGG_member	678	58	232
+TCGA_COAD	TCGA / TCPA RPPA500	PROTEIN	member_measurement	exact_member_observation_group	3	3	1
+TCGA_COAD	TCGA / TCPA RPPA500	PROTEIN	member_measurement	original_KEGG_member	1361	204	338
+TCGA_COAD	TCGA molecular data	CNV	member_measurement	exact_member_observation_group	29	29	1
+TCGA_COAD	TCGA molecular data	CNV	member_measurement	original_KEGG_member	6727	2503	475
+TCGA_COAD	TCGA molecular data	METHYLATION	member_measurement	exact_member_observation_group	29	29	1
+TCGA_COAD	TCGA molecular data	METHYLATION	member_measurement	original_KEGG_member	6727	2503	475
+TCGA_COAD	TCGA molecular data	RNA	member_measurement	exact_member_observation_group	29	29	1
+TCGA_COAD	TCGA molecular data	RNA	member_measurement	original_KEGG_member	6730	2505	475
+TCGA_COAD	signifinder	STATE	same_state_readout	same_identity	17	17	17
+TCGA_COAD	xCell	STATE	state_component_readout	state_component_of	64	64	1
+TCGA_LUAD	ABSOLUTE / PanCanAtlas	STATE	same_state_readout	same_identity	3	3	3
+TCGA_LUAD	CIBERSORT / LM22	STATE	state_component_readout	state_component_of	22	22	1
+TCGA_LUAD	COSMIC SBS / MutationalPatterns	STATE	state_component_readout	state_component_of	60	60	1
+TCGA_LUAD	CYT / Rooney	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	DoRothEA	STATE	molecular_component_readout	exact_member_observation_group	1	1	1
+TCGA_LUAD	DoRothEA	STATE	molecular_component_readout	regulator_component_in_mechanism	376	80	150
+TCGA_LUAD	ESTIMATE	STATE	same_state_readout	same_identity	4	4	4
+TCGA_LUAD	EXTEND	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	HALLMARK	PROTEIN	same_state_readout	same_identity	3	3	3
+TCGA_LUAD	HALLMARK	RNA	same_state_readout	same_identity	3	3	3
+TCGA_LUAD	HRD / PanCanAtlas	STATE	same_state_readout	same_identity	4	4	4
+TCGA_LUAD	IPS / Immunophenogram	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+TCGA_LUAD	KEGG_MEDICUS	PROTEIN	equivalent_pathway_readout	same_identity	475	475	475
+TCGA_LUAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	exact_member_observation_group	2	2	1
+TCGA_LUAD	KEGG_MEDICUS	RNA	equivalent_pathway_readout	same_identity	475	475	475
+TCGA_LUAD	MCP-counter	STATE	state_component_readout	state_component_of	10	10	1
+TCGA_LUAD	MSIsensor2 / GDC	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	MSigDB Hallmark (State readout)	STATE	same_state_readout	same_identity	2	2	2
+TCGA_LUAD	Malta stemness / PanCanAtlas	STATE	same_state_readout	same_identity	6	6	6
+TCGA_LUAD	Methylation leukocyte fraction / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	Mutation burden / PanCanAtlas	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	PROGENy	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	PTMsigDB	PHOSPHO	molecular_component_readout	regulator_component_in_mechanism	2142	276	278
+TCGA_LUAD	Panimmune 160 signatures	STATE	same_state_readout	same_identity	2	2	1
+TCGA_LUAD	REACTOME	PROTEIN	equivalent_pathway_readout	same_identity	9	9	9
+TCGA_LUAD	REACTOME	RNA	equivalent_pathway_readout	same_identity	9	9	9
+TCGA_LUAD	SenMayo	STATE	same_state_readout	same_identity	1	1	1
+TCGA_LUAD	TCGA / TCPA RPPA500	PHOSPHO	member_measurement	original_KEGG_member	678	58	232
+TCGA_LUAD	TCGA / TCPA RPPA500	PROTEIN	member_measurement	exact_member_observation_group	3	3	1
+TCGA_LUAD	TCGA / TCPA RPPA500	PROTEIN	member_measurement	original_KEGG_member	1361	204	338
+TCGA_LUAD	TCGA molecular data	CNV	member_measurement	exact_member_observation_group	29	29	1
+TCGA_LUAD	TCGA molecular data	CNV	member_measurement	original_KEGG_member	6727	2503	475
+TCGA_LUAD	TCGA molecular data	METHYLATION	member_measurement	exact_member_observation_group	29	29	1
+TCGA_LUAD	TCGA molecular data	METHYLATION	member_measurement	original_KEGG_member	6727	2503	475
+TCGA_LUAD	TCGA molecular data	RNA	member_measurement	exact_member_observation_group	29	29	1
+TCGA_LUAD	TCGA molecular data	RNA	member_measurement	original_KEGG_member	6730	2505	475
+TCGA_LUAD	signifinder	STATE	same_state_readout	same_identity	17	17	17
+TCGA_LUAD	xCell	STATE	state_component_readout	state_component_of	64	64	1

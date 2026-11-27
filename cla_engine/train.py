@@ -71,6 +71,26 @@ def load_checkpoint(out,signature):
     return None,None
 
 def aggregate_metrics(predictions,spec):
+    if spec.get('relation_objective')=='observed_fused_rms_effect':
+        from .relation_metrics import paired_relation_strength_metrics
+        metrics={}
+        for task in ('pathway','state'):
+            row=[];targets=spec['nodes']['pathway'] if task=='pathway' else spec['states']
+            for cancer,arr,score,direction in predictions[task]:
+                result=paired_relation_strength_metrics(arr['label'],score,arr['base'],arr['available'],arr['target'],
+                    task=task,targets=targets,families=spec.get('state_families'))
+                result['cancer_id']=cancer;row.append(result)
+            good=[item for item in row if item['available']]
+            if not good:fail('VALIDATION_NOT_ESTIMABLE','No evaluable cancer',task=task)
+            metrics[task]={'macro_mse':float(np.mean([item['mse'] for item in good])),
+                'baseline_macro_mse':float(np.mean([item['baseline_mse'] for item in good])),
+                'macro_mae':float(np.mean([item['mae'] for item in good])),
+                'baseline_macro_mae':float(np.mean([item['baseline_mae'] for item in good])),
+                'cancers':row,'metrics_contract':spec.get('metrics_contract')}
+            metrics[task]['delta']=metrics[task]['baseline_macro_mse']-metrics[task]['macro_mse']
+        metrics['selection_min_task_delta']=min(metrics[t]['delta'] for t in ('pathway','state'))
+        metrics['selection_weighted_score']=-(metrics['pathway']['macro_mse']+.5*metrics['state']['macro_mse'])/1.5
+        return metrics
     from .metrics import paired_task_metrics
     metrics={}
     for task in ('pathway','state'):
@@ -91,6 +111,7 @@ def aggregate_metrics(predictions,spec):
         metrics[task]['delta']=metrics[task]['macro_ap']-metrics[task]['baseline_macro_ap']
     metrics['selection_min_task_delta']=min(metrics[t]['delta'] for t in ('pathway','state'))
     metrics['selection_weighted_ap']=(metrics['pathway']['macro_ap']+.5*metrics['state']['macro_ap'])/1.5
+    metrics['selection_weighted_score']=metrics['selection_weighted_ap']
     return metrics
 
 def should_stop_early(profile,cfg,step,steps_epoch,stale):
@@ -162,7 +183,7 @@ def train(prepared,out,*,device='cuda',deadline=None,resume=True,interrupt_after
         else:
             start=0;history=[];stale=0;gradproof={'pathway_max_shared_grad':0.,'state_max_shared_grad':0.}
             metrics,_=evaluate(model,prepared,views,spec,device,batchsize,alpha=0.)
-            best={'rank':(0.,metrics['selection_weighted_ap']),'alpha':0.,'step':0,'metrics':metrics,'model':{k:v.detach().cpu().clone() for k,v in model.state_dict().items()}}
+            best={'rank':(0.,metrics['selection_weighted_score']),'alpha':0.,'step':0,'metrics':metrics,'model':{k:v.detach().cpu().clone() for k,v in model.state_dict().items()}}
         diagnostic_full_epochs=profile=='diagnostic' and bool(cfg['training'].get('diagnostic_full_epochs',False))
         atomic_json(out/'RUN_CONTRACT.json',{'signature':signature,'prepared_sha256':sha(prepared/'MANIFEST.json'),'prepared_path':str(prepared.resolve()),'task_weights':cfg['model']['task_weights'],'deadline_unix':deadline,'optimizer':'AdamW','resume_from_step':start,'configured_total_steps':total,'steps_per_epoch':steps_epoch,'diagnostic_full_epochs':diagnostic_full_epochs,'no_test_labels':True,'gpu_bitwise_reproducibility_claimed':False,'formal_authorization':formal_authorization})
         for sig in [signal.SIGTERM,signal.SIGINT]:signal.signal(sig,stop_handler)
@@ -188,7 +209,7 @@ def train(prepared,out,*,device='cuda',deadline=None,resume=True,interrupt_after
                 ids=np.random.choice(valid,size=min(batchsize,len(valid)),replace=False);batches[t]=tensor_batch(arr,ids,device)
             model.train();optimizer.zero_grad(set_to_none=True);graph=to_graph(cache['graph'],device)
             with torch.autocast(device_type='cuda' if device.startswith('cuda') else 'cpu',enabled=amp_enabled,dtype=amp_dtype):
-                enc=model.encode(graph,view['cancer_index']);outputs={t:model.forward_task(t,enc,batches[t]) for t in batches};losses={t:loss_one(outputs[t],batches[t],cfg['model']['direction_weight']) for t in batches}
+                enc=model.encode(graph,view['cancer_index']);outputs={t:model.forward_task(t,enc,batches[t]) for t in batches};losses={t:loss_one(outputs[t],batches[t],cfg['model']['direction_weight'],spec.get('relation_objective','binary')) for t in batches}
                 if any(v is None for v in losses.values()):fail('TASK_NO_LOSS','Both tasks are mandatory')
                 loss=losses['pathway']+.5*losses['state']+model.regularizer()
             if not torch.isfinite(loss):fail('NONFINITE_LOSS','No retry or imputed success')
@@ -216,7 +237,7 @@ def train(prepared,out,*,device='cuda',deadline=None,resume=True,interrupt_after
                 _,once=evaluate(model,prepared,views,spec,device,batchsize,alpha=1.)
                 for alpha in cfg['training']['alpha_grid']:
                     mixed={t:[(c,a,a['base']+alpha*(s-a['base']),d) for c,a,s,d in items] for t,items in once.items()}
-                    metrics=aggregate_metrics(mixed,spec);rank=(metrics['selection_min_task_delta'],metrics['selection_weighted_ap']);options.append((rank,-alpha,alpha,metrics))
+                    metrics=aggregate_metrics(mixed,spec);rank=(metrics['selection_min_task_delta'],metrics['selection_weighted_score']);options.append((rank,-alpha,alpha,metrics))
                 rank,_,alpha,metrics=max(options,key=lambda v:(v[0],v[1]));history.append({'step':stepdone,'alpha':alpha,'metrics':metrics})
                 if rank[0]>best['rank'][0]+1e-8 or (abs(rank[0]-best['rank'][0])<=1e-8 and rank[1]>best['rank'][1]+1e-8):
                     best={'rank':rank,'step':stepdone,'alpha':alpha,'metrics':metrics,'model':{k:v.detach().cpu().clone() for k,v in model.state_dict().items()}};stale=0
@@ -239,8 +260,16 @@ def train(prepared,out,*,device='cuda',deadline=None,resume=True,interrupt_after
         model.load_state_dict(best['model']);metrics,pred=evaluate(model,prepared,views,spec,device,batchsize,alpha=best['alpha'])
         for task,items in pred.items():
             for cancer,arr,score,direction in items:
-                atomic_npz(out/'predictions'/f'{cancer}__{task}.npz',lnc=arr['lnc'],target=arr['target'],score=score,baseline=arr['base'],direction_logit=direction,discovery_available=arr['discovery_available'])
-        statuscode=completion_state(cfg,manifest['metadata']['profile'],best['alpha'],metrics)
+                payload={'lnc':arr['lnc'],'target':arr['target'],'score':score,
+                         'baseline':arr['base'],'direction_logit':direction}
+                # Continuous relation candidates have observed-label masks, not
+                # the historical binary discovery threshold. Do not invent a
+                # discovery mask from validation-label availability.
+                if spec.get('relation_objective','binary')=='binary':
+                    payload['discovery_available']=arr['discovery_available']
+                atomic_npz(out/'predictions'/f'{cancer}__{task}.npz',**payload)
+        statuscode=completion_state(cfg,manifest['metadata']['profile'],best['alpha'],metrics,
+                                    spec.get('relation_objective','binary'))
         result={'state':statuscode,'signature':signature,'config_sha256':digest(cfg),'source_profile':profile,'synthetic_fixture':bool(cfg.get('synthetic_fixture',False)),'best_step':best['step'],'alpha':best['alpha'],'validation':metrics,'gradient_proof':gradproof,'task_weights':cfg['model']['task_weights'],'training_progress':{'optimizer_steps_total':int(record['next_step']),'configured_total_steps':int(total),'steps_per_epoch':int(steps_epoch),'completed_epochs':float(record['next_step']/steps_epoch),'stop_reason':stop_reason,'diagnostic_full_epochs':diagnostic_full_epochs},'prediction_files':{rel:sha(out/rel) for rel in sorted(expected_predictions(spec))},'prepared_manifest_sha256':sha(prepared/'MANIFEST.json'),'lineage':lineage,'attempt_id':attempt_id,'formal_authorization':formal_authorization,'formal_test_evaluated':False,'not_deployed':True}
         # The completion payload is inside a SHA-committed full optimizer checkpoint.
         # A mutable receipt cannot switch alpha/status independently of this checkpoint.

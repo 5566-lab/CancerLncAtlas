@@ -1,0 +1,130 @@
+{
+  "target_host": "149",
+  "unit_and_regression_tests": {
+    "combined_passed": 84,
+    "existing_baseline_passed": 12,
+    "total_passed": 96
+  },
+  "real_view_validation": {
+    "target_host": "149",
+    "checks": [
+      {
+        "cancer": "BRCA",
+        "context": "train_label_fold2",
+        "lncrnas": 16889,
+        "primary_targets": 381,
+        "state_target_columns": 194,
+        "mechanism_only_on_supervised_axis": 0,
+        "seconds": 222.35,
+        "groups": [
+          "pathway",
+          "state"
+        ]
+      },
+      {
+        "cancer": "LUAD",
+        "context": "train_label_fold2",
+        "lncrnas": 16889,
+        "primary_targets": 381,
+        "state_target_columns": 194,
+        "mechanism_only_on_supervised_axis": 0,
+        "seconds": 222.87,
+        "groups": [
+          "pathway",
+          "state"
+        ]
+      },
+      {
+        "cancer": "COAD",
+        "context": "train_label_fold2",
+        "lncrnas": 16889,
+        "primary_targets": 381,
+        "state_target_columns": 194,
+        "mechanism_only_on_supervised_axis": 0,
+        "seconds": 229.5,
+        "groups": [
+          "pathway",
+          "state"
+        ]
+      }
+    ],
+    "sealed_test_labels_opened": false,
+    "training_started": false,
+    "code_sha256": "8f21f7e7705e5f50f0bd120257d2988951dac2ea5fa1ec684a898d728f21f4b4"
+  },
+  "m0_fixture_validation": {
+    "status": "PASS",
+    "target_host": "149",
+    "synthetic_fixture": true,
+    "real_training_run": false,
+    "cancers": [
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "pathway_source_ids": [
+      "P0",
+      "P1"
+    ],
+    "pathway_canonical_ids": [
+      "CAN:P0",
+      "CAN:P1"
+    ],
+    "prepared_manifest_sha256": "c1ea399e3c1d1c9257567032bb53938bd3f9902b03a25eba66944c34e40896ca",
+    "prepared_code_sha256": "8f21f7e7705e5f50f0bd120257d2988951dac2ea5fa1ec684a898d728f21f4b4",
+    "identity_mode": "numeric_only",
+    "target_policy_bound_in_prepared": true,
+    "sealed_identity_map_sha256": "a5847bd0530fc981eb02597f5f8e37ab5087c0bbca9a504c685061b88249d5c1",
+    "outer_test_read": false,
+    "results": {
+      "C1": {
+        "direction": {
+          "status": "FITTED",
+          "train_rows": 31,
+          "selected_C": 0.1,
+          "validation_n": 11
+        },
+        "membership": {
+          "status": "FITTED",
+          "train_rows": 48,
+          "selected_C": 0.1,
+          "validation_n": 16
+        }
+      },
+      "C2": {
+        "direction": {
+          "status": "FITTED",
+          "train_rows": 38,
+          "selected_C": 1.0,
+          "validation_n": 13
+        },
+        "membership": {
+          "status": "FITTED",
+          "train_rows": 48,
+          "selected_C": 0.1,
+          "validation_n": 16
+        }
+      },
+      "C3": {
+        "direction": {
+          "status": "FITTED",
+          "train_rows": 38,
+          "selected_C": 1.0,
+          "validation_n": 10
+        },
+        "membership": {
+          "status": "FITTED",
+          "train_rows": 48,
+          "selected_C": 0.1,
+          "validation_n": 16
+        }
+      }
+    },
+    "receipt_path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg381_task_validation_20261111_r1/m0_fixture_end_to_end/m0_numeric/M0_RELATION_RECEIPT.json",
+    "receipt_sha256": "07d5a4ebfefcd8b8f247df1943e40f6b4b7f60ca190335172c657e3c65683c4c"
+  },
+  "actual_patient_training_performed": false,
+  "current_catalog": "canonical_targets_r8_fixed381",
+  "current_y_view": "functional_relation_y_kegg381_r2",
+  "official_cancer_supported_within_fixed381": 122
+}

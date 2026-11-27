@@ -1,0 +1,45 @@
+{
+  "target_host": "149",
+  "pointers": [
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CANONICAL_TARGETS_CURRENT.json",
+      "sha256": "59acfd6eef2e1a7cab3b0be51df120bb670d4c6272f22f7b50a29ace26638e35"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_CANONICAL_REFERENCE.json",
+      "sha256": "fb1d5f3efb93637549ce4b1f47750348ace5b6cb6a9c28a73af38a2d1b05ce35"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_Y_DELIVERY.json",
+      "sha256": "9412c19a3299868a029ad25a66ba18ab63c1ca0e9d5e0b283d05fb42e845ad99"
+    },
+    {
+      "path": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/CURRENT_READER_DELIVERY.json",
+      "sha256": "fb34d83b725a7f0e367378a40af7dda908b5c321ef57a33088e35e1fd62ff247"
+    }
+  ],
+  "primary_pathways": 476,
+  "state_top_level_count": 48,
+  "total_targets": 524,
+  "patients": 1910,
+  "slides": 17,
+  "fixed_y_bundle": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/fixed_y_remake_20261114_r1/Y_bundle",
+  "archive_sha256": "08558f291c312be1f631738ecb2861fc1fe7374ede101b9c74834c94c34cc75d",
+  "validation": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/fixed_y_remake_20261114_r1/VALIDATION.json",
+  "training": false,
+  "lncrna_association": false,
+  "request": "Rebuild Y and presentation from current 476 Pathway / 48 State definitions",
+  "tests_passed": 23,
+  "report_rebuilt_from_scratch": true,
+  "actual_examples": [
+    "MMR",
+    "Hedgehog",
+    "WNT",
+    "PI3K",
+    "CD8 cellular composition",
+    "SBS spectrum"
+  ],
+  "unobserved_state_concepts": 3,
+  "pathways_with_unknown_conditions": 141,
+  "archive_verified": true
+}

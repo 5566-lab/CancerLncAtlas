@@ -2,6 +2,7 @@
 from __future__ import annotations
 import numpy as np
 import pandas as pd
+import time
 from scipy.stats import rankdata
 from .common import fail
 from .tables import require
@@ -80,7 +81,7 @@ def nodes_and_static(membership,hierarchy,binding,protein_gene,ppi,lncs,pathways
         relations.extend([('lncRNA','coexpression_'+sign,'gene'),('gene','rev_coexpression_'+sign,'lncRNA')])
     return ids,maps,relations,edges,audit
 
-def coexpression(X,G,C,call,Z,cohort,topk=8,min_n=12,cnv_transform='raw_signed',*,return_audit=False,lnc_batch=64,gene_batch=256):
+def coexpression(X,G,C,call,Z,cohort,topk=8,min_n=12,cnv_transform='raw_signed',*,return_audit=False,lnc_batch=64,gene_batch=256,cache_gene_residuals=False,gene_cache_max_bytes=512*1024**2,progress=None):
     """Pairwise-complete source-cohort rank association; no molecular imputation.
 
     Rank transforms and nuisance coefficients are recomputed on EACH lncRNA-gene
@@ -111,13 +112,28 @@ def coexpression(X,G,C,call,Z,cohort,topk=8,min_n=12,cnv_transform='raw_signed',
         _,labels_=np.unique(np.packbits(mask.T,axis=1),axis=0,return_inverse=True)
         return [np.flatnonzero(labels_==i) for i in range(int(labels_.max())+1)]
     lg=groups(lm);gg=groups(gm)
-    below=0;estimable=0;degenerate=0;mask_evaluations=0
+    below=0;estimable=0;degenerate=0;mask_evaluations=0;cached_groups=0;last_progress=time.monotonic()
     for lcols in lg:
         for gcols in gg:
             common=lm[:,lcols[0]]&gm[:,gcols[0]];n=int(common.sum());count=len(lcols)*len(gcols);mask_evaluations+=1
             if n<min_n:below+=count;continue
             Q,q=basis(z[common])
+            cached=None
+            # The gene ranks and covariate residuals depend on this common
+            # patient mask, not on the lncRNA batch. Compute them once when
+            # the declared temporary-memory budget permits. Correlation and
+            # top-k buffers remain lnc_batch by gene_batch.
+            if cache_gene_residuals and 32*n*len(gcols)<=gene_cache_max_bytes:
+                raw_y=rankdata(g[common][:,gcols],axis=0)
+                yy=raw_y-Q@(Q.T@raw_y)
+                cached=(yy,np.sqrt(np.sum(yy*yy,axis=0)),rank_residual_estimable(raw_y,yy,z.shape[1]))
+                del raw_y
+                cached_groups+=1
             for start in range(0,len(lcols),lnc_batch):
+                if progress and time.monotonic()-last_progress>=30:
+                    progress({'pairs_processed':below+estimable+degenerate,'total_pairs':nlnc*ngene,
+                              'mask_intersections':mask_evaluations,'cached_mask_groups':cached_groups})
+                    last_progress=time.monotonic()
                 li=lcols[start:start+lnc_batch]
                 raw_x=rankdata(x[common][:,li],axis=0);xx=raw_x.copy()
                 original_cn=c[common][:,li]
@@ -129,10 +145,15 @@ def coexpression(X,G,C,call,Z,cohort,topk=8,min_n=12,cnv_transform='raw_signed',
                 xok=rank_residual_estimable(raw_x,xr,z.shape[1])
                 for gstart in range(0,len(gcols),gene_batch):
                     gj=gcols[gstart:gstart+gene_batch]
-                    raw_y=rankdata(g[common][:,gj],axis=0);yy=raw_y-Q@(Q.T@raw_y)
-                    yn=np.sqrt(np.sum(yy*yy,axis=0));norm=xn[:,None]*yn[None,:]
+                    if cached is None:
+                        raw_y=rankdata(g[common][:,gj],axis=0);yy=raw_y-Q@(Q.T@raw_y)
+                        yn=np.sqrt(np.sum(yy*yy,axis=0));yok=rank_residual_estimable(raw_y,yy,z.shape[1])
+                    else:
+                        stop=gstart+len(gj)
+                        yy,yn,yok=(value[:,gstart:stop] if value.ndim==2 else value[gstart:stop] for value in cached)
+                    norm=xn[:,None]*yn[None,:]
                     good=((norm>1e-10)&((n-ranks-1)>0)[:,None]
-                          &xok[:,None]&rank_residual_estimable(raw_y,yy,z.shape[1])[None,:])
+                          &xok[:,None]&yok[None,:])
                     corr=np.divide(xr.T@yy,norm,out=np.full(norm.shape,np.nan),where=good)
                     corr=np.clip(corr,-1,1);estimable+=int(np.isfinite(corr).sum());degenerate+=int((~np.isfinite(corr)).sum())
                     candidates=np.concatenate([best[li],corr],axis=1)
@@ -161,6 +182,8 @@ def coexpression(X,G,C,call,Z,cohort,topk=8,min_n=12,cnv_transform='raw_signed',
         'pairs_below_minimum_n':below,'estimable_pairs':estimable,'rank_or_variance_degenerate_pairs':degenerate,
         'lncrnas_with_selected_edges':int(included.sum()),'selected_edges':{s:int(e[0].shape[1]) for s,e in edges.items()},
         'block_sizes':{'lncrna':int(lnc_batch),'gene':int(gene_batch)},'edge_support':support}
+    if cache_gene_residuals:
+        audit['gene_residual_cache']={'max_bytes':int(gene_cache_max_bytes),'cached_mask_groups':cached_groups}
     if not estimable:audit['empty_reason']='NO_ESTIMABLE_COMMON_MASK_PAIRS'
     elif not included.any():audit['empty_reason']='NO_CORRELATION_EXCEEDS_FROZEN_THRESHOLD'
     else:audit['empty_reason']=None

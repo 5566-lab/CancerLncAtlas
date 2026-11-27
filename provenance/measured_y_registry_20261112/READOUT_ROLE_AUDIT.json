@@ -1,0 +1,53 @@
+{
+  "target_host": "149",
+  "source_program_classification_correct": true,
+  "source_program_rows": 860,
+  "program_counts": {
+    "PROGENy": 14,
+    "TF": 271,
+    "kinase": 575
+  },
+  "shared_hypoxia_identity": [
+    {
+      "source_target_id": "MSIGDB:HALLMARK:HALLMARK_HYPOXIA",
+      "source_column": "",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "source_name": "HALLMARK_HYPOXIA",
+      "source_database": "HALLMARK",
+      "relation": "same_identity",
+      "identity_evidence": "SOURCE_DEFINITION_PRESERVED",
+      "display_category": "Pathway",
+      "analysis_role": "state_auxiliary",
+      "loss_group": "state",
+      "mechanism_kind": "PROGENy"
+    },
+    {
+      "source_target_id": "signifinder::Hypoxia_Buffa",
+      "source_column": "signifinder::Hypoxia_Buffa",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "source_name": "signifinder::Hypoxia_Buffa",
+      "source_database": "https://github.com/CaluraLab/signifinder/tree/72b3918e4db764123f0d1410a086d16b4b8b0e54",
+      "relation": "same_identity",
+      "identity_evidence": "Exact State source definition",
+      "display_category": "State",
+      "analysis_role": "state_auxiliary",
+      "loss_group": "state",
+      "mechanism_kind": "PROGENy"
+    },
+    {
+      "source_target_id": "PROGENY:Hypoxia",
+      "source_column": "native_program::PROGENY:Hypoxia",
+      "canonical_id": "CLA-P-3423B99760CD551B",
+      "source_name": "PROGENY:Hypoxia",
+      "source_database": "R/07_bulk_regulator_activity.R; existing verified formal_pathway_activity",
+      "relation": "same_identity",
+      "identity_evidence": "Exact State source definition",
+      "display_category": "Pathway",
+      "analysis_role": "state_auxiliary",
+      "loss_group": "state",
+      "mechanism_kind": "PROGENy"
+    }
+  ],
+  "audit_correction": "The initial identity-level assertion was too broad: Hypoxia is a shared biological construct. SOURCE_TASK_ROLES correctly classifies PROGENY:Hypoxia as Pathway. The final measurement registry must use source-level display_category, not copy Pathway|State from canonical identity roles.",
+  "remaining_metadata_action": "Bind source-level categories in the unified observation registry and reader RNA method table."
+}

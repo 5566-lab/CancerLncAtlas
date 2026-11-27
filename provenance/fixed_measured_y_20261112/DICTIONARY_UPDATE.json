@@ -1,0 +1,16 @@
+{
+  "target_host": "149",
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v6.xlsx",
+  "previous_sha256": "9bec9976dd203e7ef5fd943ce90e10e7739458cfa51497905743d584fab879b3",
+  "sha256": "78c90fe84a4b8789288a6c4ba02cdbaf7ac43b83ff922cd1bad7448d12176103",
+  "updated_sheets": [
+    "阅读说明",
+    "Y组织方式",
+    "M0对照设置",
+    "Y观测汇总",
+    "RNA读数方法",
+    "外部RNA读数"
+  ],
+  "other_workbook_parts_byte_identical": true,
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/observation_registry_r2"
+}

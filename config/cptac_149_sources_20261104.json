@@ -1,6 +1,10 @@
 {
   "format": "CLA_CPTAC_SOURCE_SPEC_V1",
   "target_host": "149",
+  "gdc_rna": {
+    "intake": "/dsk2/user/dengsc/cla_gdc_star_v36_patient_update_20261127/intake",
+    "matches": "/dsk2/user/dengsc/cla_gdc_star_v36_patient_update_20261127/matching/GDC_SAMPLE_MATCH.tsv"
+  },
   "references": {
     "gencode": {
       "bytes": 44507458,

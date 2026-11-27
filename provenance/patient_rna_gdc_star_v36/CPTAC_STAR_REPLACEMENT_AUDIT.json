@@ -1,0 +1,164 @@
+{
+  "baseline_sha256": "ddac0a33f2e2ff15917e0e808cb45464cb4e77e2a65f126d0cca4d17a35ca8ae",
+  "source_complete_sha256": "60baa82207ddc9ceadd46e9dd5c0726ae373cfecd29802207640104454b87cb6",
+  "common_complete_sha256": "cb765f06e26e14eccce79d0f5714effe2177cf31cf7c54c5abb4e6748555f1ad",
+  "match_sha256": "f3e5494790be7f90e5f627ed1a9a5ae9a1b3ebd22154fe026506499ac52cb6c1",
+  "samples": 1365,
+  "cohorts": {
+    "BRCA": {
+      "files_by_tissue": {
+        "Tumor": 2
+      },
+      "source_values_checked": 121320,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "CCRCC": {
+      "files_by_tissue": {
+        "Tumor": 2,
+        "Normal": 2
+      },
+      "source_values_checked": 242640,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "COAD": {
+      "files_by_tissue": {
+        "Tumor": 2
+      },
+      "source_values_checked": 121320,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "GBM": {
+      "files_by_tissue": {
+        "Tumor": 2
+      },
+      "source_values_checked": 121320,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "HNSCC": {
+      "files_by_tissue": {
+        "Tumor": 2,
+        "Normal": 2
+      },
+      "source_values_checked": 242640,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "LSCC": {
+      "files_by_tissue": {
+        "Normal": 2,
+        "Tumor": 2
+      },
+      "source_values_checked": 242640,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "LUAD": {
+      "files_by_tissue": {
+        "Tumor": 2,
+        "Normal": 2
+      },
+      "source_values_checked": 242640,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "OV": {
+      "files_by_tissue": {
+        "Tumor": 2
+      },
+      "source_values_checked": 121320,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "PDAC": {
+      "files_by_tissue": {
+        "Tumor": 2,
+        "Normal": 2
+      },
+      "source_values_checked": 242640,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    },
+    "UCEC": {
+      "files_by_tissue": {
+        "Tumor": 2
+      },
+      "source_values_checked": 121320,
+      "source_max_abs_diff": 0.0,
+      "common_values_checked": 144,
+      "common_max_abs_diff": 0.0
+    }
+  },
+  "unchanged_non_rna_payloads": {
+    "CLINICAL.tsv": "e0851ef4d1cda0b4da5d63ec949f32a2eee70d9b5cdfb02f1776dc86054feefc",
+    "CPTAC_PATIENTS.tsv": "e602c6939632ffc34407c27c4cc4e010c9ac4327a0e417bfad956d246326a62b",
+    "PUBLISHED_PHENOTYPES.parquet": "c76ff284fcea1f3346380220d83a76d79befb5b662b779d6771ee435000f5c0a",
+    "matrices/BRCA/phosphorylation_Tumor.parquet": "7082bb97c4c653154199883581907d46981a9585b2c4c0a70fb4f7dfa6b75e5c",
+    "matrices/BRCA/protein_Tumor.parquet": "2bf934e32069a6c6d2322bf7804a3c0562ebe0a5fdf21c95b785630d15d19833",
+    "matrices/CCRCC/methylation_gene_Normal.parquet": "a21cf9fa03b42c47169fa416e80d1ff056768e17326817e3c35234579a1c168b",
+    "matrices/CCRCC/methylation_gene_Tumor.parquet": "4b0882209973ae8b702700fd94f40cd9d863031cb76d966ce84a0b118bd6484d",
+    "matrices/CCRCC/phosphorylation_Normal.parquet": "09c83d3da334182cb7a03483f7943f5949c074a6ca1968fd79be8343553716aa",
+    "matrices/CCRCC/phosphorylation_Tumor.parquet": "1395baa10cb60593d0f5852edd8d719457bf8bc5e992b94b3dba452f5e77563d",
+    "matrices/CCRCC/protein_Normal.parquet": "a2c4a32f364bbf678a5ac6c58e12f9d357cc70657142f4a2bc032d91c34bd167",
+    "matrices/CCRCC/protein_Tumor.parquet": "4f44a6020aa51da35399f22fccd2874b2c310b59bbeae2f7b8ab8848b26c56e2",
+    "matrices/COAD/phosphorylation_Normal.parquet": "88c42c3da9139fd2319072ecab170521429eaf4dea90dbee89927af71b037b2e",
+    "matrices/COAD/phosphorylation_Tumor.parquet": "629f82247b96251971a01c2570596ba0c00bc8f5e37c05e7479c9fff94d4de33",
+    "matrices/COAD/protein_Normal.parquet": "44dc3132320109601f828f92c6bd8714b12cd54174d9fb7c5c78701b01d578a1",
+    "matrices/COAD/protein_Tumor.parquet": "aa92595204b7202cfb5c23da6bb326a36fdad7ed071a398f2c07e20bf9a3059f",
+    "matrices/GBM/methylation_gene_Tumor.parquet": "b1828076d268fc522400161a5cc7021c4535bb0da961ab378fd4d51565fd8efb",
+    "matrices/GBM/phosphorylation_Tumor.parquet": "79a8ab68a1d1c2dc55aaa5ae31d5216bf7de6448ab954a4f1e9e217b4ac5c3b4",
+    "matrices/GBM/protein_Tumor.parquet": "336b6ea8909b151bf3e552b1f85d8d107ec4954215971ae629cf4f5f8c6a54f5",
+    "matrices/HNSCC/methylation_gene_Normal.parquet": "bcb485a165dd1d878ec66f8d408d6aa89059850d0b072fe3322473e706a8c63c",
+    "matrices/HNSCC/methylation_gene_Tumor.parquet": "3227551305e3e2815009faed6f68dcfb9a7b53ddfd29a0877e7989abc392ee77",
+    "matrices/HNSCC/phosphorylation_Normal.parquet": "bed2499767dd2f19c76571a1570cc73d29b842472850c792d42d4cca49e8de40",
+    "matrices/HNSCC/phosphorylation_Tumor.parquet": "bb383b419f377166247080ee904bd085508b10f81f1098ec34769c8dc9c6b63c",
+    "matrices/HNSCC/protein_Normal.parquet": "ed58270d041c2e2c14f0c9ec4b607488eb38ed9aaf033e1966f27be54d7cb185",
+    "matrices/HNSCC/protein_Tumor.parquet": "15f8d675d0c4e439b623222bec0e53ffbca3c91135e3d877deb1c546e2f5635f",
+    "matrices/LSCC/methylation_gene_Normal.parquet": "7c71994a40ef43dd06eae8e40881361483f42e1865eabad5f6a0d27cf84a3e86",
+    "matrices/LSCC/methylation_gene_Tumor.parquet": "49a7c8d6e704a40beb533f289beb401e89a521b4375889a218601d6fc0156d8b",
+    "matrices/LSCC/phosphorylation_Normal.parquet": "23fcb68290342dbf474c72334a8d10f6212e14a24bee1e638ddd0fcbe6f066bb",
+    "matrices/LSCC/phosphorylation_Tumor.parquet": "f9c5709a987eea690b9af1fa980fd26c8617a5f855b6382e100e62f9bed81c55",
+    "matrices/LSCC/protein_Normal.parquet": "0f7c1f20ead26f9bced5a3aa3bdcb28377308948354e97ffec3e311f0677b381",
+    "matrices/LSCC/protein_Tumor.parquet": "966cd66e7ebb509c80e213283da0b1f2f8d14c7367c429f6f6fbdbaac91f7703",
+    "matrices/LUAD/methylation_gene_Normal.parquet": "e4dbc9b80d04e12fd36199cafc99473832ff2505e93b7e45f9f44c281bdb006c",
+    "matrices/LUAD/methylation_gene_Tumor.parquet": "780235c8c41c79d1705ed68d5543dd6a04a0d9ae8777701bfbe722e880009a5c",
+    "matrices/LUAD/phosphorylation_Normal.parquet": "fa348b50635e86b753159c7e42805430ca35fbedcadcc2b0bc05526c572063ec",
+    "matrices/LUAD/phosphorylation_Tumor.parquet": "eaf259439950d256e5500488e7e9f011524466f19fb26c70f22c296df1cf6dc0",
+    "matrices/LUAD/protein_Normal.parquet": "584830d711823c991b98578ab5abb48cfa77dee9abccf1d344e84f8e06487aca",
+    "matrices/LUAD/protein_Tumor.parquet": "9e5dccf61987e52b5b6131993e8a94989e196c9e0edf2f446f02a8e57a749023",
+    "matrices/OV/phosphorylation_Normal.parquet": "bde2d29f37e0dab7254914c7a378015159cdc07688b3c9b173ded40fafb7e3c4",
+    "matrices/OV/phosphorylation_Tumor.parquet": "20e732bcde8d0ae06d47b7c377b0db9facb59462a63cf1e01425661b820495ff",
+    "matrices/OV/protein_Normal.parquet": "511c18c98b6ffbd7e74c52fb0418cb80011c606531e7d8828126dc22062d8fb1",
+    "matrices/OV/protein_Tumor.parquet": "8a41e89324de2c6cec279dafa508c3aec4a5c561a481456398879f0aeda4570a",
+    "matrices/PDAC/methylation_gene_Normal.parquet": "37cf832bd1d4e57c1e4253d908cd96f709b5a4d158e562dc0a212fe96912115d",
+    "matrices/PDAC/methylation_gene_Tumor.parquet": "78293c9e340975e814630229ccb90c43067407fd661e58f2545a3b76ed8f0d82",
+    "matrices/PDAC/phosphorylation_Normal.parquet": "7535fbf4b4291a871c50d0117709c2edb310d7a672d27d19c51094046d9851c0",
+    "matrices/PDAC/phosphorylation_Tumor.parquet": "dbaf9c81bcd7f7426bd8b16500167a073d722e9fcba988fa276cf35a0ac56533",
+    "matrices/PDAC/protein_Normal.parquet": "fd2c1d207cdb0143fd82b8f7af523684ddd64e14759826e901ebbb9d13489154",
+    "matrices/PDAC/protein_Tumor.parquet": "4e0021147da5a135bb2d02a5785d8822afa9ecbf5177694de1e06f5fdf669bfc",
+    "matrices/UCEC/methylation_gene_Tumor.parquet": "22e042a8cdcea152bdf7c06e9bfebb6ab3ac989fd8156dcd089a5307683c0abd",
+    "matrices/UCEC/phosphorylation_Normal.parquet": "d5b2002802dd81eb4c620d1ebd7d68d3513bebbfd8e06d5033334834c2958e9c",
+    "matrices/UCEC/phosphorylation_Tumor.parquet": "149f4e0871d6cad1d1cc4c27a4ca3e8693947bf306293f5edd3e0bfb955f4ef3",
+    "matrices/UCEC/protein_Normal.parquet": "22d3b89775f12ecdd920a322e775430640219c9e3cedba89e020e7da8953bc10",
+    "matrices/UCEC/protein_Tumor.parquet": "40672ece540b9cb42fb594122164bfd1e10f98f7accadd858490e77f1251055c"
+  },
+  "unchanged_non_rna_annotation_rows": {
+    "CPTAC_SAMPLE_ASSAY_MAP.tsv": 4142,
+    "CPTAC_ASSAY_COVERAGE.tsv": 4142,
+    "COHORT_COVERAGE.tsv": 30,
+    "FEATURE_ALIGNMENT.parquet": 155318
+  },
+  "status": "PASS"
+}

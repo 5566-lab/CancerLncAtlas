@@ -1,0 +1,152 @@
+component_id	state_family	parent_id	parent_name	parent_name_zh	component_name	relation
+CLA-S-00C86FED69629BA7	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS7a	component_of
+CLA-S-00EA857D26EB6F80	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS17b	component_of
+CLA-S-01E39A942CC3FAB0	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS17a	component_of
+CLA-S-05F89F0597DB5756	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS93	component_of
+CLA-S-0794E652A904986F	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS24	component_of
+CLA-S-07CAA8BD88C95EFB	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS19	component_of
+CLA-S-17309BC2134AAF93	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS12	component_of
+CLA-S-18065426510379DC	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS22	component_of
+CLA-S-1CDB017CFCC06CAE	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS37	component_of
+CLA-S-20701E01A61C1810	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS30	component_of
+CLA-S-209F0E63DC4C8CDD	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS33	component_of
+CLA-S-27E1C75CD9774F39	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS2	component_of
+CLA-S-29625556748EDDA5	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS85	component_of
+CLA-S-2BB51AE2C56C72FC	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS35	component_of
+CLA-S-2E4054D327C7C891	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS10a	component_of
+CLA-S-381B533229281601	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS29	component_of
+CLA-S-3F932147B73E217F	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS84	component_of
+CLA-S-40CADD35FBC98470	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS44	component_of
+CLA-S-427A1BB682E547FD	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS21	component_of
+CLA-S-4826701EB999D0C0	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS42	component_of
+CLA-S-49308D74A167A0BF	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS23	component_of
+CLA-S-4B1409634431EE6B	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS34	component_of
+CLA-S-4CF64238429892D8	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS89	component_of
+CLA-S-509E41097387610D	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS14	component_of
+CLA-S-55BE0362DA6AB251	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS32	component_of
+CLA-S-566F51C1DEC36E1A	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS39	component_of
+CLA-S-5C286A4C758938B8	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS10d	component_of
+CLA-S-68779976BCE37C75	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS86	component_of
+CLA-S-6B58FE47B8C9BCCC	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS87	component_of
+CLA-S-6BC1DD6C4652BDBF	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS25	component_of
+CLA-S-6FA2C194D42F9D27	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS11	component_of
+CLA-S-72F170993D5AF2F1	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS3	component_of
+CLA-S-7ED5DDB434153E84	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS7c	component_of
+CLA-S-7FA5BAB1C20556A4	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS13	component_of
+CLA-S-85AF678ED8BA2547	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS7d	component_of
+CLA-S-8A0B0A654EF39F9D	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS10b	component_of
+CLA-S-8CBA0EF3C5C33D3E	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS92	component_of
+CLA-S-923E244ACD2B6683	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS5	component_of
+CLA-S-98F80EE46DD2F1E7	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS88	component_of
+CLA-S-9A4606066E9E5BDD	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS28	component_of
+CLA-S-9ACA9B0CA13699E6	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS7b	component_of
+CLA-S-9E342EC06BC2B38E	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS91	component_of
+CLA-S-A059399F4CDFAEF8	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS26	component_of
+CLA-S-A31DABC651B96A9F	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS10c	component_of
+CLA-S-A54F40885F1C38A7	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS41	component_of
+CLA-S-A6A8C89A30EEF032	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS36	component_of
+CLA-S-B31534EB9C3C19A9	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS20	component_of
+CLA-S-D97A65898B0B82FC	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS38	component_of
+CLA-S-DD4B0B779091C4A0	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS9	component_of
+CLA-S-DE3AF6492A7FD729	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS40	component_of
+CLA-S-DEEE48C8DA8EA4D1	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS4	component_of
+CLA-S-DF18CD18547BA715	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS8	component_of
+CLA-S-E0AEA109627C8FB4	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS90	component_of
+CLA-S-EB34B1328A7F31FD	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS1	component_of
+CLA-S-EBC16D1B7D7AECAC	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS94	component_of
+CLA-S-EF6814CBF66F55B0	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS18	component_of
+CLA-S-F4FD1A5E49C7F121	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS15	component_of
+CLA-S-F6FCBDE7305E01C0	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS31	component_of
+CLA-S-F81DAD76B539ED24	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS6	component_of
+CLA-S-FFE051AEC7DD4324	sbs_spectrum	CLA-S-8C88AE5BA5B068E4	SBS mutational signature spectrum	突变特征谱（SBS）	SBS::SBS16	component_of
+CLA-S-0574EBB132789072	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CMP	component_of
+CLA-S-0C5CD4D276555A37	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Plasma cells	component_of
+CLA-S-0D1E6A18BD393314	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Basophils	component_of
+CLA-S-0D7809306AD56B81	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::NKT	component_of
+CLA-S-0E1B5BD9655E41C4	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Th2 cells	component_of
+CLA-S-101E8B40D380FB86	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::GMP	component_of
+CLA-S-13CD9C9FD99B2F59	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Neurons	component_of
+CLA-S-1671DD3AE61A9CF3	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Eosinophils	component_of
+CLA-S-1720F3B2CD638F22	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Memory B-cells	component_of
+CLA-S-1985257C162D1D5E	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Macrophages	component_of
+CLA-S-1CC80AD41B779DB5	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	T cells regulatory  Tregs fraction within the LM22 immune compartment	component_of
+CLA-S-1DAB791F3F4A355D	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD8+ naive T-cells	component_of
+CLA-S-1DBF2565B7D7D85A	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	T cells CD4 memory activated fraction within the LM22 immune compartment	component_of
+CLA-S-2080F31EBE83B481	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::DC	component_of
+CLA-S-267FB707412F29EB	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Eosinophils fraction within the LM22 immune compartment	component_of
+CLA-S-2B27B03B0CD58C4D	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Plasma cells fraction within the LM22 immune compartment	component_of
+CLA-S-2E3CBC34CE9ABD4B	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Mast cells	component_of
+CLA-S-2EEABCFF4AEBF8A2	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Megakaryocytes	component_of
+CLA-S-30937A46B7B827E6	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Skeletal muscle	component_of
+CLA-S-3505B13CA83F0726	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Macrophages M1	component_of
+CLA-S-352C21B6F5353461	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Th1 cells	component_of
+CLA-S-368D5CDFB4B36ECD	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Monocytes fraction within the LM22 immune compartment	component_of
+CLA-S-37BE5F4B3368186C	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Macrophages M0 fraction within the LM22 immune compartment	component_of
+CLA-S-37E2E70C4817BD7B	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Erythrocytes	component_of
+CLA-S-38FDF31A8EB45CF9	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::HSC	component_of
+CLA-S-3AF9034099AE29F2	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::naive B-cells	component_of
+CLA-S-3DBE09F3556C4216	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::ly Endothelial cells	component_of
+CLA-S-422FA0E8D165A9CD	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Tregs	component_of
+CLA-S-4385B2B43422BAAA	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	T cells follicular helper fraction within the LM22 immune compartment	component_of
+CLA-S-460A9529BF964B29	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Macrophages M2 fraction within the LM22 immune compartment	component_of
+CLA-S-47883D47E55F6FFC	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Dendritic cells activated fraction within the LM22 immune compartment	component_of
+CLA-S-488FE79E72E54773	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Epithelial cells	component_of
+CLA-S-4C9347BA6FE488F6	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Dendritic cells resting fraction within the LM22 immune compartment	component_of
+CLA-S-4D9DFE55ED7AD32F	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Monocytes	component_of
+CLA-S-4E5F9DAB75A6CD06	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::cDC	component_of
+CLA-S-4EE7976A11EDA970	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::mv Endothelial cells	component_of
+CLA-S-5032B83658693277	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Pericytes	component_of
+CLA-S-50CFDC874A7085C2	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD8+ Tcm	component_of
+CLA-S-522707CF4E18F67C	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	MCPcounter::Monocytic lineage	component_of
+CLA-S-5753B5C3D796B9CF	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Sebocytes	component_of
+CLA-S-583217E9F988D90D	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Class-switched memory B-cells	component_of
+CLA-S-595AAF2C5862966B	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Preadipocytes	component_of
+CLA-S-5B1FCE8D78B76B8B	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Neutrophils fraction within the LM22 immune compartment	component_of
+CLA-S-5F961797A7BBF2B7	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Adipocytes	component_of
+CLA-S-6712ACA97E742A14	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	MCPcounter::B lineage	component_of
+CLA-S-68BE1259C7CCF5BE	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	B cells naive fraction within the LM22 immune compartment	component_of
+CLA-S-6A4BD31C5E6904B3	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Macrophages M2	component_of
+CLA-S-767519F79DF23A75	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	MCPcounter::Myeloid dendritic cells	component_of
+CLA-S-7BAAB01E11EC8F5C	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	T cells gamma delta fraction within the LM22 immune compartment	component_of
+CLA-S-8714BCB67C22D1CB	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Mast cells resting fraction within the LM22 immune compartment	component_of
+CLA-S-87C363C2BE2A2B26	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Endothelial-cell abundance in bulk tissue	component_of
+CLA-S-8A673FDDEBE7AFDF	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	NK cells activated fraction within the LM22 immune compartment	component_of
+CLA-S-8AC92936F5DB5AD7	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::pDC	component_of
+CLA-S-8CFA039217DAF548	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Myocytes	component_of
+CLA-S-8D34014D20A20D99	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD4+ naive T-cells	component_of
+CLA-S-90A7D2A1E48D813B	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	NK-cell abundance in bulk tissue	component_of
+CLA-S-94DEBB5242929E9E	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Melanocytes	component_of
+CLA-S-9B6FE18FAD866635	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	B cells memory fraction within the LM22 immune compartment	component_of
+CLA-S-9BB67BCA8B82743B	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Keratinocytes	component_of
+CLA-S-9E33356912E305B5	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Neutrophil abundance in bulk tissue	component_of
+CLA-S-A8611A4C02B1F796	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	MCPcounter::T cells	component_of
+CLA-S-A8862E9F13662D20	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Macrophages M1 fraction within the LM22 immune compartment	component_of
+CLA-S-A886C7A971E97813	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::B-cells	component_of
+CLA-S-AC520509389C1DE2	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Platelets	component_of
+CLA-S-AF63BEC972921F8F	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Fibroblast abundance in bulk tissue	component_of
+CLA-S-B072119F48FB5B11	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD8+ Tem	component_of
+CLA-S-B07548756A94E033	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD4+ Tem	component_of
+CLA-S-B26C5A6651963371	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	CD8 T-cell abundance in bulk tissue	component_of
+CLA-S-B28F2AB3071096AB	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD4+ T-cells	component_of
+CLA-S-BACFA85D1EBC144E	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::aDC	component_of
+CLA-S-BBB58AF98E51D22A	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD4+ memory T-cells	component_of
+CLA-S-C00C1E51ADEA523D	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Astrocytes	component_of
+CLA-S-C39E36159D65E5C6	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::MSC	component_of
+CLA-S-C4256FD407C5DCEF	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::pro B-cells	component_of
+CLA-S-C4BD6AFC1BB63A60	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Hepatocytes	component_of
+CLA-S-C4FA183C0B51820C	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	T cells CD8 fraction within the LM22 immune compartment	component_of
+CLA-S-D114D7D1351B122B	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Chondrocytes	component_of
+CLA-S-D4D046CC309556E8	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Tgd cells	component_of
+CLA-S-D66DA3524DD9B3BA	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CLP	component_of
+CLA-S-D97CBFE60FCAC10C	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	T cells CD4 naive fraction within the LM22 immune compartment	component_of
+CLA-S-DB67855F6D8592C9	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Smooth muscle	component_of
+CLA-S-DD6FF810EDEFBF92	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::iDC	component_of
+CLA-S-E01650D58BB56E0C	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	T cells CD4 memory resting fraction within the LM22 immune compartment	component_of
+CLA-S-E2E4A9123714A87E	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	MCPcounter::Cytotoxic lymphocytes	component_of
+CLA-S-EA12B378275BA39C	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Mesangial cells	component_of
+CLA-S-EA246810EC7C86A3	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::Osteoblast	component_of
+CLA-S-EB2772321623DF38	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	NK cells resting fraction within the LM22 immune compartment	component_of
+CLA-S-EB4C334B6FA6178F	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::MEP	component_of
+CLA-S-F30A6BB7CD34EE00	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::CD4+ Tcm	component_of
+CLA-S-F8DD49B6E801462D	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	Mast cells activated fraction within the LM22 immune compartment	component_of
+CLA-S-FEC76D8902452B0D	cell_composition	CLA-S-8D68A5C0FD095421	Cellular composition	免疫、基质与组织细胞组成	xCell::MPP	component_of

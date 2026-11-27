@@ -1,0 +1,11 @@
+{
+  "target_host": "149",
+  "operation": "record method evidence for next exact readout revision",
+  "source_column": "panimmune_160_signatures::Wolf::Chemokine12_score",
+  "source_methods_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5982584/",
+  "methods_section": "Immune Signature Compilation",
+  "paper_method": "Gene sets in the 160-signature collection were scored by ssGSEA using GSVA. The 32 principal components refer to reducing the ImmuneSigDB C7 collection.",
+  "implication": "Do not require the original Messina PCA loadings solely because the source uses the same 12 chemokine genes. Verify the exact PanImmune/GDC signature mapping before recomputing its coding-background version.",
+  "published_TLS_values_modified": false,
+  "CPTAC_TLS_values_fabricated": false
+}

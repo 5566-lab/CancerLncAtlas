@@ -1,0 +1,47 @@
+{
+  "target_host": "149",
+  "definition_version": "CLA_FIXED_MEASURED_Y_524_WIKIPATHWAYS_20261114_V2",
+  "representation": "PATHWAY_GROUPED_PATIENT_OBSERVATIONS",
+  "registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/Y_bundle",
+  "registry_receipt_sha256": "b3fae1b95ce066ad7b5245388fd15a69079ca57c8d5661a025b8124132258d11",
+  "catalog": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r12_wikipathways_patients_20261114_r1",
+  "primary_pathways": 476,
+  "state_identities": 48,
+  "cancers": [
+    "BRCA",
+    "LUAD",
+    "COAD"
+  ],
+  "definition_independent_of_lncRNA": true,
+  "training_authorized": false,
+  "lncrna_association_authorized": false,
+  "reference_folds": [
+    2,
+    3,
+    4
+  ],
+  "query_folds": [
+    1
+  ],
+  "sealed_outer_fold": 0,
+  "external_reference_policy": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/measured_y_definition_r1/final_definition_review_r1/EXTERNAL_RNA_POLICY.json",
+  "condition_policy": "Shared exact-member modules require no specific upstream event; original event applicability remains separately preserved",
+  "validation": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/INTEGRATION_COMPLETE.json",
+  "group_definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/exact_member_merge_20261114_r1/GROUP_DEFINITION.json",
+  "state_source_identity_count": 197,
+  "state_detail_component_count": 151,
+  "total_top_level_targets": 524,
+  "state_group_definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/canonical_targets_r12_wikipathways_patients_20261114_r1/STATE_GROUP_DEFINITION.json",
+  "fixed_y_bundle": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/Y_bundle",
+  "fixed_y_bundle_receipt_sha256": "b3fae1b95ce066ad7b5245388fd15a69079ca57c8d5661a025b8124132258d11",
+  "fixed_y_definition": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/Y_bundle/DEFINITION.json",
+  "fixed_y_target_axis": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/Y_bundle/TARGETS.tsv",
+  "fixed_y_representation": "Per-cohort patient-by-unique-observation matrices with explicit target membership and masks",
+  "materialized": true,
+  "patients": 1910,
+  "source_observation_registry": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/state_groups_20261114_r1/observation_registry_r4",
+  "wikipathways_source_definitions": 193,
+  "wikipathways_equivalent_definitions": 3,
+  "wikipathways_source_collection": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/kegg_cancer_redefinition_20261111_r1/wiki_patient_integration_20261114_r1/Y_bundle/sources/WikiPathways",
+  "wikipathways_source_reader": "wiki_reader.load_wikipathways_source"
+}

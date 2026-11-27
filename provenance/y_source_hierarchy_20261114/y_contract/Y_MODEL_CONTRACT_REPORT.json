@@ -1,0 +1,184 @@
+{
+  "target_host": "149",
+  "scope": "Read-only Y and model contract audit; no fitting, association computation, source changes, or training.",
+  "main_answer": {
+    "Y_identity": "The exact backbone pathway is the reporting identity, while its Y is a typed vector of patient observations indexed by cohort/platform, omics layer, assay/feature and source method. It is not one scalar activity value.",
+    "Y_formula": "Y[i,k,p] = { y[i,p,d] : A[k,d]=1 }; M[i,k,p,d] = observed[i,p,d] AND source_eligible[p,d] AND applicability[i,k,p]==1.",
+    "scope_hierarchy": "Equivalent definitions may share identity and supply source-specific readouts. Non-equivalent overlapping broader/narrower/related definitions retain their own scope and provide structural context; their whole score is not silently the parent pathway label. TF/kinase activity can be an observation of an explicitly mapped backbone member. Source classification does not automatically add a separate loss.",
+    "precise_core": "For WNT, the KEGG N00056 canonical pathway remains exactly 46 members; the source readouts described below do not expand that member axis.",
+    "not_all_context_is_subpathway": "The admitted WNT links are protein_component_association, not verified is_a/part_of hierarchy edges. Gene-list overlap alone does not establish that every source is a child pathway."
+  },
+  "WNT_real_example": {
+    "canonical_id": "CLA-P-09DF1A5F76D71F39",
+    "name": "Wnt signaling pathway, Canonical pathway",
+    "network_id": "N00056",
+    "backbone_members": 46,
+    "TCGA_BRCA": {
+      "total_dimensions": 155,
+      "member_dimensions": 147,
+      "source_readouts": 8,
+      "measured_dimensions": 151,
+      "members_by_layer": {
+        "RNA": 46,
+        "CNV": 46,
+        "METHYLATION": 46,
+        "PROTEIN": 5,
+        "PHOSPHO": 4
+      }
+    },
+    "CPTAC_BRCA": {
+      "total_dimensions": 260,
+      "member_dimensions": 251,
+      "source_readouts": 9,
+      "measured_dimensions": 259,
+      "members_by_layer": {
+        "RNA": 46,
+        "PROTEIN": 30,
+        "PHOSPHO": 175
+      }
+    },
+    "member_scope": "All member measurements select the frozen 46-member backbone. Assay/isoform/site multiplicity explains more than46 phospho columns.",
+    "equivalent_readouts": [
+      "KEGG N00056 RNA ssGSEA",
+      "same-backbone protein score (TCGA train-z gene-group mean, CPTAC protein ssGSEA)",
+      "CPTAC promoter-methylation pathway mean where measured"
+    ],
+    "molecular_component_readouts": [
+      "LEF1",
+      "MYC",
+      "TCF7",
+      "TCF7L2",
+      "GSK3B KINASE-PSP",
+      "GSK3B KINASE-iKiP"
+    ],
+    "eligibility": "All WNT bound dimensions are supervision_eligible=true. Missing patient values still mask out. TCGA GSK3B-iKiP has no observed value; CPTAC BRCA methylation score has no observed value. independent_loss_enabled=false means no automatic standalone task, not that the measurement is forbidden as a declared component target.",
+    "storage_correction": "The four TF readouts are stored under a legacy STATE matrix layer but display_category=Pathway and measurement_layer=RNA_EXPRESSION; slides must call them RNA-derived TF readouts.",
+    "structural_examples": [
+      {
+        "source": "Reactome WNT ligand biogenesis and trafficking",
+        "source_members": 26,
+        "shared": 18,
+        "outside": 8,
+        "outside_examples": [
+          "PORCN",
+          "WLS",
+          "VPS35",
+          "SNX3"
+        ],
+        "whole_source_score_in_WNT_Y": false
+      },
+      {
+        "source": "Reactome TCF dependent signaling in response to WNT",
+        "source_members": 192,
+        "shared": 31,
+        "outside": 161,
+        "outside_examples": [
+          "AKT1",
+          "AKT2",
+          "CREBBP",
+          "EP300"
+        ],
+        "whole_source_score_in_WNT_Y": false
+      },
+      {
+        "source": "Hallmark WNT BETA CATENIN SIGNALING",
+        "source_members": 42,
+        "shared": 13,
+        "outside": 29,
+        "outside_examples": [
+          "NOTCH1",
+          "TP53",
+          "PTCH1"
+        ],
+        "whole_source_score_in_WNT_Y": false
+      },
+      {
+        "source": "Reactome RUNX3 regulates WNT signaling",
+        "source_members": 8,
+        "shared": 7,
+        "outside": 1,
+        "outside_examples": [
+          "RUNX3"
+        ],
+        "whole_source_score_in_WNT_Y": false
+      }
+    ],
+    "outside_scope_effect": "Outside-backbone proteins stay in their source definition/context, not in the exact46-member Y. Shared proteins have a unique measurement ID reused for membership links, not independent copies of the same assay."
+  },
+  "proposed_matched_models": {
+    "status": "Design for the new fixed patient Y; not an already integrated training implementation.",
+    "unit": "Fit within cancer; patient is the training row; output dimension d is source/platform-specific measured value. Report model-supported lncRNA associations at cancer x lncRNA x exact pathway after fitting.",
+    "M0": "For each observation d and platform p, fit a linear Lasso: yhat[i,d,p] = alpha[d,p] + C[i]^T gamma[d,p] + X[i]^T beta[d,p]. Fit target centering/scaling, feature scaling, imputation and penalties inside training folds. Clinical and independent purity coefficients gamma are unpenalized. Compare all-lncRNA, mRNA and combined inputs with identical folds/output masks. This is a multi-output collection of linear regressions, not a regression of maxrho or a scalar pathway score.",
+    "HHGT": "Use the same observation axes, transformed values, missing masks, cohorts, patient folds and input-ablation sets. A patient-conditioned heterogeneous graph encoder carries lncRNA/gene/protein/regulator/pathway features and PPI/RPI/typed scope edges; observation/platform decoders predict the same y[i,d,p]. This patient-output adapter and decoder require implementation; the current relation head cannot consume this bundle unchanged.",
+    "platform": "TCPA antibody and CPTAC MS outcomes keep separate observation IDs and output heads. A cohort indicator in X alone cannot align their measurement scales; even training-set z-scores do not prove biological scale equivalence.",
+    "loss": "L = L_Pathway + 0.5 L_State + regularization, with explicit observed masks. Normalize losses by output count within each declared source/layer block and by blocks/targets, so large phosphosite panels or151Statechildren do not automatically dominate. Keep every source value separate. Shared observation IDs and derived-score/member dependencies require explicit weighting; repeated target links are not independent evidence.",
+    "inputs": "For a target layer, omit that layer and all deterministic derivatives of it from input, including graph-node features. For RNA tasks, lncRNA inputs remain valid if Y uses only protein-coding definitions; mRNA identities/defining genes must not be fed back as their own target, and direct gene-set reconstruction should be reported separately.",
+    "lncrna_output": "After fitting, compare held-out loss of a full model versus a matched refit without lncRNA l (or predeclared lncRNA group), aggregated over exact pathway observations using the same block weights: Delta[l,k]=Loss_k(model_without_l)-Loss_k(full). Combine with linear coefficient stability/graph perturbation and cohort replication. This is predictive contribution/association, not a new lncRNA-derived Y or causality; attention weights alone are not the result.",
+    "topology_control": "To attribute a gain to graph structure, HHGT no-edges/shuffled-edges comparison must retain identical input information, Y, masks and parameterization; plain expression-only M0 versus multiomic HHGT mixes information and architecture effects."
+  },
+  "actual_code_status": {
+    "implemented": [
+      "Portable patient values/masks/applicability and provenance",
+      "fixed_y_bundle.load_fixed_target access",
+      "source observation/member/context links"
+    ],
+    "not_implemented_as_new_Y_training": [
+      "No cla_engine caller of load_fixed_target",
+      "No measured-patient-Y M0 fitting runner",
+      "No patient-conditioned HHGT observation decoder/prepared adapter for this bundle"
+    ],
+    "legacy_relation_adapter": "model.py forward_task builds lncRNA/cancer/target candidates with numeric/base and returns one relation logit; it is not a patient measurement prediction.",
+    "old_RMS_guard": "m0_relation.py explicitly rejects observed_fused_rms_effect; multimodal_relation_y.py blocks legacy association-label materialization. train.py still includes legacy RMS metric/loss plumbing; do not assert every historical training path is blocked."
+  },
+  "code_references": [
+    {
+      "file": "cla_engine/fixed_y_bundle.py",
+      "line": 9,
+      "meaning": "observation/eligibility/applicability mask"
+    },
+    {
+      "file": "cla_engine/fixed_y_bundle.py",
+      "line": 14,
+      "meaning": "portable patient Y accessor, no fit"
+    },
+    {
+      "file": "cla_engine/measured_y_registry.py",
+      "line": 44,
+      "meaning": "allowed relation roles and ambiguous_group_context exclusion"
+    },
+    {
+      "file": "cla_engine/model.py",
+      "line": 142,
+      "meaning": "legacy relation-candidate prediction head"
+    },
+    {
+      "file": "cla_engine/model.py",
+      "line": 158,
+      "meaning": "binary/RMS relation losses"
+    },
+    {
+      "file": "cla_engine/m0_relation.py",
+      "line": 368,
+      "meaning": "guard against using RMS associations as measured Y"
+    },
+    {
+      "file": "cla_engine/relation_prepared.py",
+      "line": 58,
+      "meaning": "old relation prepared objective"
+    },
+    {
+      "file": "docs/FIXED_MEASURED_Y.rst",
+      "line": 1,
+      "meaning": "fixed patient Y representation and M0 comparison specification"
+    }
+  ],
+  "artifacts": [
+    "WNT_OBSERVATION_SUMMARY.tsv",
+    "WNT_SOURCE_READOUTS.tsv",
+    "WNT_READOUT_COMPACT.tsv",
+    "WNT_CONTEXT_MEMBERS.tsv",
+    "WNT_DEFINITIONS.json",
+    "SHARED_OBSERVATION_COUNTS.tsv",
+    "CODE_CONTRACT_REFERENCES.tsv"
+  ]
+}

@@ -1,0 +1,7 @@
+case	patients_total	source_definitions	source_observation_dimensions	source_measured_dimensions	source_patients_measured	source_score_dimensions	source_score_dimensions_measured	primary_dimensions_before	primary_dimensions_after	new_primary_dimensions	primary_wp_source_score_dimensions	primary_wp_measured_source_score_dimensions	source_member_dimensions_already_in_primary	shared_member_route_count	primary_pathways	state_top_level	primary_pathways_with_supervision
+CPTAC_BRCA	96	193	17163	17086	96	386	309	13751	13757	6	6	4	6505	159327	476	48	335
+CPTAC_COAD	84	193	13983	13894	84	386	297	11225	11231	6	6	3	5236	147777	476	48	335
+CPTAC_LUAD	88	193	22683	22583	88	386	314	16989	16995	6	6	4	8588	238716	476	48	335
+TCGA_BRCA	872	193	11829	11449	872	386	269	9309	9315	6	6	3	4549	111406	476	48	335
+TCGA_COAD	363	193	11829	11445	363	386	267	9309	9315	6	6	3	4549	111406	476	48	335
+TCGA_LUAD	407	193	11829	11452	407	386	267	9309	9315	6	6	3	4549	111406	476	48	335

@@ -1,0 +1,22 @@
+{
+  "target_host": "149",
+  "measurement_version": "measurements_coding_r3",
+  "cases": 6,
+  "patients": 1910,
+  "primary_pathways": 477,
+  "state_identities": 197,
+  "new_coding_cell_readouts": 22,
+  "lm22_coding_genes": 517,
+  "dictionary": "/dsk2/user/dengsc/cla_functional_y_20261109_r1/protein_similarity_integration_20261111_r1/deliverables/Functional_pathway_State_dictionary_v6.xlsx",
+  "dictionary_sha256": "ffbef0b1507fe41ee5af0e4e2c69586d87b168c1c57d417a60895fa901072ffd",
+  "condition_requirements": 143,
+  "model_training": false,
+  "lncrna_association_computation": false,
+  "accepted_Y": null,
+  "remaining": [
+    "Final Y representation contract",
+    "complete member-level measurement and applicable-condition integration",
+    "published TLS12 and RNA-purity lineage",
+    "reader report alignment"
+  ]
+}
