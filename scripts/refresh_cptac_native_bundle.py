@@ -22,6 +22,28 @@ def pin(path):
     return {"path": str(path), "sha256": sha(path)}
 
 
+def stage_pointer_plan(current_path, runtime_path, out):
+    """The State and RPPA entry points also pin the shared CPTAC binding and runtime."""
+    old = read_json(current_path)
+    new = read_json(out / current_path.name)
+    targets = [(runtime_path, out / "CURRENT_149_CONFIG.json"), (current_path, out / current_path.name)]
+    for name in ("STATE_CURRENT.json", "RPPA_CURRENT.json"):
+        active = current_path.with_name(name)
+        record = read_json(active)
+        if (record["cptac_input"] != old["cptac_input"] or
+                record["current_config"] != old["current_config"]):
+            raise ValueError(f"Unexpected source binding in {name}")
+        record.update(cptac_input=new["cptac_input"], current_config=new["current_config"],
+                      cptac_rna_validation=new["validation"])
+        staged = out / name
+        atomic_json(staged, record)
+        targets.append((active, staged))
+    atomic_json(out / "STAGED_NATIVE_POINTERS.json", {
+        "status": "VERIFIED_STAGED", "targets": [
+            dict(active=str(active), previous_sha256=sha(active), staged=pin(staged))
+            for active, staged in targets]})
+
+
 def rjob(script, arguments, log):
     env = dict(os.environ, OPENBLAS_NUM_THREADS="1", MKL_NUM_THREADS="1", OMP_NUM_THREADS="1")
     with log.open("w") as output:
@@ -207,9 +229,7 @@ def stage(aligned, inputs, pointer, out, jobs):
                        MOGSA=current["MOGSA"], rna_quantification=quant, validation=pin(out / "VALIDATED.json"),
                        previous_pointer_sha256=sha(pointer))
     atomic_json(out / "CPTAC_CURRENT.json", new_pointer)
-    atomic_json(out / "STAGED_NATIVE_POINTERS.json", {"status":"VERIFIED_STAGED", "targets": [
-        dict(active=str(runtime_path), previous_sha256=sha(runtime_path), staged=pin(out / "CURRENT_149_CONFIG.json")),
-        dict(active=str(pointer), previous_sha256=sha(pointer), staged=pin(out / "CPTAC_CURRENT.json"))]})
+    stage_pointer_plan(pointer, runtime_path, out)
 
 
 if __name__ == "__main__":
