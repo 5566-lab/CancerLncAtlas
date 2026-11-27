@@ -24,9 +24,16 @@ python -m cla_engine.cptac_gdc_rna \
 python scripts/materialize_patient_star_rna.py \
   --baseline "$old_common" --cptac-aligned "$release/source/aligned_r4" \
   --output "$release/common_next"
+python scripts/refresh_cptac_native_bundle.py \
+  --aligned "$release/source/aligned_r4" --original-stage "$previous_native_build" \
+  --current-pointer "$cptac_pointer" --output "$release/native"
+python scripts/stage_shared_patient_rna.py \
+  --raw "$release/source/aligned_r4" --raw-live "$raw_live" \
+  --native-plan "$release/native/STAGED_NATIVE_POINTERS.json" --output "$release/shared"
 python scripts/activate_patient_star_rna.py \
   --raw "$release/source/aligned_r4" --common "$release/common_next" \
   --raw-live "$raw_live" --common-live "$common_live" \
+  --native-plan "$release/shared/STAGED_NATIVE_POINTERS.json" \
   --record "$functional_root/RNA_QUANTIFICATION_CURRENT.json"
 ```
 

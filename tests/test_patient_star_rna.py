@@ -41,3 +41,35 @@ def test_switch_rollback_and_retry_at_original_path(tmp_path, monkeypatch, use_e
     publication.restore(live,backup,new_sha)
     assert publication.digest(live) == old_sha and publication.digest(new) == new_sha
     assert not live.is_symlink()
+
+
+@pytest.mark.skipif(sys.platform != 'linux', reason='Deployment uses Linux rename semantics')
+def test_native_pointers_must_all_bind_the_same_generation(tmp_path):
+    import json
+    import activate_patient_star_rna as pub
+    live, staged, bundle = [tmp_path / d for d in ('live','next','bundle')]
+    for folder in (live, staged, bundle):
+        folder.mkdir()
+    (bundle / 'COMPLETE.json').write_text(json.dumps({'config': {'aligned_complete': {'sha256': 'raw'}}}))
+    binding = {'complete': {'path': str(bundle/'COMPLETE.json'), 'sha256': pub.digest(bundle)}}
+    runtime = 'CURRENT_149_CONFIG.json'
+    (staged / runtime).write_text(json.dumps({'cptac_input':binding}))
+    pointer = {'cptac_input': binding, 'current_config': {'path': str(live/runtime), 'sha256': pub.sha(staged/runtime)}}
+    targets = []
+    for name in (runtime, 'CPTAC_CURRENT.json','RPPA_CURRENT.json','STATE_CURRENT.json'):
+        (live / name).write_text('previous')
+        if name != runtime:
+            (staged / name).write_text(json.dumps(pointer))
+        targets.append({'active':str(live/name),'previous_sha256':pub.sha(live/name),
+                        'staged':{'path': str(staged/name),'sha256':pub.sha(staged/name)}})
+    plan = {'status':'VERIFIED_STAGED','targets':targets,'bundle_switch':{
+        'active':str(live/'bundle_r1'),'target':str(bundle),'previous_sha256':'prior','staged_sha256':pub.digest(bundle)}}
+    path = tmp_path/'plan.json'
+    path.write_text(json.dumps(plan))
+    assert pub.native_updates(path, 'raw')[1] == binding
+    with pytest.raises(ValueError,match='generation'):
+        pub.native_updates(path, 'another release')
+    plan['targets'].pop()
+    path.write_text(json.dumps(plan))
+    with pytest.raises(ValueError,match='Missing'):
+        pub.native_updates(path, 'raw')

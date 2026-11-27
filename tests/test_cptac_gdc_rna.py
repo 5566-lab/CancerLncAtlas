@@ -8,6 +8,20 @@ import pytest
 
 from cla_engine.common import sha
 from cla_engine.cptac_gdc_rna import MATRIX, SYMBOLS, materialize_gdc
+from cla_engine import cptac_pipeline
+from cla_engine.common import Stop
+
+
+def test_legacy_recipe_uses_current_gdc_source_and_fails_if_unavailable(tmp_path, monkeypatch):
+    expected = dict(intake=str(tmp_path), matches=str(tmp_path / "match.tsv"))
+    monkeypatch.setattr(cptac_pipeline, "read_json", lambda path: {"gdc_rna": expected})
+    with pytest.raises(Stop, match="unavailable"):
+        cptac_pipeline.rna_source({"download_manifest": {}})
+    (tmp_path / "gdc_files.json").write_text("[]")
+    (tmp_path / "match.tsv").touch()
+    assert cptac_pipeline.rna_source({"download_manifest": {}}) == expected
+    with pytest.raises(Stop, match="must be specified"):
+        cptac_pipeline.rna_source({"gdc_rna": {}})
 
 
 def write_tsv(path, rows, columns):

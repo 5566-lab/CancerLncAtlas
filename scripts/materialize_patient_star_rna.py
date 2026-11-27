@@ -14,6 +14,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / 'scripts'))
 from cla_engine.common import atomic_json, sha
 from cache_m0_joint_scores import cache_case
 
@@ -185,7 +186,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--baseline', type=Path, default=FUNCTIONAL / 'common_rna_scores_r1')
     parser.add_argument('--tcga', type=Path, default=FUNCTIONAL / 'full_tcga_tpm_r1')
-    parser.add_argument('--cptac-aligned', type=Path)
+    parser.add_argument('--cptac-aligned', type=Path, default=Path(
+        '/dell_2/DSC/CancerLncAtlas/inputs/cptac_20261104_r1/aligned_r4'))
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--phase', choices=('tcga','cptac','all'), default='all')
     parser.add_argument('--workers', type=int, default=2)
@@ -221,8 +223,6 @@ def main():
             jobs.append(('TCGA', sorted(records), partial(tcga_case, records=records, before=before,
                                                         baseline=args.baseline, output=out)))
         if args.phase in ('cptac','all'):
-            if not args.cptac_aligned:
-                parser.error('--cptac-aligned is required for CPTAC')
             sources = read(args.cptac_aligned / 'COMPLETE.json')
             quant = sources.get('rna_quantification', {})
             if (quant.get('workflow_type'), quant.get('gene_model'), quant.get('metric')) != (
